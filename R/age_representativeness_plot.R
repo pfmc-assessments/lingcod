@@ -55,6 +55,12 @@ age_representativeness_plot <- function(bio.WCGBTS,
            col = colvec[2],
            add = TRUE)
     }
+    p.value <- NA
+    p.color <- 'grey50'
+    if (length(lengths.y) > 0 & length(ages.y) > 0) {
+      p.value <- ks.test(x = lengths.y, y = ages.y)$p.value
+      p.color <- ifelse(p.value > 0.05, 'green3', 'red')
+    }
     legend('topleft', legend = NA, bty = 'n', title = y, cex = 1.5)
     legend('right', legend = NA, bty = 'n',
            title = paste0("N lens = ",
@@ -65,6 +71,11 @@ age_representativeness_plot <- function(bio.WCGBTS,
                           round(100*length(ages.y)/length(lengths.y)),
                           "%)"),
            cex = 1.0)
+    legend('bottomright', legend = NA, bty = 'n',
+           title = paste0("K-S p-value = ",
+                          format(p.value, digits = 2)
+                          ),
+           cex = 1.0, title.col = p.color)
   }
 
   if (!is.null(file)) {

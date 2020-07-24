@@ -25,18 +25,19 @@ if (FALSE) {
                         'data/Lingcod_survey_extractions_15-July-2020.Rdata'))
 }
 
-# make plot of age representativeness
-# (depends on the age_representativeness_plot.R file source above)
-age_representativeness_plot(bio.WCGBTS.ling,
-                            file = file.path(dir.ling,
-                            "age_representativeness_WCGBTS_Lingcod.png"))
-
-
 # load stuff saved above if not already in workspace
 if (!exists('catch.WCGBTS.ling')) {
   load(file = file.path(dir.ling,
                         'data/Lingcod_survey_extractions_15-July-2020.Rdata'))
 }
+
+# make plot of age representativeness
+# (depends on the age_representativeness_plot.R file source above)
+age_representativeness_plot(bio.WCGBTS.ling,
+                            file = file.path(dir.ling,
+                            "figures",
+                            "age_representativeness_WCGBTS_Lingcod_22-July-2020.png"))
+
 
 if(FALSE) { # run calculation of design-based index only once
   # define strate for plotting function
