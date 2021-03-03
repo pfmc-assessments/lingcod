@@ -33,7 +33,7 @@ surveys = c("NWFSC.Combo", "Triennial", "AFSC.Slope", "NWFSC.Slope")
 
 #Read in data from the data warehouse using function below
 #Saves .rda files for each specified survey
-read_surveys(surveys)
+read_surveys(surveys) #Dont need to do this again unless need new data
 
 #Generate length comps using function below
 #Saves comps and plots for each specified survey 
@@ -87,29 +87,29 @@ survey_lcomps <- function(sname){
     catch = Out
     
     #Create strata - right now basing off stratification of WCBGT survey at 55, 183, and 549 depths
-    #and pt. arena (APPROXIMATE) and pt conception latitudes
+    #and Cape Mendocino (APPROXIMATE) and pt conception latitudes
     strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
                                depths.shallow = c(55, 183), 
                                depths.deep = c(183, 549), 
-                               lats.south = c(39),
+                               lats.south = c(40),
                                lats.north = c(49))
     
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Pt A shallow", "south Pt C mid", "Pt C to Pt A mid"),
+    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
                                      depths.shallow = c(55, 55, 183, 183), 
                                      depths.deep = c(183, 183, 549, 549), 
                                      lats.south = c(32, 34.5, 32, 34.5),
-                                     lats.north = c(34.5, 39, 34.5, 39))
+                                     lats.north = c(34.5, 40, 34.5, 40))
   
     #------------------------------------------Lengths-----------------------------------------#
     
     #Create a survey subfolder in the lengths folder
     dir.create(file.path("lengths",i))
     
-    #Split based on our designation between north and south at 38 degrees 57 minutes
-    bio_north = bio[bio$Latitude_dd >= (38 + 57/60),]
-    bio_south = bio[bio$Latitude_dd < (38 + 57/60),]
-    catch_north = catch[catch$Latitude_dd >= (38 + 57/60),]
-    catch_south = catch[catch$Latitude_dd < (38 + 57/60),]
+    #Split based on our designation between north and south at 40 degrees 10 minutes
+    bio_north = bio[bio$Latitude_dd >= (40 + 10/60),]
+    bio_south = bio[bio$Latitude_dd < (40 + 10/60),]
+    catch_north = catch[catch$Latitude_dd >= (40 + 10/60),]
+    catch_south = catch[catch$Latitude_dd < (40 + 10/60),]
     
     #Calculate the effN
     n_north = GetN.fn(dir = file.path(getwd(), "lengths"), dat = bio_north, type = "length", 
@@ -216,28 +216,28 @@ survey_acomps <- function(sname, CAAL = FALSE){
     catch = Out
     
     #Create strata - right now basing off stratification of WCBGT survey at 55, 183, and 549 depths
-    #and pt. arena (APPROXIMATE) and pt conception latitudes
+    #and Cape Mendocino (APPROXIMATE) and pt conception latitudes
     strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
                                      depths.shallow = c(55, 183), 
                                      depths.deep = c(183, 549), 
-                                     lats.south = c(39),
+                                     lats.south = c(40),
                                      lats.north = c(49))
     
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Pt A shallow", "south Pt C mid", "Pt C to Pt A mid"),
+    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
                                      depths.shallow = c(55, 55, 183, 183), 
                                      depths.deep = c(183, 183, 549, 549), 
                                      lats.south = c(32, 34.5, 32, 34.5),
-                                     lats.north = c(34.5, 39, 34.5, 39))
+                                     lats.north = c(34.5, 40, 34.5, 40))
     
     #------------------------------------------Ages-----------------------------------------#
       
     #Create a survey subfolder in the ages folder
     dir.create(file.path("ages",i))
     
-    bioages_north = bio_ages[bio_ages$Latitude_dd >= (38 + 57/60),]
-    bioages_south = bio_ages[bio_ages$Latitude_dd < (38 + 57/60),]
-    catch_north = catch[catch$Latitude_dd >= (38 + 57/60),]
-    catch_south = catch[catch$Latitude_dd < (38 + 57/60),]
+    bioages_north = bio_ages[bio_ages$Latitude_dd >= (40 + 10/60),]
+    bioages_south = bio_ages[bio_ages$Latitude_dd < (40 + 10/60),]
+    catch_north = catch[catch$Latitude_dd >= (40 + 10/60),]
+    catch_south = catch[catch$Latitude_dd < (40 + 10/60),]
     
     ############################
     #Marginals
