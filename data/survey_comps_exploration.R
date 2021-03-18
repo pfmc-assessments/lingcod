@@ -8,8 +8,6 @@
 #######################################
 
 #devtools::install_github("nwfsc-assess/nwfscSurvey", build_vignettes = TRUE)
-#library(nwfscSurvey)
-#vignette("nwfscSurvey")
 devtools::load_all("U:/Stock assessments/dataModerate_2021")
 library(plyr)
 library(ggplot2)
@@ -330,6 +328,18 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   }
   dev.off()
   
+  #Difference is actually due to HKL survey catching larger fish and being between 32 and 35 degrees exclusively
+  pngfun(wd = dir, file = "Length_by_Latitude_JustCombo.png", w = 7, h = 7, pt = 12)
+  par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
+  for (ss in c("F", "M", "U")){
+    find = which(data$Sex == ss & data$Source %in% c("NWFSC.Combo"))
+    col = ifelse(ss == "F", alpha('red', 0.6), ifelse(ss == "M", alpha('blue', 0.6), "grey"))
+    boxplot(data$Length[find] ~ data$lat_bin[find],  col = col, ylim = c(0, 115),
+            ylab = "Length (cm)", xlab = "Latitude", main = ss)
+    mtext(side = 3, adj = 1, line = -1, paste("N =",length(data$Length[find])))
+  }
+  dev.off()
+  
   #Plot ages distribution by data source
   data$region_source = paste0(data$Source, "_", data$Region)
   pngfun(wd = dir, file = "Age_Density_by_Source.png", w = 7, h = 7, pt = 12)
@@ -393,8 +403,13 @@ clean_lingcod_survey_biodata <- function(dir = NULL, data){
     plot(data[data$Source == s, "Length"], data[data$Source == s, "Weight"], main = s, 
          xlim = c(0, 120), ylim = c(0,16), xlab = 'Length (cm)', ylab = 'Weight (kg)')
   }
-  #Data seem reasonable based on valid length-weight combinations. However, what about single length or weight values
+  #Data seem reasonable based on valid length-weight combinations with exception of one female in the Combo survey. 
   
+  #Remove outlier
+  print(paste("Removed 1 record with smaller than expected weight"))
+  data = data[-which(data$Length>95 & data$Weight < 5),]
+  
+  #What about single length or weight values
   ##-------------------------------------
   #Check lengths
   ##-------------------------------------
@@ -447,6 +462,169 @@ clean_lingcod_survey_biodata <- function(dir = NULL, data){
   return(data)
 }
 
+#Check residual patterns for length-weight and length-age for latitdue, region, and depth
+#following appraoch from 2017 stock assessment
+checkresids <- function(data = data, method = c("lw", "la")){
+  
+  if("lw" %in% method){
+    writeLines("Analyzing residuals for length - weight \n")
+    
+    ltwt = data[!is.na(data$Weight),]
+    fit.ltwt <- nls(Weight~a*(Length)^b, data=ltwt, 
+                    start=list(a=0.00001,b=3), list(reltol=0.0000000001))
+    coef <- coef(fit.ltwt)
+    ltwt$Resids <- residuals(fit.ltwt)  
+    
+    #-------------------Latitude-------------------------#
+    writeLines("-----------------------By latitude ------------------------\n")
+    
+    #Residual pattern by latitude and sex (with lowess by Region)
+    plot(ltwt$Lat, ltwt$Resids,
+         ylim=c(-3,3),
+         pch=16,cex=0.5,col=factor(ltwt$Sex), xlab="Latitude", ylab="Residual Lt-Wt", main = "Grouped by sex")
+    plot(ltwt$Lat, ltwt$Resids,
+         ylim=c(-3,3),
+         pch=16,cex=0.5,col=factor(ltwt$Sex), xlab="Latitude", ylab="Residual Lt-Wt", type = "n", main = "Lowess by Region and Sex")
+    lines(lowess(ltwt$Lat[which(ltwt$Sex=="F" & ltwt$Lat > (40+10/60))],ltwt$Resids[which(ltwt$Sex=="F" & ltwt$Lat > (40+10/60))]), col=rgb(1,0,0,0.75),lwd=3)
+    lines(lowess(ltwt$Lat[which(ltwt$Sex=="F" & ltwt$Lat < (40+10/60))],ltwt$Resids[which(ltwt$Sex=="F" & ltwt$Lat < (40+10/60))]), col=rgb(1,0,0,0.25),lwd=3)
+    lines(lowess(ltwt$Lat[which(ltwt$Sex=="M" & ltwt$Lat > (40+10/60))],ltwt$Resids[which(ltwt$Sex=="M" & ltwt$Lat > (40+10/60))]), col=rgb(0,0,1,0.75),lwd=3)
+    lines(lowess(ltwt$Lat[which(ltwt$Sex=="M" & ltwt$Lat < (40+10/60))],ltwt$Resids[which(ltwt$Sex=="M" & ltwt$Lat < (40+10/60))]), col=rgb(0,0,1,0.25),lwd=3)
+    lines(lowess(ltwt$Lat[which(ltwt$Sex=="U" & ltwt$Lat > (40+10/60))],ltwt$Resids[which(ltwt$Sex=="U" & ltwt$Lat > (40+10/60))]), col=rgb(0,0,0,0.75),lwd=3)
+    lines(lowess(ltwt$Lat[which(ltwt$Sex=="U" & ltwt$Lat < (40+10/60))],ltwt$Resids[which(ltwt$Sex=="U" & ltwt$Lat < (40+10/60))]), col=rgb(0,0,0,0.25),lwd=3)
+    abline(h=0,col="grey",lty=3)                                # lty=3 dotted line (1 solid)
+    legend(x=min(ltwt$Lat),y=-1.75,legend=c("Female S Lowess","Male S Lowess","Unsexed S Lowess"),col=c(rgb(1,0,0,0.25),rgb(0,0,1,0.25),rgb(0,0,0,0.25)),lty=1,lwd=3,pch=16,bty="n")
+    legend(x=min(ltwt$Lat)+10,y=-1.75,legend=c("Female N Lowess","Male N Lowess","Unsexed N Lowess"),col=c(rgb(1,0,0,0.75),rgb(0,0,1,0.75),rgb(0,0,0,0.75)),lty=1,lwd=3,pch=16,bty="n")
+    
+    #Is effect of depth significant
+    writeLines("Slope for continuous latitude -------------------\n")
+    print(summary(lm(Resids ~ Lat, data = ltwt)))
+    
+    #What about by depth regions (as defined in "Lingcod 2017 dataprep.R" in archives)
+    RegionFit <- aov(Resids ~ Region, data=ltwt)
+    writeLines("Anova with region as factor ---------------------\n")
+    print(anova(RegionFit))
+    writeLines("TukeyHSD with region as factor -----------------------\n")
+    print(TukeyHSD(RegionFit))
+    
+    #-------------------Depth-------------------------#
+    writeLines("---------------By depth --------------------\n")
+    
+    ltwt$dpthbin <- ifelse(ltwt$Depth > 183,"DEEP",
+                           ifelse(ltwt$Depth > 140,"MDEEP",
+                                  ifelse(ltwt$Depth > 110,"MID",
+                                         ifelse(ltwt$Depth > 85,"MSHAL",
+                                                "SHAL"))))
+    #Residual pattern by Depth and sex (with lowess by Region)
+    plot(ltwt$Depth, ltwt$Resids,
+         ylim=c(-3,3),
+         pch=16,cex=0.5,col=factor(ltwt$Sex), xlab="Depth", ylab="Residual Lt-Wt", main = "Grouped by sex")
+    plot(ltwt$Depth, ltwt$Resids,
+         ylim=c(-3,3),
+         pch=16,cex=0.5,col=factor(ltwt$Sex), xlab="Depth", ylab="Residual Lt-Wt", type = "n", main = "Lowess by Region and Sex")
+    lines(lowess(ltwt$Depth[which(ltwt$Sex=="F" & ltwt$Lat > (40+10/60))],ltwt$Resids[which(ltwt$Sex=="F" & ltwt$Lat > (40+10/60))]), col=rgb(1,0,0,0.75),lwd=3)
+    lines(lowess(ltwt$Depth[which(ltwt$Sex=="F" & ltwt$Lat < (40+10/60))],ltwt$Resids[which(ltwt$Sex=="F" & ltwt$Lat < (40+10/60))]), col=rgb(1,0,0,0.25),lwd=3)
+    lines(lowess(ltwt$Depth[which(ltwt$Sex=="M" & ltwt$Lat > (40+10/60))],ltwt$Resids[which(ltwt$Sex=="M" & ltwt$Lat > (40+10/60))]), col=rgb(0,0,1,0.75),lwd=3)
+    lines(lowess(ltwt$Depth[which(ltwt$Sex=="M" & ltwt$Lat < (40+10/60))],ltwt$Resids[which(ltwt$Sex=="M" & ltwt$Lat < (40+10/60))]), col=rgb(0,0,1,0.25),lwd=3)
+    lines(lowess(ltwt$Depth[which(ltwt$Sex=="U" & ltwt$Lat > (40+10/60))],ltwt$Resids[which(ltwt$Sex=="U" & ltwt$Lat > (40+10/60))]), col=rgb(0,0,0,0.75),lwd=3)
+    lines(lowess(ltwt$Depth[which(ltwt$Sex=="U" & ltwt$Lat < (40+10/60))],ltwt$Resids[which(ltwt$Sex=="U" & ltwt$Lat < (40+10/60))]), col=rgb(0,0,0,0.25),lwd=3)
+    abline(h=0,col="grey",lty=3)                                # lty=3 dotted line (1 solid)
+    legend(x=min(ltwt$Depth),y=-1.75,legend=c("Female S Lowess","Male S Lowess","Unsexed S Lowess"),col=c(rgb(1,0,0,0.25),rgb(0,0,1,0.25),rgb(0,0,0,0.25)),lty=1,lwd=3,pch=16,bty="n")
+    legend(x=min(ltwt$Depth)+400,y=-1.75,legend=c("Female N Lowess","Male N Lowess","Unsexed N Lowess"),col=c(rgb(1,0,0,0.75),rgb(0,0,1,0.75),rgb(0,0,0,0.75)),lty=1,lwd=3,pch=16,bty="n")
+    
+    #Is effect of depth significant
+    writeLines("Slope for continuous latitude --------------------\n")
+    print(summary(lm(Resids ~ Depth, data = ltwt)))
+    
+    #What about by depth regions (as defined in "Lingcod 2017 dataprep.R" in archives)
+    DepthFit <- aov(Resids ~ dpthbin, data=ltwt)
+    writeLines("Anova with Depth as factor ----------------------\n")
+    print(anova(DepthFit))
+    writeLines("TukeyHSD with Depth as factor --------------------\n")
+    print(TukeyHSD(DepthFit))
+    
+  }
+  
+  if("la" %in% method){
+    
+    writeLines("Analyzing residuals for length - age \n")
+    
+    ltag = data[!is.na(data$Age),]
+    fit.ltag <- nls(Length~Linf*(1-exp(-k*(Age-t0))), data=ltag, 
+                    start=list(Linf=max(ltag$Length), k=0.2, t0=0), list(reltol=0.0000000001))
+    coef <- coef(fit.ltag)
+    ltag$Resids <- residuals(fit.ltag)  
+    
+    #-------------------Latitude-------------------------#
+    writeLines("-------------------By latitude ------------------------\n")
+    
+    #Residual pattern by latitude and sex (with lowess by Region)
+    plot(ltag$Lat, ltag$Resids,
+         ylim=c(-40,40),
+         pch=16,cex=0.5,col=factor(ltag$Sex), xlab="Latitude", ylab="Residual Lt-Wt", main = "Grouped by sex")
+    plot(ltag$Lat, ltag$Resids,
+         ylim=c(-40,40),
+         pch=16,cex=0.5,col=factor(ltag$Sex), xlab="Latitude", ylab="Residual Lt-Wt", type = "n", main = "Lowess by Region and Sex")
+    lines(lowess(ltag$Lat[which(ltag$Sex=="F" & ltag$Lat > (40+10/60))],ltag$Resids[which(ltag$Sex=="F" & ltag$Lat > (40+10/60))]), col=rgb(1,0,0,0.75),lwd=3)
+    lines(lowess(ltag$Lat[which(ltag$Sex=="F" & ltag$Lat < (40+10/60))],ltag$Resids[which(ltag$Sex=="F" & ltag$Lat < (40+10/60))]), col=rgb(1,0,0,0.25),lwd=3)
+    lines(lowess(ltag$Lat[which(ltag$Sex=="M" & ltag$Lat > (40+10/60))],ltag$Resids[which(ltag$Sex=="M" & ltag$Lat > (40+10/60))]), col=rgb(0,0,1,0.75),lwd=3)
+    lines(lowess(ltag$Lat[which(ltag$Sex=="M" & ltag$Lat < (40+10/60))],ltag$Resids[which(ltag$Sex=="M" & ltag$Lat < (40+10/60))]), col=rgb(0,0,1,0.25),lwd=3)
+    lines(lowess(ltag$Lat[which(ltag$Sex=="U" & ltag$Lat > (40+10/60))],ltag$Resids[which(ltag$Sex=="U" & ltag$Lat > (40+10/60))]), col=rgb(0,0,0,0.75),lwd=3)
+    lines(lowess(ltag$Lat[which(ltag$Sex=="U" & ltag$Lat < (40+10/60))],ltag$Resids[which(ltag$Sex=="U" & ltag$Lat < (40+10/60))]), col=rgb(0,0,0,0.25),lwd=3)
+    abline(h=0,col="grey",lty=3)                                # lty=3 dotted line (1 solid)
+    legend(x=min(ltag$Lat),y=-20.75,legend=c("Female S Lowess","Male S Lowess","Unsexed S Lowess"),col=c(rgb(1,0,0,0.25),rgb(0,0,1,0.25),rgb(0,0,0,0.25)),lty=1,lwd=3,pch=16,bty="n")
+    legend(x=min(ltag$Lat)+10,y=-20.75,legend=c("Female N Lowess","Male N Lowess","Unsexed N Lowess"),col=c(rgb(1,0,0,0.75),rgb(0,0,1,0.75),rgb(0,0,0,0.75)),lty=1,lwd=3,pch=16,bty="n")
+    
+    #Is effect of depth significant
+    writeLines("Slope for continuous latitude --------------------\n")
+    print(summary(lm(Resids ~ Lat, data = ltag)))
+    
+    #What about by depth regions (as defined in "Lingcod 2017 dataprep.R" in archives)
+    RegionFit <- aov(Resids ~ Region, data=ltag)
+    writeLines("Anova with region as factor --------------------\n")
+    print(anova(RegionFit))
+    writeLines("TukeyHSD with region as factor -----------------------\n")
+    print(TukeyHSD(RegionFit))
+    
+    #-------------------Depth-------------------------#
+    writeLines("---------------By depth -------------------\n")
+    
+    ltag$dpthbin <- ifelse(ltag$Depth > 183,"DEEP",
+                           ifelse(ltag$Depth > 140,"MDEEP",
+                                  ifelse(ltag$Depth > 110,"MID",
+                                         ifelse(ltag$Depth > 85,"MSHAL",
+                                                "SHAL"))))
+    #Residual pattern by Depth and sex (with lowess by Region)
+    plot(ltag$Depth, ltag$Resids,
+         ylim=c(-40,40),
+         pch=16,cex=0.5,col=factor(ltag$Sex), xlab="Depth", ylab="Residual Lt-Wt", main = "Grouped by sex") 
+    plot(ltag$Depth, ltag$Resids,
+         ylim=c(-40,40),
+         pch=16,cex=0.5,col=factor(ltag$Sex), xlab="Depth", ylab="Residual Lt-Wt", type = "n", main = "Lowess by Region and Sex")
+    lines(lowess(ltag$Depth[which(ltag$Sex=="F" & ltag$Lat > (40+10/60))],ltag$Resids[which(ltag$Sex=="F" & ltag$Lat > (40+10/60))]), col=rgb(1,0,0,0.75),lwd=3)
+    lines(lowess(ltag$Depth[which(ltag$Sex=="F" & ltag$Lat < (40+10/60))],ltag$Resids[which(ltag$Sex=="F" & ltag$Lat < (40+10/60))]), col=rgb(1,0,0,0.25),lwd=3)
+    lines(lowess(ltag$Depth[which(ltag$Sex=="M" & ltag$Lat > (40+10/60))],ltag$Resids[which(ltag$Sex=="M" & ltag$Lat > (40+10/60))]), col=rgb(0,0,1,0.75),lwd=3)
+    lines(lowess(ltag$Depth[which(ltag$Sex=="M" & ltag$Lat < (40+10/60))],ltag$Resids[which(ltag$Sex=="M" & ltag$Lat < (40+10/60))]), col=rgb(0,0,1,0.25),lwd=3)
+    lines(lowess(ltag$Depth[which(ltag$Sex=="U" & ltag$Lat > (40+10/60))],ltag$Resids[which(ltag$Sex=="U" & ltag$Lat > (40+10/60))]), col=rgb(0,0,0,0.75),lwd=3)
+    lines(lowess(ltag$Depth[which(ltag$Sex=="U" & ltag$Lat < (40+10/60))],ltag$Resids[which(ltag$Sex=="U" & ltag$Lat < (40+10/60))]), col=rgb(0,0,0,0.25),lwd=3)
+    abline(h=0,col="grey",lty=3)                                # lty=3 dotted line (1 solid)
+    legend(x=min(ltag$Depth),y=-20.75,legend=c("Female S Lowess","Male S Lowess","Unsexed S Lowess"),col=c(rgb(1,0,0,0.25),rgb(0,0,1,0.25),rgb(0,0,0,0.25)),lty=1,lwd=3,pch=16,bty="n")
+    legend(x=min(ltag$Depth)+200,y=-20.75,legend=c("Female N Lowess","Male N Lowess","Unsexed N Lowess"),col=c(rgb(1,0,0,0.75),rgb(0,0,1,0.75),rgb(0,0,0,0.75)),lty=1,lwd=3,pch=16,bty="n")
+    
+    #Is effect of depth significant
+    writeLines("Slope for continuous latitude ---------------------\n")
+    print(summary(lm(Resids ~ Depth, data = ltag)))
+    
+    #What about by depth regions (as defined in "Lingcod 2017 dataprep.R" in archives)
+    DepthFit <- aov(Resids ~ dpthbin, data=ltag)
+    writeLines("Anova with Depth as factor ---------------------\n")
+    print(anova(DepthFit))
+    writeLines("TukeyHSD with Depth as factor ---------------------\n")
+    print(TukeyHSD(DepthFit))
+  }
+  
+}
+
+
 #######################################################
 #Set up
 #######################################################
@@ -467,9 +645,9 @@ survey_data$age2$Source = "Triennial_Age"
 out = create_survey_data_frame(survey_data[c("length1","length2","length3","length4","length5","age2")])
 
 
-#########################
+#######################################################
 #Summarize and check values 
-#########################
+#######################################################
 #Values by year and source
 table(out[!is.na(out$Length),"Year"], out[!is.na(out$Length),"Source"], out[!is.na(out$Length),"Region"])
 table(out[!is.na(out$Weight),"Year"], out[!is.na(out$Weight),"Source"], out[!is.na(out$Weight),"Region"])
@@ -487,10 +665,51 @@ out_clean$State = out_clean$Region
 la_ests <- estimate_length_age(data = out_clean, grouping = "all", linf = 85, l0 = 20, k = 0.2)
 lw_ests <- estimate_length_weight(data = out_clean, grouping = "all")
 
+#Check residuals for lw relationship from Combo survey only
+checkresids(data = out_clean[out_clean$Source == "NWFSC.Combo",], method = "lw")
+#By latitude and region: No real visual residual pattern by latitude...however...there is a statistical effect of latitude (continuous) on residuals
+#This is supported by differences in residuals by specific regions which are significantly different
+#By depth: No visual residual pattern by depth...however...there is a weakly statistical effect of depth (continuous) on residuals
+#This is not supported by depth bin as there is no statistical differences in specific bins
 
-#########################
+#Check residuals for la relationship from Combo survey only
+checkresids(data = out_clean[out_clean$Source == "NWFSC.Combo",], method = "la")
+#By latitude and region: Some residual patterns in lowess by latitude and there is a statistical effect of latitude (continuous) on residuals
+#Supported by differences in residuals by region which are significantly different
+#By depth: Residual pattern in lowess by depth and there is a statistical effect of depth (continuous) on residuals
+#Also supported by statistical differences in specific depth bins 
+
+
+#######################################################
 #Plot various outputs
-#########################
+#######################################################
+
+#Plot sample sizes
+pngfun(wd = file.path(getwd(), "plots"), file = "Length_Samples.png", w = 7, h = 3, pt = 12)
+ggplot(out_clean[!out_clean$Source %in% c("Triennial_Age"),], aes(Year, fill = Source, color = Source)) +
+  facet_wrap(facets = c("Region")) +
+  geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
+  ggtitle("Survey Lengths")
+dev.off()
+
+pngfun(wd = file.path(getwd(), "plots"), file = "Weight_Samples.png", w = 7, h = 3, pt = 12)
+temp = out_clean[!out_clean$Source %in% c("Triennial"),] #Change so "triennial" shows up in legend
+temp[temp$Source == "Triennial_Age","Source"] = "Triennial"
+ggplot(temp[!is.na(temp$Weight),], aes(Year, fill = Source, color = Source)) +
+  facet_wrap(facets = c("Region")) +
+  geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
+  ggtitle("Survey Weights")
+dev.off()
+
+pngfun(wd = file.path(getwd(), "plots"), file = "Age_Samples.png", w = 7, h = 3, pt = 12)
+temp = out_clean[!out_clean$Source %in% c("Triennial"),] #Change so "triennial" shows up in legend
+temp[temp$Source == "Triennial_Age","Source"] = "Triennial"
+ggplot(temp[!is.na(temp$Age),], aes(Year, fill = Source, color = Source)) +
+  facet_wrap(facets = c("Region")) +
+  geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
+  ggtitle("Survey Ages")
+dev.off()
+
 #Basic exploratory plots
 exploratory_plots_survey_biodata(dir = file.path(getwd(), "plots"), data = out_clean)
 
@@ -502,6 +721,7 @@ length_freq_plot(dir = getwd(), data = out_clean[!out_clean$Source %in% c("Trien
 
 # Plot length-age and length-weight relationships
 # Since set Region to equal to State above, can plot plots 3 and 4
+# Since plotting weight and age, will only use triennial lengths from the Triennial_Age dataset
 length_age_plot(dir = file.path(getwd()), splits = NA, data = out_clean, nm_append = NULL, ests = la_ests, plots = 1:4)
 length_weight_plot(dir = file.path(getwd()), splits = NA, data = out_clean, nm_append = NULL, ests = lw_ests, plots = 1:4)
 
@@ -517,6 +737,8 @@ lines(lens, vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_F[1], L0 = la_est
 lines(lens, vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_M[1], L0 = la_ests$South_NWFSC.Combo_M[2], k = la_ests$South_NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 2)
 lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_F[1], L0 = la_ests$North_NWFSC.Combo_F[2], k = la_ests$North_NWFSC.Combo_F[3]), col = "magenta", lwd = 2, lty = 1)
 lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_M[1], L0 = la_ests$North_NWFSC.Combo_M[2], k = la_ests$North_NWFSC.Combo_M[3]), col = "cyan", lwd = 2, lty = 2)
+lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "black", lwd = 2, lty = 1)
+lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "black", lwd = 2, lty = 2)
 lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "black", lwd = 2, lty = 1)
 lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "black", lwd = 2, lty = 2)
 leg = c(paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[2],1), " K = ", round(la_ests$NWFSC.Combo_F[3], 2)),
@@ -543,6 +765,11 @@ lines(lens, lw_ests$South_NWFSC.Combo_F[1] * lens ^ lw_ests$South_NWFSC.Combo_F[
 lines(lens, lw_ests$South_NWFSC.Combo_M[1] * lens ^ lw_ests$South_NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 2)
 lines(lens, lw_ests$North_NWFSC.Combo_F[1] * lens ^ lw_ests$North_NWFSC.Combo_F[2], col = "magenta", lwd = 2, lty = 1)
 lines(lens, lw_ests$North_NWFSC.Combo_M[1] * lens ^ lw_ests$North_NWFSC.Combo_M[2], col = "cyan", lwd = 2, lty = 2)
+#Last assessments values
+#lines(lens, 0.00000276 * lens^3.28, col = "gray", lwd=3, lty=1) #Female from last assessment North of Pt. Conception
+#lines(lens, 0.00000161 * lens^3.42, col = "gray", lwd=3, lty=2) #Male from last assessment North of Pt. Conception
+#lines(lens, 0.000003308 * lens^3.248, col = "gold", lwd=3, lty=1) #Female from last assessment South of Pt. Conception
+#lines(lens, 0.000002179 * lens^3.36, col = "gold", lwd=3, lty=2) #Male from last assessment South of Pt. Conception
 leg = c(paste0("Combo F: a = ", signif(lw_ests$NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_F[2], 3)),
         paste0("Combo M: a = ", signif(lw_ests$NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_M[2], 3)),
         paste0("Combo South F: a = ", signif(lw_ests$South_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$South_NWFSC.Combo_F[2], 3)),
