@@ -12,13 +12,14 @@
 #######################################
 
 ##There are a few remaining tasks
-1. Need to redefine depth strata and latitude strata (right now WCGBTS specific)
-2. Need to define length bins (currently set to min/max of each dataset)
+#1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
+2. Need to define length bins (currently set to min/max of each dataset with binsize of 2)
 3. Will need to specify survey timing, sex (currently 3), fleet number, etc....
 4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? 
 5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL?
 
 #devtools::install_github("nwfsc-assess/nwfscSurvey", build_vignettes = TRUE)
+#devtools::install_github("nwfsc-assess/nwfscSurvey", ref = "development") #for 40`10 split
 library(nwfscSurvey)
 #vignette("nwfscSurvey")
 
@@ -33,15 +34,15 @@ surveys = c("NWFSC.Combo", "Triennial", "AFSC.Slope", "NWFSC.Slope")
 
 #Read in data from the data warehouse using function below
 #Saves .rda files for each specified survey
-read_surveys(surveys) #Dont need to do this again unless need new data
+#readin_survey_data(surveys)   #########Dont need to do this again unless need new data##########
 
 #Generate length comps using function below
 #Saves comps and plots for each specified survey 
 survey_lcomps(surveys)
 
 
-#Generate age comps using function below. Option for CAAL
-#Saves comps and plots for surveys with age data 
+#Generate age comps using function below. Option for CAAL in addition to conditional age comps
+#Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
 survey_acomps(surveys[1:2], CAAL = TRUE)
 
 
@@ -53,7 +54,7 @@ survey_acomps(surveys[1:2], CAAL = TRUE)
 #Saves .rda files to the working directory
 #####################################################################################
 
-read_surveys <- function(sname){
+readin_survey_data <- function(sname){
   
   for(i in sname){
     bio <- PullBio.fn(Name = "lingcod", SurveyName = i, SaveFile = TRUE, Dir = getwd())
@@ -70,7 +71,7 @@ read_surveys <- function(sname){
 #2. Plots: sex ratio and size frequency for north and south
 ######################################################################################
 
-survey_lcomps <- function(sname){
+survey_lcomps <- function(sname, doAgeRep = FALSE){
   
   #Create lengths subfolder in current directory
   if(!dir.exists("lengths")) dir.create("lengths")
@@ -86,19 +87,38 @@ survey_lcomps <- function(sname){
     load(paste0("Catch__", i, "_2021-02-08.rda"))
     catch = Out
     
-    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, and 549 depths
-    #and Cape Mendocino (APPROXIMATE) and pt conception latitudes
-    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
-                               depths.shallow = c(55, 183), 
-                               depths.deep = c(183, 549), 
-                               lats.south = c(40),
+    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, 549, and 1280 depths
+    #and Cape Mendocino and pt conception latitudes
+    #Depth choices based on page 13 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+    #Previous depth choices were at 55, 183, 400, 1280
+    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid", "north deep"),
+                               depths.shallow = c(55, 183, 549), 
+                               depths.deep = c(183, 549, 1280), 
+                               lats.south = c(40.166667),
                                lats.north = c(49))
     
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
-                                     depths.shallow = c(55, 55, 183, 183), 
-                                     depths.deep = c(183, 183, 549, 549), 
-                                     lats.south = c(32, 34.5, 32, 34.5),
-                                     lats.north = c(34.5, 40, 34.5, 40))
+    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid", "south Pt C deep", "Pt C to Cape M deep"),
+                                     depths.shallow = c(55, 55, 183, 183, 549, 549), 
+                                     depths.deep = c(183, 183, 549, 549, 1280, 1280), 
+                                     lats.south = c(32, 34.5, 32, 34.5, 32, 34.5),
+                                     lats.north = c(34.5, 40.166667, 34.5, 40.166667, 34.5, 40.166667))
+    
+    if(i == "Triennial") {
+      #For triennial, strata is 55, 350 (because 366 not available), and 500 depths and Cape Mendocino and pt conception latitudes
+      #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+      #Previous depth choices were (I believe) the same as the WCGBTS (55, 183, 400, 1280)
+      strata_north = CreateStrataDF.fn(names = c("north shallow", "north deep"),
+                                       depths.shallow = c(55, 350), 
+                                       depths.deep = c(350, 500), 
+                                       lats.south = c(40.166667),
+                                       lats.north = c(49))
+      
+      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C deep", "Pt C to Cape M deep"),
+                                       depths.shallow = c(55, 55, 350, 350), 
+                                       depths.deep = c(350, 350, 500, 500), 
+                                       lats.south = c(32, 34.5, 32, 34.5),
+                                       lats.north = c(34.5, 40.166667, 34.5, 40.166667))
+    }
   
     #------------------------------------------Lengths-----------------------------------------#
     
@@ -154,6 +174,32 @@ survey_lcomps <- function(sname){
     PlotFreqData.fn(dir = file.path(getwd(), "lengths", i), dat = lengths_north, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
     PlotSexRatio.fn(dir = file.path(getwd(), "lengths", i), dat = bio_north, data.type = "length", dopng = TRUE, main = paste( i, "- North "))
     
+    if(doAgeRep) {
+      #Non expanded
+      age_representativeness_plot(bio_north, file = paste0(i,"_north_len_agedlen.png"))
+      age_representativeness_plot(bio_south, file = paste0(i,"_south_len_agedlen.png"))
+      
+      #Expanded - reducing lengths to those in tows with ages, reducing catches to those of tows with aged fish
+      #Unsure whether to: 
+      #1) keep all lengths from tows with ages or just lengths from aged fish
+      #2) keep all catches
+      tows_with_ages = bio_north[!is.na(bio_north$Age),]
+      aged_bio_north = bio_north[bio_north$Trawl_id %in% tows_with_ages$Trawl_id,]
+      aged_catch_north = catch_north[catch_north$Trawl_id %in% aged_bio_north$Trawl_id,]
+      aged_lengths_north = SurveyLFs.fn(dir = NULL,
+                                   datL = aged_bio_north, 
+                                   datTows = aged_catch_north, 
+                                   strat.df = strata_north, 
+                                   lgthBins = lbin, 
+                                   sex = 3, 
+                                   month = "Month", 
+                                   fleet = "Fleet",
+                                   #nSamps = n_north,
+                                   printfolder = i)
+      age_representativeness_plot_expand(bio_north, file = paste0(i,"_north_len_agedlen_EXPAND.png"))
+      age_representativeness_plot_expand(bio_south, file = paste0(i,"_south_len_agedlen_EXPAND.png"))
+    }
+      
     
     lengths_south = SurveyLFs.fn(dir = file.path(getwd(), "lengths"),
                                  datL = bio_south, 
@@ -215,19 +261,39 @@ survey_acomps <- function(sname, CAAL = FALSE){
     load(paste0("Catch__", i, "_2021-02-08.rda"))
     catch = Out
     
-    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, and 549 depths
-    #and Cape Mendocino (APPROXIMATE) and pt conception latitudes
-    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
-                                     depths.shallow = c(55, 183), 
-                                     depths.deep = c(183, 549), 
-                                     lats.south = c(40),
+    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, 549, and 1280 depths
+    #and Cape Mendocino and pt conception latitudes
+    #Depth choices based on page 13 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+    #Previous depth choices were at 55, 183, 400, 1280
+    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid", "north deep"),
+                                     depths.shallow = c(55, 183, 549), 
+                                     depths.deep = c(183, 549, 1280), 
+                                     lats.south = c(40.166667),
                                      lats.north = c(49))
     
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
-                                     depths.shallow = c(55, 55, 183, 183), 
-                                     depths.deep = c(183, 183, 549, 549), 
-                                     lats.south = c(32, 34.5, 32, 34.5),
-                                     lats.north = c(34.5, 40, 34.5, 40))
+    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid", "south Pt C deep", "Pt C to Cape M deep"),
+                                     depths.shallow = c(55, 55, 183, 183, 549, 549), 
+                                     depths.deep = c(183, 183, 549, 549, 1280, 1280), 
+                                     lats.south = c(32, 34.5, 32, 34.5, 32, 34.5),
+                                     lats.north = c(34.5, 40.166667, 34.5, 40.166667, 34.5, 40.166667))
+    
+    if(i == "Triennial") {
+      #For triennial, strata is 55, 350 (366 is not available), and 500 depths and Cape Mendocino and pt conception latitudes
+      #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+      #Previous depth choices were (I believe) the same as the WCGBTS (55, 183, 400, 1280)
+      strata_north = CreateStrataDF.fn(names = c("north shallow", "north deep"),
+                                       depths.shallow = c(55, 350), 
+                                       depths.deep = c(350, 500), 
+                                       lats.south = c(40.166667),
+                                       lats.north = c(49))
+      
+      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C deep", "Pt C to Cape M deep"),
+                                       depths.shallow = c(55, 55, 350, 350), 
+                                       depths.deep = c(350, 350, 500, 500), 
+                                       lats.south = c(32, 34.5, 32, 34.5),
+                                       lats.north = c(34.5, 40.166667, 34.5, 40.166667))
+    }
+    
     
     #------------------------------------------Ages-----------------------------------------#
       
