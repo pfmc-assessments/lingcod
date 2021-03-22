@@ -11,7 +11,7 @@
 #######################################
 
 ##There are a few remaining tasks
-1. Need to define length bins (currently set to min/max of each dataset with bin size of 5)
+1. Need to define length bins (currently set to min/max of each dataset with bin size of 2)
 2. Will need to specify survey timing, sex (currently 3), fleet number, partition, etc....
 
 #devtools::install_github("nwfsc-assess/nwfscSurvey", build_vignettes = TRUE)
@@ -39,7 +39,7 @@ if(!dir.exists(file.path("lengths","HooknLine"))) dir.create(file.path("lengths"
 ############################################################################################
 
 lrange = range(hnl$length_cm, na.rm = TRUE)
-lbins = seq(from = lrange[1], to = lrange[2], by = 5)
+lbins = seq(from = lrange[1], to = lrange[2], by = 2)
 
 #Rename fields so they work with UnexpandedLFs.fn
 hnl$Length_cm = hnl$length_cm
@@ -64,6 +64,8 @@ PlotFreqData.fn(dir = file.path("lengths", "HooknLine"),
                 main = "HNL lengths Unsexed", yaxs="i", ylab="Length (cm)", dopng = TRUE)
 PlotSexRatio.fn(dir = file.path("lengths", "HooknLine"),
                 dat = hnl, ylim = c(-0.1, 1.1), main = "HNL Sex Ratio", yaxs="i", dopng = TRUE)
+
+age_representativeness_plot(hnl)
 
 
 
