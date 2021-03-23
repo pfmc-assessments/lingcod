@@ -30,13 +30,20 @@ hnl = hnl_full[hnl_full$common_name == "Lingcod",]
 #No ages in this dataset
 table(hnl$age_years, useNA = "always")
 
-#Create subfolder in length directory
+#Laurel Lam provided ages on March 22, 2021 from 2017-2019 for hook and line survey
+hnl_ages = read.csv("H&L_Lingcod_ages.csv", header = TRUE)
+
+#Create subfolder in length and age directory
 if(!dir.exists(file.path("lengths","HooknLine"))) dir.create(file.path("lengths","HooknLine"))
+if(!dir.exists(file.path("ages","HooknLine"))) dir.create(file.path("ages","HooknLine"))
+
 
 
 ############################################################################################
 #	Comps - all for southern model 
 ############################################################################################
+
+#------------------------Length-----------------------------#
 
 lrange = range(hnl$length_cm, na.rm = TRUE)
 lbins = seq(from = lrange[1], to = lrange[2], by = 2)
@@ -68,4 +75,26 @@ PlotSexRatio.fn(dir = file.path("lengths", "HooknLine"),
 age_representativeness_plot(hnl)
 
 
+
+#------------------------Age-----------------------------#
+
+#Marginal comps
+arange = range(hnl_ages$Final.Age, na.rm = TRUE)
+abins = seq(from = arange[1], to = arange[2], by = 1)
+
+#Set up required variable names
+hnl_ages$Age = hnl_ages$Final.Age
+hnl_ages$Length_cm = hnl_ages$FishLength
+hnl_ages$Sex = hnl_ages$FishGenderCode
+hnl_ages$Year = hnl_ages$SurveyYear
+
+afs = UnexpandedAFs.fn(dir = file.path("ages"),  #Somehow stills prints to "forSS"
+                       datA = hnl_ages, ageBins = abins, printfolder = "HooknLine",
+                       sex = 3, partition = 0, fleet = 1, month = 1, ageErr = 1)
+file.rename(from = file.path("ages", "forSS", "Survey_notExpanded_Age_comp_Sex_3_bin=1-12.csv"), 
+            to= file.path("ages", "HooknLine", "south_Survey_Sex3_Bins_1_12_AgeComps.csv")) 
+if(dir.exists(file.path("ages","forSS"))) unlink(file.path("ages","forSS"),recursive = TRUE) #remove forSS file
+
+
+#Currently not doing CAAL
 
