@@ -28,7 +28,29 @@ load_survey_data <- function(sname){
       hnl_full = read.csv("qryGrandUnifiedThru2019_For2021Assessments_DWarehouse version_01072021.csv", header = TRUE)
       length_list[[i]] = hnl_full[hnl_full$common_name == "Lingcod",]
       length_list[[i]]$Source = sname[i]
-      age_list[[i]] = length_list[[i]]
+      
+      #Merge ages from Laurel Lam
+      hnl_ages = read.csv("H&L_Lingcod_ages.csv", header = TRUE)
+      hnl_ages$age_code = substr(hnl_ages$SpecimenID, start = nchar(hnl_ages$SpecimenID) - 3, stop = nchar(hnl_ages$SpecimenID)) #last 4 digits (after 'a' or 'A')
+      # #Add agecode to length dataset with A or a removed.
+      # #Because have one record missing a fin clip number that has an otolith number, use otolith number when no fin clip, and fin clip otherwise
+      # length_list[[i]]$age_code = ifelse(length_list[[i]]$fin_clip_number=="", 
+      #                                    substr(length_list[[i]]$otolith_number,2,nchar(length_list[[i]]$otolith_number)), 
+      #                                    substr(length_list[[i]]$fin_clip_number, 2, nchar(length_list[[i]]$fin_clip_number)))
+      # 
+      # a = merge(length_list[[i]], hnl_ages, by.x = c("year","vessel","age_code"), 
+      #           by.y = c("SurveyYear", "VesselName", "age_code"))
+      # #There are 8 records from Laurels database that aren't in the HNL database
+      # #Two have age_codes of 9999 and are included based on lengths, weight, year, vessel combinations: just dont have fin/otolith number to link
+      
+      #Just add Laurel's database as the age database
+      hnl_ages$drop_latitude_degrees = as.numeric(substr(hnl_ages$DropLatitude,1,2)) + as.numeric(substr(hnl_ages$DropLatitude,4,nchar(hnl_ages$DropLatitude)))/60
+      hnl_ages$drop_longitude_degrees = as.numeric(substr(hnl_ages$DropLongitude,1,3)) + as.numeric(substr(hnl_ages$DropLongitude,5,nchar(hnl_ages$DropLongitude)))/60
+      hnl_ages$drop_depth_meters = hnl_ages$VesselDepth * 1.8288 #convert from fathoms to meters
+      names(hnl_ages)[c(2,4,5,6,7)] = c("year", "age_years", "length_cm", "weight_kg", "sex")
+      
+      age_list[[i]] = hnl_ages
+      age_list[[i]]$Source = sname[i]
       catch_list[[i]] = NA
       print(paste("Done loading bio and catch for", sname[i]))
       next 
@@ -66,7 +88,7 @@ create_survey_data_frame <- function(data_list){
   all_data = NA
   for (a in 1:length(data_list)){
     
-    if(unique(data_list[[a]]$Source) == "NWFSC_HKL"){
+    if(unique(data_list[[a]]$Source) %in% c("NWFSC_HKL","NWFSC_HKL_Age")){
       
       tmp  <- data.frame(Year = data_list[[a]]$year,
                        Lat = data_list[[a]]$drop_latitude_degrees,
@@ -81,7 +103,7 @@ create_survey_data_frame <- function(data_list){
                        Source = data_list[[a]]$Source)
       }
     
-    if(unique(data_list[[a]]$Source) != "NWFSC_HKL"){
+    if(!unique(data_list[[a]]$Source) %in% c("NWFSC_HKL","NWFSC_HKL_Age")){
       
       tmp  <- data.frame(Year = data_list[[a]]$Year,
                          Lat = data_list[[a]]$Latitude_dd,
@@ -273,10 +295,10 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   pngfun(wd = dir, file = "Compare_Lengths_for_Aged_Unaged_Fish.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(2,3))
   for(sex in c("F", "M", "U")){
-    hist(data[data$Sex == sex & (!data$Source %in% c("Triennial_Age")), "Length"], xlim = c(0, 120),  xlab = "Length (cm)", 
+    hist(data[data$Sex == sex & (!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age")), "Length"], xlim = c(0, 120),  xlab = "Length (cm)", 
          col = ifelse(sex == "F", alpha('red', 0.65), alpha('blue', 0.5)), main = paste0("All Fish Lengths: ", sex))
-    abline(v = median(data[data$Sex == sex & (!data$Source %in% c("Triennial_Age")), "Length"], na.rm = TRUE), lty = 2, lwd = 3, col = 1)
-    mtext(side = 3, line = -1, adj = 0, paste("N =",length(data[data$Sex == sex & (!data$Source %in% c("Triennial_Age")), "Length"])))
+    abline(v = median(data[data$Sex == sex & (!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age")), "Length"], na.rm = TRUE), lty = 2, lwd = 3, col = 1)
+    mtext(side = 3, line = -1, adj = 0, paste("N =",length(data[data$Sex == sex & (!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age")), "Length"])))
   }
   for(sex in c("F", "M", "U")){
     find = which(!is.na(data$Age) & data$Sex == sex)
@@ -298,7 +320,8 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   pngfun(wd = dir, file = "Age_by_Source.png", w = 7, h = 7, pt = 12)
   plot(x = data[data$Source == "NWFSC.Combo",]$Age, y = data[data$Source == "NWFSC.Combo",]$Length, col = 2, pch = 19, ylab = "Length (cm)", xlab = "Age")
   points(x = data[data$Source == "Triennial_Age",]$Age, y = data[data$Source == "Triennial_Age",]$Length, col = 4, pch = 19)
-  legend("bottomright", c("Combo","Triennial"), col = c(2, 4), pch = 19, bty = "n")
+  points(x = data[data$Source == "NWFSC_HKL_Age",]$Age, y = data[data$Source == "NWFSC_HKL_Age",]$Length, col = 1, pch = 19)
+  legend("bottomright", c("Combo","Triennial","HKL"), col = c(2, 4, 1), pch = 19, bty = "n")
   dev.off()
   
   
@@ -307,7 +330,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   pngfun(wd = dir, file = "Length_by_Latitude.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
   for (ss in c("F", "M", "U")){
-    find = which(data$Sex == ss & data$Source %in% unique(data[!is.na(data$Lat),"Source"]) & !data$Source %in% c("Triennial_Age"))
+    find = which(data$Sex == ss & data$Source %in% unique(data[!is.na(data$Lat),"Source"]) & !data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"))
     col = ifelse(ss == "F", alpha('red', 0.6), ifelse(ss == "M", alpha('blue', 0.6), "grey"))
     boxplot(data$Length[find] ~ data$lat_bin[find],  col = col, ylim = c(0, 115),
             ylab = "Length (cm)", xlab = "Latitude", main = ss)
@@ -320,7 +343,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   pngfun(wd = dir, file = "Depth_by_Latitude.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
   for (ss in c("F", "M", "U")){
-    find = which(data$Sex == ss & data$Source %in% unique(data[!is.na(data$Lat),"Source"]) & !data$Source %in% c("Triennial_Age"))
+    find = which(data$Sex == ss & data$Source %in% unique(data[!is.na(data$Lat),"Source"]) & !data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"))
     col = ifelse(ss == "F", alpha('red', 0.6), ifelse(ss == "M", alpha('blue', 0.6), "grey"))
     boxplot(data$Depth[find] ~ data$lat_bin[find],  col = col, ylim = c(450, 0),
             ylab = "Depth (m)", xlab = "Latitude", main = ss)
@@ -360,7 +383,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   #Plot length distribution by data source
   pngfun(wd = dir, file = "Length_Density_by_Source.png", w = 7, h = 7, pt = 12)
   #Need to use print here since ggplot doesn't plot within a function call
-  print(ggplot(data[!data$Source %in% c("Triennial_Age"),], aes(Length, fill = Source, color = Source)) +
+  print(ggplot(data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], aes(Length, fill = Source, color = Source)) +
           #facet_wrap(facets = c("Region")) +
           geom_density(alpha = 0.4, lwd = 0.8))
   dev.off()
@@ -368,7 +391,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   #Plot length distribution by sex
   pngfun(wd = dir, file = "Length_Density_by_Sex.png", w = 7, h = 7, pt = 12)
   #Need to use print here since ggplot doesn't plot within a function call
-  print(ggplot(data[!data$Source %in% c("Triennial_Age"),], aes(Length, fill = Sex, color = Sex)) +
+  print(ggplot(data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], aes(Length, fill = Sex, color = Sex)) +
           #facet_wrap(facets = c("Region")) +
           geom_density(alpha = 0.4, lwd = 0.8, adjust = 1.5))
   dev.off()
@@ -377,16 +400,19 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   # This figure includes all data -- which may be biased due to selectivity
   pngfun(wd = file.path(getwd(), "plots"), file = "Data_Summary_Len_Age_Weight_by_Year.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
-  plot(data[!data$Source %in% c("Triennial_Age"),]$Year, data[!data$Source %in% c("Triennial_Age"),]$Length, ylab = "Length (cm)", xlab = "Year", ylim = c(0, max(data$Length, na.rm = TRUE)))
-  tmp = aggregate (Length ~ Year, data[!data$Source %in% c("Triennial_Age"),], FUN = median)
-  lines(tmp$Year, tmp$Length, lty = 1, col = 'red', lwd = 3)
+  plot(data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),]$Year, data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),]$Length, ylab = "Length (cm)", xlab = "Year", ylim = c(0, max(data$Length, na.rm = TRUE)))
+  tmp = aggregate (Length ~ Year + Region, data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], FUN = median)
+  lines(tmp[tmp$Region=="North",]$Year, tmp[tmp$Region=="North",]$Length, lty = 1, col = 'red', lwd = 3)
+  lines(tmp[tmp$Region=="South",]$Year, tmp[tmp$Region=="South",]$Length, lty = 1, col = 'blue', lwd = 3)
   plot(data$Year, data$Age, ylab = "Age", xlab = "Year", ylim = c(0, max(data$Age, na.rm = TRUE)))
-  tmp = aggregate (Age ~ Year, data, FUN = median)
-  lines(tmp$Year, tmp$Age, lty = 1, col = 'red', lwd = 3)
-  legend("left", "Median", lty=1, col=2, lwd=3, bty = "n")
-  plot(data$Year, data$Weight, ylab = "Weight", xlab = "Year", ylim = c(0, max(data$Weight, na.rm = TRUE)))
-  tmp = aggregate (Weight ~ Year, data, FUN = median)
-  lines(tmp$Year, tmp$Weight, lty = 1, col = 'red', lwd = 3)
+  tmp = aggregate (Age ~ Year + Region, data, FUN = median)
+  lines(tmp[tmp$Region=="North",]$Year, tmp[tmp$Region=="North",]$Age, lty = 1, col = 'red', lwd = 3)
+  lines(tmp[tmp$Region=="South",]$Year, tmp[tmp$Region=="South",]$Age, lty = 1, col = 'blue', lwd = 3)
+  legend("left", c("Median North", "Median South"), lty=1, col=c("red","blue"), lwd=3, bty = "n")
+  plot(data[!data$Source %in% c("NWFSC_HKL_Age"),]$Year, data[!data$Source %in% c("NWFSC_HKL_Age"),]$Weight, ylab = "Weight", xlab = "Year", ylim = c(0, max(data$Weight, na.rm = TRUE)))
+  tmp = aggregate (Weight ~ Year + Region, data[!data$Source %in% c("NWFSC_HKL_Age"),], FUN = median)
+  lines(tmp[tmp$Region=="North",]$Year, tmp[tmp$Region=="North",]$Weight, lty = 1, col = 'red', lwd = 3)
+  lines(tmp[tmp$Region=="South",]$Year, tmp[tmp$Region=="South",]$Weight, lty = 1, col = 'blue', lwd = 3)
   dev.off()
   
 }
@@ -640,9 +666,11 @@ survey_data = load_survey_data(surveys)
 
 #Combine into single dataframe
 #Slope surveys have no weights or ages
-#Triennial has weights in its age dataset, for use that dataset for age and weight
+#Triennial has weights in its age dataset, so use that dataset for age and weight
+#HKL has ages in its age dataset, but weights in its length, so use lengths for l-w, ages for l-a
 survey_data$age2$Source = "Triennial_Age"
-out = create_survey_data_frame(survey_data[c("length1","length2","length3","length4","length5","age2")])
+survey_data$age5$Source = "NWFSC_HKL_Age"
+out = create_survey_data_frame(survey_data[c("length1","length2","length3","length4","length5","age2","age5")])
 
 
 #######################################################
@@ -656,7 +684,9 @@ table(out[!is.na(out$Age),"Year"], out[!is.na(out$Age),"Source"], out[!is.na(out
 #Clean data - returns cleaned dataset (which is only NA lengths removed)
 out_clean = clean_lingcod_survey_biodata(data = out)
 
-#Summarize data. Triennial_Age is the subset of Triennial lengths with ages (and weights)
+#Summarize data. 
+#Triennial_Age is the subset of Triennial lengths with ages (and weights)
+#NWFSC_HKL_Age is the subset of NWFSC_HKL lengths and weights with ages
 summarize_data(file.path(getwd(),"plots"), out_clean, file.amend = NULL)
 
 #Estimate length-age and length-weight parameters
@@ -686,14 +716,21 @@ checkresids(data = out_clean[out_clean$Source == "NWFSC.Combo",], method = "la")
 
 #Plot sample sizes
 pngfun(wd = file.path(getwd(), "plots"), file = "Length_Samples.png", w = 7, h = 3, pt = 12)
-ggplot(out_clean[!out_clean$Source %in% c("Triennial_Age"),], aes(Year, fill = Source, color = Source)) +
+ggplot(out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], aes(Year, fill = Source, color = Source)) +
+  facet_wrap(facets = c("Region")) +
+  geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
+  ggtitle("Survey Lengths")
+dev.off()
+#exclude the slope surveys
+pngfun(wd = file.path(getwd(), "plots"), file = "Length_Samples_noslope.png", w = 7, h = 3, pt = 12)
+ggplot(out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age", "AFSC.Slope","NWFSC.Slope"),], aes(Year, fill = Source, color = Source)) +
   facet_wrap(facets = c("Region")) +
   geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
   ggtitle("Survey Lengths")
 dev.off()
 
 pngfun(wd = file.path(getwd(), "plots"), file = "Weight_Samples.png", w = 7, h = 3, pt = 12)
-temp = out_clean[!out_clean$Source %in% c("Triennial"),] #Change so "triennial" shows up in legend
+temp = out_clean[!out_clean$Source %in% c("Triennial", "NWFSC_HKL_Age"),] #Change so "triennial" shows up in legend
 temp[temp$Source == "Triennial_Age","Source"] = "Triennial"
 ggplot(temp[!is.na(temp$Weight),], aes(Year, fill = Source, color = Source)) +
   facet_wrap(facets = c("Region")) +
@@ -704,6 +741,7 @@ dev.off()
 pngfun(wd = file.path(getwd(), "plots"), file = "Age_Samples.png", w = 7, h = 3, pt = 12)
 temp = out_clean[!out_clean$Source %in% c("Triennial"),] #Change so "triennial" shows up in legend
 temp[temp$Source == "Triennial_Age","Source"] = "Triennial"
+temp[temp$Source == "NWFSC_HKL_Age","Source"] = "NWFSC_HKL"
 ggplot(temp[!is.na(temp$Age),], aes(Year, fill = Source, color = Source)) +
   facet_wrap(facets = c("Region")) +
   geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
@@ -714,16 +752,16 @@ dev.off()
 exploratory_plots_survey_biodata(dir = file.path(getwd(), "plots"), data = out_clean)
 
 #Specific length by depth plot - plots into the "plots" folder in dir
-length_by_depth_plot(dir = getwd(), data = out_clean, xlim = NULL, ylim = NULL)
+length_by_depth_plot(dir = getwd(), data = out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], xlim = NULL, ylim = NULL)
 
 #	Plot length frequency plots by source - plots into the "plots" folder in dir
-length_freq_plot(dir = getwd(), data = out_clean[!out_clean$Source %in% c("Triennial_Age"),], xlim = NULL, ylim = c(0,0.1))
+length_freq_plot(dir = getwd(), data = out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], xlim = NULL, ylim = c(0,0.1))
 
 # Plot length-age and length-weight relationships
 # Since set Region to equal to State above, can plot plots 3 and 4
 # Since plotting weight and age, will only use triennial lengths from the Triennial_Age dataset
 length_age_plot(dir = file.path(getwd()), splits = NA, data = out_clean, nm_append = NULL, ests = la_ests, plots = 1:4)
-length_weight_plot(dir = file.path(getwd()), splits = NA, data = out_clean, nm_append = NULL, ests = lw_ests, plots = 1:4)
+length_weight_plot(dir = file.path(getwd()), splits = NA, data = out_clean[!out_clean$Source %in% c("NWFSC_HKL_Age"),], nm_append = NULL, ests = lw_ests, plots = 1:4)
 
 #Plot la relationship on single figure by Source
 pngfun(wd = file.path(getwd(), "plots"), file = "Length_Age_Combo_byRegion.png", w = 7, h = 7, pt = 12)
@@ -734,20 +772,40 @@ plot(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F", "Age"]
 points(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M", "Age"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M", "Length"], pch = 16, col = alpha("blue", 0.20))
 lens = 0:max(out_clean$Age,na.rm = TRUE)
 lines(lens, vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_F[1], L0 = la_ests$South_NWFSC.Combo_F[2], k = la_ests$South_NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_M[1], L0 = la_ests$South_NWFSC.Combo_M[2], k = la_ests$South_NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 2)
-lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_F[1], L0 = la_ests$North_NWFSC.Combo_F[2], k = la_ests$North_NWFSC.Combo_F[3]), col = "magenta", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_M[1], L0 = la_ests$North_NWFSC.Combo_M[2], k = la_ests$North_NWFSC.Combo_M[3]), col = "cyan", lwd = 2, lty = 2)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "black", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "black", lwd = 2, lty = 2)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "black", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "black", lwd = 2, lty = 2)
-leg = c(paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[2],1), " K = ", round(la_ests$NWFSC.Combo_F[3], 2)),
-        paste0("Combo M: Linf = ", signif(la_ests$NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_M[2],1), " K = ", round(la_ests$NWFSC.Combo_M[3], 2)),
+lines(lens, vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_M[1], L0 = la_ests$South_NWFSC.Combo_M[2], k = la_ests$South_NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 1)
+lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_F[1], L0 = la_ests$North_NWFSC.Combo_F[2], k = la_ests$North_NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 2)
+lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_M[1], L0 = la_ests$North_NWFSC.Combo_M[2], k = la_ests$North_NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 2)
+#lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 1)
+#lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 1)
+leg = c(#paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[2],1), " K = ", round(la_ests$NWFSC.Combo_F[3], 2)),
+        #paste0("Combo M: Linf = ", signif(la_ests$NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_M[2],1), " K = ", round(la_ests$NWFSC.Combo_M[3], 2)),
         paste0("South Combo F: Linf = ", signif(la_ests$South_NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$South_NWFSC.Combo_F[2],1), " K = ", round(la_ests$South_NWFSC.Combo_F[3], 2)),
         paste0("South Combo M: Linf = ", signif(la_ests$South_NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$South_NWFSC.Combo_M[2],1), " K = ", round(la_ests$South_NWFSC.Combo_M[3], 2)),
         paste0("North Combo F: Linf = ", signif(la_ests$North_NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$North_NWFSC.Combo_F[2],1), " K = ", round(la_ests$North_NWFSC.Combo_F[3], 2)),
         paste0("North Combo M: Linf = ", signif(la_ests$North_NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$North_NWFSC.Combo_M[2],1), " K = ", round(la_ests$North_NWFSC.Combo_M[3], 2)))
-legend("bottomright", bty = 'n', legend = leg, lty = c(1,2), col = c("black","black","red","blue", "magenta", "cyan"), lwd = 2)
+legend("bottomright", bty = 'n', legend = leg, lty = c(1,1,2,2), col = c("red","blue"), lwd = 2)
+dev.off()  
+
+#Plot combined la relationship by source on one figure
+pngfun(wd = file.path(getwd(), "plots"), file = "Length_Age_by_Source_onefigure.png", w = 7, h = 7, pt = 12)
+plot(out_clean[!out_clean$Source %in% "Triennial", "Age"], out_clean[!out_clean$Source %in% "Triennial", "Length"], 
+     xlab = "Age", ylab = "Length (cm)", main = "", 
+     ylim = c(0, max(out_clean$Length, na.rm = TRUE)), xlim = c(0, max(out_clean$Age, na.rm = TRUE)), 
+     pch = 16, col = alpha("grey", 0.20)) 
+lens = 0:max(out_clean$Age,na.rm = TRUE)
+lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 1)
+lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 1)
+lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC_HKL_Age_F[1], L0 = la_ests$NWFSC_HKL_Age_F[2], k = la_ests$NWFSC_HKL_Age_F[3]), col = "red", lwd = 2, lty = 2)
+lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC_HKL_Age_M[1], L0 = la_ests$NWFSC_HKL_Age_M[2], k = la_ests$NWFSC_HKL_Age_M[3]), col = "blue", lwd = 2, lty = 2)
+lines(lens, vb_fn(age = lens, Linf = la_ests$Triennial_Age_F[1], L0 = la_ests$Triennial_Age_F[2], k = la_ests$Triennial_Age_F[3]), col = "red", lwd = 2, lty = 3)
+lines(lens, vb_fn(age = lens, Linf = la_ests$Triennial_Age_M[1], L0 = la_ests$Triennial_Age_M[2], k = la_ests$Triennial_Age_M[3]), col = "blue", lwd = 2, lty = 3)
+leg = c(paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[2],1), " K = ", round(la_ests$NWFSC.Combo_F[3], 2)),
+        paste0("Combo M: Linf = ", signif(la_ests$NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_M[2],1), " K = ", round(la_ests$NWFSC.Combo_M[3], 2)),
+        paste0("HKL F: Linf = ", signif(la_ests$NWFSC_HKL_Age_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC_HKL_Age_F[2],1), " K = ", round(la_ests$NWFSC_HKL_Age_F[3], 2)),
+        paste0("HKL M: Linf = ", signif(la_ests$NWFSC_HKL_Age_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC_HKL_Age_M[2],1), " K = ", round(la_ests$NWFSC_HKL_Age_M[3], 2)),
+        paste0("Triennial F: Linf = ", signif(la_ests$Triennial_Age_F[1], digits = 3), " L0 = ", round(la_ests$Triennial_Age_F[2],1), " K = ", round(la_ests$Triennial_Age_F[3], 2)),
+        paste0("Triennial M: Linf = ", signif(la_ests$Triennial_Age_M[1], digits = 3), " L0 = ", round(la_ests$Triennial_Age_M[2],1), " K = ", round(la_ests$Triennial_Age_M[3], 2)))
+legend("bottomright", bty = 'n', legend = leg, lty = c(1,1,2,2,3,3), col = c("red","blue"), lwd = 2)
 dev.off()  
 
 
@@ -759,25 +817,49 @@ plot(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F", "Lengt
      pch = 16, col = alpha("red", 0.20)) 
 points(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M", "Length"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M", "Weight"], pch = 16, col = alpha("blue", 0.20))
 lens = 1:max(out_clean$Length,na.rm = TRUE)
-lines(lens, lw_ests$NWFSC.Combo_F[1] * lens ^ lw_ests$NWFSC.Combo_F[2], col = "black", lwd = 2, lty = 1)
-lines(lens, lw_ests$NWFSC.Combo_M[1] * lens ^ lw_ests$NWFSC.Combo_M[2], col = "black", lwd = 2, lty = 2)
+#lines(lens, lw_ests$NWFSC.Combo_F[1] * lens ^ lw_ests$NWFSC.Combo_F[2], col = "red", lwd = 2, lty = 1)
+#lines(lens, lw_ests$NWFSC.Combo_M[1] * lens ^ lw_ests$NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 1)
 lines(lens, lw_ests$South_NWFSC.Combo_F[1] * lens ^ lw_ests$South_NWFSC.Combo_F[2], col = "red", lwd = 2, lty = 1)
-lines(lens, lw_ests$South_NWFSC.Combo_M[1] * lens ^ lw_ests$South_NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 2)
-lines(lens, lw_ests$North_NWFSC.Combo_F[1] * lens ^ lw_ests$North_NWFSC.Combo_F[2], col = "magenta", lwd = 2, lty = 1)
-lines(lens, lw_ests$North_NWFSC.Combo_M[1] * lens ^ lw_ests$North_NWFSC.Combo_M[2], col = "cyan", lwd = 2, lty = 2)
-#Last assessments values
-#lines(lens, 0.00000276 * lens^3.28, col = "gray", lwd=3, lty=1) #Female from last assessment North of Pt. Conception
-#lines(lens, 0.00000161 * lens^3.42, col = "gray", lwd=3, lty=2) #Male from last assessment North of Pt. Conception
-#lines(lens, 0.000003308 * lens^3.248, col = "gold", lwd=3, lty=1) #Female from last assessment South of Pt. Conception
-#lines(lens, 0.000002179 * lens^3.36, col = "gold", lwd=3, lty=2) #Male from last assessment South of Pt. Conception
-leg = c(paste0("Combo F: a = ", signif(lw_ests$NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_F[2], 3)),
-        paste0("Combo M: a = ", signif(lw_ests$NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_M[2], 3)),
+lines(lens, lw_ests$South_NWFSC.Combo_M[1] * lens ^ lw_ests$South_NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 1)
+lines(lens, lw_ests$North_NWFSC.Combo_F[1] * lens ^ lw_ests$North_NWFSC.Combo_F[2], col = "red", lwd = 2, lty = 2)
+lines(lens, lw_ests$North_NWFSC.Combo_M[1] * lens ^ lw_ests$North_NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 2)
+# #Last assessments values
+#lines(lens, 0.00000276 * lens^3.28, col = "darkgray", lwd=3, lty=2) #Female from last assessment North of Pt. Conception
+#lines(lens, 0.00000161 * lens^3.42, col = "black", lwd=3, lty=2) #Male from last assessment North of Pt. Conception
+#lines(lens, 0.000003308 * lens^3.248, col = "darkgray", lwd=3, lty=1) #Female from last assessment South of Pt. Conception
+#lines(lens, 0.000002179 * lens^3.36, col = "black", lwd=3, lty=1) #Male from last assessment South of Pt. Conception
+leg = c(#paste0("Combo F: a = ", signif(lw_ests$NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_F[2], 3)),
+        #paste0("Combo M: a = ", signif(lw_ests$NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_M[2], 3)),
         paste0("Combo South F: a = ", signif(lw_ests$South_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$South_NWFSC.Combo_F[2], 3)),
         paste0("Combo South M: a = ", signif(lw_ests$South_NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$South_NWFSC.Combo_M[2], 3)),
         paste0("Combo North F: a = ", signif(lw_ests$North_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_F[2], 3)),
         paste0("Combo North M: a = ", signif(lw_ests$North_NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_M[2], 3)))
-legend("topleft", bty = 'n', legend = leg, lty = c(1,2), col = c("black", "black", "red","blue", "magenta", "cyan"), lwd = 2)
+legend("topleft", bty = 'n', legend = leg, lty = c(1,1,2,2), col = c("red","blue"), lwd = 2)
 dev.off()   
+
+
+#Plot lw relationship by source on single figure
+pngfun(wd = file.path(getwd(), "plots"), file = "Length_Weight_by_Source_oneFigure.png", w = 7, h = 7, pt = 12)
+plot(out_clean[!out_clean$Source %in% "Triennial", "Length"], out_clean[!out_clean$Source %in% "Triennial", "Weight"], 
+     xlab = "Length (cm)", ylab = "Weight (kg)", main = "", 
+     ylim = c(0, max(out_clean$Weight, na.rm = TRUE)), xlim = c(0, max(out_clean$Length, na.rm = TRUE)), 
+     pch = 16, col = alpha("gray", 0.20)) 
+lens = 1:max(out_clean$Length,na.rm = TRUE)
+lines(lens, lw_ests$NWFSC.Combo_F[1] * lens ^ lw_ests$NWFSC.Combo_F[2], col = "red", lwd = 2, lty = 1)
+lines(lens, lw_ests$NWFSC.Combo_M[1] * lens ^ lw_ests$NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 1)
+lines(lens, lw_ests$NWFSC_HKL_F[1] * lens ^ lw_ests$NWFSC_HKL_F[2], col = "red", lwd = 2, lty = 2)
+lines(lens, lw_ests$NWFSC_HKL_M[1] * lens ^ lw_ests$NWFSC_HKL_M[2], col = "blue", lwd = 2, lty = 2)
+lines(lens, lw_ests$Triennial_Age_F[1] * lens ^ lw_ests$Triennial_Age_F[2], col = "red", lwd = 2, lty = 3)
+lines(lens, lw_ests$Triennial_Age_M[1] * lens ^ lw_ests$Triennial_Age_M[2], col = "blue", lwd = 2, lty = 3)
+leg = c(paste0("Combo F: a = ", signif(lw_ests$NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_F[2], 3)),
+        paste0("Combo M: a = ", signif(lw_ests$NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_M[2], 3)),
+        paste0("HKL F: a = ", signif(lw_ests$NWFSC_HKL_F[1], digits = 4)," b = ", round(lw_ests$NWFSC_HKL_F[2], 3)),
+        paste0("HKL M: a = ", signif(lw_ests$NWFSC_HKL_M[1], digits = 4)," b = ", round(lw_ests$NWFSC_HKL_M[2], 3)),
+        paste0("Triennial F: a = ", signif(lw_ests$Triennial_Age_F[1], digits = 4)," b = ", round(lw_ests$Triennial_Age_F[2], 3)),
+        paste0("Triennial M: a = ", signif(lw_ests$Triennial_Age_M[1], digits = 4)," b = ", round(lw_ests$Triennial_Age_M[2], 3)))
+legend("topleft", bty = 'n', legend = leg, lty = c(1,1,2,2,3,3), col = c("red","blue"), lwd = 2)
+dev.off()  
+
 
 
 
