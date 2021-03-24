@@ -95,6 +95,9 @@ file.rename(from = file.path("ages", "forSS", "Survey_notExpanded_Age_comp_Sex_3
             to= file.path("ages", "HooknLine", "south_Survey_Sex3_Bins_1_12_AgeComps.csv")) 
 if(dir.exists(file.path("ages","forSS"))) unlink(file.path("ages","forSS"),recursive = TRUE) #remove forSS file
 
+PlotFreqData.fn(dir = file.path(getwd(), "ages", "HooknLine"), dat = afs$comps, ylim=c(0, max(abins) + 1), inch = 0.10, main = "Hook and Line", yaxs="i", ylab="Age", dopng = TRUE)
+PlotSexRatio.fn(dir = file.path(getwd(), "ages", "HooknLine"), dat = hnl_ages, data.type = "age", dopng = TRUE, main = "Hook and Line")
+
 
 #Currently not doing CAAL
 
