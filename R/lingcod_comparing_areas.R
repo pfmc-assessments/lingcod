@@ -44,3 +44,14 @@ text(x = lingsum$recdevs[sub, 1:2],
 dev.off()
 cor(x = lingsum$recdevs[sub, 1], y = lingsum$recdevs[sub, 2])
 ## [1] 0.2744754
+
+
+# comparing mean age
+
+SSplotComparisons(lingsum,
+                  plot = FALSE,
+                  print = TRUE,
+                  plotdir = file.path(dir.ling, 'figures/N_vs_S_comparsions_2017'),
+                  legendlabel = c("2017 North model", "2017 South model"),
+                  indexfleets = c(7,6),
+                  indexPlotEach = TRUE)

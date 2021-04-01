@@ -14,6 +14,17 @@ require(r4ss)
 ling2017.n <- SS_output(file.path(dir.ling2017, 'models/north_base'))
 ling2017.s <- SS_output(file.path(dir.ling2017, 'models/south_base'))
 
+# female growth comparison
+SSplotBiology(ling2017N, subplot=1, colvec = c("red", NA, NA))
+SSplotBiology(ling2017S, subplot=1, colvec = c("orange", NA, NA), add = TRUE)
+
+SSplotBiology(ling2017N, subplot=6, colvec = c("red", NA, NA))
+SSplotBiology(ling2017S, subplot=6, colvec = c("orange", NA, NA), add = TRUE)
+SSplotBiology(ling2017N, subplot=12, colvec = c("red", NA, NA))
+SSplotBiology(ling2017S, subplot=12, colvec = c("orange", NA, NA), add = TRUE)
+
+
+
 png(file = file.path(dir.ling, 'figures/spawning_output_comparison_2017.png'),
     units = 'in', width = 6.5, height = 6.5, res = 300)
                      
