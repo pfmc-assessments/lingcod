@@ -1,40 +1,39 @@
-### notes on representativeness of age samples in Lingcod Data collection
-### Ian Taylor, started 15 July 2020
-### initially focused on WCGBT Survey
 
-# define directory on a specific computer
-if (Sys.info()["user"] == "Ian.Taylor") {
-  dir.ling <- 'c:/SS/Lingcod/Lingcod_2021/'
-  source(file.path(dir.ling, 'R/age_representativeness_plot.R'))
-}
+#### Catch data
+# load Triennial catch data
+catch.Triennial <- nwfscSurvey::PullCatch.fn(
+  Name = utils_name("common"),
+  SurveyName = "Triennial"
+)
+# load WCGBTS catch data
+catch.WCGBTS <- nwfscSurvey::PullCatch.fn(
+  Name = utils_name("common"),
+  SurveyName = "NWFSC.Combo"
+)
 
-# stuff to only run once
-if (FALSE) {
-  # install package
-  remotes::install_github("nwfsc-assess/nwfscSurvey", build_vignettes=TRUE)
+#### Bio data
+# load Triennial bio data
+bio.Triennial <- nwfscSurvey::PullBio.fn(
+  Name = utils_name("common"),
+  SurveyName = "Triennial"
+)
+# load WCGBTS bio data
+bio.WCGBTS <- nwfscSurvey::PullBio.fn(
+  Name = utils_name("common"),
+  SurveyName = "NWFSC.Combo"
+)
 
-  # load WCGBTS catch data
-  catch.WCGBTS.ling <- nwfscSurvey::PullCatch.fn(Name = "lingcod",
-                                                 SurveyName = "NWFSC.Combo")
-  # load WCGBTS bio data
-  bio.WCGBTS.ling   <- nwfscSurvey::PullBio.fn(Name = "lingcod",
-                                               SurveyName = "NWFSC.Combo")
-  # save data for offline use
-  save(catch.WCGBTS.ling, bio.WCGBTS.ling,
-       file = file.path(dir.ling,
-                        'data/Lingcod_survey_extractions_15-July-2020.Rdata'))
-}
+# Create package data
+usethis::use_data(catch.Triennial, overwrite = TRUE)
+usethis::use_data(catch.WCGBTS, overwrite = TRUE)
+usethis::use_data(bio.Triennial, overwrite = TRUE)
+usethis::use_data(bio.WCGBTS, overwrite = TRUE)
 
-# load stuff saved above if not already in workspace
-if (!exists('catch.WCGBTS.ling')) {
-  load(file = file.path(dir.ling,
-                        'data/Lingcod_survey_extractions_15-July-2020.Rdata'))
-}
 
 # make plot of age representativeness
 # (depends on the age_representativeness_plot.R file source above)
-age_representativeness_plot(bio.WCGBTS.ling,
-                            file = file.path(dir.ling,
+age_representativeness_plot(bio.WCGBTS,
+                            file = file.path(
                             "figures",
                             "age_representativeness_WCGBTS_Lingcod_22-July-2020.png"))
 
@@ -56,19 +55,20 @@ if(FALSE) { # run calculation of design-based index only once
 
   # calculate design-based index
   biomass.WCGBTS <- nwfscSurvey::Biomass.fn(
-                                   dir = file.path(dir.ling, 'indices/WCGBTS'), 
-                                   dat = catch.WCGBTS.ling,  
-                                   strat.df = strata, 
+                                   dir = file.path("figures", "WCGBTS"),
+                                   dat = catch.WCGBTS,
+                                   strat.df = strata,
                                    printfolder = "",
                                    outputMedian = TRUE)
   # make plot of design-based index
-  nwfscSurvey::PlotBio.fn(dir = file.path(dir.ling, 'indices/WCGBTS'), 
-                          dat = biomass.WCGBTS,  
+  nwfscSurvey::PlotBio.fn(dir = file.path("figures", "WCGBTS"),
+                          dat = biomass.WCGBTS,
                           main = "Lingcod, WCGBT Survey",
                           dopng = TRUE)
 
-  length(unique(tmp$Trawl_id[!is.na(tmp$Age)]))
-
 } # end of design-based index calcs
 
+
+#### Remove objects
+#rm ()
 
