@@ -1,33 +1,25 @@
 ### notes on splitting historical California catch at 40°10'
 
-# ESTIMATED THOUSANDS OF FISH CAUGHT (CATCH TYPE A + B)
-# BY GROUP AND COASTAL COUNTY DISTRICT, JAN 1981---DEC 1981.
-
-# define directory on a specific computer
-if (Sys.info()["user"] == "Ian.Taylor") {
-  dir.ling <- 'c:/SS/Lingcod/Lingcod_2021/'
+if (!file.exists("data-raw")) {
+  stop("You need to source this file from the lingcod_2021 directory.", call. = FALSE)
 }
 
 # read raw data from Albin et al. 1993, subset for group = "35. LINGCOD"
-albin_raw <- read.csv(file.path(dir.ling,
-                                'data/CA/Albin_et_al_1993_Lingcod_rows.csv'),
-                      skip = 1, header = FALSE)
-# get unique area names
-areas <- unique(as.character(albin_raw[1, -1]))
-years <- as.numeric(albin_raw[-(1:2), 1])
+albin_raw <- read.csv(
+  file = file.path("data-raw", "Albin_et_al_1993_Lingcod_rows.csv"),
+  skip = 1, header = FALSE
+)
+
 # make data frame
-albin_df <- data.frame(expand.grid(Year = years,
-                                   Area = areas,
-                                   Est = NA,
-                                   SE = NA,
-                                   CV = NA),
-                       stringsAsFactors = FALSE)
-# fix factor (for some reason, stringsAsFactors = FALSE didn't work above)
-aalbin_df <- as.character(albin_df$Area)
+albin_df <- expand.grid(
+  Year = as.numeric(albin_raw[-(1:2), 1]),
+  Area = unique(as.character(albin_raw[1, -1])), # get unique area names
+  Est = NA, SE = NA, CV = NA,
+  stringsAsFactors = FALSE)
 
 # fill in values in data frame format
-for (area in areas) {
-  for (y in years) {
+for (area in albin_df[["Area"]]) {
+  for (y in albin_df[["Year"]]) {
     vals <- as.numeric(albin_raw[albin_raw[,1] == y,
                                  albin_raw[1,] == area])
     row <- albin_df$Year == y & albin_df$Area == area
@@ -38,7 +30,8 @@ for (area in areas) {
 }
 
 # confirm that total looks OK sum matches for Total = TRUE/FALSE
-aggregate(albin_df$Est, by = list(albin_df$Area=="Total", albin_df$Year), FUN = sum)
+testthat::expect_equal(
+  stats::aggregate(albin_df$Est, by = list(albin_df$Area=="Total", albin_df$Year), FUN = sum),
 ##    Group.1 Group.2   x
 ## 1    FALSE    1981 118
 ## 2     TRUE    1981 118
@@ -52,11 +45,17 @@ aggregate(albin_df$Est, by = list(albin_df$Area=="Total", albin_df$Year), FUN = 
 ## 10    TRUE    1985 168
 ## 11   FALSE    1986 219
 ## 12    TRUE    1986 219
+  data.frame(
+    Group.1 = rep(c(FALSE, TRUE), 6),
+    Group.2 = rep(1981:1986, each = 2),
+    x = rep(c(118, 111, 108, 134, 168, 219), each = 2)
+  )
+)
 
-ratios <- data.frame(Year = years,
+ratios <- data.frame(Year = unique(albin_df[["Year"]]),
                      DNH_over_total = NA,
                      SLO_over_total = NA)
-for (y in years) {
+for (y in ratios[["Year"]]) {
   ratios$DNH_over_total[ratios$Year == y] <-
     albin_df$Est[albin_df$Area == "Del Norte / Humboldt" &
                  albin_df$Year == y] /
@@ -68,16 +67,42 @@ for (y in years) {
     albin_df$Est[albin_df$Area == "Total" &
                  albin_df$Year == y]
 }
-(round(average_DNH_over_total <- mean(ratios$DNH_over_total), 3))
-# [1] 0.178
-(round(catch_weighted_average_DNH_over_total <-
-         weighted.mean(ratios$DNH_over_total,
-                       w = albin_df$Est[albin_df$Area=="Total"]), 3))
-# [1] 0.181
+# Following does the same
+# ratios <- albin_df[albin_df[["Area"]]!="Total",] %>% 
+#   group_by(Year) %>% mutate(sum = sum(Est)) %>%
+#   group_by(Area, Year) %>% summarize(sum = Est/sum, .groups = "keep") %>%
+#   dplyr::filter(grepl("Hum|Luis", Area)) %>%
+#   tidyr::spread(key = Area, value = sum) %>%
+#   data.frame
+# colnames(ratios) <- c("Year", "DNH_over_total", "SLO_over_total")
 
-(round(average_SLO_over_total <- mean(ratios$SLO_over_total), 3))
-# [1] 0.124
-(round(catch_weighted_average_SLO_over_total <-
-         weighted.mean(ratios$SLO_over_total,
-                       w = albin_df$Est[albin_df$Area=="Total"]), 3))
-# [1] 0.127
+testthat::expect_equal(
+  round(average_DNH_over_total <- mean(ratios$DNH_over_total), 3),
+  0.178
+)
+testthat::expect_equal(
+  round(catch_weighted_average_DNH_over_total <-
+         stats::weighted.mean(ratios$DNH_over_total,
+                       w = albin_df$Est[albin_df$Area=="Total"]), 3),
+  0.181
+)
+testthat::expect_equal(
+  round(average_SLO_over_total <- mean(ratios$SLO_over_total), 3),
+  0.124
+)
+testthat::expect_equal(
+  round(catch_weighted_average_SLO_over_total <-
+         stats::weighted.mean(ratios$SLO_over_total,
+                       w = albin_df$Est[albin_df$Area=="Total"]), 3),
+  0.127
+)
+
+#### Assign data objects
+# usethis::use_data(average_DNH_over_total, overwrite = TRUE)
+# usethis::use_data(average_SLO_over_total, overwrite = TRUE)
+# usethis::use_data(catch_weighted_average_DNH_over_total, overwrite = TRUE)
+# usethis::use_data(catch_weighted_average_SLO_over_total, overwrite = TRUE)
+
+#### Clean up
+rm(albin_raw, albin_df, ratios)
+rm(y, vals, row, area)
