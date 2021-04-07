@@ -18,11 +18,8 @@ interactive documents, such as meeting notes.
 The following directory structure should be adhered to when adding new files:
 ```
 lingcod_2021
-|    .gitignore
-|    .Rbuildignore
-|    DESCRIPTION
-|    NAMESPACE
-|    README.md
+|----R
+|    |    utils-pipe.R
 |
 |----data
 |
@@ -36,9 +33,6 @@ lingcod_2021
 |
 |----man
 |
-|----R
-|    |    utils-pipe.R
-|
 |----sa
 |
 |----slides
@@ -48,6 +42,12 @@ lingcod_2021
 |----tests
 |
 |----vignettes
+|
+|    .Rbuildignore
+|    .gitignore
+|    DESCRIPTION
+|    NAMESPACE
+|    README.md
 ```
 
 When developing the package, edit the following files or add to these directories
