@@ -23,27 +23,21 @@
 #' @param font_family The font family used for the sample size
 #' information that is printed on the figure.
 #' @param title_fill A character entry specifying the title for
-#' the fill legend. The default of \code{""} removes the title.
+#' the fill legend. The default of `""` removes the title.
 #' @param file A file path to save the figure to.
-#' The path should end in \code{.png}.
+#' The path should end in `.png`.
 #' @param file_width The width in inches that you wish the resulting
 #' figure that is saved to the disk to be. The default of 15 results
 #' in a wide figure.
 #'
 #' @import ggplot2
 #' @author Kelli F. Johnson
-#' @return A \code{ggplot2} object is returned.
-#' If \code{file} is specified then a the same returned figure is
+#' @return A \pkg{ggplot2} object is returned.
+#' If `file` is specified then a the same returned figure is
 #' also saved to the disk given the specified name using
-#' \code{\link[ggplot]{ggsave}}.
+#' [ggplot2::ggsave].
 #'
 #' @examples
-#' remotes::install_github("wilkelab/cowplot")
-#' install.packages("colorspace", repos = "http://R-Forge.R-project.org")
-#' remotes::install_github("clauswilke/colorblindr")
-#' library(dplyr)
-#' library(ggplot2)
-#' library(colorblindr)
 #' ninfo <- data.frame(
 #'   survey = rep(c("WCGBTS", "Triennial", "Hook and Line"), each = 6),
 #'   area = rep(c("North", "South"), 9),
@@ -56,6 +50,8 @@
 #' )
 #' x <- plot_n(data = ninfo, file = "n_surveybiological.png")
 #' print(x)
+#' unlink("n_surveybiological.png")
+#'
 plot_ntable <- function(
   data,
   dodge_n = 0.9,

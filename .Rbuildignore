@@ -1,0 +1,8 @@
+^/.Rproj\.user$
+^_pkgdown\.yml$
+^data-raw$
+^figures$
+^sa$
+^slides$
+^tables$
+^vignettes/testexclude.Rmd$
