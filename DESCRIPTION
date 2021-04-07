@@ -1,0 +1,56 @@
+Package: lingcod
+Title: Estimate the Status of Lingcod off the US West Coast in 2021
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ian",
+           family = "Taylor",
+           role = c("aut", "cre"),
+           email = "ian.taylor@noaa.gov",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Work up data and document decisions made when determining the 
+    status of lingcod off of the US West Coast in 2021.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports:
+    dplyr,
+    ggplot2,
+    magrittr,
+    stats,
+    tidyr,
+    r4ss,
+    nwfscSurvey,
+    devtools,
+    knitr,
+    rmarkdown
+Suggests:
+    cowplot,
+    colorspace,
+    plyr,
+    testthat,
+    usethis,
+    colorblindr,
+    nwfscAgeingError,
+    nwfscDiag,
+    nwfscDiscard,
+    PacFIN.Utilities,
+    recFIN,
+    sa4ss,
+    VASTWestCoast
+Remotes:
+    github::clauswilke/colorblindr,
+    github::r4ss/r4ss,
+    github::nwfsc-assess/nwfscAgeingError,
+    github::nwfsc-assess/nwfscDiag,
+    github::nwfsc-assess/nwfscDiscard,
+    github::nwfsc-assess/nwfscSurvey,
+    github::nwfsc-assess/PacFIN.Utilities,
+    github::nwfsc-assess/recFIN,
+    github::nwfsc-assess/sa4ss,
+    github::nwfsc-assess/VASTWestCoast
+Depends:
+    R (>= 2.10)
+VignetteBuilder: knitr
