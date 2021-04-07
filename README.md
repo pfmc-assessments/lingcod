@@ -13,6 +13,12 @@ such as peer-reviewed references and historical assessment documents,
 and
 interactive documents, such as meeting notes.
 
+To interact with this repository
+(1) clone it to your computer,
+(2) open R and navigate to the repository location,
+(3) run `devtools::load_all()`, and
+(4) make magic.
+
 ## Repository structure
 
 The following directory structure should be adhered to when adding new files:
