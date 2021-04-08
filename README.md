@@ -7,9 +7,10 @@ The repository is structured as an R package; though,
 there are additional directories that are not typically standard in an R package.
 The structure is designed using the
 [vertical](crumplab.github.io/vertical/) philosophy.
-We will also use Google drive for sharing
+We will also use [Google drive][] for sharing
 large resources that do not need version control,
 such as peer-reviewed references and historical assessment documents,
+confidential data that cannot be placed in this repository,
 and
 interactive documents, such as meeting notes.
 
@@ -74,12 +75,9 @@ Note that you will still need to use the `::` operator unless you add `@import` 
   maintaining vessel confidentiality would be compromised,
   not all information in the original file is applicable to this analysis,
   etc.
-  These files are available on the network or in the Google drive.
-  Consider downloading copies of the files on the Google drive for your local use to this folder.
-  For confidential data, consider using `"\\\\nwcfile\\Assessments\\"` or something similar
-  to access the network files without needing to place them on your personal machine.
-  For some code, the use of the network in this manner is not functional,
-  though I cannot remember when or why. Instead, mapping the network worked for me.
+  These files are available on the
+  [Google Drive][].
+  Consider downloading the files on the Google drive for your local use to this folder.
 * R/: A directory that stores functions using .R files.
 All code in this folder should be source-able or self contained regardless of your
 computing environment, i.e., no scripts or analyses ... only functions.
@@ -111,11 +109,12 @@ You can create a new vignette using
 
 * Do not commit any confidential data to this repository.
 Files placed in data-raw are ignored by default unless they have the .R extension.
-Use the network to store confidential data or
-the google drive folder to share data with team members that do not have access to the network.
+Use the [Google Drive][] folder to share data with team members.
 * Hard wrap text at less than 80 characters;
 consider using a smaller number of characters if it leads to logical chunks.
 Think about how users will edit the text and use that to guide where you should wrap lines.
 * Use decimal degrees rounded to 2 digits instead of minutes degrees for location information.
 * Colors for north and south are blue and red, respectively.
 * Please have use a functional spell checker while developing within this repository.
+
+[Google drive]: https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr?usp=sharing
