@@ -7,10 +7,11 @@ The repository is structured as an R package; though,
 there are additional directories that are not typically standard in an R package.
 The structure is designed using the
 [vertical](crumplab.github.io/vertical/) philosophy.
-We will also use [Google drive][] for sharing
+We will also use [Google drive](https://drive.google.com/drive/u/1/folders/1v6iw1IsV2bK5pm-Kke7QXtImvuetZ9B9)
+for sharing
 large resources that do not need version control,
 such as peer-reviewed references and historical assessment documents,
-confidential data that cannot be placed in this repository,
+[confidential data that cannot be placed in this repository][Google drive],
 and
 interactive documents, such as meeting notes.
 
@@ -91,7 +92,8 @@ functions to be loaded without performing any analyses.
 * slides/: A directory to hold slide decks.
 Slide decks can also be stored on the Google drive if interactive development is needed.
 For example, the slide deck for the pre-assessment workshop is available in
-Lingcod_2021/meetings/pre-assessment_workshop/Lingcod data workshop presentation.
+[Lingcod_2021/meetings/pre-assessment_workshop/Lingcod](https://drive.google.com/drive/folders/1xYEe2gPFgovFcKntgyDjq3rewGOJrGM0?usp=sharing)
+data workshop presentation.
 * vignettes/: This directory holds documents to teach others about lingcod.
 All vignettes are built when compiling the package and viewable if we were to create a website.
 You can create a new vignette using 
