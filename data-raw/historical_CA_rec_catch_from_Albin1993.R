@@ -1,10 +1,26 @@
-### notes on splitting historical California catch at 40°10'
+#### notes on splitting historical California catch at 40°10'
+# 2020-11-06 E.J. Dick, M. Monk, C. Wetzel, J. Budrick, I. Taylor
+# 
+# Splitting biological data is less of an issue because it can be split at
+# any county border.
+#
+# Splitting catch data
+# * split between Mendocino/Sonoma and San Francisco, around 38.25
+# * split differently b/c no longer using Point Reyes
+#
+# MRFSS data
+#   1990-1992 Southern region included San Luis Obispo county
+#   1993-.... Northern region included San Luis Obispo county
+# California Recreational Fisheries Survey (CRFS)
+#   started in Januray of 2004
 
 if (!file.exists("data-raw")) {
   stop("You need to source this file from the lingcod_2021 directory.", call. = FALSE)
 }
 
 # read raw data from Albin et al. 1993, subset for group = "35. LINGCOD"
+# Albin et al. (1993) CDFG Admin report number 93-3
+# Table 1. county-specific catch estimates for 1981-1986
 albin_raw <- read.csv(
   file = file.path("data-raw", "Albin_et_al_1993_Lingcod_rows.csv"),
   skip = 1, header = FALSE
