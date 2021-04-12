@@ -1,0 +1,9 @@
+### Oregon
+
+The recreational fishery in Oregon likely began in the early 1950s or 1960s
+but data on catches prior to
+`r min(rec_catch_OR[["Year"]])`
+are not available.
+ODFW provided the time series of catches that includes information on
+shoreside activities, estuary boats, private ocean boats, and charter ocean boats.
+**todo: get a written description of methods from Ali @kellijohnson-noaa**

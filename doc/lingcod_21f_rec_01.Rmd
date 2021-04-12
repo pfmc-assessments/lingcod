@@ -1,0 +1,13 @@
+The time series of recreational catches in terms of numbers of fish
+were provided by \gls{wdfw} and
+include information on fishing within Washington's coastal areas sampled by the
+Ocean Sampling Program in Marine Areas 1-4.
+Catches within the northern-most area, Marine Area 4,
+that were landed within the Strait of Juan de Fuca, i.e.,
+Bonilla-Tatoosh line to the mouth of the Sekiu River and sampled by the
+Puget Sound Sampling Program, but caught within the coastal areas were also included.
+
+Numbers of fish were translated into weights (mt) to
+standardize inputs across the recreational fleets and
+increase the ease of comparing outputs.
+**todo( #30): document how numbers were transcribed to mt**

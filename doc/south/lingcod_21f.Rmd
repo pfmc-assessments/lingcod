@@ -1,0 +1,9 @@
+```{r lingcod_21f_rec_00, echo = FALSE, include = 'asis'}
+read_child(file.path("lingcod_21f_rec_00.Rmd"))
+```
+
+### Southern California
+
+```{r lingcod_21f_rec_04, echo = FALSE, include = 'asis'}
+read_child(file.path("lingcod_21f_rec_04.Rmd"))
+```

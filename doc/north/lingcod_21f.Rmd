@@ -1,0 +1,21 @@
+```{r lingcod_21f_rec_00, echo = FALSE, include = 'asis'}
+read_child(file.path("lingcod_21f_rec_00.Rmd"))
+```
+
+### Washington
+
+```{r lingcod_21f_rec_01, echo = FALSE, include = 'asis'}
+read_child(file.path("lingcod_21f_rec_01.Rmd"))
+```
+
+### Oregon
+
+```{r lingcod_21f_rec_02, echo = FALSE, include = 'asis'}
+read_child(file.path("lingcod_21f_rec_02.Rmd"))
+```
+
+### Northern California
+
+```{r lingcod_21f_rec_03, echo = FALSE, include = 'asis'}
+read_child(file.path("lingcod_21f_rec_03.Rmd"))
+```
