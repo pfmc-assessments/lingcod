@@ -40,3 +40,5 @@ vignettes/*.pdf
 
 /data-raw/*
 !/data-raw/*.R
+
+/past*assessments/
