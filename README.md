@@ -1,47 +1,183 @@
 # lingcod_2021
 
+To interact with this repository
+1. clone it to your computer `git clone https://github.com/iantaylor-NOAA/Lingcod_2021.git`,
+2. open R and set your working directory to the cloned location,
+3. run `devtools::load_all()`, and
+4. make magic.
+
+[Overview](#Overview)  
+[Repository structure](#Repository-structure)  
+[  - DESCRIPTION](#DESCRIPTION)  
+[  - R](#R)  
+[  - data-raw](#data-raw)  
+[  - unfit](#unfit)  
+[  - example structure](#example-structure)  
+[Development guidelines](#Development-guidelines)  
+[Github issue guidelines](#Github-issues)  
+
 ## Overview
 
-A place to gather stuff related to the U.S. West Coast 2021 lingcod stock assessment.
+This repository houses information related to the U.S. West Coast 2021 lingcod stock assessment.
 The repository is structured as an R package; though,
 there are additional directories that are not typically standard in an R package.
-The structure is designed using the
-[vertical](crumplab.github.io/vertical/) philosophy.
-We will also use [Google drive](https://drive.google.com/drive/u/1/folders/1v6iw1IsV2bK5pm-Kke7QXtImvuetZ9B9)
-for sharing
-large resources that do not need version control,
-such as peer-reviewed references and historical assessment documents,
-[confidential data that cannot be placed in this repository][Google drive],
-and
-interactive documents, such as meeting notes.
+There are many benefits to using R packages for science
+[(Vuorre and Crump, 2020)](https://link.springer.com/article/10.3758/s13428-020-01436-x) and
+given we are already familiar with using them for other purposes,
+it seems like a natural extension to use them for stock assessments as well.
+The structure follows the [vertical][] philosophy combined with a
+[Google drive](https://drive.google.com/drive/u/1/folders/1v6iw1IsV2bK5pm-Kke7QXtImvuetZ9B9)
+with unlimited storage.
 
-To interact with this repository
-(1) clone it to your computer,
-(2) open R and navigate to the repository location,
-(3) run `devtools::load_all()`, and
-(4) make magic.
+The premise behind [vertical][] is that everything must be
+portable across users and reproducible.
+Both of these features exist because users can expect a common
+directory structure when a project is designed using vertical.
+This may seem overly prescriptive at first but it should be helpful.
 
 ## Repository structure
+
+The following sections contain descriptive information about
+potential contents and how to interact with files and directories in this repository.
+Feel free to add new files or directories, just be sure to also add information to
+the .gitignore and .Rbuildignore files if you need to.
+
+### DESCRIPTION
+
+A plain text file that lists all of the necessary packages.
+Add packages that everyone must have to Imports, and
+`devtools::load_all()` will check that imported packages are installed.
+Add packages that are useful and people should install to Suggests,
+these are packages used for one-of analyses or preparing things that will not be touched again.
+Note that you will still need to use the `::` operator unless you add `@import` or `@importFrom`.
+
+### R
+
+A directory that stores R functions using .R files.
+All code in this folder should be used to create functions,
+i.e., no scripts or analyses.
+Files stored in this directory will be sourced upon loading the package,
+e.g., `devtools::load_all()` and
+the resulting R objects will be available to all in their workspace.
+Including functions in a single place facilitates loading functions
+without performing any analyses, the same as when you load the ggplot2 package.
+Other stock assessment teams could even load the lingcod package
+if they want to make use of the epic plotting functions that we **WILL** make.
+
+If you have files that are not quite ready for deployment in this directory,
+then please commit them to the [unfit](#unfit) directory and
+we can always move them later.
+
+### data-raw
+
+A directory that stores
+  * **CONFIDENTIAL** data that is **NOT** committed to the repository,
+  * non-confidential data that is **NOT** committed to the repository,
+  * other non-confidential data that is committed to the repository,
+  * scripts to transform data-raw objects to data objects, and
+  * other useful data-like files.
+
+Most important, **DO NOT** commit confidential data.
+The [.gitignore](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/.gitignore)
+file is setup to help you not commit confidential data by
+only suggesting that you commit .R files that are saved within data-raw.
+For example, when you add a new file called `test.csv` to data-raw
+and run `git status` the output to the console will not include test.csv under
+Untracked files; but, if you add `test.R` to data-raw,
+`git status` will list the new file under Untracked files.
+
+#### data in data-raw
+
+Choosing to not track a data file can be made for multiple reasons other than
+ensuring confidentiality. For example, files might
+be too large to be tracked,
+not have a tangible structure that can be tracked,
+be static and unlikely to change over time, or
+have been provided but not currently being used.
+Thus, [Google Drive][] is sufficient for their storage.
+
+If you go to the Lingcod_2021 Google Drive folder, you will see [data-raw][Google drive].
+Download all of the files at the top level of this directory
+if you want to run the scripts inside the repository version of data-raw.
+Do not worry about downloading the directories stored within data-raw/
+if you do not want to.
+When you receive an email with data or a contributor wants to provide data,
+think about adding it to a directory within the Google Drive data-raw directory.
+If others provide data to you and you upload it to the Google Drive,
+please do not change the file name even if it has spaces in it ...
+just add it as is to maintain its traceability.
+
+An extra step that you can do for fun within Google Drive is to provide
+shortcuts to shared folders. For example, WDFW shared a Google Drive folder
+with me called Lingcod. I added a folder in the Google Drive called
+data-raw/washington_sharedwithTheresa and added a link to her shared folder
+[here](https://drive.google.com/drive/folders/1C5vB3qmZQ2ENViJdtEhiADSwEcsIMb7e?usp=sharing).
+I also added a link to the [actual catch file](https://drive.google.com/file/d/1N8GlCsdoLs4U2eLEKQKjdOqPHrer0VXf/view?usp=sharing)
+she provided in data-raw/ rather than copying the file.
+This process is largely explained in the data-raw
+[README](https://drive.google.com/file/d/17FoJkkiYFQryskUmI0Ftz6Xl9_MVIKZv/view?usp=sharing).
+
+#### scripts in data-raw
+
+Scripts inside this folder will be used to create data objects and products.
+In theory, scripts should be developed such that the following code
+from the top-level directory of lingcod_2021 will create
+all of the stored data objects and save them in data\ as .rda files:
+```
+mapply(source, dir("data-raw", pattern = "\\.R", full.names = TRUE))
+```
+
+For example, recreational fisheries catches are constructed from
+information stored in multiple data files within data-raw and
+code in [lingcod_catch.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/data-raw/lingcod_catch.R).
+The result, [rec_catch_OR.rda](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/data/rec_catch_OR.rda),
+is an R object that is available in everyone's workspace when the R package is loaded.
+This script also stores code to build other catch data frames that will be combined
+to create the time series of catches placed in the data file.
+
+todo: more information about types of scripts and
+where would you put a script that uses output?
+
+### unfit
+
+A storage and tracking location for 'unfit' information.
+This could be scripts that were exploratory.
+Feel free to add anything here that you want tracked but it
+does not fit into the 'vertical' structure outlined by the 'rules' above.
+
+### Example structure
 
 The following directory structure should be adhered to when adding new files:
 ```
 lingcod_2021
 |----R
-|    |    utils-pipe.R
+|    |    data.R
+|    |    plot_ntable.R
 |
 |----data
+|    |    rec_catch_OR.rda
 |
 |----data-raw
+|    |    lingcod_catch.R
 |    |    template.R
+|
+|----doc
+|    |----north
+|    |----south
+|    |    lingcod_21f_rec_00.R
 |
 |----figures
 |
 |----inst
 |    |----extdata
 |
-|----man
+|----man (`devtools::document()`)
+|    |----roxygen
+|         |----templates
+|         |    data.R
+|    |    rec_catch_OR.Rd
 |
-|----sa
+|----models
 |
 |----slides
 |
@@ -49,65 +185,16 @@ lingcod_2021
 |
 |----tests
 |
-|----vignettes
+|----unfit
 |
-|    .Rbuildignore
-|    .gitignore
-|    DESCRIPTION
-|    NAMESPACE
-|    README.md
+|    .Rbuildignore (lists directories and files that do not pertain to building the R package)
+|    .gitignore (lists untracked directories and files)
+|    [DESCRIPTION](#DESCRIPTION) (lists necessary R packages)
+|    NAMESPACE (generated by roxgyen)
+|    README.md (stores this content you are reading)
 ```
 
-When developing the package, edit the following files or add to these directories
-while adhering to the suggested guidelines:
-* .gitignore: Add names of files or directories that you do not want tracked to this file.
-* .Rbuildignore: Add names of files or directories that are not a part of the package to this file.
-* DESCRIPTION: A plain text file that lists all of the necessary packages.
-Add packages that everyone must have to Imports, and
-`devtools::load_all()` will check that imported packages are installed.
-Add packages that are useful and people should install to Suggests,
-these are packages used for one-of analyses or preparing things that will not be touched again.
-Note that you will still need to use the `::` operator unless you add `@import` or `@importFrom`.
-* data-raw/:
-  * .R files to process data and turn them into R objects that are available within the package.
-  * Pre-processed or raw data files that are not tracked by version control.
-  Not tracking these files may be because
-  they are too large to version,
-  maintaining vessel confidentiality would be compromised,
-  not all information in the original file is applicable to this analysis,
-  etc.
-  These files are available on the
-  [Google Drive][].
-  Consider downloading the files on the Google drive for your local use to this folder.
-* R/: A directory that stores functions using .R files.
-All code in this folder should be source-able or self contained regardless of your
-computing environment, i.e., no scripts or analyses ... only functions.
-Files stored in this directory will be sourced when users run `devtools::load_all()` and
-the resulting R objects will be available to all in their workspace.
-Formally including functions in the package in this manner will increase reproducibility.
-Think about how difficult it can be to come back to an analysis years later when functions
-are littered throughout the code; including all functions in a single place allows
-functions to be loaded without performing any analyses.
-* sa/: A directory to hold [sa4ss](github.com/nwfsc-assess/sa4ss) directories.
-* slides/: A directory to hold slide decks.
-Slide decks can also be stored on the Google drive if interactive development is needed.
-For example, the slide deck for the pre-assessment workshop is available in
-[Lingcod_2021/meetings/pre-assessment_workshop/Lingcod](https://drive.google.com/drive/folders/1xYEe2gPFgovFcKntgyDjq3rewGOJrGM0?usp=sharing)
-data workshop presentation.
-* vignettes/: This directory holds documents to teach others about lingcod.
-All vignettes are built when compiling the package and viewable if we were to create a website.
-You can create a new vignette using 
-`usethis::use_vignette(name = "lingcod_myvignette"), title = "My vignette")`
-* tests/:
-* Do not manually edit the following files or directories
-  * NAMESPACE: Resulting plain text file from running `devtools::document()`.
-  * data/: Resulting .rda files from running
-  `mapply(source, dir("data-raw", pattern = "\\.R", full.names = TRUE))`.
-  * figures/:
-  * man/: Resulting .Rd files from running `devtools::document()`.
-  * tables/:
-
-## Development guide lines
+## Development guidelines
 
 * Do not commit any confidential data to this repository.
 Files placed in data-raw are ignored by default unless they have the .R extension.
@@ -119,4 +206,12 @@ Think about how users will edit the text and use that to guide where you should 
 * Colors for north and south are blue and red, respectively.
 * Please have use a functional spell checker while developing within this repository.
 
+## Github issue guidelines
+
+If you think you should write something down, more than likely you should put it in an issue.
+Issues are searchable and a great way to document thoughts and voluntold people to do things.
+
+todo: provide information on how to use github issues for this repository
+
 [Google drive]: https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr?usp=sharing
+[vertical]: crumplab.github.io/vertical/
