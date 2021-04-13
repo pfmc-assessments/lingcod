@@ -1,10 +1,19 @@
+#### Time series of catches from last assessment
+olddatN <- r4ss::SS_readdat(
+  verbose = FALSE, echoall = FALSE,
+  file = dir(pattern = "data\\.ss_new$", full.names = TRUE,
+      dir("models", pattern = "[nN]orth.+2019", full.names = TRUE))
+)
+olddatS <- r4ss::SS_readdat(
+  verbose = FALSE, echoall = FALSE,
+  file = dir(pattern = "data\\.ss_new$", full.names = TRUE,
+      dir("models", pattern = "[sS]outh.+2019", full.names = TRUE))
+)
+
+#### Fishery-dependent commercial catches
+
+
 #### Fishery-dependent recreational catches
-
-#### Setup
-evaluate <- TRUE
-Spp <- "Lingcod"
-
-#### Read in data
 # MRFSS data
 mrfss1980 <- RecFIN::read_mrfss(
   file = dir(pattern = "MRFSS-CATCH-ESTIMATES", full.names = TRUE, recursive = TRUE)
@@ -13,15 +22,30 @@ mrfss1980 <- RecFIN::read_mrfss(
 mrfss2000 <- RecFIN::read_cte501(dir(pattern = "CTE501", full.names = TRUE, recursive = TRUE))
 
 # Oregon data
-rec_catch_OR <- xlsx::read.xlsx(
-  file = dir(pattern = "FINAL RECREATIONAL LANDINGS", full.names = TRUE, recursive = TRUE),
-  sheetIndex = 2
+# KFJ: With dplyr all sub-setting, renaming, arranging, etc. is done in a single call
+rec_catch_OR <- bind_rows(.id = "dataset",
+  # OR data from Ali
+  xlsx::read.xlsx(
+    file = dir(pattern = "FINAL RECREATIONAL LANDINGS", full.names = TRUE, recursive = TRUE),
+    sheetIndex = 2
+  ) %>%
+    dplyr::rename(Year = YEAR) %>%
+    dplyr::mutate(mt = dplyr::select(., tidyselect::starts_with("TOTAL"))) %>%
+    dplyr::group_by(Year) %>%
+    dplyr::summarize(mt = sum(mt, na.rm = TRUE), .groups = "keep") %>%
+    data.frame,
+  # 2017 dat file from Northern model
+  olddatN[["catch"]] %>%
+    dplyr::filter(
+      fleet == grep("OR", ignore.case = TRUE, olddatN[["fleetinfo"]][["fleetname"]]),
+      catch > 0
+    ) %>% 
+    dplyr::rename(Year = year, mt = catch) %>%
+    select(Year, mt)
 ) %>%
-  dplyr::rename(Year = YEAR) %>%
-  dplyr::mutate(mt = dplyr::select(., tidyselect::starts_with("TOTAL"))) %>%
-  dplyr::group_by(Year) %>%
-  dplyr::summarize(mt = sum(mt, na.rm = TRUE), .groups = "keep") %>%
-  data.frame
+  # Just keep early years not in OR data
+  dplyr::filter(!(dataset == 2 & duplicated(Year))) %>%
+  arrange(Year) %>% select(Year, mt)
 
 # Washington data
 rec_catch_WA <- mapply(xlsx::read.xlsx,
@@ -48,3 +72,4 @@ rec_catch_WA <- rec_catch_WA %>% bind_rows(.id = "Type") %>%
 # mrfss1980 %>% group_by(state, Year) %>% summarize(mt = sum(TSP_WGT, na.rm = TRUE), .groups = "keep") %>% data.frame
 
 #### Save data
+usethis::use_data(rec_catch_OR, overwrite = TRUE)
