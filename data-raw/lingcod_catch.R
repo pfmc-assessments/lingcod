@@ -1,13 +1,16 @@
+#### Objects that might change over time
+previousmodelpattern <- c("[nN]orth.+2019", "[sS]outh.+2019")
+
 #### Time series of catches from last assessment
 olddatN <- r4ss::SS_readdat(
   verbose = FALSE, echoall = FALSE,
   file = dir(pattern = "data\\.ss_new$", full.names = TRUE,
-      dir("models", pattern = "[nN]orth.+2019", full.names = TRUE))
+      dir("models", pattern = previousmodelpattern[1], full.names = TRUE))
 )
 olddatS <- r4ss::SS_readdat(
   verbose = FALSE, echoall = FALSE,
   file = dir(pattern = "data\\.ss_new$", full.names = TRUE,
-      dir("models", pattern = "[sS]outh.+2019", full.names = TRUE))
+      dir("models", pattern = previousmodelpattern[2], full.names = TRUE))
 )
 
 #### Fishery-dependent commercial catches
