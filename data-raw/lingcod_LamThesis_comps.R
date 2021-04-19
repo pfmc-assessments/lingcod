@@ -4,22 +4,16 @@
 # new area separation at 40`10, and removing all samples before 1/20/2016, which 
 # were on CCFRP boats
 #
-#
 ####
 
 ##A few things to do
 #1. Update length bins, fleets, and timing
 #2. 
 
-library(nwfscSurvey)
-
-#Working directory where files will be saved
-dir = "U:/Stock assessments/lingcod_2021/surveys"
-
 #Read in data
 data <- read.csv("L:/Assessments/Archives/Lingcod/Lingcod_2017/Data/MLMLResearchSamples/SA_Lam_MergedAges.csv", header = TRUE)
 
-#Rename fields so they work with UnexpandedLFs.fn
+#Rename fields so they work with UnexpandedLFs.fn and SurveyAgeAtLen.fn
 data$Length_cm = data$TL.cm
 data$Year = as.numeric(substr(data$Date..yymmdd.,1,4))
 #data$Age = data$Ages
@@ -48,7 +42,7 @@ data_n = rbind(dummy,data_n)
 lrange = range(data$TL.cm, na.rm = TRUE)
 lbins = seq(from = floor(lrange[1]), to = floor(lrange[2]), by = 2)
 
-##Age Bins
+#Age Bins
 #arange = range(data$Ages, na.rm = TRUE)
 #abins = seq(from = floor(arange[1]), to = floor(arange[2]), by = 1)
 
@@ -60,33 +54,33 @@ lbins = seq(from = floor(lrange[1]), to = floor(lrange[2]), by = 2)
 ###############################
 
 #Generate Comps - North
-lfs_n = UnexpandedLFs.fn(dir = file.path(dir, "lengths"), #puts into "forSS" folder in this location
+lfs_n = UnexpandedLFs.fn(dir = file.path("data"),
                        datL = data_n, lgthBins = lbins, printfolder = "LamThesis",
                        sex = 3,  partition = 0, fleet = 1, month = 1)
 lfs_n = list("comps" = lfs_n$comps[1,]) #Remove dummy year comp
-write.csv(lfs_n, file = file.path(dir, "lengths", "LamThesis", paste0("LamThesis_north_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")))
-file.remove(file.path(dir, "lengths", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
+write.csv(lfs_n, file = file.path("data", "LamThesis", paste0("LamThesis_north_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")))
+file.remove(file.path("data", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
 
 #Visualize
-PlotFreqData.fn(dir = file.path(dir, "lengths", "LamThesis"), 
+PlotFreqData.fn(dir = file.path("data", "LamThesis"), 
                 dat = lfs_n$comps, ylim=c(0, max(lbins)+4),
                 main = "Lam Thesis lengths Male-Female North", yaxs="i", ylab="Length (cm)", dopng = TRUE)
-PlotSexRatio.fn(dir = file.path(dir, "lengths", "LamThesis"),
+PlotSexRatio.fn(dir = file.path("data", "LamThesis"),
                 dat = data_n[!data_n$Year == 9999,], ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio North", yaxs="i", dopng = TRUE)
 
 
 #Generate Comps - South
-lfs_s = UnexpandedLFs.fn(dir = file.path(dir, "lengths"), #puts into "forSS" folder in this location
+lfs_s = UnexpandedLFs.fn(dir = file.path("data"),
                        datL = data_s, lgthBins = lbins, printfolder = "LamThesis",
                        sex = 3,  partition = 0, fleet = 1, month = 1)
-file.rename(from = file.path(dir, "lengths", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
-            to = file.path(dir, "lengths", "LamThesis", paste0("LamThesis_south_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
+file.rename(from = file.path("data", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
+            to = file.path("data", "LamThesis", paste0("LamThesis_south_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
 
 #Visualize
-PlotFreqData.fn(dir = file.path(dir, "lengths", "LamThesis"), 
+PlotFreqData.fn(dir = file.path("data", "LamThesis"), 
                 dat = lfs_s$comps, ylim=c(0, max(lbins)+4),
                 main = "Lam Thesis lengths Male-Female South", yaxs="i", ylab="Length (cm)", dopng = TRUE)
-PlotSexRatio.fn(dir = file.path(dir, "lengths", "LamThesis"),
+PlotSexRatio.fn(dir = file.path("data", "LamThesis"),
                 dat = data_s, ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio South", yaxs="i", dopng = TRUE)
 
 
@@ -94,19 +88,32 @@ PlotSexRatio.fn(dir = file.path(dir, "lengths", "LamThesis"),
 # CAAL comps - North and South
 ###############################
 
-
 ### Need to update this...not sure how within the current framework
+# strata_north = CreateStrataDF.fn(names = NA,
+#                                  depths.shallow = c(55), 
+#                                  depths.deep = c(350), 
+#                                  lats.south = c(40.166667),
+#                                  lats.north = c(49))
+# 
+# caal_n = SurveyAgeAtLen.fn(dir = file.path("data", "LamThesis"),
+#                            datAL = data_n, 
+#                            datTows = data_n, 
+#                            strat.df = strata_north, 
+#                            lgthBins = lbin, 
+#                            ageBins = abin, 
+#                            sex = 3,
+#                            raw = TRUE, #Not standard to set to FALSE (expanded)
+#                            month = "Month", 
+#                            fleet = "Fleet",
+#                            ageErr = "Enter")
 
 
 #### Make the .rda file for the package
 # Uncomment the following line to actually make the data set for the package
 lenCompN_Lam = lfs_n
 lenCompS_Lam = lfs_s
-LamThesis = data
-usethis::use_data(lfs_n, overwrite = TRUE)
-usethis::use_data(lfs_s, overwrite = TRUE)
-usethis::use_data(LamThesis, overwrite = TRUE)
+usethis::use_data(lenCompN_Lam, overwrite = TRUE)
+usethis::use_data(lenCompS_Lam, overwrite = TRUE)
 
 #### Remove objects
-# Remove processing objects to clean up your workspace
-#rm(testdata)
+# rm()
