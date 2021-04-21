@@ -54,33 +54,33 @@ lbins = seq(from = floor(lrange[1]), to = floor(lrange[2]), by = 2)
 ###############################
 
 #Generate Comps - North
-lfs_n = UnexpandedLFs.fn(dir = file.path("data"),
+lfs_n = UnexpandedLFs.fn(dir = file.path("data", "lenComps"),
                        datL = data_n, lgthBins = lbins, printfolder = "LamThesis",
                        sex = 3,  partition = 0, fleet = 1, month = 1)
 lfs_n = list("comps" = lfs_n$comps[1,]) #Remove dummy year comp
-write.csv(lfs_n, file = file.path("data", "LamThesis", paste0("LamThesis_north_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")))
-file.remove(file.path("data", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
+write.csv(lfs_n, file.path("data", "lenComps", "LamThesis", paste0("north_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")))
+file.remove(file.path("data", "lenComps", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
 
 #Visualize
-PlotFreqData.fn(dir = file.path("data", "LamThesis"), 
+PlotFreqData.fn(dir = file.path("data", "lenComps", "LamThesis"), 
                 dat = lfs_n$comps, ylim=c(0, max(lbins)+4),
                 main = "Lam Thesis lengths Male-Female North", yaxs="i", ylab="Length (cm)", dopng = TRUE)
-PlotSexRatio.fn(dir = file.path("data", "LamThesis"),
+PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
                 dat = data_n[!data_n$Year == 9999,], ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio North", yaxs="i", dopng = TRUE)
 
 
 #Generate Comps - South
-lfs_s = UnexpandedLFs.fn(dir = file.path("data"),
+lfs_s = UnexpandedLFs.fn(dir = file.path("data", "lenComps"),
                        datL = data_s, lgthBins = lbins, printfolder = "LamThesis",
                        sex = 3,  partition = 0, fleet = 1, month = 1)
-file.rename(from = file.path("data", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
-            to = file.path("data", "LamThesis", paste0("LamThesis_south_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
+file.rename(from = file.path("data", "lenComps", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
+            to = file.path("data", "lenComps", "LamThesis", paste0("south_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
 
 #Visualize
-PlotFreqData.fn(dir = file.path("data", "LamThesis"), 
+PlotFreqData.fn(dir = file.path("data", "lenComps", "LamThesis"), 
                 dat = lfs_s$comps, ylim=c(0, max(lbins)+4),
                 main = "Lam Thesis lengths Male-Female South", yaxs="i", ylab="Length (cm)", dopng = TRUE)
-PlotSexRatio.fn(dir = file.path("data", "LamThesis"),
+PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
                 dat = data_s, ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio South", yaxs="i", dopng = TRUE)
 
 
