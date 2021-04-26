@@ -21,6 +21,7 @@ Imports:
     magrittr,
     stats,
     tidyr,
+    unikn,
     xlsx,
     r4ss,
     nwfscSurvey,
