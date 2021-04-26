@@ -1,3 +1,4 @@
+^\.git$
 ^/.Rproj\.user$
 ^_pkgdown\.yml$
 ^data-raw$
