@@ -78,8 +78,8 @@ file_password <- file.path(
     dirname(system.file(package = "PacFIN.Utilities")),
     "password.txt"
   )
-wl_a <- 2.480e-6
-wl_b <- 3.304
+wl_a <- 2.431498e-06
+wl_b <- 3.312508e+00
 
 #+ setup_readin_SS_old
 data_SS_old <- lingcod::SS_readdat.list(
