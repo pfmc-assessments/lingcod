@@ -773,7 +773,10 @@ catch_rec_2000 <- RecFIN::read_cte501(
 catch_rec_1980 <- RecFIN::read_mrfss(
   file = dir(pattern = grep_rec_mrfss, full.names = TRUE, recursive = TRUE)
 ) %>%
-  dplyr::filter(SPECIES_NAME == lingcod::utils_name(type = "Common")) %>%
+  dplyr::filter(
+    SPECIES_NAME == lingcod::utils_name(type = "Common"),
+    Year > min(Year)
+  ) %>%
   dplyr::mutate(Source = "RecFIN")
 #
 bio_rec_recfin <- utils::read.csv(
