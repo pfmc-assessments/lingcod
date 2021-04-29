@@ -5,7 +5,8 @@
 \title{Get name}
 \usage{
 utils_name(
-  type = c("common", "Common", "latin", "area", "Area", "latitude", "latitude2")
+  type = c("common", "Common", "latin", "PACFIN", "area", "Area", "latitude",
+    "latitude2")
 )
 }
 \arguments{
