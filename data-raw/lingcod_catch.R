@@ -26,8 +26,12 @@
 # discrepancies are unknown, EJD suggested MH look back to her emails
 # 3. Assign fleet numbers and fleet names
 # 4. write a function to formate data_catch into SS.dat format
+# 5. create a figure showing similarities of composition data from OR and
+# northern CA recreational landings
 # 8. Complete catch_rec_CA reconstruction (emailed MH, EJD)
 # might need to email Brenda
+# 9. for catch_rec_2000 maybe assign only a portion of Redwood
+# from early years to the north model
 # 3. find if I need these packages
 #   library(viridis) I think I got around this with ggplot2
 # 4. get rid of grey background behind inline code
@@ -768,7 +772,8 @@ catch_rec_2000 <- RecFIN::read_cte501(
       grepl("REDWOOD", PORT_NAME) ~ "North",
       state == "CA" ~ "South",
       TRUE ~ "North"
-      )
+      ),
+    source = "CRFS"
   )
 catch_rec_1980 <- RecFIN::read_mrfss(
   file = dir(pattern = grep_rec_mrfss, full.names = TRUE, recursive = TRUE)
@@ -899,12 +904,8 @@ catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
 #' todo: More information from @aliwhitman here.
 #'
 #' #### California
-#' 
-#' ##### Albin et al. (1993) CDFG Admin report number 93-3
-#' 
-#' Albin et al. (2003) includes county-specific estimates of landings.
-#' These estimates were helpful for splitting recreational landings
-#' from California to area.
+#'
+#' ##### Marine Recreational Fisheries Statistics Survey (MRFSS)
 #'
 #+ albin
 # 2020-11-06 E.J. Dick, M. Monk, C. Wetzel, J. Budrick, I. Taylor
@@ -978,16 +979,15 @@ testthat::expect_equal(tolerance = 0.001,
   label = "Area-specific weighted mean of albinetal1993 prop_source"
 )
 
-#' ##### Marine Recreational Fisheries Statistics Survey (MRFSS)
-#'
 #+ catch_rec_CA
 # todo: pre-1980 catches from SSold
 albinmeanpropN <- data_albin %>%
-          dplyr::filter(grepl("Del", Area)) %>%
-          dplyr::pull(prop_source) %>% mean
-catch_rec_CA <- dplyr::full_join(
-  by = c("Year", "state", "mt", "area", "source"),
-  catch_rec_1980 %>%
+          dplyr::group_by(Year) %>%
+          dplyr::mutate(YearT = sum(Est)) %>%
+          dplyr::ungroup() %>% dplyr::group_by(Area) %>%
+          dplyr::summarize(wm = stats::weighted.mean(prop_source, w = YearT)) %>%
+          dplyr::filter(grepl("Del", Area)) %>% dplyr::pull(wm)
+catch_rec_CA <- catch_rec_1980 %>%
     dplyr::filter(state == "CA") %>%
     dplyr::group_by(Year, state) %>%
     dplyr::summarize(
@@ -995,6 +995,23 @@ catch_rec_CA <- dplyr::full_join(
       .groups = "keep"
     ) %>%
     dplyr::ungroup() %>%
+    dplyr::mutate(source = "MRFSS") %>%
+  dplyr::full_join(
+  by = c("Year", "state", "mt", "source"),
+  x = .,
+  dplyr::anti_join(
+    by = c("Year", "mt", "state", "source"),
+    y = .,
+    x = data_SS_oldsouth[["catch"]] %>%
+      dplyr::mutate(state = "CA", source = "old SS") %>%
+      dplyr::filter(
+        fleet == grep("CA_REC", data_SS_oldsouth[["fleetnames"]]),
+        catch > 0,
+        year < min(catch_rec_1980$Year)
+      ) %>%
+      dplyr::select(-seas, -catch_se, -fleet) %>%
+      dplyr::rename(Year = year, mt = catch)
+  )) %>%
     dplyr::mutate(
       area = dplyr::case_when(
         state == "CA" ~ "North_South",
@@ -1007,15 +1024,17 @@ catch_rec_CA <- dplyr::full_join(
         state == "CA" & area == "North" ~ mt * albinmeanpropN,
         state == "CA" & area == "South" ~ mt * (1 - albinmeanpropN),
         TRUE ~ mt
-      ),
-      source = "MRFSS"
-    ),
-  catch_rec_2000  %>%
-  dplyr::group_by(area, state, Year) %>%
-  dplyr::summarize(mt = sum(TOTAL_MORTALITY_MT), .groups = "keep") %>%
-  dplyr::filter(state == "CA") %>%
-  dplyr::mutate(source = "CRFS")
-) %>%
+      )
+    ) %>%
+  dplyr::full_join(
+    by = c("Year", "state", "mt", "source", "area"),
+    x = .,
+    y = catch_rec_2000  %>%
+    dplyr::group_by(area, state, Year, source) %>%
+    dplyr::summarize(mt = sum(RETAINED_MT), .groups = "keep") %>%
+    dplyr::filter(state == "CA") %>%
+    dplyr::ungroup()
+  ) %>%
   dplyr::group_by(area) %>%
   tidyr::complete(
     Year = tidyr::full_seq(Year, 1),
@@ -1024,23 +1043,56 @@ catch_rec_CA <- dplyr::full_join(
   dplyr::mutate(mt = stats::approx(Year, mt, n = length(Year))$y) %>%
   dplyr::ungroup()
 
-#+ catch-rec-CA-ts, fig.cap = "Time series of recreational landings for California by area (line type). Color indicates the data source (California Recreational Fisheries Survey, CRFS; linear interpolation, interpolate; Marine Recreational Fisheries Statistics Survey, MRFSS)."
-ggplot2::ggplot(catch_rec_CA, ggplot2::aes(Year, mt, lty = area)) +
-  ggplot2::geom_point(ggplot2::aes(col = source)) +
-  ggplot2::geom_line() +
-  ggplot2::theme_bw() +
-  ggplot2::ylab("Recreational California landings (mt)")
-#' Split California landings using ablin et al.(1993).
-#' #todo: subset for types that should not be included like mexico and CA
+#' California recreational lingcod catches since
+{{min(catch_rec_1980[["Year"]]) - 1}}
+#' are available within the MRFSS database.
+#' The first year of data are typically not used because of the lack
+#' of standardization within the sampling protocols which led to vastly
+#' different estimates of catches compared to later years. Thus,
+{{min(catch_rec_1980[["Year"]])}}
+#' is used as the first year of MRFSS data.
+#' Data were provided by John Field for years prior to 
+{{min(catch_rec_1980[["Year"]])}}
+#' and these data have been unchanged since the
+#' 2009 assessment of lingcod [@hamel2009].
+#'
+#' For this assessment, we had to split the historical data provided by
+#' John Field and MRFSS to area. This was accomplished using data from
+#' Albin et al. (1993) that includes county-specific estimates of landings.
+#' Area-specific landings were informative about the proportion
+#' of landings in Del Norte and Humboldt county
+#' relative to the rest of the California coast.
+#' A catch-weighted mean proportion for the years
+{{knitr::combine_words(unique(data_albin$Year))}}
+#' was used to split coast-wide recreational landings to area.
+#'
+#' MRFSS data are not available for
+{{knitr::combine_words(catch_rec_CA %>% dplyr::filter(source == "interpolate") %>% pull(Year) %>% unique)}}
+#' and thus these years were linearly interpolated from surrounding years.
 #'
 #' ##### California Recreational Fisheries Survey (CRFS)
 #'
-#' Sampling under CRFS started in January of 2004.
-#' Redwood is assigned to the northern model for all years since 2005,
+#' Sampling under CRFS started in January of
+{{catch_rec_2000$Year %>% min}}
+#' and is currently still being collected.
+#' Information includes on port group that was used to partition landings
+#' to the north and south areas.
+#' Redwood was assigned to the northern model for all years since 2005,
 #' even though Redwood in 2005 through 2007 also contained landings from
 #' Shelter Cove.
-#' #todo: assign portion of Redwood from early years to the north model
-#' split landings between north and south
+#' This time series also includes landings from from Mexico and Canada
+#' that were excluded from this analysis.
+#'
+#+ catch-rec-CA-ts, fig.cap = "Time series of California recreational landings (mt) for the north (blue) and south (red) areas. The shape of the points indicates the information source (California Recreational Fisheries Survey, CRFS; linear interpolation, interpolate; Marine Recreational Fisheries Statistics Survey, MRFSS; old Stock Synthesis, SS, model)."
+ggplot2::ggplot(
+  catch_rec_CA,
+  ggplot2::aes(Year, mt, col = area)
+) +
+  ggplot2::geom_point(ggplot2::aes(pch = source)) +
+  ggplot2::geom_line() +
+  ggplot2::scale_colour_manual(values = unikn::usecol(pal_unikn_pair, 16L)[c(1, 9)]) +
+  ggplot2::theme_bw() +
+  ggplot2::ylab("Recreational California landings (mt)")
 #'
 
 #' ### Fleet
@@ -1055,7 +1107,6 @@ ggplot2::ggplot(catch_rec_CA, ggplot2::aes(Year, mt, lty = area)) +
 #' to minimize the number of estimated selectivity parameters, given their similar
 #' fishing patterns.
 #' 
-#' todo: create a figure showing their similarities
 #'
 #+ catch_rec
 catch_rec <- dplyr::full_join(
@@ -1068,6 +1119,23 @@ catch_rec <- dplyr::full_join(
     y = catch_rec_CA,
     by = c("Year", "area", "state", "mt"),
   )
+
+#' ### Matching previous landings
+#+ catch-rec-ca-oldts
+ggplot2::ggplot(
+  catch_rec %>%
+    dplyr::filter(state == "CA", Year <= data_SS_oldsouth$endyr) %>%
+    dplyr::group_by(Year) %>% summarize(mt = sum(mt), .groups="keep") %>%
+    ungroup(),
+    ggplot2::aes(Year, mt)
+  ) + ggplot2::geom_line(lwd = 1.5) +
+  ggplot2::geom_line(
+    lty = 2, col = "red", lwd = 1.25,
+    data = data_SS_oldsouth[["catch"]] %>%
+      dplyr::filter(fleet == 3, catch > 0),
+    ggplot2::aes(year, catch)
+  ) + theme_bw() +
+  ggplot2::ylab("California recreational landings (mt; red is 2017 assessment)")
 
 #+ catch-rec-ts, fig.cap = "Time series of recreational landings by state and area"
 ggplot2::ggplot(
@@ -1089,6 +1157,15 @@ ggplot2::ggplot(
 #'   number = "NOAA-TM-NMFS-SWFSC-461",
 #'   year = 2010,
 #'   pages = 83
+#' }
+#' 
+#' @techreport{hamel2009,
+#'   author = "O.S. Hamel and S.A. Sethi and T.F. Wadsworth",
+#'   title = "Status and future prospects for lingcod in waters off {W}ashington, {O}regon, and {C}alifornia as assessed in 2009",
+#'   institution = "Pacific Fisheries Management Council",
+#'   address = "Portland, OR",
+#'   year = 2009,
+#'   pages = 458
 #' }
 #' 
 #' @techreport{sette1928,
