@@ -1067,7 +1067,7 @@ catch_rec_CA <- catch_rec_1980 %>%
 #' was used to split coast-wide recreational landings to area.
 #'
 #' MRFSS data are not available for
-{{knitr::combine_words(catch_rec_CA %>% dplyr::filter(source == "interpolate") %>% pull(Year) %>% unique)}}
+{{knitr::combine_words(catch_rec_CA %>% dplyr::filter(source == "interpolate") %>% dplyr::pull(Year) %>% unique)}}
 #' and thus these years were linearly interpolated from surrounding years.
 #'
 #' ##### California Recreational Fisheries Survey (CRFS)
@@ -1125,16 +1125,19 @@ catch_rec <- dplyr::full_join(
 ggplot2::ggplot(
   catch_rec %>%
     dplyr::filter(state == "CA", Year <= data_SS_oldsouth$endyr) %>%
-    dplyr::group_by(Year) %>% summarize(mt = sum(mt), .groups="keep") %>%
-    ungroup(),
+    dplyr::group_by(Year) %>%
+    dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
+    dplyr::ungroup(),
     ggplot2::aes(Year, mt)
-  ) + ggplot2::geom_line(lwd = 1.5) +
+  ) +
+  ggplot2::geom_line(lwd = 1.5) +
   ggplot2::geom_line(
     lty = 2, col = "red", lwd = 1.25,
     data = data_SS_oldsouth[["catch"]] %>%
       dplyr::filter(fleet == 3, catch > 0),
     ggplot2::aes(year, catch)
-  ) + theme_bw() +
+  ) +
+  theme_bw() +
   ggplot2::ylab("California recreational landings (mt; red is 2017 assessment)")
 
 #+ catch-rec-ts, fig.cap = "Time series of recreational landings by state and area"
