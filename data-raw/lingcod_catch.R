@@ -53,10 +53,7 @@
 
 
 #+ setup_knitr, echo = FALSE
-knitr::opts_knit$set(root.dir = "..")
-knitr::opts_knit$set(progress = FALSE)
-knitr::opts_chunk$set(echo = FALSE)
-options(scipen = 1, digits = 2)
+utils_knit_opts(type = "data-raw")
 
 #+ setup_objects
 # patterns for dir("data-raw", pattern = grep_...)
