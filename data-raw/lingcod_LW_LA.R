@@ -652,6 +652,32 @@ usethis::use_data(lw.WCGBTS, overwrite = TRUE)
 usethis::use_data(la.WCGBTS, overwrite = TRUE)
 
 
+#Plot lw relationship on single figure by Area (for combo)
+plot(out_clean[out_clean$Source %in% "NWFSC.Combo" & out_clean$Sex == "F", "Length"], out_clean[out_clean$Source %in% "NWFSC.Combo" & out_clean$Sex == "F", "Weight"], 
+     xlab = "Length (cm)", ylab = "Weight (kg)", main = "", 
+     ylim = c(0, max(out_clean$Weight, na.rm = TRUE)), xlim = c(0, max(out_clean$Length, na.rm = TRUE)), 
+     pch = 16, col = alpha("black", 0.20)) 
+points(out_clean[out_clean$Source %in% "NWFSC.Combo" & out_clean$Sex == "M", "Length"], out_clean[out_clean$Source %in% "NWFSC.Combo" & out_clean$Sex == "M", "Weight"], pch = 16, col = alpha("gray", 0.20))
+lens = 1:max(out_clean$Length,na.rm = TRUE)
+lines(lens, lw_ests$NWFSC.Combo_F[1] * lens ^ lw_ests$NWFSC.Combo_F[2], col = 1, lwd = 2, lty = 1)
+lines(lens, lw_ests$NWFSC.Combo_M[1] * lens ^ lw_ests$NWFSC.Combo_M[2], col = 1, lwd = 2, lty = 2)
+lines(lens, lw_ests$South_NWFSC.Combo_F[1] * lens ^ lw_ests$South_NWFSC.Combo_F[2], col = 2, lwd = 2, lty = 1)
+lines(lens, lw_ests$South_NWFSC.Combo_M[1] * lens ^ lw_ests$South_NWFSC.Combo_M[2], col = 2, lwd = 2, lty = 2)
+lines(lens, lw_ests$North_NWFSC.Combo_F[1] * lens ^ lw_ests$North_NWFSC.Combo_F[2], col = 4, lwd = 2, lty = 1)
+lines(lens, lw_ests$North_NWFSC.Combo_M[1] * lens ^ lw_ests$North_NWFSC.Combo_M[2], col = 4, lwd = 2, lty = 2)
+# #Last assessments values
+#lines(lens, 0.00000276 * lens^3.28, col = 3, lwd=4, lty=1) #Female from last assessment North of Pt. Conception
+#lines(lens, 0.00000161 * lens^3.42, col = 3, lwd=4, lty=2) #Male from last assessment North of Pt. Conception
+#lines(lens, 0.000003308 * lens^3.248, col = 5, lwd=4, lty=1) #Female from last assessment South of Pt. Conception
+#lines(lens, 0.000002179 * lens^3.36, col = 5, lwd=4, lty=2) #Male from last assessment South of Pt. Conception
+leg = c(paste0("Combo F: a = ", signif(lw_ests$NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_F[2], 3)),
+        paste0("Combo M: a = ", signif(lw_ests$NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$NWFSC.Combo_M[2], 3)),
+        paste0("Combo South F: a = ", signif(lw_ests$South_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$South_NWFSC.Combo_F[2], 3)),
+        paste0("Combo South M: a = ", signif(lw_ests$South_NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$South_NWFSC.Combo_M[2], 3)),
+        paste0("Combo North F: a = ", signif(lw_ests$North_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_F[2], 3)),
+        paste0("Combo North M: a = ", signif(lw_ests$North_NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_M[2], 3)))
+legend("topleft", bty = 'n', legend = leg, lty = c(1,2,1,2,1,2), col = c(1,1,2,2,4,4), lwd = 2)
+
 
 
 
