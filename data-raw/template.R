@@ -1,13 +1,29 @@
-#### Section comment
+#' ---
+#' title: "Lingcod <>"
+#' author: "First MI. Last"
+#' date: "`r format(Sys.time(), '%B %d, %Y')`"
+#' output:
+#'   bookdown::html_document2:
+#'     keep_md: true
+#' ---
+#'
+#+ setup_knitr
+utils_knit_opts(type = "data-raw")
+#'
+#' ## Section
+#'
+#' Text goes here.
+#'
+#+ nameyourrchunkhere
 # Coding comment
-# e.g., code to prepare `DATASET` dataset goes here
 testdata <- "This is a test"
 DATASET <- testdata
 
-#### Make the .rda file for the package
+#' ## Make the .rda file for the package
+#'
+#+ end_makedata
 # Uncomment the following line to actually make the data set for the package
 # usethis::use_data(DATASET, overwrite = TRUE)
 
-#### Remove objects
-# Remove processing objects to clean up your workspace
+#+ end_cleanup
 rm(testdata)
