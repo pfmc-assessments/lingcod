@@ -134,13 +134,13 @@ catch_comm_WA <- utils::read.csv(file = file.path("data-raw", file_comm_wa)) %>%
 #' #### Oregon commercial reconstruction
 #'
 #+ catch_comm_OR
-catch_comm_OR <- xlsx::read.xlsx(
-  file = dir(path = "data-raw", pattern = grep_comm_or, full.names = TRUE),
-  sheetIndex = 2
+catch_comm_OR <- readxl::read_excel(
+  path = dir(path = "data-raw", pattern = grep_comm_or, full.names = TRUE),
+  sheet = 2
 ) %>%
   dplyr::mutate(area = "North") %>%
   dplyr::rename(Year = YEAR, mt = Total) %>%
-  dplyr::filter(SOURCE. != "PacFIN")
+  dplyr::filter(SOURCE != "PacFIN") %>% data.frame
 #'
 #' A reconstruction of commercial landings for Oregon state was available
 #' from the Oregon Department of Fish and Wildlife for
@@ -195,26 +195,25 @@ catch_sette1928area <- data.frame(
   mt = lbs * mult_lbs2mt()
 )
 # ERDDAP
-catch_erddap <- xlsx::read.xlsx(
-  file = file_erddap,
-  sheetIndex = 3
+catch_erddap <- readxl::read_excel(
+  path = file_erddap,
+  sheet = 3
 ) %>%
   dplyr::filter(!is.na(fish), port != "All") %>%
   dplyr::rename(Year = year) %>%
-  dplyr::rename_with(~ gsub("landings|\\.", "", .x))
-erddapmeanpropNEureka <- xlsx::read.xlsx(
-  file = file_erddap,
-  sheetIndex = 1,
-  rowIndex = 32, colIndex = 8,
-  header = FALSE
-)[1, 1]
+  dplyr::rename_with(~ gsub("landings|\\.|\\(|\\)", "", .x))
+erddapmeanpropNEureka <- readxl::read_excel(
+  path = file_erddap,
+  sheet = 1, n_max = 1,
+  skip = 30, .name_repair = "minimal",
+) %>% dplyr::pull(8)
 # 1948 - 1968 additional catch in OR waters landed in CA from John F.
-catch_comm_CA_ORwaters <- xlsx::read.xlsx(
-  file = dir(path = "data-raw", pattern = grep_comm_ca_or, full.names = TRUE),
-  sheetIndex = 3,
-  startRow = 6,
-  colIndex = c(1, 8,9),
-) %>%
+catch_comm_CA_ORwaters <- readxl::read_excel(
+  path = dir(path = "data-raw", pattern = grep_comm_ca_or, full.names = TRUE),
+  sheet = 3,
+  skip = 5,
+  .name_repair = "minimal"
+) %>% dplyr::select(1, 8, 9) %>%
   dplyr::rename(Year = 1) %>%
   dplyr::mutate(
     area = "North",
@@ -812,13 +811,20 @@ bio_rec_recfin_meanlength <- bio_rec_recfin %>%
 #' #### Washington recreational landings
 #'
 #+ setup_readinWArec
-catch_rec_WA <- dplyr::bind_rows(.id = "Type", mapply(xlsx::read.xlsx,
-  MoreArgs = list(
-    colIndex = 1:2, colClasses = rep("numeric", 2),
-    file = dir(pattern = grep_rec_wa, full.names = TRUE, recursive = TRUE)
-  ),
-  sheetIndex = c(OSP = 1, PSSP = 2, historical = 3),
-  SIMPLIFY = FALSE
+catch_rec_WA <- suppressWarnings(suppressMessages(
+  dplyr::bind_rows(.id = "Type",
+  lapply(mapply(readxl::read_excel,
+    MoreArgs = list(
+      col_names = FALSE,
+      col_types = "numeric",
+      .name_repair = "minimal",
+      path = dir(pattern = grep_rec_wa, full.names = TRUE, recursive = TRUE)
+    ),
+    sheet = c(OSP = 1, PSSP = 2, historical = 3),
+    skip = c(2, 1, 1),
+    SIMPLIFY = FALSE
+  ), "[", 1:2)) %>%
+  dplyr::rename(Year = 2, LINGCOD = 3)
 )) %>%
   dplyr::filter(!is.na(Year)) %>%
   dplyr::group_by(Year) %>%
@@ -875,14 +881,14 @@ bio_rec_recfin %>%
 #+ catch_rec_OR
 catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
   # OR data from Ali
-  xlsx::read.xlsx(
-    file = dir(pattern = grep_rec_or, full.names = TRUE, recursive = TRUE),
-    sheetIndex = 2
+  readxl::read_excel(
+    path = dir(pattern = grep_rec_or, full.names = TRUE, recursive = TRUE),
+    sheet = 2
   ) %>%
     dplyr::rename(Year = YEAR) %>%
     dplyr::group_by(Year) %>%
     dplyr::mutate(mt = sum(RETAINED_MT)) %>%
-    dplyr::select(!(RELEASED.DEAD_MT:TOTAL.MORTALITY_MT)) %>%
+    dplyr::select(!dplyr::matches("DEAD|MORTALITY")) %>%
     tidyr::spread(key = MODE, value = RETAINED_MT),
   # 2017 dat file from Northern model
   data_SS_oldnorth[["catch"]] %>%
