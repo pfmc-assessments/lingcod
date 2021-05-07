@@ -124,12 +124,24 @@ catch_comm_WA <- utils::read.csv(file = file.path("data-raw", file_comm_wa)) %>%
 #' through
 {{paste0(max(catch_comm_WA[["Year"]]), ".")}}
 #' These data were used even for years that overlapped with data
-#' available in PacFIN because of WDFW's treatment included separation of landings
-#' within a fish ticket by area, whereas within PacFIN this would require
+#' available in PacFIN because
+#' WDFW separates landings within a fish ticket by area.
+#' This is important for fish tickets that include landings from
+#' Alaskan, Canadian, Puget Sound, and oceanic waters all on one fish ticket.
+#' In PacFIN, it is more than likely that such landings would be assigned to
+#' a single area and partitioning out landings to area would require
 #' accessing logbook information as well as fish ticket information, which is
-#' not currently the case. Though, the main differences should be in years
+#' not currently being done. The main differences between using WDFW
+#' catches versus catches in PacFIN should be for years
 #' prior to 1978 because after 1978 Canadian waters were closed to US fishers
 #' targeting groundfish.
+#'
+#' The reconstruction includes data from many sources, but consistently
+#' recorded data were largely available starting in 1943 from
+#' US Fish Commission reports.
+#' Prior to 1941, all landings from these reports are assumed to be
+#' from filleted fish, and thus, are converted to round fish using
+#' a conversion factor of 1.431.
 #'
 #' #### Oregon commercial reconstruction
 #'
@@ -148,7 +160,7 @@ catch_comm_OR <- readxl::read_excel(
 #' to
 {{paste0(max(catch_comm_OR[["Year"]]), ".")}}
 #' Some of these years overlapped information available from the PacFIN database and
-#' was used instead of PacFIN data because it is known to be more reliable.
+#' were used instead of data in PacFIN because it is known to be more reliable.
 #'
 #' Landings from unknown gear types were assigned to the trawl fleet.
 #'
