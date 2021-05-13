@@ -13,7 +13,7 @@
 
 ##There are a few remaining tasks
 #1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
-2. Need to define length bins (currently set to min/max of each dataset with binsize of 2)
+#2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
 3. Will need to specify survey timing, sex (currently 3), fleet number, etc....
 4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? 
 5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL?
@@ -27,6 +27,7 @@ surveys = c("WCGBTS", "Triennial") #names of existing data
 
 #Read in data from the data warehouse using function below
 #Saves .rda files for each specified survey
+#No longer needed due to new repository structure
 #readin_survey_data(surveys)   #########Dont need to do this again unless need new data##########
 
 #Generate length comps using function below
@@ -45,16 +46,17 @@ survey_acomps(surveys[1:2], CAAL = TRUE)
 #####################################################################################
 #Function to read in the biological and catch data from the data warehouse
 #Saves .rda files to the working directory
+#No longer needed due to new repository structure
 #####################################################################################
 
-readin_survey_data <- function(sname){
-  
-  for(i in sname){
-    bio <- PullBio.fn(Name = "lingcod", SurveyName = i, SaveFile = TRUE, Dir = getwd())
-    catch <- PullCatch.fn(Name = "lingcod", SurveyName = i, SaveFile = TRUE, Dir = getwd())
-    print(paste("Done reading in bio and catch for", i))
-  }
-}
+# readin_survey_data <- function(sname){
+#   
+#   for(i in sname){
+#     bio <- PullBio.fn(Name = "lingcod", SurveyName = i, SaveFile = TRUE, Dir = getwd())
+#     catch <- PullCatch.fn(Name = "lingcod", SurveyName = i, SaveFile = TRUE, Dir = getwd())
+#     print(paste("Done reading in bio and catch for", i))
+#   }
+# }
 
 
 ######################################################################################
@@ -140,8 +142,8 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     
     
     #Create length bins - RIGHT NOW THE MIN/MAX OF THE FULL DATASET
-    lrange = range(bio$Length_cm, na.rm = TRUE, finite = TRUE)
-    lbin = seq(from = floor(lrange[1]), to = ceiling(lrange[2]), by = 2)
+    lrange = c(10,130)
+    lbin = seq(from = lrange[1], to = lrange[2], by = 2)
     
     #Output expanded lengths based on strata and rename. Plot summaries 
     lengths_north = SurveyLFs.fn(dir = file.path(getwd(), "data", "lenComps"),
@@ -325,7 +327,7 @@ survey_acomps <- function(sname, CAAL = FALSE){
     
     
     #Create age bins - RIGHT NOW THE MIN/MAX OF THE FULL DATASET
-    arange = range(bio_ages$Age, na.rm = TRUE, finite = TRUE)
+    arange = c(0,20)
     abin = seq(from = arange[1], to = arange[2], by = 1)
     
     
@@ -405,8 +407,8 @@ survey_acomps <- function(sname, CAAL = FALSE){
       dir.create(file.path("data", "ageCAAL",i))
       
       #Create length bins - RIGHT NOW THE MIN/MAX OF THE USED DATASET
-      lrange = range(bio_ages$Length_cm, na.rm = TRUE, finite = TRUE)
-      lbin = seq(from = floor(lrange[1]), to = ceiling(lrange[2]), by = 2)
+      lrange = c(10,130)
+      lbin = seq(from = lrange[1], to = lrange[2], by = 2)
       
       #Output conditional length at age comps 
       agesCAAL_north = SurveyAgeAtLen.fn(dir = file.path(getwd(), "data", "ageCAAL"),
