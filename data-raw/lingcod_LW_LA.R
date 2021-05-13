@@ -679,5 +679,29 @@ leg = c(paste0("Combo F: a = ", signif(lw_ests$NWFSC.Combo_F[1], digits = 4)," b
 legend("topleft", bty = 'n', legend = leg, lty = c(1,2,1,2,1,2), col = c(1,1,2,2,4,4), lwd = 2)
 
 
+#Plot ages distribution by data source for Survey and Laurel Lams Thesis data
+LamThesis <- read.csv("L:/Assessments/Archives/Lingcod/Lingcod_2017/Data/MLMLResearchSamples/SA_Lam_MergedAges.csv", header = TRUE)
+LamThesis$Source = "LamThesis"
+LamThesis$Latitude_dd = LamThesis$Lat
+LamThesis$Longitude_dd = LamThesis$Long
+LamThesis$Year = substr(LamThesis$Date..yymmdd.,1,4)
+LamThesis = LamThesis[which(LamThesis$Year!="FRAM"),] #remove the 4 samples without a year
+LamThesis$Depth_m = LamThesis$Depth.ft*3.3
+LamThesis$Length_cm = LamThesis$TL.cm*0.981-0.521
+LamThesis$Weight = LamThesis$Wt.kg
+LamThesis$Age = LamThesis$Ages
+LamThesis$Region = ifelse(LamThesis$Latitude_dd >= (40 + 10/60), "North", "South")
+LamThesis[LamThesis$Sex=="M ","Sex"] = "M" #Fix Sex with "M "
+LamThesis = LamThesis[!is.na(LamThesis$Region),] #Remove NA regions
 
+out = create_survey_data_frame(list(bio.WCGBTS, bio.Triennial$Lengths, bio.Triennial$Ages, bio.HKL, bio.HKLage.Lam, LamThesis))
+out_clean = clean_lingcod_survey_biodata(data = out)
+
+out_clean$region_source = paste0(out_clean$Source, "_", out_clean$Region)
+png(file.path(getwd(),"figures","Ages_by_Source_Sex.png"), res=300, units = "in", width = 7, height = 5)
+#Need to use print here since ggplot doesn't plot within a function call
+print(ggplot(out_clean, aes(Age, fill = region_source, color = region_source)) +
+        facet_wrap(facets = c("Sex")) +
+        geom_bar(alpha = 0.4, lwd = 0.8))
+dev.off()
 
