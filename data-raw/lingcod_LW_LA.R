@@ -7,7 +7,6 @@
 #
 #######################################
 
-#devtools::install_github("nwfsc-assess/nwfscSurvey", build_vignettes = TRUE)
 library(plyr)
 library(ggplot2)
 
@@ -600,7 +599,8 @@ checkresids <- function(data = data, method = c("lw", "la")){
 #Using only NWFSC.Combo, Triennial, and NWFSC_HKL datasets
 
 #Load and save HKL biodata and ages from HKL aged by Laurel Lam
-save_HKL_data()
+#Done once so not needing to do again
+#save_HKL_data()
 
 #Combine data already in package into single dataframe
 #Slope surveys have no weights or ages
