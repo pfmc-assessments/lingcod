@@ -16,7 +16,7 @@ library(ggplot2)
 #######################################################
 
 #Load HNL survey data and save
-save_HNL_data <- function(){
+save_HKL_data <- function(){
   
   #John Harms provided data in email on Feb 9, 2021.
   hnl_full = read.csv(file.path(getwd(),"data-raw", "qryGrandUnifiedThru2019_For2021Assessments_DWarehouse version_01072021.csv"), header = TRUE)
@@ -600,7 +600,7 @@ checkresids <- function(data = data, method = c("lw", "la")){
 #Using only NWFSC.Combo, Triennial, and NWFSC_HKL datasets
 
 #Load and save HKL biodata and ages from HKL aged by Laurel Lam
-save_HNL_data()
+save_HKL_data()
 
 #Combine data already in package into single dataframe
 #Slope surveys have no weights or ages
