@@ -6,20 +6,16 @@
 #
 ####
 
-##A few things to do
-#1. Update length bins, fleets, and timing
-#2. 
-
 #Read in data
 data <- read.csv("L:/Assessments/Archives/Lingcod/Lingcod_2017/Data/MLMLResearchSamples/SA_Lam_MergedAges.csv", header = TRUE)
 
 #Rename fields so they work with UnexpandedLFs.fn and SurveyAgeAtLen.fn
-data$Length_cm = data$TL.cm
+#Convert length to fork length following Laidig (see github issue: https://github.com/iantaylor-NOAA/Lingcod_2021/issues/26)
+data$Length_cm = data$TL.cm*0.981-0.521
 data$Year = as.numeric(substr(data$Date..yymmdd.,1,4))
-#data$Age = data$Ages
-#data$Depth_m = data$Depth.ft*0.3048
-#data$Latitude_dd = data$Lat
-#data$Weight = data$Wt.kg
+
+#Convert the Lbins in the file which are based on total length bins to fork length bins
+data$Len_Bin_FL = 2*floor(data$Length_cm/2)
 
 #Remove CCRFP fish (sampled before 1/20/2016, which all occurred in 2015)
 #Also reoves the four fish with no year
@@ -39,15 +35,12 @@ dummy$Year = 9999
 data_n = rbind(dummy,data_n)
 
 #Length Bins
-lrange = range(data$TL.cm, na.rm = TRUE)
-lbins = seq(from = floor(lrange[1]), to = floor(lrange[2]), by = 2)
+lrange = c(10,130)
+lbins = seq(from = lrange[1], to = lrange[2], by = 2)
 
 #Age Bins
-#arange = range(data$Ages, na.rm = TRUE)
-#abins = seq(from = floor(arange[1]), to = floor(arange[2]), by = 1)
-
-#data_n$Trawl_id = 1:nrow(data_n) 
-#data_s$Trawl_id = 1:nrow(data_s)
+arange = c(0,20)
+abins = seq(from = arange[1], to = arange[2], by = 1)
 
 ###############################
 # Length comps - North and South
@@ -88,32 +81,23 @@ PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
 # CAAL comps - North and South
 ###############################
 
-### Need to update this...not sure how within the current framework
-# strata_north = CreateStrataDF.fn(names = NA,
-#                                  depths.shallow = c(55), 
-#                                  depths.deep = c(350), 
-#                                  lats.south = c(40.166667),
-#                                  lats.north = c(49))
-# 
-# caal_n = SurveyAgeAtLen.fn(dir = file.path("data", "LamThesis"),
-#                            datAL = data_n, 
-#                            datTows = data_n, 
-#                            strat.df = strata_north, 
-#                            lgthBins = lbin, 
-#                            ageBins = abin, 
-#                            sex = 3,
-#                            raw = TRUE, #Not standard to set to FALSE (expanded)
-#                            month = "Month", 
-#                            fleet = "Fleet",
-#                            ageErr = "Enter")
+#Generate Comps - North
+ageCAAL_N_LamThesis = create_caal_nonsurvey(data_n, arange, lrange, "data/ageCAAL/LamThesis", "north_LamThesis")
+
+#Generate Comps - South
+ageCAAL_S_LamThesis = create_caal_nonsurvey(data_s, arange, lrange, "data/ageCAAL/LamThesis", "south_LamThesis")
 
 
-#### Make the .rda file for the package
-# Uncomment the following line to actually make the data set for the package
-lenCompN_Lam = lfs_n
-lenCompS_Lam = lfs_s
-usethis::use_data(lenCompN_Lam, overwrite = TRUE)
-usethis::use_data(lenCompS_Lam, overwrite = TRUE)
+###############################
+# Make the .rda file for the package
+############################### 
+#Not adding Laurels Thesis data at this time.
+lenCompN_LamThesis = lfs_n
+lenCompS_LamThesis = lfs_s
+usethis::use_data(lenCompN_LamThesis, overwrite = TRUE)
+usethis::use_data(lenCompS_LamThesis, overwrite = TRUE)
+usethis::use_data(ageCAAL_N_LamThesis, overwrite = TRUE)
+usethis::use_data(ageCAAL_S_LamThesis, overwrite = TRUE)
 
 #### Remove objects
 # rm()
