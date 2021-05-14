@@ -4,18 +4,28 @@
 \alias{utils_knit_opts}
 \title{Set up knitr options}
 \usage{
-utils_knit_opts(type = c("data-raw"))
+utils_knit_opts(type = c("data-raw"), verbose = FALSE)
 }
 \arguments{
 \item{type}{A character entry specifying which type of file you are rendering.
-If rendering a file in}
+\itemize{
+\item data-raw: if you are at the top level of your directory, e.g., lingcod_2021,
+and you will be rendering a file in the data-raw folder, then \code{type = "data-raw"}
+allows you to set your working directory back to the top level so that all of the
+file links will work, otherwise knitr thinks that the script is written such that
+all paths are relative to where the script lives.
+}}
+
+\item{verbose}{A logical value specifying if output should be printed
+to the console or not. The default is \code{FALSE}, which will suppress messages.}
 }
 \value{
 Nothing is returned from this function.
 }
 \description{
 Set up the knitr options for the rendering of various file types within
-the package.
+the package. Using \code{verbose = TRUE} can help you you are trying to debug
+your script, but the default is \code{FALSE} for production.
 }
 \author{
 Kelli Faye Johnson
