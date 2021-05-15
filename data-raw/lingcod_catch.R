@@ -90,6 +90,8 @@ file_bib <- "references.bib"
 wl_a <- 2.431498e-06
 wl_b <- 3.312508e+00
 calcom_fleet_TW <- c("TWL", "NET")
+erddapmaxyrmeanbyarea <- 1933
+areas <- c("North", "South")
 
 #+ setup_readin_SS_old
 data_SS_old <- lingcod::SS_readdat.list(
@@ -126,7 +128,7 @@ catch_comm_WA <- utils::read.csv(file = file.path("data-raw", file_comm_wa)) %>%
   ) %>%
   dplyr::select(-Total, -LINE, -NET, -TRAWL) %>%
   tidyr::gather(key = "fleet", value = "mt", -Year) %>%
-  dplyr::mutate(area = "North")
+  dplyr::mutate(area = "North", state = "WA")
 #'
 #' The reconstruction of Washington commercial landings was provided by
 #' the Washington Department of Fish and Wildlife. This reconstruction
@@ -156,6 +158,11 @@ catch_comm_WA <- utils::read.csv(file = file.path("data-raw", file_comm_wa)) %>%
 #' from filleted fish, and thus, were converted to round fish weights using
 #' a conversion factor of 1.431.
 #'
+#' Early years without landings were linearly interpolated between adjacent
+#' years with data. Whereas, in the 2017 assessment (todo cite prev assessment)
+#' missing years were filled forward from the most recent historical year with data
+#' (Figure \@ref(fig:catch-comm-state)).
+#'
 #' #### Oregon commercial reconstruction
 #'
 #+ catch.pacfin, eval = TRUE, include = FALSE
@@ -172,7 +179,7 @@ catch.pacfin <- catch.pacfin %>%
   dplyr::rename(Year = LANDING_YEAR) %>%
   dplyr::filter(
     !(AGENCY_CODE == "W" & Year %in% catch_comm_WA[["Year"]]),
-    !(AGENCY_CODE == "O" & Year >
+    !(AGENCY_CODE == "O" & Year <
       readxl::read_excel(
         path = dir(
           path = "data-raw",
@@ -202,6 +209,7 @@ catch_comm_OR <- readxl::read_excel(
   dplyr::filter(SOURCE != "PacFIN") %>%
   dplyr::mutate(
     area = "North",
+    state = "OR",
     mt = Total,
     PACFIN_GEAR_CODE = catch.pacfin[
       match(GEAR_CODE, catch.pacfin[, "GEAR_CODE"]),
@@ -231,20 +239,31 @@ catch_comm_OR[, "fleet"] <- use_fleetabb(catch_comm_OR[["geargroup"]])
 #'
 #' #### California commercial reconstruction
 #'
-#+ catch_comm_CA
-# Sette and Fiedler: transcribed by KFJ
-catch_sette1928 <- data.frame(
-  Year = c(
-    1888, 1892, 1895, 1899, 1904, 1908, 1915, 1918, # pg 528
-    1919:1926 # pg 529
-    ),
-  lbs = c(
-    0, 231.0, 139.0, 148.0, 293.0, 167.0, 578.0, 916.0, # pg 528
-    1063.0, 688.0, 426.0, 568.0, 467.0, 400.0, 683.0, 645.0 # pg 529
-    ) * 1000
-) %>% dplyr::mutate(mt = lbs * mult_lbs2mt())
-#
-catch_sette1928area <- data.frame(
+#+ catch_erddap
+catch_erddap <- readxl::read_excel(
+  path = file_erddap,
+  sheet = 3
+) %>%
+  dplyr::filter(!is.na(fish), port != "All") %>%
+  dplyr::rename(Year = year) %>%
+  dplyr::rename_with(~ gsub("landings|\\.|\\(|\\)", "", .x)) %>%
+  dplyr::group_by(Year) %>%
+  dplyr::mutate(mt_y = sum(mt)) %>%
+  dplyr::group_by(port, Year) %>%
+  dplyr::mutate(mt_yp = sum(mt)) %>%
+  dplyr::ungroup()
+erddapmeanpropEureka <- catch_erddap %>%
+  dplyr::mutate(prop_p = mt_yp/mt_y) %>%
+  dplyr::filter(port == "Eureka", Year < erddapmaxyrmeanbyarea) %>%
+  dplyr::pull(prop_p) %>% mean
+erddapmeanpropNEureka <- readxl::read_excel(
+  path = file_erddap,
+  sheet = 1, n_max = 1,
+  skip = 30, .name_repair = "minimal",
+) %>% dplyr::pull(8)
+
+#+ catch_sette
+catch_sette_1926fa <- data.frame(
   district = rep(
     c("Northern", "San Francisco", "Monterey", "Southern"),
     times = c(3, 4, 4, 1)
@@ -264,24 +283,42 @@ catch_sette1928area <- data.frame(
 ) %>% dplyr::mutate(
   fleet = dplyr::case_when(
     gear %in% c("gill nets", "paranzella nets", "lampara nets", "trammel nets") ~ "TW",
-    gear %in% c("lines") ~ "FG",
-    TRUE ~ "check your analysis"
+    TRUE ~ "FG"
   ),
   mt = lbs * mult_lbs2mt()
-)
-# ERDDAP
-catch_erddap <- readxl::read_excel(
-  path = file_erddap,
-  sheet = 3
 ) %>%
-  dplyr::filter(!is.na(fish), port != "All") %>%
-  dplyr::rename(Year = year) %>%
-  dplyr::rename_with(~ gsub("landings|\\.|\\(|\\)", "", .x))
-erddapmeanpropNEureka <- readxl::read_excel(
-  path = file_erddap,
-  sheet = 1, n_max = 1,
-  skip = 30, .name_repair = "minimal",
-) %>% dplyr::pull(8)
+  dplyr::mutate(
+    area = ifelse(district == "Northern", "North", "South")
+  ) %>%
+  dplyr::group_by(fleet, area) %>%
+  dplyr::mutate(mt_fa = sum(mt)) %>%
+  dplyr::group_by(area) %>%
+  dplyr::mutate(prop_fa = mt_fa / sum(mt))
+# Calculate the proportion for fleet and area from 1926 to use for
+# multiple data sets
+catch_sette_prop_fa <- catch_sette_1926fa %>% dplyr::distinct(fleet, area, prop_fa)
+# Sette and Fiedler: transcribed by KFJ
+catch_sette1928 <- data.frame(
+  Year = c(
+    1888, 1892, 1895, 1899, 1904, 1908, 1915, 1918, # pg 528
+    1919:1926 # pg 529
+    ),
+  lbs = c(
+    0, 231.0, 139.0, 148.0, 293.0, 167.0, 578.0, 916.0, # pg 528
+    1063.0, 688.0, 426.0, 568.0, 467.0, 400.0, 683.0, 645.0 # pg 529
+    ) * 1000
+) %>%
+  tidyr::crossing(., catch_sette_prop_fa) %>%
+  dplyr::mutate(
+    prop_a = dplyr::case_when(
+      area == "North" ~ (erddapmeanpropNEureka * erddapmeanpropEureka),
+      TRUE ~ 1 - (erddapmeanpropNEureka * erddapmeanpropEureka)
+    ),
+    mt = lbs * mult_lbs2mt() * prop_a * prop_fa,
+    source = "sette"
+  )
+
+#+ catch_comm_ORwaters
 # 1948 - 1968 additional catch in OR waters landed in CA from John F.
 catch_comm_CA_ORwaters <- readxl::read_excel(
   path = dir(path = "data-raw", pattern = grep_comm_ca_or, full.names = TRUE),
@@ -296,45 +333,8 @@ catch_comm_CA_ORwaters <- readxl::read_excel(
     mt = (Oregon + Washington),
     source = "Field"
   )
-# Ralston reconstruction
-# The following file was provided by MH from the 2017 stock assessment
-# where it was likely provided by John Field. It was not used in the
-# following assessment but is read in here for comparative purposes.
-# Instead, ralston data were extracted from the database by E.J.D.
-catch_comm_CA_ralston_MH <- utils::read.csv(
-  file = dir(path = "data-raw", pattern = grep_comm_ca_MH, full.names = TRUE)
-) %>%
-  dplyr::filter(
-    species == utils_name("PACFIN"),
-    region != 9, # Filter out MEX
-  ) %>%
-  dplyr::rename(Year = year) %>%
-  dplyr::mutate(
-    fleet = dplyr::case_when(
-      gear_grp %in% c("TWL", "MDT", "NET") ~ "TW",
-      gear_grp %in% c("All", "ALL", "FPT", "HKL", "OTH", "UNK") ~ "FG",
-      TRUE ~ "check the build of this data set"
-    ),
-    area = dplyr::case_when(
-      region == 2 ~ "North_South",
-      region %in% c(1, 11, 12) ~ "North",
-      TRUE ~ "South"
-    )
-  ) %>% tidyr::separate_rows(area, sep = "_") %>%
-  dplyr::mutate(
-    mt = dplyr::case_when(
-      region == 2 & area == "North" ~ pounds * mult_lbs2mt() * erddapmeanpropNEureka,
-      region == 2 & area == "South" ~ pounds * mult_lbs2mt() * (1-erddapmeanpropNEureka),
-      TRUE ~ pounds * mult_lbs2mt()
-    ),
-    state = dplyr::case_when(
-      region %in% 11 ~ "OR",
-      region %in% 12 ~ "WA",  #maybe, but I know it is N,
-      TRUE ~ "CA"
-    ),
-    source = "ralston"
-  ) %>%
-  dplyr::filter(state == "CA")
+
+#+ catch_comm_CA_ralston
 catch_comm_CA_ralston <- utils::read.csv(
   file = dir(
     file.path("data-raw"),
@@ -365,6 +365,8 @@ catch_comm_CA_ralston <- utils::read.csv(
     source = "ralston"
   ) %>%
   dplyr::filter(state == "CA")
+
+#+ catch_comm_CA_calcom
 catch_comm_CA_calcom <- utils::read.csv(
   file = dir(
     file.path("data-raw"),
@@ -387,7 +389,7 @@ catch_comm_CA_MM <- readxl::read_excel(
     !is.na(Year)
   ) %>%
   dplyr::mutate_at(c("Year","FG","TW"), as.numeric) %>%
-  tidyr::gather(key = "type", value = "grprop", -Year, -area) %>%
+  tidyr::gather(key = "type", value = "prop_fa", -Year, -area) %>%
   dplyr::mutate(
     area = dplyr::case_when(
       is.na(area) & type == "FG" ~ "North_all",
@@ -398,6 +400,7 @@ catch_comm_CA_MM <- readxl::read_excel(
     area = gsub("_all", "", area)
   ) %>%
   data.frame
+
 #'
 #' ##### [@sette1928]
 #'
@@ -418,38 +421,6 @@ catch_comm_CA_MM <- readxl::read_excel(
 #' to create a time series of
 {{length(min(catch_sette1928[["Year"]]):max(catch_sette1928[["Year"]]))}}
 #' years.
-#' 
-#+ catch_sette1928_areafleet
-catch_sette1928area_props <- catch_sette1928area %>%
-  dplyr::mutate(area = ifelse(district == "Northern", "North", "South")) %>%
-  dplyr::group_by(fleet, area) %>%
-  dplyr::summarize(summt = sum(lbs), .groups = "keep") %>%
-  dplyr::ungroup() %>%
-  dplyr::group_by(area) %>%
-  dplyr::mutate(proportion = summt / sum(summt)) %>%
-  dplyr::select(-summt)
-erddapmaxyrmeanbyarea <- 1933
-erddapmeanpropEureka <- catch_erddap %>%
-  dplyr::group_by(port, Year) %>%
-  dplyr::filter(Year < erddapmaxyrmeanbyarea) %>%
-  dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
-  dplyr::ungroup() %>% dplyr::group_by(Year) %>%
-  dplyr::mutate(prop = mt / sum(mt)) %>%
-  dplyr::ungroup() %>% dplyr::group_by(port) %>%
-  dplyr::summarize(mean = mean(prop), .groups = "keep") %>%
-  dplyr::filter(port == "Eureka") %>%
-  dplyr::pull(mean)
-catch_sette1928_areafleet <- dplyr::full_join(by = "area",
-  x = catch_sette1928 %>%
-    dplyr::mutate(
-      North = mt * (erddapmeanpropNEureka * erddapmeanpropEureka),
-      South = mt * (1 - (erddapmeanpropNEureka * erddapmeanpropEureka))
-    ) %>%
-    dplyr::select(-(lbs:mt)) %>%
-    tidyr::gather(key = "area", value = "mt", -Year),
-    y = catch_sette1928area_props
-  ) %>%
-  dplyr::mutate(mt = mt * proportion, source = "sette1928")
 #'
 #' Catches by gear type were only available from 1926, and thus,
 #' the calculated proportion of of the landings
@@ -488,28 +459,7 @@ catch_sette1928_areafleet <- dplyr::full_join(by = "area",
 #' was used to partition data from @sette1928 to area.
 #'
 #' ##### California fish market landings
-#' 
-#+ catch_erddap_areafleet
-catch_erddap_areafleet <- dplyr::full_join(
-  by = "area",
-  x = catch_erddap %>%
-    dplyr::group_by(Year, port) %>%
-    dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
-    dplyr::mutate(
-      North = dplyr::case_when(
-        port == "Eureka" ~ mt * erddapmeanpropNEureka,
-        TRUE ~ 0
-        ),
-      South = dplyr::case_when(
-        port == "Eureka" ~ mt * (1-erddapmeanpropNEureka),
-        TRUE ~ mt
-      )
-    ) %>% dplyr::select(-mt) %>%
-    tidyr::gather(key = area, value = mt, -Year, -port) %>%
-    dplyr::mutate(source = "erddap"),
-  y = catch_sette1928area_props
-) %>%
-  dplyr::mutate(mt = mt * proportion)
+#'
 #' 
 #' [California fish market data](https://oceanview.pfeg.noaa.gov/las_fish1/doc/names_describe.html),
 #' were available over many years, but only those years that were missing
@@ -570,7 +520,7 @@ ggplot2::ggplot(
   ggplot2::aes(x = Year, y = prop)
 ) +
   ggplot2::geom_point(pch = 1) +
-  ggplot2::geom_point(ggplot2::aes(y = grprop)) +
+  ggplot2::geom_point(ggplot2::aes(y = prop_fa)) +
   ggplot2::ylim(c(0, 1.0)) +
   ggplot2::theme_bw() +
   ggplot2::ylab("Calculated proportion of CA commercial catch in north v. south")
@@ -636,56 +586,83 @@ ggplot2::ggplot(
 #' for a given area and fleet combination.
 #' 
 #+ catch_comm_CA_interpolate
-catch_comm_CA_early <- dplyr::full_join(
-  by = c("Year", "source", "mt", "fleet", "area", "proportion"),
-  x = catch_sette1928_areafleet,
-  y = catch_erddap_areafleet %>%
-      dplyr::filter(!Year %in% catch_comm_CA_ralston[["Year"]])
-  )
-catch_comm_CA_late <- dplyr::full_join(
-  by = c("Year", "area", "fleet", "mt", "source"),
-  x = catch_comm_CA_ralston %>%
-    dplyr::group_by(Year, area) %>%
-    dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
-    dplyr::ungroup()  %>%
-    tidyr::crossing(data.frame(fleet = c("FG", "TW"))) %>%
-    dplyr::full_join(
-      by = c("Year", "area", fleet = "type"),
-      x = .,
-      y = catch_comm_CA_MM %>% dplyr::filter(type != "ALL")
-    ) %>%
-    dplyr::group_by(area, fleet) %>%
-    dplyr::arrange(Year, .by_group = TRUE) %>%
-    tidyr::fill(grprop, .direction = "up") %>%
-    dplyr::mutate(mt = mt * grprop, source = "ralston") %>%
-    dplyr::ungroup(),
-  y = catch_comm_CA_calcom %>%
-    dplyr::mutate(
-      source = "CALCOM",
-      fleet = ifelse(GEAR_GRP %in% calcom_fleet_TW, "TW", "FG"),
-      area = ifelse(PORT_COMPLEX %in% c("CRS", "ERK"), "North", "South") # might need to split ERK
-    ) %>%
-    dplyr::group_by(Year, fleet, area, source) %>%
-    dplyr::summarize(mt = sum(POUNDS) * mult_lbs2mt(), .groups = "keep") %>%
-    dplyr::ungroup()
-) %>% dplyr::full_join(
-    by = c("Year", "source", "mt", "fleet", "area"),
-    x = .,
-    y = catch_comm_CA_ORwaters
-  )
-catch_comm_CA_interpolate <- dplyr::anti_join(
-    by =  c("Year", "area", "fleet"),
-    # Using sette instead of early b/c erddap has too high of FG catches
-    # x = catch_sette1928_areafleet,
-    x = catch_comm_CA_early,
-    y = catch_comm_CA_late
-) %>%
-  dplyr::full_join(
+catch_comm_CA_interpolate <- dplyr::full_join(
     by = c("Year", "area", "fleet", "source", "mt"),
-    x = .,
-    y = catch_comm_CA_late
+    # Build up to 1930
+    x = dplyr::full_join(
+      by = c("Year", "source", "fleet", "area", "mt", "prop_fa"),
+      x = catch_sette1928,
+      y = dplyr::left_join(
+          by = "area",
+          x = catch_erddap %>%
+            dplyr::group_by(Year, port) %>%
+            dplyr::slice(1L) %>%
+            dplyr::mutate(
+              North = dplyr::case_when(
+                port == "Eureka" ~ mt_yp * erddapmeanpropNEureka,
+                TRUE ~ 0
+                ),
+              South = dplyr::case_when(
+                port == "Eureka" ~ mt_yp * (1-erddapmeanpropNEureka),
+                TRUE ~ mt_yp
+              )
+            ) %>%
+            dplyr::select(-time, -fish, -(lbs:mt_yp)) %>%
+            tidyr::gather(key = area, value = mt, -Year, -port) %>%
+            dplyr::filter(
+              mt != 0,
+              Year < min(catch_comm_CA_ralston[["Year"]])
+            ) %>%
+            dplyr::mutate(source = "erddap"),
+          y = catch_sette_prop_fa
+        ) %>%
+        dplyr::mutate(mt = mt * prop_fa) %>%
+        dplyr::group_by_at(vars(-mt, -port)) %>%
+        dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
+        dplyr::ungroup()
+    ),
+    # Build since 1931
+    y = dplyr::full_join(
+      by = c("Year", "area", "fleet", "mt", "source"),
+      x = catch_comm_CA_ralston %>%
+        dplyr::group_by(Year, area) %>%
+        dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
+        dplyr::ungroup()  %>%
+        tidyr::crossing(data.frame(fleet = c("FG", "TW"))) %>%
+        dplyr::left_join(
+          by = c("Year", "area", "fleet"),
+          x = .,
+          y = dplyr::full_join(
+            # Create time series of prop with MM and erddap
+            by = c("Year", "fleet", "area", "prop_fa"),
+            x = catch_sette_prop_fa %>%
+              mutate(Year = min(catch_comm_CA_ralston[["Year"]]) - 1),
+            y = catch_comm_CA_MM %>%
+              dplyr::filter(type != "ALL") %>%
+              dplyr::rename(fleet = "type")
+          ) %>%
+          dplyr::group_by(fleet, area) %>%
+          tidyr::complete(fleet, area, Year = min(Year):max(Year)) %>%
+          dplyr::mutate(prop_fa = stats::approx(Year, prop_fa, n = length(Year))$y) %>%
+          dplyr::ungroup()
+        ) %>%
+        dplyr::mutate(mt = mt * prop_fa, source = "ralston"),
+      y = catch_comm_CA_calcom %>%
+        dplyr::mutate(
+          source = "CALCOM",
+          fleet = ifelse(GEAR_GRP %in% calcom_fleet_TW, "TW", "FG"),
+          area = ifelse(PORT_COMPLEX %in% c("CRS", "ERK"), "North", "South") # might need to split ERK
+        ) %>%
+        dplyr::group_by(Year, fleet, area, source) %>%
+        dplyr::summarize(mt = sum(POUNDS) * mult_lbs2mt(), .groups = "keep") %>%
+        dplyr::ungroup()
+      ) %>% dplyr::full_join(
+          by = c("Year", "source", "mt", "fleet", "area"),
+          x = .,
+          y = catch_comm_CA_ORwaters
+        )
   ) %>%
-  dplyr::filter(Year < 1981) %>%
+  # Work with the combined early and late data set
   tidyr::complete(area, fleet,
     Year = min(Year):max(Year),
     fill = list(source = "interpolate")
@@ -695,7 +672,8 @@ catch_comm_CA_interpolate <- dplyr::anti_join(
   dplyr::ungroup(Year) %>%
   dplyr::mutate(
     mt_orig = mt,
-    mt = stats::approx(Year, mt, n = length(Year))$y
+    mt = stats::approx(Year, mt, n = length(Year))$y,
+    state = "CA"
   ) %>%
   data.frame
 
@@ -795,16 +773,21 @@ catch_comm_CA_noport_vesselid <- catch.pacfin %>%
 #
 # Assign area to PacFIN data
 #
-catch.pacfin <- catch.pacfin %>% dplyr::mutate(area = dplyr::case_when(
-  AGENCY_CODE %in% c("W", "O") ~ "North",
-  PORT_NAME %in% "SHELTER COVE" ~ "South",
-  PORT_NAME %in% "BAYSIDE" ~ "North",
-  PACFIN_GROUP_PORT_CODE %in% "ERA" ~ "North",
-  PACFIN_GROUP_PORT_CODE %in% "CCA" ~ "North",
-  PORT_CODE %in% c(0, 896) & 
-  VESSEL_ID %in% catch_comm_CA_noport_vesselid[catch_comm_CA_noport_vesselid[["ratio"]] > 0.5, "VESSEL_ID", drop = TRUE] ~ "North",
-  TRUE ~ "South"
-))
+catch.pacfin <- catch.pacfin %>%
+  dplyr::mutate(
+    area = dplyr::case_when(
+      AGENCY_CODE %in% c("W", "O") ~ "North",
+      PORT_NAME %in% "SHELTER COVE" ~ "South",
+      PORT_NAME %in% "BAYSIDE" ~ "North",
+      PACFIN_GROUP_PORT_CODE %in% "ERA" ~ "North",
+      PACFIN_GROUP_PORT_CODE %in% "CCA" ~ "North",
+      PORT_CODE %in% c(0, 896) &
+      VESSEL_ID %in% catch_comm_CA_noport_vesselid[catch_comm_CA_noport_vesselid[["ratio"]] > 0.5, "VESSEL_ID", drop = TRUE] ~ "North",
+      TRUE ~ "South"
+    ),
+  mt = ROUND_WEIGHT_MTONS,
+  state = PacFIN.Utilities:::getState(catch.pacfin)[["state"]]
+  )
 #'
 #' The split at 40.167 decimal degrees required finding a method for
 #' splitting data within the Eureka (ERA) port-group complex.
@@ -828,7 +811,6 @@ catch.pacfin <- catch.pacfin %>% dplyr::mutate(area = dplyr::case_when(
 #' were in ERA or CCA, then all of their landings without an assigned
 #' area were assigned to the northern area.
 #'
-#' 
 #' For commercial landings from the state of California,
 #' the majority of the commercial FG landings occurred in the South and this
 #' has been relatively consistent for all years of data available in PacFIN.
@@ -935,20 +917,24 @@ ggplot2::ggplot(data = catch.pacfin %>%
 #' ### Final commercial landings
 #'
 #+ catch_comm
-catch_comm_reconstruction <- dplyr::full_join(
-  by = c("Year", "fleet", "area", "mt"),
+myby <- c("Year", "fleet", "area", "mt", "state")
+catch_comm_reconstruction_notsummed <- dplyr::full_join(
+  by = myby,
   x = catch_comm_WA,
   y = catch_comm_OR) %>%
-dplyr::full_join(
-  by = c("Year", "fleet", "area", "mt"),
-  y = catch_comm_CA_interpolate
-) %>% dplyr::group_by(Year, area, fleet) %>%
+  dplyr::full_join(
+    by = myby,
+    x = .,
+    y = catch_comm_CA_interpolate
+  )
+catch_comm_reconstruction <- catch_comm_reconstruction_notsummed %>%
+  dplyr::group_by(Year, area, fleet) %>%
   dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
   dplyr::ungroup()
 catch_comm <- dplyr::full_join(
   by = c("Year", "area", "fleet", "mt"),
   x = catch_comm_reconstruction,
-  y = catch.pacfin %>% dplyr::rename(mt = "ROUND_WEIGHT_MTONS")
+  y = catch.pacfin
 ) %>% dplyr::group_by(Year, area, fleet) %>%
   dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
   dplyr::ungroup() %>%
@@ -963,6 +949,7 @@ ggplot2::ggplot(
   ggplot2::scale_colour_manual(values = unikn::usecol(pal_unikn_pair, 16L)[c(1:2, 9:10)]) +
   ggplot2::labs(colour = ggplot2::guide_legend(title = "fleet x area")) +
   ggplot2::theme_bw()
+
 #+ data-catch-comm, fig.cap = "Commercial landings (mt) by year, area, and fleet."
 ggplot2::ggplot(
   catch_comm,
@@ -972,6 +959,88 @@ ggplot2::ggplot(
   ggplot2::scale_colour_manual(values = unikn::usecol(pal_unikn_pair, 16L)[c(1:2, 9:10)]) +
   ggplot2::labs(colour = ggplot2::guide_legend(title = "fleet x area")) +
   ggplot2::theme_bw()
+
+#'
+#' #### Comparison
+#'
+#+ catch_comm_state
+catch_comm_state <- dplyr::full_join(
+    by = c("Year", "state", "fleet", "mt"),
+    x = catch.pacfin,
+    y = catch_comm_reconstruction_notsummed
+  ) %>% 
+  dplyr::mutate(
+    state = ifelse(state != "CA", "N", state),
+    source = "2021"
+  ) %>%
+  dplyr::group_by(Year, state, fleet, source) %>%
+  dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
+  dplyr::ungroup() %>%
+  dplyr::full_join(
+    by = c("Year", "fleet", "state", "source"),
+    x = .,
+    y = dplyr::bind_rows(.id = "id",
+  lapply(list(data_SS_oldnorth, data_SS_oldsouth),
+    "[[",
+    "catch"
+  )
+) %>%
+  dplyr::rename(Year = "year") %>%
+  dplyr::mutate(
+    source = "2019",
+    fleet = dplyr::case_when(
+      id == 1 ~ data_SS_oldnorth[["fleetnames"]][fleet],
+      id == 2 ~ data_SS_oldsouth[["fleetnames"]][fleet],
+    )
+  ) %>%
+  tidyr::separate(
+    col = "fleet",
+    into = c("fleetn", "state", "fleet"),
+    sep = "_") %>%
+  dplyr::filter(Year > 0, !grepl("REC", fleet)) %>%
+  dplyr::mutate(fleet = ifelse(fleet == "FIX", "FG", "TW"))
+  ) %>%
+  dplyr::mutate(
+    state = factor(state, levels = c("N", "CA"), labels = c("WA and OR", "CA"))
+  )
+# Perform a test to make sure that sum by state is same as sum by gear
+testthat::expect_equal(dplyr::full_join(by = "Year",
+  catch_comm_state %>%
+    dplyr::group_by(Year) %>%
+    dplyr::summarize(sum = sum(mt, na.rm = TRUE)),
+  catch_comm %>%
+    dplyr::group_by(Year) %>%
+    dplyr::summarize(sum = sum(mt, na.rm = TRUE))
+  ) %>% dplyr::mutate(diff = sum.x-sum.y) %>% pull(diff) %>% sum,
+  0
+)
+
+#' The current time series of commercial catches were aggregated using the previous
+#' model structure, i.e., the northern area included Washington and Oregon and the
+#' southern area included California, for comparison purposes.
+#' This comparison revealed differences in California data for both fleets.
+#' Subsequently, it was determined that the 2017 included both trawl and fixed gear
+#' catches in the trawl fleet. This has since been corrected, and the current catch
+#' stream represents what is known to be the best available data.
+#' Differences in the early reconstructions for the northern model are the result
+#' of linearly interpolating historical data rather than assuming it was equal to
+#' the previous year.
+#' Differences in the early reconstruction for the southern model are the result
+#' of using landings from @sette1928 instead of ramping up catches from zero.
+#' No other major differences were found.
+
+#+ catch-comm-state, fig.cap = "Comparison of commercial catch time series from this model (yellow) and the previous assessment model (grey). Fixed gear (FG; circles; solid line) and trawl (TW; triangles, dashed line) are show for both the northern (top panel; Oregon and Washington) and southern (bottom panel; California) as defined in the previous assessment model."
+ggplot2::ggplot(
+  catch_comm_state,
+  ggplot2::aes(Year, mt, col = source, pch = fleet, lty = fleet)
+) +
+  ggplot2::geom_line() + ggplot2::geom_point() +
+  ggplot2::geom_line(ggplot2::aes(y = catch)) +
+  ggplot2::geom_point(aes(y = catch)) +
+  ggplot2::facet_grid(state ~ .) +
+  ggplot2::theme_bw() +
+  ggplot2::ylab("Landings (mt)") +
+  ggplot2::scale_color_manual(values = c("#999999", "#E69F00"))
 
 
 #'
@@ -1032,8 +1101,7 @@ bio_rec_recfin_meanlength <- bio_rec_recfin %>%
 #'
 #+ setup_readinWArec
 catch_rec_WA <- suppressWarnings(suppressMessages(
-  dplyr::bind_rows(.id = "Type",
-  lapply(mapply(readxl::read_excel,
+  dplyr::bind_rows(.id = "Type", mapply(readxl::read_excel,
     MoreArgs = list(
       col_names = FALSE,
       col_types = "numeric",
@@ -1042,17 +1110,19 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
     ),
     sheet = c(OSP = 1, PSSP = 2, historical = 3),
     skip = c(2, 1, 1),
+    n_max = c(Inf, 15, Inf),
     SIMPLIFY = FALSE
-  ), "[", 1:2)) %>%
-  dplyr::rename(Year = 2, LINGCOD = 3)
-)) %>%
+  )) %>%
+  dplyr::rename(Year = 2, LINGCOD = 3, RELEASED = 4)
+) %>%
+  dplyr::select(1:4)
+) %>%
   dplyr::filter(!is.na(Year)) %>%
   dplyr::group_by(Year) %>%
-  dplyr::mutate(
-    LINGCOD = LINGCOD,
-    num = sum(LINGCOD)
-  ) %>% dplyr::ungroup(Year) %>%
-  tidyr::spread(key = Type, value = LINGCOD, drop = TRUE) %>%
+  dplyr::summarize(.groups = "keep",
+    num = sum(LINGCOD +ifelse(is.na(RELEASED), 0, RELEASED))
+  ) %>%
+  dplyr::ungroup() %>%
   dplyr::mutate(interpolate = 0) %>%
   tidyr::complete(Year = tidyr::full_seq(Year, 1), fill = list(interpolate = 999)) %>%
   dplyr::mutate(
@@ -1062,13 +1132,11 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
       TRUE ~ interpolate
     ),
     mean_length = bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length),
-    mean_weight = wl_a * (mean_length / 10)^(wl_b),
+    mean_weight = lw.WCGBTS[["all"]][["a"]] * (mean_length / 10)^(lw.WCGBTS[["all"]][["b"]]),
     mt = mean_weight / 1000 * num,
     state = "WA"
   )
 #'
-#' todo: convert numbers to weight (mt) #30 using better par a and b from BL
-#' todo: readin weight-length relationship
 #' Recreational information from Washington was provided in terms of
 #' number of fish rather than weight. To translate numbers into weight,
 #' we first calculated the mean length of fish landed within
@@ -1107,9 +1175,9 @@ catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
   ) %>%
     dplyr::rename(Year = YEAR) %>%
     dplyr::group_by(Year) %>%
-    dplyr::mutate(mt = sum(RETAINED_MT)) %>%
-    dplyr::select(!dplyr::matches("DEAD|MORTALITY")) %>%
-    tidyr::spread(key = MODE, value = RETAINED_MT),
+    dplyr::mutate(mt = sum(`TOTAL MORTALITY_MT`)) %>%
+    dplyr::select(!dplyr::matches("RET|REL")) %>%
+    tidyr::spread(key = MODE, value = `TOTAL MORTALITY_MT`),
   # 2017 dat file from Northern model
   data_SS_oldnorth[["catch"]] %>%
     dplyr::filter(
@@ -1222,7 +1290,7 @@ catch_rec_CA <- catch_rec_1980 %>%
   dplyr::full_join(
   by = c("Year", "state", "mt", "source"),
   x = .,
-  dplyr::anti_join(
+  y = dplyr::anti_join(
     by = c("Year", "mt", "state", "source"),
     y = .,
     x = data_SS_oldsouth[["catch"]] %>%
@@ -1235,13 +1303,7 @@ catch_rec_CA <- catch_rec_1980 %>%
       dplyr::select(-seas, -catch_se, -fleet) %>%
       dplyr::rename(Year = year, mt = catch)
   )) %>%
-    dplyr::mutate(
-      area = dplyr::case_when(
-        state == "CA" ~ "North_South",
-        TRUE ~ "North"
-      )
-    ) %>%
-    tidyr::separate_rows(area, sep = "_") %>%
+    tidyr::crossing(area = areas) %>%
     dplyr::mutate(
       mt = dplyr::case_when(
         state == "CA" & area == "North" ~ mt * albinmeanpropN,
@@ -1252,9 +1314,9 @@ catch_rec_CA <- catch_rec_1980 %>%
   dplyr::full_join(
     by = c("Year", "state", "mt", "source", "area"),
     x = .,
-    y = catch_rec_2000  %>%
+    y = catch_rec_2000 %>%
     dplyr::group_by(area, state, Year, source) %>%
-    dplyr::summarize(mt = sum(RETAINED_MT), .groups = "keep") %>%
+    dplyr::summarize(mt = sum(TOTAL_MORTALITY_MT), .groups = "keep") %>%
     dplyr::filter(state == "CA") %>%
     dplyr::ungroup()
   ) %>%
@@ -1347,23 +1409,43 @@ catch_rec <- dplyr::full_join(
 #+ catch-rec-ca-oldts
 ggplot2::ggplot(
   catch_rec %>%
-    dplyr::filter(state == "CA", Year <= data_SS_oldsouth$endyr) %>%
-    dplyr::group_by(Year) %>%
+    dplyr::group_by(Year, state) %>%
     dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
     dplyr::ungroup(),
     ggplot2::aes(Year, mt)
   ) +
-  ggplot2::geom_line(lwd = 1.5) +
+  ggplot2::geom_line(ggplot2::aes(lty = state), col = "#E69F00") +
   ggplot2::geom_line(
-    lty = 2, col = "red", lwd = 1.25,
+    col = "#999999",
     data = data_SS_oldsouth[["catch"]] %>%
-      dplyr::filter(fleet == 3, catch > 0),
+      dplyr::filter(fleet == grep("REC", data_SS_oldsouth[["fleetnames"]]), catch > 0),
+    ggplot2::aes(year, catch)
+  ) +
+  ggplot2::geom_line(
+    col = "#999999", lty = 3,
+    data = data_SS_oldnorth[["catch"]] %>%
+      dplyr::filter(fleet == grep("OR", data_SS_oldnorth[["fleetnames"]]), catch > 0),
+    ggplot2::aes(year, catch)
+  ) +
+  ggplot2::geom_line(
+    col = "#999999", lty = 2,
+    data = data_SS_oldnorth[["catch"]] %>%
+      dplyr::filter(fleet == grep("WA", data_SS_oldnorth[["fleetnames"]]), catch > 0),
     ggplot2::aes(year, catch)
   ) +
   theme_bw() +
-  ggplot2::ylab("California recreational landings (mt; red is 2017 assessment)")
+  ggplot2::ylab("Recreational landings (mt; gray is from the previous assessment)")
 
-#+ catch-rec-ts, fig.cap = "Time series of recreational landings by state and area"
+#+ investigatediffinORRec, include = FALSE, echo = FALSE, eval = FALSE
+dplyr::full_join(
+  by = c(Year = "year"),
+  x = catch_rec%>%dplyr::group_by(Year)%>%dplyr::filter(state=="OR")%>%summarize(mt=sum(mt)),
+  data_SS_oldnorth[["catch"]] %>%
+      dplyr::filter(fleet == grep("OR", data_SS_oldnorth[["fleetnames"]]), catch > 0)
+    ) %>% dplyr::mutate(diff = mt - catch) %>%data.frame()
+
+
+#+ catch-rec-ts, fig.cap = "Time series of recreational landings by state and area."
 ggplot2::ggplot(
   catch_rec,
   ggplot2::aes(Year, mt, col = interaction(area, state, sep = " "))
