@@ -1,8 +1,8 @@
 #' ---
-#' title: "Lingcod landings"
+#' title: "Lingcod catches"
 #' author: "Kelli Faye Johnson"
 #' date: "`r format(Sys.time(), '%B %d, %Y')`"
-#' bibliography: references.bib
+#' bibliography: catch.bib
 #' output:
 #'   bookdown::html_document2:
 #'     keep_md: true
@@ -12,21 +12,25 @@ utils_knit_opts(type = "data-raw")
 
 
 #+ setup_notes, echo = FALSE, include = FALSE, eval = FALSE
+# Notes for how to run this file in R,
+# because echo, include, and eval are FALSE,
+# comments within this knitr chunk will not be included in the output.
 #
-# The following section includes notes for how to run this file in R
-# and will never be included in the resulting output.
-# To source this file from the top-level folder run the following line
+# Working directory
+# It is assumed that you are in the top level of the cloned
+# repository, e.g., lingcod_2021.
+# 3 ways to source file
+# (1). source
 # source("data-raw/lingcod_catch.R")
-# or spin using
+# (2). spin
 # knitr::spin("data-raw/lingcod_catch.R", knit = FALSE)
 # rmarkdown::render("data-raw/lingcod_catch.Rmd")
-# Though, I recommend rendering, which works on the .R file
+# (3). render
 # rmarkdown::render("data-raw/lingcod_catch.R")
 #
 # TO DO
-# 1. get WL from BL for all fish
-# 2. Determine which ralston file to use (emailed MH, EJD);
-# discrepancies are unknown, EJD suggested MH look back to her emails
+# 1. Add source to the commercial catch stream
+# 2. standardize catch versus landing
 # 3. Assign fleet numbers and fleet names
 # 4. write a function to formate data_catch into SS.dat format
 # 5. create a figure showing similarities of composition data from OR and
@@ -34,13 +38,11 @@ utils_knit_opts(type = "data-raw")
 # 6. Get @mason2004
 # 7. Think about splitting catch_comm_CA_CALCOM ERK into area
 # where right now it is all going to the North
-# 8. Complete catch_rec_CA reconstruction (emailed MH, EJD)
-# might need to email Brenda
 # 9. for catch_rec_2000 maybe assign only a portion of Redwood
 # from early years to the north model
 # 3. find if I need these packages
 #   library(viridis) I think I got around this with ggplot2
-# 4. get rid of grey background behind inline code
+# 4. get rid of grey background behind inline code because of backticks
 # 5. find a way to wrap in line code at the same length as the text
 # 6. Provide more text on OR aliwhitman
 # 9. Add variable at top for scrollable tables to either be included or omitted
@@ -51,24 +53,28 @@ utils_knit_opts(type = "data-raw")
 # PIE IN THE SKY
 # 1. Why are WDFW 1995 to 1981 landings different than those in PacFIN
 # MH (2017) noted that no one at WDFW knew why and that Phil was going to investigate?
-# 2. Reconstructions using Sette and Fiedler, JF noted that a reconstruction
-# using this information source may be better than a linear ramp for lingcod
-# and other species.
-# 3. think about MODE and how party boat vs. private boat landings differ
+# 2. Reconstructions using Sette and Fiedler for other species,
+# JF noted data-based reconstructions may be better than a linear ramp
+# 3. Recreational catch: MODE, how party boat vs. private boat landings differ
 # 4. inquire to WDFW if reconstruction includes tribal catches via
 # https://www.pcouncil.org/documents/2017/03/i2_att1_catch_reconstruction_workshop_report_mar2017bb.pdf/
+# 5. Create a file name syntax with attributes to store who provided the file
+# and perhaps other metadata that would be useful for latex text in the document,
+# e.g., citation, date provided.
 
 
-#+ setup_objects
+#+ setup_filepaths
 # patterns for dir("data-raw", pattern = grep_...)
 grep_previousmodel <- c("2019.[nN]", "2019.[sS]")
 grep_pacfin <- "PacFIN.+FT.+RData"
 grep_recweightfile <- "SD501--2001---2020_rec_bio_lingcod_pulled_4_19_21"
 grep_comm_or <- "FINAL COMMERCIAL LANDINGS"
 grep_comm_ca_or <- "CAlandingsCaughtORWA"
+# Provided by E.J. Dick
 grep_comm_ca_ralston <- "reconstruction_Ralston_et_al_2010"
+# /* below is file used in 2017, NOT used here */
+# grep_comm_ca_MH <- "CA_final_reconstruction_landings"
 grep_comm_ca_calcom <- "1969-1980_CALCOM"
-grep_comm_ca_MH <- "CA_final_reconstruction_landings"
 grep_rec_501 <- "CTE501"
 grep_rec_mrfss <- "MRFSS-CATCH-ESTIMATES"
 grep_rec_or <- "FINAL RECREATIONAL LANDINGS"
@@ -81,17 +87,20 @@ file_erddap <- dir(
   full.names = TRUE,
   recursive = TRUE
 )
+# file_splitralston provided by MM
 file_splitralston <- "Historical commercial catch for Kelli.xlsx"
 file_password <- file.path(
     dirname(system.file(package = "PacFIN.Utilities")),
     "password.txt"
   )
-file_bib <- "references.bib"
-wl_a <- 2.431498e-06
-wl_b <- 3.312508e+00
+file_bib <- "catch.bib"
+
+
+#+ setup_objects
 calcom_fleet_TW <- c("TWL", "NET")
 erddapmaxyrmeanbyarea <- 1933
 areas <- c("North", "South")
+
 
 #+ setup_readin_SS_old
 data_SS_old <- lingcod::SS_readdat.list(
@@ -104,15 +113,16 @@ data_SS_oldsouth <- data_SS_old[[2]]
 
 #'
 #' ## Commercial landings
-#' 
+#'
 #' ### Commercial fleet structure
-#' 
-#' All commercial landings were assigned to one of the following two fleets:
-#' fixed gear (FG) or trawl (TW).
-#' The latter included bottom trawls, shrimp trawls, net gear, and dredging.
-#' All other gear types, mainly hook and line, were assigned to FG.
-#' Details for how gear types or landings without information on gear were
-#' assigned to each of these fleets are provided in relevant sections below.
+#'
+#' The fleet structure for all commercial landings included two fleets,
+#' fixed gear (FG) and trawl (TW) fleets.
+#' The latter included landings from
+#' bottom trawls, shrimp trawls, net gear, and dredging activities.
+#' Landings from all other gear types, mainly hook and line,
+#' were assigned to FG.
+#' This fleet structure matches that of the previous assessment.
 #'
 #' ### Reconstruction of commercial landings
 #'
@@ -460,7 +470,7 @@ catch_comm_CA_MM <- readxl::read_excel(
 #'
 #' ##### California fish market landings
 #'
-#' 
+#'
 #' [California fish market data](https://oceanview.pfeg.noaa.gov/las_fish1/doc/names_describe.html),
 #' were available over many years, but only those years that were missing
 #' between @sette1928 and the California Catch Reconstruction Project
@@ -568,9 +578,9 @@ ggplot2::ggplot(
 #' These landings were assigned to the trawl fleet operating in the northern area.
 #' In the future, the assignment of species and gear should be investigated
 #' more thoroughly for these landings.
-#' 
+#'
 #' ##### Missing data
-#' 
+#'
 #' For combinations of year, area, and fleet that were missing
 #' in the reconstruction of California commercial landings,
 #' landings were interpolated based on a linear approximation
@@ -584,7 +594,7 @@ ggplot2::ggplot(
 #' and all subsequent missing years of data were filled in based on
 #' linear interpolation between missing years
 #' for a given area and fleet combination.
-#' 
+#'
 #+ catch_comm_CA_interpolate
 catch_comm_CA_interpolate <- dplyr::full_join(
     by = c("Year", "area", "fleet", "source", "mt"),
@@ -636,7 +646,7 @@ catch_comm_CA_interpolate <- dplyr::full_join(
             # Create time series of prop with MM and erddap
             by = c("Year", "fleet", "area", "prop_fa"),
             x = catch_sette_prop_fa %>%
-              mutate(Year = min(catch_comm_CA_ralston[["Year"]]) - 1),
+              dplyr::mutate(Year = min(catch_comm_CA_ralston[["Year"]]) - 1),
             y = catch_comm_CA_MM %>%
               dplyr::filter(type != "ALL") %>%
               dplyr::rename(fleet = "type")
@@ -733,7 +743,7 @@ catch.pacfin <- catch.pacfin[-index, ]
 #+ catch_comm_NS
 #
 # Find landings in Eureka
-# 
+#
 catch_comm_CA_ERA <- catch.pacfin %>%
   dplyr::filter(PACFIN_GROUP_PORT_CODE %in% c("ERA")) %>%
   dplyr::group_by(PORT_NAME) %>%
@@ -817,7 +827,7 @@ catch.pacfin <- catch.pacfin %>%
 #' Whereas, the percentage of commercial landings from TW in the South relative to
 #' in the North has, on average,
 #' decreased with time (Figure \@ref(fig:catch-comm-CA-gearprop)).
-#' 
+#'
 #+ catch-comm-CA-gearprop, fig.width = 15, fig.cap = "Percentage of California catch by area within each fleet since 1981."
 catch.pacfin %>%
   dplyr::filter(AGENCY_CODE == "C", Year != as.numeric(format(Sys.Date(), "%Y"))) %>%
@@ -845,9 +855,9 @@ catch.pacfin %>%
 
 #'
 #' #### Seasonality
-#' 
+#'
 #' todo: explain seasonality.
-#' 
+#'
 #+ catch-comm-seasonality, fig.cap = "Seasonality (month; x axis) of landings (mt) by area (column) and fleet (row). The y axis is on the log scale, colors represent years, and circles are transparent to facilitate visualization of months with many records."
 ggplot2::ggplot(data = catch.pacfin %>%
   dplyr::group_by(Year, LANDING_MONTH, area, fleet) %>%
@@ -873,7 +883,7 @@ ggplot2::ggplot(data = catch.pacfin %>%
   ggplot2::scale_colour_viridis_c(direction = -1) +
   ggplot2::scale_x_continuous(
     limits = c(0, 12), expand = c(0, 0),
-    breaks = seq(1, 12, by = 1), 
+    breaks = seq(1, 12, by = 1),
     labels = c("Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
       "Sep", "Oct", "Nov", "Dec")) +
   ggplot2::scale_y_continuous(trans = "log", breaks = c(0, 1, 10, 100, 1000))
@@ -884,7 +894,7 @@ ggplot2::ggplot(data = catch.pacfin %>%
 catch.pacfin %>%
   dplyr::select(matches("Year|^area$|Round.+MT")) %>%
   dplyr::mutate(Year = Year) %>%
-  dplyr::group_by(Year, area) %>% 
+  dplyr::group_by(Year, area) %>%
   dplyr::summarize(MT = sum(ROUND_WEIGHT_MTONS), .groups = "keep") %>%
   tidyr::pivot_wider(names_from = area, values_from = MT) %>%
   kableExtra::kbl(caption = "Yearly commercial landings (mt) from the PacFIN database by area, North and South, since 1981.") %>%
@@ -955,7 +965,7 @@ ggplot2::ggplot(
   catch_comm,
   ggplot2::aes(Year, mt, col = interaction(fleet, area, sep = " "))
 ) +
-  ggplot2::geom_line() + 
+  ggplot2::geom_line() +
   ggplot2::scale_colour_manual(values = unikn::usecol(pal_unikn_pair, 16L)[c(1:2, 9:10)]) +
   ggplot2::labs(colour = ggplot2::guide_legend(title = "fleet x area")) +
   ggplot2::theme_bw()
@@ -968,7 +978,7 @@ catch_comm_state <- dplyr::full_join(
     by = c("Year", "state", "fleet", "mt"),
     x = catch.pacfin,
     y = catch_comm_reconstruction_notsummed
-  ) %>% 
+  ) %>%
   dplyr::mutate(
     state = ifelse(state != "CA", "N", state),
     source = "2021"
@@ -1011,8 +1021,33 @@ testthat::expect_equal(dplyr::full_join(by = "Year",
   catch_comm %>%
     dplyr::group_by(Year) %>%
     dplyr::summarize(sum = sum(mt, na.rm = TRUE))
-  ) %>% dplyr::mutate(diff = sum.x-sum.y) %>% pull(diff) %>% sum,
+  ) %>% 
+    dplyr::mutate(diff = sum.x-sum.y) %>%
+      dplyr::pull(diff) %>% sum,
   0
+)
+# Save a file to re-run the last model with updated catches
+catch_writetofile <- catch_comm_state %>%
+  dplyr::filter(source == 2021) %>%
+  dplyr::select(Year, state, fleet, mt) %>%
+  dplyr::rename(year = Year, catch = "mt") %>%
+  dplyr::mutate(
+    seas = 1,
+    fleet = dplyr::case_when(
+      state == "CA" & fleet == "TW" ~ 1,
+      state == "CA" & fleet == "FG" ~ 2,
+      state == "WA and OR" & fleet == "TW" ~ 1,
+      state == "WA and OR" & fleet == "FG" ~ 2
+    ),
+    catch_se = 0.00
+  )
+utils::write.csv(
+  x = catch_writetofile %>% dplyr::filter(state == "CA"),
+  file = file.path("data-raw", "catch_comm_south_2019structure.csv")
+)
+utils::write.csv(
+  x = catch_writetofile %>% dplyr::filter(state == "WA and OR"),
+  file = file.path("data-raw", "catch_comm_north_2019structure.csv")
 )
 
 #' The current time series of commercial catches were aggregated using the previous
@@ -1044,7 +1079,7 @@ ggplot2::ggplot(
 
 
 #'
-#' ## Recreational landings
+#' ## Recreational catches
 #'
 #+ setup_rec
 catch_rec_2000 <- RecFIN::read_cte501(
@@ -1183,7 +1218,7 @@ catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
     dplyr::filter(
       fleet == grep("OR", ignore.case = TRUE, data_SS_oldnorth[["fleetnames"]]),
       catch > 0
-    ) %>% 
+    ) %>%
     dplyr::rename(Year = year, mt = catch) %>%
     dplyr::select(Year, mt)
 ) %>%
@@ -1336,7 +1371,7 @@ catch_rec_CA <- catch_rec_1980 %>%
 #' different estimates of catches compared to later years. Thus,
 {{min(catch_rec_1980[["Year"]])}}
 #' is used as the first year of MRFSS data.
-#' Data were provided by John Field for years prior to 
+#' Data were provided by John Field for years prior to
 {{min(catch_rec_1980[["Year"]])}}
 #' and these data have been unchanged since the
 #' 2009 assessment of lingcod [@hamel2009].
@@ -1383,15 +1418,11 @@ ggplot2::ggplot(
 #' ### Fleet
 #'
 #' Recreational data were first compiled to the state level as a single fleet
-#' with all gear types. Then,
-#' the Oregon recreational fleet was combined with data from northern California
-#' to create a single fleet.
+#' with all gear types. Then, data from northern California was added to the northern
+#' model as its own fleet rather than combining with Oregon recretaional data
+#' because each fishery is subject to unique regulations that affect selectivity.
 #' The remaining data from California was used to model recreational fisheries
 #' in Southern California as a single fleet.
-#' The combination of Oregon and northern California data was done
-#' to minimize the number of estimated selectivity parameters, given their similar
-#' fishing patterns.
-#' 
 #'
 #+ catch_rec
 catch_rec <- dplyr::full_join(
@@ -1456,12 +1487,12 @@ ggplot2::ggplot(
   ggplot2::theme_bw()
 
 #+ usethis
-# data_catch <- dplyr::full_join(
-#   by = c(),
-#   x = catch_comm,
-#   y = catch_rec
-# )
-# usethis::use_data(data_catch, overwrite = TRUE)
+data_catch <- dplyr::full_join(
+  by = c("Year", "area", "mt"),
+  x = catch_comm,
+  y = catch_rec %>% dplyr::select(-source)
+)
+usethis::use_data(data_catch, overwrite = TRUE)
 
 #+ setup_references
 knitcitations::write.bibtex(file = file.path("data-raw", file_bib))
