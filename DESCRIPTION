@@ -24,6 +24,7 @@ Imports:
     tidyr,
     unikn,
     r4ss,
+    sa4ss,
     nwfscSurvey,
     devtools,
     bibtex,
@@ -42,7 +43,6 @@ Suggests:
     nwfscDiscard,
     PacFIN.Utilities,
     recFIN,
-    sa4ss,
     VASTWestCoast
 Remotes:
     github::clauswilke/colorblindr,
