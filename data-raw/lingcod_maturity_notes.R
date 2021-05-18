@@ -57,3 +57,27 @@ points(0:25, spawn_output.s * natage_in_1999.s/max(natage_in_1999.s), col = 2, t
 
 plot(0:25, spawn_output.n * natage_in_1887.n/max(natage_in_1887.n), col = 4, type = 'o')
 points(0:25, spawn_output.s * natage_in_1887.s/max(natage_in_1887.s), col = 2, type = 'o')
+
+
+
+# getting ages from PacFIN into Melissa Head's spreadsheet
+
+# read spreadsheet from Melissa Head sent 17 May 2021
+maturity_samples <- read.csv('data-raw/2014_2018ODFWLingcod_maturityagefish.csv')
+# load PacFIN BDS data
+load('data-raw/PacFIN.LCOD.bds.30.Apr.2021.RData')
+
+# slow, brute force way to merge info from the two data frames
+for (irow in 1:nrow(maturity_samples)) {
+  samp_num <- maturity_samples$OR_sample._WAFishticket[irow]
+  sequ_num <- maturity_samples$FishInfoID.[irow]
+  if (samp_num %in% bds.pacfin$AGENCY_SAMPLE_NUMBER) {
+    age <- bds.pacfin$FINAL_FISH_AGE_IN_YEARS[bds.pacfin$AGENCY_SAMPLE_NUMBER == samp_num &
+                                              bds.pacfin$FISH_SEQUENCE_NUMBER == sequ_num]
+    maturity_samples$Age_yrs[irow] <- age
+  }
+}
+
+write.csv(maturity_samples,
+          file = 'data-raw/2014_2018ODFWLingcod_maturityagefish_with_PacFIN_ages.csv',
+          row.names = FALSE)
