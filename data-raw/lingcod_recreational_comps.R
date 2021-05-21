@@ -5,19 +5,19 @@
 ############################################################################################
 
 #Questions:
-1. Do we need CAAL?
-2. What to do with recfin data? Right now, only applying for CA 2004-2020
+#1. Do we need CAAL? Previous assessment did not do it. [NO]
+#2. What to do with recfin data? Right now, only applying for CA 2004-2020, and 2020 for OR. [That is fine]
 #3. Include WA research and unknown origin data? [Right now we just have sport data from newest WA file so no longer relevant]
 4. What is the difference with 2003 type 3d CA data and mrfss type 3 data. 
 #5. For CA use T_LEN or LNGTH? [LNGTH]
-6. What to do with released fish? Set partition to be separate for each? Right now Im keeping all together
+#6. What to do with released fish? Set partition to be separate for each? [Exclude released. SS3 assumes partition 0 even if use partition 2 because dont have separate comps]
 #7. What are "P" and "S" in WA bio files. Are these shore? [No longer relevant]
 #8. What about the 0.2 cm fish in CA 2003? [Exclude]
 #9. Something is wrong with Weight. [Its a conversion. Since we dont use it here, ignore.]
 10. Fleet timings, numbers, age error
-11. Keeping all of Humboldt county right now for CA mrfss
+#11. Keeping all of Humboldt county right now for CA mrfss
 12. Loading dataModerate_2021 from the github quillback branch doesnt include rename_mrfss
-13. Not switching to fork length from total length. Can for WA sport. Others?
+#13. Not switching to fork length from total length. Can for WA sport. Others? [Just do for WA]
 
 #devtools::load_all("U:/Stock assessments/nwfscSurvey")
 devtools::load_all("U:/Stock assessments/dataModerate_2021") 
@@ -80,7 +80,7 @@ recfin_age_data = rename_recfin(data = recfin_age,
 #ca_mrfss_full = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","mrfss_type_3_1980_2003_lingcod.xlsx"), sheet = "mrfss_type_3_1980_2003", na = "NA"))
 ca_mrfss_full = read.csv(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","mrfss_type_3_1980_2003_lingcod.csv"))
 ca_mrfss = ca_mrfss_full[ca_mrfss_full$ST == 6 & ca_mrfss_full$SP_CODE == 8827010201,]
-# #Checked the 2003_... file and see it hass the same number of records. Not sure what the difference is. Dont use
+# #Checked the 2003_... file and see it has the same number of records. Not sure what the difference is. Dont use
 # ca_mrfss_2003_full = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","2003_type_3d_Lingcod.xlsx"), sheet = "2003_type_3d_records_budrick", na = "NA"))
 # ca_mrfss_2003 = ca_mrfss_2003_full[ca_mrfss_2003_full$SP_CODE == 8827010201,]
 
@@ -96,6 +96,7 @@ ca_mrfss_data = rename_mrfss(data = ca_mrfss,
                              mode_grouping = list(c(1,2), c(6), c(7)),
                              mode_names = c("rec_shore", "rec_boat_charter", "rec_boat_private"),
                              mode_column_name = "MODE_FX" )
+#Dont need to convert based on LEN_FLAG have both fork length (LNGTH) and total length (T_LEN) fields
 
 
 ###############
@@ -132,7 +133,10 @@ or_recfin_age_data = rename_recfin(data = or_age,
                                    mode_names = c("rec_boat_charter", "rec_boat_private"),
                                    mode_column_name = "RECFIN_MODE_NAME",
                                    or_ages = TRUE)
-or_recfin_age_data$State_Areas="northage"
+or_recfin_age_data$State_Areas="north"
+or_recfin_age_data$State = "OR"
+or_recfin_age_data$Source = "RecFIN"
+
 
 
 ###############
@@ -144,6 +148,9 @@ wa_recfin_sport = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw",
 wa_recfin_sport$AGENCY_WEIGHT = NA #need this for rename_wa_recfin
 wa_sport = rename_wa_recfin(wa_recfin_sport)
 
+#Convert the 591 total length measurements to fork length based on Laidig (see github issue: https://github.com/iantaylor-NOAA/Lingcod_2021/issues/26)
+wa_sport[which(wa_sport$length_type_name=="Total length"),"RECFIN_LENGTH_MM"] = wa_sport[which(wa_sport$length_type_name=="Total length"),"RECFIN_LENGTH_MM"]*0.981-0.521
+               
 wa_sport$STATE_NAME = "WA"
 wa_sport_data =rename_recfin(data = wa_sport,
                               area_grouping = list(c("WA")),
@@ -159,17 +166,21 @@ wa_sport_data =rename_recfin(data = wa_sport,
 # Put all the data into one list
 ############################################################################################
 #Dont read in the oregon and washington age data just the length (otherwise aged lengths would be double counted)
+#Per email with Theresa Tsou on May20, use wa sport data for length and ages
+#Per email with Ali Whitman on May21, use or datasets (BOTH age and length) for lengths in 1999-2019, recfin lengths in 2020, and mrfss lengths in 1980-1998
 input_len = list()
 input_len[[1]] = recfin_len_data[which(recfin_len_data$State=="CA"),] #Other states provided data for recfin years
 input_len[[2]] = ca_mrfss_data
 input_len[[3]] = or_recfin_len_data
-input_len[[4]] = or_mrfss_data
-input_len[[5]] = wa_sport_data[which(wa_sport_data$Year<2021),]
+input_len[[4]] = or_mrfss_data[which(or_mrfss_data$Year<1999),]
+input_len[[5]] = or_recfin_age_data
+input_len[[6]] = recfin_len_data[which(recfin_len_data$State=="OR" & recfin_len_data$Year == 2020),]
+input_len[[7]] = wa_sport_data[which(wa_sport_data$Year<2021),]
 
+#For age data, oregon age matches recfin_age so just use oregon
 input_age = list()
-input_age[[1]] = recfin_age_data
-input_age[[2]] = or_recfin_age_data
-input_age[[2]] = wa_sport_data[which(wa_sport_data$Year<2021),]
+input_age[[1]] = or_recfin_age_data
+input_age[[2]] = wa_sport_data[which(wa_sport_data$Year<2021),] 
 
 
 ############################################################################################
@@ -198,10 +209,19 @@ out[remove,]
 print(paste("Removed",length(remove)-1, "records with lengths > 200 cm and < 1 cm"))
 out = out[-remove[-1], ]
 
-## Remove the released for the rest of the summaries for now:
-#print(paste("Removed",length(which(out$Data_Type=="RELEASED")), "released records"))
-#out = out[out$Data_Type %in% c("RETAINED", NA), ]
+#Compare retained and released fish
+ggplot(out, aes(Length, fill = Data_Type, color = Data_Type)) + 
+  facet_wrap(facets = c("Sex","State")) + 
+  geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
 
+#Compare across primary modes
+ggplot(out[out$Fleet %in% c("rec_boat_charter", "rec_boat_private", "rec_shore"),], aes(Length, fill = Fleet, color = Fleet)) + 
+  facet_wrap(facets = c("Sex","State")) + 
+  geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+
+## Remove the released fish. (No need to do so for the age data since none were released)
+print(paste("Removed",length(which(out$Data_Type=="RELEASED")), "released records"))
+out = out[out$Data_Type %in% c("RETAINED", NA), ]
 
 ############################################################################################
 # Clean up the data - ages
