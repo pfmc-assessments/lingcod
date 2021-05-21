@@ -5,18 +5,22 @@
 ############################################################################################
 
 #Questions:
-1. What to do with recfin data?
-1. Include WA research and unknown origin data?
-2. What is the difference with 2003 type 3d CA data and mrfss type 3 data. 
-3. For CA use T_LEN or LNGTH?
-4. What to do with released fish? Set partition to be separate for each? Right now Im keeping all together
-5. What are "P" and "S" in WA bio files. Are these shore?
-6. What about the 0.2 cm fish in CA 2003?
-7. Something is wrong with Weight
-8. Fleet timings, numbers, age error
+1. Do we need CAAL?
+2. What to do with recfin data? Right now, only applying for CA 2004-2020
+#3. Include WA research and unknown origin data? [Right now we just have sport data from newest WA file so no longer relevant]
+4. What is the difference with 2003 type 3d CA data and mrfss type 3 data. 
+#5. For CA use T_LEN or LNGTH? [LNGTH]
+6. What to do with released fish? Set partition to be separate for each? Right now Im keeping all together
+#7. What are "P" and "S" in WA bio files. Are these shore? [No longer relevant]
+#8. What about the 0.2 cm fish in CA 2003? [Exclude]
+#9. Something is wrong with Weight. [Its a conversion. Since we dont use it here, ignore.]
+10. Fleet timings, numbers, age error
+11. Keeping all of Humboldt county right now for CA mrfss
+12. Loading dataModerate_2021 from the github quillback branch doesnt include rename_mrfss
+13. Not switching to fork length from total length. Can for WA sport. Others?
 
 #devtools::load_all("U:/Stock assessments/nwfscSurvey")
-devtools::load_all("U:/Stock assessments/dataModerate_2021") #If dont do this then rename recfin doesn't have as many entries
+devtools::load_all("U:/Stock assessments/dataModerate_2021") 
 library(nwfscSurvey)
 library(dataModerate2021)
 library(ggplot2)
@@ -38,14 +42,17 @@ age_bin = seq(0, 20, 1)
 ###############
 #Zip "SPORT BIOLOGICAL" folder from Lingcod_2021>data-raw>recfin>pulled_4_19_21 into data-raw folder in repository
 recfin_bio = read.csv(file.path(dir,"Lingcod_2021","data-raw","pulled_4_19_21","SD501--2001---2020_rec_bio_lingcod_pulled_4_19_21.csv"))
+#Exclude fish from Mexico
+table(recfin_bio$AGENCY_WATER_AREA_NAME)
+recfin_bio = recfin_bio[!recfin_bio$AGENCY_WATER_AREA_NAME %in% c("MEXICO (AREAB AND P1B IMPORT, CPFV)"),]
+#Add area splits at 40`10`
 recfin_bio$Areas = "north"
 recfin_bio[recfin_bio$STATE_NAME=="CALIFORNIA" & !recfin_bio$COUNTY_NUMBER %in% c(15,23),"Areas"] = "south"
 
 recfin_age = read.csv(file.path(dir,"Lingcod_2021","data-raw","pulled_4_19_21","SD506--1984---2020_rec_ageing_lincod_pulled_4_19_21.csv"))
 recfin_age$Areas = "north"
 
-
-####NEED TO DO THESE TWO YET
+#These functions do not keep weight right. However, we dont need weight to be right for comps. Continue on. 
 recfin_len_data = rename_recfin(data = recfin_bio,
                                area_grouping = list(c("south"),c("north")),
                                area_names = c("south", "north"),
@@ -131,42 +138,38 @@ or_recfin_age_data$State_Areas="northage"
 ###############
 #Washington
 ###############
-#Download "Lingcod Biodata as of 3_29_2021(More Ages Coming Daily)" file from Lingcod_2021>data-raw>washington_sharedwithTheresa>LINGCOD into data-raw folder in repository
-wa_recfin_sport = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","Lingcod Biodata as of 3_29_2021(More Ages Coming Daily).xlsx"), sheet = "Sport", na = "NA"))
-wa_recfin_research = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","Lingcod Biodata as of 3_29_2021(More Ages Coming Daily).xlsx"), sheet = "Research", na = "NA"))
-wa_recfin_sportUnkOrigin = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","Lingcod Biodata as of 3_29_2021(More Ages Coming Daily).xlsx"), sheet = "SportUnknownOrigin", na = "NA"))
-#Distinguish washington "types"
-wa_recfin_sport$Origin = "S"
-wa_recfin_research$Origin = "R"
-wa_recfin_sportUnkOrigin$Origin = "U"
-#Combined dataset
-wa_bio = rename_wa_recfin(rbind(wa_recfin_sport,wa_recfin_research,wa_recfin_sportUnkOrigin))
+#Download "Lingcod_Coastal_Sport_05202021" file from Lingcod_2021>data-raw>washington_sharedwithTheresa>LINGCOD into data-raw folder in repository
+#Theresa wishes us to use this data instead. There are more samples in most overlapping years in the recfin data
+wa_recfin_sport = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","Lingcod_Coastal_Sport_05202021.xlsx"), sheet = "Coastal Sport"))
+wa_recfin_sport$AGENCY_WEIGHT = NA #need this for rename_wa_recfin
+wa_sport = rename_wa_recfin(wa_recfin_sport)
 
-wa_bio$STATE_NAME = "WA"
-wa_recfin_data =rename_recfin(data = wa_bio,
+wa_sport$STATE_NAME = "WA"
+wa_sport_data =rename_recfin(data = wa_sport,
                               area_grouping = list(c("WA")),
                               area_names = c("north"),
-                              area_column_name = "STATE_NAME",
-                              mode_grouping = list( c("C"), c("B"), c("\\?", "^$", "P", "S")), #\\? matches to "?" and "^$" matches to ""
-                              mode_names = c("rec_boat_charter", "rec_boat_private", "rec_unk"),
-                              mode_column_name = "boat_mode_code")
+                              area_column_name = "STATE_NAME")
+                              #mode_grouping = list( c("C"), c("B"), c("\\?", "^$", "P", "S")), #\\? matches to "?" and "^$" matches to ""
+                              #mode_names = c("rec_boat_charter", "rec_boat_private", "rec_unk"),
+                              #mode_column_name = "boat_mode_code")
 
+#There are three fish with no best age, but which have age 1 and 2. Without knowing best, exclude. 
 
 ############################################################################################
 # Put all the data into one list
 ############################################################################################
 #Dont read in the oregon and washington age data just the length (otherwise aged lengths would be double counted)
 input_len = list()
-input_len[[1]] = recfin_len_data
+input_len[[1]] = recfin_len_data[which(recfin_len_data$State=="CA"),] #Other states provided data for recfin years
 input_len[[2]] = ca_mrfss_data
 input_len[[3]] = or_recfin_len_data
 input_len[[4]] = or_mrfss_data
-input_len[[5]] = wa_recfin_data
+input_len[[5]] = wa_sport_data[which(wa_sport_data$Year<2021),]
 
 input_age = list()
 input_age[[1]] = recfin_age_data
 input_age[[2]] = or_recfin_age_data
-input_age[[2]] = wa_recfin_data
+input_age[[2]] = wa_sport_data[which(wa_sport_data$Year<2021),]
 
 
 ############################################################################################
@@ -188,14 +191,12 @@ out = out[!is.na(out$Length),]
 # Now lets do a check to filter out any anomalous lengths
 remove = which(out$Length > 200 | out$Length < 8) 
 out[remove,]
-#Year Lat Lon State State_Areas Areas Depth Sex Length   Weight Age            Fleet Data_Type       Source
-#54585  2007  NA  NA    WA       north    NA    NA   U  750.0 4600.000  NA rec_boat_private  RETAINED       RecFIN
-#57763  2008  NA  NA    CA       south    NA    NA   U    6.3    2.840  NA rec_boat_private  RETAINED       RecFIN
-#74238  2009  NA  NA    CA       south    NA    NA   U  678.6    3.950  NA rec_boat_private  RETAINED       RecFIN
-#244631 2003  NA  NA    CA       south    NA    NA   U    0.2       NA  NA rec_boat_private      <NA> RecFIN_MRFSS
-#384411 2007  NA  NA    WA       north    NA    NA   U  750.0    0.001  NA rec_boat_private  RETAINED       RecFIN
-print(paste("Removed",length(remove), "records with lengths > 200 cm"))
-out = out[-remove, ]
+#      Year Lat Lon State State_Areas Areas Depth Sex Length Weight Age            Fleet Data_Type       Source
+#14914 2008  NA  NA    CA       south    NA    NA   U    6.3   2.84  NA rec_boat_private  RETAINED       RecFIN
+#18880 2009  NA  NA    CA       south    NA    NA   U  678.6   3.95  NA rec_boat_private  RETAINED       RecFIN
+#91443 2003  NA  NA    CA       south    NA    NA   U    0.2     NA  NA rec_boat_private      <NA> RecFIN_MRFSS
+print(paste("Removed",length(remove)-1, "records with lengths > 200 cm and < 1 cm"))
+out = out[-remove[-1], ]
 
 ## Remove the released for the rest of the summaries for now:
 #print(paste("Removed",length(which(out$Data_Type=="RELEASED")), "released records"))
@@ -207,7 +208,7 @@ out = out[-remove, ]
 ############################################################################################
 
 #Remove any data without valid ages
-print(paste("Removed",sum(is.na(out_age$Age)), "records without any length"))
+print(paste("Removed",sum(is.na(out_age$Age)), "records without any ages"))
 out_age = out_age[!is.na(out_age$Age),]
 
 # Now lets do a check to filter out any anomalous ages
