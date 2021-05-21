@@ -37,6 +37,7 @@ vignettes/*.pdf
 
 # stuff to ignore
 /ignored/
+/models/ignored/
 
 /data-raw/*
 !/data-raw/*.R
@@ -79,10 +80,10 @@ runnumber.ss
 SIS_table.sso
 ss.b0*
 ss.bar
-ss.cor
 ss.ecm
 ss.eva
 ss.exe
+!/inst/bin/*/ss.exe
 ss.log
 ss.mc2
 ss.mcm

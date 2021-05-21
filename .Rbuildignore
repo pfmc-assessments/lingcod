@@ -11,3 +11,4 @@
 ^tables$
 ^unfit
 ^vignettes/testexclude.Rmd$
+ignored

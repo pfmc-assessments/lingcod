@@ -1,0 +1,55 @@
+#V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Fri May 21 05:25:20 2021
+
+LENGTH: data_month already set for y,m,f: 1989 9.4 4 to real month: 9  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1992 9.4 4 to real month: 9  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1995 8.2 5 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1998 8.2 5 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2001 8.2 5 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2004 8.2 5 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2004 11.5 7 to real month: 11  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2005 10.25 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2006 10.25 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2007 10.25 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2008 10.25 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2009 10.25 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2010 10.25 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2011 10.25 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2012 10.5 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2013 10.5 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2015 10.5 7 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2016 10.5 7 to real month: 10  so treat as replicate
+AGE: data_month already set for y,m,f: 1995 8.2 5 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 1998 8.2 5 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 2001 8.2 5 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 2004 8.2 5 to real month: 8  so treat as replicate
+ 
+This model has just one settlement event; recommend changing to recr_dist_method 4 which takes no recr_dist parameters
+converting asymptotic retention parameter to 1/(1+e(-x)) format for fleet: 1 parm: 9
+old min, max, init, prior:  0.001 1 2 0
+new min, max, init, prior:  -10 10 10 -10
+converting asymptotic retention parameter to 1/(1+e(-x)) format for fleet: 2 parm: 28
+old min, max, init, prior:  0.001 1 1 0
+new min, max, init, prior:  -10 10 10 -10
+fleet: 1 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 1 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 2 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 2 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 3 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 3 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 4 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 4 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 5 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 5 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 6 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 6 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 7 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 7 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 8 age selex range min read is: 0.1; SS expected an integer and will convert 
+fleet: 8 age selex range max read is: 100; is >nages; SS will convert 
+fleet: 3  lencomp has obs with partition==2; will treat as partition=0 because retention not defined; N= 57
+Final gradient: 0.00128656 is larger than final_conv: 0.0001
+Number_of_active_parameters_on_or_near_bounds: 1
+ N warnings: 45
