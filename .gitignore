@@ -37,6 +37,7 @@ vignettes/*.pdf
 
 # stuff to ignore
 /ignored/
+/models/ignored/
 
 /data-raw/*
 !/data-raw/*.R
