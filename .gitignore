@@ -83,6 +83,7 @@ ss.bar
 ss.ecm
 ss.eva
 ss.exe
+!/inst/bin/*/ss.exe
 ss.log
 ss.mc2
 ss.mcm
