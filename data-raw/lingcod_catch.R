@@ -1488,7 +1488,7 @@ ggplot2::ggplot(
 
 #+ usethis
 data_catch <- dplyr::full_join(
-  by = c("Year", "area", "mt"),
+  by = c("Year", "area", "mt", fleet = "state"),
   x = catch_comm,
   y = catch_rec %>% dplyr::select(-source)
 )
