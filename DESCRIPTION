@@ -30,7 +30,8 @@ Imports:
     bibtex,
     knitr,
     knitcitations,
-    rmarkdown
+    rmarkdown,
+    xfun
 Suggests:
     cowplot,
     colorspace,
@@ -39,6 +40,7 @@ Suggests:
     usethis,
     colorblindr,
     nwfscAgeingError,
+    nwfscDeltaGLM,
     nwfscDiag,
     nwfscDiscard,
     PacFIN.Utilities,
