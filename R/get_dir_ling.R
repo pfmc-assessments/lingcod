@@ -1,5 +1,3 @@
-### modifying the 2019 models for 2021
-
 #' get directory for a lingcod model
 #'
 #' uses either a model id like "2021.s.001.001" or the combination of
@@ -39,10 +37,10 @@ get_dir_ling <- function(area = NULL,
   }
   
   # read table of models 
-  models <- readr::read_delim("c:/SS/Lingcod/Lingcod_2021/models/README.md",
+  models <- readr::read_delim("models/README.md",
                               delim = "|",
                               trim_ws = TRUE,
-                              progress = FALSE)
+                              col_types = readr::cols())
 
   # get string for model id (as decided in issue #32)
   if (is.null(id)) {

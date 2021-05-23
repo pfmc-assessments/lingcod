@@ -52,7 +52,7 @@ fleet_nums <- read.csv("data-raw/fleet_numbers.csv")
 
 # renumber fleets (will start with simpler south model
 # but may be easier to be model specific, than try to generalize
-inputs.s <- get_inputs_ling(area = "n", num = 2)
+inputs.s <- get_inputs_ling(area = "s", num = 2)
 dat.s <- inputs.n$ctl
 
 # continue here...
