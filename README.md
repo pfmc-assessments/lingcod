@@ -15,6 +15,7 @@ To interact with this repository
 [  - example structure](#example-structure)  
 [Development guidelines](#Development-guidelines)  
 [Github issue guidelines](#Github-issues)  
+[Modeling workflow](#Modeling-workflow)  
 
 ## Overview
 
