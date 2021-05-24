@@ -49,7 +49,7 @@ abins = seq(from = arange[1], to = arange[2], by = 1)
 #Generate Comps - North
 lfs_n = UnexpandedLFs.fn(dir = file.path("data", "lenComps"),
                        datL = data_n, lgthBins = lbins, printfolder = "LamThesis",
-                       sex = 3,  partition = 2, fleet = NA, month = 1)
+                       sex = 3,  partition = 0, fleet = 9, month = 7)
 lfs_n = list("comps" = lfs_n$comps[1,]) #Remove dummy year comp
 #Output removal direction within write.csv or else column headers are weird
 write.csv(lfs_n$comps[1,], file.path("data", "lenComps", "LamThesis", paste0("north_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), row.names = FALSE)
@@ -66,7 +66,7 @@ PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
 #Generate Comps - South
 lfs_s = UnexpandedLFs.fn(dir = file.path("data", "lenComps"),
                        datL = data_s, lgthBins = lbins, printfolder = "LamThesis",
-                       sex = 3,  partition = 2, fleet = NA, month = 1)
+                       sex = 3,  partition = 0, fleet = 9, month = 7)
 file.rename(from = file.path("data", "lenComps", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
             to = file.path("data", "lenComps", "LamThesis", paste0("south_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
 
@@ -83,10 +83,12 @@ PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
 ###############################
 
 #Generate Comps - North
-ageCAAL_N_LamThesis = create_caal_nonsurvey(data_n, arange, lrange, "data/ageCAAL/LamThesis", "north_LamThesis")
+ageCAAL_N_LamThesis = create_caal_nonsurvey(Data = data_n, agebin = arange, lenbin = lrange, wd = "data/ageCAAL/LamThesis", 
+                                            append = "north_LamThesis", seas = 7, fleet = 9, partition = 0, ageEr = 1)
 
 #Generate Comps - South
-ageCAAL_S_LamThesis = create_caal_nonsurvey(data_s, arange, lrange, "data/ageCAAL/LamThesis", "south_LamThesis")
+ageCAAL_S_LamThesis = create_caal_nonsurvey(Data = data_s, agebin = arange, lenbin = lrange, wd = "data/ageCAAL/LamThesis", 
+                                            append = "south_LamThesis", seas = 7, fleet = 9, partition = 0, ageEr = 1)
 
 
 ###############################
