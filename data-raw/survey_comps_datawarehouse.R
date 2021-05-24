@@ -83,40 +83,44 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     }
     catch = eval(parse(text = paste0("catch.",i)))
     
-    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, 549, and 1280 depths
-    #and Cape Mendocino and pt conception latitudes
+    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, 549, and 1280 depths,
+    #but cutting at 400 because that is basically depth limitation of lingcod. 
+    #Using Cape Mendocino and pt conception latitudes
     #Depth choices based on page 13 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+    #and coversation with Chantel Wetzel about capping at species depth (issue #21)
     #Previous depth choices were at 55, 183, 400, 1280
-    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid", "north deep"),
-                               depths.shallow = c(55, 183, 549), 
-                               depths.deep = c(183, 549, 1280), 
+    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
+                               depths.shallow = c(55, 183),
+                               depths.deep = c(183, 400),
                                lats.south = c(40.166667),
                                lats.north = c(49))
-    
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid", "south Pt C deep", "Pt C to Cape M deep"),
-                                     depths.shallow = c(55, 55, 183, 183, 549, 549), 
-                                     depths.deep = c(183, 183, 549, 549, 1280, 1280), 
-                                     lats.south = c(32, 34.5, 32, 34.5, 32, 34.5),
-                                     lats.north = c(34.5, 40.166667, 34.5, 40.166667, 34.5, 40.166667))
+
+    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+                                     depths.shallow = c(55, 55, 183, 183),
+                                     depths.deep = c(183, 183, 400, 400),
+                                     lats.south = c(32, 34.5, 32, 34.5),
+                                     lats.north = c(34.5, 40.166667, 34.5, 40.166667))
     
     if(i == "Triennial") {
       
       
       
       #For triennial, strata is 55, 350 (because 366 not available), and 500 depths and Cape Mendocino and pt conception latitudes
+      #However, Im cutting at 350 because that is basically depth limitation of lingcod.
       #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+      #and coversation with Chantel Wetzel about capping at species depth (issue #21)
       #Previous depth choices were (I believe) the same as the WCGBTS (55, 183, 400, 1280)
-      strata_north = CreateStrataDF.fn(names = c("north shallow", "north deep"),
-                                       depths.shallow = c(55, 350), 
-                                       depths.deep = c(350, 500), 
+      strata_north = CreateStrataDF.fn(names = NA, #need to NA if have only 1 strata
+                                       depths.shallow = c(55), 
+                                       depths.deep = c(350), 
                                        lats.south = c(40.166667),
                                        lats.north = c(49))
       
-      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C deep", "Pt C to Cape M deep"),
-                                       depths.shallow = c(55, 55, 350, 350), 
-                                       depths.deep = c(350, 350, 500, 500), 
-                                       lats.south = c(32, 34.5, 32, 34.5),
-                                       lats.north = c(34.5, 40.166667, 34.5, 40.166667))
+      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow"),
+                                       depths.shallow = c(55, 55), 
+                                       depths.deep = c(350, 350), 
+                                       lats.south = c(32, 34.5),
+                                       lats.north = c(34.5, 40.166667))
     }
   
     #------------------------------------------Lengths-----------------------------------------#
@@ -270,37 +274,41 @@ survey_acomps <- function(sname, CAAL = FALSE){
     }
     catch = eval(parse(text = paste0("catch.",i)))
     
-    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, 549, and 1280 depths
-    #and Cape Mendocino and pt conception latitudes
+    #Create strata - right now basing off stratification of WCBGT survey at 55, 183, 549, and 1280 depths,
+    #but cutting at 400 because that is basically depth limitation of lingcod. 
+    #Using Cape Mendocino and pt conception latitudes
     #Depth choices based on page 13 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+    #and coversation with Chantel Wetzel about capping at species depth (issue #21)
     #Previous depth choices were at 55, 183, 400, 1280
-    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid", "north deep"),
-                                     depths.shallow = c(55, 183, 549), 
-                                     depths.deep = c(183, 549, 1280), 
+    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
+                                     depths.shallow = c(55, 183),
+                                     depths.deep = c(183, 400),
                                      lats.south = c(40.166667),
                                      lats.north = c(49))
     
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid", "south Pt C deep", "Pt C to Cape M deep"),
-                                     depths.shallow = c(55, 55, 183, 183, 549, 549), 
-                                     depths.deep = c(183, 183, 549, 549, 1280, 1280), 
-                                     lats.south = c(32, 34.5, 32, 34.5, 32, 34.5),
-                                     lats.north = c(34.5, 40.166667, 34.5, 40.166667, 34.5, 40.166667))
+    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+                                     depths.shallow = c(55, 55, 183, 183),
+                                     depths.deep = c(183, 183, 400, 400),
+                                     lats.south = c(32, 34.5, 32, 34.5),
+                                     lats.north = c(34.5, 40.166667, 34.5, 40.166667))
     
     if(i == "Triennial") {
-      #For triennial, strata is 55, 350 (366 is not available), and 500 depths and Cape Mendocino and pt conception latitudes
+      #For triennial, strata is 55, 350 (because 366 not available), and 500 depths and Cape Mendocino and pt conception latitudes
+      #However, Im cutting at 350 because that is basically depth limitation of lingcod.
       #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
+      #and coversation with Chantel Wetzel about capping at species depth (issue #21)
       #Previous depth choices were (I believe) the same as the WCGBTS (55, 183, 400, 1280)
-      strata_north = CreateStrataDF.fn(names = c("north shallow", "north deep"),
-                                       depths.shallow = c(55, 350), 
-                                       depths.deep = c(350, 500), 
+      strata_north = CreateStrataDF.fn(names = NA, #need to NA if have only 1 strata
+                                       depths.shallow = c(55), 
+                                       depths.deep = c(350), 
                                        lats.south = c(40.166667),
                                        lats.north = c(49))
       
-      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C deep", "Pt C to Cape M deep"),
-                                       depths.shallow = c(55, 55, 350, 350), 
-                                       depths.deep = c(350, 350, 500, 500), 
-                                       lats.south = c(32, 34.5, 32, 34.5),
-                                       lats.north = c(34.5, 40.166667, 34.5, 40.166667))
+      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow"),
+                                       depths.shallow = c(55, 55), 
+                                       depths.deep = c(350, 350), 
+                                       lats.south = c(32, 34.5),
+                                       lats.north = c(34.5, 40.166667))
     }
     
     
