@@ -17,7 +17,7 @@
 #3. Will need to specify survey timing (month 7), sex (currently 3 and 0), fleet number (triennial = 6, WCGBTS = 7) DONE
 #4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? Yes DONE
 #5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
-
+#6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
 
 ##------------------------------------Scripts----------------------------------------##
 
@@ -162,15 +162,17 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
                            month = 7, 
                            fleet = ifleet,
                            nSamps = n_north,
-                           printfolder = i)
+                           printfolder = i,
+                           sexRatioUnsexed = 0.5,
+                           maxSizeUnsexed = 40) #based on length-weight relationships (male female diverage around here)
     
 
     file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
                 file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-                file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
+    #file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
+    #            file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
     file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
-    file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    #file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
     
    
     PlotFreqData.fn(dir = file.path(getwd(), "data", "lenComps", i), dat = lengths_north, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
@@ -179,8 +181,8 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("lenCompN_sex3_",i), lengths_north)
     do.call(usethis::use_data, list(as.name(paste0("lenCompN_sex3_",i)), overwrite = TRUE))
-    assign(paste0("lenCompN_unsex_",i), read.csv(file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
-    do.call(usethis::use_data, list(as.name(paste0("lenCompN_unsex_",i)), overwrite = TRUE))
+    #assign(paste0("lenCompN_unsex_",i), read.csv(file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
+    #do.call(usethis::use_data, list(as.name(paste0("lenCompN_unsex_",i)), overwrite = TRUE))
     
     if(doAgeRep) {
       #Non expanded
@@ -218,14 +220,17 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
                                  month = 7, 
                                  fleet = ifleet,
                                  nSamps = n_south,
-                                 printfolder = i)
+                                 printfolder = i,
+                                 sexRatioUnsexed = 0.5,
+                                 maxSizeUnsexed = 40) #based on length-weight relationships (male female diverage around here)
+    
     
     file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
                 file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-                file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
+    #file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
+    #            file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
     file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
-    file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    #file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
     
     PlotFreqData.fn(dir = file.path(getwd(), "data", "lenComps", i), dat = lengths_south, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
     PlotSexRatio.fn(dir = file.path(getwd(), "data", "lenComps", i), dat = bio_south, data.type = "length", dopng = TRUE, main = paste( i, "- South "))
@@ -233,8 +238,8 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("lenCompS_sex3_",i), lengths_south)
     do.call(usethis::use_data, list(as.name(paste0("lenCompS_sex3_",i)), overwrite = TRUE))
-    assign(paste0("lenCompS_unsex_",i), read.csv(file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
-    do.call(usethis::use_data, list(as.name(paste0("lenCompS_unsex_",i)), overwrite = TRUE))
+    #assign(paste0("lenCompS_unsex_",i), read.csv(file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
+    #do.call(usethis::use_data, list(as.name(paste0("lenCompS_unsex_",i)), overwrite = TRUE))
     
     print(paste("Lengths for",i,"done"))
     
@@ -358,7 +363,10 @@ survey_acomps <- function(sname, CAAL = FALSE){
                               agehigh = -1,
                               ageErr = 1,
                               nSamps = n_north_age,
-                              printfolder = i)
+                              printfolder = i,
+                              sexRatioUnsexed = 0.5,
+                              maxSizeUnsexed = 2) #based on length-age relationship for combo and combined (male female diverage around here)
+    )
     
     file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
                 file.path(getwd(), "data", "ageComps", i, paste0("north_Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
@@ -388,7 +396,10 @@ survey_acomps <- function(sname, CAAL = FALSE){
                               agehigh = -1,
                               ageErr = 1,
                               nSamps = n_south_age,
-                              printfolder = i)
+                              printfolder = i,
+                              sexRatioUnsexed = 0.5,
+                              maxSizeUnsexed = 1) #based on length-age relationship for combo and combined (male female diverage around here)
+    
     
     file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
                 file.path(getwd(), "data", "ageComps", i, paste0("south_Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
