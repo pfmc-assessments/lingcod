@@ -14,9 +14,9 @@
 ##There are a few remaining tasks
 #1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
 #2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
-3. Will need to specify survey timing, sex (currently 3), fleet number, etc....
-4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? 
-5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL?
+#3. Will need to specify survey timing (month 7), sex (currently 3 and 0), fleet number (triennial = 6, WCGBTS = 7) DONE
+#4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? Yes DONE
+#5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
 
 
 ##------------------------------------Scripts----------------------------------------##
@@ -72,6 +72,9 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
   if(!dir.exists(file.path("data", "lenComps"))) dir.create(file.path("data", "lenComps"))
 
   for(i in sname){
+    
+    if(i == "Triennial") ifleet = 6
+    if(i == "WCGBTS") ifleet = 7
     
     #Read biological data and catch data generated from read_surveys()
     bio = eval(parse(text = paste0("bio.",i)))
@@ -152,8 +155,8 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
                            strat.df = strata_north, 
                            lgthBins = lbin, 
                            sex = 3, 
-                           month = "Month", 
-                           fleet = "Fleet",
+                           month = 7, 
+                           fleet = ifleet,
                            nSamps = n_north,
                            printfolder = i)
     
@@ -208,8 +211,8 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
                                  strat.df = strata_south, 
                                  lgthBins = lbin, 
                                  sex = 3, 
-                                 month = "Month", 
-                                 fleet = "Fleet",
+                                 month = 7, 
+                                 fleet = ifleet,
                                  nSamps = n_south,
                                  printfolder = i)
     
@@ -256,6 +259,9 @@ survey_acomps <- function(sname, CAAL = FALSE){
   if(!dir.exists(file.path("data", "ageCAAL")) & CAAL) dir.create(file.path("data", "ageCAAL"))
   
   for(i in sname){
+    
+    if(i == "Triennial") ifleet = 6
+    if(i == "WCGBTS") ifleet = 7
     
     #Read biological data and catch data generated from read_surveys()
     bio_ages = eval(parse(text = paste0("bio.",i)))
@@ -338,11 +344,11 @@ survey_acomps <- function(sname, CAAL = FALSE){
                               strat.df = strata_north, 
                               ageBins = abin, 
                               sex = 3, 
-                              month = "Month", 
-                              fleet = "Fleet",
-                              agelow = "Enter",
-                              agehigh = "Enter",
-                              ageErr = "Enter",
+                              month = 7, 
+                              fleet = ifleet,
+                              agelow = -1,
+                              agehigh = -1,
+                              ageErr = 1,
                               nSamps = n_north_age,
                               printfolder = i)
     
@@ -368,11 +374,11 @@ survey_acomps <- function(sname, CAAL = FALSE){
                               strat.df = strata_south, 
                               ageBins = abin, 
                               sex = 3, 
-                              month = "Month", 
-                              fleet = "Fleet",
-                              agelow = "Enter",
-                              agehigh = "Enter",
-                              ageErr = "Enter",
+                              month = 7, 
+                              fleet = ifleet,
+                              agelow = -1,
+                              agehigh = -1,
+                              ageErr = 1,
                               nSamps = n_south_age,
                               printfolder = i)
     
@@ -419,9 +425,9 @@ survey_acomps <- function(sname, CAAL = FALSE){
                                 ageBins = abin, 
                                 sex = 3,
                                 raw = TRUE, #Not standard to set to FALSE (expanded)
-                                month = "Month", 
-                                fleet = "Fleet",
-                                ageErr = "Enter",
+                                month = 7, 
+                                fleet = ifleet,
+                                ageErr = 1,
                                 printfolder = i)
         
       file.rename(file.path(getwd(), "data", "ageCAAL", i, paste0("Survey_CAAL_Male_Bins_",first(lbin),"_",last(lbin),"_",first(abin),"_", last(abin),".csv")),
@@ -441,9 +447,9 @@ survey_acomps <- function(sname, CAAL = FALSE){
                                      ageBins = abin, 
                                      sex = 3,
                                      raw = TRUE, #Not standard to set to FALSE (expanded)
-                                     month = "Month", 
-                                     fleet = "Fleet",
-                                     ageErr = "Enter",
+                                     month = 7, 
+                                     fleet = ifleet,
+                                     ageErr = 1,
                                      printfolder = i)
       
       file.rename(file.path(getwd(), "data", "ageCAAL", i, paste0("Survey_CAAL_Male_Bins_",first(lbin),"_",last(lbin),"_",first(abin),"_", last(abin),".csv")),
