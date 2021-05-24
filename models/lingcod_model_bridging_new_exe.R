@@ -1,21 +1,5 @@
 ### testing with newer version of Stock Synthesis
 
-### make sure SSv3.30.16.02 executable is available
-# first download Windows executable if not already present
-dir.exe <- file.path("models/SSv3.30.16.02")
-
-if (file.info(dir.exe)$isdir && "ss.exe" %in% dir(dir.exe)) {
-  message("SS executable found in ", dir.exe)
-} else {
-  message("downloading SS executable into ", dir.exe)
-  if (is.na(file.info(dir.exe)$isdir)) {
-    dir.create(dir.exe)
-  }
-  download.file(url = "https://vlab.ncep.noaa.gov/documents/259399/11944598/ss.exe",
-                destfile = "models/SSv3.30.16.02/ss.exe",
-                mode = "wb")
-}
-
 # define new and old directories
 # 2017 base models
 dir.2017.n.001.001 <- "models/2017.n.001.001.final_base"
@@ -33,7 +17,7 @@ r4ss::copy_SS_inputs(dir.old = dir.2019.n.001.001,
                      dir.new = dir.2019.n.002.001,
                      use_ss_new = TRUE,
                      copy_exe = TRUE,
-                     dir.exe = dir.exe)
+                     dir.exe = get_dir_exe())
 
 # 2019 south model with new SS exe
 dir.2019.s.002.001 <- "models/2019.s.002.001.SSv3.30.16.02"
@@ -41,14 +25,14 @@ r4ss::copy_SS_inputs(dir.old = dir.2019.s.001.001,
                      dir.new = dir.2019.s.002.001,
                      use_ss_new = TRUE,
                      copy_exe = TRUE,
-                     dir.exe = dir.exe)
+                     dir.exe = get_dir_exe())
 # 2017 south model with new SS exe
 dir.2017.s.002.001 <- "models/2017.s.002.001.SSv3.30.16.02"
 r4ss::copy_SS_inputs(dir.old = dir.2017.s.001.001,
                      dir.new = dir.2017.s.002.001,
                      use_ss_new = TRUE,
                      copy_exe = TRUE,
-                     dir.exe = dir.exe)
+                     dir.exe = get_dir_exe())
 # 2019 south model with new SS exe and .par file from 2019 run
 dir.2019.s.002.002 <- "models/2019.s.002.002.SSv3.30.16.02_par"
 r4ss::copy_SS_inputs(dir.old = dir.2019.s.001.001,
@@ -56,7 +40,7 @@ r4ss::copy_SS_inputs(dir.old = dir.2019.s.001.001,
                      use_ss_new = TRUE,
                      copy_par = TRUE,
                      copy_exe = TRUE,
-                     dir.exe = dir.exe)
+                     dir.exe = get_dir_exe())
 # modify starter file to use .par
 start <- r4ss::SS_readstarter(file = file.path(dir.2019.s.002.002,
                                                "starter.ss"),
@@ -136,18 +120,18 @@ SStableComparisons(summ.s.old_vs_new_SS,
 
 ## changing data
 # copy directory with 2019 south model with new SS exe and .par file from 2019 run
-dir.2019.s.003.002 <- "models/2019.s.003.002_update_CA_catch"
-r4ss::copy_SS_inputs(dir.old = dir.2019.s.002.002,
-                     dir.new = dir.2019.s.003.002,
+dir.2019.s.003.001 <- get_dir_ling(area = "s", num = 3, yr = 2019)
+r4ss::copy_SS_inputs(dir.old = get_dir_ling(area = "s", num = 2, yr = 2019, sens = 2),
+                     dir.new = dir.2019.s.003.001,
                      use_ss_new = TRUE,
                      copy_par = TRUE,
                      copy_exe = TRUE,
-                     dir.exe = dir.exe)
+                     dir.exe = get_dir_exe())
 
 # read data file
-dat.2019.s.003.002 <- r4ss::SS_readdat(file.path(dir.2019.s.003.002, "ling.dat"),
+dat.2019.s.003.001 <- r4ss::SS_readdat(file.path(dir.2019.s.003.001, "ling.dat"),
                                        verbose = FALSE)
-head(dat.2019.s.003.002$catch)
+head(dat.2019.s.003.001$catch)
 ##   year seas fleet   catch catch_se
 ## 1 -999    1     1  0.0000     0.01
 ## 2 1889    1     1  0.0000     0.01
@@ -156,11 +140,11 @@ head(dat.2019.s.003.002$catch)
 ## 5 1892    1     1 39.6775     0.01
 ## 6 1893    1     1 52.9033     0.01
 
-# make changes to dat.2019.s.003.002$catch
+# make changes to dat.2019.s.003.001$catch
 
 # write modified data file (overwriting old one because it's a copy of original file)
-r4ss::SS_writedat(datlist = dat.2019.s.003.002,
-                  outfile = file.path(dir.2019.s.003.002, "Ling.dat"),
+r4ss::SS_writedat(datlist = dat.2019.s.003.001,
+                  outfile = file.path(dir.2019.s.003.001, "Ling.dat"),
                   verbose = TRUE,
                   overwrite = TRUE)
 

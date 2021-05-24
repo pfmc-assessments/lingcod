@@ -15,6 +15,7 @@ To interact with this repository
 [  - example structure](#example-structure)  
 [Development guidelines](#Development-guidelines)  
 [Github issue guidelines](#Github-issues)  
+[Modeling workflow](#Modeling-workflow)  
 
 ## Overview
 
@@ -215,3 +216,25 @@ todo: provide information on how to use github issues for this repository
 
 [Google drive]: https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr?usp=sharing
 [vertical]: crumplab.github.io/vertical/
+
+## Modeling workflow
+
+### Steps taken so far (e.g. at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_new_exe.R))
+* Add rows to models/README.md for each model, including placeholders as needed
+* Add a script with name like `models/lingcod_model_..._.R` which is focused on the
+particular modeling task, and note the script name in the README file.
+* Within the script, use the functions `r4ss::copy_SS_inputs()`, `get_dir_ling()`, 
+and `get_dir_exe()` to copy model files into a new folder.
+* Use the `get_inputs_ling()` function to read the SS input files into R
+* Modify the input files within R
+* Write the modified files
+* Run the model using either `r4ss::run_SS_models()`, command line commands, 
+or whatever approach you like
+* Commit the model results to the repo (most files will be ignored 
+thanks to `.gitignore`)
+
+### Future workflow steps:
+* For models with results that will be referenced in the table, we should run
+`r4ss::SS_output()` and save the results as an .rda file
+* If the repo is getting too big we can delete most of the .sso files from the repo
+and rely on Google Drive to pass these back and forth
