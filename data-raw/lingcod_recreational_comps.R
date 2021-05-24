@@ -14,7 +14,7 @@
 #7. What are "P" and "S" in WA bio files. Are these shore? [No longer relevant]
 #8. What about the 0.2 cm fish in CA 2003? [Exclude]
 #9. Something is wrong with Weight. [Its a conversion. Since we dont use it here, ignore.]
-10. Fleet timings, numbers, age error
+#10. Fleet timings (7), numbers (WA = 3, OR = 4, CA = 5), age error (1) DONE
 #11. Keeping all of Humboldt county right now for CA mrfss
 12. Loading dataModerate_2021 from the github quillback branch doesnt include rename_mrfss
 #13. Not switching to fork length from total length. Can for WA sport. Others? [Just do for WA]
@@ -254,7 +254,7 @@ write.csv(n, file = file.path(lsubdir, "wa_rec_samples.csv"), row.names = FALSE)
 
 lfs = UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = wa, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = "Fleet", month = 1)
+                       sex = 3,  partition = 0, fleet = 3, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("north_WA_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
@@ -291,7 +291,7 @@ write.csv(n, file = file.path(asubdir, "wa_rec_age_samples.csv"), row.names = FA
 
 afs = UnexpandedAFs.fn(dir = file.path(asubdir), #puts into "forSS" folder in this location
                        datA = wa_age, ageBins = age_bin,
-                       sex = 3,  partition = 0, fleet = "Fleet", month = 1, ageErr = 1) #Fleet is 1 for WA
+                       sex = 3,  partition = 0, fleet = 3, month = 7, ageErr = 1) #Fleet is 1 for WA
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
             to = file.path(asubdir, paste0("north_WA_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv"))) 
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_3_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
@@ -326,7 +326,7 @@ write.csv(n, file = file.path(lsubdir, "or_rec_samples.csv"), row.names = FALSE)
 
 lfs = UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = or, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = "Fleet", month = 1)
+                       sex = 3,  partition = 0, fleet = 4, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("north_OR_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
@@ -360,7 +360,7 @@ write.csv(n, file = file.path(asubdir, "or_rec_age_samples.csv"), row.names = FA
 
 afs = UnexpandedAFs.fn(dir = file.path(asubdir), #puts into "forSS" folder in this location
                        datA = or_age, ageBins = age_bin,
-                       sex = 3,  partition = 0, fleet = "Fleet", month = 1, ageErr = 1) #Fleet is 1 for WA
+                       sex = 3,  partition = 0, fleet = 4, month = 7, ageErr = 1) #Fleet is 1 for WA
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
             to = file.path(asubdir, paste0("north_OR_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv"))) 
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_3_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
@@ -395,7 +395,7 @@ write.csv(n, file = file.path(lsubdir, "ca_north_rec_samples.csv"), row.names = 
 
 lfs = UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = ca, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = "Fleet", month = 1)
+                       sex = 3,  partition = 0, fleet = 5, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("north_CA_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
@@ -434,7 +434,7 @@ write.csv(n, file = file.path(lsubdir, "ca_south_rec_samples.csv"), row.names = 
 
 lfs = UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = ca, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = "Fleet", month = 1)
+                       sex = 3,  partition = 0, fleet = 5, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("south_CA_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
