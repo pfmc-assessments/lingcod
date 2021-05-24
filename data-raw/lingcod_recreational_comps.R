@@ -7,9 +7,9 @@
 #Questions:
 #1. Do we need CAAL? Previous assessment did not do it. [NO]
 #2. What to do with recfin data? Right now, only applying for CA 2004-2020, and 2020 for OR. [That is fine]
-#3. Include WA research and unknown origin data? [Right now we just have sport data from newest WA file so no longer relevant]
+#3. Include WA research and unknown origin data? [No longer relevant]
 4. What is the difference with 2003 type 3d CA data and mrfss type 3 data. 
-#5. For CA use T_LEN or LNGTH? [LNGTH]
+#5. For CA use T_LEN or LNGTH? [LNGTH appears to be fork length]
 #6. What to do with released fish? Set partition to be separate for each? [Exclude released. SS3 assumes partition 0 even if use partition 2 because dont have separate comps]
 #7. What are "P" and "S" in WA bio files. Are these shore? [No longer relevant]
 #8. What about the 0.2 cm fish in CA 2003? [Exclude]
@@ -40,7 +40,7 @@ age_bin = seq(0, 20, 1)
 ###############
 #General Recfin
 ###############
-#Zip "SPORT BIOLOGICAL" folder from Lingcod_2021>data-raw>recfin>pulled_4_19_21 into data-raw folder in repository
+#Zip "pulled_4_19_21" folder from Lingcod_2021>data-raw>recfin into data-raw folder in repository
 recfin_bio = read.csv(file.path(dir,"Lingcod_2021","data-raw","pulled_4_19_21","SD501--2001---2020_rec_bio_lingcod_pulled_4_19_21.csv"))
 #Exclude fish from Mexico
 table(recfin_bio$AGENCY_WATER_AREA_NAME)
