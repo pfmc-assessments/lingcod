@@ -51,6 +51,14 @@ hnl$Length_cm = hnl$length_cm
 hnl$Sex = hnl$sex
 hnl$Year = hnl$year
 
+hnl$Trawl_id = 1:nrow(hnl)
+GetN.fn(dir = file.path("data", "lenComps", "HooknLine"), dat = hnl, type = "length", species = 'others')
+n = read.csv(file.path("data", "lenComps", "HooknLine", "forSS", "length_SampleSize.csv"))
+n = n[,c('Year', 'All_Fish', 'Sexed_Fish', 'Unsexed_Fish')]
+write.csv(n, file = file.path("data", "lenComps", "HooknLine", "hkl_samples.csv"), row.names = FALSE)
+#Remove forSS file
+unlink(file.path("data", "lenComps", "HooknLine","forSS"), recursive=TRUE)
+
 #Generate Comps
 lfs = UnexpandedLFs.fn(dir = file.path("data", "lenComps"), #puts into "forSS" folder in this location
                        datL = hnl, lgthBins = lbins, printfolder = "HooknLine",
@@ -87,6 +95,14 @@ hnl_ages$Age = hnl_ages$age_years
 hnl_ages$Length_cm = hnl_ages$length_cm
 hnl_ages$Sex = hnl_ages$sex
 hnl_ages$Year = hnl_ages$year
+
+hnl_ages$Trawl_id = 1:nrow(hnl_ages)
+GetN.fn(dir = file.path("data", "ageComps", "HooknLine"), dat = hnl_ages, type = "age", species = 'others')
+n = read.csv(file.path("data", "ageComps", "HooknLine", "forSS", "age_SampleSize.csv"))
+n = n[,c('Year', 'All_Fish', 'Sexed_Fish', 'Unsexed_Fish')]
+write.csv(n, file = file.path("data", "ageComps", "HooknLine", "hkl_age_samples.csv"), row.names = FALSE)
+#Remove forSS file
+unlink(file.path("data", "ageComps", "HooknLine","forSS"), recursive=TRUE)
 
 afs = UnexpandedAFs.fn(dir = file.path("data", "ageComps"),  #Somehow stills prints to "forSS"
                        datA = hnl_ages, ageBins = abins, printfolder = "HooknLine",
