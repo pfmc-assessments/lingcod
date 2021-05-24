@@ -16,11 +16,12 @@
 #9. Something is wrong with Weight. [Its a conversion. Since we dont use it here, ignore.]
 #10. Fleet timings (7), numbers (WA = 3, OR = 4, CA = 5), age error (1) DONE
 #11. Keeping all of Humboldt county right now for CA mrfss
-12. Loading dataModerate_2021 from the github quillback branch doesnt include rename_mrfss
+#12. Loading dataModerate_2021 from the github quillback branch doesnt include rename_mrfss. [RESOLVED]
 #13. Not switching to fork length from total length. Can for WA sport. Others? [Just do for WA]
 
 #devtools::load_all("U:/Stock assessments/nwfscSurvey")
-devtools::load_all("U:/Stock assessments/dataModerate_2021") 
+#devtools::load_all("U:/Stock assessments/dataModerate_2021") 
+devtools::install_github("brianlangseth-NOAA/dataModerate_2021@quillback")
 library(nwfscSurvey)
 library(dataModerate2021)
 library(ggplot2)
@@ -269,6 +270,8 @@ PlotFreqData.fn(dir = file.path(lsubdir),
 PlotFreqData.fn(dir = file.path(lsubdir), 
                 dat = lfs$comps_u, ylim=c(0, max(len_bin)+4), 
                 main = "WA Recreational - Unsexed", yaxs="i", ylab="Length (cm)", dopng = TRUE)
+PlotSexRatio.fn(dir = file.path(lsubdir), dat = wa, data.type = "length", dopng = TRUE, main = paste( "WA North "))
+
 
 #Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
 lenCompN_WA_Rec = lfs
@@ -305,6 +308,8 @@ PlotFreqData.fn(dir = file.path(asubdir),
 PlotFreqData.fn(dir = file.path(asubdir), 
                 dat = afs$comps_u, ylim=c(0, max(age_bin)+1), 
                 main = "WA Recreational - Unsexed", yaxs="i", ylab="Age", dopng = TRUE)
+PlotSexRatio.fn(dir = file.path(asubdir), dat = wa_age, data.type = "age", dopng = TRUE, main = paste( "WA North "))
+
 
 #Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
 ageCompN_WA_Rec = afs
@@ -340,6 +345,7 @@ PlotFreqData.fn(dir = file.path(lsubdir),
 PlotFreqData.fn(dir = file.path(lsubdir), 
                 dat = lfs$comps_u, ylim=c(0, max(len_bin)+4), 
                 main = "OR Recreational - Unsexed", yaxs="i", ylab="Length (cm)", dopng = TRUE)
+PlotSexRatio.fn(dir = file.path(lsubdir), dat = or, data.type = "length", dopng = TRUE, main = paste( "OR North "))
 
 #Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
 lenCompN_OR_Rec = lfs
@@ -374,6 +380,7 @@ PlotFreqData.fn(dir = file.path(asubdir),
 PlotFreqData.fn(dir = file.path(asubdir), 
                 dat = afs$comps_u, ylim=c(0, max(age_bin)+1), 
                 main = "OR Recreational - Unsexed", yaxs="i", ylab="Age", dopng = TRUE)
+PlotSexRatio.fn(dir = file.path(asubdir), dat = or_age, data.type = "age", dopng = TRUE, main = paste( "OR North "))
 
 #Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
 ageCompN_OR_Rec = afs
@@ -410,6 +417,7 @@ PlotFreqData.fn(dir = file.path(lsubdir),
 PlotFreqData.fn(dir = file.path(lsubdir), 
                 dat = lfs$comps_u, ylim=c(0, max(len_bin)+4), 
                 main = "CA North Recreational - Unsexed", yaxs="i", ylab="Length (cm)", dopng = TRUE)
+PlotSexRatio.fn(dir = file.path(lsubdir), dat = ca, data.type = "length", dopng = TRUE, main = paste( "CA North "))
 
 
 #Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
@@ -449,6 +457,7 @@ PlotFreqData.fn(dir = file.path(lsubdir),
 PlotFreqData.fn(dir = file.path(lsubdir), 
                 dat = lfs$comps_u, ylim=c(0, max(len_bin)+4), 
                 main = "CA South Recreational - Unsexed", yaxs="i", ylab="Length (cm)", dopng = TRUE)
+PlotSexRatio.fn(dir = file.path(lsubdir), dat = ca, data.type = "length", dopng = TRUE, main = paste( "CA South "))
 
 #Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
 lenCompS_CA_Rec = lfs
