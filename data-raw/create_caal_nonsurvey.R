@@ -13,7 +13,7 @@
 # append is text to add to beginning of output file name
 ######
 
-create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append){
+create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append,seas,fleet,partition,ageEr){
   # Define years in the data
   YearSet = min(Data[Data$Year!="9999",'Year']):max(Data[Data$Year!="9999",'Year']) #9999 used to acount for added dummy year to Lam thesis data
   # Age bins
@@ -47,7 +47,7 @@ create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append){
         # Skip this year unless there are rows
         if(length(Which)>0){
           # Format reference stuff
-          Row = c('Year'=YearSet[YearI], 'Seas'=1, 'Fleet'= NA, 'Gender' = GenderI, 'Partition'=2, 'AgeError'=NA, 'LbinLo'=LbinSet[LbinI], 
+          Row = c('Year'=YearSet[YearI], 'Seas'=seas, 'Fleet'= fleet, 'Gender' = GenderI, 'Partition'=partition, 'AgeError'=ageEr, 'LbinLo'=LbinSet[LbinI], 
                 'LbinHi'=LbinSet[LbinI], 'nSamps'= "NA")
           # Loop across age bins
           for(AgeI in 1:length(AgeSet)){
@@ -88,7 +88,7 @@ create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append){
     Results$nSamps = rowSums(apply(Results[,paste("Age_",AgeSet,sep="")], MARGIN=2, FUN=as.numeric))
     
     # Write to file
-    write.csv(Results, file=file.path(getwd(),wd,paste0(append,"_CAAL_",out_gender[GenderI],"_Bins_",lenbin[1],"_",lenbin[2],"_",agebin[1],"_",agebin[2],".csv")))
+    write.csv(Results, file=file.path(getwd(),wd,paste0(append,"_CAAL_",out_gender[GenderI],"_Bins_",lenbin[1],"_",lenbin[2],"_",agebin[1],"_",agebin[2],".csv")), row.names = FALSE)
   
     out[[GenderI]] = Results
     

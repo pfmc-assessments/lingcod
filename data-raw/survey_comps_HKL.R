@@ -12,7 +12,9 @@
 
 ##There are a few remaining tasks
 #1. Need to define length bins (currently set to min/max of each dataset with bin size of 2) DONE
-2. Will need to specify survey timing, sex (currently 3), fleet number, partition, etc....
+#2. Will need to specify survey timing (month 7), sex (currently 3 or 0), fleet number (8), partition (0), etc....
+
+library(nwfscSurvey)
 
 ##------------------------------------Scripts----------------------------------------##
 
@@ -52,7 +54,7 @@ hnl$Year = hnl$year
 #Generate Comps
 lfs = UnexpandedLFs.fn(dir = file.path("data", "lenComps"), #puts into "forSS" folder in this location
                        datL = hnl, lgthBins = lbins, printfolder = "HooknLine",
-                       sex = 3,  partition = 0, fleet = "Fleet", month = 1)
+                       sex = 3,  partition = 0, fleet = 8, month = 7)
 file.rename(from = file.path("data", "lenComps", "HooknLine", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
             to = file.path("data", "lenComps", "HooknLine", paste0("south_HNL_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
 file.rename(from = file.path("data", "lenComps", "HooknLine", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(lbins), "-", max(lbins), ".csv")), 
@@ -88,7 +90,7 @@ hnl_ages$Year = hnl_ages$year
 
 afs = UnexpandedAFs.fn(dir = file.path("data", "ageComps"),  #Somehow stills prints to "forSS"
                        datA = hnl_ages, ageBins = abins, printfolder = "HooknLine",
-                       sex = 3, partition = 0, fleet = "Fleet", month = 1, ageErr = 1)
+                       sex = 3, partition = 0, fleet = 8, month = 7, ageErr = 1)
 file.rename(from = file.path("data", "ageComps", "forSS", "Survey_notExpanded_Age_comp_Sex_3_bin=0-20.csv"), 
             to= file.path("data", "ageComps", "HooknLine", "south_Survey_Sex3_Bins_0_20_AgeComps.csv")) 
 if(dir.exists(file.path("data", "ageComps","forSS"))) unlink(file.path("data", "ageComps", "forSS"),recursive = TRUE) #remove forSS file
@@ -106,6 +108,9 @@ usethis::use_data(ageCompS_HKL, overwrite = TRUE)
 hnl_ages$Len_Bin_FL = 2*floor(hnl_ages$Length_cm/2)
 hnl_ages$Ages = hnl_ages$Age
 
-ageCAAL_S_HKL = create_caal_nonsurvey(hnl_ages, arange, lrange, "data/ageCAAL/HooknLine", "south_Survey")
+ageCAAL_S_HKL = create_caal_nonsurvey(Data = hnl_ages, agebin = arange, lenbin = lrange, wd = "data/ageCAAL/HooknLine", 
+                                      append = "south_Survey", seas = 7, fleet = 8, partition = 0, ageEr = 1)
+
+usethis::use_data(ageCAAL_S_HKL, overwrite = TRUE)
 
 
