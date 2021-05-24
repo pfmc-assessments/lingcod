@@ -30,6 +30,10 @@ surveys = c("WCGBTS", "Triennial") #names of existing data
 #No longer needed due to new repository structure
 #readin_survey_data(surveys)   #########Dont need to do this again unless need new data##########
 
+#Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
+plot(catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$Depth_m, log(catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$cpue_kg_km2))
+abline(v=183) #Previous assessments used this. Seems to be a break. Use again. 
+
 #Generate length comps using function below
 #Saves comps and plots for each specified survey 
 survey_lcomps(surveys)
@@ -109,18 +113,18 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
       #However, Im cutting at 350 because that is basically depth limitation of lingcod.
       #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
       #and coversation with Chantel Wetzel about capping at species depth (issue #21)
-      #Previous depth choices were (I believe) the same as the WCGBTS (55, 183, 400, 1280)
-      strata_north = CreateStrataDF.fn(names = NA, #need to NA if have only 1 strata
-                                       depths.shallow = c(55), 
-                                       depths.deep = c(350), 
+      #Previous depth choices were (55, 183, 450)
+      strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"), #need to NA if have only 1 strata
+                                       depths.shallow = c(55, 183), 
+                                       depths.deep = c(183, 350), 
                                        lats.south = c(40.166667),
                                        lats.north = c(49))
       
-      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow"),
-                                       depths.shallow = c(55, 55), 
-                                       depths.deep = c(350, 350), 
-                                       lats.south = c(32, 34.5),
-                                       lats.north = c(34.5, 40.166667))
+      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+                                       depths.shallow = c(55, 55, 183, 183), 
+                                       depths.deep = c(183, 183, 350, 350), 
+                                       lats.south = c(32, 34.5, 32, 34.5),
+                                       lats.north = c(34.5, 40.166667, 34.5, 40.166667))
     }
   
     #------------------------------------------Lengths-----------------------------------------#
@@ -302,18 +306,18 @@ survey_acomps <- function(sname, CAAL = FALSE){
       #However, Im cutting at 350 because that is basically depth limitation of lingcod.
       #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
       #and coversation with Chantel Wetzel about capping at species depth (issue #21)
-      #Previous depth choices were (I believe) the same as the WCGBTS (55, 183, 400, 1280)
-      strata_north = CreateStrataDF.fn(names = NA, #need to NA if have only 1 strata
-                                       depths.shallow = c(55), 
-                                       depths.deep = c(350), 
+      #Previous depth choices were (55, 183, 450)
+      strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"), #need to NA if have only 1 strata
+                                       depths.shallow = c(55, 183), 
+                                       depths.deep = c(183, 350), 
                                        lats.south = c(40.166667),
                                        lats.north = c(49))
       
-      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow"),
-                                       depths.shallow = c(55, 55), 
-                                       depths.deep = c(350, 350), 
-                                       lats.south = c(32, 34.5),
-                                       lats.north = c(34.5, 40.166667))
+      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+                                       depths.shallow = c(55, 55, 183, 183), 
+                                       depths.deep = c(183, 183, 350, 350), 
+                                       lats.south = c(32, 34.5, 32, 34.5),
+                                       lats.north = c(34.5, 40.166667, 34.5, 40.166667))
     }
     
     
@@ -366,14 +370,14 @@ survey_acomps <- function(sname, CAAL = FALSE){
                               printfolder = i,
                               sexRatioUnsexed = 0.5,
                               maxSizeUnsexed = 2) #based on length-age relationship for combo and combined (male female diverage around here)
-    )
+    
     
     file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
                 file.path(getwd(), "data", "ageComps", i, paste0("north_Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
-    file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
-                file.path(getwd(), "data", "ageComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
+    #file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
+    #            file.path(getwd(), "data", "ageComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
     file.remove(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex3_Bins_-999_",last(abin),"_AgeComps.csv")))
-    file.remove(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(abin),"_AgeComps.csv")))
+    #file.remove(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(abin),"_AgeComps.csv")))
     
     PlotFreqData.fn(dir = file.path(getwd(), "data", "ageComps", i), dat = ages_north, ylim=c(0, max(abin) + 1), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Age", dopng = TRUE)
     PlotSexRatio.fn(dir = file.path(getwd(), "data", "ageComps", i), dat = bioages_north, data.type = "age", dopng = TRUE, main = paste( i, "- North "))
@@ -381,8 +385,8 @@ survey_acomps <- function(sname, CAAL = FALSE){
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("ageCompN_sex3_",i), ages_north)
     do.call(usethis::use_data, list(as.name(paste0("ageCompN_sex3_",i)), overwrite = TRUE))
-    assign(paste0("ageCompN_unsex_",i), read.csv(file.path(getwd(), "data", "ageComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv"))))
-    do.call(usethis::use_data, list(as.name(paste0("ageCompN_unsex_",i)), overwrite = TRUE))
+    #assign(paste0("ageCompN_unsex_",i), read.csv(file.path(getwd(), "data", "ageComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv"))))
+    #do.call(usethis::use_data, list(as.name(paste0("ageCompN_unsex_",i)), overwrite = TRUE))
     
     ages_south = SurveyAFs.fn(dir = file.path(getwd(), "data", "ageComps"),
                               datA = bioages_south, 
@@ -403,10 +407,10 @@ survey_acomps <- function(sname, CAAL = FALSE){
     
     file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
                 file.path(getwd(), "data", "ageComps", i, paste0("south_Survey_Sex3_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
-    file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
-                file.path(getwd(), "data", "ageComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
+    #file.rename(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")),
+    #            file.path(getwd(), "data", "ageComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv")))
     file.remove(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex3_Bins_-999_",last(abin),"_AgeComps.csv")))
-    file.remove(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(abin),"_AgeComps.csv")))
+    #file.remove(file.path(getwd(), "data", "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(abin),"_AgeComps.csv")))
     
     PlotFreqData.fn(dir = file.path(getwd(), "data", "ageComps", i), dat = ages_south, ylim=c(0, max(abin) + 1), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Age", dopng = TRUE)
     PlotSexRatio.fn(dir = file.path(getwd(), "data", "ageComps", i), dat = bioages_south, data.type = "age", dopng = TRUE, main = paste( i, "- South "))
@@ -414,8 +418,8 @@ survey_acomps <- function(sname, CAAL = FALSE){
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("ageCompS_sex3_",i), ages_south)
     do.call(usethis::use_data, list(as.name(paste0("ageCompS_sex3_",i)), overwrite = TRUE))
-    assign(paste0("ageCompS_unsex_",i), read.csv(file.path(getwd(), "data", "ageComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv"))))
-    do.call(usethis::use_data, list(as.name(paste0("ageCompS_unsex_",i)), overwrite = TRUE))
+    #assign(paste0("ageCompS_unsex_",i), read.csv(file.path(getwd(), "data", "ageComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(abin),"_",last(abin),"_AgeComps.csv"))))
+    #do.call(usethis::use_data, list(as.name(paste0("ageCompS_unsex_",i)), overwrite = TRUE))
     
     print(paste("Ages for",i,"done")) #For checking purposes
     
