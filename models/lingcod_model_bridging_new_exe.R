@@ -1,20 +1,8 @@
 ### testing with newer version of Stock Synthesis
 
 ### make sure SSv3.30.16.02 executable is available
-# first download Windows executable if not already present
-dir.exe <- file.path("models/SSv3.30.16.02")
-
-if (file.info(dir.exe)$isdir && "ss.exe" %in% dir(dir.exe)) {
-  message("SS executable found in ", dir.exe)
-} else {
-  message("downloading SS executable into ", dir.exe)
-  if (is.na(file.info(dir.exe)$isdir)) {
-    dir.create(dir.exe)
-  }
-  download.file(url = "https://vlab.ncep.noaa.gov/documents/259399/11944598/ss.exe",
-                destfile = "models/SSv3.30.16.02/ss.exe",
-                mode = "wb")
-}
+# currently only works on Windows
+dir.exe <- system.file("inst/bin/Windows64", package = "lingcod")
 
 # define new and old directories
 # 2017 base models
