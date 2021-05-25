@@ -13,11 +13,11 @@
 #
 1 # Forecast: -1=none; 0=simple_1yr; 1=F(SPR); 2=F(MSY) 3=F(Btgt) or F0.1; 4=Ave F (uses first-last relF yrs); 5=input annual F scalar
 # where none and simple require no input after this line; simple sets forecast F same as end year F
-16 # N forecast years 
+14 # N forecast years 
 1 # Fmult (only used for Do_Forecast==5) such that apical_F(f)=Fmult*relF(f)
 #_Fcast_years:  beg_selex, end_selex, beg_relF, end_relF, beg_mean recruits, end_recruits  (enter actual year, or values of 0 or -integer to be rel. endyr)
- 0 0 0 0 0 0
-#  2016 2016 2016 2016 2016 2016
+ -5 -5 -5 -5 0 0
+#  2011 2011 2011 2011 2016 2016
 0 # Forecast selectivity (0=fcast selex is mean from year range; 1=fcast selectivity from annual time-vary parms)
 1 # Control rule method (1: ramp does catch=f(SSB), buffer on F; 2: ramp does F=f(SSB), buffer on F; 3: ramp does catch=f(SSB), buffer on catch; 4: ramp does F=f(SSB), buffer on catch) 
 0.4 # Control rule Biomass level for constant F (as frac of Bzero, e.g. 0.40); (Must be > the no F level below) 
@@ -53,9 +53,10 @@
 2 # basis for fcast catch tuning and for fcast catch caps and allocation  (2=deadbio; 3=retainbio; 5=deadnum; 6=retainnum); NOTE: same units for all fleets
 # Conditional input if relative F choice = 2
 # enter list of:  season,  fleet, relF; if used, terminate with season=-9999
-1 1 0.282282
-1 2 0.0850851
-1 3 0.632633
+1 1 0.532
+1 2 0.132
+1 3 0.139
+1 4 0.197
 -9999 0 0  # terminator for list of relF
 # enter list of: fleet number, max annual catch for fleets with a max; terminate with fleet=-9999
 -9999 -1
@@ -70,18 +71,22 @@
 2 # basis for input Fcast catch: -1=read basis with each obs; 2=dead catch; 3=retained catch; 99=input apical_F; NOTE: bio vs num based on fleet's catchunits
 #enter list of Fcast catches or Fa; terminate with line having year=-9999
 #_Yr Seas Fleet Catch(or_F)
- 2017 1 1 145
- 2018 1 1 236.3
- 2019 1 1 259.9
- 2020 1 1 259.9
- 2017 1 2 85.3
- 2018 1 2 78.5
- 2019 1 2 78.6
- 2020 1 2 78.6
- 2017 1 3 629
- 2018 1 3 470.9
- 2019 1 3 569.7
- 2020 1 3 582.3
+ 2017 1 1 524.49
+ 2017 1 2 123.05
+ 2017 1 3 46.24
+ 2017 1 4 178.16
+ 2018 1 1 300.73
+ 2018 1 2 126.28
+ 2018 1 3 41.11
+ 2018 1 4 213.43
+ 2019 1 1 576.94
+ 2019 1 2 143.68
+ 2019 1 3 43.67
+ 2019 1 4 213.43
+ 2020 1 1 576.94
+ 2020 1 2 143.68
+ 2020 1 3 43.67
+ 2020 1 4 213.43
 -9999 1 1 0 
 #
 999 # verify end of input 
