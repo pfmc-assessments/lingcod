@@ -1,6 +1,5 @@
 #V3.30
-#C data file created using the SS_writedat function in the R package r4ss
-#C file write time: 2021-05-24 22:02:33
+#C_2021 Lingcod data based on 2019 model with renumbered fleets
 #
 1889 #_styr
 2020 #_endyr
