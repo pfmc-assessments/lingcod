@@ -4,10 +4,11 @@
 #'
 #' @param area area, initially either "n" or "s" for 2021 models
 #' @param fleets table of info on old and new fleets created by get_fleets()
-#' @param dat data file object created by get_inputs_ling()
+#' @param dat data file object created by [get_inputs_ling()] or
+#' [r4ss::SS_readdat()]
 #' @author Ian G. Taylor
 #' @export
-#' @seealso [change_control_fleets()], [get_fleets()], [get_inputs_ling()]
+#' @seealso [change_control_fleets()], [get_fleet()], [get_inputs_ling()]
 
 change_data_fleets <- function(area, fleets, dat) {
   
@@ -94,14 +95,15 @@ change_data_fleets <- function(area, fleets, dat) {
     dat$lencomp <- dat$lencomp[,!substring(names(dat$lencomp), 2) %in% c(4,6,8)]
   }
 
-  dat$ageinfo <- data.frame(mintailcomp = rep(-1, dat$Nfleets),
-                            addtocomp = 0.001,
-                            combine_M_F = 0,
-                            CompressBins = 0,
-                            CompError = 0,
-                            ParmSelect = 0,
-                            minsamplesize = 0.001,
-                            row.names = fleets$fleet)
+  # update age comps
+  dat$age_info <- data.frame(mintailcomp = rep(-1, dat$Nfleets),
+                             addtocomp = 0.001,
+                             combine_M_F = 0,
+                             CompressBins = 0,
+                             CompError = 0,
+                             ParmSelect = 0,
+                             minsamplesize = 0.001,
+                             row.names = fleets$fleet)
   # update age comps (keeping any negative fleet numbers negative)
   dat$agecomp$FltSvy <- sign(dat$agecomp$FltSvy) *
     get_fleet(value = abs(dat$agecomp$FltSvy),

@@ -1,0 +1,38 @@
+#V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Wed May 26 09:19:00 2021
+
+ catch is 0.0 in endyr; this can cause problem in the benchmark and forecast calculations
+LENGTH: data_month already set for y,m,f: 1989 9.4 6 to real month: 9  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1992 9.4 6 to real month: 9  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1995 8.2 6 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1998 8.2 6 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2001 8.2 6 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2004 8.2 6 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2004 11.5 8 to real month: 11  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2005 10.25 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2006 10.25 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2007 10.25 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2008 10.25 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2009 10.25 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2010 10.25 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2011 10.25 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2012 10.5 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2013 10.5 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2015 10.5 8 to real month: 10  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2016 10.5 8 to real month: 10  so treat as replicate
+AGE: data_month already set for y,m,f: 1995 8.2 6 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 1998 8.2 6 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 2001 8.2 6 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 2004 8.2 6 to real month: 8  so treat as replicate
+Forecast=0 or -1, so rest of forecast file will not be read and can be omitted;
+A one year forecast using recent F will be done automatically
+Fleet:_6 min bound on parameter for size at peak is 10; should be >= midsize bin 2 (13)
+Fleet:_7 min bound on parameter for size at peak is 5; should be >= midsize bin 2 (13)
+Fleet:_7 min bound on parameter for size at peak is 5; which is < min databin (10), so illogical.
+fleet: 5  lencomp has obs with partition==2; will treat as partition=0 because retention not defined; N= 57
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 1 46 1889 -6 4 -15 -15
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 1 46 1995 -6 4 -15 -15
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 1 47 1995 -1 15 5.39432 -4.10109
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 1 46 2005 -6 4 -15 -15

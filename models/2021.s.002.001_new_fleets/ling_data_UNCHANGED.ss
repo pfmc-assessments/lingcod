@@ -1,6 +1,6 @@
 #V3.30
 #C data file created using the SS_writedat function in the R package r4ss
-#C file write time: 2021-05-24 22:02:34
+#C file write time: 2021-05-26 08:46:24
 #
 1889 #_styr
 2016 #_endyr

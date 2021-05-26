@@ -11,13 +11,14 @@ change_data_fleets(area, fleets, dat)
 
 \item{fleets}{table of info on old and new fleets created by get_fleets()}
 
-\item{dat}{data file object created by get_inputs_ling()}
+\item{dat}{data file object created by \code{\link[=get_inputs_ling]{get_inputs_ling()}} or
+\code{\link[r4ss:SS_readdat]{r4ss::SS_readdat()}}}
 }
 \description{
 function hopefully only to be used once for each model
 }
 \seealso{
-\code{\link[=change_control_fleets]{change_control_fleets()}}, \code{\link[=get_fleets]{get_fleets()}}, \code{\link[=get_inputs_ling]{get_inputs_ling()}}
+\code{\link[=change_control_fleets]{change_control_fleets()}}, \code{\link[=get_fleet]{get_fleet()}}, \code{\link[=get_inputs_ling]{get_inputs_ling()}}
 }
 \author{
 Ian G. Taylor

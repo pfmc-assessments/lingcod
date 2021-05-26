@@ -966,14 +966,15 @@
 #
 #_age_info
 #_mintailcomp	addtocomp	combine_M_F	CompressBins	CompError	ParmSelect	minsamplesize
--1	0.001	0	0	0	0	0.001	#_1_N_TRAWL       
--1	0.001	0	0	0	0	0.001	#_2_N_FIX         
--1	0.001	0	0	0	0	0.001	#_3_WA_REC        
--1	0.001	0	0	0	0	0.001	#_4_OR_REC        
--1	0.001	0	0	0	0	0.001	#_5_N_TRI_Early   
--1	0.001	0	0	0	0	0.001	#_6_N_TRI_Late    
--1	0.001	0	0	0	0	0.001	#_7_N_NWFSC       
--1	0.001	0	0	0	0	0.001	#_8_N_Lam_Research
+-1	0.001	0	0	0	0	0.001	#_1_Comm_Trawl   
+-1	0.001	0	0	0	0	0.001	#_2_Comm_Fix     
+-1	0.001	0	0	0	0	0.001	#_3_Rec_WA       
+-1	0.001	0	0	0	0	0.001	#_4_Rec_OR       
+-1	0.001	0	0	0	0	0.001	#_5_Rec_CA       
+-1	0.001	0	0	0	0	0.001	#_6_Surv_TRI     
+-1	0.001	0	0	0	0	0.001	#_7_Surv_WCGBTS  
+-1	0.001	0	0	0	0	0.001	#_8_Surv_HookLine
+-1	0.001	0	0	0	0	0.001	#_9_Research_Lam 
 3 #_Lbin_method: 1=poplenbins; 2=datalenbins; 3=lengths
  #_combine males into females at or below this bin number
 #_Yr	Seas	FltSvy	Gender	Part	Ageerr	Lbin_lo	Lbin_hi	Nsamp	f0	f1	f2	f3	f4	f5	f6	f7	f8	f9	f10	f11	f12	f13	f14	f15	f16	f17	f18	f19	f20	m0	m1	m2	m3	m4	m5	m6	m7	m8	m9	m10	m11	m12	m13	m14	m15	m16	m17	m18	m19	m20
