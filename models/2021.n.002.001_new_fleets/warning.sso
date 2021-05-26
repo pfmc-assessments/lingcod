@@ -20,3 +20,23 @@ A one year forecast using recent F will be done automatically
 fleet: 3  lencomp has obs with partition==2; will treat as partition=0 because retention not defined; N= 36
 fleet: 4  lencomp has obs with partition==2; will treat as partition=0 because retention not defined; N= 34
  adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 1 9 2011 -10 10 7.42502 11.4486
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 1314 9 2011 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 1314 9 2012 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 1314 9 2013 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 1314 9 2014 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 1314 9 2015 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 1314 9 2016 -10 10 0.120167 11.4487
+Final gradient: 0.000876403 is larger than final_conv: 0.0001
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2011 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2012 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2013 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2014 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2015 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2016 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2011 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2012 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2013 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2014 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2015 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 8 2132 9 2016 -10 10 0.120167 11.4487
+ N warnings: 35

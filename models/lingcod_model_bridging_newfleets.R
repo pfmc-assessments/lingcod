@@ -126,3 +126,32 @@ r4ss::SS_writectl(ctllist = inputs.s$ctl,
                   outfile = file.path(get_dir_ling(area = "s", num = 2),
                                       "ling_control_UNCHANGED.ss"),
                   overwrite = TRUE)
+
+# compare results after running models
+mod.2017.n.001.001 <- SS_output(get_dir_ling(yr = 2017, area = "n", num = 1))
+mod.2017.s.001.001 <- SS_output(get_dir_ling(yr = 2017, area = "s", num = 1))
+mod.2019.n.001.001 <- SS_output(get_dir_ling(yr = 2019, area = "n", num = 1))
+mod.2019.s.001.001 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 1))
+mod.2019.n.002.001 <- SS_output(get_dir_ling(yr = 2019, area = "n", num = 2))
+mod.2019.s.002.002 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 2, sens = 2))
+mod.2021.n.002.001 <- SS_output(get_dir_ling(area = "n", num = 2))
+mod.2021.s.002.001 <- SS_output(get_dir_ling(area = "s", num = 2))
+
+# north comparison plots 
+SSplotComparisons(SSsummarize(list(mod.2019.n.002.001,
+                                   mod.2021.n.002.001)),
+                  subplot = c(2, 4),
+                  legendlabels = c("2019 North model with 3.30.16.02",
+                                   "2021 North model with renumbered fleets"),
+                  plot = FALSE,
+                  print = TRUE,
+                  plotdir = mod.2021.n.002.001$inputs$dir)
+# south comparison plots
+SSplotComparisons(SSsummarize(list(mod.2019.s.002.002,
+                                   mod.2021.s.002.001)),
+                  subplot = c(2, 4),
+                  legendlabels = c("2019 South model with 3.30.16.02",
+                                   "2021 South model with renumbered fleets"),
+                  plot = FALSE,
+                  print = TRUE,
+                  plotdir = mod.2021.s.002.001$inputs$dir)
