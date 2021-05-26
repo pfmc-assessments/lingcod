@@ -61,7 +61,7 @@ change_data_fleets <- function(area, fleets, dat) {
                                     area = area)$num
   # update bins
   dat$minimum_size <- 10
-  dat$maximum_size <- 130
+  dat$maximum_size <- 140
   # 2019 south model had bins starting at 4
   dat$lbin_vector <- seq(10, 130, 2)
   dat$N_lbins <- length(dat$lbin_vector)

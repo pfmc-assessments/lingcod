@@ -68,8 +68,12 @@ inputs.s.new <- inputs.s
 fleets <- get_fleet()
 
 # renumber fleets in data file
-inputs.n.new$dat <- change_data_fleets(area = "n", fleets = fleets, dat = inputs.n$dat)
-inputs.s.new$dat <- change_data_fleets(area = "s", fleets = fleets, dat = inputs.s$dat)
+inputs.n.new$dat <- change_data_fleets(area = "n",
+                                       fleets = fleets,
+                                       dat = inputs.n$dat)
+inputs.s.new$dat <- change_data_fleets(area = "s",
+                                       fleets = fleets,
+                                       dat = inputs.s$dat)
 
 # write modified data files (overwriting old one because it's a copy of original file)
 r4ss::SS_writedat(datlist = inputs.n.new$dat,
@@ -93,10 +97,137 @@ r4ss::SS_writedat(datlist = inputs.s$dat,
 
 
 # renumber fleets in control file
-inputs.n.new$dat <- change_control_fleets(area = "n", fleets = fleets, ctl = inputs.n$ctl)
-inputs.s.new$dat <- change_control_fleets(area = "s", fleets = fleets, ctl = inputs.s$ctl)
 
-# loop over north and south
-for (area in c("n", "s")) {
+# IGT 25 May 2021: wrap up code below into function to use as follows:
+## inputs.n.new$ctl <- change_control_fleets(area = "n",
+##                                           fleets = fleets,
+##                                           ctl = inputs.n$ctl)
+## inputs.s.new$ctl <- change_control_fleets(area = "s",
+##                                           fleets = fleets,
+##                                           ctl = inputs.s$ctl)
 
-} # end loop over N vs S
+# not yet functionalized commands:
+ctl <- inputs.n.new$ctl
+dat <- inputs.n.new$dat
+
+### code below not yet in the function
+ctl$Npopbins <- length(seq(from = dat$minimum_size,
+                           to = dat$maximum_size,
+                           by = dat$binwidth))
+ctl$Nfleets <- dat$Nfleets
+ctl$fleetnames <- fleets$fleet
+
+# change to simpler recruitment distribution for models with 1 area/season/etc.
+ctl$recr_dist_method <- 4
+ctl$MG_parms <- ctl$MG_parms[-grep("RecrDist", rownames(ctl$MG_parms)),]
+
+# renumber fleets for catchability parameters
+ctl$Q_options <- data.frame(fleet = 1:ctl$Nfleets,
+                            link = 1,
+                            link_info = 0,
+                            extra_se = 0, # to be changed below
+                            biasadj = 0,
+                            float = 1)
+rownames(ctl$Q_options) <- ctl$fleetnames
+
+# extra_se was turned on for fishery dependent CPUE
+ctl$Q_options$extra_se[grep("Comm", ctl$fleetnames)] <- 1
+ctl$Q_options$extra_se[grep("Rec", ctl$fleetnames)] <- 1
+
+# turn of extra_se for those fleets not used in each area
+if(area == "n"){
+  ctl$Q_options$extra_se[grep("Rec_CA", ctl$fleetnames)] <- 0
+}
+if(area == "s"){
+  ctl$Q_options$extra_se[grep("Rec_WA", ctl$fleetnames)] <- 0
+  ctl$Q_options$extra_se[grep("Rec_OR", ctl$fleetnames)] <- 0
+}
+
+# create base Q parameters for each fleet (none estimated because float = 1 above)
+base_Q_parms <- data.frame(LO = rep(-15, ctl$Nfleets),
+                           HI = 15,
+                           INIT = 0,
+                           PRIOR = 0,
+                           PR_SD = 0,
+                           PR_type = 0,
+                           PHASE = -1,
+                           env_var = 0,
+                           dev_link = 0,
+                           dev_minyr = 0,
+                           dev_maxyr = 0,
+                           dev_PH = 0,
+                           Block = 0,
+                           Block_Fxn = 0,
+                           row.names = paste0(fleets$fleet, "_LnQ_base"))
+
+# create extraSD parameters for the fishery dependent CPUE
+extraSD_Q_parms <- data.frame(LO = rep(0, sum(ctl$Q_options$extra_se)),
+                              HI = 2,
+                              INIT = 0.05,
+                              PRIOR = 0,
+                              PR_SD = 0,
+                              PR_type = 0,
+                              PHASE = 2,
+                              env_var = 0,
+                              dev_link = 0,
+                              dev_minyr = 0,
+                              dev_maxyr = 0,
+                              dev_PH = 0,
+                              Block = 0,
+                              Block_Fxn = 0,
+                              row.names =
+                                paste0(rownames(ctl$Q_options)[ctl$Q_options$extra_se == 1],
+                                       "_Q_extraSD"))
+# stich the two types of parameters together and sort as expected by SS
+Q_parms <- rbind(base_Q_parms, extraSD_Q_parms)
+Q_parms <- Q_parms[order(rownames(Q_parms)),]
+
+# add time block to Triennial to match separate early and late indices in 2017/2019 models
+# add an extra block design
+ctl$N_Block_Designs <- ctl$N_Block_Designs + 1
+# single block for the new design
+ctl$blocks_per_pattern <- c(ctl$blocks_per_pattern, 1)
+# set range of years for block
+ctl$Block_Design[[ctl$N_Block_Designs]] <- c(1995, 2004)
+
+# add block to Q for triennial
+tripar <- grep("TRI", rownames(Q_parms))
+Q_parms$Block[tripar] <- ctl$N_Block_Designs
+Q_parms$Block_Fxn[tripar] <- 2
+
+# create time-varying replacement Q_parm 
+ctl$Q_parms_tv <- Q_parms[tripar, 1:7]
+
+# update the list with the revised Q_parms table 
+ctl$Q_parms <- Q_parms
+
+######## selectivity
+# make empty table of types
+size_selex_types <- data.frame(Pattern = rep(NA, ctl$Nfleets),
+                               Discard = NA,
+                               Male = NA,
+                               Special = NA,
+                               row.names = fleets$fleet)
+# copy corresponding selex types from previous assessment
+for(irow in 1:ctl$Nfleets){
+  oldrow <- which(rownames(ctl$size_selex_types) %in%
+                  get_fleet(irow)[[paste0("fleets_2019.", area)]])
+  if (length(oldrow) > 0) {
+    size_selex_types[irow, ] <- ctl$size_selex_types[oldrow, ]
+  } else {
+    size_selex_types[irow, ] <- rep(0, 4)
+  }
+}
+ctl$size_selex_types <- size_selex_types
+
+# fleets are in the same order so selectivity parameters should all work as before
+# with the exception of the triennial survey, where the parameters for the 1995-2004
+# period are now block replacement parameters rather than base parameters
+TRI_Late_rows <- grep("TRI_Late", rownames(ctl$size_selex_parms))
+# map first first 7 columns of TRI_Late into time-varying selectivity section
+ctl$size_selex_parms_tv <- rbind(ctl$size_selex_parms_tv,
+                                 ctl$size_selex_parms[TRI_Late_rows, 1:7])
+# remove the rows from the base selectivity parameter section
+ctl$size_selex_parms <- ctl$size_selex_parms[-TRI_Late_rows,]
+
+### next steps: change to age selex type 0, remove age selex rows

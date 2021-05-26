@@ -531,7 +531,7 @@
 2 # length bin method: 1=use databins; 2=generate from binwidth,min,max below; 3=read vector
 2 # binwidth for population size comp
 10 # minimum size in the population (lower edge of first bin and size at age 0.00)
-130 # maximum size in the population (lower edge of last bin)
+140 # maximum size in the population (lower edge of last bin)
 1 #_use_lencomp
 #
 #_len_info

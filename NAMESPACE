@@ -2,6 +2,7 @@
 
 export("%>%")
 export(SS_readdat.list)
+export(change_data_fleets)
 export(dir_recent)
 export(format_range)
 export(get_dir_exe)
