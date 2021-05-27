@@ -6,26 +6,29 @@ age_representativeness_plot <- function(bio.WCGBTS,
   warning("This function has been moved to https://github.com/nwfsc-assess/PacFIN.Utilities/blob/lengthage/R/age_representativeness_plot.R and improved.")
 
   if(!is.null(file)){
-    png(filename = file, width = 7, height = 7, units = 'in', res = 300)
+    grDevices::png(filename = file, width = 7, height = 7, units = 'in', res = 300)
   }
   # make multi-panel plot comparing length samples to the subset with ages
-  par(mfcol = c(9, 2),
+  graphics::par(mfcol = c(9, 2),
       mar = c(0.2,0.2,0.2,0.2),
       oma = c(4,4,1,1))
   # vector of years with age samples
   years <- sort(unique(bio.WCGBTS$Year))
-  colvec <- c(rgb(1, 0, 0, alpha = 0.8), rgb(0, 0, 1, alpha = 0.5))
+  colvec <- c(
+    grDevices::rgb(1, 0, 0, alpha = 0.8),
+    grDevices::rgb(0, 0, 1, alpha = 0.5)
+  )
 
   # empty plot for legend
   plot(0, type = 'n', axes = FALSE)
-  legend('left',
+  graphics::legend('left',
          bty = 'n',
          fill = colvec,
          cex = 1.5,
          legend = c("All length samples",
                     "Samples with age estimates"))
 
-  mtext("Length (cm)", side = 1, line = 2.5, outer = TRUE)
+  graphics::mtext("Length (cm)", side = 1, line = 2.5, outer = TRUE)
 
   for (y in years) {
     # make empty plot (note: xlim and ylim were set by trial and error)
@@ -35,23 +38,23 @@ age_representativeness_plot <- function(bio.WCGBTS,
          ylim = ylim,
          yaxs = 'i',
          axes = FALSE)
-    grid()
-    if (par()$mfg[2] == 1) {
-      axis(2, las = 1)
+    graphics::grid()
+    if (graphics::par()$mfg[2] == 1) {
+      graphics::axis(2, las = 1)
     }
-    if (par()$mfg[1] == par()$mfg[3] | y == max(years)) {
-      axis(1)
+    if (graphics::par()$mfg[1] == graphics::par()$mfg[3] | y == max(years)) {
+      graphics::axis(1)
     }
     lengths.y <- bio.WCGBTS$Length_cm[bio.WCGBTS$Year == y]
     ages.y <- bio.WCGBTS$Length_cm[bio.WCGBTS$Year == y &
                                         !is.na(bio.WCGBTS$Age)]
-    hist(lengths.y,
+    graphics::hist(lengths.y,
          breaks = seq(0, 120, 5),
          freq = FALSE,
          col = colvec[1],
          add = TRUE)
     if (length(ages.y > 0)) {
-      hist(ages.y,
+      graphics::hist(ages.y,
            breaks = seq(0, 120, 5),
            freq = FALSE,
            col = colvec[2],
@@ -60,11 +63,11 @@ age_representativeness_plot <- function(bio.WCGBTS,
     p.value <- NA
     p.color <- 'grey50'
     if (length(lengths.y) > 0 & length(ages.y) > 0) {
-      p.value <- ks.test(x = lengths.y, y = ages.y)$p.value
+      p.value <- stats::ks.test(x = lengths.y, y = ages.y)$p.value
       p.color <- ifelse(p.value > 0.05, 'green3', 'red')
     }
-    legend('topleft', legend = NA, bty = 'n', title = y, cex = 1.5)
-    legend('right', legend = NA, bty = 'n',
+    graphics::legend('topleft', legend = NA, bty = 'n', title = y, cex = 1.5)
+    graphics::legend('right', legend = NA, bty = 'n',
            title = paste0("N lens = ",
                           length(lengths.y),
                           "\nN ages = ",
@@ -73,7 +76,7 @@ age_representativeness_plot <- function(bio.WCGBTS,
                           round(100*length(ages.y)/length(lengths.y)),
                           "%)"),
            cex = 1.0)
-    legend('bottomright', legend = NA, bty = 'n',
+    graphics::legend('bottomright', legend = NA, bty = 'n',
            title = paste0("K-S p-value = ",
                           format(p.value, digits = 2)
                           ),
@@ -81,6 +84,6 @@ age_representativeness_plot <- function(bio.WCGBTS,
   }
 
   if (!is.null(file)) {
-    dev.off()
+    grDevices::dev.off()
   }
 }
