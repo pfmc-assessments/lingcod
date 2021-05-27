@@ -21,10 +21,6 @@
 
 ##------------------------------------Scripts----------------------------------------##
 
-#Surveys to use 
-#surveys = c("NWFSC.Combo", "Triennial", "AFSC.Slope", "NWFSC.Slope")
-surveys = c("WCGBTS", "Triennial") #names of existing data 
-
 #Read in data from the data warehouse using function below
 #Saves .rda files for each specified survey
 #No longer needed due to new repository structure
@@ -36,9 +32,9 @@ abline(v=183) #Previous assessments used this. Seems to be a break. Use again.
 
 #Generate length comps using function below
 #Saves comps and plots for each specified survey 
-survey_lcomps(surveys)
+survey_lcomps(info_surveynames)
 
 
 #Generate age comps using function below. Option for CAAL in addition to conditional age comps
 #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
-survey_acomps(surveys[1:2], CAAL = TRUE)
+survey_acomps(info_surveynames, CAAL = TRUE)
