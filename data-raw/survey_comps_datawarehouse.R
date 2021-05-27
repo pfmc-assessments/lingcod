@@ -27,8 +27,18 @@
 #readin_survey_data(surveys)   #########Dont need to do this again unless need new data##########
 
 #Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
-plot(catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$Depth_m, log(catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$cpue_kg_km2))
-abline(v=183) #Previous assessments used this. Seems to be a break. Use again. 
+grDevices::png(
+  filename = file.path("figures", "Triennial_cpueXdepth.png")
+)
+plot(
+  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$Depth_m,
+  y = log(catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$cpue_kg_km2),
+  xlab = "Depth (m)",
+  ylab = expression(Triennial~log[e]~CPUE~(kg%*%km^2))
+)
+abline(v=183) #Previous assessments used this. Seems to be a break. Use again.
+abline(v=300, col = "red") #Cut off data
+grDevices::dev.off()
 
 #Generate length comps using function below
 #Saves comps and plots for each specified survey 
