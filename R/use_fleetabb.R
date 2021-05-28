@@ -15,7 +15,7 @@
 #' @author Kelli Faye Johnson
 #' @export
 #' @examples
-#' use_fleet(c("HKL", "TWL", "POT"))
+#' use_fleetabb(c("HKL", "TWL", "POT"))
 use_fleetabb <- function(
   x, 
   pattern = "^TW|^DRG|NET",
