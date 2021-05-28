@@ -1,19 +1,33 @@
-######
-# Code to generate CAAL compositions from any dataset. 
-# Used specifically to generate CAAL comps from Laurel Lam's thesis data
-# Standard scripts from nwfscSurvey package not conducive to doing this
-#
-# Developed and provided by Chantel Wetzel from past applications. 
-# Modified to this purpose by Brian Langseth.
-#
-# Data to read in
-# agebin is vector of lower and upper age bins
-# lenbin is vector of lower and upper length bins
-# wd is location where you want output saved
-# append is text to add to beginning of output file name
-######
-
-create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append,seas,fleet,partition,ageEr){
+#' Generate CAAL compositions from any dataset
+#'
+#' Generate CAAL compositions from any data, e.g., Laurel Lam's thesis data.
+#'
+#' @param Data A data frame.
+#' @param agebin A vector of lower and upper age bins, i.e., the range.
+#' @param lenbin A vector of lower and upper length bins, i.e., the range.
+#' @param wd The directory where you want the output saved.
+#' @param append A character value supplying text that will be appened to the
+#' beginning of a standard file name.
+#' @param seas A numeric value supplying the season for this fleet.
+#' @param fleet An integer value for the fleet.
+#' @param partition An integer value supplying the partition.
+#' @param ageEr An integer value supplying the ageing error matrix to use
+#' for this fleet.
+#'
+#' @author Brian J. Langseth modified code from Chatel R. Wetzel
+#' @export
+#'
+create_caal_nonsurvey <- function(
+  Data,
+  agebin,
+  lenbin,
+  wd,
+  append,
+  seas,
+  fleet,
+  partition,
+  ageEr
+){
   # Define years in the data
   YearSet = min(Data[Data$Year!="9999",'Year']):max(Data[Data$Year!="9999",'Year']) #9999 used to acount for added dummy year to Lam thesis data
   # Age bins
@@ -22,11 +36,11 @@ create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append,seas,fleet,partit
   PlusAge = agebin[2]
   # Length bins
   LbinSet = seq(lenbin[1], lenbin[2], 2)
- 
+
   # List of outputs to return
   out=list("female" = NA, "male" = NA)
   out_gender = c("Female","Male") #to output full gender, not just F and M
-  
+
   #Loop across F then M
   for(GenderI in 1:2){
     # Start matrix to save results by gender
@@ -36,7 +50,7 @@ create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append,seas,fleet,partit
 
     # Loop across years
     for(YearI in 1:length(YearSet)){
-      
+
       ########## CONDITIONAL
       # Loop across Length-bins
       for(LbinI in 1:length(LbinSet)){
@@ -59,19 +73,19 @@ create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append,seas,fleet,partit
             Row = c(Row, nrow(Data[Which2,]))
           } # End AgeI loop
           if((nrow(Data[Which[!is.na(Data[Which,"Ages"])],])-sum(as.numeric(Row[-c(1:9)])))>0.1) stop(paste0("Missing sample: Conditional. Length bin number = ",LbinI))
-          
+
           # Add to results matrix
           Results = rbind(Results, Row)
         } # length(Which)
       } # LbinI loop
     } #Year loop
-      
+
     # Explore results
     #if(FALSE){
     #  colSums(matrix(as.numeric(Results[which(Results[,'Year']=="1980"),-c(1:9)]),ncol=PlusAge))
     #  matrix(as.numeric(ResultsMarginal[1,-c(1:9)]),ncol=PlusAge) / sum(matrix(as.numeric(ResultsMarginal[1,-c(1:9)]),ncol=PlusAge))
     #}
-  
+
     # Add headers
     Results = data.frame(Results, row.names=NULL)
     colnames(Results)[-c(1:9)] = paste("Age_",AgeSet,sep="")
@@ -83,16 +97,16 @@ create_caal_nonsurvey <- function(Data,agebin,lenbin,wd,append,seas,fleet,partit
     if( (N1-N0) > 0.1 ){
      stop("Missing sample in fleet")
     }
-    
+
     #Add number of samples
     Results$nSamps = rowSums(apply(Results[,paste("Age_",AgeSet,sep="")], MARGIN=2, FUN=as.numeric))
-    
+
     # Write to file
     write.csv(Results, file=file.path(getwd(),wd,paste0(append,"_CAAL_",out_gender[GenderI],"_Bins_",lenbin[1],"_",lenbin[2],"_",agebin[1],"_",agebin[2],".csv")), row.names = FALSE)
-  
+
     out[[GenderI]] = Results
-    
+
   } # GenderI loop
-  
+
   return(out)
 }
