@@ -101,17 +101,12 @@ survey_lcomps <- function(
     file.rename(file.path(dir, "lenComps", i, "length_SampleSize.csv"),
                 file.path(dir, "lenComps", i, "south_length_SampleSize.csv"))
     
-    
-    #Create length bins - RIGHT NOW THE MIN/MAX OF THE FULL DATASET
-    lrange = c(10,130)
-    lbin = seq(from = lrange[1], to = lrange[2], by = 2)
-    
     #Output expanded lengths based on strata and rename. Plot summaries 
     lengths_north = SurveyLFs.fn(dir = file.path(dir, "lenComps"),
                            datL = bio_north, 
                            datTows = catch_north, 
                            strat.df = strata_north, 
-                           lgthBins = lbin, 
+                           lgthBins = info_bins[["length"]], 
                            sex = 3, 
                            month = 7, 
                            fleet = ifleet,
@@ -121,21 +116,21 @@ survey_lcomps <- function(
                            maxSizeUnsexed = 40) #based on length-weight relationships (male female diverage around here)
     
 
-    file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-                file.path(dir, "lenComps", i, paste0("north_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    #file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-    #            file.path(dir, "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
-    #file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")),
+                file.path(dir, "lenComps", i, paste0("north_Survey_Sex3_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")))
+    #file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")),
+    #            file.path(dir, "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")))
+    file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(info_bins[["length"]]),"_LengthComps.csv")))
+    #file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(info_bins[["length"]]),"_LengthComps.csv")))
     
    
-    PlotFreqData.fn(dir = file.path(dir, "lenComps", i), dat = lengths_north, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
+    PlotFreqData.fn(dir = file.path(dir, "lenComps", i), dat = lengths_north, ylim=c(0, max(info_bins[["length"]]) + 4), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
     PlotSexRatio.fn(dir = file.path(dir, "lenComps", i), dat = bio_north, data.type = "length", dopng = TRUE, main = paste( i, "- North "))
     
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("lenCompN_sex3_",i), lengths_north)
     do.call(usethis::use_data, list(as.name(paste0("lenCompN_sex3_",i)), overwrite = TRUE))
-    #assign(paste0("lenCompN_unsex_",i), read.csv(file.path(dir, "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
+    #assign(paste0("lenCompN_unsex_",i), read.csv(file.path(dir, "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv"))))
     #do.call(usethis::use_data, list(as.name(paste0("lenCompN_unsex_",i)), overwrite = TRUE))
     
     if(doAgeRep) {
@@ -154,7 +149,7 @@ survey_lcomps <- function(
                                    datL = aged_bio_north, 
                                    datTows = aged_catch_north, 
                                    strat.df = strata_north, 
-                                   lgthBins = lbin, 
+                                   lgthBins = info_bins[["length"]], 
                                    sex = 3, 
                                    month = "Month", 
                                    fleet = "Fleet",
@@ -169,7 +164,7 @@ survey_lcomps <- function(
                                  datL = bio_south, 
                                  datTows = catch_south, 
                                  strat.df = strata_south, 
-                                 lgthBins = lbin, 
+                                 lgthBins = info_bins[["length"]], 
                                  sex = 3, 
                                  month = 7, 
                                  fleet = ifleet,
@@ -179,20 +174,20 @@ survey_lcomps <- function(
                                  maxSizeUnsexed = 40) #based on length-weight relationships (male female diverage around here)
     
     
-    file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-                file.path(dir, "lenComps", i, paste0("south_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    #file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-    #            file.path(dir, "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
-    #file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")),
+                file.path(dir, "lenComps", i, paste0("south_Survey_Sex3_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")))
+    #file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")),
+    #            file.path(dir, "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv")))
+    file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(info_bins[["length"]]),"_LengthComps.csv")))
+    #file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(info_bins[["length"]]),"_LengthComps.csv")))
     
-    PlotFreqData.fn(dir = file.path(dir, "lenComps", i), dat = lengths_south, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
+    PlotFreqData.fn(dir = file.path(dir, "lenComps", i), dat = lengths_south, ylim=c(0, max(info_bins[["length"]]) + 4), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
     PlotSexRatio.fn(dir = file.path(dir, "lenComps", i), dat = bio_south, data.type = "length", dopng = TRUE, main = paste( i, "- South "))
     
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("lenCompS_sex3_",i), lengths_south)
     do.call(usethis::use_data, list(as.name(paste0("lenCompS_sex3_",i)), overwrite = TRUE))
-    #assign(paste0("lenCompS_unsex_",i), read.csv(file.path(dir, "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
+    #assign(paste0("lenCompS_unsex_",i), read.csv(file.path(dir, "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_LengthComps.csv"))))
     #do.call(usethis::use_data, list(as.name(paste0("lenCompS_unsex_",i)), overwrite = TRUE))
     
     print(paste("Lengths for",i,"done"))

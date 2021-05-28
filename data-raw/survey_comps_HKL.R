@@ -43,9 +43,6 @@ if(!dir.exists(file.path("data", "ageComps", "HooknLine"))) dir.create(file.path
 
 #------------------------Length-----------------------------#
 
-lrange = c(10,130)
-lbins = seq(from = lrange[1], to = lrange[2], by = 2)
-
 #Rename fields so they work with UnexpandedLFs.fn
 hnl$Length_cm = hnl$length_cm
 hnl$Sex = hnl$sex
@@ -61,19 +58,19 @@ unlink(file.path("data", "lenComps", "HooknLine","forSS"), recursive=TRUE)
 
 #Generate Comps
 lfs = UnexpandedLFs.fn(dir = file.path("data", "lenComps"), #puts into "forSS" folder in this location
-                       datL = hnl, lgthBins = lbins, printfolder = "HooknLine",
+                       datL = hnl, lgthBins = info_bins[["length"]], printfolder = "HooknLine",
                        sex = 3,  partition = 0, fleet = 8, month = 7)
-file.rename(from = file.path("data", "lenComps", "HooknLine", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
-            to = file.path("data", "lenComps", "HooknLine", paste0("south_HNL_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
-file.rename(from = file.path("data", "lenComps", "HooknLine", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(lbins), "-", max(lbins), ".csv")), 
-            to = file.path("data", "lenComps", "HooknLine", paste0("south_HNL_notExpanded_Length_comp_Sex_0_bin=", min(lbins), "-", max(lbins), ".csv"))) 
+file.rename(from = file.path("data", "lenComps", "HooknLine", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv")), 
+            to = file.path("data", "lenComps", "HooknLine", paste0("south_HNL_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv"))) 
+file.rename(from = file.path("data", "lenComps", "HooknLine", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv")), 
+            to = file.path("data", "lenComps", "HooknLine", paste0("south_HNL_notExpanded_Length_comp_Sex_0_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv"))) 
 
 #Visualize
 PlotFreqData.fn(dir = file.path("data", "lenComps", "HooknLine"), 
-                dat = lfs$comps, ylim=c(0, max(lbins)+4),
+                dat = lfs$comps, ylim=c(0, max(info_bins[["length"]])+4),
                 main = "HNL lengths Male-Female", yaxs="i", ylab="Length (cm)", dopng = TRUE)
 PlotFreqData.fn(dir = file.path("data", "lenComps", "HooknLine"), 
-                dat = lfs$comps_u, ylim=c(0, max(lbins)+4),
+                dat = lfs$comps_u, ylim=c(0, max(info_bins[["length"]])+4),
                 main = "HNL lengths Unsexed", yaxs="i", ylab="Length (cm)", dopng = TRUE)
 PlotSexRatio.fn(dir = file.path("data", "lenComps", "HooknLine"),
                 dat = hnl, ylim = c(-0.1, 1.1), main = "HNL Sex Ratio", yaxs="i", dopng = TRUE)
@@ -85,10 +82,6 @@ lenCompS_HKL = lfs
 usethis::use_data(lenCompS_HKL, overwrite = TRUE)
 
 #------------------------Age-----------------------------#
-
-#Marginal comps
-arange = c(0,20)
-abins = seq(from = arange[1], to = arange[2], by = 1)
 
 #Set up required variable names
 hnl_ages$Age = hnl_ages$age_years
@@ -105,13 +98,13 @@ write.csv(n, file = file.path("data", "ageComps", "HooknLine", "hkl_age_samples.
 unlink(file.path("data", "ageComps", "HooknLine","forSS"), recursive=TRUE)
 
 afs = UnexpandedAFs.fn(dir = file.path("data", "ageComps"),  #Somehow stills prints to "forSS"
-                       datA = hnl_ages, ageBins = abins, printfolder = "HooknLine",
+                       datA = hnl_ages, ageBins = info_bins[["age"]], printfolder = "HooknLine",
                        sex = 3, partition = 0, fleet = 8, month = 7, ageErr = 1)
 file.rename(from = file.path("data", "ageComps", "forSS", "Survey_notExpanded_Age_comp_Sex_3_bin=0-20.csv"), 
             to= file.path("data", "ageComps", "HooknLine", "south_Survey_Sex3_Bins_0_20_AgeComps.csv")) 
 if(dir.exists(file.path("data", "ageComps","forSS"))) unlink(file.path("data", "ageComps", "forSS"),recursive = TRUE) #remove forSS file
 
-PlotFreqData.fn(dir = file.path(getwd(), "data", "ageComps", "HooknLine"), dat = afs$comps, ylim=c(0, max(abins) + 1), inch = 0.10, main = "Hook and Line", yaxs="i", ylab="Age", dopng = TRUE)
+PlotFreqData.fn(dir = file.path(getwd(), "data", "ageComps", "HooknLine"), dat = afs$comps, ylim=c(0, max(info_bins[["age"]]) + 1), inch = 0.10, main = "Hook and Line", yaxs="i", ylab="Age", dopng = TRUE)
 PlotSexRatio.fn(dir = file.path(getwd(), "data", "ageComps", "HooknLine"), dat = hnl_ages, data.type = "age", dopng = TRUE, main = "Hook and Line")
 
 #Save as .rdas. Just sex3 (there are no unsexed ages)
