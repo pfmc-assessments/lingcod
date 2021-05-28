@@ -102,7 +102,7 @@ create_caal_nonsurvey <- function(
     Results$nSamps = rowSums(apply(Results[,paste("Age_",AgeSet,sep="")], MARGIN=2, FUN=as.numeric))
 
     # Write to file
-    write.csv(Results, file=file.path(getwd(),wd,paste0(append,"_CAAL_",out_gender[GenderI],"_Bins_",lenbin[1],"_",lenbin[2],"_",agebin[1],"_",agebin[2],".csv")), row.names = FALSE)
+    utils::write.csv(Results, file=file.path(getwd(),wd,paste0(append,"_CAAL_",out_gender[GenderI],"_Bins_",lenbin[1],"_",lenbin[2],"_",agebin[1],"_",agebin[2],".csv")), row.names = FALSE)
 
     out[[GenderI]] = Results
 
