@@ -1,9 +1,19 @@
-######################################################################################
-#Function to expand the length comps for each survey
-#Saves to survey specific subfolder within length folders
-#1. the unsexed and sexed comps for north and south
-#2. Plots: sex ratio and size frequency for north and south
-######################################################################################
+#' Expand the length-composition data for a given survey
+#'
+#' Expand length-composition data, which REQUIRES there to be lengths.
+#'
+#' @param sname A character value giving the survey name.
+#' @param doAgeRep A logical value.
+#' @param dir The upper directory where you would like the directories with
+#' the results returned from this function to be saved. The default is to
+#' use `"data-raw". Survey-specific folders based on `dir` and `sname` will
+#' be created.
+#'
+#' @author Brian J. Langseth
+#' @export
+#' @return
+#' 1. csv files: the unsexed and sexed comps for north and south
+#' 2. Figures: sex ratio and size frequency for north and south
 
 survey_lcomps <- function(
   sname,

@@ -1,20 +1,31 @@
-######################################################################################
-#Function to expand the age comps for each survey. REQUIRES there to be ages
-#Default is marginal comps but can do CAAL
-#Saves to survey specific subfolders within age or age_CAAL folder
-#Ages
-#1. the unsexed and sexed comps for north and south
-#2. Plots: sex ratio and size frequency for north and south
+#' Expand the age-composition data for a given survey
+#'
+#' Expand age-composition data, which REQUIRES there to be ages.
+#' Default is marginal compositions but can do CAAL.
+#'
+#' @param sname A character value giving the survey name.
+#' @param CAAL A logical if conditional-age-at-length compositions should
+#' be returned. The default is to return marginal age compositions instead.
+#' @param dir The upper directory where you would like the directories with
+#' the results returned from this function to be saved. The default is to
+#' use `"data-raw". Survey-specific folders based on `dir` and `sname` will
+#' be created.
+#'
+#' @author Brian J. Langseth
+#' @export
+#' @return
+#' *   Ages
+#'       1. csv files: unsexed and sexed comps for north and south
+#'       2. Figures: sex ratio and size frequency for north and south
+#' *   Ages CAAL
+#'       1. csv files: sex-specific comps for north and south
+#'       2. Figures: NA
+#'
 survey_acomps <- function(
   sname,
   CAAL = FALSE,
   dir = "data-raw"
 ) {
-
-#Ages CAAL
-#1. Sex-specific comps for north and south
-#2. No plots currently available
-######################################################################################
 
   #Create age subfolders in current directory
   dir.create(file.path(dir, "ageComps"), showWarnings = FALSE)
