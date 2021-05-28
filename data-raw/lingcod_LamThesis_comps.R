@@ -12,7 +12,7 @@ dir.create(dir, showWarnings = FALSE, recursive = TRUE)
 dir.create(gsub("lenComps", "ageCAAL", dir), showWarnings = FALSE, recursive = TRUE)
 stopifnot(file.exists(dir))
 
-#Read in data
+#Read in data - copied file from L:/Assessments/Archives/Lingcod/Lingcod_2017/Data/MLMLResearchSamples
 data <- read.csv(file.path("data-raw", "SA_Lam_MergedAges.csv"), header = TRUE)
 
 #Rename fields so they work with UnexpandedLFs.fn and SurveyAgeAtLen.fn
