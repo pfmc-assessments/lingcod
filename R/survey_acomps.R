@@ -34,8 +34,8 @@ survey_acomps <- function(
   
   for(i in sname){
     
-    if(i == "Triennial") ifleet = 6
-    if(i == "WCGBTS") ifleet = 7
+    if(i == "Triennial") ifleet = get_fleet("Tri")$num
+    if(i == "WCGBTS") ifleet = get_fleet("WC")$num
     
     #Read biological data and catch data generated from read_surveys()
     bio_ages = eval(parse(text = paste0("bio.",i)))
