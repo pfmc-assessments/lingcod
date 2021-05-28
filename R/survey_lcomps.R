@@ -43,13 +43,13 @@ survey_lcomps <- function(
     #Depth choices based on page 13 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
     #and coversation with Chantel Wetzel about capping at species depth (issue #21)
     #Previous depth choices were at 55, 183, 400, 1280
-    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
+    strata_north = nwfscSurvey::CreateStrataDF.fn(names = c("north shallow", "north mid"),
                                depths.shallow = c(55, 183),
                                depths.deep = c(183, 400),
                                lats.south = c(40.166667),
                                lats.north = c(49))
 
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+    strata_south = nwfscSurvey::CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
                                      depths.shallow = c(55, 55, 183, 183),
                                      depths.deep = c(183, 183, 400, 400),
                                      lats.south = c(32, 34.5, 32, 34.5),
@@ -64,13 +64,13 @@ survey_lcomps <- function(
       #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
       #and coversation with Chantel Wetzel about capping at species depth (issue #21)
       #Previous depth choices were (55, 183, 450)
-      strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"), #need to NA if have only 1 strata
+      strata_north = nwfscSurvey::CreateStrataDF.fn(names = c("north shallow", "north mid"), #need to NA if have only 1 strata
                                        depths.shallow = c(55, 183), 
                                        depths.deep = c(183, 350), 
                                        lats.south = c(40.166667),
                                        lats.north = c(49))
       
-      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+      strata_south = nwfscSurvey::CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
                                        depths.shallow = c(55, 55, 183, 183), 
                                        depths.deep = c(183, 183, 350, 350), 
                                        lats.south = c(32, 34.5, 32, 34.5),
@@ -89,20 +89,20 @@ survey_lcomps <- function(
     catch_south = catch[catch$Latitude_dd < (40 + 10/60),]
     
     #Calculate the effN
-    n_north = GetN.fn(dir = file.path(dir, "lenComps"), dat = bio_north, type = "length", 
+    n_north = nwfscSurvey::GetN.fn(dir = file.path(dir, "lenComps"), dat = bio_north, type = "length", 
                 species = "others", printfolder = i)
     
     file.rename(file.path(dir, "lenComps", i, "length_SampleSize.csv"),
                 file.path(dir, "lenComps", i, "north_length_SampleSize.csv"))
     
-    n_south = GetN.fn(dir = file.path(dir, "lenComps"), dat = bio_south, type = "length", 
+    n_south = nwfscSurvey::GetN.fn(dir = file.path(dir, "lenComps"), dat = bio_south, type = "length", 
                       species = "others", printfolder = i)
     
     file.rename(file.path(dir, "lenComps", i, "length_SampleSize.csv"),
                 file.path(dir, "lenComps", i, "south_length_SampleSize.csv"))
     
     #Output expanded lengths based on strata and rename. Plot summaries 
-    lengths_north = SurveyLFs.fn(dir = file.path(dir, "lenComps"),
+    lengths_north = nwfscSurvey::SurveyLFs.fn(dir = file.path(dir, "lenComps"),
                            datL = bio_north, 
                            datTows = catch_north, 
                            strat.df = strata_north, 
@@ -145,7 +145,7 @@ survey_lcomps <- function(
       tows_with_ages = bio_north[!is.na(bio_north$Age),]
       aged_bio_north = bio_north[bio_north$Trawl_id %in% tows_with_ages$Trawl_id,]
       aged_catch_north = catch_north[catch_north$Trawl_id %in% aged_bio_north$Trawl_id,]
-      aged_lengths_north = SurveyLFs.fn(dir = NULL,
+      aged_lengths_north = nwfscSurvey::SurveyLFs.fn(dir = NULL,
                                    datL = aged_bio_north, 
                                    datTows = aged_catch_north, 
                                    strat.df = strata_north, 
@@ -160,7 +160,7 @@ survey_lcomps <- function(
     }
       
     
-    lengths_south = SurveyLFs.fn(dir = file.path(dir, "lenComps"),
+    lengths_south = nwfscSurvey::SurveyLFs.fn(dir = file.path(dir, "lenComps"),
                                  datL = bio_south, 
                                  datTows = catch_south, 
                                  strat.df = strata_south, 
