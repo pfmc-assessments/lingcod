@@ -39,8 +39,8 @@ survey_acomps <- function(
     
     #Read biological data and catch data generated from read_surveys()
     bio_ages = eval(parse(text = paste0("bio.",i)))
-    if(i %in% c("Triennial", "AFSC.Slope")) {
-      bio_ages = bio_ages[[2]] #Adjust for format differences for some surveys
+    if ("Ages" %in% names(bio_ages)) {
+      bio_ages = bio_ages[["Ages"]] #Adjust for format differences for some surveys
     }
     catch = eval(parse(text = paste0("catch.",i)))
     
