@@ -5,10 +5,14 @@
 #2. Plots: sex ratio and size frequency for north and south
 ######################################################################################
 
-survey_lcomps <- function(sname, doAgeRep = FALSE){
+survey_lcomps <- function(
+  sname,
+  doAgeRep = FALSE,
+  dir = "data-raw"
+){
   
   #Create lengths subfolder in current directory
-  if(!dir.exists(file.path("data", "lenComps"))) dir.create(file.path("data", "lenComps"))
+  dir.create(file.path(dir, "lenComps"), showWarnings = FALSE)
 
   for(i in sname){
     
@@ -65,7 +69,7 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     #------------------------------------------Lengths-----------------------------------------#
     
     #Create a survey subfolder in the lengths folder
-    dir.create(file.path("data", "lenComps",i))
+    dir.create(file.path(dir, "lenComps",i), showWarnings = FALSE)
     
     #Split based on our designation between north and south at 40 degrees 10 minutes
     bio_north = bio[bio$Latitude_dd >= (40 + 10/60),]
@@ -74,17 +78,17 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     catch_south = catch[catch$Latitude_dd < (40 + 10/60),]
     
     #Calculate the effN
-    n_north = GetN.fn(dir = file.path(getwd(), "data", "lenComps"), dat = bio_north, type = "length", 
+    n_north = GetN.fn(dir = file.path(dir, "lenComps"), dat = bio_north, type = "length", 
                 species = "others", printfolder = i)
     
-    file.rename(file.path(getwd(), "data", "lenComps", i, "length_SampleSize.csv"),
-                file.path(getwd(), "data", "lenComps", i, "north_length_SampleSize.csv"))
+    file.rename(file.path(dir, "lenComps", i, "length_SampleSize.csv"),
+                file.path(dir, "lenComps", i, "north_length_SampleSize.csv"))
     
-    n_south = GetN.fn(dir = file.path(getwd(), "data", "lenComps"), dat = bio_south, type = "length", 
+    n_south = GetN.fn(dir = file.path(dir, "lenComps"), dat = bio_south, type = "length", 
                       species = "others", printfolder = i)
     
-    file.rename(file.path(getwd(), "data", "lenComps", i, "length_SampleSize.csv"),
-                file.path(getwd(), "data", "lenComps", i, "south_length_SampleSize.csv"))
+    file.rename(file.path(dir, "lenComps", i, "length_SampleSize.csv"),
+                file.path(dir, "lenComps", i, "south_length_SampleSize.csv"))
     
     
     #Create length bins - RIGHT NOW THE MIN/MAX OF THE FULL DATASET
@@ -92,7 +96,7 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     lbin = seq(from = lrange[1], to = lrange[2], by = 2)
     
     #Output expanded lengths based on strata and rename. Plot summaries 
-    lengths_north = SurveyLFs.fn(dir = file.path(getwd(), "data", "lenComps"),
+    lengths_north = SurveyLFs.fn(dir = file.path(dir, "lenComps"),
                            datL = bio_north, 
                            datTows = catch_north, 
                            strat.df = strata_north, 
@@ -106,21 +110,21 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
                            maxSizeUnsexed = 40) #based on length-weight relationships (male female diverage around here)
     
 
-    file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-                file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    #file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-    #            file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
-    #file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
+                file.path(dir, "lenComps", i, paste0("north_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
+    #file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
+    #            file.path(dir, "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
+    file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    #file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
     
    
-    PlotFreqData.fn(dir = file.path(getwd(), "data", "lenComps", i), dat = lengths_north, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
-    PlotSexRatio.fn(dir = file.path(getwd(), "data", "lenComps", i), dat = bio_north, data.type = "length", dopng = TRUE, main = paste( i, "- North "))
+    PlotFreqData.fn(dir = file.path(dir, "lenComps", i), dat = lengths_north, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
+    PlotSexRatio.fn(dir = file.path(dir, "lenComps", i), dat = bio_north, data.type = "length", dopng = TRUE, main = paste( i, "- North "))
     
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("lenCompN_sex3_",i), lengths_north)
     do.call(usethis::use_data, list(as.name(paste0("lenCompN_sex3_",i)), overwrite = TRUE))
-    #assign(paste0("lenCompN_unsex_",i), read.csv(file.path(getwd(), "data", "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
+    #assign(paste0("lenCompN_unsex_",i), read.csv(file.path(dir, "lenComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
     #do.call(usethis::use_data, list(as.name(paste0("lenCompN_unsex_",i)), overwrite = TRUE))
     
     if(doAgeRep) {
@@ -150,7 +154,7 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
     }
       
     
-    lengths_south = SurveyLFs.fn(dir = file.path(getwd(), "data", "lenComps"),
+    lengths_south = SurveyLFs.fn(dir = file.path(dir, "lenComps"),
                                  datL = bio_south, 
                                  datTows = catch_south, 
                                  strat.df = strata_south, 
@@ -164,20 +168,20 @@ survey_lcomps <- function(sname, doAgeRep = FALSE){
                                  maxSizeUnsexed = 40) #based on length-weight relationships (male female diverage around here)
     
     
-    file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-                file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    #file.rename(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
-    #            file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
-    file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
-    #file.remove(file.path(getwd(), "data", "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
+                file.path(dir, "lenComps", i, paste0("south_Survey_Sex3_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
+    #file.rename(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")),
+    #            file.path(dir, "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv")))
+    file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex3_Bins_-999_",last(lbin),"_LengthComps.csv")))
+    #file.remove(file.path(dir, "lenComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(lbin),"_LengthComps.csv")))
     
-    PlotFreqData.fn(dir = file.path(getwd(), "data", "lenComps", i), dat = lengths_south, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
-    PlotSexRatio.fn(dir = file.path(getwd(), "data", "lenComps", i), dat = bio_south, data.type = "length", dopng = TRUE, main = paste( i, "- South "))
+    PlotFreqData.fn(dir = file.path(dir, "lenComps", i), dat = lengths_south, ylim=c(0, max(lbin) + 4), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Length (cm)", dopng = TRUE)
+    PlotSexRatio.fn(dir = file.path(dir, "lenComps", i), dat = bio_south, data.type = "length", dopng = TRUE, main = paste( i, "- South "))
     
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("lenCompS_sex3_",i), lengths_south)
     do.call(usethis::use_data, list(as.name(paste0("lenCompS_sex3_",i)), overwrite = TRUE))
-    #assign(paste0("lenCompS_unsex_",i), read.csv(file.path(getwd(), "data", "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
+    #assign(paste0("lenCompS_unsex_",i), read.csv(file.path(dir, "lenComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(lbin),"_",last(lbin),"_LengthComps.csv"))))
     #do.call(usethis::use_data, list(as.name(paste0("lenCompS_unsex_",i)), overwrite = TRUE))
     
     print(paste("Lengths for",i,"done"))

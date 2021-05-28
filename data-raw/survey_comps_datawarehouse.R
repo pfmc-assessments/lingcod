@@ -48,3 +48,14 @@ survey_lcomps(info_surveynames)
 #Generate age comps using function below. Option for CAAL in addition to conditional age comps
 #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
 survey_acomps(info_surveynames, CAAL = TRUE)
+
+# Copy figures
+file.copy(
+  recursive = TRUE,
+  unlist(mapply(
+    dir,
+    dir(full.names = TRUE, "data-raw", pattern = "^age|^len"),
+    MoreArgs = list(full.names = TRUE, recursive = TRUE, pattern = "png")
+  )),
+  "figures"
+)
