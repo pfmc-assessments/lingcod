@@ -32,6 +32,7 @@
 #'
 #' @import ggplot2
 #' @author Kelli F. Johnson
+#' @export
 #' @return A \pkg{ggplot2} object is returned.
 #' If `file` is specified then a the same returned figure is
 #' also saved to the disk given the specified name using
@@ -48,7 +49,7 @@
 #'     NA, 825, NA, 825, NA, 187
 #'   )
 #' )
-#' x <- plot_n(data = ninfo, file = "n_surveybiological.png")
+#' x <- plot_ntable(data = ninfo, file = "n_surveybiological.png")
 #' print(x)
 #' unlink("n_surveybiological.png")
 #'

@@ -69,7 +69,7 @@ ninfo <- data.frame(
     NA, 825, NA, 825, NA, 187
   )
 )
-x <- plot_n(data = ninfo, file = "n_surveybiological.png")
+x <- plot_ntable(data = ninfo, file = "n_surveybiological.png")
 print(x)
 unlink("n_surveybiological.png")
 
