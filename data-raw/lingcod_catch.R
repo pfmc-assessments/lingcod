@@ -65,7 +65,7 @@ utils_knit_opts(type = "data-raw")
 
 #+ setup_filepaths
 # patterns for dir("data-raw", pattern = grep_...)
-grep_previousmodel <- c("2019.[nN]", "2019.[sS]")
+grep_previousmodel <- c("2019.[nN].001.001.cou", "2019.[sS].001.001.cou")
 grep_pacfin <- "PacFIN.+FT.+RData"
 grep_recweightfile <- "SD501--2001---2020_rec_bio_lingcod_pulled_4_19_21"
 grep_comm_or <- "FINAL COMMERCIAL LANDINGS"
@@ -1488,7 +1488,7 @@ ggplot2::ggplot(
 
 #+ usethis
 data_catch <- dplyr::full_join(
-  by = c("Year", "area", "mt"),
+  by = c("Year", "area", "mt", fleet = "state"),
   x = catch_comm,
   y = catch_rec %>% dplyr::select(-source)
 )

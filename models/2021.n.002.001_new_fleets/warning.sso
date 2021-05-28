@@ -1,0 +1,22 @@
+#V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Wed May 26 09:10:34 2021
+
+ catch is 0.0 in endyr; this can cause problem in the benchmark and forecast calculations
+LENGTH: data_month already set for y,m,f: 1986 9.4 6 to real month: 9  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1989 9.4 6 to real month: 9  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1992 9.4 6 to real month: 9  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1995 8.2 6 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 1998 8.2 6 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2001 8.2 6 to real month: 8  so treat as replicate
+LENGTH: data_month already set for y,m,f: 2004 8.2 6 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 1995 8.2 6 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 1998 8.2 6 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 2001 8.2 6 to real month: 8  so treat as replicate
+AGE: data_month already set for y,m,f: 2004 8.2 6 to real month: 8  so treat as replicate
+Forecast=0 or -1, so rest of forecast file will not be read and can be omitted;
+A one year forecast using recent F will be done automatically
+fleet: 3  lencomp has obs with partition==2; will treat as partition=0 because retention not defined; N= 36
+fleet: 4  lencomp has obs with partition==2; will treat as partition=0 because retention not defined; N= 34
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 1 9 2011 -10 10 7.42502 11.4486

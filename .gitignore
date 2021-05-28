@@ -62,6 +62,7 @@ admodel.cov
 admodel.dep
 admodel.hes
 checkup.sso
+*.tmp
 covar.sso
 CumReport.sso
 derived_posteriors.sso
