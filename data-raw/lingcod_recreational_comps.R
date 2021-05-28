@@ -81,9 +81,9 @@ recfin_age_data = rename_recfin(data = recfin_age,
 #ca_mrfss_full = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","mrfss_type_3_1980_2003_lingcod.xlsx"), sheet = "mrfss_type_3_1980_2003", na = "NA"))
 ca_mrfss_full = read.csv(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","mrfss_type_3_1980_2003_lingcod.csv"))
 ca_mrfss = ca_mrfss_full[ca_mrfss_full$ST == 6 & ca_mrfss_full$SP_CODE == 8827010201,]
-# #Checked the 2003_... file and see it has the same number of records. Not sure what the difference is. Dont use
-# ca_mrfss_2003_full = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","2003_type_3d_Lingcod.xlsx"), sheet = "2003_type_3d_records_budrick", na = "NA"))
-# ca_mrfss_2003 = ca_mrfss_2003_full[ca_mrfss_2003_full$SP_CODE == 8827010201,]
+# #Checked the 2003_... file and see it is only for 2003. Not sure what the difference is. Dont use
+ca_mrfss_2003_full = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","2003_type_3d_Lingcod.xlsx"), sheet = "2003_type_3d_records_budrick", na = "NA"))
+ca_mrfss_2003 = ca_mrfss_2003_full[ca_mrfss_2003_full$SP_CODE == 8827010201,]
 
 ca_mrfss = ca_mrfss[!is.na(ca_mrfss$CNTY), ] # remove records without a county
 ncm = c(15, 23)
