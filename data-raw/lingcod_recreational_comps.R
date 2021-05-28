@@ -186,9 +186,9 @@ input_age[[2]] = wa_sport_data[which(wa_sport_data$Year<2021),]
 ############################################################################################
 #	Create data frame with all the input data
 ############################################################################################
-out = create_data_frame(data_list = input_len)
+out = dataModerate2021::create_data_frame(data_list = input_len)
 
-out_age = create_data_frame(data_list = input_age)
+out_age = dataModerate2021::create_data_frame(data_list = input_age)
 
 ############################################################################################
 # Clean up the data - lengths
