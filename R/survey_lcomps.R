@@ -22,6 +22,7 @@ survey_lcomps <- function(
 ){
   
   #Create lengths subfolder in current directory
+  stopifnot(file.exists(dir))
   dir.create(file.path(dir, "lenComps"), showWarnings = FALSE)
 
   for(i in sname){

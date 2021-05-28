@@ -28,6 +28,7 @@ survey_acomps <- function(
 ) {
 
   #Create age subfolders in current directory
+  stopifnot(file.exists(dir))
   dir.create(file.path(dir, "ageComps"), showWarnings = FALSE)
   dir.create(file.path(dir, "ageCAAL"), showWarnings = FALSE)
   
