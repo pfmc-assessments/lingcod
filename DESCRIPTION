@@ -1,6 +1,6 @@
 Package: lingcod
 Title: Estimate the Status of Lingcod off the US West Coast in 2021
-Version: 0.0.0.9000
+Version: 0.0.1.0000
 Authors@R: 
     person(given = "Ian",
            family = "Taylor",
