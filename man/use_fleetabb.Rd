@@ -27,7 +27,7 @@ Get the fleet, i.e., \code{"TW"} or \code{"FG"}, depending on matching the patte
 to the values in \code{x}.
 }
 \examples{
-use_fleet(c("HKL", "TWL", "POT"))
+use_fleetabb(c("HKL", "TWL", "POT"))
 }
 \author{
 Kelli Faye Johnson

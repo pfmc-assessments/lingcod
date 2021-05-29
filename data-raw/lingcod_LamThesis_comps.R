@@ -6,15 +6,21 @@
 #
 ####
 
-#Read in data
-data <- read.csv("L:/Assessments/Archives/Lingcod/Lingcod_2017/Data/MLMLResearchSamples/SA_Lam_MergedAges.csv", header = TRUE)
+# Make dir
+dir <- file.path("data-raw", "lenComps", "LamThesis")
+dir.create(dir, showWarnings = FALSE, recursive = TRUE)
+dir.create(gsub("lenComps", "ageCAAL", dir), showWarnings = FALSE, recursive = TRUE)
+stopifnot(file.exists(dir))
+
+#Read in data - copied file from L:/Assessments/Archives/Lingcod/Lingcod_2017/Data/MLMLResearchSamples
+data <- read.csv(file.path("data-raw", "SA_Lam_MergedAges.csv"), header = TRUE)
 
 #Rename fields so they work with UnexpandedLFs.fn and SurveyAgeAtLen.fn
 #Convert length to fork length following Laidig (see github issue: https://github.com/iantaylor-NOAA/Lingcod_2021/issues/26)
 data$Length_cm = data$TL.cm*0.981-0.521
 data$Year = as.numeric(substr(data$Date..yymmdd.,1,4))
 
-#Convert the Lbins in the file which are based on total length bins to fork length bins
+#Convert the info_bins[["length"]] in the file which are based on total length bins to fork length bins
 data$Len_Bin_FL = 2*floor(data$Length_cm/2)
 
 #Remove CCRFP fish (sampled before 1/20/2016, which all occurred in 2015)
@@ -34,47 +40,39 @@ dummy = data_n[1,]
 dummy$Year = 9999
 data_n = rbind(dummy,data_n)
 
-#Length Bins
-lrange = c(10,130)
-lbins = seq(from = lrange[1], to = lrange[2], by = 2)
-
-#Age Bins
-arange = c(0,20)
-abins = seq(from = arange[1], to = arange[2], by = 1)
-
 ###############################
 # Length comps - North and South
 ###############################
 
 #Generate Comps - North
-lfs_n = UnexpandedLFs.fn(dir = file.path("data", "lenComps"),
-                       datL = data_n, lgthBins = lbins, printfolder = "LamThesis",
+lfs_n = nwfscSurvey::UnexpandedLFs.fn(dir = dirname(dir),
+                       datL = data_n, lgthBins = info_bins[["length"]], printfolder = basename(dir),
                        sex = 3,  partition = 0, fleet = 9, month = 7)
 lfs_n = list("comps" = lfs_n$comps[1,]) #Remove dummy year comp
 #Output removal direction within write.csv or else column headers are weird
-write.csv(lfs_n$comps[1,], file.path("data", "lenComps", "LamThesis", paste0("north_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), row.names = FALSE)
-file.remove(file.path("data", "lenComps", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
+write.csv(lfs_n$comps[1,], file.path(dir, paste0("north_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv")), row.names = FALSE)
+file.remove(file.path(dir, paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv"))) 
 
 #Visualize
-PlotFreqData.fn(dir = file.path("data", "lenComps", "LamThesis"), 
-                dat = lfs_n$comps, ylim=c(0, max(lbins)+4),
+nwfscSurvey::PlotFreqData.fn(dir = dir,
+                dat = lfs_n$comps, ylim=c(0, max(info_bins[["length"]])+4),
                 main = "Lam Thesis lengths Male-Female North", yaxs="i", ylab="Length (cm)", dopng = TRUE)
-PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
+nwfscSurvey::PlotSexRatio.fn(dir = dir,
                 dat = data_n[!data_n$Year == 9999,], ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio North", yaxs="i", dopng = TRUE)
 
 
 #Generate Comps - South
-lfs_s = UnexpandedLFs.fn(dir = file.path("data", "lenComps"),
-                       datL = data_s, lgthBins = lbins, printfolder = "LamThesis",
+lfs_s = nwfscSurvey::UnexpandedLFs.fn(dir = dirname(dir),
+                       datL = data_s, lgthBins = info_bins[["length"]], printfolder = basename(dir),
                        sex = 3,  partition = 0, fleet = 9, month = 7)
-file.rename(from = file.path("data", "lenComps", "LamThesis", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv")), 
-            to = file.path("data", "lenComps", "LamThesis", paste0("south_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(lbins), "-", max(lbins), ".csv"))) 
+file.rename(from = file.path(dir, paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv")), 
+            to = file.path(dir, paste0("south_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv"))) 
 
 #Visualize
-PlotFreqData.fn(dir = file.path("data", "lenComps", "LamThesis"), 
-                dat = lfs_s$comps, ylim=c(0, max(lbins)+4),
+nwfscSurvey::PlotFreqData.fn(dir = dir,
+                dat = lfs_s$comps, ylim=c(0, max(info_bins[["length"]])+4),
                 main = "Lam Thesis lengths Male-Female South", yaxs="i", ylab="Length (cm)", dopng = TRUE)
-PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
+nwfscSurvey::PlotSexRatio.fn(dir = dir,
                 dat = data_s, ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio South", yaxs="i", dopng = TRUE)
 
 
@@ -83,11 +81,11 @@ PlotSexRatio.fn(dir = file.path("data", "lenComps", "LamThesis"),
 ###############################
 
 #Generate Comps - North
-ageCAAL_N_LamThesis = create_caal_nonsurvey(Data = data_n, agebin = arange, lenbin = lrange, wd = "data/ageCAAL/LamThesis", 
+ageCAAL_N_LamThesis = create_caal_nonsurvey(Data = data_n, agebin = range(info_bins[["age"]]), lenbin = range(info_bins[["length"]]), wd = gsub("lenComps", "ageCAAL", dir),
                                             append = "north_LamThesis", seas = 7, fleet = 9, partition = 0, ageEr = 1)
 
 #Generate Comps - South
-ageCAAL_S_LamThesis = create_caal_nonsurvey(Data = data_s, agebin = arange, lenbin = lrange, wd = "data/ageCAAL/LamThesis", 
+ageCAAL_S_LamThesis = create_caal_nonsurvey(Data = data_s, agebin = range(info_bins[["age"]]), lenbin = range(info_bins[["length"]]), wd = gsub("lenComps", "ageCAAL", dir),
                                             append = "south_LamThesis", seas = 7, fleet = 9, partition = 0, ageEr = 1)
 
 
@@ -101,6 +99,13 @@ usethis::use_data(lenCompN_LamThesis, overwrite = TRUE)
 usethis::use_data(lenCompS_LamThesis, overwrite = TRUE)
 usethis::use_data(ageCAAL_N_LamThesis, overwrite = TRUE)
 usethis::use_data(ageCAAL_S_LamThesis, overwrite = TRUE)
+
+# Move png files to "figures"
+ignore <- file.copy(
+  recursive = TRUE,
+  dir(dir, pattern = "png", recursive = TRUE, full.names = TRUE),
+  "figures"
+)
 
 #### Remove objects
 # rm()
