@@ -49,7 +49,7 @@ get_fleet <- function(value = NULL,
   }
 
   # read table of fleet info
-  fleets <- read.csv("models/fleets.csv")
+  fleets <- utils::read.csv(system.file("extdata", "fleets.csv", package = "lingcod"))
 
   # get numeric values for the fleets
   # (could instead be added as separate column to fleets.csv)
