@@ -18,6 +18,10 @@
 #' `NULL` will stop a horizontal line from being created.
 #' @param alpha Passed to [ggplot2::geom_point] to control the opacity
 #' of the points.
+#' @param legend.position A vector of two numeric values between zero and one
+#' that specify the relative location of the legend along the x and y axes.
+#' One can also use a single character value that is relevant to
+#' [ggplot2::theme].
 #'
 #' @export
 #' @author Kelli F. Johnson
@@ -39,7 +43,8 @@ plot_map <- function(
   yname = "total_catch_wt_kg",
   ytitle = "weight (kg)",
   yintercept = 34.5,
-  alpha = 0.5
+  alpha = 0.5,
+  legend.position = c(0.9, 0.5)
 ) {
   states_map <- ggplot2::map_data("state", regions = states)
   gg <- ggplot2::ggplot(states_map, ggplot2::aes(x = long, y = lat)) +
@@ -49,19 +54,15 @@ plot_map <- function(
       data = data %>% dplyr::filter(!!yname > 0),
       alpha = alpha,
       cex = 2.5,
-      ggplot2::aes(
-        y = Latitude_dd,
-        x = Longitude_dd,
-        col = .data[[yname]]
+      ggplot2::aes(y = Latitude_dd, x = Longitude_dd, col = .data[[yname]]
       )
     ) +
-    ggplot2::theme_bw() +
+    ggplot2::geom_hline(yintercept = yintercept) +
+    plot_theme() +
+    ggplot2::theme(legend.position = legend.position) +
+    ggplot2::guides(colour = ggplot2::guide_legend(title = ytitle)) +
     ggplot2::xlab("Longitude (decimal degrees)") +
-    ggplot2::ylab("Latitude (decimal degrees)") +
-    ggplot2::guides(colour = ggplot2::guide_legend(title = ytitle))
-    if (!is.null(yintercept)) {
-      gg <- gg + 
-        ggplot2::geom_hline(yintercept = yintercept)
-    }
+    ggplot2::ylab("Latitude (decimal degrees)")
+
     return(gg)
 }

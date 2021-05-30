@@ -10,7 +10,8 @@ plot_map(
   yname = "total_catch_wt_kg",
   ytitle = "weight (kg)",
   yintercept = 34.5,
-  alpha = 0.5
+  alpha = 0.5,
+  legend.position = c(0.9, 0.5)
 )
 }
 \arguments{
@@ -33,6 +34,11 @@ y variable.}
 
 \item{alpha}{Passed to \link[ggplot2:geom_point]{ggplot2::geom_point} to control the opacity
 of the points.}
+
+\item{legend.position}{A vector of two numeric values between zero and one
+that specify the relative location of the legend along the x and y axes.
+One can also use a single character value that is relevant to
+\link[ggplot2:theme]{ggplot2::theme}.}
 }
 \value{
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
