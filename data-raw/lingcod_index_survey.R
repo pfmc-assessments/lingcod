@@ -3,7 +3,7 @@
 #' author: Kelli F. Johnson
 #' date: "`r format(Sys.time(), '%B %d, %Y')`"
 #' params:
-#'    run_model: FALSE
+#'   run_model: FALSE
 #' output:
 #'   bookdown::html_document2: default
 #' header-includes:
@@ -20,17 +20,14 @@
 #' - \usepackage[normalem]{ulem}
 #' ---
 
-#+ setup, echo = FALSE, include = FALSE, warning = FALSE, message = FALSE, cache = TRUE}
-utils_knit_opts()
+#+ setup, echo = FALSE, include = FALSE, warning = FALSE, message = FALSE, cache = FALSE
+utils_knit_opts(type = "data-raw")
 # rmarkdown::render(input = "lingcod_index", output_format = "all", clean = FALSE)
 
 #+ setup_objects
-# directory structure
-datadir <- "data-raw"
-# objects
-run_model <- FALSE
-file_hookandline <- "lingcod_index_out.csv"
-info_surveynames <- c("WCGBTS", "Triennial")
+info_season <- 7
+file_hookandline <- file.path("data-raw", "lingcod_index_out.csv")
+file_runmodels <- file.path("data-raw", "lingcod_index_survey_runmodels.RData")
 maxsurveydepth <- c(400, 350)
 strata_lat <- c("WA-OR" = 46.0, "Conception" = 34.5)
 breaks_lat <- c("CAN-US" = 49.0, "40-10" = round(40 + 10/60, 6), "US-MX" = 32.0)
@@ -44,7 +41,7 @@ data(SA3, package = "nwfscDeltaGLM")
 #'
 #+ data
 # Create the area structure
-strata_limits <- setNames(mapply(
+strata_limits <- stats::setNames(mapply(
   setup_areastrata,
   MoreArgs = list(
     strata_lat = strata_lat["Conception"]
@@ -83,12 +80,16 @@ Database <- dplyr::bind_rows(
   )
 
 #+ plot
-plot_map(catch.WCGBTS, states = "washington|oregon|california")
-plot_map(catch.Triennial, states = "washington|oregon|california",
-  yintercept = strata_lat["Conception"]
+gg <- plot_map(catch.WCGBTS, states = "washington|oregon|california",
+  yintercept = breaks_lat["40-10"]
 )
+ggplot2::ggsave(gg, file = file.path("figures", "WCBGTS-maprawdata.png"))
+gg <- plot_map(catch.Triennial, states = "washington|oregon|california",
+  yintercept = breaks_lat["40-10"]
+)
+ggplot2::ggsave(gg, file = file.path("figures", "Triennial-maprawdata.png"))
 
-#+ runmodels
+#+ runmodels, eval = params[["run_model"]]
 results_deltaGLM <- Database %>%
   dplyr::filter(surveyname == "Triennial", !is.na(area_breaks)) %>%
   purrr::pmap_dfr(function(Common_name, area_breaks, distribution, strata, data) {
@@ -102,12 +103,15 @@ results_vast <- Database %>%
   purrr::pmap_dfr(function(data, strata, modelarea, surveyname, distribution) {
     run_vast(data, strata, modelarea, survey = surveyname, distribution)
   })
+save(results_deltaGLM, results_VAST, file = file_runmodels)
+#+ runmodels-readin, eval = !params[["run_model"]]
+load(file = file_runmodels)
 
 #'
 #' ## Results
 #' 
 #+ results
-data_index_survey <- mapply(
+vastoutput <- mapply(
   utils::read.csv,
   dir("data-raw", pattern = "Table_for_SS3.csv", recursive = TRUE, full.names = TRUE),
   SIMPLIFY = FALSE
@@ -130,17 +134,24 @@ data_index_survey <- mapply(
     year = Year,
     obs = Estimate_metric_tons,
     se_log = SD_log,
-    seas = 7
+    lower = obs - 1.96 * SD_mt,
+    upper = obs + 1.96 * SD_mt,
+    seas = info_season
   ) %>%
-  dplyr::select(-upper, -file, -Unit) %>%
+  dplyr::select(-file, -Unit, -Year) %>%
   dplyr::filter(!is.na(SD_log))
-data_index_survey[, "index"] <- unlist(mapply(get_fleet, substr(data_index_survey[["surveyname"]], 1, 3))["num", ])
+vastoutput[, "index"] <- unlist(mapply(
+  get_fleet,
+  substr(vastoutput[["surveyname"]], 1, 3)
+)["num", ])
 
-#+ survey-index-comparedistributions
+#' todo: put results here.
+#' 
+#+ survey_index_comparedistributions
 gg <- ggplot2::ggplot(
-  data_index_survey,
+  vastoutput,
   ggplot2::aes(
-    x = Year,
+    x = year,
     y = Estimate_metric_tons,
     # col = interaction(area,surveyname),
     col = surveyname,
@@ -149,13 +160,45 @@ gg <- ggplot2::ggplot(
 ) + ggplot2::geom_line() +
 ggplot2::ylab("Index of abundance (mt)") +
 ggplot2::facet_grid(area ~ .) +
-ggplot2::theme_bw() +
+plot_theme() +
 ggplot2::guides(
   col = ggplot2::guide_legend(label.position = "top"),
   lty = ggplot2::guide_legend(label.position = "top")
 ) +
 ggplot2::theme(legend.position = "top", legend.direction = "horizontal")
 ggplot2::ggsave(gg, file = file.path("figures", "survey-index-comparedistributions.png"))
+
+#+ hookandline
+handl <- utils::read.csv(file_hookandline) %>%
+  dplyr::mutate(
+    obs = indmedian,
+    area = "South",
+    surveyname = get_fleet("Hook")$label_short,
+    index = get_fleet("Hook")$num,
+    distribution = "gamma",
+    seas = info_season
+  )
+
+#+ data_index_survey
+data_index_survey <- dplyr::full_join(
+  x = vastoutput %>% dplyr::select(-strata, -dir),
+  y = handl,
+  by = c(
+    "surveyname", "index", "area", "year", "obs", "distribution", "seas",
+    se_log = "logse", lower = "indl", upper = "indu"
+  )
+) %>%
+  dplyr::group_by(surveyname) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(
+    # Grouping variables
+    area, surveyname, distribution,
+    # Variables for SS
+    year, seas, index, obs, se_log,
+    # Additional variables
+    lower, upper,
+  ) %>%
+  data.frame
 
 #+ usethis
 usethis::use_data(data_index_survey, overwrite = TRUE)
