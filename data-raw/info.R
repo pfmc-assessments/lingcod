@@ -17,11 +17,17 @@ info_bins <- mapply(
   by = c(age = 1, length = 2)
 )
 
+#+ info-areas
+info_groups <- data.frame(
+  area = c("North", "South")
+)
+
 #+ info-surveynames
 info_surveynames <- c("WCGBTS", "Triennial")
 
 #+ end_makedata
 usethis::use_data(info_bins, overwrite = TRUE)
+usethis::use_data(info_groups, overwrite = TRUE)
 usethis::use_data(info_surveynames, overwrite = TRUE)
 
 #+ end_cleanup
