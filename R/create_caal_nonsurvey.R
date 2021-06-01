@@ -2,7 +2,8 @@
 #'
 #' Generate CAAL compositions from any data, e.g., Laurel Lam's thesis data.
 #'
-#' @param Data A data frame.
+#' @param Data A data frame with columns for "Year", "Sex", "Len_Bin_FL",
+#' and "Ages"
 #' @param agebin A vector of lower and upper age bins, i.e., the range.
 #' @param lenbin A vector of lower and upper length bins, i.e., the range.
 #' @param wd The directory where you want the output saved.

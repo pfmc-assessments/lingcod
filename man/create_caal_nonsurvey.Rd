@@ -17,7 +17,8 @@ create_caal_nonsurvey(
 )
 }
 \arguments{
-\item{Data}{A data frame.}
+\item{Data}{A data frame with columns for "Year", "Sex", "Len_Bin_FL",
+and "Ages"}
 
 \item{agebin}{A vector of lower and upper age bins, i.e., the range.}
 
