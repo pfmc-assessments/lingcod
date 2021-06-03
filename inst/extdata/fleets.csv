@@ -1,11 +1,11 @@
-fleet,label_short,label_long,fleets_2019.s,fleets_2019.n
-1_Comm_Trawl,comm. trawl,commercial trawl,1_CA_TRAWL,1_N_TRAWL
-2_Comm_Fix,comm. fixed,commercial fixed-gear,2_CA_FIX,2_N_FIX
-3_Rec_WA,rec. WA,recreational Washington,NA,3_WA_REC
-4_Rec_OR,rec. OR,recreational Oregon,NA,4_OR_REC
-5_Rec_CA,rec. CA,recreational California,3_CA_REC,NA
-6_Surv_TRI,Triennial,Triennial Survey,4_CA_TRI_Early,5_N_TRI_Early
-6_Surv_TRI,,,5_CA_TRI_Late,6_N_TRI_Late
-7_Surv_WCGBTS,WCGBTS,WCGBT Survey,6_CA_NWFSC,7_N_NWFSC
-8_Surv_HookLine,H&L Survey,Hook & Line Survey,7_CA_HookLine,NA
-9_Research_Lam,Research,Lam research samples,8_CA_Lam_Research,8_N_Lam_Research
+fleet,label_short,label_long,label_twoletter,fleets_2019.s,fleets_2019.n
+1_Comm_Trawl,comm. trawl,commercial trawl,TW,1_CA_TRAWL,1_N_TRAWL
+2_Comm_Fix,comm. fixed,commercial fixed-gear,FG,2_CA_FIX,2_N_FIX
+3_Rec_WA,rec. WA,recreational Washington,WA,NA,3_WA_REC
+4_Rec_OR,rec. OR,recreational Oregon,OR,NA,4_OR_REC
+5_Rec_CA,rec. CA,recreational California,CA,3_CA_REC,NA
+6_Surv_TRI,Triennial,Triennial Survey,,4_CA_TRI_Early,5_N_TRI_Early
+6_Surv_TRI,,,,5_CA_TRI_Late,6_N_TRI_Late
+7_Surv_WCGBTS,WCGBTS,WCGBT Survey,,6_CA_NWFSC,7_N_NWFSC
+8_Surv_HookLine,H&L Survey,Hook & Line Survey,,7_CA_HookLine,NA
+9_Research_Lam,Research,Lam research samples,,8_CA_Lam_Research,8_N_Lam_Research
