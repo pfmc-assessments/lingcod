@@ -86,6 +86,9 @@ ca_mrfss = ca_mrfss_full[ca_mrfss_full$ST == 6 & ca_mrfss_full$SP_CODE == 882701
 # #Checked the 2003_... file and see it is only for 2003. These data are in the recfin pull so dont use
 #ca_mrfss_2003_full = data.frame(readxl::read_excel(file.path(dir,"data-raw","2003_type_3d_Lingcod.xlsx"), sheet = "2003_type_3d_records_budrick", na = "NA"))
 #ca_mrfss_2003 = ca_mrfss_2003_full[ca_mrfss_2003_full$SP_CODE == 8827010201,]
+#Add in file outputted from "lingcod_recreational_CA_historical_len_setup.R"
+cahist = read.csv(file.path(dir, "data-raw", "CA_rec_historical_length.csv"), header = TRUE)
+cahist[which(cahist$Sex=="unk"),"Sex"] = "U"
 
 ca_mrfss = ca_mrfss[!is.na(ca_mrfss$CNTY), ] # remove records without a county
 ncm = c(15, 23)
@@ -100,6 +103,15 @@ ca_mrfss_data = rename_mrfss(data = ca_mrfss,
                              mode_names = c("rec_shore", "rec_boat_charter", "rec_boat_private"),
                              mode_column_name = "MODE_FX" )
 #Dont need to convert based on LEN_FLAG have both fork length (LNGTH) and total length (T_LEN) fields
+
+
+#Add variables to cahist needed to create common dataset in create_data_frame()
+cahist$Year = cahist$YEAR
+cahist$Lat = cahist$Lon = cahist$Areas = cahist$Depth = cahist$Age = cahist$Weight = NA
+cahist$State = "CA"
+cahist$State_Areas = "south"
+cahist$Fleet = cahist$data
+cahist$Source = "CA_Hist"
 
 ###############
 #Oregon
@@ -176,6 +188,7 @@ input_len[[4]] = or_mrfss_data[which(or_mrfss_data$Year<1999),]
 input_len[[5]] = or_recfin_age_data
 input_len[[6]] = recfin_len_data[which(recfin_len_data$State=="OR" & recfin_len_data$Year == 2020),]
 input_len[[7]] = wa_sport_data[which(wa_sport_data$Year<2021),]
+input_len[[8]] = cahist
 
 #For age data, oregon age matches recfin_age so just use oregon
 input_age = list()
@@ -188,6 +201,7 @@ input_age[[2]] = wa_sport_data[which(wa_sport_data$Year<2021),]
 out = dataModerate2021::create_data_frame(data_list = input_len)
 
 out_age = dataModerate2021::create_data_frame(data_list = input_age)
+
 
 ############################################################################################
 # Clean up the data - lengths
@@ -216,6 +230,21 @@ ggplot(out, aes(Length, fill = Data_Type, color = Data_Type)) +
 ggplot(out[out$Fleet %in% c("rec_boat_charter", "rec_boat_private", "rec_shore"),], aes(Length, fill = Fleet, color = Fleet)) + 
   facet_wrap(facets = c("Sex","State")) + 
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+
+#Compare across non primary nodes in CA (for CA hist)
+ggplot(out[out$Source == "CA_Hist",], aes(Length, fill = Fleet, color = Fleet)) + 
+  facet_wrap(facets = c("Sex","State")) + 
+  geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+
+#Compare across non primary nodes in CA (for CA hist) by retained vs released fish
+ggplot(out[out$Source == "CA_Hist",], aes(Length, fill = Data_Type, color = Data_Type)) + 
+  facet_wrap(facets = c("Sex")) + 
+  geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+
+#Set aside data from DebWV because it uses both retained and released fish
+#and has its own fleet. Then remove Deb data from the main dataset
+out_deb = out[which(out$Fleet == "CPFV-Onboard Data"),] 
+out = out[-which(out$Fleet == "CPFV-Onboard Data"),] 
 
 ## Remove the released fish. (No need to do so for the age data since none were released)
 print(paste("Removed",length(which(out$Data_Type=="RELEASED")), "released records"))
@@ -445,9 +474,40 @@ nwfscSurvey::PlotSexRatio.fn(dir = file.path(lsubdir), dat = ca, data.type = "le
 lenCompS_CA_Rec = lfs
 usethis::use_data(lenCompS_CA_Rec, overwrite = TRUE)
 
+
+############################################################################################
+#	DebWV recreational length comps (Southern California)
+############################################################################################
+out_deb$Length_cm = out_deb$Length
+
+# create a table of the samples available by year
+out_deb$Trawl_id = 1:nrow(out_deb)
+nwfscSurvey::GetN.fn(dir = file.path(lsubdir), dat = out_deb, type = "length", species = 'others')
+n = read.csv(file.path(lsubdir, "forSS", "length_SampleSize.csv"))
+n = n[,c('Year', 'All_Fish', 'Sexed_Fish', 'Unsexed_Fish')]
+write.csv(n, file = file.path(lsubdir, "debHist_samples.csv"), row.names = FALSE)
+
+lfs = nwfscSurvey::UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
+                                    datL = out_deb, lgthBins = len_bin,
+                                    sex = 0,  partition = 0, fleet = 10, month = 7)
+file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
+            to = file.path(lsubdir, paste0("debHist_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
+#Remove forSS file
+unlink(file.path(lsubdir,"forSS"), recursive=TRUE)
+
+nwfscSurvey::PlotFreqData.fn(dir = file.path(lsubdir), 
+                             dat = lfs$comps, ylim=c(0, max(len_bin)+4), 
+                             main = "debHist - Unsexed", yaxs="i", ylab="Length (cm)", dopng = TRUE)
+
+#Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
+lenCompS_debHist = lfs
+usethis::use_data(lenCompS_debHist, overwrite = TRUE)
+
+
 ignore <- file.copy(
   dir(dir("data-raw", pattern = "lenComps", full.names = TRUE),
-    pattern = "Rec.+\\.png", recursive = TRUE, full.names = TRUE
+      pattern = c("Rec.+\\.png"), recursive = TRUE, full.names = TRUE
   ),
   "figures"
 )
+
