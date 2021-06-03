@@ -56,11 +56,6 @@ get_fleet <- function(value = NULL,
   # read table of fleet info
   fleets <- utils::read.csv(system.file("extdata", "fleets.csv", package = "lingcod"))
 
-  # select all columns to return if not requested
-  if (is.null(col)) {
-    col <- names(fleets)
-  }
-  
   # get numeric values for the fleets
   # (could instead be added as separate column to fleets.csv)
   fleets$num <- as.numeric(stringr::str_split(fleets$fleet,
@@ -75,6 +70,11 @@ get_fleet <- function(value = NULL,
                                                      pattern = "_",
                                                      n = 2,
                                                      simplify = TRUE)[,1])
+
+  # select all columns to return if not requested
+  if (is.null(col)) {
+    col <- names(fleets)
+  }
 
   if(!all(col %in% names(fleets))) {
     stop ("'col' input need to be drawn from the list:",
