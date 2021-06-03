@@ -489,7 +489,7 @@ write.csv(n, file = file.path(lsubdir, "debHist_samples.csv"), row.names = FALSE
 
 lfs = nwfscSurvey::UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                                     datL = out_deb, lgthBins = len_bin,
-                                    sex = 0,  partition = 0, fleet = 10, month = 7)
+                                    sex = 0,  partition = 0, fleet = get_fleet("CPFV_CA")$num, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("debHist_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 #Remove forSS file
