@@ -155,5 +155,6 @@ dock3.out = dock3.data[,c("YEAR", "Length", "Sex", "Data_Type", "data")]
 #Combine datasets and output into data-raw folder
 ####
 ca.hist = rbind(deb.out, ca.70.out, ca.80.out, dock1.out, dock2.out, dock3.out)
+ca.hist$Length = ca.hist$Length/10 #convert to cm
 write.csv(ca.hist, file = file.path(getwd(), "data-raw", "CA_rec_historical_length.csv"), row.names = FALSE)
           
