@@ -9,4 +9,4 @@ fleet,label_short,label_long,label_twoletter,fleets_2019.s,fleets_2019.n
 7_Surv_WCGBTS,WCGBTS,WCGBT Survey,,6_CA_NWFSC,7_N_NWFSC
 8_Surv_HookLine,H&L Survey,Hook & Line Survey,,7_CA_HookLine,NA
 9_Research_Lam,Research,Lam research samples,,8_CA_Lam_Research,8_N_Lam_Research
-10_CPFV_CA,rec. CPFV,recreational CPFV,CP,NA,NA
+10_CPFV_DebWV,rec. DebWV,recreational CPFV DebWV,WV,NA,NA
