@@ -19,16 +19,16 @@ utils_knit_opts(type = "data-raw")
 #'
 #+ get_ageing_error
 # read file
-ageerror <- read.csv("data-raw/ageing/Pooled_labs/B0_S3maxage25/SS_format_Reader 1.csv")
+data_ageerror <- read.csv("data-raw/ageing/Pooled_labs/B0_S3maxage25/SS_format_Reader 1.csv")
 # format for SS
-ageerror <- rbind(ageerror[ageerror$X == "Expected_age", -1],
-                  ageerror[ageerror$X == "SD", -1])
+data_ageerror <- rbind(data_ageerror[data_ageerror$X == "Expected_age", -1],
+                       data_ageerror[data_ageerror$X == "SD", -1])
 
 #' ## Make the .rda file for the package
 #'
 #+ end_makedata
 # Uncomment the following line to actually make the data set for the package
-usethis::use_data(ageerror, overwrite = TRUE)
+usethis::use_data(data_ageerror, overwrite = TRUE)
 
 #+ end_cleanup
-rm(ageerror)
+rm(data_ageerror)
