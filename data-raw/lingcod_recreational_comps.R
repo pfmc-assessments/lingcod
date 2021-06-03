@@ -5,8 +5,7 @@
 ############################################################################################
 #Questions:
 #4. What is the difference with 2003 type 3d CA data and mrfss type 3 data.
-#
-#1. Do we need CAAL? Previous assessment did not do it. [NO]
+#1. Do we need CAAL? Previous assessment did not do it. [Not at this time]
 #2. What to do with recfin data? Right now, only applying for CA 2004-2020, and 2020 for OR. [That is fine]
 #3. Include WA research and unknown origin data? [No longer relevant]
 #5. For CA use T_LEN or LNGTH? [LNGTH appears to be fork length]
@@ -32,8 +31,8 @@ library(dataModerate2021)
 dir = getwd()
 
 #Length bins for north and south
-len_bin = seq(10, 130, 2)
-age_bin = seq(0, 20, 1)
+len_bin = info_bins[["length"]]
+age_bin = info_bins[["age"]]
 
 ############################################################################################
 #	Load Data
@@ -84,9 +83,9 @@ recfin_age_data = rename_recfin(data = recfin_age,
 #ca_mrfss_full = data.frame(readxl::read_excel(file.path(dir,"data-raw","mrfss_type_3_1980_2003_lingcod.xlsx"), sheet = "mrfss_type_3_1980_2003", na = "NA"))
 ca_mrfss_full = read.csv(file.path(dir,"data-raw", "mrfss_type_3_1980_2003_lingcod.csv"))
 ca_mrfss = ca_mrfss_full[ca_mrfss_full$ST == 6 & ca_mrfss_full$SP_CODE == 8827010201,]
-# #Checked the 2003_... file and see it is only for 2003. Not sure what the difference is. Dont use
-ca_mrfss_2003_full = data.frame(read_excel(file.path(dir,"Lingcod_2021","data-raw","california_sharedwithJohnB","2003_type_3d_Lingcod.xlsx"), sheet = "2003_type_3d_records_budrick", na = "NA"))
-ca_mrfss_2003 = ca_mrfss_2003_full[ca_mrfss_2003_full$SP_CODE == 8827010201,]
+# #Checked the 2003_... file and see it is only for 2003. These data are in the recfin pull so dont use
+#ca_mrfss_2003_full = data.frame(readxl::read_excel(file.path(dir,"data-raw","2003_type_3d_Lingcod.xlsx"), sheet = "2003_type_3d_records_budrick", na = "NA"))
+#ca_mrfss_2003 = ca_mrfss_2003_full[ca_mrfss_2003_full$SP_CODE == 8827010201,]
 
 ca_mrfss = ca_mrfss[!is.na(ca_mrfss$CNTY), ] # remove records without a county
 ncm = c(15, 23)
@@ -252,7 +251,7 @@ write.csv(n, file = file.path(lsubdir, "wa_rec_samples.csv"), row.names = FALSE)
 
 lfs = nwfscSurvey::UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = wa, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = 3, month = 7)
+                       sex = 3,  partition = 0, fleet = get_fleet("Rec_WA")$num, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("north_WA_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
@@ -288,7 +287,7 @@ write.csv(n, file = file.path(asubdir, "wa_rec_age_samples.csv"), row.names = FA
 
 afs = nwfscSurvey::UnexpandedAFs.fn(dir = file.path(asubdir), #puts into "forSS" folder in this location
                        datA = wa_age, ageBins = age_bin,
-                       sex = 3,  partition = 0, fleet = 3, month = 7, ageErr = 1) #Fleet is 1 for WA
+                       sex = 3,  partition = 0, fleet = get_fleet("Rec_WA")$num, month = 7, ageErr = 1) #Fleet is 1 for WA
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
             to = file.path(asubdir, paste0("north_WA_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv"))) 
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_3_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
@@ -323,7 +322,7 @@ write.csv(n, file = file.path(lsubdir, "or_rec_samples.csv"), row.names = FALSE)
 
 lfs = nwfscSurvey::UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = or, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = 4, month = 7)
+                       sex = 3,  partition = 0, fleet = get_fleet("Rec_OR")$num, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("north_OR_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
@@ -356,7 +355,7 @@ write.csv(n, file = file.path(asubdir, "or_rec_age_samples.csv"), row.names = FA
 
 afs = nwfscSurvey::UnexpandedAFs.fn(dir = file.path(asubdir), #puts into "forSS" folder in this location
                        datA = or_age, ageBins = age_bin,
-                       sex = 3,  partition = 0, fleet = 4, month = 7, ageErr = 1) #Fleet is 1 for WA
+                       sex = 3,  partition = 0, fleet = get_fleet("Rec_OR")$num, month = 7, ageErr = 1) #Fleet is 1 for WA
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
             to = file.path(asubdir, paste0("north_OR_notExpanded_Age_comp_Sex_0_bin=", min(age_bin), "-", max(age_bin), ".csv"))) 
 file.rename(from = file.path(asubdir, "forSS", paste0("Survey_notExpanded_Age_comp_Sex_3_bin=", min(age_bin), "-", max(age_bin), ".csv")), 
@@ -391,7 +390,7 @@ write.csv(n, file = file.path(lsubdir, "ca_north_rec_samples.csv"), row.names = 
 
 lfs = nwfscSurvey::UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = ca, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = 5, month = 7)
+                       sex = 3,  partition = 0, fleet = get_fleet("Rec_CA")$num, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("north_CA_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
@@ -426,7 +425,7 @@ write.csv(n, file = file.path(lsubdir, "ca_south_rec_samples.csv"), row.names = 
 
 lfs = nwfscSurvey::UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                        datL = ca, lgthBins = len_bin,
-                       sex = 3,  partition = 0, fleet = 5, month = 7)
+                       sex = 3,  partition = 0, fleet = get_fleet("Rec_CA")$num, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("south_CA_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(len_bin), "-", max(len_bin), ".csv")), 

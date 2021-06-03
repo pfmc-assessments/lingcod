@@ -103,7 +103,7 @@ afs = nwfscSurvey::UnexpandedAFs.fn(dir = dirname(dir[2]),  #Somehow stills prin
                        sex = 3, partition = 0, fleet = get_fleet("Hook")$num, month = 7, ageErr = 1)
 file.rename(from = file.path(dirname(dir[2]), "forSS", "Survey_notExpanded_Age_comp_Sex_3_bin=0-20.csv"), 
             to= file.path(dir[2], "south_Survey_Sex3_Bins_0_20_AgeComps.csv")) 
-if(dir.exists(file.path(dirname(dir[2]),"forSS"))) unlink(file.path("data", "ageComps", "forSS"),recursive = TRUE) #remove forSS file
+if(dir.exists(file.path(dirname(dir[2]),"forSS"))) unlink(file.path(dirname(dir[2]), "forSS"),recursive = TRUE) #remove forSS file
 
 nwfscSurvey::PlotFreqData.fn(dir = dir[2], dat = afs$comps, ylim=c(0, max(info_bins[["age"]]) + 1), inch = 0.10, main = "Hook and Line", yaxs="i", ylab="Age", dopng = TRUE)
 nwfscSurvey::PlotSexRatio.fn(dir = dir[2], dat = hnl_ages, data.type = "age", dopng = TRUE, main = "Hook and Line")
