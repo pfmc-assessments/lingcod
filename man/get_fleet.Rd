@@ -4,7 +4,7 @@
 \alias{get_fleet}
 \title{translate between fleet names and numbers and old or new}
 \usage{
-get_fleet(value = NULL, yr = 2021, area = NULL, ignore.case = TRUE)
+get_fleet(value = NULL, yr = 2021, area = NULL, ignore.case = TRUE, col = NULL)
 }
 \arguments{
 \item{value}{either a fleet number or a string matching the fleet name
@@ -19,26 +19,31 @@ a vector of numeric values will return a vector}
 
 \item{ignore.case}{if FALSE, the pattern matching is case sensitive and
 if TRUE, case is ignored during matching (passed to \code{grep})}
+
+\item{col}{column(s) to return. NULL will return all columns.}
 }
 \description{
 uses models/fleets.csv as a lookup table to translate between
 different combinations
 }
 \examples{
-  # current fleet number for trawl fishery
+  # current fleet number for trawl using "col" input added 3-June-2021
+  get_fleet("trawl", col = "num")
+
+  # current fleet number for trawl before "col" input was available
   get_fleet("trawl")$num
 
   # plain text label associated with fleet 3
-  get_fleet(3)$label_short
+  get_fleet(3, col = "label_short")
 
   # current fleet number that corresponds to an old fleet name
-  get_fleet("TRI_Early", area = "s", yr = 2019)$num
+  get_fleet("TRI_Early", area = "s", yr = 2019, col = "num")
 
   # current fleet number that corresponds to an old fleet number
-  get_fleet(4, area = "s", yr = 2019)$num
+  get_fleet(4, area = "s", yr = 2019, col = "num")
 
   # current fleet number that corresponds to a vector of old fleet numbers
-  get_fleet(value = c(1,2,2,3), yr = 2019, area = 's')$num
+  get_fleet(value = c(1,2,2,3), yr = 2019, area = 's', col = "num")
 
   # info on all current rec fleets
   get_fleet("rec")

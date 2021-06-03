@@ -12,23 +12,27 @@
 #' @param yr year (assumed 2021 if not specified)
 #' @param ignore.case if FALSE, the pattern matching is case sensitive and
 #' if TRUE, case is ignored during matching (passed to `grep`)
+#' @param col column(s) to return. NULL will return all columns.
 #' @author Ian G. Taylor
 #' @export
 #' @examples
-#'   # current fleet number for trawl fishery
+#'   # current fleet number for trawl using "col" input added 3-June-2021
+#'   get_fleet("trawl", col = "num")
+#'
+#'   # current fleet number for trawl before "col" input was available
 #'   get_fleet("trawl")$num
 #'
 #'   # plain text label associated with fleet 3
-#'   get_fleet(3)$label_short
+#'   get_fleet(3, col = "label_short")
 #'
 #'   # current fleet number that corresponds to an old fleet name
-#'   get_fleet("TRI_Early", area = "s", yr = 2019)$num
+#'   get_fleet("TRI_Early", area = "s", yr = 2019, col = "num")
 #'
 #'   # current fleet number that corresponds to an old fleet number
-#'   get_fleet(4, area = "s", yr = 2019)$num
+#'   get_fleet(4, area = "s", yr = 2019, col = "num")
 #'
 #'   # current fleet number that corresponds to a vector of old fleet numbers
-#'   get_fleet(value = c(1,2,2,3), yr = 2019, area = 's')$num
+#'   get_fleet(value = c(1,2,2,3), yr = 2019, area = 's', col = "num")
 #'
 #'   # info on all current rec fleets
 #'   get_fleet("rec")
@@ -43,13 +47,14 @@
 get_fleet <- function(value = NULL,
                       yr = 2021,
                       area = NULL,
-                      ignore.case = TRUE){
+                      ignore.case = TRUE,
+                      col = NULL){
   if (!yr %in% c(2019, 2021)) {
     stop("Input 'yr' needs to be 2019 or 2021")
   }
 
   # read table of fleet info
-  fleets <- read.csv("models/fleets.csv")
+  fleets <- utils::read.csv(system.file("extdata", "fleets.csv", package = "lingcod"))
 
   # get numeric values for the fleets
   # (could instead be added as separate column to fleets.csv)
@@ -66,6 +71,16 @@ get_fleet <- function(value = NULL,
                                                      n = 2,
                                                      simplify = TRUE)[,1])
 
+  # select all columns to return if not requested
+  if (is.null(col)) {
+    col <- names(fleets)
+  }
+
+  if(!all(col %in% names(fleets))) {
+    stop ("'col' input need to be drawn from the list:",
+          paste(names(fleets), collapse = ", "))
+  }
+
   if (yr == 2021) {
     colname <- "fleet"
     # remove duplicates associated with separate fleets in earlier years
@@ -73,7 +88,7 @@ get_fleet <- function(value = NULL,
 
     # if no value was input, return everything (excluding duplicates)
     if (is.null(value)) {
-      return(fleets)
+      return(fleets[,col])
     }
 
     # use number when input is numeric
@@ -85,7 +100,7 @@ get_fleet <- function(value = NULL,
   if (yr == 2019) {
     # if no value was input, return everything (excluding duplicates)
     if (is.null(value)) {
-      return(fleets)
+      return(fleets[,col])
     }
 
     if (is.null(area)) {
@@ -116,6 +131,6 @@ get_fleet <- function(value = NULL,
   }
 
   # return subset of fleets
-  fleets[rows,]
+  fleets[rows, col]
 }
 

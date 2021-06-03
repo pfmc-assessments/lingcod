@@ -1,0 +1,36 @@
+#' A list of bins used for composition data
+#'
+#' A list of bins for binning composition data.
+#'
+#' @name info_bins
+#' @docType data
+#' @format A list of length two, with information for age and length bins
+#' in that order. List elements are integer values specifying the lower-left
+#' edge of each bin and the last bin will therefore include everything
+#' equal to and above the given integer.
+#'
+"info_bins"
+
+#' A data frame of groups used to structure output and the document
+#'
+#' A data frame of grouping structures for working up the data and
+#' writing the report. The data frame allows for the inclusion of as
+#' many columns as you want. The lingcod 2021 assessment just used
+#' a single column called area because there were two areas.
+#'
+#' @name info_groups
+#' @docType data
+#' @format A data frame where the column names are the group type
+#' and the entries are character values for that given group type.
+#'
+"info_groups"
+
+#' Names of included surveys
+#'
+#' A vector of names for the surveys included in the stock assessment.
+#'
+#' @name info_surveynames
+#' @docType data
+#' @format A vector of character values.
+#'
+"info_surveynames"

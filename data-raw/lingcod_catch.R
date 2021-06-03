@@ -179,7 +179,7 @@ catch_comm_WA <- utils::read.csv(file = file.path("data-raw", file_comm_wa)) %>%
 if (file.exists(file_password)) {
   password <- readLines(file_password)
   # Download the data
-  catch.pacfin <- PullCatch.PacFIN("DSRK",
+  catch.pacfin <- PullCatch.PacFIN("LCOD",
     password = password, verbose = FALSE,
     addnominal = TRUE)
   rm(password)
