@@ -56,6 +56,11 @@ get_fleet <- function(value = NULL,
   # read table of fleet info
   fleets <- utils::read.csv(system.file("extdata", "fleets.csv", package = "lingcod"))
 
+  # select all columns to return if not requested
+  if (is.null(col)) {
+    col <- names(fleets)
+  }
+  
   # get numeric values for the fleets
   # (could instead be added as separate column to fleets.csv)
   fleets$num <- as.numeric(stringr::str_split(fleets$fleet,
@@ -71,6 +76,11 @@ get_fleet <- function(value = NULL,
                                                      n = 2,
                                                      simplify = TRUE)[,1])
 
+  if(!all(col %in% names(fleets))) {
+    stop ("'col' input need to be drawn from the list:",
+          paste(names(fleets), collapse = ", "))
+  }
+
   if (yr == 2021) {
     colname <- "fleet"
     # remove duplicates associated with separate fleets in earlier years
@@ -78,7 +88,7 @@ get_fleet <- function(value = NULL,
 
     # if no value was input, return everything (excluding duplicates)
     if (is.null(value)) {
-      return(fleets)
+      return(fleets[,col])
     }
 
     # use number when input is numeric
@@ -90,7 +100,7 @@ get_fleet <- function(value = NULL,
   if (yr == 2019) {
     # if no value was input, return everything (excluding duplicates)
     if (is.null(value)) {
-      return(fleets)
+      return(fleets[,col])
     }
 
     if (is.null(area)) {
@@ -120,11 +130,6 @@ get_fleet <- function(value = NULL,
     rows <- match(x = value, table = fleets[[colname]])
   }
 
-  # select all columns to return if not requested
-  if (is.null(col)) {
-    col <- names(fleets)
-  }
-  
   # return subset of fleets
   fleets[rows, col]
 }
