@@ -2,10 +2,12 @@
 
 export("%>%")
 export(SS_readdat.list)
+export(add_data)
 export(change_control_fleets)
 export(change_data_fleets)
 export(create_caal_nonsurvey)
 export(dir_recent)
+export(discard_rates_combined)
 export(format_range)
 export(get_dir_exe)
 export(get_dir_ling)
