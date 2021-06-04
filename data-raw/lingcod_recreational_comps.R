@@ -89,6 +89,14 @@ ca_mrfss = ca_mrfss_full[ca_mrfss_full$ST == 6 & ca_mrfss_full$SP_CODE == 882701
 #Add in file outputted from "lingcod_recreational_CA_historical_len_setup.R"
 cahist = read.csv(file.path(dir, "data-raw", "CA_rec_historical_length.csv"), header = TRUE)
 cahist[which(cahist$Sex=="unk"),"Sex"] = "U"
+#Add in CalPoly data
+calpoly = data.frame(readxl::read_excel(file.path(dir,"data-raw","Cal Poly LCOD lengths.xlsx"), sheet = "cal poly lingcod lengths", na = "NULL"))
+calpoly[which(calpoly$Sex=="m"),"Sex"] = "M"
+calpoly[which(calpoly$Sex=="f"),"Sex"] = "F"
+calpoly[is.na(calpoly$Sex),"Sex"] = "U"
+calpoly$Data_Type = "RETAINED"
+calpoly[which(calpoly$Fate %in% c("ra","RA","RD","RU")), "Data_Type"] = "RELEASED"
+
 
 ca_mrfss = ca_mrfss[!is.na(ca_mrfss$CNTY), ] # remove records without a county
 ncm = c(15, 23)
@@ -112,6 +120,15 @@ cahist$State = "CA"
 cahist$State_Areas = "south"
 cahist$Fleet = cahist$data
 cahist$Source = "CA_Hist"
+
+#Add variables to calPoly dataset to create common dataset in create_data_frame()
+calpoly$Year = calpoly$year
+calpoly$Lat = calpoly$Lon = calpoly$Areas = calpoly$Depth = calpoly$Age = calpoly$Weight = NA
+calpoly$State = "CA"
+calpoly$State_Areas = "south"
+calpoly$Fleet = NA
+calpoly$Source = "CalPoly"
+
 
 ###############
 #Oregon
@@ -189,6 +206,8 @@ input_len[[5]] = or_recfin_age_data
 input_len[[6]] = recfin_len_data[which(recfin_len_data$State=="OR" & recfin_len_data$Year == 2020),]
 input_len[[7]] = wa_sport_data[which(wa_sport_data$Year<2021),]
 input_len[[8]] = cahist
+input_len[[9]] = calpoly
+
 
 #For age data, oregon age matches recfin_age so just use oregon
 input_age = list()
@@ -236,10 +255,26 @@ ggplot(out[out$Source == "CA_Hist",], aes(Length, fill = Fleet, color = Fleet)) 
   facet_wrap(facets = c("Sex","State")) + 
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
 
-#Compare across non primary nodes in CA (for CA hist) by retained vs released fish
+#Compare across Sex in CA (for CA hist) by retained vs released fish
 ggplot(out[out$Source == "CA_Hist",], aes(Length, fill = Data_Type, color = Data_Type)) + 
   facet_wrap(facets = c("Sex")) + 
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+
+#Compare across Sex in CA (for CalPoly) by retained vs released fish
+ggplot(out[out$Source == "CalPoly",], aes(Length, fill = Data_Type, color = Data_Type)) + 
+  facet_wrap(facets = c("Sex")) + 
+  geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+
+#Compare across Source by retained vs released fish
+grDevices::png(
+  filename = file.path("figures", "CA_Lengths_Retained-ReleasedxSource.png"),
+  width = 8, height = 6, units = "in", res = 300)
+ggplot(out[out$State=="CA" & !out$Source %in% "RecFIN_MRFSS",], aes(Length, fill = Source, color = Source)) + 
+  facet_wrap(facets = c("Data_Type", "Sex")) + 
+  geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+grDevices::dev.off()
+#Remove CalPoly data for lengths comps
+out = out[which(out$Fleet != "CalPoly"),]
 
 #Set aside data from DebWV because it uses both retained and released fish
 #and has its own fleet. Then remove Deb data from the main dataset
