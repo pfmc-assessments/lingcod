@@ -13,6 +13,10 @@ name | notes | issue | source
 2021.s.001.001_starting_point | renamed inputs and modified starter | #32 | lingcod_model_bridging_newfleets.R
 2021.n.002.001_new_fleets | reorganized fleets | #27 | lingcod_model_bridging_newfleets.R
 2021.s.002.001_new_fleets | reorganized fleets | #27 | lingcod_model_bridging_newfleets.R
+2021.n.003.001 | reserved for Andi | #41 | 
+2021.s.003.001 | reserved for Andi | #41 | 
+2021.n.004.001_new_data_test | adding new data, a work in progress | #32 | lingcod_model_bridging_newdata.R
+2021.s.004.001_new_data_test | adding new data, a work in progress | #32 | lingcod_model_bridging_newdata.R
 
 
 
