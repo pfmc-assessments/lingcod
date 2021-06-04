@@ -92,3 +92,6 @@ ss.r0*
 ss.rep
 ss.std
 suggested_tuning.ss
+
+# document files that we don't want to track
+_main*
