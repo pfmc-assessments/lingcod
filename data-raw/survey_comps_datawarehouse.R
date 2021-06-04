@@ -37,7 +37,7 @@ plot(
   ylab = expression(Triennial~log[e]~CPUE~(kg%*%km^2))
 )
 abline(v=183) #Previous assessments used this. Seems to be a break. Use again.
-abline(v=300, col = "red") #Cut off data
+abline(v=350, col = "red") #Cut off data
 grDevices::dev.off()
 
 #Generate length comps using function below
@@ -53,7 +53,7 @@ survey_acomps(info_surveynames, CAAL = TRUE)
 file.copy(
   recursive = TRUE,
   unlist(mapply(
-    dir,
+    FUN = dir,
     dir(full.names = TRUE, "data-raw", pattern = "^age|^len"),
     MoreArgs = list(full.names = TRUE, recursive = TRUE, pattern = "png")
   )),

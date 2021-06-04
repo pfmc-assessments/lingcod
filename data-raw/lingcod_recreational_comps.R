@@ -56,7 +56,7 @@ recfin_age = read.csv(file.path(dir, "data-raw","SD506--1984---2020_rec_ageing_l
 recfin_age$Areas = "north"
 
 #These functions do not keep weight right. However, we dont need weight to be right for comps. Continue on. 
-recfin_len_data = rename_recfin(data = recfin_bio,
+recfin_len_data = dataModerate2021::rename_recfin(data = recfin_bio,
                                area_grouping = list(c("south"),c("north")),
                                area_names = c("south", "north"),
                                area_column_name = "Areas",
@@ -64,7 +64,7 @@ recfin_len_data = rename_recfin(data = recfin_bio,
                                mode_names = c("rec_shore", "rec_boat_charter", "rec_boat_private", "rec_unk"),
                                mode_column_name = "RECFIN_MODE_NAME" )
 
-recfin_age_data = rename_recfin(data = recfin_age,
+recfin_age_data = dataModerate2021::rename_recfin(data = recfin_age,
                                area_grouping = list(c("south"), c("north")),
                                area_names = c("south", "north"),
                                area_column_name = "Areas",
@@ -94,7 +94,7 @@ ca_mrfss = ca_mrfss[!is.na(ca_mrfss$CNTY), ] # remove records without a county
 ncm = c(15, 23)
 scm = unique(ca_mrfss[!ca_mrfss$CNTY %in% ncm, "CNTY"]) 
 ca_mrfss$STATE_NAME = "CA"
-ca_mrfss_data = rename_mrfss(data = ca_mrfss,
+ca_mrfss_data = dataModerate2021::rename_mrfss(data = ca_mrfss,
                              len_col = "LNGTH",
                              area_grouping = list(scm, ncm), 
                              area_names = c("south", "north"), 
@@ -121,7 +121,7 @@ or_recfin = read.csv(file.path(dir,"data-raw","RecFIN_LINGCOD_BIO-LW_2001-2020.c
 or_mrfss = data.frame(readxl::read_excel(file.path(dir,"data-raw","Lingcod_MRFSS BIO_1980 - 2003.xlsx"), sheet = "raw data", na = "NA"))
 or_age = read.csv(file.path(dir,"data-raw","Oregon_LINGCOD_RecFIN_ages_1999-2019_nonconfid.csv"))
 
-or_recfin_len_data = rename_recfin(data = or_recfin, 
+or_recfin_len_data = dataModerate2021::rename_recfin(data = or_recfin, 
                                    area_column_name = "STATE_NAME",
                                    area_grouping = list("OREGON"), 
                                    area_names = "north",
@@ -130,7 +130,7 @@ or_recfin_len_data = rename_recfin(data = or_recfin,
                                    mode_column_name = "RECFIN_MODE_NAME" )
 
 or_mrfss$STATE_NAME = "OR"
-or_mrfss_data = rename_mrfss(data = or_mrfss,
+or_mrfss_data = dataModerate2021::rename_mrfss(data = or_mrfss,
                              len_col = "Length",
                              area_grouping = list(484), 
                              area_names = c("north"),
@@ -139,7 +139,7 @@ or_mrfss_data = rename_mrfss(data = or_mrfss,
                              mode_names = c("rec_shore", "rec_boat_charter", "rec_boat_private"),
                              mode_column_name = "MRFSS_MODE_FX" )
 
-or_recfin_age_data = rename_recfin(data = or_age, 
+or_recfin_age_data = dataModerate2021::rename_recfin(data = or_age, 
                                    area_grouping = list("ODFW"), 
                                    area_names = c("north"), 
                                    area_column_name = "SAMPLING_AGENCY_NAME",
@@ -158,13 +158,13 @@ or_recfin_age_data$Source = "RecFIN"
 #Theresa wishes us to use this data instead. There are more samples in most overlapping years in the recfin data
 wa_recfin_sport = data.frame(readxl::read_excel(file.path(dir,"data-raw", "Lingcod_Coastal_Sport_05202021.xlsx"), sheet = "Coastal Sport"))
 wa_recfin_sport$AGENCY_WEIGHT = NA #need this for rename_wa_recfin
-wa_sport = rename_wa_recfin(wa_recfin_sport)
+wa_sport = dataModerate2021::rename_wa_recfin(wa_recfin_sport)
 
 #Convert the 591 total length measurements to fork length based on Laidig (see github issue: https://github.com/iantaylor-NOAA/Lingcod_2021/issues/26)
 wa_sport[which(wa_sport$length_type_name=="Total length"),"RECFIN_LENGTH_MM"] = wa_sport[which(wa_sport$length_type_name=="Total length"),"RECFIN_LENGTH_MM"]*0.981-0.521
                
 wa_sport$STATE_NAME = "WA"
-wa_sport_data =rename_recfin(data = wa_sport,
+wa_sport_data = dataModerate2021::rename_recfin(data = wa_sport,
                               area_grouping = list(c("WA")),
                               area_names = c("north"),
                               area_column_name = "STATE_NAME")
@@ -489,7 +489,7 @@ write.csv(n, file = file.path(lsubdir, "debHist_samples.csv"), row.names = FALSE
 
 lfs = nwfscSurvey::UnexpandedLFs.fn(dir = file.path(lsubdir), #puts into "forSS" folder in this location
                                     datL = out_deb, lgthBins = len_bin,
-                                    sex = 0,  partition = 0, fleet = get_fleet("CPFV_CA")$num, month = 7)
+                                    sex = 0,  partition = 0, fleet = get_fleet("CPFV_DebWV")$num, month = 7)
 file.rename(from = file.path(lsubdir, "forSS", paste0("Survey_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv")), 
             to = file.path(lsubdir, paste0("debHist_notExpanded_Length_comp_Sex_0_bin=", min(len_bin), "-", max(len_bin), ".csv"))) 
 #Remove forSS file
