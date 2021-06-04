@@ -19,7 +19,7 @@
 #' @template verbose
 #' @author Ian G. Taylor
 #' @export
-#' @seealso [get_dir_ling()]
+#' @seealso [get_dir_ling()], [write_inputs_ling()]
 #' @examples
 #' \dontrun{
 #'   get_inputs_ling(area ="s", num = 1)

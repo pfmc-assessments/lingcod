@@ -1,15 +1,9 @@
 #' add data to lingcod model
 #'
-#' reads the data file and adds data to the model specified by
-#' either a model `id` like "2021.s.002.001" or a `dir` where
-#' the model file is located like "models/2021.s.002.001_new_fleets"
-#' where the `id` is passed to 
-#' [get_inputs_ling()] and from there to [get_dir_ling()] to get the
-#' directory.
+#' modifies the elements of the data file to add new data 
 #'
-#' @template id
-#' @param dir directory where model is located
-#' @template verbose 
+#' @param dat list created by [get_inputs_ling()] or `r4ss::SS_readdat()`
+#' @template area
 #' @param dat_type character vector listing data types to add
 #' @param fleets optional vector of fleet numbers for which to add data
 #' NULL value will use all fleets from [get_fleet()]
@@ -20,7 +14,8 @@
 #' @seealso [get_dir_ling()], [get_inputs_ling()]
 #' 
 
-add_data <- function(id = NULL,
+add_data <- function(dat,
+                     area,
                      dat_type = c("catch",
                                   "index",
                                   "discard",
@@ -31,10 +26,26 @@ add_data <- function(id = NULL,
                      ss_new = TRUE,
                      verbose = TRUE){
 
+  # check inputs
+  dat_types <- c("catch",
+                 "index",
+                 "discard",
+                 "lencomp",
+                 "ageerror",
+                 "agecomp")
+  if (!all(dat_type) %in% dat_types) {
+    stop("'dat_type' needs to be from the list ",
+         paste0(dat_types, collapse = ", "))
+  }
+  if (!area %in% c("n", "s")) {
+    stop("'area' needs to be 'n' or 's'")
+  }
+  
   # vector of fleets to fill in data
   if (is.null(fleets)) {
     fleets <- get_fleet(col = "num")
   }
+
   # messages about what's happening
   if (verbose) {
     message("adding data types: ", paste(dat_type, collapse = ", "))

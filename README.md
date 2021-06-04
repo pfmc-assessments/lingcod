@@ -219,7 +219,8 @@ todo: provide information on how to use github issues for this repository
 
 ## Modeling workflow
 
-### Steps taken so far (e.g. at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_new_exe.R))
+### [updated Friday, June 4]: examples at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_new_exe.R), and  [models/lingcod_model_bridging_newdat.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_newdat.R)
+)
 * Add rows to models/README.md for each model, including placeholders as needed
 * Add a script with name like `models/lingcod_model_..._.R` which is focused on the
 particular modeling task, and note the script name in the README file.
@@ -227,7 +228,7 @@ particular modeling task, and note the script name in the README file.
 and `get_dir_exe()` to copy model files into a new folder.
 * Use the `get_inputs_ling()` function to read the SS input files into R
 * Modify the input files within R
-* Write the modified files
+* Write the modified files using `write_inputs_ling()`
 * Run the model using either `r4ss::run_SS_models()`, command line commands, 
 or whatever approach you like
 * Commit the model results to the repo (most files will be ignored 

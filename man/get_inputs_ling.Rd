@@ -51,7 +51,7 @@ year (\code{yr}), area (\code{area}), run number (\code{num}), and sensitivity n
 }
 }
 \seealso{
-\code{\link[=get_dir_ling]{get_dir_ling()}}
+\code{\link[=get_dir_ling]{get_dir_ling()}}, \code{\link[=write_inputs_ling]{write_inputs_ling()}}
 }
 \author{
 Ian G. Taylor

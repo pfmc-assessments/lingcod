@@ -5,7 +5,8 @@
 \title{add data to lingcod model}
 \usage{
 add_data(
-  id = NULL,
+  dat,
+  area,
   dat_type = c("catch", "index", "discard", "lencomp", "ageerror", "agecomp"),
   fleets = NULL,
   ss_new = TRUE,
@@ -13,8 +14,9 @@ add_data(
 )
 }
 \arguments{
-\item{id}{model id (like "2021.s.001.001") as an alternative to
-the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
+\item{dat}{list created by \code{\link[=get_inputs_ling]{get_inputs_ling()}} or \code{r4ss::SS_readdat()}}
+
+\item{area}{area, initially either "n" or "s" for 2021 models}
 
 \item{dat_type}{character vector listing data types to add}
 
@@ -25,16 +27,9 @@ NULL value will use all fleets from \code{\link[=get_fleet]{get_fleet()}}}
 
 \item{verbose}{A logical value specifying if output should be printed
 to the console or not. The default is \code{FALSE}, which will suppress messages.}
-
-\item{dir}{directory where model is located}
 }
 \description{
-reads the data file and adds data to the model specified by
-either a model \code{id} like "2021.s.002.001" or a \code{dir} where
-the model file is located like "models/2021.s.002.001_new_fleets"
-where the \code{id} is passed to
-\code{\link[=get_inputs_ling]{get_inputs_ling()}} and from there to \code{\link[=get_dir_ling]{get_dir_ling()}} to get the
-directory.
+modifies the elements of the data file to add new data
 }
 \seealso{
 \code{\link[=get_dir_ling]{get_dir_ling()}}, \code{\link[=get_inputs_ling]{get_inputs_ling()}}
