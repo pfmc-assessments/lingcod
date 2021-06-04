@@ -16,7 +16,7 @@ add_data(
 \arguments{
 \item{dat}{list created by \code{\link[=get_inputs_ling]{get_inputs_ling()}} or \code{r4ss::SS_readdat()}}
 
-\item{area}{area, initially either "n" or "s" for 2021 models}
+\item{area}{area associated with the model, either "n" or "s"}
 
 \item{dat_type}{character vector listing data types to add}
 

@@ -35,8 +35,10 @@ get_dir_ling <- function(area = NULL,
     }
   }
   
-  # read table of models 
+  # read table of models
+  models_strings <- readLines("models/README.md")
   models <- readr::read_delim("models/README.md",
+                              skip = max(0, grep(pattern = "^#", x = models_strings)),
                               delim = "|",
                               trim_ws = TRUE,
                               col_types = readr::cols())
