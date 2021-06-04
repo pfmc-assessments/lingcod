@@ -5,13 +5,12 @@
 #' (`sens`) to assemble that id, then returns the associated directory
 #' based on the table in the models/README.md
 #'
-#' @param area area, initially either "n" or "s" for 2021 models
-#' @param num base model number
-#' @param sens sensitivity number (assumed 1 if not specified)
-#' @param yr year (assumed 2021 if not specified)
-#' @param id model id (like "2021.s.001.001") as an alternative to
-#' four inputs above 
-#' @param verbose logical controlling feedback about internal results
+#' @template area 
+#' @template num 
+#' @template sens
+#' @template yr 
+#' @template id 
+#' @template verbose 
 #' @author Ian G. Taylor
 #' @export
 #' @seealso [get_inputs_ling()]

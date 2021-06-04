@@ -4,19 +4,19 @@
 #' or a model id like "2021.s.001.001" or the combination of
 #' year (`yr`), area (`area`), run number (`num`), and sensitivity number
 #' (`sens`) to assemble that id, then returns a list of the results of the
-#' r4ss::SS_read*() functions for the four model input files.
+#' `r4ss::SS_read*()` functions for the four model input files.
 #'
-#' @param area area, initially either "n" or "s" for 2021 models
-#' @param num base model number
-#' @param sens sensitivity number (assumed 1 if not specified)
-#' @param yr year (assumed 2021 if not specified)
-#' @param id model id (like "2021.s.001.001") as an alternative to
-#' the combination of `area`, `num`, `sense`, and `yr`
+#' @template area 
+#' @template num 
+#' @template sens
+#' @template yr 
+#' @template id 
+#' @template verbose 
 #' @param dir model directory (like "models/2021.s.001.001_new_fleets")
 #' as an alternative to either `id` or the combination of `area`, `num`,
 #' `sense`, and `yr`
 #' @param ss_new logical controling choice between .ss_new or standard inputs
-#' @param verbose logical controling feedback about internal results
+#' @template verbose
 #' @author Ian G. Taylor
 #' @export
 #' @seealso [get_dir_ling()]

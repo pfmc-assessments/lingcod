@@ -22,10 +22,10 @@ get_inputs_ling(
 
 \item{sens}{sensitivity number (assumed 1 if not specified)}
 
-\item{yr}{year (assumed 2021 if not specified)}
+\item{yr}{model year (assumed 2021 if not specified)}
 
 \item{id}{model id (like "2021.s.001.001") as an alternative to
-the combination of \code{area}, \code{num}, \code{sense}, and \code{yr}}
+the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
 
 \item{dir}{model directory (like "models/2021.s.001.001_new_fleets")
 as an alternative to either \code{id} or the combination of \code{area}, \code{num},
@@ -33,14 +33,15 @@ as an alternative to either \code{id} or the combination of \code{area}, \code{n
 
 \item{ss_new}{logical controling choice between .ss_new or standard inputs}
 
-\item{verbose}{logical controling feedback about internal results}
+\item{verbose}{A logical value specifying if output should be printed
+to the console or not. The default is \code{FALSE}, which will suppress messages.}
 }
 \description{
 uses either a directory (relative to the lingcod package base directory)
 or a model id like "2021.s.001.001" or the combination of
 year (\code{yr}), area (\code{area}), run number (\code{num}), and sensitivity number
 (\code{sens}) to assemble that id, then returns a list of the results of the
-r4ss::SS_read*() functions for the four model input files.
+\verb{r4ss::SS_read*()} functions for the four model input files.
 }
 \examples{
 \dontrun{

@@ -20,12 +20,13 @@ get_dir_ling(
 
 \item{sens}{sensitivity number (assumed 1 if not specified)}
 
-\item{yr}{year (assumed 2021 if not specified)}
+\item{yr}{model year (assumed 2021 if not specified)}
 
 \item{id}{model id (like "2021.s.001.001") as an alternative to
-four inputs above}
+the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
 
-\item{verbose}{logical controlling feedback about internal results}
+\item{verbose}{A logical value specifying if output should be printed
+to the console or not. The default is \code{FALSE}, which will suppress messages.}
 }
 \description{
 uses either a model id like "2021.s.001.001" or the combination of
