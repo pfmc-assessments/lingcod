@@ -68,7 +68,6 @@ CumReport.sso
 derived_posteriors.sso
 echoinput.sso
 fmin.log
-Forecast-report.sso
 gradient.*
 ParmTrace.sso
 plots/
