@@ -17,7 +17,7 @@
 #' @author Kelli Faye Johnson
 #'
 utils_name <- function(
-  type = c("common", "Common", "latin", "PACFIN", "area", "Area", "latitude", "latitude2")
+  type = c("common", "Common", "latin", "Family", "PACFIN", "area", "Area", "latitude", "latitude2")
 ) {
 
   type <- match.arg(type, several.ok = FALSE)
@@ -26,6 +26,7 @@ utils_name <- function(
     common = "lingcod",
     Common = "Lingcod",
     latin = "Ophiodon elongatus",
+    Family = "Hexagrammidae",
     PACFIN = "LCOD",
     latitude = 40 + 10/60,
     latitude2 = round(40 + 10/60, 2),
