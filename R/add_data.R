@@ -234,6 +234,7 @@ add_data <- function(dat,
     for (f in fleets) {
       fleet <- get_fleet(f, col = "fleet")
       label_short <- get_fleet(f, col = "label_short")
+      state <- substring(label_short, first = nchar("rec. ") + 1) # WA, OR, or CA
       newvals <- NULL
 
       # PacFIN BDS length comps
@@ -252,7 +253,6 @@ add_data <- function(dat,
       # rec fleets
       if (f %in% get_fleet("Rec", col = "num")) {
 
-        state <- substring(label_short, first = nchar("rec. ") + 1) # WA, OR, or CA
         # get data from these tables:
         # lenCompN_WA_Rec
         # lenCompN_OR_Rec
@@ -262,20 +262,43 @@ add_data <- function(dat,
           get() %>%
           clean_comps()
       }
-      if (f %in% get_fleet("Surv", col = "num")) {
+
+      # trawl surveys
+      if (label_short %in% c("Triennial", "WCGBTS")) {
         # get data from these tables:
         # lenCompN_sex3_Triennial
         # lenCompN_sex3_WCGBTS
         # lenCompS_sex3_Triennial
         # lenCompS_sex3_WCGBTS   
+        newvals <- paste0("lenComp", toupper(area), "_sex3_", label_short) %>%
+          get() %>%
+          clean_comps()
       }
 
-      # remaining tables
-      # lenCompS_CA_debHist    
-      # lenCompS_debHist       
-      # lenCompS_HKL           
-      # lenCompN_LamThesis
-      # lenCompS_LamThesis     
+      # other sources
+      if (label_short %in% "LamThesis") {
+        # get data from these tables:
+        # lenCompN_LamThesis
+        # lenCompS_LamThesis     
+        newvals <- paste0("lenComp", toupper(area), label_short) %>%
+          {if(exists(.)) get(.) else NULL} %>% 
+          clean_comps()
+      }
+
+      # other sources
+      if (area == "s" & label_short %in% c("H&L Survey", "rec. DebWV")) {
+        # get data from these tables:
+        # lenCompS_CA_debHist    
+        # lenCompS_debHist       
+        # lenCompS_HKL           
+        newvals <- paste0("lenComp", toupper(area), label_short) %>%
+          {if(exists(.)) get(.) else NULL} %>% 
+          clean_comps()
+      }
+      
+        ## newvals <- paste0("lenComp", toupper(area), label_short) %>%
+        ##   {if(exists(.)) get(.) else NULL} %>% 
+        ##   clean_comps()
 
       # if new data were found, replace all existing values with new ones
       if (!is.null(newvals) && nrow(newvals) > 0) {

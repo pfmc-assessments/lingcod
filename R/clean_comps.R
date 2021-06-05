@@ -66,10 +66,10 @@ clean_comps <- function(comp, type = "len"){
   }
 
   ##########################################################################
-  # format used by nwfscSurvey
+  # format used by data processed using nwfscSurvey package (a single table)
 
   if(is.data.frame(comp) && "F10" %in% names(comp)) {
-    newcomp <- newcomp %>%
+    newcomp <- comp %>%
       dplyr::rename(part = "partition") %>%
       dplyr::rename_with(.fn = tolower) # change Nsamp to nsamp and F10 to f10
   }
