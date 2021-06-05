@@ -50,13 +50,13 @@ survey_acomps <- function(
     #Depth choices based on page 13 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
     #and coversation with Chantel Wetzel about capping at species depth (issue #21)
     #Previous depth choices were at 55, 183, 400, 1280
-    strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"),
+    strata_north = nwfscSurvey::CreateStrataDF.fn(names = c("north shallow", "north mid"),
                                      depths.shallow = c(55, 183),
                                      depths.deep = c(183, 400),
                                      lats.south = c(40.166667),
                                      lats.north = c(49))
     
-    strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+    strata_south = nwfscSurvey::CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
                                      depths.shallow = c(55, 55, 183, 183),
                                      depths.deep = c(183, 183, 400, 400),
                                      lats.south = c(32, 34.5, 32, 34.5),
@@ -68,13 +68,13 @@ survey_acomps <- function(
       #Depth choices based on page 24-25 of survey report (https://www.webapps.nwfsc.noaa.gov/assets/25/8655_02272017_093722_TechMemo136.pdf)
       #and coversation with Chantel Wetzel about capping at species depth (issue #21)
       #Previous depth choices were (55, 183, 450)
-      strata_north = CreateStrataDF.fn(names = c("north shallow", "north mid"), #need to NA if have only 1 strata
+      strata_north = nwfscSurvey::CreateStrataDF.fn(names = c("north shallow", "north mid"), #need to NA if have only 1 strata
                                        depths.shallow = c(55, 183), 
                                        depths.deep = c(183, 350), 
                                        lats.south = c(40.166667),
                                        lats.north = c(49))
       
-      strata_south = CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
+      strata_south = nwfscSurvey::CreateStrataDF.fn(names = c("south Pt C shallow", "Pt C to Cape M shallow", "south Pt C mid", "Pt C to Cape M mid"),
                                        depths.shallow = c(55, 55, 183, 183), 
                                        depths.deep = c(183, 183, 350, 350), 
                                        lats.south = c(32, 34.5, 32, 34.5),
@@ -97,13 +97,13 @@ survey_acomps <- function(
     ############################
     
     #Calculate the effN
-    n_north_age = GetN.fn(dir = file.path(dir, "ageComps"), dat = bioages_north, type = "age", 
+    n_north_age = nwfscSurvey::GetN.fn(dir = file.path(dir, "ageComps"), dat = bioages_north, type = "age", 
                           species = "others", printfolder = i)
     
     file.rename(file.path(dir, "ageComps", i, "age_SampleSize.csv"),
                 file.path(dir, "ageComps", i, "north_age_SampleSize.csv"))
     
-    n_south_age = GetN.fn(dir = file.path(dir, "ageComps"), dat = bioages_south, type = "age", 
+    n_south_age = nwfscSurvey::GetN.fn(dir = file.path(dir, "ageComps"), dat = bioages_south, type = "age", 
                           species = "others", printfolder = i)
     
     file.rename(file.path(dir, "ageComps", i, "age_SampleSize.csv"),
@@ -111,7 +111,7 @@ survey_acomps <- function(
     
     
     #Output expanded ages based on strata and rename. Plot summaries 
-    ages_north = SurveyAFs.fn(dir = file.path(dir, "ageComps"),
+    ages_north = nwfscSurvey::SurveyAFs.fn(dir = file.path(dir, "ageComps"),
                               datA = bioages_north, 
                               datTows = catch_north, 
                               strat.df = strata_north, 
@@ -128,15 +128,15 @@ survey_acomps <- function(
                               maxSizeUnsexed = 2) #based on length-age relationship for combo and combined (male female diverage around here)
     
     
-    file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")),
-                file.path(dir, "ageComps", i, paste0("north_Survey_Sex3_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")))
-    #file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")),
-    #            file.path(dir, "ageComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")))
-    file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_-999_",last(info_bins[["age"]]),"_AgeComps.csv")))
-    #file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(info_bins[["age"]]),"_AgeComps.csv")))
+    file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")),
+                file.path(dir, "ageComps", i, paste0("north_Survey_Sex3_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
+    #file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")),
+    #            file.path(dir, "ageComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
+    file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_-999_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
+    #file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
     
-    PlotFreqData.fn(dir = file.path(dir, "ageComps", i), dat = ages_north, ylim=c(0, max(info_bins[["age"]]) + 1), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Age", dopng = TRUE)
-    PlotSexRatio.fn(dir = file.path(dir, "ageComps", i), dat = bioages_north, data.type = "age", dopng = TRUE, main = paste( i, "- North "))
+    nwfscSurvey::PlotFreqData.fn(dir = file.path(dir, "ageComps", i), dat = ages_north, ylim=c(0, max(info_bins[["age"]]) + 1), inch = 0.10, main = paste( i, "- North "), yaxs="i", ylab="Age", dopng = TRUE)
+    nwfscSurvey::PlotSexRatio.fn(dir = file.path(dir, "ageComps", i), dat = bioages_north, data.type = "age", dopng = TRUE, main = paste( i, "- North "))
     
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("ageCompN_sex3_",i), ages_north)
@@ -144,7 +144,7 @@ survey_acomps <- function(
     #assign(paste0("ageCompN_unsex_",i), read.csv(file.path(dir, "ageComps", i, paste0("north_Survey_Sex_Unsexed_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv"))))
     #do.call(usethis::use_data, list(as.name(paste0("ageCompN_unsex_",i)), overwrite = TRUE))
     
-    ages_south = SurveyAFs.fn(dir = file.path(dir, "ageComps"),
+    ages_south = nwfscSurvey::SurveyAFs.fn(dir = file.path(dir, "ageComps"),
                               datA = bioages_south, 
                               datTows = catch_south, 
                               strat.df = strata_south, 
@@ -161,15 +161,15 @@ survey_acomps <- function(
                               maxSizeUnsexed = 1) #based on length-age relationship for combo and combined (male female diverage around here)
     
     
-    file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")),
-                file.path(dir, "ageComps", i, paste0("south_Survey_Sex3_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")))
-    #file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")),
-    #            file.path(dir, "ageComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",first(info_bins[["age"]]),"_",last(info_bins[["age"]]),"_AgeComps.csv")))
-    file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_-999_",last(info_bins[["age"]]),"_AgeComps.csv")))
-    #file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",last(info_bins[["age"]]),"_AgeComps.csv")))
+    file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")),
+                file.path(dir, "ageComps", i, paste0("south_Survey_Sex3_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
+    #file.rename(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")),
+    #            file.path(dir, "ageComps", i, paste0("south_Survey_Sex_Unsexed_Bins_",info_bins[["age"]][1],"_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
+    file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex3_Bins_-999_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
+    #file.remove(file.path(dir, "ageComps", i, paste0("Survey_Sex_Unsexed_Bins_-999_",tail(info_bins[["age"]],1),"_AgeComps.csv")))
     
-    PlotFreqData.fn(dir = file.path(dir, "ageComps", i), dat = ages_south, ylim=c(0, max(info_bins[["age"]]) + 1), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Age", dopng = TRUE)
-    PlotSexRatio.fn(dir = file.path(dir, "ageComps", i), dat = bioages_south, data.type = "age", dopng = TRUE, main = paste( i, "- South "))
+    nwfscSurvey::PlotFreqData.fn(dir = file.path(dir, "ageComps", i), dat = ages_south, ylim=c(0, max(info_bins[["age"]]) + 1), inch = 0.10, main = paste( i, "- South "), yaxs="i", ylab="Age", dopng = TRUE)
+    nwfscSurvey::PlotSexRatio.fn(dir = file.path(dir, "ageComps", i), dat = bioages_south, data.type = "age", dopng = TRUE, main = paste( i, "- South "))
     
     #Save as .rdas. Have to read in unsexed comps because variable only keeps sex3 comps
     assign(paste0("ageCompS_sex3_",i), ages_south)
@@ -192,7 +192,7 @@ survey_acomps <- function(
       dir.create(file.path("data", "ageCAAL",i), showWarnings = FALSE)
       
       #Output conditional length at age comps 
-      agesCAAL_north = SurveyAgeAtLen.fn(dir = file.path(dir, "ageCAAL"),
+      agesCAAL_north = nwfscSurvey::SurveyAgeAtLen.fn(dir = file.path(dir, "ageCAAL"),
                                 datAL = bioages_north, 
                                 datTows = catch_north, 
                                 strat.df = strata_north, 
@@ -205,16 +205,16 @@ survey_acomps <- function(
                                 ageErr = 1,
                                 printfolder = i)
         
-      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Male_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")),
-                  file.path(dir, "ageCAAL", i, paste0("north_Survey_CAAL_Male_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")))
-      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Female_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")),
-                  file.path(dir, "ageCAAL", i, paste0("north_Survey_CAAL_Female_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")))
+      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Male_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")),
+                  file.path(dir, "ageCAAL", i, paste0("north_Survey_CAAL_Male_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")))
+      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Female_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")),
+                  file.path(dir, "ageCAAL", i, paste0("north_Survey_CAAL_Female_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")))
       
       #Save as .rdas. Combined for female (first element) and male (second element)
       assign(paste0("ageCAAL_N_",i), agesCAAL_north)
       do.call(usethis::use_data, list(as.name(paste0("ageCAAL_N_",i)), overwrite = TRUE))
       
-      agesCAAL_south = SurveyAgeAtLen.fn(dir = file.path(dir, "ageCAAL"),
+      agesCAAL_south = nwfscSurvey::SurveyAgeAtLen.fn(dir = file.path(dir, "ageCAAL"),
                                      datAL = bioages_south, 
                                      datTows = catch_south, 
                                      strat.df = strata_south, 
@@ -227,10 +227,10 @@ survey_acomps <- function(
                                      ageErr = 1,
                                      printfolder = i)
       
-      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Male_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")),
-                  file.path(dir, "ageCAAL", i, paste0("south_Survey_CAAL_Male_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")))
-      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Female_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")),
-                  file.path(dir, "ageCAAL", i, paste0("south_Survey_CAAL_Female_Bins_",first(info_bins[["length"]]),"_",last(info_bins[["length"]]),"_",first(info_bins[["age"]]),"_", last(info_bins[["age"]]),".csv")))
+      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Male_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")),
+                  file.path(dir, "ageCAAL", i, paste0("south_Survey_CAAL_Male_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")))
+      file.rename(file.path(dir, "ageCAAL", i, paste0("Survey_CAAL_Female_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")),
+                  file.path(dir, "ageCAAL", i, paste0("south_Survey_CAAL_Female_Bins_",info_bins[["length"]][1],"_",tail(info_bins[["length"]],1),"_",info_bins[["age"]][1],"_", tail(info_bins[["age"]],1),".csv")))
       
       #Save as .rdas. Combined for female (first element) and male (second element)
       assign(paste0("ageCAAL_S_",i), agesCAAL_south)

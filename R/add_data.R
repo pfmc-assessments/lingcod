@@ -4,6 +4,7 @@
 #'
 #' @param dat list created by [get_inputs_ling()] or `r4ss::SS_readdat()`
 #' @template area
+#' @param area area associated with the model, either "n" or "s"
 #' @param dat_type character vector listing data types to add
 #' @param fleets optional vector of fleet numbers for which to add data
 #' NULL value will use all fleets from [get_fleet()]
@@ -33,7 +34,8 @@ add_data <- function(dat,
                  "lencomp",
                  "ageerror",
                  "agecomp")
-  if (!all(dat_type) %in% dat_types) {
+
+  if (!all(dat_type %in% dat_types)) {
     stop("'dat_type' needs to be from the list ",
          paste0(dat_types, collapse = ", "))
   }
@@ -53,15 +55,12 @@ add_data <- function(dat,
   }
 
   # get area of old model
-  Area <- ifelse(substring(id, first = 6, last = 6) == "n",
+  Area <- ifelse(area == "n",
                  yes = "North",
                  no = "South")
-  area <- tolower(Area)
+  # hack to avoid duplication which caused issue with dplyr::filter()
+  AREA <- Area
   
-  # read data files for old model
-  inputs <- get_inputs_ling(id = id, ss_new = ss_new)
-  dat <- inputs$dat
-
   ##########################################################################
   # add catch data
   if ("catch" %in% dat_type) {
@@ -114,15 +113,15 @@ add_data <- function(dat,
       if (label_short == "comm. trawl") {
         # PacFIN trawl logbook CPUE
         newvals <- data_index_CommTrawl %>%
-          dplyr::filter(area == ifelse(area == "north",
-                                      yes = "WA_OR_N.CA",
-                                      no = "S.CA")) %>%
+          dplyr::filter(area == ifelse(area == "n",
+                                       yes = "WA_OR_N.CA",
+                                       no = "S.CA")) %>%
           dplyr::select(year, seas, index, obs, se_log)
         rownames(newvals) <- paste0("#_PacFIN_trawl_logbook_CPUE_", 1:nrow(newvals))
       }
 
       # add new index data for commercial fixed gear
-      if (label_short == "comm. fixed" & area == "north") {
+      if (label_short == "comm. fixed" & area == "n") {
         # Commercial Fixed Gear index (OR Nearshore CPUE)
         newvals <- data_index_CommFix
         rownames(newvals) <- paste0("#_OR_Nearshore_CPUE_", 1:nrow(newvals))
@@ -181,7 +180,7 @@ add_data <- function(dat,
       newvals <- NULL
 
       newvals <- data_discard_rates_WCGOP %>%
-        dplyr::filter(tolower(Area) == area, # Area == Area created problems
+        dplyr::filter(tolower(Area) == AREA, 
                       Gear == get_fleet(value = f,
                                         col = "label_twoletter")) %>%
         dplyr::select(!(CV:Gear)) # removes extra columns
@@ -218,7 +217,79 @@ add_data <- function(dat,
   ##########################################################################
   # add lencomp data
   if ("lencomp" %in% dat_type) {
-    # TODO: fill in this section
+    # copy table of length comps and rename some columns that are poorly named
+    # in r4ss::SS_readdat(), where that function may be updated in the future
+    newlencomp <- dat$lencomp %>%
+      dplyr::rename(year = "Yr",
+                    month = "Seas",
+                    fleet = "FltSvy",
+                    sex = "Gender",
+                    part = "Part",
+                    nsamp = "Nsamp")
+    
+    # add rownames which will get written as comments in ling_data.ss
+    rownames(newlencomp) <- paste0("#_old_", 1:nrow(newlencomp))
+
+    # loop over fleets
+    for (f in fleets) {
+      fleet <- get_fleet(f, col = "fleet")
+      label_short <- get_fleet(f, col = "label_short")
+      newvals <- NULL
+
+      # PacFIN BDS length comps
+      if (label_short %in% c("comm. trawl", "comm. fixed")) {
+        if (area == "n") {
+          newvals <- clean_comps(lenCompN_comm)
+        }
+        if (area == "s") {
+          newvals <- clean_comps(lenCompN_comm)
+        }
+
+        # add rownames which will get written as comments in ling_data.ss
+        rownames(newvals) <- paste0("#_PacFIN_BDS_", 1:nrow(newvals))
+      }
+
+      # rec fleets
+      if (f %in% get_fleet("Rec", col = "num")) {
+
+        state <- substring(label_short, first = nchar("rec. ") + 1) # WA, OR, or CA
+        # get data from these tables:
+        # lenCompN_WA_Rec
+        # lenCompN_OR_Rec
+        # lenCompN_CA_Rec
+        # lenCompS_CA_Rec
+        newvals <- paste0("lenComp", toupper(area), "_", state, "_Rec") %>%
+          get() %>%
+          clean_comps()
+      }
+      if (f %in% get_fleet("Surv", col = "num")) {
+        # get data from these tables:
+        # lenCompN_sex3_Triennial
+        # lenCompN_sex3_WCGBTS
+        # lenCompS_sex3_Triennial
+        # lenCompS_sex3_WCGBTS   
+      }
+
+      # remaining tables
+      # lenCompS_CA_debHist    
+      # lenCompS_debHist       
+      # lenCompS_HKL           
+      # lenCompN_LamThesis
+      # lenCompS_LamThesis     
+
+      # if new data were found, replace all existing values with new ones
+      if (!is.null(newvals) && nrow(newvals) > 0) {
+        # remove existing values for this fleet
+        newlencomp <- newlencomp %>% dplyr::filter(fleet != f)
+        # add new values
+        newlencomp <- rbind(newlencomp,
+                            newvals)
+        if(verbose) {
+          message("added length comp data for ",
+                  get_fleet(value = f, col = "fleet"))
+        }
+      }
+    } # end loop over fleets within adding lencomp
   } # end add lencomp data
 
   ##########################################################################
