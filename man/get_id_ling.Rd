@@ -15,11 +15,10 @@ and returns just the \code{id} part: "2021.s.002.001". \code{dir} can be a
 vector of directories as well.
 }
 \examples{
-\dontrun{
   get_id_ling(dir = "models/2021.s.002.001_new_fleets")
+  get_id_ling(dir = "2021.s.002.001_new_fleets")
   # acts as the inverse of get_dir_ling()
   get_id_ling(get_dir_ling(id = "2021.s.002.001"))
-}
 }
 \seealso{
 \code{\link[=get_dir_ling]{get_dir_ling()}}
