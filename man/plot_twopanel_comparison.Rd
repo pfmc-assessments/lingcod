@@ -10,7 +10,8 @@ plot_twopanel_comparison(
   filename = NULL,
   print = TRUE,
   endyrvec = 2021,
-  verbose = FALSE
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ NULL value will use a filename like \verb{compare_[id1]_[id2].png}}
 or the current graphics device}
 
 \item{endyrvec}{final year to include in the figure passed to
+r4ss::SSplotComparisons()}
+
+\item{dots}{additional arguments that will get passed to
 r4ss::SSplotComparisons()}
 }
 \description{

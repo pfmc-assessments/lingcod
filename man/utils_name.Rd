@@ -5,7 +5,7 @@
 \title{Get name}
 \usage{
 utils_name(
-  type = c("common", "Common", "latin", "PACFIN", "area", "Area", "latitude",
+  type = c("common", "Common", "latin", "Family", "PACFIN", "area", "Area", "latitude",
     "latitude2")
 )
 }

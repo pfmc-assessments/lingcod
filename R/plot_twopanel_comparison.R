@@ -13,6 +13,8 @@
 #' or the current graphics device
 #' @param endyrvec final year to include in the figure passed to
 #' r4ss::SSplotComparisons()
+#' @param dots additional arguments that will get passed to
+#' r4ss::SSplotComparisons()
 #'
 #' @export
 #' @author Ian G. Taylor
@@ -29,7 +31,8 @@ plot_twopanel_comparison <- function(mods,
                                      filename = NULL,
                                      print = TRUE,
                                      endyrvec = 2021,
-                                     verbose = FALSE) {
+                                     verbose = FALSE,
+                                     ...) {
   summary <- r4ss::SSsummarize(mods)
 
   # get model id (could use lapply or the like, I'm sure)
@@ -57,12 +60,14 @@ plot_twopanel_comparison <- function(mods,
                           endyrvec = endyrvec,
                           subplot = 2,
                           legendlabels = legendlabels,
-                          new = FALSE)
+                          new = FALSE,
+                          ...)
   r4ss::SSplotComparisons(summary,
                           endyrvec = endyrvec,
                           subplot = 4,
                           legend = FALSE,
-                          new = FALSE)
+                          new = FALSE,
+                          ...)
   
   if (print) {
     dev.off()

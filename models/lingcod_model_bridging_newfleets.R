@@ -128,16 +128,16 @@ r4ss::SS_writectl(ctllist = inputs.s$ctl,
                   overwrite = TRUE)
 
 # compare results after running models
-mod.2017.n.001.001 <- SS_output(get_dir_ling(yr = 2017, area = "n", num = 1))
-mod.2017.s.001.001 <- SS_output(get_dir_ling(yr = 2017, area = "s", num = 1))
-mod.2019.n.001.001 <- SS_output(get_dir_ling(yr = 2019, area = "n", num = 1))
-mod.2019.s.001.001 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 1))
-mod.2019.n.002.001 <- SS_output(get_dir_ling(yr = 2019, area = "n", num = 2))
-mod.2019.s.002.002 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 2, sens = 2))
-mod.2021.n.002.001 <- SS_output(get_dir_ling(area = "n", num = 2))
-mod.2021.s.002.001 <- SS_output(get_dir_ling(area = "s", num = 2))
+mod.2017.n.001.001 <- SS_output(get_dir_ling(yr = 2017, area = "n", num = 1), verbose = FALSE)
+mod.2017.s.001.001 <- SS_output(get_dir_ling(yr = 2017, area = "s", num = 1), verbose = FALSE)
+mod.2019.n.001.001 <- SS_output(get_dir_ling(yr = 2019, area = "n", num = 1), verbose = FALSE)
+mod.2019.s.001.001 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 1), verbose = FALSE)
+mod.2019.n.002.001 <- SS_output(get_dir_ling(yr = 2019, area = "n", num = 2), verbose = FALSE)
+mod.2019.s.002.002 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 2, sens = 2), verbose = FALSE)
+mod.2021.n.002.001 <- SS_output(get_dir_ling(area = "n", num = 2), verbose = FALSE)
+mod.2021.s.002.001 <- SS_output(get_dir_ling(area = "s", num = 2), verbose = FALSE)
 
-# north comparison plots 
+# north comparison plots for 2021 "new fleets" models
 SSplotComparisons(SSsummarize(list(mod.2019.n.002.001,
                                    mod.2021.n.002.001)),
                   subplot = c(2, 4),
@@ -155,3 +155,26 @@ SSplotComparisons(SSsummarize(list(mod.2019.s.002.002,
                   plot = FALSE,
                   print = TRUE,
                   plotdir = mod.2021.s.002.001$inputs$dir)
+
+
+# update catch with 2019 structure
+mod.2019.n.003.001 <- SS_output(get_dir_ling(yr = 2019, area = "n", num = 3))
+mod.2019.s.003.001 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 3))
+
+# make comparison (depends on reading older models above)
+plot_twopanel_comparison(mods = list(mod.2019.n.002.001,
+                                     mod.2019.n.003.001),
+                         legendlabel = c("2019 model south model",
+                                         "update catch within old spatial structure"),
+                         # add values missing due to Forecast-report.sso previously
+                         # being listed in .gitignore
+                         btarg = 0.4, minbthresh = 0.25,
+                         endyr=2019)
+plot_twopanel_comparison(mods = list(mod.2019.s.002.002,
+                                     mod.2019.s.003.001),
+                         legendlabel = c("2019 model south model",
+                                         "update catch within old spatial structure"),
+                         # add values missing due to Forecast-report.sso previously
+                         # being listed in .gitignore
+                         btarg = 0.4, minbthresh = 0.25,
+                         endyr=2019)
