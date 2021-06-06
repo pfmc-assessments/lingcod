@@ -3,14 +3,17 @@
 #' aligns the  names from the various software tools and combines
 #' data frames with sexed and unsexed comps into one
 #'
-#' @param comp
-#' NULL value will use all fleets from [get_fleet()]
+#' @param comp data object in the lingcod package
 #' @template verbose
 #' @author Ian G. Taylor
 #' @export
 #' @seealso [add_data()]
 
 clean_comps <- function(comp, type = "len"){
+  if (is.null(comp)) {
+    return()
+  }
+
   # internal function to pad unsexed comps with zeros for the male columns
   add_zeros <- function(df){
     df.zeros <- data.frame(matrix(0,
@@ -52,6 +55,10 @@ clean_comps <- function(comp, type = "len"){
   # format used for recreational comps
   if("comps" %in% names(comp)){
     newcomp <- comp$comps
+    # add zeros to main comps (needed for lenCompS_CA_debHist)
+    if ("U-10" %in% names(newcomp)) {
+      newcomp <- add_zeros(newcomp)
+    }
     if ("comps_u" %in% names(comp)) {
       newcomp <- rbind(newcomp,
                        add_zeros(comp$comps_u))

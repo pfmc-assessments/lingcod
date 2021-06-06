@@ -49,31 +49,36 @@ write_inputs_ling <- function(inputs,
                               forename = "forecast.ss",
                               overwrite = TRUE,
                               verbose = FALSE){
-  dir.create(dir)
+  if (!is.null(dir)) {
+    if (!file.info(dir)$isdir) {
+      dir.create(dir)
+    }
+  } else {
+    dir <- ""
+  }
 
   if ("dat" %in% files) {
     dat <- r4ss::SS_writedat(inputs$dat,
-                             file = file.path(dir, datname),
+                             outfile = file.path(dir, datname),
                              overwrite = overwrite,
                              verbose = verbose)
   }
 
   if ("ctl" %in% files) {
     ctl <- r4ss::SS_writectl(inputs$ctl,
-                             file = file.path(dir, ctlname),
-                             datlist = inputs$dat,
+                             outfile = file.path(dir, ctlname),
                              overwrite = overwrite,
                              verbose = verbose)
   }
   if ("start" %in% files) {
     start <- r4ss::SS_writestarter(inputs$start,
-                                   file = file.path(dir, startname),
+                                   dir = dir,
                                    overwrite = overwrite,
                                    verbose = verbose)
   }
   if ("fore" %in% files) {
     fore <- r4ss::SS_writeforecast(inputs$fore,
-                                   file = file.path(dir, forename),
+                                   dir = dir,
                                    overwrite = overwrite,
                                    verbose = verbose)
   }

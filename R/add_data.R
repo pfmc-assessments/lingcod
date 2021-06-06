@@ -259,7 +259,7 @@ add_data <- function(dat,
         # lenCompN_CA_Rec
         # lenCompS_CA_Rec
         newvals <- paste0("lenComp", toupper(area), "_", state, "_Rec") %>%
-          get() %>%
+          {if(exists(.)) get(.) else NULL} %>% 
           clean_comps()
       }
 
@@ -275,7 +275,14 @@ add_data <- function(dat,
           clean_comps()
       }
 
-      # other sources
+      # H&L Survey
+      if (area == "s" && label_short == "H&L Survey"){
+        # get data from these tables:
+        # lenCompS_HKL
+        newvals <- clean_comps(lenCompS_HKL)
+      }
+
+      # Lam Thesis
       if (label_short %in% "LamThesis") {
         # get data from these tables:
         # lenCompN_LamThesis
@@ -285,21 +292,14 @@ add_data <- function(dat,
           clean_comps()
       }
 
-      # other sources
-      if (area == "s" & label_short %in% c("H&L Survey", "rec. DebWV")) {
+      # DebWV CPFV data
+      if (area == "s" && label_short == "rec. DebWV") {
         # get data from these tables:
         # lenCompS_CA_debHist    
-        # lenCompS_debHist       
-        # lenCompS_HKL           
-        newvals <- paste0("lenComp", toupper(area), label_short) %>%
-          {if(exists(.)) get(.) else NULL} %>% 
-          clean_comps()
+        # lenCompS_debHist (old name)
+        newvals <- clean_comps(lenCompS_CA_debHist)
       }
       
-        ## newvals <- paste0("lenComp", toupper(area), label_short) %>%
-        ##   {if(exists(.)) get(.) else NULL} %>% 
-        ##   clean_comps()
-
       # if new data were found, replace all existing values with new ones
       if (!is.null(newvals) && nrow(newvals) > 0) {
         # remove existing values for this fleet

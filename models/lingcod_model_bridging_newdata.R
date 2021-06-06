@@ -26,15 +26,19 @@ for (area in c("n", "s")){
                          verbose = TRUE)
 
   # write new data file
-  # we could create a function to do this based on the chosen model id
   write_inputs_ling(inputs,
-                    dir = newdir,
+                    # directory is same as source directory for inputs in this case
+                    dir = get_dir_ling(area = area, num = 4),
                     verbose = TRUE,
                     overwrite = TRUE)
 }
 
+if (FALSE) {
+  # look at model output
+  mod.2021.n.004.001 <- SS_output(get_dir_ling(area = "n", num = 4))
+  mod.2021.s.004.001 <- SS_output(get_dir_ling(area = "s", num = 4))
 
-mod.2021.n.004.001 <- SS_output(get_dir_ling(area = "n", num = 4))
-mod.2021.s.004.001 <- SS_output(get_dir_ling(area = "s", num = 4))
-SS_plots(mod.2021.n.004.001)
-SS_plots(mod.2021.s.004.001)
+
+  SS_plots(mod.2021.n.004.001)
+  SS_plots(mod.2021.s.004.001)
+}
