@@ -1,3 +1,16 @@
+### list of lingcod models
+#
+# numbering scheme is yyyy.[ns].000.000.shortstring
+# as described in https://github.com/iantaylor-NOAA/Lingcod_2021/issues/32#issuecomment-827549522
+# yyyy : the assessment model year
+# [ns] : either n or s for north or south area; on Windows case matters; therefore, 
+# it would be good if we could all use lower case so that model directories sort 
+# similarly on everyone's machines and we do not have to push the shift key
+# 000 : the base number
+# 000 : the sensitivity number
+# shortstring : a short character string without full stops but it can include 
+# any other character you desire
+#
 name | notes | issue | source
 -- | -- | -- | --
 2017.n.001.001.final_base | 2017 base | #32 | archive
