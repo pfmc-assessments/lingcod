@@ -164,7 +164,7 @@ mod.2019.s.003.001 <- SS_output(get_dir_ling(yr = 2019, area = "s", num = 3))
 # make comparison (depends on reading older models above)
 plot_twopanel_comparison(mods = list(mod.2019.n.002.001,
                                      mod.2019.n.003.001),
-                         legendlabel = c("2019 model south model",
+                         legendlabel = c("2019 model north model",
                                          "update catch within old spatial structure"),
                          # add values missing due to Forecast-report.sso previously
                          # being listed in .gitignore
