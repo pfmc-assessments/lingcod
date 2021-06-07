@@ -219,7 +219,7 @@ todo: provide information on how to use github issues for this repository
 
 ## Modeling workflow
 
-### [updated Friday, June 4]: examples at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_new_exe.R), and  [models/lingcod_model_bridging_newdat.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_newdat.R)
+### [updated Friday, June 4]: examples at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_new_exe.R), and  [models/lingcod_model_bridging_newdat.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_newdata.R)
 )
 * Add rows to models/README.md for each model, including placeholders as needed
 * Add a script with name like `models/lingcod_model_..._.R` which is focused on the
