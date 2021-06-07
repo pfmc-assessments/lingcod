@@ -75,16 +75,6 @@ inputs.s.new$dat <- change_data_fleets(area = "s",
                                        fleets = fleets,
                                        dat = inputs.s$dat)
 
-# write modified data files (overwriting old one because it's a copy of original file)
-r4ss::SS_writedat(datlist = inputs.n.new$dat,
-                  outfile = file.path(get_dir_ling(area = "n", num = 2),
-                                      inputs.n.new$start$datfile),
-                  overwrite = TRUE)
-r4ss::SS_writedat(datlist = inputs.s.new$dat,
-                  outfile = file.path(get_dir_ling(area = "s", num = 2),
-                                      inputs.s.new$start$datfile),
-                  overwrite = TRUE)
-
 # write unchanged data file in the same format for comparison
 r4ss::SS_writedat(datlist = inputs.n$dat,
                   outfile = file.path(get_dir_ling(area = "n", num = 2),
@@ -106,17 +96,6 @@ inputs.s.new$ctl <- change_control_fleets(area = "s",
                                           fleets = fleets,
                                           ctl = inputs.s$ctl)
 
-
-# write modified control files (overwriting old one because it's a copy of original file)
-r4ss::SS_writectl(ctllist = inputs.n.new$ctl,
-                  outfile = file.path(get_dir_ling(area = "n", num = 2),
-                                      inputs.n.new$start$ctlfile),
-                  overwrite = TRUE)
-r4ss::SS_writectl(ctllist = inputs.s.new$ctl,
-                  outfile = file.path(get_dir_ling(area = "s", num = 2),
-                                      inputs.s.new$start$ctlfile),
-                  overwrite = TRUE)
-
 # write unchanged control file in the same format for comparison
 r4ss::SS_writectl(ctllist = inputs.n$ctl,
                   outfile = file.path(get_dir_ling(area = "n", num = 2),
@@ -126,6 +105,25 @@ r4ss::SS_writectl(ctllist = inputs.s$ctl,
                   outfile = file.path(get_dir_ling(area = "s", num = 2),
                                       "ling_control_UNCHANGED.ss"),
                   overwrite = TRUE)
+
+# turn off forecasts
+inputs.n.new$fore$Forecast <- 0
+inputs.s.new$fore$Forecast <- 0
+
+# write modified files
+write_inputs_ling(inputs.n.new,
+                  # directory is same as source directory for inputs in this case
+                  dir = get_dir_ling(area = "n", num = 2),
+                  verbose = FALSE,
+                  overwrite = TRUE)
+write_inputs_ling(inputs.s.new,
+                  # directory is same as source directory for inputs in this case
+                  dir = get_dir_ling(area = "s", num = 2),
+                  verbose = FALSE,
+                  overwrite = TRUE)
+
+
+# run models
 
 # compare results after running models
 mod.2017.n.001.001 <- SS_output(get_dir_ling(yr = 2017, area = "n", num = 1), verbose = FALSE)

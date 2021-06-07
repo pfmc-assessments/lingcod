@@ -3,7 +3,7 @@
 #Foreign copyrights may apply. See copyright.txt for more information.
 #_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
-#_Start_time: Wed May 26 11:30:41 2021
+#_Start_time: Sun Jun 06 21:36:54 2021
 #_Number_of_datafiles: 1
 #C_2021 Lingcod data based on 2019 model with renumbered fleets
 #_observed data: 
@@ -19,7 +19,7 @@
 2 #_Ngenders: 1, 2, -1  (use -1 for 1 sex setup with SSB multiplied by female_frac parameter)
 25 #_Nages=accumulator age, first age is always age 0
 1 #_Nareas
-9 #_Nfleets (including surveys)
+10 #_Nfleets (including surveys)
 #_fleet_type: 1=catch fleet; 2=bycatch only fleet; 3=survey; 4=ignore 
 #_sample_timing: -1 for fishing fleet to use season-long catch-at-age for observations, or 1 to use observation month;  (always 1 for surveys)
 #_fleet_area:  area the fleet/survey operates in 
@@ -36,6 +36,7 @@
  3 1 1 1 0 7_Surv_WCGBTS  # 7
  3 1 1 1 0 8_Surv_HookLine  # 8
  3 1 1 1 0 9_Research_Lam  # 9
+ 3 1 1 1 0 10_CPFV_DebWV  # 10
 #Bycatch_fleet_input_goes_next
 #a:  fleet index
 #b:  1=include dead bycatch in total dead catch for F0.1 and MSY optimizations and forecast ABC; 2=omit from total catch for these purposes (but still include the mortality)
@@ -728,6 +729,7 @@
 7 1 0 0 # 7_Surv_WCGBTS
 8 0 0 0 # 8_Surv_HookLine
 9 1 0 0 # 9_Research_Lam
+10 1 0 0 # 10_CPFV_DebWV
 #_yr month fleet obs stderr
 1981 7 1 1450.23 0.0779654 #_ 1_Comm_Trawl
 1982 7 1 1231.85 0.0789472 #_ 1_Comm_Trawl
@@ -851,6 +853,7 @@
 -1 0.001 0 0 0 0 0.001 #_fleet:7_7_Surv_WCGBTS
 -1 0.001 0 0 0 0 0.001 #_fleet:8_8_Surv_HookLine
 -1 0.001 0 0 0 0 0.001 #_fleet:9_9_Research_Lam
+-1 0.001 0 0 0 0 0.001 #_fleet:10_10_CPFV_DebWV
 # sex codes:  0=combined; 1=use female only; 2=use male only; 3=use both as joint sexxlength distribution
 # partition codes:  (0=combined; 1=discard; 2=retained
 61 #_N_LengthBins; then enter lower edge of each length bin
@@ -1064,6 +1067,7 @@
 -1 0.001 0 0 0 0 0.001 #_fleet:7_7_Surv_WCGBTS
 -1 0.001 0 0 0 0 0.001 #_fleet:8_8_Surv_HookLine
 -1 0.001 0 0 0 0 0.001 #_fleet:9_9_Research_Lam
+-1 0.001 0 0 0 0 0.001 #_fleet:10_10_CPFV_DebWV
 3 #_Lbin_method_for_Age_Data: 1=poplenbins; 2=datalenbins; 3=lengths
 # sex codes:  0=combined; 1=use female only; 2=use male only; 3=use both as joint sexxlength distribution
 # partition codes:  (0=combined; 1=discard; 2=retained

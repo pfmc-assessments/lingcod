@@ -35,14 +35,16 @@ change_control_fleets <- function(area, fleets, ctl) {
   if(area == "n"){
     ctl$Q_options <- ctl$Q_options[!grepl("Rec_CA", fleets$fleet) &
                                    !grepl("Surv_HookLine", fleets$fleet) &
-                                   !grepl("Research_Lam", fleets$fleet),]
+                                   !grepl("Research_Lam", fleets$fleet) &
+                                   !grepl("CPFV_DebWV", fleets$fleet),]
   }
   if(area == "s"){
     ctl$Q_options <- ctl$Q_options[!grepl("Comm_Fix", fleets$fleet) &
                                    !grepl("Rec_WA", fleets$fleet) &
                                    !grepl("Rec_OR", fleets$fleet) &
                                    !grepl("Rec_CA", fleets$fleet) &
-                                   !grepl("Research_Lam", fleets$fleet),]
+                                   !grepl("Research_Lam", fleets$fleet) &
+                                   !grepl("CPFV_DebWV", fleets$fleet),]
   }
 
   # create base Q parameters for each fleet (none estimated because float = 1 above)
@@ -85,6 +87,7 @@ change_control_fleets <- function(area, fleets, ctl) {
                         "_Q_extraSD"))
   # stich the two types of parameters together and sort as expected by SS
   Q_parms <- rbind(base_Q_parms, extraSD_Q_parms)
+  # get fleet number
   Q_parms <- Q_parms[order(rownames(Q_parms)),]
 
   # add time block to Triennial to match separate early and late indices in 2017/2019 models

@@ -1,6 +1,6 @@
 #V3.30
 #C file created using the SS_writectl function in the R package r4ss
-#C file write time: 2021-05-26 09:16:12
+#C file write time: 2021-06-06 20:54:00
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -155,6 +155,7 @@
 24	0	0	0	#_7 7_Surv_WCGBTS  
 24	0	3	0	#_8 8_Surv_HookLine
 24	0	3	0	#_9 9_Research_Lam 
+ 0	0	0	0	#_10 10_CPFV_DebWV 
 #
 #_age_selex_patterns
 #_Pattern	Discard	Male	Special
@@ -167,6 +168,7 @@
 0	0	0	0	#_7 7_Surv_WCGBTS  
 0	0	0	0	#_8 8_Surv_HookLine
 0	0	0	0	#_9 9_Research_Lam 
+0	0	0	0	#_10 10_CPFV_DebWV 
 #
 #_SizeSelex
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn  #  parm_name

@@ -1,7 +1,7 @@
 #V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
 #Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
 #Foreign copyrights may apply. See copyright.txt for more information.
-Wed May 26 09:19:00 2021
+Sun Jun 06 20:56:24 2021
 
  catch is 0.0 in endyr; this can cause problem in the benchmark and forecast calculations
 LENGTH: data_month already set for y,m,f: 1989 9.4 6 to real month: 9  so treat as replicate

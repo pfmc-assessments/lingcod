@@ -4,7 +4,7 @@
 #_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
 #_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
 #C file created using the SS_writectl function in the R package r4ss
-#C file write time: 2021-05-26 09:16:12
+#C file write time: 2021-06-06 20:54:00
 #_data_and_control_files: ling_data.ss // ling_control.ss
 0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
 1  #_N_Growth_Patterns (Growth Patterns, Morphs, Bio Patterns, GP are terms used interchangeably in SS)
@@ -229,6 +229,7 @@
  24 0 0 0 # 7 7_Surv_WCGBTS
  24 0 3 0 # 8 8_Surv_HookLine
  24 0 3 0 # 9 9_Research_Lam
+ 0 0 0 0 # 10 10_CPFV_DebWV
 #
 #_age_selex_patterns
 #Pattern:_0; parm=0; selex=1.0 for ages 0 to maxage
@@ -258,6 +259,7 @@
  0 0 0 0 # 7 7_Surv_WCGBTS
  0 0 0 0 # 8 8_Surv_HookLine
  0 0 0 0 # 9 9_Research_Lam
+ 0 0 0 0 # 10 10_CPFV_DebWV
 #
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
 # 1   1_Comm_Trawl LenSelex
@@ -347,6 +349,7 @@
            -15            15       9.62766             0             0             0          4          0          0          0          0          0          0          0  #  SzSel_Male_Descend_9_Research_Lam(9)
            -15            15             0             0             0             0         -4          0          0          0          0          0          0          0  #  SzSel_Male_Final_9_Research_Lam(9)
            -15            15             1             0             0             0         -4          0          0          0          0          0          0          0  #  SzSel_Male_Scale_9_Research_Lam(9)
+# 10   10_CPFV_DebWV LenSelex
 # 1   1_Comm_Trawl AgeSelex
 # 2   2_Comm_Fix AgeSelex
 # 3   3_Rec_WA AgeSelex
@@ -356,6 +359,7 @@
 # 7   7_Surv_WCGBTS AgeSelex
 # 8   8_Surv_HookLine AgeSelex
 # 9   9_Research_Lam AgeSelex
+# 10   10_CPFV_DebWV AgeSelex
 # timevary selex parameters 
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type    PHASE  #  parm_name
             -5            15             7             0             0             0      -4  # Size_DblN_ascend_se_1_Comm_Trawl(1)_BLK3repl_1973
@@ -480,6 +484,7 @@
 #  1 #_CPUE/survey:_7
 #  1 #_CPUE/survey:_8
 #  0 #_CPUE/survey:_9
+#  0 #_CPUE/survey:_10
 #  1 #_discard:_1
 #  1 #_discard:_2
 #  0 #_discard:_3
@@ -489,6 +494,7 @@
 #  0 #_discard:_7
 #  0 #_discard:_8
 #  0 #_discard:_9
+#  0 #_discard:_10
 #  1 #_lencomp:_1
 #  1 #_lencomp:_2
 #  0 #_lencomp:_3
@@ -498,6 +504,7 @@
 #  1 #_lencomp:_7
 #  1 #_lencomp:_8
 #  1 #_lencomp:_9
+#  0 #_lencomp:_10
 #  0 #_agecomp:_1
 #  0 #_agecomp:_2
 #  0 #_agecomp:_3
@@ -507,6 +514,7 @@
 #  1 #_agecomp:_7
 #  0 #_agecomp:_8
 #  1 #_agecomp:_9
+#  0 #_agecomp:_10
 #  1 #_init_equ_catch1
 #  1 #_init_equ_catch2
 #  1 #_init_equ_catch3
@@ -516,6 +524,7 @@
 #  1 #_init_equ_catch7
 #  1 #_init_equ_catch8
 #  1 #_init_equ_catch9
+#  1 #_init_equ_catch10
 #  1 #_recruitments
 #  1 #_parameter-priors
 #  1 #_parameter-dev-vectors

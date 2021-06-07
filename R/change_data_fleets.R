@@ -18,8 +18,8 @@ change_data_fleets <- function(area, fleets, dat) {
   dat$Comments <- "2021 Lingcod data based on 2019 model with renumbered fleets"
   
   # update table of info on each fleet
-  dat$fleetinfo <- data.frame(type = c(rep(1, 5), rep(3, 4)),
-                              surveytiming = c(rep(-1, 5), rep(1, 4)),
+  dat$fleetinfo <- data.frame(type = c(rep(1, 5), rep(3, 5)),
+                              surveytiming = c(rep(-1, 5), rep(1, 5)),
                               area = 1,
                               units = 1,
                               need_catch_mult = 0,

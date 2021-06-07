@@ -10,18 +10,19 @@
 2 #_Nsexes
 25 #_Nages
 1 #_N_areas
-9 #_Nfleets
+10 #_Nfleets
 #_fleetinfo
 #_type	surveytiming	area	units	need_catch_mult	fleetname
-1	-1	1	1	0	1_Comm_Trawl   	#_1
-1	-1	1	1	0	2_Comm_Fix     	#_2
-1	-1	1	1	0	3_Rec_WA       	#_3
-1	-1	1	1	0	4_Rec_OR       	#_4
-1	-1	1	1	0	5_Rec_CA       	#_5
-3	 1	1	1	0	6_Surv_TRI     	#_6
-3	 1	1	1	0	7_Surv_WCGBTS  	#_7
-3	 1	1	1	0	8_Surv_HookLine	#_8
-3	 1	1	1	0	9_Research_Lam 	#_9
+1	-1	1	1	0	1_Comm_Trawl   	#_1 
+1	-1	1	1	0	2_Comm_Fix     	#_2 
+1	-1	1	1	0	3_Rec_WA       	#_3 
+1	-1	1	1	0	4_Rec_OR       	#_4 
+1	-1	1	1	0	5_Rec_CA       	#_5 
+3	 1	1	1	0	6_Surv_TRI     	#_6 
+3	 1	1	1	0	7_Surv_WCGBTS  	#_7 
+3	 1	1	1	0	8_Surv_HookLine	#_8 
+3	 1	1	1	0	9_Research_Lam 	#_9 
+3	 1	1	1	0	10_CPFV_DebWV  	#_10
 #_Catch data
 #_year	season	fleet	catch	catch_se
  -999	1	1	   0.0000	0.01	#_1         
@@ -546,15 +547,16 @@
 #_Errtype:  -1=normal; 0=lognormal; >0=T
 #_SD_Report: 0=no sdreport; 1=enable sdreport
 #_Fleet	Units	Errtype	SD_Report
-1	1	0	0	#_1_Comm_Trawl   
-2	1	0	0	#_2_Comm_Fix     
-3	0	0	0	#_3_Rec_WA       
-4	0	0	0	#_4_Rec_OR       
-5	0	0	0	#_5_Rec_CA       
-6	1	0	0	#_6_Surv_TRI     
-7	1	0	0	#_7_Surv_WCGBTS  
-8	0	0	0	#_8_Surv_HookLine
-9	1	0	0	#_9_Research_Lam 
+ 1	1	0	0	#_1_Comm_Trawl   
+ 2	1	0	0	#_2_Comm_Fix     
+ 3	0	0	0	#_3_Rec_WA       
+ 4	0	0	0	#_4_Rec_OR       
+ 5	0	0	0	#_5_Rec_CA       
+ 6	1	0	0	#_6_Surv_TRI     
+ 7	1	0	0	#_7_Surv_WCGBTS  
+ 8	0	0	0	#_8_Surv_HookLine
+ 9	1	0	0	#_9_Research_Lam 
+10	1	0	0	#_10_CPFV_DebWV  
 #
 #_CPUE_data
 #_year	seas	index	obs	se_log
@@ -742,6 +744,7 @@
 -1	0.001	0	0	0	0	0.001	#_7_Surv_WCGBTS  
 -1	0.001	0	0	0	0	0.001	#_8_Surv_HookLine
 -1	0.001	0	0	0	0	0.001	#_9_Research_Lam 
+-1	0.001	0	0	0	0	0.001	#_10_CPFV_DebWV  
 61 #_N_lbins
 #_lbin_vector
 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74 76 78 80 82 84 86 88 90 92 94 96 98 100 102 104 106 108 110 112 114 116 118 120 122 124 126 128 130 #_lbin_vector
@@ -975,6 +978,7 @@
 -1	0.001	0	0	0	0	0.001	#_7_Surv_WCGBTS  
 -1	0.001	0	0	0	0	0.001	#_8_Surv_HookLine
 -1	0.001	0	0	0	0	0.001	#_9_Research_Lam 
+-1	0.001	0	0	0	0	0.001	#_10_CPFV_DebWV  
 3 #_Lbin_method: 1=poplenbins; 2=datalenbins; 3=lengths
  #_combine males into females at or below this bin number
 #_Yr	Seas	FltSvy	Gender	Part	Ageerr	Lbin_lo	Lbin_hi	Nsamp	f0	f1	f2	f3	f4	f5	f6	f7	f8	f9	f10	f11	f12	f13	f14	f15	f16	f17	f18	f19	f20	m0	m1	m2	m3	m4	m5	m6	m7	m8	m9	m10	m11	m12	m13	m14	m15	m16	m17	m18	m19	m20
