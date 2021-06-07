@@ -18,6 +18,7 @@
 #' \dontrun{
 #'   get_dir_ling(area ="s", num = 1)
 #'   get_dir_ling(id = "2021.s.001.001")
+
 #' }
 get_dir_ling <- function(area = NULL,
                          num = NULL,
@@ -36,12 +37,7 @@ get_dir_ling <- function(area = NULL,
   }
   
   # read table of models
-  models_strings <- readLines("models/README.md")
-  models <- readr::read_delim("models/README.md",
-                              skip = max(0, grep(pattern = "^#", x = models_strings)),
-                              delim = "|",
-                              trim_ws = TRUE,
-                              col_types = readr::cols())
+  models <- get_mdtable(file.path("models", "README.md"), "# table")
 
   # get string for model id (as decided in issue #32)
   if (is.null(id)) {
@@ -63,4 +59,34 @@ get_dir_ling <- function(area = NULL,
     message("id = ", id, " dir = ", dir)
   }
   return(dir)
+}
+
+#' Get a markdown table from within a section in a .md file
+#' @param file A file path to a .md file.
+#' @param section A text string of the section in the markdown file
+#' that holds the table you want. This section should only contain the table,
+#' no other text.
+get_mdtable <- function(file, section) {
+
+  stopifnot(file.exists(file))
+  stopifnot(is.character(section))
+
+  strings <- readLines(file)
+  start <- grep(section, strings)
+  end <- grep("^#\\s+", strings)
+  end <- ifelse(
+    length(end[which(grep("^#\\s+", strings) > start)]) == 0,
+    length(strings),
+    end[which(grep("^#\\s+", strings) > start)][1]
+  )
+  models <- readr::read_delim(
+    file = strings[start:end],
+    skip = 1,
+    delim = "|",
+    trim_ws = TRUE,
+    col_types = readr::cols()
+  )
+  out <- models[!apply(models, 1, function(x) all(grepl("^-+$", x))), ]
+
+  return(out)
 }
