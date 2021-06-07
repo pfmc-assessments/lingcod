@@ -1,0 +1,60 @@
+## Foreign Fisheries
+
+### Alaska
+
+`r Spp` fisheries in the Gulf of Alaska are managed
+in state waters by the State of Alaska Board of Fisheries and
+in federal waters by the \gls{npfmc}.
+Commercial fisheries are restricted by catch and bycatch quotas.
+The sport fishery is restricted by daily bag and possession limits.
+Lingcod are a non-target species in the subsistence fishery.
+No formal assessment exists for `r spp` in Alaskan waters.
+
+### Canada
+
+`r Spp` in western Canada are managed under the \gls{bcigfp}
+by \gls{dfo} for take by
+First Nations, the commercial sector, and the recreational sector.
+Beginning in 1997,
+the \gls{bcigfp} implemented an individual vessel quota program
+that now incorporates all commercially caught trawl and hook-and-line groundfish.
+Stocks in distinct management areas are regularly assessed,
+with the most recent assessment of `r spp`
+in outer British Columbia waters ocurring in 2011 [@bcstockassessment2011] and
+**todo - need citation**
+in the Strait of Georgia in 2014 [@DFO2016].
+
+**todo - edit / add to the following two paragraphs**
+The 2011 outer British Columbia assessment implemented a
+Bayesian surplus production model to assess
+the status of `r spp` in four assessment areas.
+Overall the stock appears to have
+remained stable between 1927-1970,
+declined until 1980,
+increased until 1990, and
+has continued to decline since then.
+However, at no time has the stock been estimated
+to have been below target reference points.
+
+The 2016 assessment [@bcstockassessment2016]
+implemented a two-sex Bayesian statistical catch-at-age model.
+The estimated spawning biomass in 2014 was greater than
+the estimated spawning biomass at the start of the current management regime during 2006 and
+that the stock is likely in a precautionary management zone.
+
+### Mexico
+
+`r Spp` are known to inhabit waters off the coast of Mexico as far south as
+Punta San Carlos, Baja California
+([https://mexican-fish.com/lingcod/](https://mexican-fish.com/lingcod/)).
+
+Southern California recreational fishers have reported fishing in
+Mexican waters and landing fish in U.S. ports.
+The [Declaration For Entry Into California of Game, Fish, Birds Or Animals](https://wildlife.ca.gov/Enforcement/Entry-Declaration)
+represents a potential future source of information for documenting
+catches that occur off the coast of Mexico but are landed in California.
+Anglers are required to fill out the report prior to entering U.S. waters
+but it is not clear if this information is currently included in RecFIN.
+
+** todo - check in with Hem if she has received any information**
+There are no known stock assessments for `r spp` off the coast of Mexico.

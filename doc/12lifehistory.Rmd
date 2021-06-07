@@ -1,0 +1,318 @@
+## Life history
+
+### Geography
+
+`r Spp` are large opportunistic predators endemic to the North Pacific,
+ranging from the Gulf of Alaska to central Baja California, Mexico
+[@wilby1937ling; @hart1973pacific].
+Typically, the center of abundance can be found off
+the coasts of British Columbia and Washington State
+[@hart1973pacific].
+`r Spp` are
+demersal on the continental shelf,
+display a patchy distribution, and
+are most abundant in areas of hard bottom with rocky relief [@rickey1991geographical].
+They typically occur at depths less than 200 m but
+they are caught in the \Gls{s-wcgbt} up to depths of 450 m.
+
+### Size, Growth, and Maturity
+
+`r Spp` are sexually dimorphic,
+with females typically growing faster and
+attaining larger asymptotic sizes than males [@richards1990multivariate].
+Females also reach maturity at larger sizes [@cass1990lingcod; @miller1973fish]
+than males.
+Both males and females exhibit a latitudinal trend in
+growth, longevity, and size at maturity.
+Consequently, individuals from northern waters generally
+grow faster, live longer, and mature at larger sizes
+than individuals from southern regions
+[@richards1990multivariate; @silberberg2001analysis; @lam2019geographic].
+
+### Spawning
+
+`r Spp` are iteroparous spawners.
+Male `r spp` aggregate in late fall and move to rocky habitat in
+intertidal waters up to 126 m [@giorgi1981environmental; @o1993submersible]
+where they guard areas suitable for spawning.
+This movement is correlated with a decline in the proportion of males
+in offshore trawl landings in late fall
+[@miller1973fish (California); @cass1990lingcod (British Columbia); @jagielo1994assessment (Washington)].
+Mature females are rarely seen on the spawning grounds and
+appear to move from deep-water habitats into spawning areas only for
+a brief period to deposit eggs [@giorgi1981environmental].
+Larger and older females appear to spawn first [@cass1990lingcod],
+depositing up to 500,000 eggs in high current areas [@hart1973pacific; @low1978study].
+After fertilization, males guard clutches until the eggs hatch
+in six to eight weeks [@king2005male; @withler2004polygamous],
+between January and June [@jewell1968scuba; @low1978study].
+Recent maturity studies suggest that `r spp` are batch spawners with the
+ability to spawn year round.
+Peak spawning takes place during October through December
+(pers. comm, Melissa Head, NWFSC).
+
+### Larvae
+
+At hatching, `r spp` larvae are about 12 mm in total length and
+are epipelagic for approximately 90 days,
+until reaching about 70 mm and settling to soft bottom habitats
+[@phillips1977early; @cass1990lingcod; @hart1973pacific).
+Epipelagic larvae feed on small copepods and copepod eggs,
+shifting to larger copepods and fish larvae as they grow [@phillips1977early].
+\Gls{yoy} typically recruit to sandy, low-relief habitat near eelgrass or kelp beds,
+staying on soft bottom until they grow to at least 350 mm in length.
+After reaching 350 mm, they move into rocky, high-relief substrate,
+which is the preferred adult habitat [@petrie2006hunger; @bassett2018lingcod].
+
+### Juveniles
+
+Newly settled juveniles are typically found
+at depths ranging from 9-55 m
+[@phillips1977early; @miller1973fish; @coley1986juvenile].
+They often
+start in nearshore areas of sandy substrate [@buckley1984enhancement],
+move to a wider range of flat bottom areas by September [@cass1990lingcod], and
+then move into habitats of similar relief and substrate inhabited by adults
+while ages one to two but remain at shallower depths.
+Off the coast of California, they tend to initiate this latter move
+starting at around 35 cm in length [@miller1973fish].
+Whereas, off the coast of Washington, juveniles have been found in
+hard bottom shell-cobble habitat near rocks in 9-15 m of water
+off the coast of Grays Harbor as soon as October [@coley1986juvenile].
+
+Juvenile density tends to be higher in the south than in the north
+[@tolimieri2020SpatioTemporal].
+Particularly, in central California shelf waters (50-240 m)
+between $34^\circ$ N and $39^\circ$ N
+and, just north of Cape Mendocino and Cape Blanco
+between $41^\circ$ N and $43^\circ$ N, albeit at smaller densities.
+These results are based on the \Gls{s-wcgbt},
+which has an inshore limit of 55 m, and thus,
+the results do not account for potential differences
+in juvenile habitat in the north versus the south.
+Off of Washington,
+juveniles have been collected from the mouth of the Pysht River
+in the Strait of Juan de Fuca, Grays Harbor and Willapa Bay,
+and from coastal waters nearshore to these embayments
+[@buckley1984enhancement; @jagielo1994assessment].
+
+Juvenile `r spp` feed on small fishes including
+**todo - check all these common names for how to capitalize**
+Pacific Herring (*Clupea pallasii*) and
+Pacific Sand Lance (*Ammodytes hexapterus*),
+flatfishes (*Pleuronectidae*) including
+Shiner Perch (*Cymatogaster aggregate*) and
+Walleye Pollock (*Theragra chalcograma*), and
+an assortment of invertebrates including
+shrimps (Neomysis) and prawns (Pandalus) [@cass1990lingcod].
+As juvenile `r spp` begin to move into rocky habitats and exceed 30 cm,
+other rocky reef bottomfishes become a more prominent component of their diet,
+making up 48.8\% of total prey biomass by weight [@beaudreau2007spatial].
+
+Phillips and Barraclough [-@phillips1977early] estimated that \gls{yoy} growth
+was approximately 1.3 mm/day.
+Buckley et al. [-@buckley1984enhancement] reported \gls{yoy} growth from
+June to September in the Strait of Juan de Fuca also averaged 1.3mm/day.
+Samples from the mouth of the Pysht River averaged
+96 mm in June,
+135 mm in July,
+173 mm in August, and
+200 mm in September [@jagielo1994assessment].
+
+### Habitat use
+
+Outside of the spawning season,
+male and female `r spp` are segregated by depth.
+Where, females tend to inhabit deeper offshore waters and
+males inhabit nearshore rocky reefs.
+Consequently, the sexes are vulnerable to different types of fishing gear.
+**todo - make these numbers dynamic if we are going to keep them**
+**toto - mention which fleet we are talking about, assuming commercial**
+The majority of nearshore males (66.3\%) are caught using
+hook-and-line or spearfishing gear, and
+the majority of deep water females (62.4\%) are caught using
+trawl gear [@miller1973fish].
+Fishery and survey data indicate that male `r spp` tend to be more abundant
+than females in shallow waters, and
+the size of both sexes increase with depth [@jagielo1994assessment].
+
+### Movement
+
+The movement and migration of `r spp` has been extensively studied
+through tag-recapture methods and acoustic arrays.
+As adults, `r spp` have a high
+[e.g., 95\%, Cass et al. -@cass1990lingcod; and 81\%, Jagielo -@jagielo1990movement]
+degree of site fidelity and
+tend to stay within an 8 km home range.
+Movement is apparent between
+coastal areas off Washington and southwest Vancouver Island but
+there is little interchange between these areas and
+the inland marine waters of Puget Sound and the Strait of Georgia
+[@cass1990lingcod; @jagielo1990movement].
+However, some exceptional movements have been reported.
+For example fish tagged off of Cape Flattery, Washington were recaptured
+as far north as Queen Charlotte sound (195 km) and
+as far south as Cape Falcon (120 km) [@jagielo1990movement].
+One fish tagged as a juvenile was recovered
+510 km to the south in Oregon.
+
+High site fidelity was also found using acoustic tags
+in Alaskan waters [@starr2005use] and
+off of Central California [@greenley2009movements].
+While `r spp` exhibit high site fidelity
+with an established location of residence,
+they frequently leave for 1-5 days traveling around 2 km to feed,
+only to return home for a longer duration.
+Large females generally had shorter residency times,
+spending more time outside of their tagged site.
+Additional acoustic studies in Prince William Sound
+reported that 50 cm individuals thought to be 2-4 years old
+disperse from nearshore reefs during spawning season,
+most likely due to displacement by older and larger spawning individuals
+[@bishop2010situ; @stahl2014examinationof].
+Overall, residency times varied by sex, size, season, and habitat of residence.
+
+### Diet and trophic ecology
+
+`r Spp` are top-order predators of the family `r utils_name("Family")`.
+Among the `r utils_name("Family")`,
+the genus *`r gsub("\\s.+", "", utils_name("latin"))`*
+is ecologically intermediate
+between the more littoral genera *Hexagrammos* and *Oxylebius*
+and the more pelagic *Pleurogrammus* [@rutenberg1962system].
+
+**todo - decide on a style for personal communication citations**
+Being opportunistic predators, `r spp` feed on a variety of
+fishes (pelagic and demersal), cephalopods, and crustaceans [@wilby1937ling].
+Their feeding strategies are known to vary with
+depth of occurrence, latitude, sex, and size
+(B. Brown, Moss Landing Marine Laboratories, personal communication, 31 March 2021).
+Geographic variation in trophic level is associated with oceanographic factors
+such as sea-surface temperature or chlorophyll-a density that
+likely corresponds to shifts in prey availability,
+suggesting a similar shift in the predatory role of `r spp` in coastal environments.
+
+**todo - the following paragraph could use some restructuring or more information potentially**
+Male `r spp` caught in shallow depths have more diverse diets and consume
+more lower-trophic prey items (e.g,. cephalopods) and
+than females caught in deep depths that have less diverse diets and consume
+more higher-trophic prey items (e.g., groundfishes).
+Preliminary observations from `r spp` stomach contents sampled from
+Washington to California in both nearshore and offshore habitats indicate a
+higher occurrence of bony fishes in the diet of northern fish than those
+collected off of California
+(B. Brown, Moss Landing Marine Laboratories, personal communication, 6 April 2017).
+Whereas, fish collected off of California and southern Oregon had a higher occurrence of
+cephalopods in their diet than fish collected from more northern waters.
+This latitudinal shift in prey composition suggests differences
+in feeding behavior and the predatory role of `r spp` in coastal environments.
+Being opportunistic feeders, it is not a surprise that
+rockfish biomass in the `r spp` diet increases by three-fold for
+`r spp` found inside marine reserves [@beaudreau2007spatial].
+
+### Stock delineation
+
+Longo, et al. [-@longo2020strong] used
+restriction-site associated DNA sequencing
+techniques and discovered evidence for distinct
+north and south genetic clusters
+with the presence of admixed individuals in the region of overlap.
+Pure northern-cluster individuals represented
+over 80\% of the samples at $42.2^\circ$ N and
+all sampled sites that were further to the north.
+Pure southern-cluster individuals represented
+over 80\% of the samples at all sampled sites south of $35.2^\circ$ N.
+Only two sites were sampled within the range where most admixed individuals
+were found, $38.6^\circ$ N and $39.5^\circ$ N.
+Thus, it was difficult to define a clean break between the clusters.
+The general results of the occurrence of two distinct genetic clusters
+were contrary to previous genetics work using
+mitochondrial deoxyribonucleic acid that found no
+genetic differentiation in the `r spp` population [@marko2007mtdna].
+
+The recent genetic results concurred with those from
+recent work demonstrating that `r spp` growth, longevity, and timing at maturity
+exhibit a latitudinal gradient.
+`r spp` from higher latitudes are
+larger at age, live longer, and reach biological maturity at larger sizes
+**todo - Lam et al. Figure and MH Figure too?**.
+(Figures xxx and xxx)
+compared to conspecifics from lower latitudes
+**todo - add the following citations**
+[@lam2021geographic; Head et al. in review?].
+
+This known variability in life-history parameters and genetic structure
+led to the reexamination of the previous stock boundary used for `r spp`,
+located at the California - Oregon border
+[@hamel2009lingcod; @haltuch2019lingcod].
+
+**todo - fix all calls to $\circ$ b/c they are not _accessible_**
+A break point at Cape Mendocino, California ($40^\circ 10^\prime$ N) was
+chosen for this assessment because it
+(1) falls within the mixing zone of the two genetic clusters, and
+(2) falls in the vicinity of where the greatest difference in
+`r spp` size-at-age was detected (see **todo - xxx**), and
+(3) aligns with the federal management boundary for commercial quotas and
+a boundary between two \Gls{cdfw} management regions,
+which facilitates the
+application of assessment results for future management and
+separation of historical catch.
+
+**todo - move the following paragraphs to the appropriate section**
+
+**todo - edit the following paragraphs for grammar**
+A model based change-point analysis method outlined in Kapur et al. 2020
+was used to identify a biologically relevant stock boundary using size-at-age data.
+Using
+size and age data from the \Gls{s-wcgbt} and
+an independent study [@lam2021geographic],
+a generalized additive model was fit to a vector of
+observed `r spp` lengths of of a single age as the response variable, and
+predicted by a smoother for latitude.
+Each age-sex combination was analyzed separately.
+The first derivative was taken from the fitted spline
+to detect the latitude at which differences in size-at-age were most pronounced
+(i.e., the maximum absolute value) and
+statistically significant
+(i.e., where the confidence interval does not include 0).
+The resulting latitude was rounded to the nearest integer
+as there were no detectable differences when half-degrees were used.
+77.8\% of significant age-sex combinations detected a break between latitudes
+$38^\circ 00^\prime$ and $40^\circ 00^\prime$ N
+(Figure **todo - reference figure of derivative plots**).
+This range is in agreement with the genetic break point identified for
+`r spp` by Longo et al. [-@longo2020strong].
+
+### Ageing
+
+**todo - edit the following paragraphs for grammar**
+`r Spp` are aged using dorsal fin rays,
+which has been found to have the highest
+accuracy,
+readability,
+and minimal between-reader bias when compared to other ageing structures
+[e.g., @chiltonAgeDeterm; @cass1983first; Claiborne et al. 2016].
+However, recent studies suggest that surface reads from otoliths may be
+comparable in terms of accuracy and readability.
+For  this assessment, `r spp` samples from
+fishery-dependent and -independent sources were aged using the fin ray method.
+
+During the age reading process,
+the first and second annuli can be re-absorbed as the fish ages,
+obscuring early annulus rings and leading to error by under-ageing.
+However, error can be minimized using known mean annular radii measurements
+for the first, second, and third annuli, as established by
+Beamish and Chilton [-@beamish1977age] and
+later validated by
+McFarlane and King [-@mcfarlane2001validity].
+
+For this assessment,
+between-reader ageing error was determined using the nwfscAgeingError package [@nwfscAgeingError2008],
+which is publicly available at https://github.com/nwfsc-assess/nwfscAgeingError.
+This package implements the Punt et al. [-@punt2008quantifying] model.
+It calculates the likelihood of model parameters given an observed data set
+that includes age reads provided by multiple readers for a set of ageing structures.
+For each reader, two sets of parameters are estimated that define
+the standard deviation and bias of the reads provided by that reader.
+The set of parameters that best describes the standard deviation and bias between age readers
+is determined with a step-wise model selection function and compared using AIC.

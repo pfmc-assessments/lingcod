@@ -1,0 +1,85 @@
+## Summary of Management History and Performance
+
+### Commercial Fishery
+
+Prior to 1977, `r spp` stocks in the northeast Pacific were managed by the
+Canadian Government within its waters and
+by the individual states in waters (out to three miles) off of the U.S.
+With implementation of the \gls{msfcma} in 1976,
+primary responsibility for the management of the groundfish stocks off
+Washington, Oregon, and California shifted from the states to the \gls{pfmc}.
+The U.S. west coast \gls{abc} for `r spp`  was set at 7,000 mt,
+but catch was consistently below this level.
+In 1994, a \gls{hg} of 4,000 mt was set.
+In 1995, both the \gls{abc} and \gls{hg} were dropped to 2,400 mt
+based on a quantitative assessment [@jagielo2000assessment].
+
+** todo - add information about minimum size limits for commercial fishery**
+Trip limits on commercial `r spp` catch were first instituted in 1995,
+when a 20,000 lbs/month limit was imposed.
+In 1998, a two-month cumulative limit of 1,000 lbs was imposed.
+Since then, managment has been through
+individual-year \gls{abc} and \gls{oy} levels.
+
+The \gls{pfmc} implemented an initial `r spp` Rebuilding Plan in 2000
+with size and seasonal limitations in the recreational fishery and
+a change to limited entry and open access sectors in the commercial fishery.
+Additionally, the coastwide \gls{abc} was reduced
+from 960 mt to 700 mt.
+In the commercial fishery sector, \glspl{hg} in 2000 were reduced by over 80\%
+from 1998 limits.
+To achieve these low harvest goals,
+all commercial fishing for `r spp`  was closed for six months
+(January to April and November to December).
+During the open period between April and November,
+all commercial vessels were limited to 400 lbs per month and
+non-trawl vessels had a minimum size limit of
+**todo - find the symbol that is accessible**
+26 in south of Cape Mendocino ($40^\circ 10^\prime$ N) and
+24 in to the north of Cape Mendocino.
+
+Between 2000 and 2005, while the fishery was rebuilding,
+cumulative trip limits were very low, at 800 lbs bimonthly,
+with frequent closures.
+After 2006, \glspl{abc} and trip limits were increased,
+with a bimonthly limit of 1,200 lbs.
+Concurrently, \glspl{mpa} in California,
+\glspl{rca} and the \gls{cca} were established.
+In these areas, take of all groundfish is prohibited within specified
+depths, habitats, and locations.
+
+**todo - perhaps add more information to this paragraph**
+Between 2002 and 2011, observed trips were chosen by random stratified sampling.
+In 2011, the limited entry trawl sector became a catch share program
+with 100\% observer coverage.
+
+### Recreational Fishery
+
+Recreational regulations for `r spp` were established in 1994 and included
+a bag limit of three fish in Washington and Oregon,
+a bag limit of five fish in California, and
+a minimum size limit of 22 in in Washington and California.
+The 22 in minimum size limit was adopted in Oregon in 1995 and
+increased to 24 in in all three states in 1998.
+In 1998, the bag limit in Washington and California dropped to two fish per day.
+Oregon followed suite in 1999, and
+the two-fish bag limit largely remained coastwide until 2008.
+
+Between 2000 and 2004,
+the California recreational bag limit dropped to 1 fish per day and
+the size limit increased from 26 to 30 in.
+Oregon's bag limit fluctuated between one and two fish per day.
+Regulations have become less restrictive since the rebuilding period.
+In 2015, the bag limit increased to 3 fish per day in California,
+while the two-fish bag limit was retained in Oregon and Washington.
+A size limit of 22 in was adopted in all three states.
+More recently, the bag limit in California has decreased to 2 fish per day.
+In Oregon, there have been multiple recreational groundfish in-season closures
+to reduce impacts to overfished rockfish.
+
+** todo - make summaries of management history as stated below**
+Summaries of regulatory histories for both federal and state management actions
+are available as supplementary materials to this stock assessment.
+See Table k
+**todo - reference table**
+for a recent history of \glspl{ofl}, \glspl{acl}, catch for each area.

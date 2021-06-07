@@ -1,0 +1,57 @@
+## Historical and Current Fishery Information
+
+```{r textCatchpeakyear}
+# Calculate the year in which the total landings peaked
+# top_n defaults to the last variable in the tibble, which is mt here
+textCatchpeakyear <- data_catch %>%
+  dplyr::group_by(Year) %>%
+  dplyr::summarize(sum = sum(mt)) %>%
+  dplyr::top_n(n = 1) %>%
+  dplyr::pull(Year)
+```
+
+`r Spp` fisheries have a long history.
+The earliest evidence of fishing for `r Spp`
+comes from the remains of 51 archaeological sites
+representing the period between 6200 BC and 1830 AD on the
+central California coast from San Mateo to San Luis Obispo [@gobalet1995prehistoric].
+The commercial fishery off
+California dates back more than a century (i.e., 1920s) and
+the fishery off of Washington and Oregon dates back nearly as far (i.e., 1940s).
+These commercial fishers are largely harvested using trawl and longline gear.
+Recreational fisheries are dominated by hook-and-line and spear methods
+**todo - fix links to figures**
+(see Figures executive summary a and b).
+
+The commercial fishery steadily grew with the rise of the groundfish trawl industry.
+Commercial landings peaked in the early 1980s and were followed by decreasing landings
+because of management measures implemented due to population declines.
+Management largely relied on seasonal closures and size limits to limit landings.
+Coast wide, the `r spp` fishery was declared overfished in 1999.
+With the combination of
+a federal rebuilding plan implemented during 2003 and
+years of good recruitment,
+the population was deemed recovered in 2005,
+four years ahead of the projected recovery time.
+
+In California, the recreational `r spp` fishery has had substantial landings
+that have surpassed that of the commercial fleet operating in California waters
+since 1998.
+At the peak of the `r spp` fishery, in `r textCatchpeakyear`,
+the landings were nearly equally divided between the commercial and recreational fleets.
+From 1980 to 2008, 95\% to 97\% of `r spp` caught were taken by boat-based anglers via
+\glspl{cpfv} and private/rental boats.
+Private boat landings (including kayaks) were higher than those from \glspl{cpfv}.
+A small fraction of landings are from spear fishers using SCUBA or free diving gear [@lynn2008status].
+
+Catches of `r spp` in Oregon and Washington have shifted from the commercial trawl fleet,
+which accounted for 90\% of landings during its mid-1980s peak,
+to a fishery evenly split between commercial and recreational landings in recent years.
+Between 1980 and 1996, the majority of `r spp` were caught by the bottom trawl fishery (>75\%),
+followed by troll and hook-and-line (between 10-20\%),
+with a small fraction of additional landings from
+pots and traps, nets, and shrimp trawls [@jagielo1997assessment].
+From 1999 to 2016, however, the recreational fishery has contributed about half
+of all `r spp` Oregon and Washington landings, on average, and has continued to grow.
+
+**todo - generate numbers dynamically**
