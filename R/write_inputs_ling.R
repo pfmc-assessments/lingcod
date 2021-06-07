@@ -74,7 +74,8 @@ write_inputs_ling <- function(inputs,
     start <- r4ss::SS_writestarter(inputs$start,
                                    dir = dir,
                                    overwrite = overwrite,
-                                   verbose = verbose)
+                                   verbose = verbose,
+                                   warn = FALSE)
   }
   if ("fore" %in% files) {
     fore <- r4ss::SS_writeforecast(inputs$fore,

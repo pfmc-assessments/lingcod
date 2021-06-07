@@ -11,6 +11,7 @@
 #' NULL value will use a filename like `compare_[id1]_[id2].png`
 #' @param print TRUE/FALSE print to a png file: `filename`
 #' or the current graphics device
+#' @param dir Where to put the PNG file if `print = TRUE`.
 #' @param endyrvec final year to include in the figure passed to
 #' r4ss::SSplotComparisons()
 #' @param dots additional arguments that will get passed to
@@ -30,6 +31,7 @@ plot_twopanel_comparison <- function(mods,
                                      legendlabels = NULL,
                                      filename = NULL,
                                      print = TRUE,
+                                     dir = "figures/compare",
                                      endyrvec = 2021,
                                      verbose = FALSE,
                                      ...) {
@@ -52,7 +54,7 @@ plot_twopanel_comparison <- function(mods,
   }
 
   if (print) {
-    png(file.path("figures", filename),
+    png(file.path(dir, filename),
         width = 6.5, height = 6.5, units = "in", pointsize = 10, res = 300)
   }
   par(mfrow = c(2,1), mar = c(1, 3, 1, 1), oma = c(3, 0, 0, 0))

@@ -7,7 +7,7 @@
 clean_comps(comp, type = "len")
 }
 \arguments{
-\item{comp}{NULL value will use all fleets from \code{\link[=get_fleet]{get_fleet()}}}
+\item{comp}{data object in the lingcod package}
 
 \item{verbose}{A logical value specifying if output should be printed
 to the console or not. The default is \code{FALSE}, which will suppress messages.}

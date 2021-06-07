@@ -7,9 +7,8 @@
 add_data(
   dat,
   area,
-  dat_type = c("catch", "index", "discard", "lencomp", "ageerror", "agecomp"),
+  dat_type = c("catch", "index", "discard", "lencomp", "ageerror", "CAAL", "agecomp"),
   fleets = NULL,
-  ss_new = TRUE,
   verbose = TRUE
 )
 }
@@ -22,8 +21,6 @@ add_data(
 
 \item{fleets}{optional vector of fleet numbers for which to add data
 NULL value will use all fleets from \code{\link[=get_fleet]{get_fleet()}}}
-
-\item{ss_new}{use data.ss_new instead of ling_data.ss}
 
 \item{verbose}{A logical value specifying if output should be printed
 to the console or not. The default is \code{FALSE}, which will suppress messages.}

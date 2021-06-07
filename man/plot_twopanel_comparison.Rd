@@ -9,6 +9,7 @@ plot_twopanel_comparison(
   legendlabels = NULL,
   filename = NULL,
   print = TRUE,
+  dir = "figures/compare",
   endyrvec = 2021,
   verbose = FALSE,
   ...
@@ -26,6 +27,8 @@ NULL value will use a filename like \verb{compare_[id1]_[id2].png}}
 
 \item{print}{TRUE/FALSE print to a png file: \code{filename}
 or the current graphics device}
+
+\item{dir}{Where to put the PNG file if \code{print = TRUE}.}
 
 \item{endyrvec}{final year to include in the figure passed to
 r4ss::SSplotComparisons()}

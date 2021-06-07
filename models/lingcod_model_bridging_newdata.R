@@ -3,10 +3,11 @@
 
 # create new directories with input files
 for (area in c("n", "s")){
+#for (area in c("s")){
   newdir <- get_dir_ling(area = area, num = 4)
   r4ss::copy_SS_inputs(dir.old = get_dir_ling(area = area, num = 2),
                        dir.new = newdir, 
-                       use_ss_new = TRUE,
+                       use_ss_new = TRUE, # currently running old models
                        copy_par = TRUE,
                        copy_exe = TRUE,
                        dir.exe = get_dir_exe(),
@@ -22,23 +23,22 @@ for (area in c("n", "s")){
   # add data
   inputs$dat <- add_data(dat = inputs$dat,
                          area = area,
-                         ss_new = FALSE,
                          verbose = TRUE)
 
   # write new data file
   write_inputs_ling(inputs,
                     # directory is same as source directory for inputs in this case
                     dir = get_dir_ling(area = area, num = 4),
-                    verbose = TRUE,
+                    verbose = FALSE,
                     overwrite = TRUE)
 }
 
 if (FALSE) {
   # look at model output
-  mod.2021.n.004.001 <- SS_output(get_dir_ling(area = "n", num = 4))
-  mod.2021.s.004.001 <- SS_output(get_dir_ling(area = "s", num = 4))
+  mod.2021.n.004.001 <- r4ss::SS_output(get_dir_ling(area = "n", num = 4))
+  mod.2021.s.004.001 <- r4ss::SS_output(get_dir_ling(area = "s", num = 4))
 
 
-  SS_plots(mod.2021.n.004.001)
-  SS_plots(mod.2021.s.004.001)
+  r4ss::SS_plots(mod.2021.n.004.001)
+  r4ss::SS_plots(mod.2021.s.004.001)
 }
