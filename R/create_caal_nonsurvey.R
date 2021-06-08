@@ -29,6 +29,10 @@ create_caal_nonsurvey <- function(
   partition,
   ageEr
 ){
+  
+  #Exclude NAs from the age columns
+  Data = Data[!is.na(Data$Ages),]
+  
   # Define years in the data
   YearSet = min(Data[Data$Year!="9999",'Year']):max(Data[Data$Year!="9999",'Year']) #9999 used to acount for added dummy year to Lam thesis data
   # Age bins
