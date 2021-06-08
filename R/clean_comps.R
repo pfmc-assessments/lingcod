@@ -26,31 +26,53 @@ clean_comps <- function(comp, type = "len"){
   
   len_bin_names <- c(paste0("f", info_bins$length),
                      paste0("m", info_bins$length))
-
+  
+  age_bin_names <- c(paste0("f", info_bins$age),
+                     paste0("m", info_bins$age))
   ##########################################################################
-  # format used by PacFIN.Utilities length comps
-  if("FthenM" %in% names(comp)){
+  # format used by PacFIN.Utilities
+  if ("FthenM" %in% names(comp)){
     newcomp <- rbind(comp$FthenM,
                      comp$Uout)
 
     # low-tech 2021 scheme to convert "TW" to 1 and "FG" to 2
     newcomp$fleet[newcomp$fleet == "TW"] <- 1
     newcomp$fleet[newcomp$fleet == "FG"] <- 2
+    newcomp$fleet <- as.numeric(newcomp$fleet)
 
-    # fix duplicate column names
+    # fix duplicate column names which created an error for dplyr
     names(newcomp) <- vctrs::vec_as_names(names(newcomp),
                                           repair = "unique",
                                           quiet = TRUE)
-    newcomp <- newcomp %>%
-      dplyr::rename(year    = "fishyr"   , # use naming convention from add_data()
-                    part    = "partition",
-                    nsamp   = "Ntows"  # could also be Nsamps or InputN or something new
-                    ) %>%
-      dplyr::select(-c("Nsamps", "InputN"))
-    # replace names for data columns
-    names(newcomp)[-(1:6)] <- len_bin_names
+    if (!"ageErr" %in% names(comp$FthenM)) {
+      # length comp
+      newcomp <- newcomp %>%
+        dplyr::rename(year    = "fishyr"   , # use naming convention from add_data()
+                      part    = "partition",
+                      nsamp   = "Ntows"  # could also be Nsamps or InputN or something new
+                      ) %>%
+        dplyr::select(-c("Nsamps", "InputN"))
+      # replace names for data columns
+      names(newcomp)[-(1:6)] <- len_bin_names
+    } else {
+      # marginal age comps
+      newcomp <- newcomp %>%
+        dplyr::rename(year    = "fishyr"   , # use naming convention from add_data()
+                      part    = "partition",
+                      ageerr = "ageErr",
+                      lbin_lo = "LbinLo",
+                      lbin_hi = "LbinHi",
+                      nsamp   = "Ntows"  # could also be Nsamps or InputN or something new
+                      ) %>%
+        dplyr::select(-c("Nsamps", "InputN"))
+      # replace names for data columns
+      names(newcomp)[-(1:9)] <- age_bin_names
+      # update ageing error matrix (was 0)
+      newcomp$ageerr <- 1
+    }
   }
-  
+    
+    
   ##########################################################################
   # format used for recreational comps
   if("comps" %in% names(comp)){
@@ -81,20 +103,10 @@ clean_comps <- function(comp, type = "len"){
       dplyr::rename_with(.fn = tolower) # change Nsamp to nsamp and F10 to f10
   }
 
-  ## # internal function to pad unsexed comps with zeros for the male columns
-  ## add_zeros_agecomp <- function(comp){
-  ##   df.zeros <- data.frame(matrix(0,
-  ##                                 nrow = nrow(comp$female),
-  ##                                 ncol = length(info_bins$age)))
-  ##   comp <- rbind(cbind(comp$female, df.zeros),
-  ##                 cbind(comp$male[,(1:9)], df.zeros, comp$male[,-(1:9)]))
-  ##   names(comp)[-(1:9)] <- c(paste0("f", info_bins$age),
-  ##                            paste0("m", info_bins$age))
-  ## }
-
   ####################################################################
   # format used by all the CAAL comps
-  if (all(names(comp) == c("female", "male"))) {
+  if (length(comp) == 2 &&
+      all(names(comp) == c("female", "male"))) {
     # files produced by PacFIN.Utilities need extra columns for sex not included
     if(ncol(comp$female) == 9 + length(info_bins$age)) {
       comp$female <- cbind(comp$female,
@@ -108,10 +120,8 @@ clean_comps <- function(comp, type = "len"){
                          comp$male[,-(1:9)])
     }
     # rename all data columns so they match
-    names(comp$female)[-(1:9)] <- c(paste0("f", info_bins$age),
-                                    paste0("m", info_bins$age))
-    names(comp$male)[-(1:9)] <- c(paste0("f", info_bins$age),
-                                  paste0("m", info_bins$age))
+    names(comp$female)[-(1:9)] <- age_bin_names
+    names(comp$male)[-(1:9)] <- age_bin_names
     # bind the female and male tables and convert characters to numeric 
     newcomp <- type.convert(rbind(comp$female, comp$male), as.is = TRUE)
 
