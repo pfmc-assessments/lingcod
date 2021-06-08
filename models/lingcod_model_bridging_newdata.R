@@ -28,7 +28,7 @@ for (area in c("n", "s")){
   # write new data file
   write_inputs_ling(inputs,
                     # directory is same as source directory for inputs in this case
-                    dir = get_dir_ling(area = area, num = 4),
+                    dir = newdir,
                     verbose = FALSE,
                     overwrite = TRUE)
 }
