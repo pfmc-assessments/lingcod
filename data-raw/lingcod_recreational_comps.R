@@ -194,7 +194,6 @@ wa_sport_data = dataModerate2021::rename_recfin(data = wa_sport,
 ############################################################################################
 # Put all the data into one list
 ############################################################################################
-#Dont read in the oregon and washington age data just the length (otherwise aged lengths would be double counted)
 #Per email with Theresa Tsou on May20, use wa sport data for length and ages
 #Per email with Ali Whitman on May21, use or datasets (BOTH age and length) for lengths in 1999-2019, recfin lengths in 2020, and mrfss lengths in 1980-1998
 input_len = list()
@@ -273,8 +272,9 @@ ggplot(out[out$State=="CA" & !out$Source %in% "RecFIN_MRFSS",], aes(Length, fill
   facet_wrap(facets = c("Data_Type", "Sex")) + 
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
 grDevices::dev.off()
+
 #Remove CalPoly data for lengths comps
-out = out[which(out$Fleet != "CalPoly"),]
+out = out[which(out$Source != "CalPoly"),]
 
 #Set aside data from DebWV because it uses both retained and released fish
 #and has its own fleet. Then remove Deb data from the main dataset
@@ -371,6 +371,21 @@ nwfscSurvey::PlotSexRatio.fn(dir = file.path(asubdir), dat = wa_age, data.type =
 ageCompN_WA_Rec = afs
 usethis::use_data(ageCompN_WA_Rec, overwrite = TRUE)
 
+
+#######
+#Washington CAAL comps
+#######
+dir.create(file.path(getwd(),"data-raw","ageCAAL","Rec"), showWarnings = FALSE, recursive = TRUE)
+#Exclude NA lengths
+wa_CAAL = wa_age[!is.na(wa_age$Length),]
+wa_CAAL$Len_Bin_FL = 2*floor(wa_CAAL$Length/2)
+wa_CAAL$Ages = wa_CAAL$Age
+ageCAAL_N_WA_Rec = create_caal_nonsurvey(Data = wa_CAAL, agebin = range(info_bins[["age"]]), lenbin = range(info_bins[["length"]]), wd = "data-raw/ageCAAL/Rec" ,
+                                            append = "north_WA_Rec", seas = 7, fleet = get_fleet("Rec_WA")$num, partition = 0, ageEr = 1)
+#Save as .rdas.
+usethis::use_data(ageCAAL_N_WA_Rec, overwrite = TRUE)
+
+
 ############################################################################################
 #	Oregon fleet recreational length and age comps
 ############################################################################################
@@ -438,6 +453,19 @@ nwfscSurvey::PlotSexRatio.fn(dir = file.path(asubdir), dat = or_age, data.type =
 #Save as .rdas. Combined for sex3 (first element) and unsexed (second element)
 ageCompN_OR_Rec = afs
 usethis::use_data(ageCompN_OR_Rec, overwrite = TRUE)
+
+
+#######
+#Oregon CAAL comps
+#######
+#Exclude NA lengths
+or_CAAL = or_age[!is.na(or_age$Length),]
+or_CAAL$Len_Bin_FL = 2*floor(or_CAAL$Length/2)
+or_CAAL$Ages = or_CAAL$Age
+ageCAAL_N_OR_Rec = create_caal_nonsurvey(Data = or_CAAL, agebin = range(info_bins[["age"]]), lenbin = range(info_bins[["length"]]), wd = "data-raw/ageCAAL/Rec" ,
+                                         append = "north_OR_Rec", seas = 7, fleet = get_fleet("Rec_OR")$num, partition = 0, ageEr = 1)
+#Save as .rdas.
+usethis::use_data(ageCAAL_N_OR_Rec, overwrite = TRUE)
 
 ############################################################################################
 #	California north fleet recreational length comps (there are no ages)
