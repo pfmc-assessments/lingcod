@@ -265,10 +265,11 @@ ggplot(out[out$Source == "CalPoly",], aes(Length, fill = Data_Type, color = Data
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
 
 #Compare across Source by retained vs released fish
+#out[out$Source == "RecFIN_MRFSS", "Data_Type"] = "RETAINED"
 grDevices::png(
   filename = file.path("figures", "CA_Lengths_Retained-ReleasedxSource.png"),
   width = 8, height = 6, units = "in", res = 300)
-ggplot(out[out$State=="CA" & !out$Source %in% "RecFIN_MRFSS",], aes(Length, fill = Source, color = Source)) + 
+ggplot(out[out$State=="CA",], aes(Length, fill = Source, color = Source)) + 
   facet_wrap(facets = c("Data_Type", "Sex")) + 
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
 grDevices::dev.off()
