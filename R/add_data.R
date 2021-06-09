@@ -1,20 +1,21 @@
-#' add data to lingcod model
+#' Add data to lingcod model
 #'
-#' modifies the elements of the data file to add new data 
+#' Modifies the elements of the data file to add new data 
 #'
-#' @param dat list created by [get_inputs_ling()] or `r4ss::SS_readdat()`
+#' @param dat List created by [get_inputs_ling()] or `r4ss::SS_readdat()`
 #' @template area
-#' @param area area associated with the model, either "n" or "s"
-#' @param dat_type character vector listing data types to add
+#' @param area Area associated with the model, either "n" or "s"
+#' @param dat_type Character vector listing data types to add
 #' NULL value will lead to all data types
-#' @param part partition to include (e.g. to include only retained
-#' length comps instead of discarded length comps)
-#' @param fleets optional vector of fleet numbers for which to add data
+#' @param part Partition to include (e.g. to include only retained
+#' length comps instead of discarded length comps). Currently only filters
+#' commercial data for which discards comps are available.
+#' @param fleets Optional vector of fleet numbers for which to add data
 #' NULL value will use all fleets from [get_fleet()]
 #' @template verbose
 #' @author Ian G. Taylor
 #' @export
-#' @seealso [get_dir_ling()], [get_inputs_ling()]
+#' @seealso [get_dir_ling()], [get_inputs_ling()], [clean_comps()]
 #' 
 
 add_data <- function(dat,
@@ -305,12 +306,24 @@ add_data <- function(dat,
       state <- substring(label_short, first = nchar("rec. ") + 1) # WA, OR, or CA
       newvals <- NULL
 
-      # PacFIN BDS length comps
-      if (label_short %in% c("comm. trawl", "comm. fixed")) {
-        newvals <- paste0("lenComp", toupper(area), "_comm") %>%
-          {if(exists(.)) get(.) else NULL} %>% 
-          clean_comps() %>%
-          dplyr::filter(fleet == f)
+      if (0 %in% part | 2 %in% part) {
+        # PacFIN BDS length comps
+        if (label_short %in% c("comm. trawl", "comm. fixed")) {
+          newvals <- paste0("lenComp", toupper(area), "_comm") %>%
+            {if(exists(.)) get(.) else NULL} %>% 
+            clean_comps() %>%
+            dplyr::filter(fleet == f)
+        }
+      }
+
+      if (1 %in% part) {
+        # WCGOP discards
+        if (label_short %in% c("comm. trawl", "comm. fixed")) {
+          newvals <- paste0("lenComp", toupper(area), "_comm_discards") %>%
+            get() %>%
+            dplyr::filter(fleet == f) %>%
+            rbind(newvals, .)
+        }
       }
 
       # rec fleets
@@ -370,6 +383,11 @@ add_data <- function(dat,
 
         # add rownames which will get written as comments in ling_data.ss
         rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
+        if (any(newvals$part == 1)) {
+          rownames(newvals)[newvals$part == 1] <-
+            paste0(rownames(newvals)[newvals$part == 1],
+                   "_discards")
+        }
 
         # add new values
         newlencomp <- rbind(newlencomp,
@@ -382,7 +400,9 @@ add_data <- function(dat,
     } # end loop over fleets within adding lencomp
 
     # put newlencomp into list after sorting by fleet then year
-    dat$lencomp <- newlencomp[order(newlencomp$fleet, newlencomp$year),]
+    dat$lencomp <- newlencomp[order(newlencomp$fleet,
+                                    newlencomp$part,
+                                    newlencomp$year),]
   } # end add lencomp data
 
   ##########################################################################
@@ -424,6 +444,7 @@ add_data <- function(dat,
       # PacFIN BDS age comps contained within the objects
       #   ageCompN_comm
       #   ageCompS_comm
+      #
       #   ageCAAL_S_TW
       #   ageCAAL_N_TW
       #   ageCAAL_N_FG
@@ -446,43 +467,56 @@ add_data <- function(dat,
         }
       }
 
-      # TODO: fill in remaining fleets for CAAL and agecomp
       # rec fleets
       if (f %in% get_fleet("Rec", col = "num")) {
         # get data from these tables:
         #   ageCompN_OR_Rec
         #   ageCompN_WA_Rec
-        ## newvals <- paste0("ageComp", toupper(area), "_", state, "_Rec") %>%
-        ##   {if(exists(.)) get(.) else NULL} %>% 
-        ##   clean_comps()
+        newvals <- paste0("ageComp", toupper(area), "_", state, "_Rec") %>%
+          {if(exists(.)) get(.) else NULL} %>% 
+          clean_comps()
       }
 
       # trawl surveys
       if (label_short %in% c("Triennial", "WCGBTS")) {
         # get data from these tables:
-        #   ageCAAL_N_Triennial
-        #   ageCAAL_N_WCGBTS
-        #   ageCAAL_S_Triennial
-        #   ageCAAL_S_WCGBTS
-
-        # marginal ages not yet added: 
         #   ageCompN_sex3_Triennial
         #   ageCompN_sex3_WCGBTS
         #   ageCompS_sex3_Triennial
         #   ageCompS_sex3_WCGBTS
-        newvals <- paste0("ageCAAL_", toupper(area), "_", label_short) %>%
-          get() %>%
-          clean_comps()
+        #
+        #   ageCAAL_N_Triennial
+        #   ageCAAL_N_WCGBTS
+        #   ageCAAL_S_Triennial
+        #   ageCAAL_S_WCGBTS
+        if ("agecomp" %in% dat_type) {
+          newvals <- paste0("ageComp", toupper(area), "_sex3_", label_short) %>%
+            get() %>%
+            clean_comps()
+        }
+        if ("CAAL" %in% dat_type) {
+          newvals <- paste0("ageCAAL_", toupper(area), "_", label_short) %>%
+            get() %>%
+            clean_comps() %>%
+            rbind(newvals, .)
+        }
       }
 
       # H&L Survey
       if (area == "s" && label_short == "H&L Survey"){
-        # get data from this table:
+        # get data from these tables:
         #   ageCAAL_S_HKL
-        #
-        # marginal ages not yet added: 
         #   ageCompS_HKL
-        newvals <- clean_comps(ageCAAL_S_HKL)
+
+        if ("agecomp" %in% dat_type) {
+          newvals <- ageCompS_HKL %>%
+            clean_comps()
+        }
+        if ("CAAL" %in% dat_type) {
+          newvals <- ageCAAL_S_HKL %>%
+            clean_comps() %>%
+            rbind(newvals, .)
+        }
       }
 
       # Lam Thesis
@@ -494,10 +528,6 @@ add_data <- function(dat,
           get() %>% 
           clean_comps()
       }
-
-      ## # DebWV CPFV data ages ?
-      ## if (area == "s" && label_short == "rec. DebWV") {
-      ## }
 
       # if new data were found, replace all existing values with new ones
       if (!is.null(newvals) && nrow(newvals) > 0) {
