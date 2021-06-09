@@ -47,7 +47,7 @@ data_n = rbind(dummy,data_n)
 #Generate Comps - North
 lfs_n = nwfscSurvey::UnexpandedLFs.fn(dir = dirname(dir),
                        datL = data_n, lgthBins = info_bins[["length"]], printfolder = basename(dir),
-                       sex = 3,  partition = 0, fleet = 9, month = 7)
+                       sex = 3,  partition = 0, fleet = get_fleet("Lam")$num, month = 7)
 lfs_n = list("comps" = lfs_n$comps[1,]) #Remove dummy year comp
 #Output removal direction within write.csv or else column headers are weird
 write.csv(lfs_n$comps[1,], file.path(dir, paste0("north_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv")), row.names = FALSE)
@@ -64,7 +64,7 @@ nwfscSurvey::PlotSexRatio.fn(dir = dir,
 #Generate Comps - South
 lfs_s = nwfscSurvey::UnexpandedLFs.fn(dir = dirname(dir),
                        datL = data_s, lgthBins = info_bins[["length"]], printfolder = basename(dir),
-                       sex = 3,  partition = 0, fleet = 9, month = 7)
+                       sex = 3,  partition = 0, fleet = get_fleet("Lam")$num, month = 7)
 file.rename(from = file.path(dir, paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv")), 
             to = file.path(dir, paste0("south_LamThesis_notExpanded_Length_comp_Sex_3_bin=", min(info_bins[["length"]]), "-", max(info_bins[["length"]]), ".csv"))) 
 
@@ -82,11 +82,11 @@ nwfscSurvey::PlotSexRatio.fn(dir = dir,
 
 #Generate Comps - North
 ageCAAL_N_LamThesis = create_caal_nonsurvey(Data = data_n, agebin = range(info_bins[["age"]]), lenbin = range(info_bins[["length"]]), wd = gsub("lenComps", "ageCAAL", dir),
-                                            append = "north_LamThesis", seas = 7, fleet = 9, partition = 0, ageEr = 1)
+                                            append = "north_LamThesis", seas = 7, fleet = get_fleet("Lam")$num, partition = 0, ageEr = 1)
 
 #Generate Comps - South
 ageCAAL_S_LamThesis = create_caal_nonsurvey(Data = data_s, agebin = range(info_bins[["age"]]), lenbin = range(info_bins[["length"]]), wd = gsub("lenComps", "ageCAAL", dir),
-                                            append = "south_LamThesis", seas = 7, fleet = 9, partition = 0, ageEr = 1)
+                                            append = "south_LamThesis", seas = 7, fleet = get_fleet("Lam")$num, partition = 0, ageEr = 1)
 
 
 ###############################

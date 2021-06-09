@@ -6,6 +6,9 @@
 #' @template area
 #' @param area area associated with the model, either "n" or "s"
 #' @param dat_type character vector listing data types to add
+#' NULL value will lead to all data types
+#' @param part partition to include (e.g. to include only retained
+#' length comps instead of discarded length comps)
 #' @param fleets optional vector of fleet numbers for which to add data
 #' NULL value will use all fleets from [get_fleet()]
 #' @template verbose
@@ -16,13 +19,8 @@
 
 add_data <- function(dat,
                      area,
-                     dat_type = c("catch",
-                                  "index",
-                                  "discard",
-                                  "lencomp",
-                                  "ageerror",
-                                  "CAAL",
-                                  "agecomp"),
+                     dat_type = NULL,
+                     part = NULL,
                      fleets = NULL,
                      verbose = TRUE){
 
@@ -30,10 +28,16 @@ add_data <- function(dat,
   dat_types <- c("catch",
                  "index",
                  "discard",
+                 "meanbodywt",
                  "lencomp",
                  "ageerror",
                  "CAAL",
                  "agecomp")
+
+  # fill in and check inputs
+  if (is.null(dat_type)) {
+    dat_type <- dat_types
+  }
 
   if (!all(dat_type %in% dat_types)) {
     stop("'dat_type' needs to be from the list ",
@@ -46,6 +50,13 @@ add_data <- function(dat,
   # vector of fleets to fill in data
   if (is.null(fleets)) {
     fleets <- get_fleet(col = "num")
+  }
+  # vector of partitions to include
+  if (is.null(part)) {
+    part <- c(0, 1, 2)
+  }
+  if (!all(part %in% c(0, 1, 2))){
+    stop("'part' needs to be a vector with elements from 0, 1, and 2")
   }
 
   # messages about what's happening
@@ -227,6 +238,51 @@ add_data <- function(dat,
   } # end add discard data
 
   ##########################################################################
+  # add mean body weight data
+  if ("meanbodywt" %in% dat_type) {
+
+    # copy table of meanbodywt
+    newmeanbodywt <- dat$meanbodywt
+    if (!is.null(newmeanbodywt)) {
+      rownames(newmeanbodywt) <- paste0("#_old_", 1:nrow(newmeanbodywt))
+    }
+    
+    # loop over fleets
+    for (f in fleets) {
+      fleet <- get_fleet(f, col = "fleet")
+      label_short <- get_fleet(f, col = "label_short")
+      newvals <- NULL
+      newvals <- get(paste0("data_meanbodywt_", toupper(area)))
+      newvals <- newvals %>% dplyr::filter(fleet == f)
+
+      # if new data were found, replace all existing values with new ones
+      if (!is.null(newvals) && nrow(newvals) > 0) {
+        # set up model to read these data
+        dat$use_meanbodywt <- 1
+        dat$DF_for_meanbodywt <- 30 # could revisit for broader T-distribution
+        # add rownames
+        rownames(newvals) <- paste0("#_", label_short, "_", 1:nrow(newvals))
+
+        # remove existing values for this fleet
+        if (!is.null(newmeanbodywt)) {
+          newmeanbodywt <- newmeanbodywt %>% dplyr::filter(fleet != f)
+        }
+        
+        # add new values
+        newmeanbodywt <- rbind(newmeanbodywt,
+                               newvals)
+        if(verbose) {
+          message("added mean body weight for ",
+                  get_fleet(value = f, col = "fleet"))
+        }
+      }
+    }
+    # put newmeanbodywt into list after sorting by fleet then year
+    dat$meanbodywt <- newmeanbodywt[order(newmeanbodywt$fleet,
+                                          newmeanbodywt$year),]
+  }
+
+  ##########################################################################
   # add lencomp data
   if ("lencomp" %in% dat_type) {
     # copy table of length comps and rename some columns that are poorly named
@@ -339,8 +395,8 @@ add_data <- function(dat,
   } # end add ageerror data
 
   ##########################################################################
-  # add agecomp data
-  if ("CAAL" %in% dat_type) {
+  # add conditional and/or marginal agecomp data
+  if ("CAAL" %in% dat_type | "agecomp" %in% dat_type) {
     # copy table of age comps and rename some columns that are poorly named
     # in r4ss::SS_readdat(), where that function may be updated in the future
     newagecomp <- dat$agecomp %>%
@@ -366,31 +422,36 @@ add_data <- function(dat,
       newvals <- NULL
 
       # PacFIN BDS age comps contained within the objects
+      #   ageCompN_comm
+      #   ageCompS_comm
       #   ageCAAL_S_TW
       #   ageCAAL_N_TW
       #   ageCAAL_N_FG
       #   ageCAAL_S_FG
 
-      # marginal ages not yet added:
-      #   ageCompN_comm
-      #   ageCompS_comm
-
       if (label_short %in% c("comm. trawl", "comm. fixed")) {
-        
-        newvals <- paste0("ageCAAL_", toupper(area), "_", label_twoletter) %>%
-          {if(exists(.)) get(.) else NULL} %>% 
-          clean_comps()
+        if ("agecomp" %in% dat_type) {
+          newvals <- paste0("ageComp", toupper(area), "_comm") %>%
+            get() %>% 
+            clean_comps() %>%
+            dplyr::filter(fleet == f)
+          # negative fleet to make marginal as ghost observations by default
+          newvals$fleet <- -1 * abs(newvals$fleet)
+        }
+        if ("CAAL" %in% dat_type) {
+          newvals <- paste0("ageCAAL_", toupper(area), "_", label_twoletter) %>%
+            get() %>% 
+            clean_comps() %>%
+            rbind(newvals, .)
+        }
       }
 
       # TODO: fill in remaining fleets for CAAL and agecomp
-
       # rec fleets
       if (f %in% get_fleet("Rec", col = "num")) {
-
         # get data from these tables:
         #   ageCompN_OR_Rec
         #   ageCompN_WA_Rec
-
         ## newvals <- paste0("ageComp", toupper(area), "_", state, "_Rec") %>%
         ##   {if(exists(.)) get(.) else NULL} %>% 
         ##   clean_comps()
@@ -441,7 +502,7 @@ add_data <- function(dat,
       # if new data were found, replace all existing values with new ones
       if (!is.null(newvals) && nrow(newvals) > 0) {
         # remove existing values for this fleet
-        newagecomp <- newagecomp %>% dplyr::filter(fleet != f)
+        newagecomp <- newagecomp %>% dplyr::filter(abs(fleet) != f)
 
         # add rownames which will get written as comments in ling_data.ss
         rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
@@ -450,16 +511,16 @@ add_data <- function(dat,
         newagecomp <- rbind(newagecomp,
                             newvals)
         if(verbose) {
-          message("added CAAL data for ",
+          message("added age data for ",
                   get_fleet(value = f, col = "fleet"))
         }
       }
     } # end loop over fleets within adding agecomp
 
     # put newagecomp into list after sorting by fleet then year
-    dat$agecomp <- newagecomp[order(newagecomp$fleet, newagecomp$year),]
-
-
+    dat$agecomp <- newagecomp[order(abs(newagecomp$fleet),
+                                    newagecomp$fleet,
+                                    newagecomp$year),]
   } # end add CAAL data
 
   # return list with new data
