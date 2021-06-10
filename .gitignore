@@ -72,6 +72,8 @@ gradient.*
 ParmTrace.sso
 plots/
 plots_StartTime*/
+models/*/plots/
+models/*/plots*/
 posterior_obj_func.sso
 posterior_vectors.sso
 posteriors.sso
