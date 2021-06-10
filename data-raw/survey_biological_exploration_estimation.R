@@ -8,16 +8,17 @@
 #######################################
 
 #devtools::install_github("nwfsc-assess/nwfscSurvey", build_vignettes = TRUE)
-devtools::load_all("U:/Stock assessments/dataModerate_2021")
+#devtools::load_all("U:/Stock assessments/dataModerate_2021")
 library(plyr)
 library(ggplot2)
+library(dataModerate2021)
 
 #######################################################
 #Functions used
 #######################################################
 
-#Load data for warehouse and HNL surveys
-load_survey_data <- function(sname){
+#Load data for warehouse and HNL surveys (no longer needed due to new package structure)
+#load_survey_data <- function(sname){
   
   length_list = age_list = catch_list = list()
   
@@ -88,7 +89,7 @@ create_survey_data_frame <- function(data_list){
   all_data = NA
   for (a in 1:length(data_list)){
     
-    if(unique(data_list[[a]]$Source) %in% c("NWFSC_HKL","NWFSC_HKL_Age")){
+    if(unique(data_list[[a]]$Source) %in% c("NWFSC_HKL","Lam_HKL_Age")){
       
       tmp  <- data.frame(Year = data_list[[a]]$year,
                        Lat = data_list[[a]]$drop_latitude_degrees,
@@ -103,7 +104,7 @@ create_survey_data_frame <- function(data_list){
                        Source = data_list[[a]]$Source)
       }
     
-    if(!unique(data_list[[a]]$Source) %in% c("NWFSC_HKL","NWFSC_HKL_Age")){
+    if(!unique(data_list[[a]]$Source) %in% c("NWFSC_HKL","Lam_HKL_Age")){
       
       tmp  <- data.frame(Year = data_list[[a]]$Year,
                          Lat = data_list[[a]]$Latitude_dd,
@@ -227,8 +228,6 @@ summarize_data <- function(dir = NULL, data, file.amend = NULL){
 #Compare length frequencies by sex and depth 
 length_by_depth_plot <- function(dir, data, xlim = NULL, ylim = NULL){
   
-  dir.create(file.path(dir, "plots"), showWarnings = FALSE)
-  
   remove <- which(is.na(data$Length) | is.na(data$Depth))
   
   if(length(remove) > 0) { 
@@ -257,7 +256,7 @@ length_by_depth_plot <- function(dir, data, xlim = NULL, ylim = NULL){
     ylim = c(floor(min(sub_data[,"Length"], na.rm = TRUE)), ceiling(max(sub_data[,"Length"], na.rm = TRUE) ))
   }
   
-  pngfun(wd = file.path(dir, "plots"), file = "Length_by_Depth_by_Source.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = file.path(dir), file = "Length_by_Depth_by_Source.png", w = 7, h = 7, pt = 12)
   
   par(mfrow = panels)	
   
@@ -288,11 +287,11 @@ length_by_depth_plot <- function(dir, data, xlim = NULL, ylim = NULL){
 #Basic exploratory plots
 exploratory_plots_survey_biodata <- function(dir = NULL, data){
   
-  library(plyr)
-  library(ggplot2)
+  #library(plyr)
+  #library(ggplot2)
   
   # Double check the distribution of all lengths vs. the aged lengths
-  pngfun(wd = dir, file = "Compare_Lengths_for_Aged_Unaged_Fish.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Compare_Lengths_for_Aged_Unaged_Fish.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(2,3))
   for(sex in c("F", "M", "U")){
     hist(data[data$Sex == sex & (!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age")), "Length"], xlim = c(0, 120),  xlab = "Length (cm)", 
@@ -310,14 +309,14 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   dev.off()
   
   #Plot age-length relationships
-  pngfun(wd = dir, file = "Age_by_Sex.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Age_by_Sex.png", w = 7, h = 7, pt = 12)
   plot(x = data[data$Sex == "F",]$Age, y = data[data$Sex == "F",]$Length, col = 2, pch = 19, ylab = "Length (cm)", xlab = "Age")
   points(x = data[data$Sex == "M",]$Age, y = data[data$Sex == "M",]$Length, col = 4, pch = 19)
   points(x = data[data$Sex == "U",]$Age, y = data[data$Sex == "U",]$Length, col = 1, pch = 19)
   legend("bottomright", c("F","M", "U"), col = c(2, 4, 1), pch = 19, bty = "n")
   dev.off()
   
-  pngfun(wd = dir, file = "Age_by_Source.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Age_by_Source.png", w = 7, h = 7, pt = 12)
   plot(x = data[data$Source == "NWFSC.Combo",]$Age, y = data[data$Source == "NWFSC.Combo",]$Length, col = 2, pch = 19, ylab = "Length (cm)", xlab = "Age")
   points(x = data[data$Source == "Triennial_Age",]$Age, y = data[data$Source == "Triennial_Age",]$Length, col = 4, pch = 19)
   points(x = data[data$Source == "NWFSC_HKL_Age",]$Age, y = data[data$Source == "NWFSC_HKL_Age",]$Length, col = 1, pch = 19)
@@ -327,7 +326,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   
   #Plot length by latitude
   data$lat_bin = plyr::round_any(data$Lat, 0.5)
-  pngfun(wd = dir, file = "Length_by_Latitude.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Length_by_Latitude.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
   for (ss in c("F", "M", "U")){
     find = which(data$Sex == ss & data$Source %in% unique(data[!is.na(data$Lat),"Source"]) & !data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"))
@@ -340,7 +339,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   
   #Is increase in size at lower latitudes due to increase in depth....No?
   #There are 4 records at 674.9 m that Im not plotting here
-  pngfun(wd = dir, file = "Depth_by_Latitude.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Depth_by_Latitude.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
   for (ss in c("F", "M", "U")){
     find = which(data$Sex == ss & data$Source %in% unique(data[!is.na(data$Lat),"Source"]) & !data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"))
@@ -352,7 +351,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   dev.off()
   
   #Difference is actually due to HKL survey catching larger fish and being between 32 and 35 degrees exclusively
-  pngfun(wd = dir, file = "Length_by_Latitude_JustCombo.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Length_by_Latitude_JustCombo.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
   for (ss in c("F", "M", "U")){
     find = which(data$Sex == ss & data$Source %in% c("NWFSC.Combo"))
@@ -365,7 +364,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   
   #Plot ages distribution by data source
   data$region_source = paste0(data$Source, "_", data$Region)
-  pngfun(wd = dir, file = "Age_Density_by_Source.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Age_Density_by_Source.png", w = 7, h = 7, pt = 12)
   #Need to use print here since ggplot doesn't plot within a function call
   print(ggplot(data, aes(Age, fill = region_source, color = region_source)) +
           #facet_wrap(facets = c("Region")) +
@@ -373,7 +372,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   dev.off()
   
   #Plot ages distribution by sex
-  pngfun(wd = dir, file = "Age_Density_by_Sex.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Age_Density_by_Sex.png", w = 7, h = 7, pt = 12)
   #Need to use print here since ggplot doesn't plot within a function call
   print(ggplot(data, aes(Age, fill = Sex, color = Sex)) +
           #facet_wrap(facets = c("Region")) +
@@ -381,7 +380,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   dev.off()
   
   #Plot length distribution by data source
-  pngfun(wd = dir, file = "Length_Density_by_Source.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Length_Density_by_Source.png", w = 7, h = 7, pt = 12)
   #Need to use print here since ggplot doesn't plot within a function call
   print(ggplot(data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], aes(Length, fill = Source, color = Source)) +
           #facet_wrap(facets = c("Region")) +
@@ -389,7 +388,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   dev.off()
   
   #Plot length distribution by sex
-  pngfun(wd = dir, file = "Length_Density_by_Sex.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Length_Density_by_Sex.png", w = 7, h = 7, pt = 12)
   #Need to use print here since ggplot doesn't plot within a function call
   print(ggplot(data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], aes(Length, fill = Sex, color = Sex)) +
           #facet_wrap(facets = c("Region")) +
@@ -398,7 +397,7 @@ exploratory_plots_survey_biodata <- function(dir = NULL, data){
   
   # What is the trend in length and age and weight across time
   # This figure includes all data -- which may be biased due to selectivity
-  pngfun(wd = file.path(getwd(), "plots"), file = "Data_Summary_Len_Age_Weight_by_Year.png", w = 7, h = 7, pt = 12)
+  nwfscDiag::pngfun(wd = dir, file = "Data_Summary_Len_Age_Weight_by_Year.png", w = 7, h = 7, pt = 12)
   par(mfrow = c(3, 1), mar = c(4,4,2,2), oma = c(1,1,1,1))
   plot(data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),]$Year, data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),]$Length, ylab = "Length (cm)", xlab = "Year", ylim = c(0, max(data$Length, na.rm = TRUE)))
   tmp = aggregate (Length ~ Year + Region, data[!data$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], FUN = median)
@@ -486,6 +485,268 @@ clean_lingcod_survey_biodata <- function(dir = NULL, data){
   #Triennial_Age  1732   802
   
   return(data)
+}
+
+#Estimate length age using nls. Must have either l0 (estimates the standard parameterization with t0) or t0 null (estimates the SS3 parameterization with l0).
+#Does do unsexed fish separately when paired with either or both of Source and Region, only male and female, due to small sample sizes
+#Modified from Chantel Wetzel's data moderate code
+estimate_length_age <- function(data, grouping = "all", linf = NULL, l0 = NULL, t0 = NULL, k = NULL){
+  
+  keep <- which(!is.na(data$Age))
+  data <- data[keep, ]
+  
+  # Check for NA lengths from the aged fish and remove these
+  keep <- which(!is.na(data$Length))
+  data <- data[keep, ]
+  
+  n_sex <- unique(data$Sex)
+  n_state <- unique(data$State)
+  n_source <- unique(data$Source)
+  
+  # dynamically determine reasonable parameters. Defaults to keeping t0 as NULL
+  if (is.null(linf)) { linf <- quantile(data$Length, 0.90) }
+  if (is.null(l0) & is.null(t0))   { l0   <- ifelse(linf > 30, 10, 5) }
+  if (is.null(k)) { k    <- 0.10 }
+  
+  len_age_list <- list()
+  nm <- NULL
+  
+  if(is.null(l0)){
+    len_age_list[[1]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = data$Length, age = data$Age), 
+                                  start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+  }
+  if(is.null(t0)){
+    len_age_list[[1]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = data$Length, age = data$Age), 
+                                  start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+  }
+  
+  nm <- "all"
+  t <- 1
+  for (a in unique(data$Sex)){
+    if (sum(data$Sex == a) > 0){
+      t = t + 1
+      tmp = data[data$Sex == a, ]
+      if(is.null(l0)){
+        len_age_list[[t]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = tmp$Length, age = tmp$Age), 
+                                      start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+      }
+      if(is.null(t0)){
+        len_age_list[[t]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = tmp$Length, age = tmp$Age), 
+                                      start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+      }
+      nm = c(nm, paste0("all_", a))	
+    }
+  }
+  
+  
+  for(a in unique(data$Source)){
+    t = t + 1
+    tmp = data[data$Source == a, ]
+    if(is.null(l0)){
+      len_age_list[[t]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = tmp$Length, age = tmp$Age), 
+                                    start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+    }
+    if(is.null(t0)){
+      len_age_list[[t]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = tmp$Length, age = tmp$Age), 
+                                    start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+    }
+    nm = c(nm, a)		
+  }
+  
+  for(a in unique(data$State)){		
+    check = data[data$State == a, c("Length", "Age")]
+    if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Age)) != dim(check)[1] ){
+      t = t +1
+      tmp = data[data$State == a, ]
+      if(is.null(l0)){
+        len_age_list[[t]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = tmp$Length, age = tmp$Age), 
+                                      start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+      }
+      if(is.null(t0)){
+        len_age_list[[t]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = tmp$Length, age = tmp$Age), 
+                                      start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+      }
+      nm = c(nm, a)
+    }		
+  }
+  
+  for(a in unique(data$State)){
+    for (b in unique(data$Source)){
+      check = data[data$State == a & data$Source == b, c("Length", "Age")]
+      if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Age)) != dim(check)[1] ){
+        t = t +1
+        tmp = data[data$State == a & data$Source == b, ]
+        if(is.null(l0)){
+          len_age_list[[t]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = tmp$Length, age = tmp$Age), 
+                                        start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+        }
+        if(is.null(t0)){
+          len_age_list[[t]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = tmp$Length, age = tmp$Age), 
+                                        start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+        }
+        nm = c(nm, paste0(a, "_", b))	
+      }		
+    }
+  }
+  
+  
+  for (b in unique(data$Source)){
+    for(s in c("F","M")){ #only do source by male and female
+      check = data[data$Source == b & data$Sex == s, c("Length", "Age")]
+      if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Age)) != dim(check)[1] ){
+        t = t +1
+        tmp = data[data$Source == b & data$Sex == s, ]
+        if(is.null(l0)){
+          len_age_list[[t]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = tmp$Length, age = tmp$Age), 
+                                        start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+        }
+        if(is.null(t0)){
+          len_age_list[[t]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = tmp$Length, age = tmp$Age), 
+                                        start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+        }
+        nm = c(nm, paste0(b, "_", s))	
+      }		
+    }
+  }
+  
+  for(a in unique(data$State)){
+    for(s in c("F","M")){ #only do state by male and female
+      check = data[data$State == a & data$Sex == s, c("Length", "Age")]
+      if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Age)) != dim(check)[1] ){
+        t = t +1
+        tmp = data[data$State == a & data$Sex == s, ]
+        if(is.null(l0)){
+          len_age_list[[t]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = tmp$Length, age = tmp$Age), 
+                                        start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+        }
+        if(is.null(t0)){
+          len_age_list[[t]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = tmp$Length, age = tmp$Age), 
+                                        start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+        }
+        nm = c(nm, paste0(a, "_", s))	
+      }		
+    }
+  }
+  
+  for(a in unique(data$State)){
+    for (b in unique(data$Source)){
+      for(s in c("F","M")){ #only do state and source by male and female
+        check = data[data$State == a & data$Source == b & data$Sex == s, c("Length", "Age")]
+        if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Age)) != dim(check)[1] ){
+          t = t +1
+          tmp = data[data$State == a & data$Source == b & data$Sex == s, ]
+          if(is.null(l0)){
+            len_age_list[[t]] <- coef(nls(length~linf*(1-exp(-k*(age-t0))), data=list(length = tmp$Length, age = tmp$Age), 
+                                          start=list(linf = linf, k = k, t0 = t0), list(reltol=0.0000000001)))
+          }
+          if(is.null(t0)){
+            len_age_list[[t]] <- coef(nls(length~linf-(linf - l0)*exp(-age*k), data=list(length = tmp$Length, age = tmp$Age), 
+                                          start=list(linf = linf, k = k, l0 = l0), list(reltol=0.0000000001)))
+          }
+          nm = c(nm, paste0(a, "_", b, "_", s))	
+        }		
+      }
+    }
+  }
+  
+  names(len_age_list) <- nm
+  return(len_age_list)
+}
+
+#Estimate length weight using nls. Includes unsexed fish 
+#Modified from Chantel Wetzel's data moderate code
+estimate_length_weight <- function(data, grouping = "all"){
+  
+  remove = NULL
+  # Determine if all data sources have lengths & weights
+  for (s in unique(data$Source)){
+    check_len  <- check <- sum( !is.na( data[data$Source == s, "Length"])) == 0
+    check_wght <- sum( !is.na( data[data$Source == s, "Weight"])) == 0
+    if (check_len | check_wght) {remove <- c(remove, s)}
+  }
+  
+  data <- data[!data$Source %in% remove, ]
+  n_sex <- unique(data$Sex)
+  n_state <- unique(data$State)
+  n_source <- unique(data$Source)
+  
+  len_weight_list <- list()
+  nm = NULL
+  len_weight_list[[1]] <- coef(nls(weight ~ a*(length)^b, data=list(weight = data$Weight, length = data$Length), 
+                                   start=list(a=0.00001,b=3), list(reltol=0.0000000001)))
+  nm = "all"
+  
+  t = 1
+  for (a in unique(data$Sex)){
+    if (sum(data$Sex == a) > 0){
+      t = t + 1
+      len_weight_list[[t]] <- coef(nls(weight ~ a*(length)^b, data=list(weight = data[data$Sex == a,]$Weight, length = data[data$Sex == a,]$Length), 
+                                       start=list(a=0.00001,b=3), list(reltol=0.0000000001)))  
+      nm = c(nm, paste0("all_", a))	
+      
+    }
+  }
+  
+  for(a in unique(data$Source)){
+    t = t + 1
+    len_weight_list[[t]] <- coef(nls(weight ~ a*(length)^b, data=list(weight = data[data$Source == a,]$Weight, length = data[data$Source == a,]$Length), 
+                                     start=list(a=0.00001,b=3), list(reltol=0.0000000001)))  
+    nm = c(nm, a)		
+  }
+  
+  for(a in unique(data$State)){
+    
+    check = data[data$State == a, c("Length", "Weight")]
+    if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Weight)) != dim(check)[1] ){
+      t = t +1
+      len_weight_list[[t]] <- coef(nls(weight ~ a*(length)^b, data=list(weight = data[data$State == a,]$Weight, length = data[data$State == a,]$Length), 
+                                       start=list(a=0.00001,b=3), list(reltol=0.0000000001)))  
+      nm = c(nm, a)
+    }		
+  }
+  
+  for(a in unique(data$State)){
+    for (b in unique(data$Source)){
+      check = data[data$State == a & data$Source == b, c("Length", "Weight")]
+      if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Weight)) != dim(check)[1] ){
+        t = t +1
+        len_weight_list[[t]] <- coef(nls(weight ~ a*(length)^b, data=list(weight = data[data$State == a & data$Source == b,]$Weight, length = data[data$State == a & data$Source == b,]$Length), 
+                                         start=list(a=0.00001,b=3), list(reltol=0.0000000001)))  
+        nm = c(nm, paste0(a, "_", b))	
+      }		
+    }
+  }
+  
+  
+  for (b in unique(data$Source)){
+    for(s in unique(data$Sex)){
+      check = data[data$Source == b & data$Sex == s, c("Length", "Weight")]
+      if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Weight)) != dim(check)[1] ){
+        t = t +1
+        len_weight_list[[t]] <- coef(nls(weight ~ a*(length)^b, data=list(weight = data[data$Source == b & data$Sex == s,]$Weight, length = data[data$Source == b & data$Sex == s,]$Length), 
+                                         start=list(a=0.00001,b=3), list(reltol=0.0000000001)))  
+        nm = c(nm, paste0(b, "_", s))	
+      }		
+    }
+  }
+  
+  
+  for(a in unique(data$State)){
+    for (b in unique(data$Source)){
+      for(s in unique(data$Sex)){
+        check = data[data$State == a & data$Source == b & data$Sex == s, c("Length", "Weight")]
+        if( sum(is.na(check$Length)) != dim(check)[1] & sum(is.na(check$Weight)) != dim(check)[1] ){
+          t = t +1
+          len_weight_list[[t]] <- coef(nls(weight ~ a*(length)^b, data=list(weight = data[data$State == a & data$Source == b & data$Sex == s,]$Weight, length = data[data$State == a & data$Source == b & data$Sex == s,]$Length), 
+                                           start=list(a=0.00001,b=3), list(reltol=0.0000000001)))  
+          nm = c(nm, paste0(a, "_", b, "_", s))	
+        }		
+      }
+    }
+  }
+  
+  names(len_weight_list) <- nm
+  return(len_weight_list)
 }
 
 #Check residual patterns for length-weight and length-age for latitdue, region, and depth
@@ -655,22 +916,25 @@ checkresids <- function(data = data, method = c("lw", "la")){
 #Set up
 #######################################################
 
-#Working directory where files will be saved
-setwd("U:/Stock assessments/lingcod_2021/surveys")
+# This is no longer needed given the new pacakge structure
+# #Surveys to use 
+# surveys = c("NWFSC.Combo", "Triennial", "AFSC.Slope", "NWFSC.Slope", "NWFSC_HKL")
+# 
+# #Load data already downloaded
+# survey_data = load_survey_data(surveys)
+# 
+# #Combine into single dataframe
+# #Slope surveys have no weights or ages
+# #Triennial has weights in its age dataset, so use that dataset for age and weight
+# #HKL has ages in its age dataset, but weights in its length, so use lengths for l-w, ages for l-a
+# survey_data$age2$Source = "Triennial_Age"
+# survey_data$age5$Source = "NWFSC_HKL_Age"
+# out = create_survey_data_frame(survey_data[c("length1","length2","length3","length4","length5","age2","age5")])
 
-#Surveys to use 
-surveys = c("NWFSC.Combo", "Triennial", "AFSC.Slope", "NWFSC.Slope", "NWFSC_HKL")
-
-#Load data already downloaded
-survey_data = load_survey_data(surveys)
-
-#Combine into single dataframe
-#Slope surveys have no weights or ages
-#Triennial has weights in its age dataset, so use that dataset for age and weight
-#HKL has ages in its age dataset, but weights in its length, so use lengths for l-w, ages for l-a
-survey_data$age2$Source = "Triennial_Age"
-survey_data$age5$Source = "NWFSC_HKL_Age"
-out = create_survey_data_frame(survey_data[c("length1","length2","length3","length4","length5","age2","age5")])
+bio.WCGBTS$Source = "NWFSC.Combo"
+bio.Triennial$Lengths$Source = "Triennial"
+bio.Triennial$Ages$Source = "Triennial_Age"
+out = create_survey_data_frame(list(bio.WCGBTS, bio.Triennial$Lengths, bio.Triennial$Ages, bio.HKL, bio.HKLage.Lam))
 
 
 #######################################################
@@ -687,7 +951,7 @@ out_clean = clean_lingcod_survey_biodata(data = out)
 #Summarize data. 
 #Triennial_Age is the subset of Triennial lengths with ages (and weights)
 #NWFSC_HKL_Age is the subset of NWFSC_HKL lengths and weights with ages
-summarize_data(file.path(getwd(),"plots"), out_clean, file.amend = NULL)
+#summarize_data(file.path(getwd(),"plots"), out_clean, file.amend = NULL)
 
 #Estimate length-age and length-weight parameters
 # Separates by state, so set Region to equal to State
@@ -714,22 +978,25 @@ checkresids(data = out_clean[out_clean$Source == "NWFSC.Combo",], method = "la")
 #Plot various outputs
 #######################################################
 
+dir.create(file.path(getwd(), "figures", "biology_exploration"), showWarnings = FALSE, recursive = TRUE)
+
+
 #Plot sample sizes
-pngfun(wd = file.path(getwd(), "plots"), file = "Length_Samples.png", w = 7, h = 3, pt = 12)
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Length_Samples.png", w = 7, h = 3, pt = 12)
 ggplot(out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], aes(Year, fill = Source, color = Source)) +
   facet_wrap(facets = c("Region")) +
   geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
   ggtitle("Survey Lengths")
 dev.off()
-#exclude the slope surveys
-pngfun(wd = file.path(getwd(), "plots"), file = "Length_Samples_noslope.png", w = 7, h = 3, pt = 12)
-ggplot(out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age", "AFSC.Slope","NWFSC.Slope"),], aes(Year, fill = Source, color = Source)) +
-  facet_wrap(facets = c("Region")) +
-  geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
-  ggtitle("Survey Lengths")
-dev.off()
+# #exclude the slope surveys
+# pngfun(wd = file.path(getwd(), "plots"), file = "Length_Samples_noslope.png", w = 7, h = 3, pt = 12)
+# ggplot(out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age", "AFSC.Slope","NWFSC.Slope"),], aes(Year, fill = Source, color = Source)) +
+#   facet_wrap(facets = c("Region")) +
+#   geom_bar(alpha = 0.4, lwd = 0.8, width = 0.8) +
+#   ggtitle("Survey Lengths")
+# dev.off()
 
-pngfun(wd = file.path(getwd(), "plots"), file = "Weight_Samples.png", w = 7, h = 3, pt = 12)
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Weight_Samples.png", w = 7, h = 3, pt = 12)
 temp = out_clean[!out_clean$Source %in% c("Triennial", "NWFSC_HKL_Age"),] #Change so "triennial" shows up in legend
 temp[temp$Source == "Triennial_Age","Source"] = "Triennial"
 ggplot(temp[!is.na(temp$Weight),], aes(Year, fill = Source, color = Source)) +
@@ -738,7 +1005,7 @@ ggplot(temp[!is.na(temp$Weight),], aes(Year, fill = Source, color = Source)) +
   ggtitle("Survey Weights")
 dev.off()
 
-pngfun(wd = file.path(getwd(), "plots"), file = "Age_Samples.png", w = 7, h = 3, pt = 12)
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Age_Samples.png", w = 7, h = 3, pt = 12)
 temp = out_clean[!out_clean$Source %in% c("Triennial"),] #Change so "triennial" shows up in legend
 temp[temp$Source == "Triennial_Age","Source"] = "Triennial"
 temp[temp$Source == "NWFSC_HKL_Age","Source"] = "NWFSC_HKL"
@@ -749,68 +1016,70 @@ ggplot(temp[!is.na(temp$Age),], aes(Year, fill = Source, color = Source)) +
 dev.off()
 
 #Basic exploratory plots
-exploratory_plots_survey_biodata(dir = file.path(getwd(), "plots"), data = out_clean)
+exploratory_plots_survey_biodata(dir = file.path(getwd(), "figures", "biology_exploration"), data = out_clean)
 
-#Specific length by depth plot - plots into the "plots" folder in dir
-length_by_depth_plot(dir = getwd(), data = out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], xlim = NULL, ylim = NULL)
+#Specific length by depth plot
+length_by_depth_plot(dir = file.path(getwd(), "figures", "biology_exploration"), data = out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], xlim = NULL, ylim = NULL)
 
 #	Plot length frequency plots by source - plots into the "plots" folder in dir
-length_freq_plot(dir = getwd(), data = out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], xlim = NULL, ylim = c(0,0.1))
+dataModerate2021::length_freq_plot(dir = file.path(getwd(), "figures", "biology_exploration"), data = out_clean[!out_clean$Source %in% c("Triennial_Age", "NWFSC_HKL_Age"),], xlim = NULL, ylim = c(0,0.1))
 
-# Plot length-age and length-weight relationships
+# Plot length-age and length-weight relationships - plots into the "plots" folder in dir
 # Since set Region to equal to State above, can plot plots 3 and 4
 # Since plotting weight and age, will only use triennial lengths from the Triennial_Age dataset
-length_age_plot(dir = file.path(getwd()), splits = NA, data = out_clean, nm_append = NULL, ests = la_ests, plots = 1:4)
-length_weight_plot(dir = file.path(getwd()), splits = NA, data = out_clean[!out_clean$Source %in% c("NWFSC_HKL_Age"),], nm_append = NULL, ests = lw_ests, plots = 1:4)
+tmp = lapply(la_ests, FUN = function(x) return(x[c(1,3,2)])) #need to switch order of k and l0
+dataModerate2021::length_age_plot(dir = file.path(getwd(), "figures", "biology_exploration"), splits = NA, data = out_clean, nm_append = NULL, ests = tmp, plots = 1:4)
+dataModerate2021::length_weight_plot(dir = file.path(getwd(), "figures", "biology_exploration"), splits = NA, data = out_clean[!out_clean$Source %in% c("NWFSC_HKL_Age"),], nm_append = NULL, ests = lw_ests, plots = 1:4)
+
 
 #Plot la relationship on single figure by Source
-pngfun(wd = file.path(getwd(), "plots"), file = "Length_Age_Combo_byRegion.png", w = 7, h = 7, pt = 12)
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Length_Age_Combo_byRegion.png", w = 7, h = 7, pt = 12)
 plot(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F", "Age"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F", "Length"], 
      xlab = "Age", ylab = "Length (cm)", main = "", 
      ylim = c(0, max(out_clean$Length, na.rm = TRUE)), xlim = c(0, max(out_clean$Age, na.rm = TRUE)), 
      pch = 16, col = alpha("red", 0.20)) 
 points(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M", "Age"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M", "Length"], pch = 16, col = alpha("blue", 0.20))
 lens = 0:max(out_clean$Age,na.rm = TRUE)
-lines(lens, vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_F[1], L0 = la_ests$South_NWFSC.Combo_F[2], k = la_ests$South_NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_M[1], L0 = la_ests$South_NWFSC.Combo_M[2], k = la_ests$South_NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_F[1], L0 = la_ests$North_NWFSC.Combo_F[2], k = la_ests$North_NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 2)
-lines(lens, vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_M[1], L0 = la_ests$North_NWFSC.Combo_M[2], k = la_ests$North_NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 2)
-#lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 1)
-#lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 1)
-leg = c(#paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[2],1), " K = ", round(la_ests$NWFSC.Combo_F[3], 2)),
-        #paste0("Combo M: Linf = ", signif(la_ests$NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_M[2],1), " K = ", round(la_ests$NWFSC.Combo_M[3], 2)),
-        paste0("South Combo F: Linf = ", signif(la_ests$South_NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$South_NWFSC.Combo_F[2],1), " K = ", round(la_ests$South_NWFSC.Combo_F[3], 2)),
-        paste0("South Combo M: Linf = ", signif(la_ests$South_NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$South_NWFSC.Combo_M[2],1), " K = ", round(la_ests$South_NWFSC.Combo_M[3], 2)),
-        paste0("North Combo F: Linf = ", signif(la_ests$North_NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$North_NWFSC.Combo_F[2],1), " K = ", round(la_ests$North_NWFSC.Combo_F[3], 2)),
-        paste0("North Combo M: Linf = ", signif(la_ests$North_NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$North_NWFSC.Combo_M[2],1), " K = ", round(la_ests$North_NWFSC.Combo_M[3], 2)))
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_F[1], L0 = la_ests$South_NWFSC.Combo_F[3], k = la_ests$South_NWFSC.Combo_F[2]), col = "red", lwd = 2, lty = 1)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$South_NWFSC.Combo_M[1], L0 = la_ests$South_NWFSC.Combo_M[3], k = la_ests$South_NWFSC.Combo_M[2]), col = "blue", lwd = 2, lty = 1)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_F[1], L0 = la_ests$North_NWFSC.Combo_F[3], k = la_ests$North_NWFSC.Combo_F[2]), col = "red", lwd = 2, lty = 2)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$North_NWFSC.Combo_M[1], L0 = la_ests$North_NWFSC.Combo_M[3], k = la_ests$North_NWFSC.Combo_M[2]), col = "blue", lwd = 2, lty = 2)
+#lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[3], k = la_ests$NWFSC.Combo_F[2]), col = "red", lwd = 2, lty = 1)
+#lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[3], k = la_ests$NWFSC.Combo_M[2]), col = "blue", lwd = 2, lty = 1)
+leg = c(#paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[3],1), " K = ", round(la_ests$NWFSC.Combo_F[2], 2)),
+        #paste0("Combo M: Linf = ", signif(la_ests$NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_M[3],1), " K = ", round(la_ests$NWFSC.Combo_M[2], 2)),
+        paste0("South Combo F: Linf = ", signif(la_ests$South_NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$South_NWFSC.Combo_F[3],1), " K = ", round(la_ests$South_NWFSC.Combo_F[2], 2)),
+        paste0("South Combo M: Linf = ", signif(la_ests$South_NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$South_NWFSC.Combo_M[3],1), " K = ", round(la_ests$South_NWFSC.Combo_M[2], 2)),
+        paste0("North Combo F: Linf = ", signif(la_ests$North_NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$North_NWFSC.Combo_F[3],1), " K = ", round(la_ests$North_NWFSC.Combo_F[2], 2)),
+        paste0("North Combo M: Linf = ", signif(la_ests$North_NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$North_NWFSC.Combo_M[3],1), " K = ", round(la_ests$North_NWFSC.Combo_M[2], 2)))
 legend("bottomright", bty = 'n', legend = leg, lty = c(1,1,2,2), col = c("red","blue"), lwd = 2)
 dev.off()  
 
 #Plot combined la relationship by source on one figure
-pngfun(wd = file.path(getwd(), "plots"), file = "Length_Age_by_Source_onefigure.png", w = 7, h = 7, pt = 12)
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Length_Age_by_Source_onefigure.png", w = 7, h = 7, pt = 12)
 plot(out_clean[!out_clean$Source %in% "Triennial", "Age"], out_clean[!out_clean$Source %in% "Triennial", "Length"], 
      xlab = "Age", ylab = "Length (cm)", main = "", 
      ylim = c(0, max(out_clean$Length, na.rm = TRUE)), xlim = c(0, max(out_clean$Age, na.rm = TRUE)), 
      pch = 16, col = alpha("grey", 0.20)) 
 lens = 0:max(out_clean$Age,na.rm = TRUE)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[2], k = la_ests$NWFSC.Combo_F[3]), col = "red", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[2], k = la_ests$NWFSC.Combo_M[3]), col = "blue", lwd = 2, lty = 1)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC_HKL_Age_F[1], L0 = la_ests$NWFSC_HKL_Age_F[2], k = la_ests$NWFSC_HKL_Age_F[3]), col = "red", lwd = 2, lty = 2)
-lines(lens, vb_fn(age = lens, Linf = la_ests$NWFSC_HKL_Age_M[1], L0 = la_ests$NWFSC_HKL_Age_M[2], k = la_ests$NWFSC_HKL_Age_M[3]), col = "blue", lwd = 2, lty = 2)
-lines(lens, vb_fn(age = lens, Linf = la_ests$Triennial_Age_F[1], L0 = la_ests$Triennial_Age_F[2], k = la_ests$Triennial_Age_F[3]), col = "red", lwd = 2, lty = 3)
-lines(lens, vb_fn(age = lens, Linf = la_ests$Triennial_Age_M[1], L0 = la_ests$Triennial_Age_M[2], k = la_ests$Triennial_Age_M[3]), col = "blue", lwd = 2, lty = 3)
-leg = c(paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[2],1), " K = ", round(la_ests$NWFSC.Combo_F[3], 2)),
-        paste0("Combo M: Linf = ", signif(la_ests$NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_M[2],1), " K = ", round(la_ests$NWFSC.Combo_M[3], 2)),
-        paste0("HKL F: Linf = ", signif(la_ests$NWFSC_HKL_Age_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC_HKL_Age_F[2],1), " K = ", round(la_ests$NWFSC_HKL_Age_F[3], 2)),
-        paste0("HKL M: Linf = ", signif(la_ests$NWFSC_HKL_Age_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC_HKL_Age_M[2],1), " K = ", round(la_ests$NWFSC_HKL_Age_M[3], 2)),
-        paste0("Triennial F: Linf = ", signif(la_ests$Triennial_Age_F[1], digits = 3), " L0 = ", round(la_ests$Triennial_Age_F[2],1), " K = ", round(la_ests$Triennial_Age_F[3], 2)),
-        paste0("Triennial M: Linf = ", signif(la_ests$Triennial_Age_M[1], digits = 3), " L0 = ", round(la_ests$Triennial_Age_M[2],1), " K = ", round(la_ests$Triennial_Age_M[3], 2)))
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_F[1], L0 = la_ests$NWFSC.Combo_F[3], k = la_ests$NWFSC.Combo_F[2]), col = "red", lwd = 2, lty = 1)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$NWFSC.Combo_M[1], L0 = la_ests$NWFSC.Combo_M[3], k = la_ests$NWFSC.Combo_M[2]), col = "blue", lwd = 2, lty = 1)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$Lam_HKL_Age_F[1], L0 = la_ests$Lam_HKL_Age_F[3], k = la_ests$Lam_HKL_Age_F[2]), col = "red", lwd = 2, lty = 2)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$Lam_HKL_Age_M[1], L0 = la_ests$Lam_HKL_Age_M[3], k = la_ests$Lam_HKL_Age_M[2]), col = "blue", lwd = 2, lty = 2)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$Triennial_Age_F[1], L0 = la_ests$Triennial_Age_F[3], k = la_ests$Triennial_Age_F[2]), col = "red", lwd = 2, lty = 3)
+lines(lens, dataModerate2021::vb_fn(age = lens, Linf = la_ests$Triennial_Age_M[1], L0 = la_ests$Triennial_Age_M[3], k = la_ests$Triennial_Age_M[2]), col = "blue", lwd = 2, lty = 3)
+leg = c(paste0("Combo F: Linf = ", signif(la_ests$NWFSC.Combo_F[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_F[3],1), " K = ", round(la_ests$NWFSC.Combo_F[2], 2)),
+        paste0("Combo M: Linf = ", signif(la_ests$NWFSC.Combo_M[1], digits = 3), " L0 = ", round(la_ests$NWFSC.Combo_M[3],1), " K = ", round(la_ests$NWFSC.Combo_M[2], 2)),
+        paste0("HKL F: Linf = ", signif(la_ests$Lam_HKL_Age_F[1], digits = 3), " L0 = ", round(la_ests$Lam_HKL_Age_F[3],1), " K = ", round(la_ests$Lam_HKL_Age_F[2], 2)),
+        paste0("HKL M: Linf = ", signif(la_ests$Lam_HKL_Age_M[1], digits = 3), " L0 = ", round(la_ests$Lam_HKL_Age_M[3],1), " K = ", round(la_ests$Lam_HKL_Age_M[2], 2)),
+        paste0("Triennial F: Linf = ", signif(la_ests$Triennial_Age_F[1], digits = 3), " L0 = ", round(la_ests$Triennial_Age_F[3],1), " K = ", round(la_ests$Triennial_Age_F[2], 2)),
+        paste0("Triennial M: Linf = ", signif(la_ests$Triennial_Age_M[1], digits = 3), " L0 = ", round(la_ests$Triennial_Age_M[3],1), " K = ", round(la_ests$Triennial_Age_M[2], 2)))
 legend("bottomright", bty = 'n', legend = leg, lty = c(1,1,2,2,3,3), col = c("red","blue"), lwd = 2)
 dev.off()  
 
 
 #Plot lw relationship on single figure by Area (for combo)
-pngfun(wd = file.path(getwd(), "plots"), file = "Length_Weight_Combo_byRegion.png", w = 7, h = 7, pt = 12)
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Length_Weight_Combo_byRegion.png", w = 7, h = 7, pt = 12)
 plot(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F", "Length"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F", "Weight"], 
      xlab = "Length (cm)", ylab = "Weight (kg)", main = "", 
      ylim = c(0, max(out_clean$Weight, na.rm = TRUE)), xlim = c(0, max(out_clean$Length, na.rm = TRUE)), 
@@ -839,7 +1108,7 @@ dev.off()
 
 
 #Plot lw relationship by source on single figure
-pngfun(wd = file.path(getwd(), "plots"), file = "Length_Weight_by_Source_oneFigure.png", w = 7, h = 7, pt = 12)
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Length_Weight_by_Source_oneFigure.png", w = 7, h = 7, pt = 12)
 plot(out_clean[!out_clean$Source %in% "Triennial", "Length"], out_clean[!out_clean$Source %in% "Triennial", "Weight"], 
      xlab = "Length (cm)", ylab = "Weight (kg)", main = "", 
      ylim = c(0, max(out_clean$Weight, na.rm = TRUE)), xlim = c(0, max(out_clean$Length, na.rm = TRUE)), 
