@@ -1,7 +1,7 @@
 #V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
 #Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
 #Foreign copyrights may apply. See copyright.txt for more information.
-Tue Jun 08 11:09:08 2021
+Thu Jun 10 10:41:31 2021
 
 LENGTH: data_month already set for y,m,f: 1989 9.4 4 to real month: 9  so treat as replicate
 LENGTH: data_month already set for y,m,f: 1992 9.4 4 to real month: 9  so treat as replicate
@@ -44,6 +44,5 @@ fleet: 7 age selex range max read is: 100; is >nages; SS will convert
 fleet: 8 age selex range min read is: 0.1; SS expected an integer and will convert 
 fleet: 8 age selex range max read is: 100; is >nages; SS will convert 
 fleet: 3  lencomp has obs with partition==2; will treat as partition=0 because retention not defined; N= 57
-Final gradient: 1.15516 is larger than final_conv: 0.0001
-Number_of_active_parameters_on_or_near_bounds: 1
- N warnings: 43
+Final gradient: 0.299637 is larger than final_conv: 0.0001
+ N warnings: 42
