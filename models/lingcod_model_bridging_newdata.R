@@ -35,9 +35,8 @@ for (area in c("n", "s")){
 
 if (FALSE) {
   # look at model output
-  mod.2021.n.004.001 <- r4ss::SS_output(get_dir_ling(area = "n", num = 4))
-  mod.2021.s.004.001 <- r4ss::SS_output(get_dir_ling(area = "s", num = 4))
-
+  get_mod(area = "n", num = 4)
+  get_mod(area = "n", num = 4)
 
   r4ss::SS_plots(mod.2021.n.004.001)
   r4ss::SS_plots(mod.2021.s.004.001)

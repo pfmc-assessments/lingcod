@@ -18,7 +18,6 @@
 #' \dontrun{
 #'   get_dir_ling(area ="s", num = 1)
 #'   get_dir_ling(id = "2021.s.001.001")
-
 #' }
 get_dir_ling <- function(area = NULL,
                          num = NULL,

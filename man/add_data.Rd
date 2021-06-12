@@ -2,34 +2,40 @@
 % Please edit documentation in R/add_data.R
 \name{add_data}
 \alias{add_data}
-\title{add data to lingcod model}
+\title{Add data to lingcod model}
 \usage{
 add_data(
   dat,
   area,
-  dat_type = c("catch", "index", "discard", "lencomp", "ageerror", "CAAL", "agecomp"),
+  dat_type = NULL,
+  part = NULL,
   fleets = NULL,
   verbose = TRUE
 )
 }
 \arguments{
-\item{dat}{list created by \code{\link[=get_inputs_ling]{get_inputs_ling()}} or \code{r4ss::SS_readdat()}}
+\item{dat}{List created by \code{\link[=get_inputs_ling]{get_inputs_ling()}} or \code{r4ss::SS_readdat()}}
 
-\item{area}{area associated with the model, either "n" or "s"}
+\item{area}{Area associated with the model, either "n" or "s"}
 
-\item{dat_type}{character vector listing data types to add}
+\item{dat_type}{Character vector listing data types to add
+NULL value will lead to all data types}
 
-\item{fleets}{optional vector of fleet numbers for which to add data
+\item{part}{Partition to include (e.g. to include only retained
+length comps instead of discarded length comps). Currently only filters
+commercial data for which discards comps are available.}
+
+\item{fleets}{Optional vector of fleet numbers for which to add data
 NULL value will use all fleets from \code{\link[=get_fleet]{get_fleet()}}}
 
 \item{verbose}{A logical value specifying if output should be printed
 to the console or not. The default is \code{FALSE}, which will suppress messages.}
 }
 \description{
-modifies the elements of the data file to add new data
+Modifies the elements of the data file to add new data
 }
 \seealso{
-\code{\link[=get_dir_ling]{get_dir_ling()}}, \code{\link[=get_inputs_ling]{get_inputs_ling()}}
+\code{\link[=get_dir_ling]{get_dir_ling()}}, \code{\link[=get_inputs_ling]{get_inputs_ling()}}, \code{\link[=clean_comps]{clean_comps()}}
 }
 \author{
 Ian G. Taylor
