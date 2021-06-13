@@ -68,13 +68,13 @@ for (area in c("n", "s")){
   
   #########################################################################
   # SELECTIVITY
-
+  
   # add double-normal selectivity for new CPFV_DebWV fleet
   if (area == "s") {
-    newctl$size_selex_types["10_CPFV_DebWV", "Pattern"] <- 24
     # loop over baseline parameters and replacement block parameters
     # to copy existing CA_Rec selectivity to new fleet
     for(tab in c("size_selex_parms", "size_selex_parms_tv")) {
+      newctl$size_selex_types["10_CPFV_DebWV", "Pattern"] <- 24
       # get block of 6 double-normal parameters for Rec CA fleet
       newblock <- change_pars(pars = newctl[[tab]],
                               string = "Rec_CA",
@@ -83,32 +83,6 @@ for (area in c("n", "s")){
       rownames(newblock) <- gsub(pattern = get_fleet("Rec_CA", col = "fleet"),
                                  replacement = get_fleet("CPFV_DebWV", col = "fleet"),
                                  x = rownames(newblock))
-      # add to existing block of parameters
-      newctl[[tab]] <- rbind(newctl[[tab]],
-                             newblock)
-    }
-  }
-
-  # add double-normal selectivity for Rec_CA fleet in North
-  if (area == "n") {
-    newctl$size_selex_types["5_Rec_CA", "Pattern"] <- 24
-    # loop over baseline parameters and replacement block parameters
-    for(tab in c("size_selex_parms")) {
-    #for(tab in c("size_selex_parms", "size_selex_parms_tv")) {
-      newctl$size_selex_types["5_Rec_CA", "Pattern"] <- 24
-      # get block of 6 double-normal parameters for Rec CA fleet
-      newblock <- change_pars(pars = newctl[[tab]],
-                              string = "Rec_OR",
-                              allrows = FALSE)
-      # change rownames for CPFV_DebWV fleet
-      rownames(newblock) <- gsub(pattern = get_fleet("Rec_OR", col = "fleet"),
-                                 replacement = get_fleet("Rec_CA", col = "fleet"),
-                                 x = rownames(newblock))
-      newblock$Block <- 0
-      newblock$Block_Fxn <- 0
-
-      #TODO: insert fleet 5 parameters in between fleets 4 and 6
-      #TODO: add block for CA_Rec in N model
       # add to existing block of parameters
       newctl[[tab]] <- rbind(newctl[[tab]],
                              newblock)
@@ -141,20 +115,6 @@ for (area in c("n", "s")){
     # final_scale (P_6) all fixed at -999 already
   }
 
-  #### TODO: add blocks to more parameters for north and south
-  ## inputs.n$ctl$size_selex_parms[inputs.n$ctl$size_selex_parms$Block != 0,
-  ##                               13:14]
-  ## inputs.s$ctl$size_selex_parms[inputs.s$ctl$size_selex_parms$Block != 0,
-  ##                               13:14]
-  
-  ## # South model had no time-varying selectivity peak parameters
-  ## newctl$size_selex_parms <-
-  ##   change_pars(pars = newctl$sizeselex_parms, string = "SizeSel_P_1_1_Comm_Trawl",
-  ##               Block = 3, Block_Fxn = 2)
-  ##   change_pars(pars = newctl$sizeselex_parms, string = "SizeSel_P_1_1_Comm_Trawl",
-  ##               Block = 1, Block_Fxn = 2)
-  
-  
   # initially remove all male-offset selectivity parameters
   newctl$size_selex_types$Male <- 0
   newctl$size_selex_parms <-
@@ -195,33 +155,6 @@ for (area in c("n", "s")){
     change_pars(pars = newctl$size_selex_parms, string = "PDis_3",
                 LO = 0.01)
 
-  # add comments to blocks
-  if (area == "n") {
-    newctl$Block_Design[[1]] <- c(newctl$Block_Design[[1]],
-                                  "# Comm_Fix_retention")
-    newctl$Block_Design[[2]] <- c(newctl$Block_Design[[2]],
-                                  "# Comm_Trawl_retention")
-    newctl$Block_Design[[3]] <- c(newctl$Block_Design[[3]],
-                                  "# Comm_Trawl_selectivity")
-    newctl$Block_Design[[4]] <- c(newctl$Block_Design[[4]],
-                                  "# Rec_OR_selectivity")
-    newctl$Block_Design[[5]] <- c(newctl$Block_Design[[5]],
-                                  "# Surv_TRI_selectivity")
-  }
-  if (area == "s") {
-    newctl$Block_Design[[1]] <- c(newctl$Block_Design[[1]],
-                                  "# Comm_Fix_retention")
-    newctl$Block_Design[[2]] <- c(newctl$Block_Design[[2]],
-                                  "# Comm_Trawl_retention")
-    newctl$Block_Design[[3]] <- c(newctl$Block_Design[[3]],
-                                  "# Comm_Trawl_selectivity")
-    newctl$Block_Design[[4]] <- c(newctl$Block_Design[[4]],
-                                  "# Rec_CA_selectivity")
-    newctl$Block_Design[[5]] <- c(newctl$Block_Design[[5]],
-                                  "# Surv_TRI_selectivity")
-  }
-
-
   
   # reset data weighting to 100% for all fleets
   newctl$Variance_adjustment_list$Value <- 1.0
@@ -232,7 +165,6 @@ for (area in c("n", "s")){
             "assessment"),
       "#C modified using models/model_bridging_change_ctl.R",
       "#C see https://github.com/iantaylor-NOAA/Lingcod_2021/ for info")
-
   
   # replace control values with new ones
   inputs$ctl <- newctl
@@ -246,15 +178,9 @@ for (area in c("n", "s")){
                     dir = newdir,
                     verbose = FALSE,
                     overwrite = TRUE)
-
-
-
 }
 
 if (FALSE) {
-  inputs.n <- get_inputs_ling(area = "n", num = 4)
-  inputs.s <- get_inputs_ling(area = "s", num = 4)
-  
   # look at model output
   get_mod(area = "n", num = 5, plot = TRUE)
   get_mod(area = "s", num = 5, plot = TRUE)

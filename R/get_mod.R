@@ -53,11 +53,12 @@ get_mod <- function(area = NULL,
   if (verbose) {
     message("reading model from: ", dir)
   }
-  mod <- SS_output(dir = dir,
-                   printstats = printstats,
-                   verbose = FALSE)
+  mod <- r4ss::SS_output(dir = dir,
+                         printstats = printstats,
+                         verbose = FALSE)
   modname <- paste0("mod.", get_id_ling(dir))
-
+  mod$area <- area
+  
   # assign to workspace
   if(assign){
     if (verbose) {
@@ -71,7 +72,7 @@ get_mod <- function(area = NULL,
     if (is.logical(plot)) {
       plot <- 1:26
     }
-    SS_plots(mod, plot=plot, verbose = verbose, ...)
+    make_r4ss_plots_ling(mod, plot = plot, verbose = verbose, ...)
   }
 
   invisible(mod)

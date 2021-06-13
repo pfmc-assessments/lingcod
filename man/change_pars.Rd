@@ -11,6 +11,12 @@ change_pars(
   HI = NULL,
   INIT = NULL,
   PHASE = NULL,
+  PRIOR = NULL,
+  PR_SD = NULL,
+  PR_type = NULL,
+  Block = NULL,
+  Block_Fxn = NULL,
+  allrows = TRUE,
   verbose = TRUE
 )
 }
@@ -20,7 +26,7 @@ initial 2021 lingcod models, this can be any of
 \code{MG_parms}, \code{SR_parms}, \code{Q_parms}, \code{Q_parms_tv}, \code{size_selex_parms}, or
 \code{size_selex_parms_tv}.}
 
-\item{string}{String (with optional partial matching) indicating which
+\item{string}{String which matches part of the parameter labels for the
 parameters to be modified. When multiple parameters match the string
 they will all be changed.}
 
@@ -32,11 +38,20 @@ they will all be changed.}
 
 \item{PHASE}{New phase value}
 
+\item{Block}{New block value (which block pattern to use)}
+
+\item{Block_Fxn}{New phase function value (e.g. 2 = replace)}
+
+\item{allrows}{Logical: TRUE = return the full parameter table,
+FALSE = return only the parameter lines that match \code{string}.}
+
 \item{verbose}{A logical value specifying if output should be printed
 to the console or not. The default is \code{FALSE}, which will suppress messages.}
 }
 \value{
-A data.frame of parameters that can be inserted into the inputs$ctl list.
+Either the full table of parameters that can be inserted into
+directly into the inputs$ctl list or (if \code{allrows = FALSE}),
+a subset of that table with just the lines matching \code{string}.
 }
 \description{
 applies no LO, HI, INIT, or PHASE value to parameter line in a table of
@@ -61,7 +76,7 @@ R object.
                 PHASE = 3)
 
   # check which lines match a string with no changes
-  change_pars(pars = newctl$SR_parm, string = "R0")
+  change_pars(pars = newctl$SR_parm, string = "R0", allrows = FALSE)
 }
 }
 \author{

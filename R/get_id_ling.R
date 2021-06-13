@@ -17,5 +17,5 @@
 get_id_ling <- function(dir) {
   dir %>%
     basename() %>%
-    stringr::str_sub(end = nchar("2021.s.002.001"),)
+    stringr::str_sub(end = nchar("2021.s.002.001"))
 }
