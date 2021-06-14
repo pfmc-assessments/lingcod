@@ -15,39 +15,25 @@
 #'
 "data_catch"
 
-#' Index for Oregon recreational fishery
+#' Index for catch per unit effort (CPUE)
 #'
 #' A data frame formatted for SS with information on the
-#' Oregon recreational fishery CPUE.
+#' CPUE indices.
 #'
-#' @name data_index_RecOR
+#' @name data_index_cpue
 #' @docType data
-#' @format A data frame with four columns
+#' @format A data frame with the following columns
 #' * year: a four digit integer for year
 #' * seas: equal to 7 because all fleets "operate" in the middle of the year
 #' * index: equal to the proper fleet number returned from
 #'   [get_fleet]
 #' * obs: the median of the posterior estimate per year
 #' * se_log: the log standard error of the estimate
+#' * area: e.g., north or south
+#' * source: which file the data came from because there are multiple
+#'   versions of the California recreational fleet
 #'
-"data_index_RecOR"
-
-#' Index for Oregon commercial near-shore fishery
-#'
-#' A data frame formatted for SS with information on the
-#' Oregon commercial near-shore fishery CPUE.
-#'
-#' @name data_index_CommFix
-#' @docType data
-#' @format A data frame with four columns
-#' * year: a four digit integer for year
-#' * seas: equal to 7 because all fleets "operate" in the middle of the year
-#' * index: equal to the proper fleet number returned from
-#'   [get_fleet]
-#' * obs: the median of the posterior estimate per year
-#' * se_log: the log standard error of the estimate
-#'
-"data_index_CommFix"
+"data_index_cpue"
 
 #' Index for the standardized surveys
 #'
