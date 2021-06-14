@@ -7,7 +7,7 @@
 #'     keep_md: true
 #' ---
 #'
-#+ setup, echo = FALSE, include = FALSE, warning = FALSE, message = FALSE, cache = TRUE
+#+ setup, echo = FALSE, include = TRUE, warning = FALSE, message = FALSE, cache = TRUE
 # rmarkdown::render(input = "lingcod_index_cpue", output_format = "all", clean = FALSE)
 utils_knit_opts()
 
@@ -27,8 +27,11 @@ file_index_MRFSS <- "NCA_Gamma_lingcod_MRFSS_dockside_Index.csv"
 
 #+ readin_recOR
 index_recOR <- utils::read.csv(file.path("data-raw", file_index_orbs)) %>%
-  dplyr::select(-X) %>%
-  dplyr::rename(year = "Year", obs = "Mean", se_log = "logSE") %>%
+  dplyr::rename(
+    year = "Year",
+    obs = "Mean",
+    se_log = "logSE"
+  ) %>%
   dplyr::mutate(
     seas = 7,
     index = get_fleet(value = "OR", area = "north", col = "num"),
@@ -39,7 +42,11 @@ index_recOR <- utils::read.csv(file.path("data-raw", file_index_orbs)) %>%
 #+ readin_commcpue
 index_CommFix <- utils::read.csv(file.path("data-raw", file_index_ornearshorelogbook)) %>%
   dplyr::select(-X) %>%
-  dplyr::rename(year = "Year", obs = "Mean", se_log = "logSE") %>%
+  dplyr::rename(
+    year = "Year",
+    obs = "Mean",
+    se_log = "logSE"
+  ) %>%
   dplyr::mutate(
     seas = 7,
     index = get_fleet(value = "Fix", area = "north", col = "num"),
@@ -74,10 +81,12 @@ index_onboardCPFV <- utils::read.csv(
     year = "Year",
     obs = "Index",
     se_log = "logSD",
-    seas = 7,
-    index = get_fleet(value = "REC_CA", col = "num")
   ) %>%
-  dplyr::mutate(area = "south") %>%
+  dplyr::mutate(
+    seas = 7,
+    index = get_fleet(value = "REC_CA", col = "num"),
+    area = "south"
+  ) %>%
   dplyr::select(year, seas, index, obs, se_log, area)
 index_DebWVCPFV <- utils::read.csv(
   file.path("data-raw", file_index_DebWVCPFV)
@@ -86,10 +95,12 @@ index_DebWVCPFV <- utils::read.csv(
     year = "Year",
     obs = "Index",
     se_log = "logSD",
+  ) %>%
+  dplyr::mutate(
     seas = 7,
     index = get_fleet(value = "Deb", col = "num"),
+    area = "south"
   ) %>%
-  dplyr::mutate(area = "south") %>%
   dplyr::select(year, seas, index, obs, se_log, area)
 index_MRFSS <- utils::read.csv(
   file.path("data-raw", file_index_MRFSS)
@@ -97,11 +108,13 @@ index_MRFSS <- utils::read.csv(
   dplyr::rename(
     year = "Year",
     obs = "Index",
-    se_log = "logSD",
+    se_log = "logSD"
+  ) %>%
+  dplyr::mutate(
     seas = 7,
     index = get_fleet(value = "REC_CA", col = "num"),
+    area = "south"
   ) %>%
-  dplyr::mutate(area = "south") %>%
   dplyr::select(year, seas, index, obs, se_log, area)
 index_CRFSPR <- dplyr::bind_rows(.id = "area",
   north = utils::read.csv(file.path("data-raw", file_index_CRFSPR_N)),
@@ -110,7 +123,9 @@ index_CRFSPR <- dplyr::bind_rows(.id = "area",
   dplyr::rename(
     year = "Year",
     obs = "Index",
-    se_log = "logSD",
+    se_log = "logSD"
+  ) %>%
+  dplyr::mutate(
     seas = 7,
     index = get_fleet(value = "REC_CA", col = "num"),
   ) %>%
