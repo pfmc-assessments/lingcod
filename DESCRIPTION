@@ -37,6 +37,7 @@ Imports:
 Suggests:
     cowplot,
     colorspace,
+    DHARMa,
     plyr,
     testthat,
     usethis,
