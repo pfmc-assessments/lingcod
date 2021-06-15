@@ -3,13 +3,13 @@
 #Foreign copyrights may apply. See copyright.txt for more information.
 ling_data.ss #_DataFile 
 ling_control.ss #_Control 
-Run_Date: Tue Jun 15 10:10:24 2021
+Run_Date: Tue Jun 15 14:11:54 2021
 Final_phase: 1  N_iterations: 2
 #_LIKELIHOOD 
 Label logL*Lambda
-TOTAL_LogL 39788.5
+TOTAL_LogL 22338.4
 Catch 8.43535e-10
-Survey 17561.2
+Survey 111.008
 Discard 1768.66
 Mean_body_wt 45.1716
 Length_comp 14552.2
@@ -191,7 +191,7 @@ Impl_err_2021 0 0 Fix 0.5
 #_Catchability
 LnQ_base_1_Comm_Trawl(1) -1.98982 0 Fix 0.433673
 Q_extraSD_1_Comm_Trawl(1) 0.0570477 0 Fix 0.0285238
-LnQ_base_5_Rec_CA(5) -0.131259 0 Fix 0.495625
+LnQ_base_5_Rec_CA(5) -9.14851 0 Fix 0.195049
 Q_extraSD_5_Rec_CA(5) 0.0570477 0 Fix 0.0285238
 LnQ_base_6_Surv_TRI(6) -2.02446 0 Fix 0.432518
 LnQ_base_7_Surv_WCGBTS(7) -0.553425 0 Fix 0.481552

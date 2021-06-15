@@ -195,7 +195,7 @@
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
            -15            15      -1.98982             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_1_Comm_Trawl(1)
              0             2     0.0570477             0             0             0          2          0          0          0          0          0          0          0  #  Q_extraSD_1_Comm_Trawl(1)
-           -15            15     -0.131259             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_5_Rec_CA(5)
+           -15            15      -9.14851             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_5_Rec_CA(5)
              0             2     0.0570477             0             0             0          2          0          0          0          0          0          0          0  #  Q_extraSD_5_Rec_CA(5)
            -15            15      -2.02446             0             0             0         -1          0          0          0          0          0          5          2  #  LnQ_base_6_Surv_TRI(6)
            -15            15     -0.553425             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_7_Surv_WCGBTS(7)

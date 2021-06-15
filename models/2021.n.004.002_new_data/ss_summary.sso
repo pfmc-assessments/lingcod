@@ -3,7 +3,7 @@
 #Foreign copyrights may apply. See copyright.txt for more information.
 ling_data.ss #_DataFile 
 ling_control.ss #_Control 
-Run_Date: Tue Jun 15 10:10:36 2021
+Run_Date: Tue Jun 15 14:11:47 2021
 Final_phase: 1  N_iterations: 2
 #_LIKELIHOOD 
 Label logL*Lambda
