@@ -15,12 +15,20 @@ clean_comps <- function(comp, type = "len"){
   }
 
   # internal function to pad unsexed comps with zeros for the male columns
-  add_zeros_lencomp <- function(df){
+  add_zeros <- function(df){
+    if(type == "len") {
+      bins <- info_bins$length
+      names(df)[-(1:6)] <- paste0("F-", bins)
+    }
+    if(type == "age") {
+      bins <- info_bins$age
+      names(df)[-(1:9)] <- paste0("F-", bins)
+    }
     df.zeros <- data.frame(matrix(0,
                                   nrow = nrow(df),
-                                  ncol = length(info_bins$length)))
-    names(df)[-(1:6)] <- paste0("F-", info_bins$length)
-    names(df.zeros) <- paste0("M-", info_bins$length)
+                                  ncol = length(bins)))
+    
+    names(df.zeros) <- paste0("M-", bins)
     cbind(df, df.zeros)
   }
   
@@ -29,6 +37,7 @@ clean_comps <- function(comp, type = "len"){
   
   age_bin_names <- c(paste0("f", info_bins$age),
                      paste0("m", info_bins$age))
+
   ##########################################################################
   # format used by PacFIN.Utilities
   if ("FthenM" %in% names(comp)){
@@ -45,7 +54,7 @@ clean_comps <- function(comp, type = "len"){
                                           repair = "unique",
                                           quiet = TRUE)
     if (!"ageErr" %in% names(comp$FthenM)) {
-      # length comp
+      # length comp (doesn't have ageErr in the column names)
       newcomp <- newcomp %>%
         dplyr::rename(year    = "fishyr"   , # use naming convention from add_data()
                       part    = "partition",
@@ -55,7 +64,7 @@ clean_comps <- function(comp, type = "len"){
       # replace names for data columns
       names(newcomp)[-(1:6)] <- len_bin_names
     } else {
-      # marginal age comps
+      # marginal age comps (does have ageErr in the column names)
       newcomp <- newcomp %>%
         dplyr::rename(year    = "fishyr"   , # use naming convention from add_data()
                       part    = "partition",
@@ -72,18 +81,17 @@ clean_comps <- function(comp, type = "len"){
     }
   }
     
-    
   ##########################################################################
   # format used for recreational comps
   if("comps" %in% names(comp)){
     newcomp <- comp$comps
     # add zeros to main comps (needed for lenCompS_CA_debHist)
     if ("U-10" %in% names(newcomp)) {
-      newcomp <- add_zeros_lencomp(newcomp)
+      newcomp <- add_zeros(newcomp)
     }
     if ("comps_u" %in% names(comp)) {
       newcomp <- rbind(newcomp,
-                       add_zeros_lencomp(comp$comps_u))
+                       add_zeros(comp$comps_u))
     }
     newcomp <- newcomp %>%
       dplyr::rename(year    = "year"   ,
@@ -91,13 +99,27 @@ clean_comps <- function(comp, type = "len"){
                     nsamp   = "Nsamp")
     
     # replace names for data columns
-    names(newcomp)[-(1:6)] <- len_bin_names
+    if (type == "len") {
+      names(newcomp)[-(1:6)] <- len_bin_names
+    }
+    if (type == "age") {
+      newcomp <- newcomp %>%
+        dplyr::rename(ageerr = "ageErr",
+                      lbin_lo = "agelow",
+                      lbin_hi = "agehigh")
+      names(newcomp)[-(1:9)] <- age_bin_names
+    }
   }
 
   ##########################################################################
   # format used by data processed using nwfscSurvey package (a single table)
 
   if(is.data.frame(comp) && "F10" %in% names(comp)) {
+    if (type == "age") {
+      comp <- comp %>%
+        dplyr::rename(lbin_lo = "agelow",
+                      lbin_hi = "agehigh")
+    }
     newcomp <- comp %>%
       dplyr::rename(part = "partition") %>%
       dplyr::rename_with(.fn = tolower) # change Nsamp to nsamp and F10 to f10

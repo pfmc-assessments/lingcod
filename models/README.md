@@ -40,8 +40,12 @@ name | notes | issue | source
 2021.s.003.001_DM | apply Dirichlet-Multinomial to new_fleets model | #49 | 2021.n.002.001_new_fleets
 2021.n.004.001_new_data_test | adding new data, a work in progress | #32 | lingcod_model_bridging_newdata.R
 2021.s.004.001_new_data_test | adding new data, a work in progress | #32 | lingcod_model_bridging_newdata.R
+2021.n.004.002_new_data | adding new data after CPUE indices became available | #32, #56 | lingcod_model_bridging_newdata.R
+2021.s.004.002_new_data | adding new data after CPUE indices became available | #32, #56 | lingcod_model_bridging_newdata.R
 2021.n.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | model_bridging_change_ctl.R
 2021.s.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | model_bridging_change_ctl.R
+2021.n.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | model_bridging_change_ctl.R
+2021.s.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | model_bridging_change_ctl.R
 
 
 

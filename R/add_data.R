@@ -130,23 +130,15 @@ add_data <- function(dat,
       fleet <- get_fleet(f, col = "fleet")
       label_short <- get_fleet(f, col = "label_short")
       newvals <- NULL
-      
-      # add new index data for PacFIN trawl logbook CPUE
-      if (label_short == "comm. trawl") {
-        # PacFIN trawl logbook CPUE
-        newvals <- data_index_CommTrawl %>%
-          dplyr::filter(area == ifelse(area == "n",
-                                       yes = "WA_OR_N.CA",
-                                       no = "S.CA")) %>%
-          dplyr::select(year, seas, index, obs, se_log)
-        rownames(newvals) <- paste0("#_PacFIN_trawl_logbook_CPUE_", 1:nrow(newvals))
-      }
 
-      # add new index data for OR commercial fixed gear
-      if (label_short == "comm. fixed" & area == "n") {
-        # Commercial Fixed Gear index (OR Nearshore CPUE)
-        newvals <- data_index_CommFix
-        rownames(newvals) <- paste0("#_OR_Nearshore_CPUE_", 1:nrow(newvals))
+      # add all fishery-dependent CPUE indices
+      if (f %in% data_index_cpue$index[data_index_cpue$area == tolower(Area)]) {
+        # PacFIN trawl logbook CPUE
+        newvals <- data_index_cpue %>%
+          dplyr::filter(area == tolower(Area),
+                        index == f) %>%
+          dplyr::select(year, seas, index, obs, se_log)
+        rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
       }
 
       # add new index data for surveys
@@ -167,11 +159,9 @@ add_data <- function(dat,
                     "\nlabel_short = ", label_short,
                     "\nf = ", f)
           }
-          rownames(newvals) <- paste0("#_", label_short, "_", 1:nrow(newvals))
+          rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
         }
       }
-
-      #TODO: add additional rec indices, OR nearshore survey
       
       # if new data were found, replace all existing values with new ones
       if (!is.null(newvals) && nrow(newvals) > 0) {
@@ -218,7 +208,7 @@ add_data <- function(dat,
                   "\nlabel_short = ", label_short,
                   "\nf = ", f)
         }
-        rownames(newvals) <- paste0("#_", label_short, "_", 1:nrow(newvals))
+        rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
       }
 
       # if new data were found, replace all existing values with new ones
@@ -262,7 +252,7 @@ add_data <- function(dat,
         dat$use_meanbodywt <- 1
         dat$DF_for_meanbodywt <- 30 # could revisit for broader T-distribution
         # add rownames
-        rownames(newvals) <- paste0("#_", label_short, "_", 1:nrow(newvals))
+        rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
 
         # remove existing values for this fleet
         if (!is.null(newmeanbodywt)) {
@@ -474,7 +464,7 @@ add_data <- function(dat,
         #   ageCompN_WA_Rec
         newvals <- paste0("ageComp", toupper(area), "_", state, "_Rec") %>%
           {if(exists(.)) get(.) else NULL} %>% 
-          clean_comps()
+          clean_comps(type = "age")
       }
 
       # trawl surveys
@@ -492,7 +482,7 @@ add_data <- function(dat,
         if ("agecomp" %in% dat_type) {
           newvals <- paste0("ageComp", toupper(area), "_sex3_", label_short) %>%
             get() %>%
-            clean_comps()
+            clean_comps(type = "age")
         }
         if ("CAAL" %in% dat_type) {
           newvals <- paste0("ageCAAL_", toupper(area), "_", label_short) %>%
@@ -510,7 +500,7 @@ add_data <- function(dat,
 
         if ("agecomp" %in% dat_type) {
           newvals <- ageCompS_HKL %>%
-            clean_comps()
+            clean_comps(type = "age")
         }
         if ("CAAL" %in% dat_type) {
           newvals <- ageCAAL_S_HKL %>%
@@ -556,3 +546,4 @@ add_data <- function(dat,
   # return list with new data
   dat
 }
+
