@@ -8,6 +8,22 @@
 #' the package and useful for writing the document.
 #'
 
+#+ info_authors
+info_authors <- list(
+  c("Ian G. Taylor", "Kelli F. Johnson",
+    "Brian J. Langseth", "Andi Stephens",
+    "Laurel S. Lam", "Melissa H. Monk",
+    "Alison D. Whitman",
+    "Melissa A. Haltuch"
+  ),
+  c("Ian G. Taylor", "Kelli F. Johnson",
+    "Brian J. Langseth", "Andi Stephens",
+    "Laurel S. Lam", "Melissa H. Monk",
+    "John E. Budrick",
+    "Melissa A. Haltuch"
+  )
+)
+
 #+ info_bins
 info_bins <- mapply(
   SIMPLIFY = FALSE,
@@ -17,7 +33,7 @@ info_bins <- mapply(
   by = c(age = 1, length = 2)
 )
 
-#+ info-areas
+#+ info-groups
 info_groups <- data.frame(
   area = c("North", "South")
 )
@@ -25,9 +41,11 @@ info_groups <- data.frame(
 #+ info-surveynames
 info_surveynames <- c("WCGBTS", "Triennial")
 
-#+ end_makedata
+#+ info_makedata
+usethis::use_data(info_authors, overwrite = TRUE)
 usethis::use_data(info_bins, overwrite = TRUE)
 usethis::use_data(info_groups, overwrite = TRUE)
 usethis::use_data(info_surveynames, overwrite = TRUE)
 
-#+ end_cleanup
+#+ info_cleanup
+rm(list = ls(pattern = "info_"))

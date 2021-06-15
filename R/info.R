@@ -1,3 +1,16 @@
+#' A list of authors used for writing the assessment(s)
+#'
+#' A list of authors with one vector for each assessment associated
+#' with this species / stock.
+#'
+#' @name info_authors
+#' @docType data
+#' @format A list the same length as the number of documents you want to
+#' produce, with a single vector per document.
+#' @seealso [sa4ss::write_authors]
+#'
+"info_authors"
+
 #' A list of bins used for composition data
 #'
 #' A list of bins for binning composition data.
