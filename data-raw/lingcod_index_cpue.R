@@ -3,15 +3,16 @@
 #' author: "Kelli F. Johnson"
 #' date: "`r format(Sys.time(), '%B %d, %Y')`"
 #' output:
-#'   bookdown::html_document2:
+#'   bookdown::pdf_document2:
 #'     keep_md: true
 #' ---
-#'
+
 #+ setup, echo = FALSE, include = TRUE, warning = FALSE, message = FALSE, cache = TRUE
 # rmarkdown::render(input = "lingcod_index_cpue", output_format = "all", clean = FALSE)
 utils_knit_opts()
 
 #+ setup_files
+file_index_wa <- "reccpuewa.csv"
 # OR rec index from Ali Whitman without SM filtering
 file_index_orbs <- "ORBSindex_ss.csv"
 # OR nearshore fixed gear index from Ali Whitman
@@ -24,6 +25,10 @@ file_index_DebWVCPFV <- "NCA_Gamma_lingcod_DebWVCPFV_Index.csv"
 file_index_CRFSPR_N <- "NCA_Gamma_lingcod_CRFS_PR_dockside_Index.csv"
 file_index_CRFSPR_S <- "SCA_Gamma_lingcod_CRFS_PR_dockside_Index.csv"
 file_index_MRFSS <- "NCA_Gamma_lingcod_MRFSS_dockside_Index.csv"
+
+#+ readin_reccpueWA
+index_recWA <- utils::read.csv(file.path("data-raw", file_index_wa)) %>%
+  dplyr::select(year, seas, index, obs, se_log, area)
 
 #+ readin_recOR
 index_recOR <- utils::read.csv(file.path("data-raw", file_index_orbs)) %>%
@@ -138,6 +143,7 @@ index_CRFSPR <- dplyr::bind_rows(.id = "area",
 
 #+ setup_usethis, echo = FALSE
 data_index_cpue <- dplyr::bind_rows(
+  index_recWA = index_recWA,
   index_recOR = index_recOR,
   index_CommFix = index_CommFix,
   index_CommTrawl = index_CommTrawl,
