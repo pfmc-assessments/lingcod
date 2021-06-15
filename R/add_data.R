@@ -133,12 +133,35 @@ add_data <- function(dat,
 
       # add all fishery-dependent CPUE indices
       if (f %in% data_index_cpue$index[data_index_cpue$area == tolower(Area)]) {
-        # PacFIN trawl logbook CPUE
         newvals <- data_index_cpue %>%
           dplyr::filter(area == tolower(Area),
                         index == f) %>%
-          dplyr::select(year, seas, index, obs, se_log)
-        rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
+          dplyr::select(year, seas, index, obs, se_log, source)
+        rownames(newvals) <- paste0("#_", newvals$source, "_", 1:nrow(newvals))
+      }
+
+      # turn off likelihood for CRFSPR index (issue #62)
+      if (!is.null(newvals)) {
+        if (area == "s" && any(grepl("CRFSPR", rownames(newvals)))) {
+          newvals$year[grep("CRFSPR", rownames(newvals))] <-
+            -1 * newvals$year[grep("CRFSPR", rownames(newvals))]
+          if (verbose) {
+            message("set CRFSPR index to have negative year")
+          }
+        }
+      
+        # remove MRFSS in 1999 (issue #62)
+        if (any(grepl("MRFSS", rownames(newvals)))) {
+          newvals <- newvals %>%
+            dplyr::filter(!(grepl("MRFSS", rownames(.)) &
+                            year == 1999))
+          if (verbose) {
+            message("filtered out 1999 MRFSS index value")
+          }
+        }
+        # remove source column used in the above filtering
+        newvals <- newvals %>%
+          dplyr::select(-source)
       }
 
       # add new index data for surveys
@@ -361,9 +384,8 @@ add_data <- function(dat,
       # DebWV CPFV data
       if (area == "s" && label_short == "rec. DebWV") {
         # get data from these tables:
-        # lenCompS_CA_debHist    
-        # lenCompS_debHist (old name)
-        newvals <- clean_comps(lenCompS_CA_debHist)
+        # lenCompS_debHist
+        newvals <- clean_comps(lenCompS_debHist)
       }
       
       # if new data were found, replace all existing values with new ones
@@ -519,20 +541,28 @@ add_data <- function(dat,
           clean_comps()
       }
 
+      # no age data for label_short == "rec. DebWV"
+
       # if new data were found, replace all existing values with new ones
-      if (!is.null(newvals) && nrow(newvals) > 0) {
-        # remove existing values for this fleet
-        newagecomp <- newagecomp %>% dplyr::filter(abs(fleet) != f)
+      if (is.null(newvals)) {
+        if (verbose) {
+          message("no age data for ", get_fleet(value = f, col = "fleet"))
+        }
+      } else {
+        if (nrow(newvals) > 0) {
+          # remove existing values for this fleet
+          newagecomp <- newagecomp %>% dplyr::filter(abs(fleet) != f)
 
-        # add rownames which will get written as comments in ling_data.ss
-        rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
+          # add rownames which will get written as comments in ling_data.ss
+          rownames(newvals) <- paste0("#_", fleet, "_", 1:nrow(newvals))
 
-        # add new values
-        newagecomp <- rbind(newagecomp,
-                            newvals)
-        if(verbose) {
-          message("added age data for ",
-                  get_fleet(value = f, col = "fleet"))
+          # add new values
+          newagecomp <- rbind(newagecomp,
+                              newvals)
+          if(verbose) {
+            message("added age data for ",
+                    get_fleet(value = f, col = "fleet"))
+          }
         }
       }
     } # end loop over fleets within adding agecomp
@@ -541,7 +571,7 @@ add_data <- function(dat,
     dat$agecomp <- newagecomp[order(abs(newagecomp$fleet),
                                     newagecomp$fleet,
                                     newagecomp$year),]
-  } # end add CAAL data
+  } # end add age and CAAL data
 
   # return list with new data
   dat

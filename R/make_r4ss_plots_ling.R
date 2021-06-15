@@ -16,29 +16,29 @@ make_r4ss_plots_ling <- function(mod, plot = 1:26, verbose = TRUE, ...) {
   area <- mod$area # extra element added by get_mod()
   # get all info on fleets
   fleets <- get_fleet()
+  fleets$color <- r4ss::rich.colors.short(n = max(fleets$num))
   # get TRUE/FALSE indicator of fleets used in this area
   colname <- paste0("used_2021.", area)
   # subset of fleets to show in the plots
   showfleets <- fleets[fleets[[colname]], ]
-
-  # TODO: choose colors and define using get_fleet()
-  colors <- r4ss::rich.colors.short(n = max(fleets$num))
-  # TODO: fix 
   
   # make default plots for most things
   r4ss::SS_plots(mod,
            plot = intersect(plot, c(1:23, 25:26)),
            fleets = showfleets$num,
            fleetnames = fleets$label_long,
-           fleetcols = colors,
+           fleetcols = fleets$color,
+           html = FALSE, # don't open HTML view yet
            verbose = verbose, ...)
   # make data plot with wider margin and taller to fit all fleet names
   r4ss::SS_plots(mod,
            plot = intersect(plot, 24),
            fleets = showfleets$num,
            fleetnames = fleets$label_long,
-           fleetcols = colors,
-           pheight_tall = 7,
-           SSplotDatMargin = 12,
+           fleetcols = showfleets$color,
+           pheight_tall = 8,
+           SSplotDatMargin = 12, # add extra margin for data plot
+           html = TRUE, # now open HTML view
            verbose = verbose, ...)
+  
 }

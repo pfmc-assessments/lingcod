@@ -34,7 +34,7 @@ for (area in c("n", "s")){
                            "#C 2021 and catchability parameters added for new indices")
   
   # add to table of Q options
-  inputs$ctl$Q_options <- data.frame(fleet = unique(inputs$dat$CPUE$index),
+  inputs$ctl$Q_options <- data.frame(fleet = unique(abs(inputs$dat$CPUE$index)),
                                      link = 1,
                                      link_info = 0,
                                      extra_se = 0,
@@ -88,10 +88,15 @@ for (area in c("n", "s")){
 }
 
 if (FALSE) {
-  # look at model output
-  get_mod(area = "n", num = 4)
-  get_mod(area = "n", num = 4)
+  # run models
+  r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 4, sens = 2),
+                                 get_dir_ling(area = "s", num = 4, sens = 2)),
+                      extras = c("-nohess -stopph 0"),
+                      skipfinished = FALSE)
 
-  r4ss::SS_plots(mod.2021.n.004.001)
-  r4ss::SS_plots(mod.2021.s.004.001)
+  # look at model output
+  get_mod(area = "n", num = 4, sens = 2, plot = FALSE)
+  get_mod(area = "s", num = 4, sens = 2, plot = FALSE)
+  get_mod(area = "n", num = 4, sens = 2, plot = TRUE)
+  get_mod(area = "s", num = 4, sens = 2, plot = TRUE)
 }
