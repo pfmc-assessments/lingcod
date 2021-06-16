@@ -1,32 +1,11 @@
-#' ---
-#' title: "Lingcod catches"
-#' author: "Kelli Faye Johnson"
-#' date: "`r format(Sys.time(), '%B %d, %Y')`"
-#' bibliography: catch.bib
-#' output:
-#'   bookdown::html_document2:
-#'     keep_md: true
-#' ---
-#+ setup_knitr, echo = FALSE
-utils_knit_opts(type = "data-raw")
-
-
-#+ setup_notes, echo = FALSE, include = FALSE, eval = FALSE
+#+ catch-setupnotes, echo = FALSE, include = FALSE, eval = FALSE
 # Notes for how to run this file in R,
 # because echo, include, and eval are FALSE,
 # comments within this knitr chunk will not be included in the output.
 #
 # Working directory
-# It is assumed that you are in the top level of the cloned
-# repository, e.g., lingcod_2021.
-# 3 ways to source file
-# (1). source
-# source("data-raw/lingcod_catch.R")
-# (2). spin
-# knitr::spin("data-raw/lingcod_catch.R", knit = FALSE)
-# rmarkdown::render("data-raw/lingcod_catch.Rmd")
-# (3). render
-# rmarkdown::render("data-raw/lingcod_catch.R")
+# It is assumed that you are in doc, e.g., lingcod_2021\doc
+# source("lingcod_catch.R")
 #
 # TO DO
 # 1. Add source to the commercial catch stream
@@ -63,7 +42,7 @@ utils_knit_opts(type = "data-raw")
 # e.g., citation, date provided.
 
 
-#+ setup_filepaths
+#+ catch-setupfilepaths
 # patterns for dir("data-raw", pattern = grep_...)
 grep_previousmodel <- c("2019.[nN].001.001.cou", "2019.[sS].001.001.cou")
 grep_pacfin <- "PacFIN.+FT.+RData"
@@ -83,6 +62,7 @@ grep_rec_wa <- "Lingcod_RecCatch"
 file_comm_wa <- "WA_historical_Lingcod_forMelissa_V2.csv"
 file_albin <- "Albin_et_al_1993_Lingcod_rows.csv"
 file_erddap <- dir(
+  path = file.path("..", "data-raw"),
   pattern = "earlyCAlingcod",
   full.names = TRUE,
   recursive = TRUE
@@ -96,15 +76,15 @@ file_password <- file.path(
 file_bib <- "catch.bib"
 
 
-#+ setup_objects
+#+ catch-setupobjects
 calcom_fleet_TW <- c("TWL", "NET")
 erddapmaxyrmeanbyarea <- 1933
 areas <- c("North", "South")
 
 
-#+ setup_readin_SS_old
+#+ catch-setupreadin_SS_old
 data_SS_old <- lingcod::SS_readdat.list(
-  dir = "models",
+  dir = file.path("..", "models"),
   pattern = grep_previousmodel
 )
 data_SS_oldnorth <- data_SS_old[[1]]
@@ -117,12 +97,13 @@ data_SS_oldsouth <- data_SS_old[[2]]
 #' ### Commercial fleet structure
 #'
 #' The fleet structure for all commercial landings included two fleets,
-#' fixed gear (FG) and trawl (TW) fleets.
+#' fixed gear (FG) and trawl (TW).
 #' The latter included landings from
 #' bottom trawls, shrimp trawls, net gear, and dredging activities.
 #' Landings from all other gear types, mainly hook and line,
 #' were assigned to FG.
-#' This fleet structure matches that of the previous assessment.
+#' This fleet structure matches the fleet structure used in the
+#' previous assessment.
 #'
 #' ### Reconstruction of commercial landings
 #'
@@ -891,16 +872,19 @@ ggplot2::ggplot(data = catch.pacfin %>%
 #' #### Time series
 #'
 #+ catch-comm-recent
-catch.pacfin %>%
-  dplyr::select(matches("Year|^area$|Round.+MT")) %>%
-  dplyr::mutate(Year = Year) %>%
-  dplyr::group_by(Year, area) %>%
-  dplyr::summarize(MT = sum(ROUND_WEIGHT_MTONS), .groups = "keep") %>%
-  tidyr::pivot_wider(names_from = area, values_from = MT) %>%
-  kableExtra::kbl(caption = "Yearly commercial landings (mt) from the PacFIN database by area, North and South, since 1981.") %>%
-  kableExtra::kable_paper(full_width = TRUE) %>%
-  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed", "responsive")) %>%
-  kableExtra::scroll_box(width = "500px", height = "200px")
+# catch.pacfin %>%
+#   dplyr::select(matches("Year|^area$|Round.+MT")) %>%
+#   dplyr::mutate(Year = Year) %>%
+#   dplyr::group_by(Year, area) %>%
+#   dplyr::summarize(MT = sum(ROUND_WEIGHT_MTONS), .groups = "keep") %>%
+#   tidyr::pivot_wider(names_from = area, values_from = MT) %>%
+#   kableExtra::kbl(
+#     longtable = TRUE,
+#     caption = "Yearly commercial landings (mt) from the PacFIN database by area, North and South, since 1981."
+#   ) %>%
+#   kableExtra::kable_paper(full_width = TRUE) %>%
+#   kableExtra::kable_styling(bootstrap_options = c("striped", "condensed", "responsive")) %>%
+#   kableExtra::scroll_box(width = "500px", height = "200px")
 
 #+ catch-comm-ts-pacfin, fig.width = 8, fig.cap = "Yearly commercial landings (mt) from the PacFIN database since 1981 by area (panel and color) and fleet (shading). Trawl gear (TW) includes all trawl, nets, and dredging. Fixed gear (FG) includes all other gear types."
 ggplot2::ggplot(data = catch.pacfin %>%
@@ -1081,7 +1065,7 @@ ggplot2::ggplot(
 #'
 #' ## Recreational catches
 #'
-#+ setup_rec
+#+ catch-setuprec
 catch_rec_2000 <- RecFIN::read_cte501(
   file = dir(pattern = grep_rec_501, full.names = TRUE, recursive = TRUE)
 ) %>%
@@ -1134,7 +1118,7 @@ bio_rec_recfin_meanlength <- bio_rec_recfin %>%
 #'
 #' #### Washington recreational landings
 #'
-#+ setup_readinWArec
+#+ catch-setupreadinWArec
 catch_rec_WA <- suppressWarnings(suppressMessages(
   dplyr::bind_rows(.id = "Type", mapply(readxl::read_excel,
     MoreArgs = list(
@@ -1494,7 +1478,7 @@ data_catch <- dplyr::full_join(
 )
 usethis::use_data(data_catch, overwrite = TRUE)
 
-#+ setup_references
+#+ catch-setupreferences
 knitcitations::write.bibtex(file = file.path("data-raw", file_bib))
 knitcitations::write.bibtex(
   file = file.path("data-raw", file_bib),
