@@ -1,0 +1,89 @@
+# selectivity specifications
+*As of 10pm on 15 June 2021, these changes haven't yet made it into the model*
+
+Selectivity was modeled using the double-normal function of length
+(option 24 in Stock Synthesis) with 3 of the 6 possible parameters estimated 
+for each fleet.
+The estimated parameters controlled the length at peak selectivity, the slope of the 
+ascending limb and the slope of the descending limb (parameters 1, 3, and 4 in SS). 
+The parameter controlling the width of the top was fixed at a small value (-15)
+to make a smooth transition from ascending to descending with no flat top. 
+Parameters 5 and 6 which control additional scaling of initial and final values
+were not used (via the -999 code in SS).
+
+Changes in selectivity and retention over time were modeled to account for 
+management changes and gear changes.
+
+## North model
+*Commercial trawl*
+Time period of blocking on selectivity parameters were retained from 
+the 2017 assessment. These included changes in
+1973
+1983
+1993
+2003
+2011 (implementation of the catch shares program)
+
+Additionally, there were retention changes modeled in the following years,
+also retained from the 2017 assessment.
+1998 
+2007
+2010
+2011 (implementation of the catch shares program)
+where prior to 1998, all selected fish are assumed to be retained in keeping
+with comments from those familiar with the history of the commercial fishery 
+at the at the pre-assessment workshop and the Pikitch study in which 
+more than 99% of the observed Lingcod were retained 
+(J. Wallace, pers. comm, email on 19 Apr 2021)
+
+*Commercial fixed-gear*
+1998 
+2011 (implementation of the catch shares program)
+
+*recreational Washington*
+1987
+1995
+1998
+1999
+2000
+2001
+2007
+2011
+2017 (22” minimum size requirement was lifted from July 2017 to current for all catch areas but the change happened in the middle of the year)
+
+*recreational Oregon*
+1995 (the first year with a minimum size limit--22 inches)
+1998 (min size limit was increased to 24 inches)
+2007 (min size limit was reduced from 24 to 22 inches)
+
+Not accounted for is a max size limit in place for one year only (2000) of 34 inches, as the absence of larger fish observed in a single year was assumed to have a negligible impact on the model results.
+
+*recreational California*
+1999 minimum size limit imposed
+
+## South model
+*Commercial trawl*
+Time period of blocking on selectivity parameters were retained from 
+the 2017 assessment. These included changes in
+1973
+1983
+1993
+2003
+2011
+
+Additionally, there were retention changes modeled in the years
+1998 
+2007
+2010
+2011 (implementation of the catch shares program)
+where prior to 1998, all selected sizes are assumed to be retained
+
+*Commercial fixed-gear*
+1998 
+2011
+
+*recreational California*
+1959
+1975
+1990
+2004
