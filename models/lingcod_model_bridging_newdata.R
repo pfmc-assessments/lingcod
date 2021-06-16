@@ -4,7 +4,8 @@
 # create new directories with input files
 for (area in c("n", "s")){
 #for (area in c("s")){
-  newdir <- get_dir_ling(area = area, num = 4, sens = 2)
+  # newdir <- get_dir_ling(area = area, num = 4, sens = 2) # first model with complete data
+  newdir <- get_dir_ling(area = area, num = 4, sens = 3) # making marginal ages ghost fleets #55 
   r4ss::copy_SS_inputs(dir.old = get_dir_ling(area = area, num = 2),
                        dir.new = newdir, 
                        use_ss_new = TRUE, # currently running old models

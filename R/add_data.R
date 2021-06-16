@@ -505,6 +505,8 @@ add_data <- function(dat,
           newvals <- paste0("ageComp", toupper(area), "_sex3_", label_short) %>%
             get() %>%
             clean_comps(type = "age")
+          # negative fleet to make marginal as ghost observations by default
+          newvals$fleet <- -1 * abs(newvals$fleet)
         }
         if ("CAAL" %in% dat_type) {
           newvals <- paste0("ageCAAL_", toupper(area), "_", label_short) %>%
@@ -523,6 +525,8 @@ add_data <- function(dat,
         if ("agecomp" %in% dat_type) {
           newvals <- ageCompS_HKL %>%
             clean_comps(type = "age")
+          # negative fleet to make marginal as ghost observations by default
+          newvals$fleet <- -1 * abs(newvals$fleet)
         }
         if ("CAAL" %in% dat_type) {
           newvals <- ageCAAL_S_HKL %>%
