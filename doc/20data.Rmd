@@ -1,0 +1,22 @@
+# Data
+
+Descriptions of each data source include in the model (Figure \ref{fig:data-plot})
+and sources that were explored but not included
+are provided below.
+
+## Fishery-Dependent Data
+
+```{r, child = "lingcod_catch.md"}
+```
+
+```{r datafiles, results = "asis"}
+files_intro <- dir('.', pattern = '2[1-9].*\\.[rR]md', full.names = TRUE)
+ignore <- mapply(sa4ss::read_child, files_intro)
+```
+
+```{r render-reccpuewa, results = "asis", include = grepl("north", params$area)}
+spinfile <- file.path("reccpuewa.R")
+ignore <- knitr::spin(spinfile, knit = FALSE)
+sa4ss::read_child(gsub("\\.R$", ".Rmd", spinfile))
+rm(spinfile)
+```

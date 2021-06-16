@@ -1,0 +1,18 @@
+\clearpage
+# Figures
+
+```{r, results = 'asis'}
+do.call(
+  add_figure,
+  utils::read.csv(file.path("..", "figures", "map_of_stock_boundaries_40-10.csv"))
+)
+```
+
+```{r, results = 'asis'}
+add_figure(
+  filein = file.path(params$model, "plots", "data_plot.png"),
+  caption = "Summary of data sources used in the base model",
+  alt_caption = "Dots for each year a source of data is available",
+  label = "data-plot"
+)
+```
