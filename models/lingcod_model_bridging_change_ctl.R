@@ -391,8 +391,6 @@ for (area in c("n", "s")) {
 
 
 ### applying the DM to model number 7 in each area
-# fill in stuff from Andi here on setting up Dirichlet-Multinomial likelihoods
-
 # create new directories with input files
 for (area in c("n", "s")) {
   # for (area in c("s")){
@@ -409,16 +407,10 @@ for (area in c("n", "s")) {
   )
 }
 
-# run SS models to get automatically generated time-varying
-# selectivity parameters from control.ss_new
-r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 7, sens = 2),
-                               get_dir_ling(area = "s", num = 7, sens = 2)),
+r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 6),
+                               get_dir_ling(area = "s", num = 6)),
                     extras = c("-nohess -stopph 0"),
                     skipfinished = FALSE)
-
-for (area in c("n", "s")) {
-  get_mod(area = area, num = 7, sens = 2)
-}
 
 r4ss::SS_tune_comps(mod.2021.n.007.002,
                     dir = mod.2021.n.007.002$inputs$dir,
@@ -432,8 +424,37 @@ r4ss::SS_tune_comps(mod.2021.s.007.002,
                     extras = "-nohess")
 
 
+### applying Francis weighting to model number 7 in each area
+# create new directories with input files
+for (area in c("n", "s")) {
+  # for (area in c("s")){
+  olddir <- get_dir_ling(area = area, num = 7, sens = 2)
+  newdir <- get_dir_ling(area = area, num = 7, sens = 3)
+  dir.create(newdir)
+  file.copy(from = olddir, to = newdir, 
+            overwrite = FALSE, recursive = FALSE, 
+            copy.mode = TRUE)
+}
+
+get_mod(area = "n", num = 7, sens = 3, plot = FALSE)
+get_mod(area = "s", num = 7, sens = 3, plot = FALSE)
+
+r4ss::SS_tune_comps(mod.2021.n.007.003,
+                    dir = mod.2021.n.007.003$inputs$dir,
+                    option = "Francis",
+                    niters_tuning = 0,
+                    extras = "-nohess")
+r4ss::SS_tune_comps(mod.2021.s.007.003,
+                    dir = mod.2021.s.007.003$inputs$dir,
+                    option = "Francis",
+                    niters_tuning = 0,
+                    extras = "-nohess")
+
+
 if (FALSE) {
   # look at model output
-  get_mod(area = "n", num = 6, plot = TRUE)
-  get_mod(area = "s", num = 6, plot = TRUE)
+  get_mod(area = "n", num = 7, plot = TRUE)
+  get_mod(area = "s", num = 7, plot = TRUE)
+  get_mod(area = "n", num = 7, sens = 2, plot = TRUE)
+  get_mod(area = "s", num = 7, sens = 2, plot = TRUE)
 }
