@@ -1,0 +1,39 @@
+```{r executive, echo = FALSE}
+executive <- list()
+executive[["stock"]] <- paste0("This assessment reports the status of ",
+  spp, " (_", spp.sci, "_) off the ", coast, 
+  " coast using data through xxxx.")
+```
+# Executive Summary{-}
+## Stock{-}
+`r executive[["stock"]]`
+
+## Landings{-}
+Replace text.
+
+## Data and Assessment{-}
+Replace text.
+
+## Stock Biomass{-}
+Replace text.
+
+## Recruitment{-}
+Replace text.
+
+## Exploitation Status{-}
+Replace text.
+
+## Reference Points{-}
+Replace text.
+
+## Management Performance{-}
+Replace text.
+
+## Unresolved Problems and Major Uncertainties{-}
+Replace text.
+
+## Decision Table{-}
+Replace text.
+
+## Research and Data Needs{-}
+Replace text.

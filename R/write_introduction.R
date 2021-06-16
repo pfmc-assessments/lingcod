@@ -18,7 +18,10 @@
 #' @export
 #'
 write_introduction <- function(dir, dirmaster = "..") {
-  unlink(file.path(dir, "11introduction.Rmd"))
+  if (file.exists(file.path(dir, "11introduction.Rmd"))) {
+    unlink(file.path(dir, "11introduction.Rmd"))
+  }
+
   writeLines(
     con = file.path(dir, "11introduction.Rmd"),
     c(
@@ -31,7 +34,7 @@ write_introduction <- function(dir, dirmaster = "..") {
         dirmaster,
         "', pattern = '^1[2-9][a-z]*\\\\.Rmd', full.names = TRUE)"
       ),
-      "ignore <- mapply(read_child, files_intro)",
+      "ignore <- mapply(sa4ss::read_child, files_intro)",
       "```\n"
     )
   )

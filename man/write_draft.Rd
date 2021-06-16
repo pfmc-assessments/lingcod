@@ -7,17 +7,18 @@
 write_draft(authors, dir)
 }
 \arguments{
-\item{authors}{A vector of author names.}
+\item{authors}{A vector of author names or a list of vectors
+if you want to specify multiple files.}
 
 \item{dir}{A directory where you want the results saved to.
 The directory must be a full path or relative to your current
-working directory. Regardless, of which method you choose, the
+working directory. Regardless of which method you choose, the
 creation of the directories is recursive and you can nest
 directories as many layers as you want.}
 }
 \description{
-Write draft assessment files for this species in separate
-directories based on the input argument \code{dir}.
+Write draft assessment files for this species in a specified
+directory based on \code{dir}.
 }
 \seealso{
 Other write: 

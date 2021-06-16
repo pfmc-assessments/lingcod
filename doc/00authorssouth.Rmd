@@ -1,0 +1,82 @@
+---
+author:
+  - name: Ian G. Taylor
+    code: 1
+    first: I
+    middle: G
+    family: Taylor
+  - name: Kelli F. Johnson
+    code: 1
+    first: K
+    middle: F
+    family: Johnson
+  - name: Brian J. Langseth
+    code: 1
+    first: B
+    middle: J
+    family: Langseth
+  - name: Andi Stephens
+    code: 2
+    first: A
+    middle: ''
+    family: Stephens
+  - name: Laurel S. Lam
+    code: 3
+    first: L
+    middle: S
+    family: Lam
+  - name: Melissa H. Monk
+    code: 4
+    first: M
+    middle: H
+    family: Monk
+  - name: John E. Budrick
+    code: 5
+    first: J
+    middle: E
+    family: Budrick
+  - name: Melissa A. Haltuch
+    code: 1
+    first: M
+    middle: A
+    family: Haltuch
+author_list: Taylor, I.G., K.F. Johnson, B.J. Langseth, A. Stephens, L.S. Lam, M.H.
+  Monk, J.E. Budrick, M.A. Haltuch
+affiliation:
+  - code: 1
+    address: Northwest Fisheries Science Center, U.S. Department of Commerce, National
+      Oceanic and Atmospheric Administration, National Marine Fisheries Service, 2725
+      Montlake Boulevard East, Seattle, Washington 98112
+  - code: 2
+    address: Northwest Fisheries Science Center, U.S. Department of Commerce, National
+      Oceanic and Atmospheric Administration, National Marine Fisheries Service, 2032
+      Southeast OSU Drive, Newport, Oregon 97365
+  - code: 3
+    address: Pacific States Marine Fisheries Commission, Northwest Fisheries Science
+      Center, U.S. Department of Commerce, National Oceanic and Atmospheric Administration,
+      National Marine Fisheries Service, 2725 Montlake Boulevard East, Seattle, Washington
+      98112
+  - code: 4
+    address: Southwest Fisheries Science Center, U.S. Department of Commerce, National
+      Oceanic and Atmospheric Administration, National Marine Fisheries Service, 110
+      McAllister Way, Santa Cruz, California 95060
+  - code: 5
+    address: California Department of Fish and Wildlife, 1123 Industrial Rd., Suite
+      300, San Carlos, California 94070
+address:
+  - ^1^Northwest Fisheries Science Center, U.S. Department of Commerce, National Oceanic
+    and Atmospheric Administration, National Marine Fisheries Service, 2725 Montlake
+    Boulevard East, Seattle, Washington 98112
+  - ^2^Northwest Fisheries Science Center, U.S. Department of Commerce, National Oceanic
+    and Atmospheric Administration, National Marine Fisheries Service, 2032 Southeast
+    OSU Drive, Newport, Oregon 97365
+  - ^3^Pacific States Marine Fisheries Commission, Northwest Fisheries Science Center,
+    U.S. Department of Commerce, National Oceanic and Atmospheric Administration,
+    National Marine Fisheries Service, 2725 Montlake Boulevard East, Seattle, Washington
+    98112
+  - ^4^Southwest Fisheries Science Center, U.S. Department of Commerce, National Oceanic
+    and Atmospheric Administration, National Marine Fisheries Service, 110 McAllister
+    Way, Santa Cruz, California 95060
+  - ^5^California Department of Fish and Wildlife, 1123 Industrial Rd., Suite 300,
+    San Carlos, California 94070
+---
