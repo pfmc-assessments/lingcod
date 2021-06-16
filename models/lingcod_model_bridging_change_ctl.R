@@ -322,18 +322,117 @@ for (area in c("n", "s")) {
   )
 }
 
+# run SS models to get automatically generated time-varying
+# selectivity parameters from control.ss_new
+r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 6),
+                               get_dir_ling(area = "s", num = 6)),
+                    extras = c("-nohess -stopph 0"),
+                    skipfinished = FALSE)
+
+for (area in c("n", "s")) {
+  # copy to new directory 
+  newdir <- get_dir_ling(area = area, num = 7)
+  r4ss::copy_SS_inputs(
+          dir.old = get_dir_ling(area = area, num = 6, sens = 1),
+          dir.new = newdir,
+          use_ss_new = TRUE,
+          copy_par = FALSE,
+          copy_exe = TRUE,
+          dir.exe = get_dir_exe(),
+          overwrite = TRUE,
+          verbose = TRUE
+        )
+
+  # read all input files
+  inputs <- get_inputs_ling(id = get_id_ling(newdir))
+
+  newctl <- inputs$ctl
+
+  # confirm that auto-generation of time-varying parameters is now off
+  # (these values should all be 1)
+  newctl$time_vary_auto_generation
+
+  # set time-varying retention parameters to discard small fish
+  newctl$size_selex_parms_tv <-
+    change_pars(
+      pars = newctl$size_selex_parms_tv, string = "SizeSel_PRet_1",
+      LO = 30, HI = 70, INIT = 55, PHASE = 4
+    )
+  # ascending slope (baseline value was set high to retain all fish)
+  newctl$size_selex_parms_tv <-
+    change_pars(
+      pars = newctl$size_selex_parms_tv, string = "SizeSel_PRet_2",
+      LO = 1, HI = 10, INIT = 2, PHASE = 4
+    )
+
+  # replace control values with new ones
+  inputs$ctl <- newctl
+
+  # don't use starter file
+  inputs$start$init_values_src <- 0
+
+  # write new control file
+  write_inputs_ling(inputs,
+    # directory is same as source directory for inputs in this case
+    dir = newdir,
+    verbose = FALSE,
+    overwrite = TRUE
+    )
+
+  # copy data file which had useful comments
+  file.copy(file.path(get_dir_ling(area = area, num = 4, sens = 2),
+                      "ling_data.ss"),
+            file.path(newdir,
+                      "ling_data.ss"),
+            overwrite = TRUE)
+
+}
+
+
+
+### applying the DM to model number 7 in each area
+# fill in stuff from Andi here on setting up Dirichlet-Multinomial likelihoods
+
+# create new directories with input files
+for (area in c("n", "s")) {
+  # for (area in c("s")){
+  newdir <- get_dir_ling(area = area, num = 7, sens = 2)
+  r4ss::copy_SS_inputs(
+    dir.old = get_dir_ling(area = area, num = 7, sens = 1),
+    dir.new = newdir,
+    use_ss_new = FALSE,
+    copy_par = FALSE,
+    copy_exe = TRUE,
+    dir.exe = get_dir_exe(),
+    overwrite = TRUE,
+    verbose = TRUE
+  )
+}
+
+# run SS models to get automatically generated time-varying
+# selectivity parameters from control.ss_new
+r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 7, sens = 2),
+                               get_dir_ling(area = "s", num = 7, sens = 2)),
+                    extras = c("-nohess -stopph 0"),
+                    skipfinished = FALSE)
+
+for (area in c("n", "s")) {
+  get_mod(area = area, num = 7, sens = 2)
+}
+
+r4ss::SS_tune_comps(mod.2021.n.007.002,
+                    dir = mod.2021.n.007.002$inputs$dir,
+                    option = "DM",
+                    niters_tuning = 1,
+                    extras = "-nohess")
+r4ss::SS_tune_comps(mod.2021.s.007.002,
+                    dir = mod.2021.s.007.002$inputs$dir,
+                    option = "DM",
+                    niters_tuning = 1,
+                    extras = "-nohess")
+
 
 if (FALSE) {
-  r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 6),
-                                 get_dir_ling(area = "s", num = 6)),
-                      extras = c("-nohess -stopph 0"),
-                      skipfinished = FALSE)
-
-
-
-  inputs.n <- get_inputs_ling(area = "n", num = 6)
-  inputs.s <- get_inputs_ling(area = "s", num = 6)
-
   # look at model output
   get_mod(area = "n", num = 6, plot = TRUE)
   get_mod(area = "s", num = 6, plot = TRUE)
