@@ -11,7 +11,7 @@
 # 1. Add source to the commercial catch stream
 # 2. standardize catch versus landing
 # 3. Assign fleet numbers and fleet names
-# 4. write a function to formate data_catch into SS.dat format
+# 4. write a function to format data_catch into SS.dat format
 # 5. create a figure showing similarities of composition data from OR and
 # northern CA recreational landings
 # 6. Get @mason2004
@@ -1118,6 +1118,17 @@ bio_rec_recfin_meanlength <- bio_rec_recfin %>%
 #'
 #' #### Washington recreational landings
 #'
+#' The time series of recreational catches (numbers of fish)
+#' were provided by \gls{wdfw} and
+#' include information on fishing within Washington's coastal areas sampled by the
+#' Ocean Sampling Program in Marine Areas 1-4.
+#' Catches that were landed within the Strait of Juan de Fuca, i.e.,
+#' Bonilla-Tatoosh line to the mouth of the Sekiu River,
+#' and sampled by the Puget Sound Sampling Program were included in the landings
+#' because they were potentially caught in ocean waters even though they were
+#' landed in coastal waters. Other non-ocean landings were excluded.
+#'
+
 #+ catch-setupreadinWArec
 catch_rec_WA <- suppressWarnings(suppressMessages(
   dplyr::bind_rows(.id = "Type", mapply(readxl::read_excel,
