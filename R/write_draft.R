@@ -36,7 +36,7 @@ write_draft <- function(authors, dir) {
   )
   # Move only the files that I want from the template
   file.copy(
-    dir(dir, full.names = TRUE, pattern = "00opts|^01a|^[4]|^[i-z]"),
+    dir(dir, full.names = TRUE, pattern = "00opts|^01a|^[4]|^[i-s]"),
     ".",
     recursive = TRUE,
     overwrite = TRUE
