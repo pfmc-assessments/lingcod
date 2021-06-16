@@ -1,33 +1,29 @@
-# input
-dir_sa4ss <- "c:/stockassessment/ss/sa4ss"
+# Install sa4ss from a local directory
+install_clone("../ss/sa4ss")
+# Load local species package
+load_all()
 
-# Install sa4ss
-install_clone(dir_sa4ss)
-
-# get files from sa4ss for the doc template
-mapply(
-  FUN = write_draft,
-  authors = list(
-    c("Ian G. Taylor", "Kelli F. Johnson",
-      "Brian J. Langseth", "Andi Stephens",
-      "Laurel S. Lam", "Melissa H. Monk",
-      "Alison D. Whitman",
-      "Melissa A. Haltuch"
-    ),
-    c("Ian G. Taylor", "Kelli F. Johnson",
-      "Brian J. Langseth", "Andi Stephens",
-      "Laurel S. Lam", "Melissa H. Monk",
-      "John E. Budrick",
-      "Melissa A. Haltuch"
-    )
-),
-  dir = file.path("doc", get_groups(info_groups))
+# get files from sa4ss for the doc template into doc/draft
+write_draft(
+  authors = info_authors,
+  dir = file.path("doc", "draft")
 )
 
-# Update 00bibliography.Rmd with local files
-ignore <- mapply(
-  FUN = sa4ss::write_bibliography,
-  basedir = file.path("doc", get_groups(info_groups)),
-  fileout = file.path("doc", get_groups(info_groups), "00bibliography.Rmd"),
-  MoreArgs = list(up = 1)
+setwd("doc")
+# args(bookdown::render_book)
+bookdown::render_book("00a.Rmd", output_dir = getwd(), clean = FALSE,
+  config_file = "_bookdown_north.yml",
+  params = list(
+    run_data = FALSE,
+    area = get_groups(info_groups)[1],
+    model = dir("../models", pattern = "2021.n.004.001_new_data_test", full.names = TRUE)
   )
+)
+bookdown::render_book("00a.Rmd", output_dir = getwd(), clean = FALSE,
+  config_file = "_bookdown_south.yml",
+  params = list(
+    area = get_groups(info_groups)[2],
+    model = dir("../models", pattern = "s.005.001_initial_ctl", full.names = TRUE)
+  )
+)
+setwd("..")
