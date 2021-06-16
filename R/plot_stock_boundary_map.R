@@ -11,6 +11,14 @@
 #' unikn::usecol(pal_unikn_pair, 16L)[c(2,10)] as used in data-raw/lingcod_catch.R
 #' but could/should be updated to use values stored in the package 
 #' @param names A vector of names for north and south areas
+#' @param caption A character string providing the caption for the figure.
+#' The caption should not contain any special LaTeX characters because escaping
+#' is not performed within this function. As of now, please leave off the final
+#' full stop because it is added by [sa4ss::add_figure].
+#' @param alttext A character string providing the alternative text for the figure.
+#' The caption should not contain any special LaTeX characters because escaping
+#' is not performed within this function. As of now, please leave off the final
+#' full stop because it is added by [sa4ss::add_figure].
 #'
 #' @import maps
 #' @import mapdata
@@ -21,11 +29,23 @@
 #' # make map using colors used in data-raw/lingcod_catch.R
 #' plot_stock_boundary_map()
 plot_stock_boundary_map <- function(names = c("North", "South"),
-                                    cols = c("#8290BB", "#BC7A8F")) {
+                                    cols = c("#8290BB", "#BC7A8F"),
+                                    caption = "Map of the investigated area. The dashed line and colors delineate the northern (blue) from the southern (red) assessed area",
+                                    alttext = "Outline of U.S. west coast split at forty degrees ten minutes north latitude"
+) {
   require(mapdata)
 
+  # File structure
+  filename <- file.path("figures", "map_of_stock_boundaries_40-10.png")
+  # Write the caption to the same location as the figure
+  utils::write.csv(
+    row.names = FALSE,
+    data.frame(caption = caption, alt_caption = alttext, label = "map",
+      filein = file.path("..", filename)),
+    file = gsub("\\.[pngjpg]{3}$", ".csv", filename)
+  )
   # open PNGfile
-  png("figures/map_of_stock_boundaries_40-10.png",
+  png(filename,
     width = 6.5, height = 8, res = 350, units = "in"
   )
   par(mar = c(3, 3, .1, .1))

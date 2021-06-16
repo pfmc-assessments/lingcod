@@ -6,7 +6,11 @@
 \usage{
 plot_stock_boundary_map(
   names = c("North", "South"),
-  cols = c("#8290BB", "#BC7A8F")
+  cols = c("#8290BB", "#BC7A8F"),
+ 
+    caption = "Map of the investigated area. The dashed line and colors delineate the northern (blue) from the southern (red) assessed area",
+ 
+    alttext = "Outline of U.S. west coast split at forty degrees ten minutes north latitude"
 )
 }
 \arguments{
@@ -15,6 +19,16 @@ plot_stock_boundary_map(
 \item{cols}{A vector of colors for north and south areas. Default is
 unikn::usecol(pal_unikn_pair, 16L)\link{c(2,10)} as used in data-raw/lingcod_catch.R
 but could/should be updated to use values stored in the package}
+
+\item{caption}{A character string providing the caption for the figure.
+The caption should not contain any special LaTeX characters because escaping
+is not performed within this function. As of now, please leave off the final
+full stop because it is added by \link[sa4ss:add_figure]{sa4ss::add_figure}.}
+
+\item{alttext}{A character string providing the alternative text for the figure.
+The caption should not contain any special LaTeX characters because escaping
+is not performed within this function. As of now, please leave off the final
+full stop because it is added by \link[sa4ss:add_figure]{sa4ss::add_figure}.}
 }
 \description{
 Slightly cleaned up from Yellowtail Rockfish map created in 2017:
