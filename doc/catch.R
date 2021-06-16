@@ -43,7 +43,7 @@
 
 
 #+ catch-setupfilepaths
-# patterns for dir("data-raw", pattern = grep_...)
+# patterns for dir(file.path("..", "data-raw"), pattern = grep_...)
 grep_previousmodel <- c("2019.[nN].001.001.cou", "2019.[sS].001.001.cou")
 grep_pacfin <- "PacFIN.+FT.+RData"
 grep_recweightfile <- "SD501--2001---2020_rec_bio_lingcod_pulled_4_19_21"
@@ -58,7 +58,7 @@ grep_rec_501 <- "CTE501"
 grep_rec_mrfss <- "MRFSS-CATCH-ESTIMATES"
 grep_rec_or <- "FINAL RECREATIONAL LANDINGS"
 grep_rec_wa <- "Lingcod_RecCatch"
-# paths for file.path("data-raw", file_...)
+# paths for file.path("..", "data-raw", file_...)
 file_comm_wa <- "WA_historical_Lingcod_forMelissa_V2.csv"
 file_albin <- "Albin_et_al_1993_Lingcod_rows.csv"
 file_erddap <- dir(
@@ -110,7 +110,7 @@ data_SS_oldsouth <- data_SS_old[[2]]
 #' #### Washington commercial reconstruction
 #'
 #+ catch_comm_WA
-catch_comm_WA <- utils::read.csv(file = file.path("data-raw", file_comm_wa)) %>%
+catch_comm_WA <- utils::read.csv(file = file.path("..", "data-raw", file_comm_wa)) %>%
   dplyr::filter(Year < 1995) %>%
   dplyr::mutate(
     LINE = ifelse(LINE == 0, NA_real_, LINE),
@@ -165,7 +165,7 @@ if (file.exists(file_password)) {
     addnominal = TRUE)
   rm(password)
 }
-load(dir_recent("data-raw", pattern = grep_pacfin))
+load(dir_recent(file.path("..", "data-raw"), pattern = grep_pacfin))
 catch.pacfin <- catch.pacfin %>%
   dplyr::rename(Year = LANDING_YEAR) %>%
   dplyr::filter(
@@ -173,7 +173,7 @@ catch.pacfin <- catch.pacfin %>%
     !(AGENCY_CODE == "O" & Year <
       readxl::read_excel(
         path = dir(
-          path = "data-raw",
+          path = file.path("..", "data-raw"),
           pattern = grep_comm_or,
           full.names = TRUE
         ),
@@ -193,7 +193,7 @@ catch.pacfin[, "fleet"] <- use_fleetabb(catch.pacfin[["geargroup"]])
 # pacfin.psmfc.org/pacfin_pub/data_rpts_pub/code_lists/gr_tree.txt
 # 140 == Gill net; 210 == Gill net; 440 == Bait shrimp pump; 490 == Other H&L
 catch_comm_OR <- readxl::read_excel(
-  path = dir(path = "data-raw", pattern = grep_comm_or, full.names = TRUE),
+  path = dir(path = file.path("..", "data-raw"), pattern = grep_comm_or, full.names = TRUE),
   sheet = 2
 ) %>%
   dplyr::rename(Year = YEAR) %>%
@@ -312,7 +312,7 @@ catch_sette1928 <- data.frame(
 #+ catch_comm_ORwaters
 # 1948 - 1968 additional catch in OR waters landed in CA from John F.
 catch_comm_CA_ORwaters <- readxl::read_excel(
-  path = dir(path = "data-raw", pattern = grep_comm_ca_or, full.names = TRUE),
+  path = dir(path = file.path("..", "data-raw"), pattern = grep_comm_ca_or, full.names = TRUE),
   sheet = 3,
   skip = 5,
   .name_repair = "minimal"
@@ -328,7 +328,7 @@ catch_comm_CA_ORwaters <- readxl::read_excel(
 #+ catch_comm_CA_ralston
 catch_comm_CA_ralston <- utils::read.csv(
   file = dir(
-    file.path("data-raw"),
+    file.path("..", "data-raw"),
     pattern = grep_comm_ca_ralston,
     full.names = TRUE
   )
@@ -360,13 +360,13 @@ catch_comm_CA_ralston <- utils::read.csv(
 #+ catch_comm_CA_calcom
 catch_comm_CA_calcom <- utils::read.csv(
   file = dir(
-    file.path("data-raw"),
+    file.path("..", "data-raw"),
     pattern = grep_comm_ca_calcom,
     full.names = TRUE
   )
 ) %>% dplyr::rename(Year = 1)
 catch_comm_CA_MM <- readxl::read_excel(
-  path = file.path("data-raw", file_splitralston),
+  path = file.path("..", "data-raw", file_splitralston),
   .name_repair = "minimal",
   skip = 1
 ) %>%
@@ -1027,11 +1027,11 @@ catch_writetofile <- catch_comm_state %>%
   )
 utils::write.csv(
   x = catch_writetofile %>% dplyr::filter(state == "CA"),
-  file = file.path("data-raw", "catch_comm_south_2019structure.csv")
+  file = file.path("..", "data-raw", "catch_comm_south_2019structure.csv")
 )
 utils::write.csv(
   x = catch_writetofile %>% dplyr::filter(state == "WA and OR"),
-  file = file.path("data-raw", "catch_comm_north_2019structure.csv")
+  file = file.path("..", "data-raw", "catch_comm_north_2019structure.csv")
 )
 
 #' The current time series of commercial catches were aggregated using the previous
@@ -1067,7 +1067,7 @@ ggplot2::ggplot(
 #'
 #+ catch-setuprec
 catch_rec_2000 <- RecFIN::read_cte501(
-  file = dir(pattern = grep_rec_501, full.names = TRUE, recursive = TRUE)
+  file = dir(file.path("..", "data-raw"), pattern = grep_rec_501, full.names = TRUE, recursive = TRUE)
 ) %>%
   dplyr::mutate(Source = "RecFIN") %>%
   dplyr::filter(!grepl("CAN|MEX|PUG", WATER_AREA_NAME)) %>%
@@ -1080,7 +1080,7 @@ catch_rec_2000 <- RecFIN::read_cte501(
     source = "CRFS"
   )
 catch_rec_1980 <- RecFIN::read_mrfss(
-  file = dir(pattern = grep_rec_mrfss, full.names = TRUE, recursive = TRUE)
+  file = dir(file.path("..", "data-raw"), pattern = grep_rec_mrfss, full.names = TRUE, recursive = TRUE)
 ) %>%
   dplyr::filter(
     SPECIES_NAME == lingcod::utils_name(type = "Common"),
@@ -1089,7 +1089,7 @@ catch_rec_1980 <- RecFIN::read_mrfss(
   dplyr::mutate(Source = "RecFIN")
 #
 bio_rec_recfin <- utils::read.csv(
-  file = dir("data-raw", pattern = grep_recweightfile, full.names = TRUE),
+  file = dir(file.path("..", "data-raw"), pattern = grep_recweightfile, full.names = TRUE),
   header = TRUE
 ) %>% dplyr::rename(Year = "RECFIN_YEAR") %>%
   dplyr::mutate(
@@ -1136,7 +1136,12 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
       col_names = FALSE,
       col_types = "numeric",
       .name_repair = "minimal",
-      path = dir(pattern = grep_rec_wa, full.names = TRUE, recursive = TRUE)
+      path = dir(
+        file.path("..", "data-raw"),
+        pattern = grep_rec_wa,
+        full.names = TRUE,
+        recursive = TRUE
+      )
     ),
     sheet = c(OSP = 1, PSSP = 2, historical = 3),
     skip = c(2, 1, 1),
@@ -1200,7 +1205,12 @@ bio_rec_recfin %>%
 catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
   # OR data from Ali
   readxl::read_excel(
-    path = dir(pattern = grep_rec_or, full.names = TRUE, recursive = TRUE),
+    path = dir(
+      file.path("..", "data-raw"),
+      pattern = grep_rec_or,
+      full.names = TRUE,
+      recursive = TRUE
+    ),
     sheet = 2
   ) %>%
     dplyr::rename(Year = YEAR) %>%
@@ -1244,11 +1254,12 @@ catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
 #
 # csv is group = "35. LINGCOD" of Table 1 in Albin et al. 1993 which
 # contains county-specific catch estimates for 1981-1986
-data_albin <- read.csv(file = file.path("data-raw", file_albin),
+data_albin <- read.csv(file = file.path("..", "data-raw", file_albin),
   skip = 2, header = TRUE, check.names = FALSE
 ) %>%
   rlang::set_names(paste(sep = "_",
-    read.csv(file = file.path("data-raw", file_albin),
+    read.csv(
+      file = file.path("..", "data-raw", file_albin),
       skip = 1, header = FALSE, check.names = FALSE, nrows = 1
     ),
     colnames(.))
@@ -1490,9 +1501,9 @@ data_catch <- dplyr::full_join(
 usethis::use_data(data_catch, overwrite = TRUE)
 
 #+ catch-setupreferences
-knitcitations::write.bibtex(file = file.path("data-raw", file_bib))
+knitcitations::write.bibtex(file = file.path("..", "data-raw", file_bib))
 knitcitations::write.bibtex(
-  file = file.path("data-raw", file_bib),
+  file = file.path("..", "data-raw", file_bib),
   entry = c(
     RefManageR::BibEntry(
       bibtype = "techreport",
