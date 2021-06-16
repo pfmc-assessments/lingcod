@@ -25,7 +25,7 @@ SS_readdat.list <- function(dir, pattern) {
     FUN = list.files,
     pattern = pattern,
     MoreArgs = list(
-      path = file.path("models"),
+      path = dir,
       full.names = TRUE
     )
   )
