@@ -426,14 +426,11 @@ r4ss::SS_tune_comps(mod.2021.s.007.002,
 
 ### applying Francis weighting to model number 7 in each area
 # create new directories with input files
+
 for (area in c("n", "s")) {
-  # for (area in c("s")){
-  olddir <- get_dir_ling(area = area, num = 7, sens = 2)
+  olddir <- get_dir_ling(area = area, num = 7, sens = 1)
   newdir <- get_dir_ling(area = area, num = 7, sens = 3)
-  dir.create(newdir)
-  file.copy(from = olddir, to = newdir, 
-            overwrite = FALSE, recursive = FALSE, 
-            copy.mode = TRUE)
+  fs::dir_copy(olddir, newdir)
 }
 
 get_mod(area = "n", num = 7, sens = 3, plot = FALSE)
@@ -442,19 +439,21 @@ get_mod(area = "s", num = 7, sens = 3, plot = FALSE)
 r4ss::SS_tune_comps(mod.2021.n.007.003,
                     dir = mod.2021.n.007.003$inputs$dir,
                     option = "Francis",
-                    niters_tuning = 0,
-                    extras = "-nohess")
+                    niters_tuning = 1,
+                    extras = "-nohess -stopph 0")
 r4ss::SS_tune_comps(mod.2021.s.007.003,
                     dir = mod.2021.s.007.003$inputs$dir,
                     option = "Francis",
-                    niters_tuning = 0,
-                    extras = "-nohess")
+                    niters_tuning = 1,
+                    extras = "-nohess -stopph 0")
 
 
 if (FALSE) {
   # look at model output
-  get_mod(area = "n", num = 7, plot = TRUE)
-  get_mod(area = "s", num = 7, plot = TRUE)
+  get_mod(area = "n", num = 7, plot = FALSE)
+  get_mod(area = "s", num = 7, plot = FALSE)
   get_mod(area = "n", num = 7, sens = 2, plot = TRUE)
   get_mod(area = "s", num = 7, sens = 2, plot = TRUE)
+  get_mod(area = "n", num = 7, sens = 3, plot = TRUE)
+  get_mod(area = "s", num = 7, sens = 3, plot = TRUE)
 }

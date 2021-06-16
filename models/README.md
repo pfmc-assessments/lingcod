@@ -50,8 +50,8 @@ name | notes | issue | source
 2021.s.007.001_get_tv_selex | use the control.ss_new file to get the automatically generated time-varying selectivity parameters from model 6 | #59 | model_bridging_change_ctl.R
 2021.n.007.002_DM | apply Dirichlet_Multinomial to above model (2021.n.007.001) | #59 | model_bridging_change_ctl.R
 2021.s.007.002_DM | apply Dirichlet_Multinomial to above model (2021.s.007.001) | #59 | model_bridging_change_ctl.R
-2021.n.007.003_Francis | apply Francis tuning to above model (2021.n.007.002) | #59 | model_bridging_change_ctl.R
-2021.s.007.003_Francis | apply Francis tuning to above model (2021.n.007.002) | #59 | model_bridging_change_ctl.R
+2021.n.007.003_Francis | apply Francis tuning to 2021.n.007.001 | #59 | model_bridging_change_ctl.R
+2021.s.007.003_Francis | apply Francis tuning to 2021.s.007.001 | #59 | model_bridging_change_ctl.R
 
 
 
