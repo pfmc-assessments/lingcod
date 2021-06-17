@@ -10,12 +10,27 @@
 #' working directory. Regardless of which method you choose, the
 #' creation of the directories is recursive and you can nest
 #' directories as many layers as you want.
+#' @param grepcopy A character string for pattern matching in the
+#' draft folder of files to bring over from the template to the
+#' main document folder. As you increasingly develop your stock
+#' assessment document the amount of files you want to overwrite
+#' will decrease. The default will bring a few files.
 #'
 #' @author Kelli F. Johnson
 #' @family write
 #' @export
+#' @examples
+#' \dontrun{
+#' # Bring more files than the default, this would be used in
+#' # the beginning
+#' write_draft(
+#'   authors = "Kelli F. Johnson",
+#'   dir = "doc",
+#'   grepcopy = "[0-5]|^[i-z]"
+#' )
+#' }
 #'
-write_draft <- function(authors, dir) {
+write_draft <- function(authors, dir, grepcopy = "00opts|^01a|^[i-s]") {
   # Make sure you are in the correct directory
   dir.create(dir, showWarnings = FALSE, recursive = TRUE)
   olddir <- getwd()
@@ -36,7 +51,7 @@ write_draft <- function(authors, dir) {
   )
   # Move only the files that I want from the template
   file.copy(
-    dir(dir, full.names = TRUE, pattern = "00opts|^01a|^[4]|^[i-s]"),
+    dir(dir, full.names = TRUE, pattern = grepcopy),
     ".",
     recursive = TRUE,
     overwrite = TRUE
