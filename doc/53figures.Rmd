@@ -1,14 +1,28 @@
 \clearpage
+<!--
+to do onboarding sa4ss - move this to sa4ss.sty so everyone's figures hold their order
+https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-figure-caption-in-pdf-output-of-knitr
+-->
+\floatplacement{figure}{H}
 # Figures
 
-```{r, results = 'asis'}
+```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path("..", "figures", "map_of_stock_boundaries_40-10.csv"))
 )
 ```
 
-```{r, results = 'asis'}
+```{r, catch-figures, results = "asis"}
+apply(dplyr::bind_rows(mapply(
+  FUN = utils::read.csv,
+  file = dir(file.path("..","figures"), pattern = "^catch-.+\\.csv",full.names=TRUE),
+  SIMPLIFY = FALSE
+)), 1, function(x) do.call(sa4ss::add_figure, args = as.list(x))
+)
+```
+
+```{r, results = "asis"}
 sa4ss::add_figure(
   filein = file.path(params$model, "plots", "data_plot.png"),
   caption = "Summary of data sources used in the base model",

@@ -1,0 +1,31 @@
+```{r catch-comm-recent, eval = FALSE}
+catch.pacfin %>%
+  dplyr::select(matches("Year|^area$|Round.+MT")) %>%
+  dplyr::mutate(Year = Year) %>%
+  dplyr::group_by(Year, area) %>%
+  dplyr::summarize(MT = sum(ROUND_WEIGHT_MTONS), .groups = "keep") %>%
+  tidyr::pivot_wider(names_from = area, values_from = MT) %>%
+  kableExtra::kbl(
+    longtable = TRUE,
+    caption = "Yearly commercial landings (mt) from the PacFIN database by area, North and South, since 1981."
+  ) %>%
+  kableExtra::kable_paper(full_width = TRUE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed", "responsive")) %>%
+  kableExtra::scroll_box(width = "500px", height = "200px")
+```
+
+```{r catch-rec-OR-comparetoprevmodel, include = FALSE, echo = FALSE, eval = FALSE}
+dplyr::full_join(
+  by = c(Year = "year"),
+  x = catch_rec %>%
+    dplyr::group_by(Year) %>%
+    dplyr::filter(state == "OR") %>%
+    dplyr::summarize(mt=sum(mt)),
+  y = last_ssdat[[1]][["catch"]] %>%
+      dplyr::filter(fleet == grep("OR", last_ssdat[[1]][["fleetnames"]]), catch > 0)
+  ) %>%
+  dplyr::mutate(diff = mt - catch) %>%
+  dplyr::select(Year, mt, catch, diff) %>%
+  kable(.)
+  data.frame()
+```
