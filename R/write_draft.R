@@ -79,11 +79,11 @@ write_draft <- function(authors, dir, grepcopy = "00opts|^01a|^[i-s]") {
     MoreArgs = list(species = utils_name("common"), latin = utils_name("latin"))
   )
   writeLines(
-    text = "delete_merged_file: true\nbook_filename: 'North'\nrmd_files: ['00a.Rmd', '00authorsnorth.Rmd', '00bibliography.Rmd', '00titlenorth.Rmd', '01a.Rmd', '01executive.Rmd', '10a.Rmd', '11introduction.Rmd', '20data.Rmd', '53Figures.Rmd']",
+    text = "delete_merged_file: true\nbook_filename: 'North'\nrmd_files: ['00a.Rmd', '00authorsnorth.Rmd', '00bibliography.Rmd', '00titlenorth.Rmd', '01a.Rmd', '01executive.Rmd', '10a.Rmd', '11introduction.Rmd', '20data.Rmd', '49bibliography.Rmd', '53Figures.Rmd']",
     con = "_bookdown_north.yml"
   )
   writeLines(
-    text = "delete_merged_file: true\nbook_filename: 'South'\nrmd_files: ['00a.Rmd', '00authorssouth.Rmd', '00bibliography.Rmd', '00titlesouth.Rmd', '01a.Rmd', '01executive.Rmd', '10a.Rmd', '11introduction.Rmd', '20data.Rmd', '53Figures.Rmd']",
+    text = "delete_merged_file: true\nbook_filename: 'South'\nrmd_files: ['00a.Rmd', '00authorssouth.Rmd', '00bibliography.Rmd', '00titlesouth.Rmd', '01a.Rmd', '01executive.Rmd', '10a.Rmd', '11introduction.Rmd', '20data.Rmd', '49bibliography.Rmd', '53Figures.Rmd']",
     con = "_bookdown_south.yml"
   )
   # Update 00bibliography.Rmd with local files
