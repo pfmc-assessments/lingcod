@@ -15,6 +15,9 @@ ggsave2(..., caption, alttext, label)
 
 \item{label}{A character string providing the LaTeX label.}
 }
+\value{
+The label used for the figure.
+}
 \description{
 Save a \link[ggplot2:ggplot]{ggplot2::ggplot} figure and a csv file with additional
 information, where the figure and csv are saved with the same
