@@ -49,8 +49,14 @@ write_draft <- function(authors, dir, grepcopy = "00opts|^01a|^[i-s]") {
     latin = utils_name("latin"),
     create_dir = TRUE
   )
+  dir.create("draft", showWarnings = FALSE)
+  ignore <- file.copy(
+    overwrite = TRUE,
+    dir("doc", full.names = TRUE),
+    file.path("draft", dir("doc"))
+  )
   # Move only the files that I want from the template
-  file.copy(
+  ignore <- file.copy(
     dir(dir, full.names = TRUE, pattern = grepcopy),
     ".",
     recursive = TRUE,
