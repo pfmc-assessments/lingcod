@@ -1,2 +1,10 @@
 # Acknowledgments
 Here are all the mad props!
+
+- Chantel Wetzel for her 2021 Dover Sole stock assessment which provided 
+a valuable template for many elements in this assessment, as well as 
+bailing us out with help at many points in the assessment process,
+- Theresa Tsou and the staff at WDFW for answering countless questions 
+about data from Washington State, and
+- Jim Hastie and John DeVore for providing background on historical 
+changes to the groundfish fishery. 
