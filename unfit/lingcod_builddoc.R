@@ -1,15 +1,8 @@
-# Install sa4ss from a local directory
-install_clone("../ss/sa4ss")
-# Load local species package
-load_all()
+# Set your working directory to the appropriate location to build
+# the document, this will work on everyone's machine
+indir <- getwd()
+setwd(file.path(dirname(system.file(package = "lingcod")),"doc"))
 
-# get files from sa4ss for the doc template into doc/draft
-write_draft(
-  authors = info_authors,
-  dir = file.path("doc", "draft")
-)
-
-setwd("doc")
 # args(bookdown::render_book)
 bookdown::render_book("00a.Rmd", output_dir = getwd(), clean = FALSE,
   config_file = "_bookdown_north.yml",
@@ -26,4 +19,5 @@ bookdown::render_book("00a.Rmd", output_dir = getwd(), clean = FALSE,
     model = dir("../models", pattern = "s.005.001_initial_ctl", full.names = TRUE)
   )
 )
-setwd("..")
+setwd(indir)
+rm(indir)
