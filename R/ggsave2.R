@@ -26,6 +26,10 @@ ggsave2 <- function(..., caption, alttext, label) {
     label = label,
     filein = dots[["filename"]]
   )
-  utils::write.csv(outdf, gsub("\\.[pngjpg]{3}", ".csv", dots[["filename"]]))
+  utils::write.csv(
+    outdf,
+    gsub("\\.[pngjpg]{3}", ".csv", dots[["filename"]]),
+    row.names = FALSE
+  )
   return(label)
 }
