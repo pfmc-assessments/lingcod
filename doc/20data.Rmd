@@ -7,7 +7,7 @@ are provided below.
 ## Fishery-Dependent Data
 
 ```{r spin-catch, results = "asis"}
-sa4ss::read_child(file.path("catch.R"))
+sa4ss::read_child(file.path("catch.Rmd"))
 ```
 
 ```{r datafiles, results = "asis"}
