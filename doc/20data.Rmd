@@ -10,11 +10,6 @@ are provided below.
 sa4ss::read_child(file.path("catch.Rmd"))
 ```
 
-```{r datafiles, results = "asis"}
-files_intro <- dir('.', pattern = '2[1-9].*\\.[rR]md', full.names = TRUE)
-ignore <- mapply(sa4ss::read_child, files_intro)
-```
-
 ### Recreational Data
 
 ```{r render-reccpuewa, results = "asis", eval = grepl("North", params$area), cache = TRUE}
