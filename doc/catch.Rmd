@@ -146,9 +146,9 @@ catch.pacfin <- catch.pacfin[-index, ]
 
 ### Commercial fleet structure
 
-The fleet structure for all commercial landings included two fleets,
-fixed gear (FG) and trawl (TW).
-The latter included landings from
+The fleet structure for commercial landings included two fleets,
+trawl (TW) and fixed gear (FG).
+The former included landings from
 bottom trawls, shrimp trawls, net gear, and dredging activities.
 Landings from all other gear types, mainly hook and line,
 were assigned to FG.
@@ -169,26 +169,25 @@ catch_comm_WA <- utils::read.csv(file = file.path("..", "data-raw", file_comm_wa
   tidyr::gather(key = "fleet", value = "mt", -Year) %>%
   dplyr::mutate(area = "North", state = "WA")
 ```
+```
 ```{asis, catch-comm-WA-text, opts.label = 'north'}
 #### Washington commercial reconstruction
 
-The reconstruction of Washington commercial landings was provided by
-the Washington Department of Fish and Wildlife. This reconstruction
-included landings starting in
-`r min(catch_comm_WA[["Year"]])`
-through
-`r sprintf("%.0f.", max(catch_comm_WA[["Year"]]))`
-This reconstruction was used instead of data in PacFIN when there was
+The reconstruction of commercial landings for coastal waters off of Washington
+was provided by \gls{wdfw}.
+This reconstruction included landings starting in
+`r min(catch_comm_WA[["Year"]])`.
+Data from the reconstruction was used instead of data in \gls{pacfin} when there was
 overlap because
-WDFW separates landings on each fish ticket by area.
-This is important for fish tickets that included landings from
+\gls{wdfw} separates landings from each fish ticket by area.
+This is important for fish tickets that include landings from
 Alaskan, Canadian, Puget Sound, and oceanic waters.
-In PacFIN, it is more than likely that landings from different
+In \gls{pacfin}, it is more than likely that landings from different
 areas included on a single fish ticket would be assigned to
 just one area and partitioning out these landings to area would require
 accessing logbook information as well as fish ticket information, which is
-difficult and not part of the current PacFIN protocols.
-The reconstruction should largely match what is in PacFIN because PacFIN
+difficult and not part of the current \gls{pacfin} protocols.
+The reconstruction should largely match what is in \gls{pacfin} because \gls{pacfin}
 does not currently have landings for years prior to 1980 and
 Canadian waters have been closed to U.S. fishers
 targeting groundfish since 1978.
@@ -196,14 +195,14 @@ targeting groundfish since 1978.
 The reconstruction includes data from many sources, but consistently
 recorded data were largely available starting in 1943 from
 U.S. Fish Commission reports.
-Prior to 1941, all landings from these reports are assumed to be
-from filleted fish, and thus, were converted to round fish weights using
-a conversion factor of 1.431.
-
-Early years without landings were linearly interpolated between adjacent
-years with data. Whereas, in the 2017 assessment (todo cite prev assessment)
-missing years were filled forward from the most recent historical year with data
+Landings from prior to 1941 were converted to round fish weight using a
+conversion factor of 1.431 because it is assumed that reports were of filleted fish.
+Linear interpretation between adjacent years was used to fill in years without
+landings information. In the 2017 assessment, [@haltuch2019lingcod]
+missing years were filled forward rather than linearly interpolated
 (Figure \@ref(fig:catch-comm-state)).
+These differences were minor, and there were no major changes in the time series
+compared to what was used in the previous assessment.
 ```
 
 
