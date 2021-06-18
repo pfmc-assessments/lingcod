@@ -939,8 +939,8 @@ Differences in the early reconstruction for the southern model are the result
 of using landings from @sette1928 instead of ramping up catches from zero.
 
 
+<!--- RECREATIONAL INFORMATION STARTS HERE -->
 ## Recreational catches
-
 
 ```{r catch-setuprec}
 catch_rec_2000 <- RecFIN::read_cte501(
@@ -1045,7 +1045,7 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
 
 The time series of recreational catches (numbers of fish)
 were provided by \gls{wdfw} and
-include information on fishing within Washington's coastal areas sampled by the
+included information on fishing within Washington's coastal areas sampled by the
 Ocean Sampling Program in Marine Areas 1-4.
 Catches that were landed within the Strait of Juan de Fuca, i.e.,
 Bonilla-Tatoosh line to the mouth of the Sekiu River,
@@ -1053,17 +1053,19 @@ and sampled by the Puget Sound Sampling Program were included in the landings
 because they were potentially caught in ocean waters even though they were
 landed in coastal waters. Other non-ocean landings were excluded.
 
-Recreational information from Washington was provided in terms of
-number of fish rather than weight. To translate numbers into weight,
-we first calculated the mean length of fish landed within
-Washington recreational fishery
+First, we calculated the mean length
+`r sprintf("(%0.2f mm).", bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length))`
+of fish landed within Washington recreational fishery
 (Figure \@ref(fig:catch-rec-tsrecfinmeanlength)) across all years
 `r format_range(bio_rec_recfin %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(Year))`
-and sexes
-`r sprintf("(%0.2f mm).", bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length))`
+and sexes.
 Next, we used this mean length in the weight-length relationship
 as calculated from the most recent survey data to determine the mean weight.
-Finally, weight was determined from mean weight and numbers.
+Finally, weight (mt) was determined from mean weight and numbers.
+
+The scale of the catches is smaller than what was used in the previous
+assessment because this assessment only includes information on retained fish
+rather than retained and discarded (Figure \@ref(fig:catch-rec-ca-oldts)).
 ```
 
 
