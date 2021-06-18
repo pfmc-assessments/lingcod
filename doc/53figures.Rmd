@@ -21,7 +21,7 @@ figdataframe <- dplyr::bind_rows(mapply(
   SIMPLIFY = FALSE
 ))
 figdataframe[, "time"] <- file.info(figdataframe[["filein"]])[["mtime"]]
-apply(
+ignore <- apply(
   figdataframe %>% dplyr::arrange(time) %>% dplyr::select(-time),
   1,
   function(x) do.call(sa4ss::add_figure, args = as.list(x))
