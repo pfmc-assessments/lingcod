@@ -1,0 +1,438 @@
+#' #### Washington recreational index
+
+#+ reccpuewa-setup, echo = FALSE, include = FALSE
+#
+###############################################################################
+# This file estimates the recreational CPUE for Washington
+# with the code and write up embedded in a single file.
+# Parameters will only be estimated if run_data == TRUE
+#
+# TO DO: A prioritized to do list, numbers are based on order of entry
+#
+# 2. move boattype, triptype, portgroup change to numeric code to
+# recFIN package
+# 4. reccpuewa-summarizedata -- Summarize the data prior to filtering
+# 5. clean up the SM filter results in reccpuewa-filterSM
+# 6. Think of filtering for filter_uppercpuequantile should come in when all
+# other filtering is done rather than after SM
+# 3. Make Mgmt based off of a lookup table rather than hard-coded so users can
+# specify the table as an input parameter and then it will be created. This
+# would largely be to document management regimes and not for a variable b/c
+# the factor grouping doesn't work in the estimation code. Need to figure out
+# if there is another way to include this in the model.
+#
+# DONE: A list of to do items that are finished
+#
+# 1. WA catches in CANADA, would be area == 20, which is already a filter
+#
+###############################################################################
+#
+# Set knitr options
+run_data <- ifelse(exists("params"), params[["run_data"]], FALSE)
+#
+# Code will be excluded from any file
+knitr::opts_chunk$set(echo = FALSE)
+#
+# knitr templates can be used in code chunks for consistent styles
+knitr::opts_template$set(execute = list(
+  eval = run_data,
+  include = FALSE
+))
+knitr::opts_template$set(assessment = list(
+  eval = TRUE,
+  include = TRUE, warning = FALSE, message = FALSE
+))
+
+#+ reccpuewa-objects
+#
+# Response variable in the data set
+colresponse <- sym(utils_name("Common"))
+#
+# SM filtering switch and percentage cutoff
+filter_SM <- FALSE
+filter_SM_cutoff <- 1.5
+#
+# Filter for extreme observations
+# filter_upperquantile <- 0.975 # 2017 value that might be a relic of China.
+filter_uppercpuequantile <- 0.999
+#
+# Regex of columns to remove
+# Species that are not looked at or information on date that we do not need
+removecolscalled <- "Week|Day|Shark|Tuna|Misc|Bird|Samp|SpeciesNotRecorded"
+#
+# Look up tables provided by T.T. that need to eventually be moved to recFIN
+# with functions that change old information to new variable numbers
+boattype <- data.frame(
+  character = c("Charter", "Jetty", "Private"),
+  numeric = 1:3
+)
+triptype <- data.frame(
+  character = c(
+    "BFO", "Dive", "Halibut", "Jig", "Other- Commercial",
+    "Other- Non Fishing", "Salmon", "Tuna"
+  ),
+  numeric = c(
+    6, 8, 1, 2, 4,
+    4, 7, 3
+  )
+)
+portgroup <- data.frame(
+  character = c(
+    "Westport", "LaPush", "Neah Bay", "Sekiu", "Johns River", "Chinook",
+    "Ilwaco", "Hoquiam", "Tokeland", "Montesano", "Cosmopolis", "Columbia River Jetty"
+  ),
+  numeric = c(
+    2, 3, 4, 5, 22, 31,
+    11, 23, 24, 25, 26, 41
+  )
+)
+
+#+ reccpuewa-readindata
+file_reccpuewadockside81 <- file.path("..", "data-raw", "Sport Dockside Interview_1981-1989.txt")
+file_reccpuewadockside90 <- file.path("..", "data-raw", "Sport Dockside Interviews 1990-2016.txt")
+file_reccpuewadockside17 <- file.path("..", "data-raw", "Sport Dockside Interviews 2017-2020.csv")
+file_reccpuewaresults <- file.path("..", "data-raw", "reccpuewa-results.RData")
+file_reccpuewafigures <- file.path("reccpuewa-figures.R")
+WA_dockside_dat_81_89 <- read.csv(file_reccpuewadockside81)
+WA_dockside_dat_90_14 <- read.csv(file_reccpuewadockside90)
+WA_dockside_dat_17_20 <- read.csv(file_reccpuewadockside17)
+#
+# data80s
+#
+reccpuewa_data1 <- WA_dockside_dat_81_89 %>%
+  dplyr::rename(
+    oldID = "InterviewID",
+    Anglers = "AnglerAmount",
+    GeneralRockfish = "General.Rockfish",
+    Halibut = "Pacific.Halibut",
+    Perch = "Pacific.Ocean.Perch"
+  ) %>%
+  dplyr::rename_with(
+    .cols = tidyselect::everything(),
+    ~ gsub("Interview|Group|\\.Rockfish|\\.", "", .x)
+  ) %>%
+  dplyr::rename_with(
+    .cols = tidyselect::everything(),
+    ~ gsub("Kept$", "", .x)
+  ) %>%
+  dplyr::select(-Date) %>%
+  dplyr::mutate(
+    Year = Year + 1900,
+    TripType = triptype[match(TripType, triptype[["character"]]), "numeric"],
+    BoatType = boattype[match(BoatType, boattype[["character"]]), "numeric"],
+    Port = triptype[match(Port, portgroup[["character"]]), "numeric"]
+  ) %>%
+  dplyr::filter(!is.na(Anglers))
+#
+# data90s
+#
+# Create new columns, which are sum of retained and discard
+reccpuewa_data2 <- WA_dockside_dat_90_14 %>%
+  dplyr::select(-InterviewID) %>%
+  dplyr::full_join(
+  x = .,
+  y = WA_dockside_dat_17_20,
+  by = colnames(.)
+  ) %>%
+  dplyr::rename_with(~ gsub("BlackRock", "Black", .x)) %>%
+  dplyr::rename_with(~ gsub("LingCod", "Lingcod", .x)) %>%
+  dplyr::rename_with(~ gsub("Bocacciao", "Bocaccio", .x)) %>%
+  dplyr::rename_with(~ gsub("Vermillion", "Vermilion", .x)) %>%
+  dplyr::mutate(Area = dplyr::case_when(
+    Area %in% c(74, 84) ~ 4,
+    TRUE ~ Area
+  )) %>%
+  dplyr::mutate(ID = 1:NROW(.))
+# Uncomment if you want total catch (discarded + retained; .tot) columns
+# %>% dplyr::full_join(
+#   suffix = c("", ".tot"),
+#   by = "ID",
+#   x = .,
+#   y = dplyr::select(., -dplyr::matches(removecolscalled)) %>%
+#     dplyr::select(-dplyr::matches("ID|Year|Port|Number|Type|Area|Angler|Depth|Month")) %>%
+#     data.frame %>%
+#     split.default(., f = gsub("Released$", "", names(.))) %>%
+#     sapply(., FUN = rowSums, na.rm = TRUE) %>%
+#     data.frame %>%
+#     dplyr::mutate(ID = 1:NROW(.))
+# ) %>%
+# dplyr::select(-dplyr::matches("ID"))
+#
+# Combine data
+#
+reccpuewa_data <- dplyr:: full_join(
+  x = reccpuewa_data2,
+  y = reccpuewa_data1,
+) %>% # End of combining data sets
+  # Get rid of ID columns
+  dplyr::select(-dplyr::matches("ID|Number")) %>%
+  dplyr::select(-dplyr::matches(removecolscalled)) %>%
+  # Add column for management regimes
+  dplyr::mutate(
+    # YearArea = paste0(Year, Area),
+    CPUE_landed = {{colresponse}} / Anglers,
+    Mgmt = dplyr::case_when(
+      Year < 1987 ~ 1,
+      Year %in% 1987:1994 ~ 2,
+      Year %in% 1995:1997 ~ 3,
+      Year == 1998 ~ 4,
+      Year == 1999 ~ 5,
+      Year == 2000 ~ 6,
+      Year %in% 2001:2006 ~ 7,
+      Year %in% 2007:2010 ~ 8,
+      Year >= 2011 ~ 9
+    )
+  ) %>%
+  # Rearrange columns
+  dplyr::relocate(
+    dplyr::matches("Year"),
+    Month,
+    Mgmt,
+    Area, Port,
+    TripType, BoatType, Anglers, Depth,
+    CPUE_landed,
+    dplyr::matches("Released")
+  ) %>%
+  dplyr::rename_with(
+    .cols = tidyselect::everything(),
+    ~ gsub("Released", ".Released", .x)
+  )
+#
+
+#+ reccpuewa-summarizedata
+#
+# Make tables needed before filtering the poor records
+
+#+ reccpuewa-filter
+#
+tot <- reccpuewa_data %>%  dplyr::filter(
+    # Remove records without Angler information
+    Anglers != 0,
+    # Non-winter months
+    Month %in% 4:8,
+    # Bottom fish only
+    TripType == 6,
+    # Remove shore-based boats
+    BoatType != 2,
+    BoatType != "",
+    # Remove records without Area information
+    !is.na(Area),
+    # Remove records without Year information
+    !is.na(Year)
+  ) %>%
+  dplyr::filter(
+    # Areas not specific to rockfish
+    !(Area %in% c(0, 5, 6, 20, 41, 42, 51, 53:56, 61) &
+      Year >= 1990
+     )
+  ) %>%
+  dplyr::filter(
+    # Areas not specific to rockfish
+    !(Area %in% c(0, 5, 20, 42, 51, 55, 99) &
+      Year < 1990
+     )
+  ) %>%
+  # Not enough records in area 52
+  dplyr::filter(Area != 52) %>%
+  # Remove colresponse with zero positive trips
+  dplyr::select_if(colSums(., na.rm = TRUE) != 0)
+#
+# Table of n < 0, n > 0, is.na(n) for each species
+# to determine which species should be used in the SM filtering
+tablen <- tot %>%
+  dplyr::select(Year, (dplyr::last(grep("\\.Re[a-z]+$", colnames(tot))) + 1):NCOL(tot)) %>%
+  tidyr::gather(key = "colresponse", value = "n", -Year) %>%
+  dplyr::group_by(colresponse) %>%
+  dplyr::count(TF = n > 0) %>%
+  tidyr::spread(key = "TF", value = "n") %>%
+  dplyr::arrange(colresponse) %>%
+  dplyr::group_by(colresponse) %>%
+  dplyr::add_tally(`TRUE`, name = "sum_T") %>%
+  dplyr::add_tally(`FALSE`, name = "sum_F") %>%
+  dplyr::mutate_at(.vars = dplyr::vars(dplyr::matches("FALSE|TRUE|NA")), sum) %>%
+  dplyr::mutate(prop = sum_T / (sum_T + sum_F) * 100) %>%
+  dplyr::arrange(prop)
+#
+# Summary that was helpful while building
+# tot %>% dplyr::group_by(Year) %>% dplyr::summarize_all(.f = function(x) all(is.na(x)))
+
+#+ reccpuewa-filterSM
+sppusedinSM <- tablen %>%
+  dplyr::filter(prop >= filter_SM_cutoff, is.na(`<NA>`)) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter_at(.vars = 1, ~ .x != as.character(colresponse)) %>%
+  dplyr::pull(colresponse) %>% sort
+sppformula <- paste(sppusedinSM, collapse = " + ") %>%
+  paste(as.character(colresponse), "~", .) %>%
+  as.formula
+glm_SMresults <- stats::glm(
+  formula = sppformula,
+  family = stats::binomial(link = "logit"),
+  data = as.data.frame(ifelse(tot > 0, 1, 0))
+)
+fishprob <- cbind(
+  tot,
+  prob = stats::predict(glm_SMresults, type = "response")
+)
+# Find min probability of occurring with target when target is landed
+best.thresh <- sort(
+  fishprob[["prob"]],
+  decreasing = TRUE
+)[sum(tot[[colresponse]] > 0)]
+reccpuewa_SMcoefs <- data.frame(summary(glm_SMresults)$coef[, 1:2]) %>%
+  dplyr::arrange(-Estimate) %>%
+  dplyr::mutate(names = gsub("^X\\.", "", rownames(.)))
+if (filter_SM) {
+  reccpuewa_dataforEM <- fishprob[fishprob$prob>=best.thresh | fishprob[[colresponse]]>0,]
+} else {
+  reccpuewa_dataforEM <- fishprob
+}
+
+#+ todocleanthisup, echo = FALSE, include = FALSE, eval = FALSE
+###############################################################################
+# clean up following code
+#
+# WRITE TWO DATA FRAMES: 
+# 1) EQUAL NUMBER OF FALSE POSTIVES AND FALSE NEGATIVES
+# 2) DROP ONLY THE 'TRUE NEGATIVES' (KEEP FALSE NEGATIVES... 'LOW PROBABILITY' TRIPS THAT STILL CAUGHT LINGCOD)
+# BALANCE FALSE POSITIVES AND FALSE NEGATIVES
+balanced_FPFN.df <- fishprob[fishprob$prob>=best.thresh,]
+dim(balanced_FPFN.df)
+length(which(balanced_FPFN.df[[colresponse]] >0))
+summary(balanced_FPFN.df)
+# write.table(balanced_FPFN.df, quote=F, row=F, sep=',', file="filtered_OR_ORBS_data_BALANCED_FP-FN.csv")
+table(LingCaught=balanced_FPFN.df[[colresponse]]>0, KeepTrip=balanced_FPFN.df$prob>=best.thresh)
+# look at the spatial and temporal distribution of samples
+with(balanced_FPFN.df, table(Year,Port))
+#print("Filtered data set saved as 'filtered_OR_ORBS_data_BALANCED_FP-FN.csv'")
+# DROP ONLY TRUE NEGATIVES
+# keep all trips with prob >= best.thresh ***OR*** with positive Lingcod catch (correct habitat, by def'n)
+# write.table(reccpuewa_dataforEM, quote=F, row=F, sep=',', file="filtered_OR_ORBS_data_DROP_ONLY_TRUE_NEGS.csv")
+table(LingCaught=reccpuewa_dataforEM[[colresponse]]>0, KeepTrip=reccpuewa_dataforEM$prob>=best.thresh)
+# look at the spatial and temporal distribution of samples
+with(reccpuewa_dataforEM, table(Year,Port))
+
+
+#' ##### Data preparation, filtering, and sample sizes
+#'
+#' Information on retained `r utils_name()` from dockside interviews
+#' were available from \gls{wdfw} between
+#' `r knitr::combine_words(range(data_index_cpue[data_index_cpue[["index"]] == get_fleet("WA", col = "num"), "year"]))`.
+#' Recent data also included information on discarded fish,
+#' but this information was not used for this analysis because
+#' (1) it was not available for the entire time series and
+#' (2) the composition data that are associated with this index only include retained fish.
+#' Information from dockside interviews are thought to be more reliable than
+#' information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
+#' data were not explored for with respect to Washington recreational indices.
+#'
+#' The dockside data were filtered prior to being fit to models to
+#' identify the best subset of the available data that are likely to be
+#' consistent over the time series and provide a reliable index of abundance
+#' once standardized.
+#' Stephens-MacCall [-@Stephens2004] filtering approach was explored to
+#' predict the probability of catching `r utils_name("common")` based on
+#' the species composition of the sampler-observed catch in a given trip.
+#' Prior to applying the Stephens-MacCall filter, we identified potentially
+#' informative predictor species, i.e., species with sufficient sample sizes and
+#' temporal coverage (at least `r filter_SM_cutoff` \% of all trips)
+#' to inform the binomial \gls{glm} used in the Stephens-MacCall approach.
+#' Thus, the remaining species all co-occurred with
+#' `r utils_name("common")` in at least one trip
+#' and were retained for the Stephens-MacCall logistic regression.
+#' Estimated coefficients from the Stephens-MacCall analysis are
+#' positive for species that are likely to co-occur with the target species and
+#' negative for species that are likely to not co-occur with the target species
+#' (Figure \@ref(fig:reccpuewa-SMfilter)).
+#' **to do - update this list based on the results.**
+#' The top five species with high probability of
+#' co-occurrence with `r spp` include xxx, all of which are
+#' associated with rocky reef and kelp habitats. The five species with the lowest
+#' probability of co-occurrence were xxx.
+#'
+
+#+ reccpuewa-mle
+reccpuewa_dataforEM$Year <- factor(reccpuewa_dataforEM$Year)
+reccpuewa_dataforEM$Month <- factor(reccpuewa_dataforEM$Month)
+reccpuewa_dataforEM$BoatType <- factor(reccpuewa_dataforEM$BoatType)
+reccpuewa_dataforEM$TripType <- factor(reccpuewa_dataforEM$TripType)
+reccpuewa_dataforEM$Area <- factor(reccpuewa_dataforEM$Area)
+reccpuewa_dataforEM[["tgt.sp.pa"]] <- as.numeric(reccpuewa_dataforEM[[colresponse]] > 0)
+reccpuewa_dataforEM[["cpue"]] <- reccpuewa_dataforEM[["CPUE_landed"]]
+#
+# drop records with catch rates above the 99.9 percentile
+# ADW - changed this to 97.5 percentile after the best positive model below indicated 
+# significant outliers
+reccpuewa_dataforEM <- subset(
+  reccpuewa_dataforEM,
+  reccpuewa_dataforEM[[colresponse]] / reccpuewa_dataforEM[["Anglers"]] <=
+  quantile(reccpuewa_dataforEM[[colresponse]] / reccpuewa_dataforEM[["Anglers"]], probs = filter_uppercpuequantile)
+)
+reccpuewa_dataforEM <- droplevels(reccpuewa_dataforEM)
+
+#+ reccpuewa-models, opts.label = 'execute'
+mod_b <- glm(tgt.sp.pa ~ Year + BoatType + Area + Month, family=binomial,data=reccpuewa_dataforEM)
+mod_l_lognormal <- glm(log(cpue) ~ Year + BoatType + Area + Month, data=reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ])
+mod_l <- glm(cpue ~ Year + BoatType + Area + Month, data=reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ], family = Gamma(link="log"))
+# summary(mod_b)
+# summary(mod_l)
+# anova(mod_b, test="Chi")
+# anova(mod_l, test="Chi")
+best_bin.glm_STAN <- rstanarm::stan_glm(
+  formula = tgt.sp.pa ~ Year + BoatType + Area + Month,
+  family = binomial, data = reccpuewa_dataforEM,
+  prior = rstanarm::normal(),
+  iter = 10000, cores = 3
+)
+best_pos.glm_STAN <- rstanarm::stan_glm(
+  formula = cpue ~ Year + BoatType + Area + Month,
+  family = Gamma(link = "log"), data = reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ],
+  prior = rstanarm::normal(location = 0, scale = 10),
+  prior_intercept = rstanarm::normal(location = 0, scale = 10),
+  iter = 10000, cores = 3
+)
+lognormal_pos.glm_STAN <- rstanarm::stan_glm(
+  formula = log(cpue) ~ Year + BoatType + Area + Month,
+  family = gaussian, data = reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ],
+  prior = rstanarm::normal(location = 0, scale = 10),
+  prior_intercept = rstanarm::normal(location = 0, scale = 10),
+  iter = 10000, cores = 3
+)
+save(
+  mod_b, mod_l, mod_l_lognormal,
+  # lognormal_pos.glm_STAN,
+  best_bin.glm_STAN, best_pos.glm_STAN,
+  file = file_reccpuewaresults
+)
+
+#+ reccpuewa-stanresults, opts.label = 'assessment'
+# Read in the results if run_data == FALSE
+load(file_reccpuewaresults)
+
+#+ reccpuewa-index
+pred_bin<- exp(coef_year(mod_b))/(1+exp(coef_year(mod_b)))
+var_pos <- diag(vcov(mod_l))[1:length(pred_bin)]
+pred_pos <- exp(coef_year(mod_l) + (var_pos / 2))
+index_mle <- pred_bin * pred_pos
+combine <- (
+  exp(coef_year(best_bin.glm_STAN)) /
+  (1 + exp(coef_year(best_bin.glm_STAN)))
+) * exp(coef_year(best_pos.glm_STAN))
+index_MCMC <- cbind.data.frame(
+  year = as.numeric(names(combine)),
+  obs = apply(combine, 2, median),
+  # obs = apply(combine,2,mean) + (apply(combine,2,var)/2),
+  se_log = apply(log(combine),2,sd),
+  seas = 7,
+  index = get_fleet(value = "WA", area = "north", col = "num"),
+  area = "north",
+  HPD_lower = apply(combine,2,quantile, probs=c(0.025)),
+  HPD_upper = apply(combine,2,quantile, probs=c(0.975))
+)
+utils::write.csv(index_MCMC,
+  row.names = FALSE,
+  file = file.path("..", "data-raw", "reccpuewa.csv")
+)
+
+#+ recwacpue-readfigures, results="asis", echo = FALSE
+sa4ss::read_child(file_reccpuewafigures)
