@@ -582,7 +582,7 @@ between adjacent years with data
 Thus, the reconstruction ramped up from zero starting in
 `r catch_sette1928[["Year"]][1]`
 to
-`r catch_sette1928 %>% dplyr::filter(mt > 0) %>% dplyr::pull(mt) %>% dplyr::first()`
+`r sprintf("%.2f", catch_sette1928 %>% dplyr::filter(mt > 0) %>% dplyr::pull(mt) %>% dplyr::first())`
 mt in
 `r catch_sette1928 %>% dplyr::filter(mt > 0) %>% dplyr::pull(Year) %>% dplyr::first()`
 and all subsequent missing years of data were filled in based on
@@ -993,9 +993,6 @@ bio_rec_recfin_meanlength <- bio_rec_recfin %>%
     .groups = "keep"
   )
 ```
-
-
-
 
 ```{r catch-rec-WA}
 catch_rec_WA <- suppressWarnings(suppressMessages(
