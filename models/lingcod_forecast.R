@@ -3,7 +3,12 @@
 # loop over areas to modify filenames and starter file
 for (area in c("n", "s")){
   olddir <- get_dir_ling(area = area, num = 8, sens = 1)
-  newdir <- get_dir_ling(area = area, num = 8, sens = 2)
+  if (area == "n") {
+    newdir <- get_dir_ling(area = area, num = 8, sens = 3)
+  }
+  if (area == "s") {
+    newdir <- get_dir_ling(area = area, num = 8, sens = 2)
+  }
   
   r4ss::copy_SS_inputs(
     dir.old = olddir,
@@ -12,7 +17,7 @@ for (area in c("n", "s")){
     copy_par = FALSE,
     copy_exe = TRUE,
     dir.exe = get_dir_exe(),
-    overwrite = TRUE,
+    overwrite = FALSE,
     verbose = TRUE
   )
 

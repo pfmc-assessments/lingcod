@@ -3,11 +3,19 @@
 
 # create new directories with input files
 for (area in c("n", "s")){
-#for (area in c("s")){
   # newdir <- get_dir_ling(area = area, num = 4, sens = 2) # first model with complete data
   # newdir <- get_dir_ling(area = area, num = 4, sens = 3) # making marginal ages ghost flts #55 
-  #newdir <- get_dir_ling(area = area, num = 4, sens = 4) # unexpanded data
-  newdir <- get_dir_ling(area = area, num = 4, sens = 7) # unexpanded data + WA rec CPUE update
+  # newdir <- get_dir_ling(area = area, num = 4, sens = 4) # unexpanded data
+  # sensitivities 5 and 6 had filtered comp data--a route that we rejected
+
+  if (area == "n") {
+    # newdir <- get_dir_ling(area = area, num = 4, sens = 7) # unexpanded data + WA rec CPUE update
+    newdir <- get_dir_ling(area = area, num = 4, sens = 8) # remove recORCPFV
+  }
+  if (area == "s") {
+    newdir <- get_dir_ling(area = area, num = 4, sens = 4) 
+  }
+  
   r4ss::copy_SS_inputs(dir.old = get_dir_ling(area = area, num = 2),
                        dir.new = newdir, 
                        use_ss_new = TRUE, # currently running old models

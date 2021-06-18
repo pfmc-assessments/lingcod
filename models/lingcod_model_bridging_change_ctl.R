@@ -4,9 +4,21 @@ verbose <- TRUE
 
 # create new directories with input files
 for (area in c("n", "s")) {
-#for (area in c("n")){
-  olddir <- get_dir_ling(area = area, num = 4, sens = 7) # unexpanded comp data + WA rec CPUE
-  newdir <- get_dir_ling(area = area, num = 8)
+
+  if(area == "n") {
+    # unexpanded comp data
+    # + WA rec CPUE
+    # + remove extra Rec_OR index
+    olddir <- get_dir_ling(area = area, num = 4, sens = 8) 
+    newdir <- get_dir_ling(area = area, num = 8, sens = 3)
+  }
+  if(area == "s") {
+    # unexpanded comp data
+    # + WA rec CPUE
+    # + remove extra Rec_OR index
+    olddir <- get_dir_ling(area = area, num = 4, sens = 4) 
+    newdir <- get_dir_ling(area = area, num = 8, sens = 2)
+  }
   
   r4ss::copy_SS_inputs(
     dir.old = olddir,
@@ -18,7 +30,7 @@ for (area in c("n", "s")) {
     overwrite = TRUE,
     verbose = TRUE
   )
-
+  
   # read all input files
   inputs <- get_inputs_ling(id = get_id_ling(newdir))
 
