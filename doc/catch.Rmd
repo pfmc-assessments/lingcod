@@ -236,19 +236,26 @@ catch_comm_OR <- readxl::read_excel(
   data.frame
 catch_comm_OR <- PacFIN.Utilities::getGearGroup(catch_comm_OR)
 catch_comm_OR[, "fleet"] <- use_fleetabb(catch_comm_OR[["geargroup"]])
+catch_comm_OR_summary <- catch_comm_OR %>%
+  dplyr::group_by(Year) %>%
+  dplyr::summarize(sum = sum(mt), .groups = "keep") %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(mean = mean(sum)) %>%
+  dplyr::slice_max(order_by = sum, n = 1)
 ```
 ```{asis, catch-comm-OR-reconstruction, opts.label = 'north'}
 #### Oregon commercial reconstruction
 
-A reconstruction of Oregon commercial landings was provided by the
-Oregon Department of Fish and Wildlife for
-`r min(catch_comm_OR[["Year"]]) `
-to
-`r paste0(max(catch_comm_OR[["Year"]]), ".") `
-Some of these years overlapped information available in PacFIN and
-were used instead of PacFIN because it is thought to be more reliable.
-
-**todo: fill in reconstruction text by aliwhitman**
+In Oregon, historical commercial landings from
+`r min(catch_comm_OR[["Year"]])` to
+`r max(catch_comm_OR[["Year"]])`
+were provided by \gls{odfw} [@karnowski2014].
+Historical landings began with exclusively longline landings,
+which was the primary gear type
+until the development of the trawl fishery in the 1940s.
+Historical landings exhibited an increasing trend until peaking at
+`r sprintf("%.0f mt in %.0f", catch_comm_OR_summary[["sum"]], catch_comm_OR_summary[["Year"]])`
+and averaged `r sprintf("%.1f mt", catch_comm_OR_summary[["mean"]])` annually.
 ```
 
 
