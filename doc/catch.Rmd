@@ -1020,7 +1020,9 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
   dplyr::filter(!is.na(Year)) %>%
   dplyr::group_by(Year) %>%
   dplyr::summarize(.groups = "keep",
-    num = sum(LINGCOD +ifelse(is.na(RELEASED), 0, RELEASED))
+    num = sum(LINGCOD)
+    # Below if using total discard + retained
+    # num = sum(LINGCOD +ifelse(is.na(RELEASED), 0, RELEASED))
   ) %>%
   dplyr::ungroup() %>%
   dplyr::mutate(interpolate = 0) %>%
@@ -1081,9 +1083,9 @@ catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
   ) %>%
     dplyr::rename(Year = YEAR) %>%
     dplyr::group_by(Year) %>%
-    dplyr::mutate(mt = sum(`TOTAL MORTALITY_MT`)) %>%
-    dplyr::select(!dplyr::matches("RET|REL")) %>%
-    tidyr::spread(key = MODE, value = `TOTAL MORTALITY_MT`),
+    dplyr::mutate(mt = sum(RETAINED_MT)) %>%
+    dplyr::select(!dplyr::matches("MORTALITY_MT|REL")) %>%
+    tidyr::spread(key = MODE, value = RETAINED_MT),
   # 2017 dat file from Northern model
   last_ssdat[[1]][["catch"]] %>%
     dplyr::filter(
@@ -1274,7 +1276,7 @@ catch_rec_CA <- catch_rec_1980 %>%
     dplyr::filter(state == "CA") %>%
     dplyr::group_by(Year, state) %>%
     dplyr::summarize(
-      mt = sum(WGT_AB1, na.rm = TRUE) / 1000,
+      mt = sum(ESTWGT, na.rm = TRUE) / 1000,
       .groups = "keep"
     ) %>%
     dplyr::ungroup() %>%
@@ -1308,7 +1310,7 @@ catch_rec_CA <- catch_rec_1980 %>%
     x = .,
     y = catch_rec_2000 %>%
     dplyr::group_by(area, state, Year, source) %>%
-    dplyr::summarize(mt = sum(TOTAL_MORTALITY_MT), .groups = "keep") %>%
+    dplyr::summarize(mt = sum(RETAINED_MT), .groups = "keep") %>%
     dplyr::filter(state == "CA") %>%
     dplyr::ungroup()
   ) %>%
