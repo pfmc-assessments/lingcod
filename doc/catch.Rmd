@@ -17,7 +17,6 @@
 # from early years to the north model
 # 3. find if I need these packages
 #   library(viridis) I think I got around this with ggplot2
-# 4. get rid of grey background behind inline code because of backticks
 # 5. find a way to wrap in line code at the same length as the text
 # 6. Provide more text on OR aliwhitman
 # 9. Add variable at top for scrollable tables to either be included or omitted
@@ -92,12 +91,16 @@ file_password <- file.path(
 ```
 
 ```{r catch-setupobjects}
+# Input required by user to change these things
 calcom_fleet_TW <- c("TWL", "NET")
 erddapmaxyrmeanbyarea <- 1933
+catch_comm_WA_yearstartpacfin <- 1995
+# Set up area structure
 areas <- get_groups(info_groups)
 ```
-
-```{r catch-pacfin, eval = TRUE, include = FALSE}
+```{r catch-readpacfin}
+# Automated but needed for other things later
+# Read in PacFIN file
 if (file.exists(file_password)) {
   password <- readLines(file_password)
   # Download the data
@@ -110,7 +113,7 @@ load(dir_recent(file.path("..", "data-raw"), pattern = grep_pacfin))
 catch.pacfin <- catch.pacfin %>%
   dplyr::rename(Year = LANDING_YEAR) %>%
   dplyr::filter(
-    !(AGENCY_CODE == "W" & Year %in% catch_comm_WA[["Year"]]),
+    !(AGENCY_CODE == "W" & Year %in% 0:(catch_comm_WA_yearstartpacfin - 1)),
     !(AGENCY_CODE == "O" & Year <
       readxl::read_excel(
         path = dir(
@@ -138,6 +141,7 @@ catch.pacfin <- catch.pacfin[-index, ]
 
 
 
+<!--- COMMERCIAL INFORMATION STARTS HERE -->
 ## Commercial landings
 
 ### Commercial fleet structure
@@ -155,7 +159,7 @@ previous assessment.
 
 ```{r catch-comm-WA}
 catch_comm_WA <- utils::read.csv(file = file.path("..", "data-raw", file_comm_wa)) %>%
-  dplyr::filter(Year < 1995) %>%
+  dplyr::filter(Year < catch_comm_WA_yearstartpacfin) %>%
   dplyr::mutate(
     LINE = ifelse(LINE == 0, NA_real_, LINE),
     LINE = stats::approx(Year, LINE, n = length(LINE))$y,
@@ -234,7 +238,7 @@ catch_comm_OR <- readxl::read_excel(
 catch_comm_OR <- PacFIN.Utilities::getGearGroup(catch_comm_OR)
 catch_comm_OR[, "fleet"] <- use_fleetabb(catch_comm_OR[["geargroup"]])
 ```
-```{asis, catch-comm-OR-text, opts.label = 'north'}
+```{asis, catch-comm-OR-reconstruction, opts.label = 'north'}
 #### Oregon commercial reconstruction
 
 A reconstruction of Oregon commercial landings was provided by the
