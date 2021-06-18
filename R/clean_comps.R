@@ -1,4 +1,4 @@
-#' change the column names in the data.frame of length or age comps
+                                        #' change the column names in the data.frame of length or age comps
 #'
 #' aligns the  names from the various software tools and combines
 #' data frames with sexed and unsexed comps into one
@@ -82,8 +82,26 @@ clean_comps <- function(comp, type = "len"){
   }
     
   ##########################################################################
-  # format used for recreational comps
+  # format used for recreational comps and unexpanded marginal age comps
   if("comps" %in% names(comp)){
+    # if processed like length comps with missing columns
+    if(type == "age" && !"ageErr" %in% names(comp$comps)) {
+      comp$comps <- data.frame(comp$comps[,1:6],
+                               data.frame(ageErr = 1,
+                                          agelow = -1,
+                                          agehigh = -1),
+                               comp$comps[,-(1:6)],
+                               check.names = FALSE)
+      if("comps_u" %in% names(comp)){
+        comp$comps_u <- data.frame(comp$comps_u[,1:6],
+                                   data.frame(ageErr = 1,
+                                              agelow = -1,
+                                              agehigh = -1),
+                                   comp$comps_u[,-(1:6)],
+                                   check.names = FALSE)
+      }
+    }
+
     newcomp <- comp$comps
     # add zeros to main comps (needed for lenCompS_CA_debHist)
     if ("U-10" %in% names(newcomp)) {
@@ -103,6 +121,7 @@ clean_comps <- function(comp, type = "len"){
       names(newcomp)[-(1:6)] <- len_bin_names
     }
     if (type == "age") {
+      # these comps have all columns already
       newcomp <- newcomp %>%
         dplyr::rename(ageerr = "ageErr",
                       lbin_lo = "agelow",

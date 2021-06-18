@@ -45,6 +45,18 @@ utils_knit_opts(type = "data-raw")
 #    explore state-specific catches for PacFIN.Utilities::getExpansion_2
 # 2. Consider different treatment of sex ratios
 
+#' ### Commercial composition data
+#' Length and age distributions from west coast groundfish commercial fisheries
+#' are typically expanded to account for variability in the number of fish sampled
+#' per trip relative to the total catch. This allows greater weight given to samples
+#' from a very large trip compared to one with a small catch. However,
+#' the commercial data for `r Spp` as representedi in the PacFIN database,
+#' have a large fraction of trips without trip weights. This leads to
+#' large variability in the expanded sample sizes among trips and implausible amounts
+#' of variability in the resulting composition data among length bins within a given
+#' fleet and year. Unexpanded data did not show the variability, so the final models
+#' used only unexpanded composition data for the commercial fisheries.
+
 
 #+ setup_filepaths
 # patterns for dir("data-raw", pattern = grep_...)
@@ -55,6 +67,8 @@ load(dir_recent("data-raw", pattern = grep_pacfin_bds))
 areas <- c("North", "South")
 north_CA_ports <- c("CRESCENT", "FIELDS LDG", "EUREKA")
 
+# run cleanPacFIN function filtering various things
+# and retaining only ages from fin rays
 bds.pacfin <- PacFIN.Utilities::cleanPacFIN(bds.pacfin,
                                             CLEAN = TRUE,
                                             verbose = TRUE,
@@ -183,6 +197,7 @@ table(bds.pacfin.n$SAMPLE_YEAR, bds.pacfin.n$SEX, bds.pacfin.n$fleet)
 table(bds.pacfin.s$SAMPLE_YEAR, bds.pacfin.s$SEX, bds.pacfin.s$fleet)
 
 # get length comps
+# first stage only
 comps.n <- PacFIN.Utilities::getComps(Pdata = bds.pacfin.n.exp, 
                                       Comps = "LEN")
 comps.s <- PacFIN.Utilities::getComps(Pdata = bds.pacfin.s.exp, 
@@ -294,3 +309,55 @@ ignore <- file.copy(
   dir(getwd(), pattern = "png", recursive = FALSE, full.names = TRUE),
   "figures"
 )
+
+#####################################################################
+#
+# get unexpanded comps as expansions had problems as discussed in
+# https://github.com/iantaylor-NOAA/Lingcod_2021/issues/69
+# so using nwfscSurvey functions to get length comps and marginal ages
+# NOTE: sample sizes calculated here are number of fish, not trips
+# so the expanded comps (named lenComp[area]_comm instead of lenComp[area]_[gear])
+# are still needed for that calculation these things are combined in add_data()
+
+#' get unexpanded comps from PacFIN BDS data using nwfscSurvey function
+#' thanks to Chantel Wetzel
+get_unexpanded_comp <- function(bds, fleetnum, len = TRUE){
+  # get TW or FG code
+  label_twoletter <- get_fleet(value = fleetnum, col = "label_twoletter")
+  # select and filter bds data for this fleet
+  bds %>%
+    dplyr::select(Year = "fishyr",
+                  Length_cm = ifelse(len, "lengthcm", "Age"),
+                  Sex = "SEX",
+                  fleet) %>%
+    dplyr::filter(fleet == label_twoletter) %>%
+    nwfscSurvey::UnexpandedLFs.fn(
+                   datL = .,
+                   lgthBins = info_bins[[ifelse(len, "length", "age")]], ,
+                   sex = 3,
+                   partition = 2,
+                   fleet = fleetnum,
+                   month = 7)
+}
+
+# run function above to get unexpanded comps
+lenCompN_TW <- get_unexpanded_comp(bds = bds.pacfin.n, fleetnum = 1)
+lenCompS_TW <- get_unexpanded_comp(bds = bds.pacfin.s, fleetnum = 1)
+lenCompN_FG <- get_unexpanded_comp(bds = bds.pacfin.n, fleetnum = 2)
+lenCompS_FG <- get_unexpanded_comp(bds = bds.pacfin.s, fleetnum = 2)
+
+ageCompN_TW <- get_unexpanded_comp(bds = bds.pacfin.n, fleetnum = 1, len = FALSE)
+ageCompS_TW <- get_unexpanded_comp(bds = bds.pacfin.s, fleetnum = 1, len = FALSE)
+ageCompN_FG <- get_unexpanded_comp(bds = bds.pacfin.n, fleetnum = 2, len = FALSE)
+ageCompS_FG <- get_unexpanded_comp(bds = bds.pacfin.s, fleetnum = 2, len = FALSE)
+
+# save .rda files for use in the package
+usethis::use_data(lenCompN_TW, overwrite = TRUE)
+usethis::use_data(lenCompS_TW, overwrite = TRUE)
+usethis::use_data(lenCompN_FG, overwrite = TRUE)
+usethis::use_data(lenCompS_FG, overwrite = TRUE)
+
+usethis::use_data(ageCompN_TW, overwrite = TRUE)
+usethis::use_data(ageCompS_TW, overwrite = TRUE)
+usethis::use_data(ageCompN_FG, overwrite = TRUE)
+usethis::use_data(ageCompS_FG, overwrite = TRUE)

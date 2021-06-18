@@ -316,22 +316,31 @@ add_data <- function(dat,
     for (f in fleets) {
       fleet <- get_fleet(f, col = "fleet")
       label_short <- get_fleet(f, col = "label_short")
+      label_twoletter <- get_fleet(value = f, col = "label_twoletter")
       state <- substring(label_short, first = nchar("rec. ") + 1) # WA, OR, or CA
       newvals <- NULL
 
-      if (0 %in% part | 2 %in% part) {
-        # PacFIN BDS length comps
-        if (label_short %in% c("comm. trawl", "comm. fixed")) {
-          newvals <- paste0("lenComp", toupper(area), "_comm") %>%
+      if (label_short %in% c("comm. trawl", "comm. fixed")) {
+        if (0 %in% part | 2 %in% part) {
+          # unexpanded PacFIN BDS length comps
+          newvals <- paste0("lenComp", toupper(area), "_", label_twoletter) %>%
             {if(exists(.)) get(.) else NULL} %>% 
             clean_comps() %>%
             dplyr::filter(fleet == f)
+          # expanded PacFIN BDS length comps (needed for sample sizes)
+          newvals2 <- paste0("lenComp", toupper(area), "_comm") %>%
+            {if(exists(.)) get(.) else NULL} %>% 
+            clean_comps() %>%
+            dplyr::filter(fleet == f)
+          if (all(newvals$year == newvals2$year)) {
+            newvals$nsamp <- newvals2$nsamp
+          } else {
+            stop("error with mismatched years for fleet = ", f, "area = ", area)
+          }
         }
-      }
 
-      if (1 %in% part) {
-        # WCGOP discards
-        if (label_short %in% c("comm. trawl", "comm. fixed")) {
+        if (1 %in% part) {
+          # WCGOP discards
           newvals <- paste0("lenComp", toupper(area), "_comm_discards") %>%
             get() %>%
             dplyr::filter(fleet == f) %>%
@@ -464,13 +473,26 @@ add_data <- function(dat,
 
       if (label_short %in% c("comm. trawl", "comm. fixed")) {
         if ("agecomp" %in% dat_type) {
-          newvals <- paste0("ageComp", toupper(area), "_comm") %>%
+          # unexpanded PacFIN BDS age comps
+          newvals <- paste0("ageComp", toupper(area), "_", label_twoletter) %>%
+            {if(exists(.)) get(.) else NULL} %>% 
+            clean_comps(type = "age") %>%
+            dplyr::filter(fleet == f)
+          # expanded PacFIN BDS length comps (needed for sample sizes)
+          newvals2 <- paste0("ageComp", toupper(area), "_comm") %>%
             get() %>% 
-            clean_comps() %>%
+            clean_comps(type = "age") %>%
             dplyr::filter(fleet == f)
           # negative fleet to make marginal as ghost observations by default
           newvals$fleet <- -1 * abs(newvals$fleet)
+
+          if (all(newvals$year == newvals2$year)) {
+            newvals$nsamp <- newvals2$nsamp
+          } else {
+            stop("error with mismatched years for fleet = ", f, "area = ", area)
+          }
         }
+
         if ("CAAL" %in% dat_type) {
           newvals <- paste0("ageCAAL_", toupper(area), "_", label_twoletter) %>%
             get() %>% 
