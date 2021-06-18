@@ -140,13 +140,21 @@ add_data <- function(dat,
         rownames(newvals) <- paste0("#_", newvals$source, "_", 1:nrow(newvals))
       }
 
-      # turn off likelihood for CRFSPR index (issue #62)
       if (!is.null(newvals)) {
+        # turn off (via negative year) the CRFSPR index (issue #62)
         if (area == "s" && any(grepl("CRFSPR", rownames(newvals)))) {
           newvals$year[grep("CRFSPR", rownames(newvals))] <-
             -1 * newvals$year[grep("CRFSPR", rownames(newvals))]
           if (verbose) {
             message("set CRFSPR index to have negative year")
+          }
+        }
+        # turn off (via negative year) the recORCPFV index
+        if (any(grepl("recORCPFV", rownames(newvals)))) {
+          newvals$year[grep("recORCPFV", rownames(newvals))] <-
+            -1 * newvals$year[grep("recORCPFV", rownames(newvals))]
+          if (verbose) {
+            message("set recORCPFV index to have negative year")
           }
         }
       
