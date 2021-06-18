@@ -1,0 +1,23 @@
+#V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Fri Jun 18 06:24:11 2021
+
+Forecast=0 or -1, so rest of forecast file will not be read and can be omitted;
+A one year forecast using recent F will be done automatically
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 1 9 2011 -10 10 0.120167 11.4487
+Final gradient: 1.36035 is larger than final_conv: 0.0001
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2011 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2012 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2013 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2014 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2015 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2016 -10 10 0.120167 11.4487
+ Main recdev biasadj is >2 times ratio of rmse to sigmaR
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2011 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2012 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2013 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2014 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2015 -10 10 0.120167 11.4487
+ adjusted selparm out of base parm bounds (Phase, Iter, Parm#, yr, min, max, base, value) 1 2 9 2016 -10 10 0.120167 11.4487
+ N warnings: 16

@@ -6,7 +6,8 @@ for (area in c("n", "s")){
 #for (area in c("s")){
   # newdir <- get_dir_ling(area = area, num = 4, sens = 2) # first model with complete data
   # newdir <- get_dir_ling(area = area, num = 4, sens = 3) # making marginal ages ghost flts #55 
-  newdir <- get_dir_ling(area = area, num = 4, sens = 4) # unexpanded data
+  #newdir <- get_dir_ling(area = area, num = 4, sens = 4) # unexpanded data
+  newdir <- get_dir_ling(area = area, num = 4, sens = 7) # unexpanded data + WA rec CPUE update
   r4ss::copy_SS_inputs(dir.old = get_dir_ling(area = area, num = 2),
                        dir.new = newdir, 
                        use_ss_new = TRUE, # currently running old models
@@ -79,7 +80,9 @@ for (area in c("n", "s")){
 
 
   inputs$dat$Comments <- c(inputs$dat$Comments,
-                           "#C 2021 Lingcod data with new data added")
+                           "#C 2021 Lingcod data with new data added",
+                           paste0("#C file written to ", newdir),
+                           paste0("#C at ", Sys.time()))
 
   # write new input files
   write_inputs_ling(inputs,
@@ -91,14 +94,15 @@ for (area in c("n", "s")){
 
 if (FALSE) {
   # run models
-  r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 4, sens = 2),
-                                 get_dir_ling(area = "s", num = 4, sens = 2)),
-                      extras = c("-nohess -stopph 0"),
+  r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 4, sens = 7),
+                                 get_dir_ling(area = "s", num = 4, sens = 7)),
+                      extras = c("-nohess -stopph 0"), # run without estimation
                       skipfinished = FALSE)
 
   # look at model output
-  get_mod(area = "n", num = 4, sens = 2, plot = FALSE)
-  get_mod(area = "s", num = 4, sens = 2, plot = FALSE)
-  get_mod(area = "n", num = 4, sens = 2, plot = TRUE)
-  get_mod(area = "s", num = 4, sens = 2, plot = TRUE)
+  get_mod(area = "n", num = 4, sens = 7, plot = FALSE)
+  get_mod(area = "s", num = 4, sens = 7, plot = FALSE)
+  get_mod(area = "n", num = 4, sens = 4, plot = c(11,24))
+  get_mod(area = "n", num = 4, sens = 7, plot = c(11,24))
+  get_mod(area = "s", num = 4, sens = 7, plot = c(11,24))
 }

@@ -50,6 +50,8 @@ name | notes | issue | source_model | script
 2021.s.004.005_fix1_filter_sparse | filter small samples with expanded data | #69 | 2021.n.004.003 | lingcod_model_filter_sparse_comps.R
 2021.n.004.006_fix2_filter_sparse | filter small samples with unexpanded data | #69 | 2021.n.004.004 | lingcod_model_filter_sparse_comps.R
 2021.s.004.006_fix2_filter_sparse | filter small samples with unexpanded data | #69 | 2021.n.004.004 | lingcod_model_filter_sparse_comps.R
+2021.n.004.007_revised_WA_rec_CPUE | include revised WA rec CPUE index along with unexpanded commercial comps and other fixes | #52 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
+2021.s.004.007_revised_WA_rec_CPUE | include revised WA rec CPUE index along with unexpanded commercial comps and other fixes | #52 | 2021.s.002.001_new_fleets | lingcod_model_bridging_newdata.R
 2021.n.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.n.004.002_new_data | model_bridging_change_ctl.R
 2021.s.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.s.004.002_new_data | model_bridging_change_ctl.R
 2021.n.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | 2021.n.004.002_new_data | model_bridging_change_ctl.R
