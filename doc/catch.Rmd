@@ -1109,7 +1109,119 @@ but data on catches prior to
 are not available.
 ODFW provided the time series of catches that includes information on
 shoreside activities, estuary boats, private ocean boats, and charter ocean boats.
-**todo: get a written description of methods from aliwhitman**
+
+##### Historical ocean boat landings (1974 – 2000)
+
+Recently, \gls{odfw} undertook an effort to comprehensively reconstruct
+all marine fish recreational ocean boat landings prior to 2001
+(pers. comm. A. Whitman, \gls{odfw}).
+Reconstructed catch estimates from \gls{orbs} improve upon estimates
+from the federal \gls{mrfss},
+which have known biases related to effort estimation and sampling
+[@vanvoorhees2000]
+that resulted in catch estimates considered implausible by \gls{odfw}.
+However, the \gls{orbs} sample estimates are known to lack the
+comprehensive spatial and temporal coverage of \gls{mrfss}.
+Addressing this coverage issue is a major part of this reconstruction.
+In general, the base data and methodology for these reconstructed
+estimates are consistent with recent assessments for other nearshore species
+[@dick2016china; @dick2018bluedeacon; @haltuch2019lingcod; @cope2019cabezon].
+
+Prior to 2001, \gls{orbs} monitored marine species in
+both multi-species categories, such as rockfish, flatfish, and
+other miscellaneous fishes, and
+as individual species, such as lingcod or halibut.
+For this comprehensive reconstruction,
+four species categories were selected to reconstruct,
+including rockfish, lingcod, flatfish, and miscellaneous,
+which constitute the bulk of the managed marine fish species.
+Lingcod have been a single species category throughout this time period.
+
+Category-level estimates were expanded to account for gaps in sampling coverage
+in two separate pathways.
+First, estimates from five major ports were expanded to include unsampled
+winter months in years lacking complete coverage.
+Expansions were based on available year-round sampling data and
+excluded years where regulations may have impacted the temporal distribution of catch.
+Second, all other minor port estimates were expanded to include
+seasonal estimates in years lacking any sampling based on
+the amount of minor port catch as compared to all major port estimates.
+A subset of landings were sampled by \gls{orbs}
+for species compositions within these categories.
+Once category-level landings were comprehensive in space and time,
+species compositions were applied for the three multi-species categories,
+including rockfish, flatfish, and miscellaneous fish.
+Borrowing rules for species compositions were specific to the category and
+determined based on a series of regression tree analyses
+that detailed the importance of each domain
+(year, month, port, and fishing mode) to variability in compositions.
+
+Ocean boat estimates from 1979 – 2000 in numbers of fish of
+`r utils_name("common")` from the above described methods were
+converted to biomass using biological samples from \gls{mrfss}
+(pers. comm. A. Whitman, \gls{odfw}).
+\Gls{mrfss} biological data are available from
+1980 – 1989 and 1993 – 2000.
+An annual average weight was applied to the total annual number of fish
+to obtain an annual landings estimate.
+Several years missing biological data (1979, 1990 – 1992)
+were filled in using neighboring years or interpolation.
+Landings from 1974 – 1978 were estimated using similar
+methods to the above reconstruction,
+but are not currently part of this reconstructed time period,
+and were not updated from the 2017 assessment [@haltuch2019lingcod].
+Updated landings only include those from 1979 – 2000.
+These landings in biomass were provided by \gls{odfw}
+and do not include an estimate of discards.
+Landings during this time period fluctuate,
+with a peak of 237.2 mt in 1993,
+and fluctuate between approximately 50 and 200 mt
+following that peak (1979 – 2000).
+
+##### Modern ocean boat landings (2001 – 2020)
+
+Recreational landings for ocean boat modes from 2001 – 2020
+are available from \gls{recfin} (extracted on 03/19/2021).
+Both retained and released estimates of mortality are included,
+though retained mortality contributes the vast majority to total mortality.
+Release mortality is estimated from angler-reported release rates and
+the application of discard mortality rates from the PFMC.
+From 2001 – 2020, landings averaged 139.4 mt,
+ranging from 60.1 mt in 2001 to 229.1 mt in 2015.
+In 2020, Oregon ocean boat landings were 172.5 mt.
+
+##### Shore and estuary landings (1980 – 2020)
+
+\Gls{odfw} provided reconstructed estimates of shore and estuary
+landings for copper rockfish from 1980 – 2020,
+using methodology similar to recent assessments
+[@berger2015kelpgreenling; @dick2018bluedeacon; @cope2019cabezon].
+Data sources include \gls{mrfss} and \gls{sebs}.
+Numbers of fish were provided by \gls{mrfss}
+from 1980 – 1989 and 1993 – June 2003, and
+by \gls{sebs} from July 2003 – June 2005.
+An annual mode-specific average weight was applied to numbers of
+`r utils_name("common")` from 1980 – 1989 and 1993 – 2005.
+Separate weights were calculated for shore and estuary boat modes and
+excluded extreme outliers and imputed values.
+This reconstruction also applied two scaling factors to
+remove bias towards freshwater sampling and
+underestimation of estuary boats [@dick2018bluedeacon].
+To estimate `r utils_name("common")` landings from July – December 2005,
+an expansion was developed using the three year average of the ratio between
+the first six months of the year and the total annual landings from
+\gls{mrfss} and \gls{sebs} landings from 2002 - 2004.
+Separate expansions were developed for shore mode and estuary boat modes.
+
+The \gls{odfw} does not currently sample shore and estuary boat fishing trips,
+so a 10 year average landing (1996 – 2005; 6.7 mt/year)
+was used to estimate shore and estuary boat landings during 2006 – 2020.
+Shore and estuary boat landings combined fluctuate but gradually increase
+until peaking in 1993 at 16.7 mt.
+Shore and estuary boat landings average 6.5 mt annually from 1980 – 2003.
+Shore and estuary landings were combined with the ocean boat landings
+for the total Oregon recreational landings (1974 – 2020).
+
 ```
 
 
