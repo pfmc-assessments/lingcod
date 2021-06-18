@@ -7,7 +7,8 @@
 run_investigatemodel(
   basemodelname,
   pars = system.file("extdata", "diagpars.csv", package = "lingcod"),
-  run = c("jitter", "profile", "retro")
+  run = c("jitter", "profile", "retro"),
+  njitter = 100
 )
 }
 \arguments{
@@ -19,10 +20,15 @@ area.}
 The file has a column for area, with values matching what you use in your
 model name for area, e.g., 2009.n.001.001_test, would be a northern model.
 and the remaining columns are parameter inputs for
-\link[nwfscDiag:get_settings_profile]{nwfscDiag::get_settings_profile}, which are grabbed with \link{do.call}.}
+\link[nwfscDiag:get_settings_profile]{nwfscDiag::get_settings_profile}, and the column names must match the
+formals exactly because they are used with \link{do.call}.
+You can pass any file you want, but the default is to use the one saved internal
+to this package.}
 
 \item{run}{A vector of options you want to run,
 where the default is to run them all.}
+
+\item{njitter}{An integer number of jitter runs you want to complete.}
 }
 \description{
 Run all model investigations for a base model

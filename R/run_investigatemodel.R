@@ -7,9 +7,13 @@
 #' The file has a column for area, with values matching what you use in your
 #' model name for area, e.g., 2009.n.001.001_test, would be a northern model.
 #' and the remaining columns are parameter inputs for
-#' [nwfscDiag::get_settings_profile], which are grabbed with [do.call].
+#' [nwfscDiag::get_settings_profile], and the column names must match the
+#' formals exactly because they are used with [do.call].
+#' You can pass any file you want, but the default is to use the one saved internal
+#' to this package.
 #' @param run A vector of options you want to run,
 #' where the default is to run them all.
+#' @param njitter An integer number of jitter runs you want to complete.
 #'
 #' @export
 #' @author Chantel R. Wetzel from the example in \pkg{nwfscDiags}.
@@ -29,7 +33,8 @@
 #' }
 run_investigatemodel <- function(basemodelname,
                                  pars = system.file("extdata", "diagpars.csv", package = "lingcod"),
-                                 run = c("jitter", "profile", "retro")
+                                 run = c("jitter", "profile", "retro"),
+                                 njitter = 100
 ) {
 #######################################################################################################
 # Define the parameters to profile and the parameter ranges:
@@ -62,15 +67,14 @@ run_investigatemodel <- function(basemodelname,
     model_settings <- nwfscDiag::get_settings(
       settings = list(
         base_name = iimname,
-        run = c("jitter", "profile", "retro"),
-        run = c("jitter", "profile", "retro"),
+        run = run,
         profile_details = do.call(nwfscDiag::get_settings_profile, iipars)
       )
     )
     # For testing purposes I was looking at smaller run times here
-    # model_settings[["Njitter"]] <- 2
+    model_settings[["Njitter"]] <- njitter
     # model_settings[["retro_yrs"]] <- c(-1, -2)
-    model_settings$extras <- "-nohess -maxI 1"
+    # model_settings$extras <- "-nohess -maxI 1"
 
     # to do - change the Windows64 to be workable on any machine
     check <- file.copy(
@@ -79,7 +83,8 @@ run_investigatemodel <- function(basemodelname,
       file.path("models", iimname, dir(system.file("bin", "Windows64", package = "lingcod"), pattern = "ss"))
     )
     stopifnot(check)
-    out[[iimname]] <- nwfscDiag::run_diagnostics(
+
+    nwfscDiag::run_diagnostics(
       mydir = normalizePath("models"),
       model_settings = model_settings
     )
