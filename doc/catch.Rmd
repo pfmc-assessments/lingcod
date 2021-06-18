@@ -1327,21 +1327,22 @@ catch_rec_CA <- catch_rec_1980 %>%
 
 ##### Marine Recreational Fisheries Statistics Survey (MRFSS)
 
-California recreational lingcod catches since
+California recreational `r utils_name("common")` catches since
 `r min(catch_rec_1980[["Year"]]) - 1`
-are available within the MRFSS database.
+are available within the \gls{mrfss} database
+(Figure \@ref(fig:catch-rec-CA-ts)).
 The first year of data are typically not used because of the lack
 of standardization within the sampling protocols which led to vastly
 different estimates of catches compared to later years. Thus,
 `r min(catch_rec_1980[["Year"]])`
-is used as the first year of MRFSS data.
+is used as the first year of \gls{mrfss} data.
 Data were provided by John Field for years prior to
 `r min(catch_rec_1980[["Year"]])`
 and these data have been unchanged since the
-2009 assessment of lingcod [@hamel2009].
+2009 assessment of `r utils_name("common")` [@hamel2009].
 
 For this assessment, we had to split the historical data provided by
-John Field and MRFSS to area. This was accomplished using data from
+John Field and \gls{mrfss} to area. This was accomplished using data from
 Albin et al. (1993) that includes county-specific estimates of landings.
 Area-specific landings were informative about the proportion
 of landings in Del Norte and Humboldt county
@@ -1350,34 +1351,31 @@ A catch-weighted mean proportion for the years
 `r knitr::combine_words(unique(data_albin$Year))`
 was used to split coast-wide recreational landings to area.
 
-MRFSS data are not available for
+\gls{mrfss} data are not available for
 `r knitr::combine_words(catch_rec_CA %>% dplyr::filter(source == "interpolate") %>% dplyr::pull(Year) %>% unique)`
 and thus these years were linearly interpolated from surrounding years.
 
 ##### California Recreational Fisheries Survey (CRFS)
 
-Sampling under CRFS started in January of
+Sampling under \gls{crfs} started in January of
 `r catch_rec_2000$Year %>% min`
-and is currently still being collected.
+and is still currently being collected.
 Information includes on port group that was used to partition landings
-to the north and south areas.
-Redwood was assigned to the northern model for all years since 2005,
+to the northern and southern areas.
+Redwood was assigned to the northern area for all years since 2005,
 even though Redwood in 2005 through 2007 also contained landings from
 Shelter Cove.
 This time series also includes landings from from Mexico and Canada
 that were excluded from this analysis.
 
-
-
-
 ### Fleet
 
 Recreational data were first compiled to the state level as a single fleet
 with all gear types. Then, data from northern California was added to the northern
-model as its own fleet rather than combining with Oregon recreational data
+model as its own fleet rather than being combined with Oregon recreational data
 because each fishery is subject to unique regulations that affect selectivity.
 The remaining data from California was used to model recreational fisheries
-in Southern California as a single fleet.
+in the southern area as a single fleet.
 
 
 ```{r catch-rec-final}
