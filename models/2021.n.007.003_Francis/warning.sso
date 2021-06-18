@@ -1,0 +1,10 @@
+#V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Wed Jun 16 06:09:28 2021
+
+Forecast=0 or -1, so rest of forecast file will not be read and can be omitted;
+A one year forecast using recent F will be done automatically
+Final gradient: 0.000586408 is larger than final_conv: 0.0001
+Number_of_active_parameters_on_or_near_bounds: 6
+ N warnings: 3

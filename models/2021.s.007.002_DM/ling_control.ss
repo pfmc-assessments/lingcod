@@ -245,21 +245,6 @@
  -5.00	  9	-999.0000	0	0	0	-3	0	0	0	0	0	0	0	#_SizeSel_P_6_10_CPFV_DebWV(10) 
 #_AgeSelex
 #_No age_selex_parm
-#_Dirichlet parameters
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_1 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_2 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_3 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_4 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_5 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_6 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_7 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_8 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_9 
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_10
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_11
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_12
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_13
--5	20	0.5	0	1.813	6	8	0	0	0	0	0	0	0	#_14
 # timevary selex parameters 
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE
  -1	  9	   6	0	0	0	 3	#_SizeSel_P_3_1_Comm_Trawl(1)_BLK3repl_1973   
@@ -335,8 +320,18 @@
 #_Cond -6 6 1 1 2 0.01 -4 0 0 0 0 0 0 0  #_placeholder if no parameters
 #
 # Input variance adjustments factors: 
-#_Factor Fleet Value
--9999 1 0 # terminator
+#_Factor	Fleet	Value
+    4	1	1	#_Variance_adjustment_list1 
+    4	2	1	#_Variance_adjustment_list2 
+    4	5	1	#_Variance_adjustment_list3 
+    4	6	1	#_Variance_adjustment_list4 
+    4	7	1	#_Variance_adjustment_list5 
+    4	8	1	#_Variance_adjustment_list6 
+    4	9	1	#_Variance_adjustment_list7 
+    5	6	1	#_Variance_adjustment_list8 
+    5	7	1	#_Variance_adjustment_list9 
+    5	9	1	#_Variance_adjustment_list10
+-9999	0	0	#_terminator                
 #
 1 #_maxlambdaphase
 1 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
