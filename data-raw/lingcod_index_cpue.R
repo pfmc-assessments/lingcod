@@ -17,6 +17,8 @@ file_index_wa <- "reccpuewa.csv"
 file_index_orbs <- "ORBSindex_ss.csv"
 # OR nearshore fixed gear index from Ali Whitman
 file_index_ornearshorelogbook <- "NSlogindex_ss.csv"
+# OR at-sea CPFV
+file_index_oratseaCPFV <- "Northern_Lingcod_ORAtSeaCPFV_Index.csv"
 # PacFIN trawl logbook CPUE from John Wallace
 file_index_pacfintrawllogbook <- "PacFIN_trawl_logbook_CPUE_index_ss.csv"
 # CA files from MM
@@ -36,6 +38,19 @@ index_recOR <- utils::read.csv(file.path("data-raw", file_index_orbs)) %>%
     year = "Year",
     obs = "Mean",
     se_log = "logSE"
+  ) %>%
+  dplyr::mutate(
+    seas = 7,
+    index = get_fleet(value = "OR", area = "north", col = "num"),
+    area = "north",
+  ) %>%
+  dplyr::select(year, seas, index, obs, se_log, area)
+#
+index_recORCPFV <- utils::read.csv(file.path("data-raw", file_index_oratseaCPFV)) %>%
+  dplyr::rename(
+    year = "Year",
+    obs = "Index",
+    se_log = "logSD"
   ) %>%
   dplyr::mutate(
     seas = 7,
@@ -145,6 +160,7 @@ index_CRFSPR <- dplyr::bind_rows(.id = "area",
 data_index_cpue <- dplyr::bind_rows(
   index_recWA = index_recWA,
   index_recOR = index_recOR,
+  index_recORCPFV = index_recORCPFV,
   index_CommFix = index_CommFix,
   index_CommTrawl = index_CommTrawl,
   index_onboardCPFV = index_onboardCPFV,
