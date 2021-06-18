@@ -14,11 +14,17 @@ do.call(
 ```
 
 ```{r, catch-figures, results = "asis"}
-apply(dplyr::bind_rows(mapply(
+# Arrange figures in order of the time they were modified
+figdataframe <- dplyr::bind_rows(mapply(
   FUN = utils::read.csv,
   file = dir(file.path("..","figures"), pattern = "^catch-.+\\.csv",full.names=TRUE),
   SIMPLIFY = FALSE
-)), 1, function(x) do.call(sa4ss::add_figure, args = as.list(x))
+))
+figdataframe[, "time"] <- file.info(figdataframe[["filein"]])[["mtime"]]
+apply(
+  figdataframe %>% dplyr::arrange(time) %>% dplyr::select(-time),
+  1,
+  function(x) do.call(sa4ss::add_figure, args = as.list(x))
 )
 ```
 
