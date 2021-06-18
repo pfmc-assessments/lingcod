@@ -70,7 +70,7 @@ run_investigatemodel <- function(basemodelname,
     # For testing purposes I was looking at smaller run times here
     # model_settings[["Njitter"]] <- 2
     # model_settings[["retro_yrs"]] <- c(-1, -2)
-    # model_settings$extras <- "-nohess -maxI 1"
+    model_settings$extras <- "-nohess -maxI 1"
 
     # to do - change the Windows64 to be workable on any machine
     check <- file.copy(
@@ -79,7 +79,10 @@ run_investigatemodel <- function(basemodelname,
       file.path("models", iimname, dir(system.file("bin", "Windows64", package = "lingcod"), pattern = "ss"))
     )
     stopifnot(check)
-    out[[iimname]] <- nwfscDiag::run_diagnostics(mydir = "models", model_settings = model_settings)
+    out[[iimname]] <- nwfscDiag::run_diagnostics(
+      mydir = normalizePath("models"),
+      model_settings = model_settings
+    )
   }
 
 }
