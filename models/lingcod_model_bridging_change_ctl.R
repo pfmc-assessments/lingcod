@@ -4,20 +4,22 @@ verbose <- TRUE
 
 # create new directories with input files
 for (area in c("n", "s")) {
+#for (area in c("n")) {
 
   if(area == "n") {
     # unexpanded comp data
-    # + WA rec CPUE
-    # + remove extra Rec_OR index
+    # + WA rec CPUE (num = 4, sens = 7)
+    # + remove extra Rec_OR index (num = 4, sens = 8)
     olddir <- get_dir_ling(area = area, num = 4, sens = 8) 
-    newdir <- get_dir_ling(area = area, num = 8, sens = 3)
+    # remove offset for male selectivity (num = 8, sens = 4)
+    newdir <- get_dir_ling(area = area, num = 8, sens = 4)
   }
   if(area == "s") {
-    # unexpanded comp data
-    # + WA rec CPUE
-    # + remove extra Rec_OR index
+    # unexpanded comp data (num = 4, sens = 4)
     olddir <- get_dir_ling(area = area, num = 4, sens = 4) 
-    newdir <- get_dir_ling(area = area, num = 8, sens = 2)
+    # add forecast (num = 8, sens = 2)
+    # remove offset for male selectivity (num = 8, sens = 4) # skipping sens = 3
+    newdir <- get_dir_ling(area = area, num = 8, sens = 4)
   }
   
   r4ss::copy_SS_inputs(
@@ -41,14 +43,22 @@ for (area in c("n", "s")) {
   #' as discussed in https://github.com/iantaylor-NOAA/Lingcod_2021/issues/40
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_p_1_Fem",
+                                 HI = 5,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 18),
                                  PR_SD = 0.438)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_p_1_Mal",
+                                 HI = 5,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 13),
                                  PR_SD = 0.438)
+
+  #' turn on estimation for female growth
+  newctl$MG_parms <- change_pars(newctl$MG_parms,
+                                 string = "L_at_Amax_Fem_GP",
+                                 PHASE = 7)
+
   
   #' Update maturity using new age-based values provided by Melissa Head.
   #' The age-based maturity was more similar between areas suggesting that
@@ -259,6 +269,13 @@ for (area in c("n", "s")) {
       LO = -10, HI = 10, INIT = 10, PHASE = -5, PRIOR = 0
     )
 
+  #' set male offset on retention to 0 (previously fixed)
+  newctl$size_selex_parms <-
+    change_pars(
+      pars = newctl$size_selex_parms, string = "SizeSel_PRet_4",
+      LO = -2, HI = 2, INIT = 0, PHASE = -5, PRIOR = 0
+    )
+  
   # discard mortality doesn't need any change from 2019 models
   # (currently fixed at 0.5 for trawl, 0.07 for fixed)
   # but change of lower bound from 0.001 avoids scientific notation in table

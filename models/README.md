@@ -66,4 +66,6 @@ name | notes | issue | source_model | script
 2021.s.008.001_selblocks | add new blocks for selectivity and retention | #58, #59, #61 | 2021.s.004.004 | lingcod_model_bridging_change_ctl.R
 2021.n.008.002_add_forecast | adding forecast to above models | #59 | 2021.n.008.001 | lingcod_forecast.R
 2021.s.008.002_add_forecast | adding forecast to above models | #59 | 2021.s.008.001 | lingcod_forecast.R
-2021.n.008.003_fix_error | fix ADMB error by removing extra index, also add forecast | #59 | 2021.n.004.008 | lingcod_forecast.R
+2021.n.008.003_fix_error | fix ADMB error by removing extra index, also add forecast | #59 | 2021.n.004.008 | lingcod_forecast.R, lingcod_model_bridging_change_ctl.R
+2021.n.008.004_Mbound_no_ret_male_offset | increase M upper bound to 5.0, remove offset for male selectivity | #58, #59 | 2021.n.004.008 | lingcod_model_bridging_change_ctl.R
+2021.s.008.004_Mbound | increase M upper bound to 5.0 | #59 | 2021.s.004.004 | lingcod_model_bridging_change_ctl.R
