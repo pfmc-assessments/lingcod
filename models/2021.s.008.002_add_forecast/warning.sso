@@ -1,0 +1,9 @@
+#V3.30.16.02;_2020_09_21;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.2
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Fri Jun 18 10:38:11 2021
+
+Final gradient: 1.36035 is larger than final_conv: 0.0001
+ Main recdev biasadj is >2 times ratio of rmse to sigmaR
+ Early recdev biasadj is >2 times ratio of rmse to sigmaR
+ N warnings: 3
