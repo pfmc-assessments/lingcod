@@ -62,3 +62,5 @@ name | notes | issue | source_model | script
 2021.s.007.002_DM | apply Dirichlet_Multinomial | #59 | 2021.s.007.001_get_tv_selex | model_bridging_change_ctl.R
 2021.n.007.003_Francis | apply Francis tuning | #59 | 2021.n.007.001_get_tv_selex | model_bridging_change_ctl.R
 2021.s.007.003_Francis | apply Francis tuning | #59 | 2021.s.007.001_get_tv_selex | model_bridging_change_ctl.R
+2021.n.008.001_selblocks | add new blocks for selectivity and retention | #58, #59, #61 | 2021.n.004.004 | model_bridging_change_ctl.R
+2021.s.008.001_selblocks | add new blocks for selectivity and retention | #58, #59, #61 | 2021.s.004.004 | model_bridging_change_ctl.R

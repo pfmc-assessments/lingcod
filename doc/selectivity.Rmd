@@ -1,0 +1,122 @@
+```{r selectivity-setupnotes, echo = FALSE, include = FALSE, eval = FALSE}
+# get the block_breaks vector from this file:
+knitr::purl("doc/selectivity.Rmd")
+source("selectivity.R")
+usethis::use_data(block_breaks, overwrite = TRUE)
+```
+
+## Selectivity, retention, and discard mortality
+Selectivity was modeled using the double-normal function of length
+(option 24 in Stock Synthesis) with three of the six possible parameters estimated 
+for each fleet.
+
+The estimated parameters controlled the length at peak selectivity, the slope of the 
+ascending limb and the slope of the descending limb (parameters 1, 3, and 4 in SS). 
+The parameter controlling the width of the top was fixed at a small value (-15)
+to make a smooth transition from ascending to descending with no flat top. 
+Parameters 5 and 6 which control additional scaling of initial and final values
+were not used (via the -999 code in SS).
+
+Retention was modeled for the commercial trawl and commercial fixed-gear fleets
+using a logistic function of length with 2 of the possible 4 parameters estimated.
+The two estimated parameters controlled the length at 50% retention and the 
+slope of the ascending curve. Asymptotic retention was fixed at 100% and no
+sex-specific differences in retention were estimated.
+
+Changes in selectivity and retention over time were modeled to account for 
+management changes and gear changes. For changes in selectivity, all three 
+estimated double-normal parameters were allowed to vary among time blocks 
+as any change in the peak parameter will impact the shape associated with the 
+other two. For changes in retention, the length at 50% retention was allowed 
+to vary over time, but the slope parameter was assumed to apply to all years
+after the management measures were imposed in 1998.
+
+Prior to 1998, all selected fish are assumed to be retained in keeping
+with comments from those familiar with the history of the commercial fishery 
+at the at the pre-assessment workshop and the Pikitch study in which 
+more than 99% of the observed Lingcod were retained 
+(J. Wallace, pers. comm, email on 19 Apr 2021)
+
+### Commercial trawl
+Time period of blocking on selectivity parameters were reduced from the
+the 2017 assessment, removing some blocks from the early years. The remaining
+points of change in selectivity were
+- 1993 (change in mesh size)
+- 1998 (trip limits and size limits) 
+- 2011 (implementation of the catch shares program)
+
+Additionally, there were retention changes modeled in the following years,
+retained from the 2017 assessment.
+- 1998 (implementation of groundfish regulations)
+- 2007 (groundfish regulations)
+- 2010 (pre-catch share behavior change and clear reduction in discard rate)
+- 2011 (implementation of the catch shares program)
+All blocks were applied to the length at 50% retention, but only the changes in
+1998 and 2011 were applied to the parameter controlling the slope of the
+retention function.
+
+```{r} 
+# create empty list
+block_breaks <- list()
+
+# first additions of blocks break points
+block_breaks[["Comm_Trawl_sel"]] <- c(1993, 1998, 2011)
+block_breaks[["Comm_Trawl_ret_infl"]] <- c(1998, 2007, 2010, 2011)
+block_breaks[["Comm_Trawl_ret_width"]] <- c(1998, 2011)
+```
+
+### Commercial fixed-gear
+The 2017 assessment had an additional block starting in 2002 and 2003 for 
+the south model to account for closed areas. However, the composition data
+don't show evidence of a change around that time.
+- 1998 (implementation of groundfish regulations) 
+- 2011 (implementation of the catch shares program)
+
+```{r} 
+# add block break points to list created above
+block_breaks[["Comm_Fix_ret_infl"]] <- c(1998, 2011)
+block_breaks[["Comm_Fix_ret_width"]] <- c(1998, 2011)
+```
+
+### recreational Washington (north model)
+- 1987 (management changes)
+- 1995 (management changes)
+- 1998 (first year of a series of management changes also made in 1999, 2000, 2001)
+- 2007 (management changes)
+- 2011 (management changes)
+- 2017 (22" minimum size requirement was lifted from July 2017 to current 
+for all catch areas but the change happened in the middle of the year)
+
+```{r} 
+# add block break points to list created above
+block_breaks[["Rec_WA_sel"]] <- c(1987, 1995, 1998, 2007, 2011, 2017)
+```
+
+### recreational Oregon
+- 1995 (the first year with a minimum size limit--22 inches)
+- 1998 (min size limit was increased to 24 inches)
+- 2007 (min size limit was reduced from 24 to 22 inches)
+
+Not accounted for is a max size limit in place in Oregon for one year only
+(2000) of 34 inches, as the absence of larger fish observed in a single year
+was assumed to have a negligible impact on the model results.
+
+```{r} 
+# add block break points to list created above
+block_breaks[["Rec_OR_sel"]] <- c(1995, 1998, 2007)
+```
+
+### recreational California
+- 1999 (minimum size limit imposed
+
+```{r} 
+# add block break points to list created above
+block_breaks[["Rec_CA_sel"]] <- c(1999)
+```
+
+### Triennial survey
+- 1995 (year associated with expanded spatial coverage and shift in timing)
+```{r} 
+# add block break points to list created above
+block_breaks[["Surv_TRI_sel"]] <- c(1995)
+```
