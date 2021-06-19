@@ -21,11 +21,11 @@ sa4ss::read_child(file.path("reccpueor.Rmd"))
 ### Recreational age- and length-composition data
 
 ```{r render-rec-comps-n, results = "asis", opts.label = 'north'}
-sa4ss::read_child(file.path("rec-comps-north.R"))
+sa4ss::read_child(file.path("rec-comps-north.Rmd"))
 ```
 
 ```{r render-rec-comps-s, results = "asis", opts.label = 'south'}
-sa4ss::read_child(file.path("rec-comps-south.R"))
+sa4ss::read_child(file.path("rec-comps-south.Rmd"))
 ```
 
 ### Unused fishery-dependent data
