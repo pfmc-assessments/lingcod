@@ -14,11 +14,11 @@ In 1994, a \gls{hg} of 4,000 mt was set.
 In 1995, both the \gls{abc} and \gls{hg} were dropped to 2,400 mt
 based on a quantitative assessment [@jagielo2000assessment].
 
-** todo - add information about minimum size limits for commercial fishery**
+**todo - add information about minimum size limits for commercial fishery**
 Trip limits on commercial `r spp` catch were first instituted in 1995,
 when a 20,000 lbs/month limit was imposed.
 In 1998, a two-month cumulative limit of 1,000 lbs was imposed.
-Since then, managment has been through
+Since then, management of the fishery has occurred through
 individual-year \gls{abc} and \gls{oy} levels.
 
 The \gls{pfmc} implemented an initial `r spp` Rebuilding Plan in 2000
@@ -77,7 +77,7 @@ More recently, the bag limit in California has decreased to 2 fish per day.
 In Oregon, there have been multiple recreational groundfish in-season closures
 to reduce impacts to overfished rockfish.
 
-** todo - make summaries of management history as stated below**
+**todo - make summaries of management history as stated below**
 Summaries of regulatory histories for both federal and state management actions
 are available as supplementary materials to this stock assessment.
 See Table k

@@ -27,7 +27,7 @@ The commercial fishery steadily grew with the rise of the groundfish trawl indus
 Commercial landings peaked in the early 1980s and were followed by decreasing landings
 because of management measures implemented due to population declines.
 Management largely relied on seasonal closures and size limits to limit landings.
-Coast wide, the `r spp` fishery was declared overfished in 1999.
+Coastwide, the `r spp` fishery was declared overfished in 1999.
 With the combination of
 a federal rebuilding plan implemented during 2003 and
 years of good recruitment,

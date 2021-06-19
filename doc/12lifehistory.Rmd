@@ -193,6 +193,7 @@ likely corresponds to shifts in prey availability,
 suggesting a similar shift in the predatory role of `r spp` in coastal environments.
 
 **todo - the following paragraph could use some restructuring or more information potentially**
+**Not sure if comparing shallow males to shallow females, or to deep males and females**
 Male `r spp` caught in shallow depths have more diverse diets and consume
 more lower-trophic prey items (e.g,. cephalopods) and
 than females caught in deep depths that have less diverse diets and consume
@@ -202,7 +203,7 @@ Washington to California in both nearshore and offshore habitats indicate a
 higher occurrence of bony fishes in the diet of northern fish than those
 collected off of California
 (B. Brown, Moss Landing Marine Laboratories, personal communication, 6 April 2017).
-Whereas, fish collected off of California and southern Oregon had a higher occurrence of
+Fish collected off of California and southern Oregon had a higher occurrence of
 cephalopods in their diet than fish collected from more northern waters.
 This latitudinal shift in prey composition suggests differences
 in feeding behavior and the predatory role of `r spp` in coastal environments.
@@ -286,6 +287,7 @@ This range is in agreement with the genetic break point identified for
 ### Ageing
 
 **todo - edit the following paragraphs for grammar**
+**Brian didn't see many grammatical issues**
 `r Spp` are aged using dorsal fin rays,
 which has been found to have the highest
 accuracy,
