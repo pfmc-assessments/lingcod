@@ -16,6 +16,11 @@ sa4ss::read_child(file.path("catch.Rmd"))
 sa4ss::read_child(file.path("reccpuewa.R"))
 sa4ss::read_child(file.path("recorcpue.Rmd"))
 ```
+### Unused fishery-dependent data
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("24data-notused.Rmd"))
+```
 
 ## Fishery-Independent data
 

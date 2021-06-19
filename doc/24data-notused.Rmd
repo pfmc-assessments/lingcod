@@ -1,0 +1,30 @@
+#### Fin Rays available from \glsentrylong{cdfw}
+
+The \gls{cdfw} collected `r utils_name("common")` fin rays from the
+commercial and recreational fisheries in recent years and cleaned them in
+preparation for ageing, but restrictions on access to ageing laboratories to
+use saws to thin section and mount them for ageing prevented their inclusion
+in this assessment.
+\Gls{cdfw} conducted a commercial sampling project
+from February through June 2019 to acquire samples for priority species from
+Crescent City to Santa Barbara, resulting in 113 `r utils_name("common")` fin
+rays for ageing. The majority of samples were landed utilizing hook-and-line
+gear, though some trawl-caught samples were also obtained. In addition to age
+structures, meta data includes port of landing, gear type, length,
+weight, sex, and maturity. In 2017, \gls{cdfw} began opportunistically collecting
+groundfish carcasses from the recreational fishery to increase recreational
+biological data by collecting filleted groundfish carcasses from partnering
+\gls{cpfv} operators and at public fillet stations, launch ramps, and piers.
+Current efforts have been primarily focused in the Crescent City and Monterey Bay
+port complexes as well as samples from south of Point Conception in
+collaboration with the Sportfishing Association of California, yielding a
+total of 324 `r utils_name("common")` fin rays.  In addition to age
+structures, meta data includes port of landing, carcass length, and sex
+when it can be determined from the filleted carcass. A graduate student at
+California Polytechnic University, San Luis Obispo is working on a study of
+total length to carcass length for recreational species, including rockfish
+and `r utils_name("common")`, results of which will help inform the best
+treatment of length information attained from carcasses. These samples may
+be used to inform growth, create conditional-age-at-length data, or to supplement
+samples from other sampling programs used to represent age composition
+directly in future assessments.
