@@ -41,10 +41,10 @@ sa4ss::read_child(file.path("catch.Rmd"))
 sa4ss::read_child(file.path("reccpuewa.R"))
 ```
 
-```{r render-rec-comps, results = "asis", opts.label = 'north'}
+```{r render-rec-comps-n, results = "asis", opts.label = 'north'}
 sa4ss::read_child(file.path("rec-comps-north.R"))
 ```
 
-```{r render-rec-comps, results = "asis", opts.label = 'south'}
+```{r render-rec-comps-s, results = "asis", opts.label = 'south'}
 sa4ss::read_child(file.path("rec-comps-south.R"))
 ```
