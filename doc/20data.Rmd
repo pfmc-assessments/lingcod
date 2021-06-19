@@ -4,7 +4,39 @@ Descriptions of each data source included in the model (Figure \ref{fig:data-plo
 and sources that were explored but not included
 are provided below.
 
-## Fishery-Independent Data
+## Fishery-Dependent data
+
+```{r render-catch, results = "asis"}
+sa4ss::read_child(file.path("catch.Rmd"))
+```
+
+### \Glsentrylong{cpue} (\glsentryshort{cpue})
+
+```{r render-cpue, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
+sa4ss::read_child(file.path("commcpueor.Rmd"))
+sa4ss::read_child(file.path("reccpuewa.Rmd"))
+sa4ss::read_child(file.path("reccpueor.Rmd"))
+```
+
+### Recreational age- and length-composition data
+
+```{r render-rec-comps-n, results = "asis", opts.label = 'north'}
+sa4ss::read_child(file.path("rec-comps-north.R"))
+```
+
+```{r render-rec-comps-s, results = "asis", opts.label = 'south'}
+sa4ss::read_child(file.path("rec-comps-south.R"))
+```
+
+### Unused fishery-dependent data
+
+```{r render-24data-notused, results = "asis"}
+sa4ss::read_child(file.path("24data-notused.Rmd"))
+```
+
+## Fishery-Independent data
+
+### **to do - Need a header name**
 ```{r spin-21s-wcgbts, results = "asis"}
 sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
 ```
@@ -29,22 +61,11 @@ sa4ss::read_child(file.path("21s-lam-research.Rmd"))
 sa4ss::read_child(file.path("21s-aslope.Rmd"))
 ```
 
-## Fishery-Dependent Data
+### Unused fishery-independent data
 
-```{r spin-catch, results = "asis"}
-sa4ss::read_child(file.path("catch.Rmd"))
+```{r render-29data-notused, results = "asis"}
+sa4ss::read_child(file.path("29data-notused.Rmd"))
 ```
 
-### Recreational Data
 
-```{r render-reccpuewa, results = "asis", eval = grepl("North", params$area), cache = TRUE}
-sa4ss::read_child(file.path("reccpuewa.R"))
-```
 
-```{r render-rec-comps-n, results = "asis", opts.label = 'north'}
-sa4ss::read_child(file.path("rec-comps-north.R"))
-```
-
-```{r render-rec-comps-s, results = "asis", opts.label = 'south'}
-sa4ss::read_child(file.path("rec-comps-south.R"))
-```
