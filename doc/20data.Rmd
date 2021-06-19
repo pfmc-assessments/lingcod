@@ -13,7 +13,7 @@ sa4ss::read_child(file.path("catch.Rmd"))
 ### Recreational \glsentrylong{cpue} (\glsentryshort{cpue})
 
 ```{r render-reccpuewa, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
-sa4ss::read_child(file.path("reccpuewa.R"))
+# sa4ss::read_child(file.path("reccpuewa.Rmd"))
 sa4ss::read_child(file.path("recorcpue.Rmd"))
 ```
 ### Unused fishery-dependent data
