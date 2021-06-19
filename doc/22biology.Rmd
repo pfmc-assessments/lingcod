@@ -1,0 +1,93 @@
+## Biological Data
+
+### Natural Mortality
+
+
+### Maturation and Fecundity
+
+
+### Sex Ratio
+
+
+### Length-Weight Relationship
+
+The weight-length relationship for `r spp` was estimated outside the model 
+using available biological data collected from the \Gls{s-wcgbt}. 
+The weight-length relationship is based on the standard power function: $W = aL^b$
+where W is weight in kilograms and L is fork length in centimeters. 
+
+Hart (1967) reported the relationship between length and weight as $W = 0.000282406·L^{3.011}$. The length-weight relationship was estimated by Jagielo (1994) using available survey data and was fit to mean weight-at-length measured in the West Coast survey as $W = 0.000003953·L^{3.2149}$ for males and $W = 0.00000176 L^{3.3978}$ for females. 
+
+Between 2003 and 2019, lengths and weights were measured for 
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+7,869 `r spp` on the \Gls{s-wcgbt} north 40 degrees 10 minutes N latitude. Of these samples, 4,978 were female,
+and 2805 were male. 
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+5,547 `r spp` on the \Gls{s-wcgbt} south 40 degrees 10 minutes N latitude. Of these samples, 3,052 were female,
+and 1,787 were male. 
+```
+
+Spatial differences were investigated by fitting an overall power 
+relationship between length and weight across all coastwide samples, and then comparing the residuals 
+across latitude, region, and depth using Tukey HSD pairwise multiple 
+comparison tests. Residuals of the fit between length and weight showed 
+significant differences among latitude (p-value < 0.001, as a continuous variable), and 
+among regions north and south of 40 degrees 10 minutes N latitude (p-value < 0.001, as factors).  
+The relationship between length and weight change with depth (p-value = 0.02, as a continuous variable), 
+but not when applying similar depth categories (55 - 183, 183 - 400, and >400 m) as was used to expand composition data (p-value = 0.16), nor more refined depth categories 
+(55 - 85, 85 - 110, 110 - 140, 140 - 183, and >183 m; p-value = 0.20). 
+
+The parameters of the weight-length relationship were re-estimated using data from 
+the \Gls{s-wcgbt}. New length and weight data from the survey for this assessment result in the 
+following estimates for the weight-length relationships: 
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+$W=$`r format(lw_ests$North_NWFSC.Combo_F[1], scientific = TRUE)`$L^`r format(lw_ests$North_NWFSC.Combo_F[2], scientific = TRUE)` for females, and 
+$W=$`r format(lw_ests$North_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw_ests$North_NWFSC.Combo_M[2], scientific = TRUE)` for males 
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+$W=$`r format(lw_ests$South_NWFSC.Combo_F[1], scientific = TRUE)`$L^`r format(lw_ests$South_NWFSC.Combo_F[2], scientific = TRUE)` for females, and 
+$W=$`r format(lw_ests$South_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw_ests$South_NWFSC.Combo_M[2], scientific = TRUE)` for males 
+```
+
+(Figure \ref{fig:len-weight}). These relationships are very similar to those used for the previous assessment (@Haltuch_lingcod_2017).
+
+
+### Growth (Length-at-Age)
+
+`r Spp` display sexually dimorphic growth. Females grow faster than and reach larger sizes than males. Jagielo (1994) estimated growth using a fixed length at age 1 of 30 cm, and estimated $L_{\infty}$ for males of 93.21 cm and females of 131.05 cm, and $k$ of 0.1694 for males and 0.1137 for females. He also found that the average length for young-of-the-year (age 0) `r spp` was 11.99 cm and for age 2 (48.1 cm) for Washington samples, and that growth trajectories diverge considerably by sex after age 3, as female `r spp` tend to grow faster and live longer than male `r spp`, while male `r spp` mature at age 3.
+
+Estimates of growth parameters were investigated and starting values for model inputs were updated using the \Gls{s-wcgbt} data. Spatial differences were investigated by fitting an overall von Bertalanffy relationship between age and length across all coastwide samples, and then comparing the residuals across latitude and depth using Tukey HSD pairwise multiple comparison tests. Residuals of the fit between age and length showed significant differences among latitude (p-value < 0.001, as a continuous variable), and among regions north and south of 40 degrees 10 minutes N latitude (p-value < 0.001, as factors). `r Spp` 
+growth faster and attained a larger size in north of 40 degrees 10 minutes N latitude. 
+The relationship between age and length changed with depth (p-value = 0.02, as a continuous 
+variable), and unlike with the length-weight relationship, age and length fits varied by
+depth bins (p-value < 0.001). When applying similar depth categories (55 - 183, 183 - 400, and >400 m) as was used to expand composition data, patterns were not statistically distinguishable between shallow (55 - 183 m) and deep (>400 m) depths (p-value = 0.62), and mid (183-400 m) and deep depths (p-value = 0.24). When using more refined depth categories (55 - 85, 85 - 110, 110 - 140, 140 - 183, and >183 m), 
+patterns were nearly not statistically distinguishable between shallow (<85 m) and 
+mid-shallow (85-110 m) depths (p-value = 0.043), and were not statistically distinguishable 
+between mid-deep (140-183 m) and deep (>183 m) depths (p-value = 0.84).
+
+Externally estimated von Bertalanffy growth parameters for `r spp` using the 2003-2019 \Gls{s-wcgbt} data are:
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+$k$ = `r round(la_ests$North_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la_ests$North_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la_ests$North_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la_ests$North_NWFSC.Combo_M[1],3)` for males. 
+
+These estimates are from 5,145 age and length samples, of which 3,290 are female, and 1,795 are male.
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+$k$ = `r round(la_ests$South_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la_ests$South_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la_ests$South_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la_ests$South_NWFSC.Combo_M[1],3)` for males. 
+
+These estimates are from 3,910 age and length samples, of which 2,178 are female, and 1,228 are male.
+```
+
+
+Internally estimated growth curves are shown in ??
+
+[NEED TO PROVIDE INTERNALLY ESTIMATED GROWTH CURVE FIGURE]
+
+
+### Ageing Precision and Bias

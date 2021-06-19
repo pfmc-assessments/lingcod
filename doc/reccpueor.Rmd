@@ -1,0 +1,111 @@
+#### \Glsentrylong{orbs} index
+
+Trip-level catch-per-unit-effort data from \gls{orbs} dockside sampling was
+obtained from \gls{odfw} on 04/15/2021. To mitigate the confounding of hourly
+effort associated with these trips with travel, the travel time was
+subtracted from the hours fished. Travel time was stratified by boat type
+(charter and private) and was calculated as boat type-specific speeds (13 mph
+for charter boat trips and 18 mph for private boat trips) multiplied by twice
+the distance between the port of origin and the reef that was fished. CPUE,
+expressed in terms of fish per angler-hour, was calculated by multiplying the
+number of anglers and the adjusted travel time. The database contains
+information on catch by species (number of retained fish), effort
+(angler hours), sample location (port where data were collected), date, bag
+limits, boat type (charter or private), and trip type (e.g., bottom
+associated fish).
+
+##### Data preparation, filtering, and sample sizes
+
+The unfiltered data set contained 411,528 trips. Multiple standardized filters
+are applied to \gls{orbs} trip-level data in order to remove outliers and
+data unsuitable for an index (Table \@ref(tab:cpue-recreationalOregon-filter)).
+These filters include trips with incorrect interview times, which impact
+calculation of effort, unreasonably long or short trips, and retaining only
+trips targeting bottom fish. Further filters were utilized for fishing closures
+(i.e., temporal or spatial closures) and catches exceeding bag limits, which
+would presumably impact catch rates. Trips from several ports with extremely
+small sample sizes were also excluded and, finally, trips that met criteria
+for irrational effort reporting (i.e., implausible values) or extreme catch
+rates were excluded as well. Also, all trips from private vessels were removed
+and only trips from charter boats were retained to increase the positivity
+rate of `r spp` encounters.
+As described below, this filter was one of several explored to
+improve model fit. To identify trips that were likely to catch `r spp`,
+Stephens and MacCall [@stephens2004] filtering was used to
+predict the probability of catching a
+`r spp` given the occurrence of other species in the catch.
+This filter was recently used in the development of an
+\gls{orbs} \gls{cpue} index of abundance for
+the 2019 Cabezon assessment [@cope2019cabezon]. However, there was some
+question about whether it was appropriate for use with `r spp`.
+Thus, the model was estimated using data that was both filtered and
+not filtered with the Stephens-MacCall filter.
+Filtering the data did not change the model diagnostics, and thus, it
+was not utilized for the final data set.
+
+##### Standardization: model selection, fits, and diagnostics
+
+A delta-\gls{glm} approach was used to model \gls{cpue}. Apart
+from differences in catch rate among years, we also considered changes
+associated with month, mega-region (north and south coasts, divided at the
+port of Florence on the central Oregon coast), port, season (summer and
+winter), the bag limit for `r spp`, and the depths available to the
+recreational fleet for fishing (Figure “ORBS_DataSummary”). The binomial
+component for catch occurrence was modeled using a logit link function while
+the log of positive \gls{cpue} was modeled with a Gaussian distribution and an
+identity link function. Based on the Akaike Information Criterion
+(AIC), Bayesian Information Criterion (BIC) and other factors described
+below, the binomial model selected as the best predictor of \gls{orbs} catch
+rates included year, port, month and open depths available to fishing
+(Table “OR_ORBS_CPUE_model_selection”). Season and mega-region were also
+evaluated but not included in the stepwise progression due to collinearity
+with other factors (month and port, respectively). Interactions between year
+and port, month and open depths were also evaluated.  Models with
+interactions between year and port or month did not converge due to missing
+trips in some strata and these were excluded from consideration.  Residuals
+from the binomial component of the delta-model are not expected to be
+normally distributed, so quantile residuals were simulated using the R
+package DHARMa [@hartig2021]. A quantile-quantile (QQ) plot of the simulated
+residuals suggests that the binomial component of the delta-model is a
+reasonable approximation of the data (Figure “ScaledQQplot_bin”, right
+panel); however, there was some curvature seen in the residuals
+(left panel of Figure \@ref(fig:cpue-recreationalOregonqqbin)).
+These diagnostics were
+substantially improved by excluding the year:open depths interaction and the
+removal of the private boat trips from the dataset. The positive model
+selected, again based on AIC, BIC and other considerations, included year,
+port, month and open depths available to fishing
+(Table \@ref(tab:OR_ORBS_CPUE_model_selection)).
+Again, there were issues noted in
+the DHARMa simulated residuals, including curvature and significant outlier
+tests (Figure \@ref(fig:cpue-recreationalOregonqqpos)).
+However, as noted with the binomial
+model, these were improved slightly, though not resolved, by exclusion of
+any interaction terms and the removal of the private vessel trips. There was
+insufficient time to fully resolve these diagnostic issues and alternative
+approaches may need to be explored for future assessments. Given that
+mega-region was not included in this model selection procedure, an
+area-weighted model was not utilized for `r spp`, as has been used for other
+nearshore species in recent assessments, such as cabezon [@cope2019cabezon]
+or blue rockfish [@dick2018bluedeacon].
+
+To estimate the uncertainty in the final index of abundance, it is necessary
+to account for the correlation structure between parameters within the
+binomial and lognormal components of the model, as well as with the combined
+(binomial and lognormal components) delta-model.
+The rstanarm package in R [@rstanarm2020]
+was used to replicate the best models using diffuse prior distributions that
+replicated point estimates from the \gls{mle}. The advantage of
+this approach is that the calculation of the index (summing relevant model
+parameters and combining model components) can be applied to posterior draws,
+preserving the correlation structure and propagating uncertainty into the
+final index (Figure \@ref(fig:)). As an
+additional diagnostic, replicate datasets were generated from the posterior
+predictive distribution, and compared the \glspl{mle}
+from the model components to the median estimates from the posterior
+distribution. As expected with the above diagnostics, the binomial model
+closely matches the distribution from replicate datasets; however, there are
+some deviations with the positive model. \Gls{mle} were virtually identical to the
+medians of the posterior distributions in both cases, however.
+
+

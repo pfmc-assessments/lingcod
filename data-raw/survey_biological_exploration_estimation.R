@@ -18,70 +18,70 @@ library(dataModerate2021)
 #######################################################
 
 #Load data for warehouse and HNL surveys (no longer needed due to new package structure)
-#load_survey_data <- function(sname){
-  
-  length_list = age_list = catch_list = list()
-  
-  for(i in 1:length(sname)){
-    
-    if(sname[i] %in% c("NWFSC_HKL")){
-      #John Harms provided data in email on Feb 9, 2021.
-      hnl_full = read.csv("qryGrandUnifiedThru2019_For2021Assessments_DWarehouse version_01072021.csv", header = TRUE)
-      length_list[[i]] = hnl_full[hnl_full$common_name == "Lingcod",]
-      length_list[[i]]$Source = sname[i]
-      
-      #Merge ages from Laurel Lam
-      hnl_ages = read.csv("H&L_Lingcod_ages.csv", header = TRUE)
-      hnl_ages$age_code = substr(hnl_ages$SpecimenID, start = nchar(hnl_ages$SpecimenID) - 3, stop = nchar(hnl_ages$SpecimenID)) #last 4 digits (after 'a' or 'A')
-      # #Add agecode to length dataset with A or a removed.
-      # #Because have one record missing a fin clip number that has an otolith number, use otolith number when no fin clip, and fin clip otherwise
-      # length_list[[i]]$age_code = ifelse(length_list[[i]]$fin_clip_number=="", 
-      #                                    substr(length_list[[i]]$otolith_number,2,nchar(length_list[[i]]$otolith_number)), 
-      #                                    substr(length_list[[i]]$fin_clip_number, 2, nchar(length_list[[i]]$fin_clip_number)))
-      # 
-      # a = merge(length_list[[i]], hnl_ages, by.x = c("year","vessel","age_code"), 
-      #           by.y = c("SurveyYear", "VesselName", "age_code"))
-      # #There are 8 records from Laurels database that aren't in the HNL database
-      # #Two have age_codes of 9999 and are included based on lengths, weight, year, vessel combinations: just dont have fin/otolith number to link
-      
-      #Just add Laurel's database as the age database
-      hnl_ages$drop_latitude_degrees = as.numeric(substr(hnl_ages$DropLatitude,1,2)) + as.numeric(substr(hnl_ages$DropLatitude,4,nchar(hnl_ages$DropLatitude)))/60
-      hnl_ages$drop_longitude_degrees = as.numeric(substr(hnl_ages$DropLongitude,1,3)) + as.numeric(substr(hnl_ages$DropLongitude,5,nchar(hnl_ages$DropLongitude)))/60
-      hnl_ages$drop_depth_meters = hnl_ages$VesselDepth * 1.8288 #convert from fathoms to meters
-      names(hnl_ages)[c(2,4,5,6,7)] = c("year", "age_years", "length_cm", "weight_kg", "sex")
-      
-      age_list[[i]] = hnl_ages
-      age_list[[i]]$Source = sname[i]
-      catch_list[[i]] = NA
-      print(paste("Done loading bio and catch for", sname[i]))
-      next 
-    }
-    
-    #Read biological data and catch data generated from read_surveys() in "survey_comps_datawarehouse.R" 
-    load(paste0("Bio_All_", sname[i], "_2021-02-08.rda"))
-    length_list[[i]] =  Data
-    length_list[[i]]$Source = sname[i]
-    age_list[[i]] = length_list[[i]]
-    
-    #Adjust for format differences for some surveys
-    if(sname[i] %in% c("Triennial", "AFSC.Slope")) {
-      length_list[[i]] = Data[[1]] 
-      length_list[[i]]$Source = sname[i]
-      age_list[[i]] = length_list[[i]]
-      if(sname[i] %in% "Triennial"){ #AFSC.Slope has no ages
-        age_list[[i]] = Data[[2]]
-        age_list[[i]]$Source = sname[i]
-      }
-    }
-    
-    load(paste0("Catch__", sname[i], "_2021-02-08.rda"))
-    catch_list[[i]] = Out
-    
-    print(paste("Done loading bio and catch for", sname[i]))
-  }
-  
-  return(c("length" = length_list, "age" = age_list, "catch" = catch_list))
-}
+# load_survey_data <- function(sname){
+#   
+#   length_list = age_list = catch_list = list()
+#   
+#   for(i in 1:length(sname)){
+#     
+#     if(sname[i] %in% c("NWFSC_HKL")){
+#       #John Harms provided data in email on Feb 9, 2021.
+#       hnl_full = read.csv("qryGrandUnifiedThru2019_For2021Assessments_DWarehouse version_01072021.csv", header = TRUE)
+#       length_list[[i]] = hnl_full[hnl_full$common_name == "Lingcod",]
+#       length_list[[i]]$Source = sname[i]
+#       
+#       #Merge ages from Laurel Lam
+#       hnl_ages = read.csv("H&L_Lingcod_ages.csv", header = TRUE)
+#       hnl_ages$age_code = substr(hnl_ages$SpecimenID, start = nchar(hnl_ages$SpecimenID) - 3, stop = nchar(hnl_ages$SpecimenID)) #last 4 digits (after 'a' or 'A')
+#       # #Add agecode to length dataset with A or a removed.
+#       # #Because have one record missing a fin clip number that has an otolith number, use otolith number when no fin clip, and fin clip otherwise
+#       # length_list[[i]]$age_code = ifelse(length_list[[i]]$fin_clip_number=="", 
+#       #                                    substr(length_list[[i]]$otolith_number,2,nchar(length_list[[i]]$otolith_number)), 
+#       #                                    substr(length_list[[i]]$fin_clip_number, 2, nchar(length_list[[i]]$fin_clip_number)))
+#       # 
+#       # a = merge(length_list[[i]], hnl_ages, by.x = c("year","vessel","age_code"), 
+#       #           by.y = c("SurveyYear", "VesselName", "age_code"))
+#       # #There are 8 records from Laurels database that aren't in the HNL database
+#       # #Two have age_codes of 9999 and are included based on lengths, weight, year, vessel combinations: just dont have fin/otolith number to link
+#       
+#       #Just add Laurel's database as the age database
+#       hnl_ages$drop_latitude_degrees = as.numeric(substr(hnl_ages$DropLatitude,1,2)) + as.numeric(substr(hnl_ages$DropLatitude,4,nchar(hnl_ages$DropLatitude)))/60
+#       hnl_ages$drop_longitude_degrees = as.numeric(substr(hnl_ages$DropLongitude,1,3)) + as.numeric(substr(hnl_ages$DropLongitude,5,nchar(hnl_ages$DropLongitude)))/60
+#       hnl_ages$drop_depth_meters = hnl_ages$VesselDepth * 1.8288 #convert from fathoms to meters
+#       names(hnl_ages)[c(2,4,5,6,7)] = c("year", "age_years", "length_cm", "weight_kg", "sex")
+#       
+#       age_list[[i]] = hnl_ages
+#       age_list[[i]]$Source = sname[i]
+#       catch_list[[i]] = NA
+#       print(paste("Done loading bio and catch for", sname[i]))
+#       next 
+#     }
+#     
+#     #Read biological data and catch data generated from read_surveys() in "survey_comps_datawarehouse.R" 
+#     load(paste0("Bio_All_", sname[i], "_2021-02-08.rda"))
+#     length_list[[i]] =  Data
+#     length_list[[i]]$Source = sname[i]
+#     age_list[[i]] = length_list[[i]]
+#     
+#     #Adjust for format differences for some surveys
+#     if(sname[i] %in% c("Triennial", "AFSC.Slope")) {
+#       length_list[[i]] = Data[[1]] 
+#       length_list[[i]]$Source = sname[i]
+#       age_list[[i]] = length_list[[i]]
+#       if(sname[i] %in% "Triennial"){ #AFSC.Slope has no ages
+#         age_list[[i]] = Data[[2]]
+#         age_list[[i]]$Source = sname[i]
+#       }
+#     }
+#     
+#     load(paste0("Catch__", sname[i], "_2021-02-08.rda"))
+#     catch_list[[i]] = Out
+#     
+#     print(paste("Done loading bio and catch for", sname[i]))
+#   }
+#   
+#   return(c("length" = length_list, "age" = age_list, "catch" = catch_list))
+# }
 
 #Combine survey data into single dataframe
 create_survey_data_frame <- function(data_list){
@@ -796,11 +796,19 @@ checkresids <- function(data = data, method = c("lw", "la")){
     #-------------------Depth-------------------------#
     writeLines("---------------By depth --------------------\n")
     
+    #Previous depth categories 
     ltwt$dpthbin <- ifelse(ltwt$Depth > 183,"DEEP",
                            ifelse(ltwt$Depth > 140,"MDEEP",
                                   ifelse(ltwt$Depth > 110,"MID",
                                          ifelse(ltwt$Depth > 85,"MSHAL",
                                                 "SHAL"))))
+
+    # # Depth categories based on depth stratifications of WCGBTS
+    # ltwt$dpthbin <- ifelse(ltwt$Depth > 400,"DEEP",
+    #                        ifelse(ltwt$Depth > 183,"MID",
+    #                               "SHAL"))
+
+    
     #Residual pattern by Depth and sex (with lowess by Region)
     plot(ltwt$Depth, ltwt$Resids,
          ylim=c(-3,3),
@@ -875,11 +883,18 @@ checkresids <- function(data = data, method = c("lw", "la")){
     #-------------------Depth-------------------------#
     writeLines("---------------By depth -------------------\n")
     
+    #Previous depth categories
     ltag$dpthbin <- ifelse(ltag$Depth > 183,"DEEP",
                            ifelse(ltag$Depth > 140,"MDEEP",
                                   ifelse(ltag$Depth > 110,"MID",
                                          ifelse(ltag$Depth > 85,"MSHAL",
                                                 "SHAL"))))
+    
+    # # Depth categories based on depth stratifications of WCGBTS
+    # ltag$dpthbin <- ifelse(ltag$Depth > 400,"DEEP",
+    #                        ifelse(ltag$Depth > 183,"MID",
+    #                               "SHAL"))
+    
     #Residual pattern by Depth and sex (with lowess by Region)
     plot(ltag$Depth, ltag$Resids,
          ylim=c(-40,40),
@@ -1104,7 +1119,39 @@ leg = c(#paste0("Combo F: a = ", signif(lw_ests$NWFSC.Combo_F[1], digits = 4)," 
         paste0("Combo North F: a = ", signif(lw_ests$North_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_F[2], 3)),
         paste0("Combo North M: a = ", signif(lw_ests$North_NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_M[2], 3)))
 legend("topleft", bty = 'n', legend = leg, lty = c(1,1,2,2), col = c("red","blue"), lwd = 2)
+dev.off()  
+
+
+#Plot lw relationship separately for each Area (for combo) - NORTH
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Length_Weight_Combo_North.png", w = 7, h = 7, pt = 12)
+plot(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F" & out_clean$Region == "North", "Length"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F"  & out_clean$Region == "North", "Weight"], 
+     xlab = "Length (cm)", ylab = "Weight (kg)", main = "", 
+     ylim = c(0, max(out_clean$Weight, na.rm = TRUE)), xlim = c(0, max(out_clean$Length, na.rm = TRUE)), 
+     pch = 16, col = alpha("red", 0.20)) 
+points(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M" & out_clean$Region == "North", "Length"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M" & out_clean$Region == "North", "Weight"], pch = 16, col = alpha("blue", 0.20))
+lens = 1:max(out_clean$Length,na.rm = TRUE)
+lines(lens, lw_ests$North_NWFSC.Combo_F[1] * lens ^ lw_ests$North_NWFSC.Combo_F[2], col = "red", lwd = 2, lty = 1)
+lines(lens, lw_ests$North_NWFSC.Combo_M[1] * lens ^ lw_ests$North_NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 1)
+leg = c(paste0("Combo North F: a = ", signif(lw_ests$North_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_F[2], 3)),
+  paste0("Combo North M: a = ", signif(lw_ests$North_NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$North_NWFSC.Combo_M[2], 3)))
+legend("topleft", bty = 'n', legend = leg, lty = c(1,1), col = c("red","blue"), lwd = 2)
 dev.off()   
+
+#Plot lw relationship separately for each Area (for combo) - South
+nwfscDiag::pngfun(wd = file.path(getwd(), "figures", "biology_exploration"), file = "Length_Weight_Combo_South.png", w = 7, h = 7, pt = 12)
+plot(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F" & out_clean$Region == "South", "Length"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "F"  & out_clean$Region == "South", "Weight"], 
+     xlab = "Length (cm)", ylab = "Weight (kg)", main = "", 
+     ylim = c(0, max(out_clean$Weight, na.rm = TRUE)), xlim = c(0, max(out_clean$Length, na.rm = TRUE)), 
+     pch = 16, col = alpha("red", 0.20)) 
+points(out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M" & out_clean$Region == "South", "Length"], out_clean[!out_clean$Source %in% "Triennial" & out_clean$Sex == "M" & out_clean$Region == "South", "Weight"], pch = 16, col = alpha("blue", 0.20))
+lens = 1:max(out_clean$Length,na.rm = TRUE)
+lines(lens, lw_ests$South_NWFSC.Combo_F[1] * lens ^ lw_ests$South_NWFSC.Combo_F[2], col = "red", lwd = 2, lty = 1)
+lines(lens, lw_ests$South_NWFSC.Combo_M[1] * lens ^ lw_ests$South_NWFSC.Combo_M[2], col = "blue", lwd = 2, lty = 1)
+leg = c(paste0("Combo South F: a = ", signif(lw_ests$South_NWFSC.Combo_F[1], digits = 4)," b = ", round(lw_ests$South_NWFSC.Combo_F[2], 3)),
+  paste0("Combo South M: a = ", signif(lw_ests$South_NWFSC.Combo_M[1], digits = 4)," b = ", round(lw_ests$South_NWFSC.Combo_M[2], 3)))
+legend("topleft", bty = 'n', legend = leg, lty = c(1,1), col = c("red","blue"), lwd = 2)
+dev.off() 
+
 
 
 #Plot lw relationship by source on single figure

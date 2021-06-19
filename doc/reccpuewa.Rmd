@@ -1,6 +1,6 @@
-#' #### Washington recreational index
+#### Washington recreational index
 
-#+ reccpuewa-setup, echo = FALSE, include = FALSE
+```{r reccpuewa-setup, echo = FALSE, include = FALSE}
 #
 ###############################################################################
 # This file estimates the recreational CPUE for Washington
@@ -29,21 +29,15 @@
 #
 # Set knitr options
 run_data <- ifelse(exists("params"), params[["run_data"]], FALSE)
-#
-# Code will be excluded from any file
-knitr::opts_chunk$set(echo = FALSE)
-#
 # knitr templates can be used in code chunks for consistent styles
 knitr::opts_template$set(execute = list(
   eval = run_data,
-  include = FALSE
+  include = FALSE,
+  echo = FALSE
 ))
-knitr::opts_template$set(assessment = list(
-  eval = TRUE,
-  include = TRUE, warning = FALSE, message = FALSE
-))
+```
 
-#+ reccpuewa-objects
+```{r reccpuewa-objects}
 #
 # Response variable in the data set
 colresponse <- sym(utils_name("Common"))
@@ -87,7 +81,8 @@ portgroup <- data.frame(
   )
 )
 
-#+ reccpuewa-readindata
+```
+```{r reccpuewa-readindata}
 file_reccpuewadockside81 <- file.path("..", "data-raw", "Sport Dockside Interview_1981-1989.txt")
 file_reccpuewadockside90 <- file.path("..", "data-raw", "Sport Dockside Interviews 1990-2016.txt")
 file_reccpuewadockside17 <- file.path("..", "data-raw", "Sport Dockside Interviews 2017-2020.csv")
@@ -199,11 +194,13 @@ reccpuewa_data <- dplyr:: full_join(
   )
 #
 
-#+ reccpuewa-summarizedata
+```
+```{r reccpuewa-summarizedata}
 #
 # Make tables needed before filtering the poor records
 
-#+ reccpuewa-filter
+```
+```{r reccpuewa-filter}
 #
 tot <- reccpuewa_data %>%  dplyr::filter(
     # Remove records without Angler information
@@ -256,7 +253,8 @@ tablen <- tot %>%
 # Summary that was helpful while building
 # tot %>% dplyr::group_by(Year) %>% dplyr::summarize_all(.f = function(x) all(is.na(x)))
 
-#+ reccpuewa-filterSM
+```
+```{r reccpuewa-filterSM}
 sppusedinSM <- tablen %>%
   dplyr::filter(prop >= filter_SM_cutoff, is.na(`<NA>`)) %>%
   dplyr::ungroup() %>%
@@ -288,7 +286,8 @@ if (filter_SM) {
   reccpuewa_dataforEM <- fishprob
 }
 
-#+ todocleanthisup, echo = FALSE, include = FALSE, eval = FALSE
+```
+```{r todocleanthisup, echo = FALSE, include = FALSE, eval = FALSE}
 ###############################################################################
 # clean up following code
 #
@@ -311,47 +310,47 @@ with(balanced_FPFN.df, table(Year,Port))
 table(LingCaught=reccpuewa_dataforEM[[colresponse]]>0, KeepTrip=reccpuewa_dataforEM$prob>=best.thresh)
 # look at the spatial and temporal distribution of samples
 with(reccpuewa_dataforEM, table(Year,Port))
+```
+
+##### Data preparation, filtering, and sample sizes
+
+Information on retained `r utils_name()` from dockside interviews
+were available from \gls{wdfw} between
+`r knitr::combine_words(range(data_index_cpue[data_index_cpue[["index"]] == get_fleet("WA", col = "num"), "year"]))`.
+Recent data also included information on discarded fish,
+but this information was not used for this analysis because
+(1) it was not available for the entire time series and
+(2) the composition data that are associated with this index only include retained fish.
+Information from dockside interviews are thought to be more reliable than
+information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
+data were not explored for with respect to Washington recreational indices.
+
+The dockside data were filtered prior to being fit to models to
+identify the best subset of the available data that are likely to be
+consistent over the time series and provide a reliable index of abundance
+once standardized.
+Stephens-MacCall [-@Stephens2004] filtering approach was explored to
+predict the probability of catching `r utils_name("common")` based on
+the species composition of the sampler-observed catch in a given trip.
+Prior to applying the Stephens-MacCall filter, we identified potentially
+informative predictor species, i.e., species with sufficient sample sizes and
+temporal coverage (at least `r filter_SM_cutoff` \% of all trips)
+to inform the binomial \gls{glm} used in the Stephens-MacCall approach.
+Thus, the remaining species all co-occurred with
+`r utils_name("common")` in at least one trip
+and were retained for the Stephens-MacCall logistic regression.
+Estimated coefficients from the Stephens-MacCall analysis are
+positive for species that are likely to co-occur with the target species and
+negative for species that are likely to not co-occur with the target species
+(Figure \@ref(fig:reccpuewa-SMfilter)).
+**to do - update this list based on the results.**
+The top five species with high probability of
+co-occurrence with `r spp` include xxx, all of which are
+associated with rocky reef and kelp habitats. The five species with the lowest
+probability of co-occurrence were xxx.
 
 
-#' ##### Data preparation, filtering, and sample sizes
-#'
-#' Information on retained `r utils_name()` from dockside interviews
-#' were available from \gls{wdfw} between
-#' `r knitr::combine_words(range(data_index_cpue[data_index_cpue[["index"]] == get_fleet("WA", col = "num"), "year"]))`.
-#' Recent data also included information on discarded fish,
-#' but this information was not used for this analysis because
-#' (1) it was not available for the entire time series and
-#' (2) the composition data that are associated with this index only include retained fish.
-#' Information from dockside interviews are thought to be more reliable than
-#' information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
-#' data were not explored for with respect to Washington recreational indices.
-#'
-#' The dockside data were filtered prior to being fit to models to
-#' identify the best subset of the available data that are likely to be
-#' consistent over the time series and provide a reliable index of abundance
-#' once standardized.
-#' Stephens-MacCall [-@Stephens2004] filtering approach was explored to
-#' predict the probability of catching `r utils_name("common")` based on
-#' the species composition of the sampler-observed catch in a given trip.
-#' Prior to applying the Stephens-MacCall filter, we identified potentially
-#' informative predictor species, i.e., species with sufficient sample sizes and
-#' temporal coverage (at least `r filter_SM_cutoff` \% of all trips)
-#' to inform the binomial \gls{glm} used in the Stephens-MacCall approach.
-#' Thus, the remaining species all co-occurred with
-#' `r utils_name("common")` in at least one trip
-#' and were retained for the Stephens-MacCall logistic regression.
-#' Estimated coefficients from the Stephens-MacCall analysis are
-#' positive for species that are likely to co-occur with the target species and
-#' negative for species that are likely to not co-occur with the target species
-#' (Figure \@ref(fig:reccpuewa-SMfilter)).
-#' **to do - update this list based on the results.**
-#' The top five species with high probability of
-#' co-occurrence with `r spp` include xxx, all of which are
-#' associated with rocky reef and kelp habitats. The five species with the lowest
-#' probability of co-occurrence were xxx.
-#'
-
-#+ reccpuewa-mle
+```{r reccpuewa-mle}
 reccpuewa_dataforEM$Year <- factor(reccpuewa_dataforEM$Year)
 reccpuewa_dataforEM$Month <- factor(reccpuewa_dataforEM$Month)
 reccpuewa_dataforEM$BoatType <- factor(reccpuewa_dataforEM$BoatType)
@@ -370,7 +369,8 @@ reccpuewa_dataforEM <- subset(
 )
 reccpuewa_dataforEM <- droplevels(reccpuewa_dataforEM)
 
-#+ reccpuewa-models, opts.label = 'execute'
+```
+```{r reccpuewa-models, opts.label = 'execute'}
 mod_b <- glm(tgt.sp.pa ~ Year + BoatType + Area + Month, family=binomial,data=reccpuewa_dataforEM)
 mod_l_lognormal <- glm(log(cpue) ~ Year + BoatType + Area + Month, data=reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ])
 mod_l <- glm(cpue ~ Year + BoatType + Area + Month, data=reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ], family = Gamma(link="log"))
@@ -405,11 +405,13 @@ save(
   file = file_reccpuewaresults
 )
 
-#+ reccpuewa-stanresults, opts.label = 'assessment'
+```
+```{r reccpuewa-stanresults, eval = !run_data}
 # Read in the results if run_data == FALSE
 load(file_reccpuewaresults)
+```
 
-#+ reccpuewa-index
+```{r reccpuewa-index}
 pred_bin<- exp(coef_year(mod_b))/(1+exp(coef_year(mod_b)))
 var_pos <- diag(vcov(mod_l))[1:length(pred_bin)]
 pred_pos <- exp(coef_year(mod_l) + (var_pos / 2))
@@ -434,5 +436,8 @@ utils::write.csv(index_MCMC,
   file = file.path("..", "data-raw", "reccpuewa.csv")
 )
 
-#+ recwacpue-readfigures, results="asis", echo = FALSE
+```
+```{r recwacpue-readfigures, results="asis", echo = FALSE}
 sa4ss::read_child(file_reccpuewafigures)
+```
+

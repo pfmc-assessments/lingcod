@@ -13,6 +13,15 @@ do.call(
 )
 ```
 
+```{r, results = "asis"}
+sa4ss::add_figure(
+  filein = file.path(params$model, "plots", "data_plot.png"),
+  caption = "Summary of data sources used in the base model",
+  alt_caption = "Dots for each year a source of data is available",
+  label = "data-plot"
+)
+```
+
 ```{r, catch-figures, results = "asis"}
 # Arrange figures in order of the time they were modified
 figdataframe <- dplyr::bind_rows(mapply(
@@ -28,11 +37,186 @@ ignore <- apply(
 )
 ```
 
-```{r, results = "asis"}
-sa4ss::add_figure(
-  filein = file.path(params$model, "plots", "data_plot.png"),
-  caption = "Summary of data sources used in the base model",
-  alt_caption = "Dots for each year a source of data is available",
-  label = "data-plot"
+```{r, cpue-figures, results = "asis"}
+# Use figures-cpue.csv to bring in ordered set of figures
+ignore <- apply(
+  utils::read.csv(file.path("..", "figures", "figures_cpue.csv")),
+  1,
+  function(x) do.call(sa4ss::add_figure, args = as.list(x))
 )
 ```
+
+
+<!-- ====================================================================== -->
+<!-- ******************     20Data figures     **************************** --> 
+<!-- ====================================================================== -->
+
+<!-- WCGBTS -->
+
+```{r, echo=FALSE, results='asis'}
+nm = "WCGBTS_presence_absence_by_depth_bin.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Presence/absence of ", spp, " in the WCGBTS by 25 m depth increments"),
+label = 'wcgbts-presAbs')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "WCGBTS - North _Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "WCGBTS - South _Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "WCGBTS - North _Age_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-ageComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "WCGBTS - South _Age_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-ageComp')
+```
+
+
+<!-- Triennial -->
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Triennial_cpueXdepth.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Raw catch per unit effort in positive tows by depth in
+                 the triennial survey"),
+label = 'tri-depthSplit')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "Triennial - North _Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the Triennial survey"),
+label = 'tri-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Triennial - South _Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the Triennial survey"),
+label = 'tri-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "Triennial - North _Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the Triennial survey"),
+label = 'tri-ageComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Triennial - South _Age_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the Triennial survey"),
+label = 'tri-ageComp')
+```
+
+
+<!-- Hook and Line -->
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "HNL lengths Male-Female_Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length frequency for male and females in the Hook and Line survey",
+label = 'hkl-lenComp-sexed')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "HNL lengths Unsexed_Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length frequency for unsexed fish in the Hook and Line survey",
+label = 'hkl-lenComp-unsexed')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Hook and Line_Age_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Age frequency for male and females in the Hook and Line survey",
+label = 'hkl-ageComp')
+```
+
+
+<!-- Lam research -->
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "Lam Thesis lengths Male-Female North_Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length frequency for male and females from Lam research data",
+label = 'lam-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Lam Thesis lengths Male-Female South_Length_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length frequency for male and females from Lam research data",
+label = 'lam-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "Lam Thesis ages Male-Female South_Age_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Age frequency for male and females from Lam research data",
+label = 'lam-ageComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Lam Thesis ages Male-Female South_Age_Frequency.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Age frequency for male and females from Lam research data",
+label = 'lam-ageComp')
+```
+
+
+<!-- ====================================================================== -->
+<!-- ******************     Biology Figures     **************************** --> 
+<!-- ====================================================================== -->
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "Length_Weight_Combo_North.png"
+add_figure(
+filein = file.path("..", "figures", "biology_exploration", nm),
+caption = "Weight-length relationship for males and females from the WCGBTS",
+label = 'len-weight')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Length_Weight_Combo_South.png"
+add_figure(
+filein = file.path("..", "figures", "biology_exploration", nm),
+caption = "Weight-length relationship for males and females from the WCGBTS",
+label = 'len-weight')
+```
+

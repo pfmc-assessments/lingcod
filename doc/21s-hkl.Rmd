@@ -1,0 +1,32 @@
+### NWFSC Hook and Line Survey
+
+[NEED TO COMFIRM WITH HARMS THIS WRITE UP IS APPROPRIATE FOR LINGCOD. I BORROWED FROM COPPER ROCKFISH SOUTH WRITE UP]
+
+Since 2004, the NWFSC has conducted an annual hook and line survey targeting shelf rockfish in the genus Sebastes at fixed stations in the Southern California Bight. Key species of rockfish targeted by the NWFSC Hook and Line Survey are bocaccio (*S. paucispinis*), cowcod (*S. levis*), greenspotted (*S. chlorostictus*), and vermilion (*S. miniatus* and *S. crocotulus*) rockfishes, although a wide range of groundfish species have been observed by this survey. Starting in 2014 the NWFSC Hook and Line Survey added sampling sites located within the cowcod conservation area (CCA).
+
+During each site visit, three deckhands simultaneously deploy 5-hook sampling rigs (this is referred to as a single drop) for a maximum of 5 minutes per line, but individual lines may be retrieved sooner at the angler’s discretion (e.g., to avoid losing fish). Five drops are attempted at each site for a maximum possible catch of 75 fish per site per year (3 anglers x 5 hooks x 5 drops). Further details regarding the sample frame, site selection, and survey methodology are described by Harms et al. [-@harms_noaa_2008].
+
+
+#### Index
+
+[ADD HERE]
+
+#### Length-frequency data
+
+The length frequency of survey catches in each year was summarized using length bins in 
+2 cm increments from 10 to 130 cm. The first bin includes all observations less than 10 cm, 
+and the last bin includes all fish larger than 130 cm. Length compositions from this 
+survey were used as numbers of fish, all fish were measured, and were not expanded.
+As such, composition data are available for male, female, and unsexed `r spp`. 
+Figures \ref{fig:hkl-lenComp-sexed} and \ref{fig:hkl-lenComp-unsexed} shows the length 
+frequency distributions for the Hook and Line Survey. 
+Table \ref{tab:sample-size-length} show the sample sizes.
+
+#### Age-frequency data
+
+Ages from the Hook and Line survey were avilable for the years 2017 - 2019. 
+The age distribution of survey catches in each year 
+was summarized using age bins from 0 to 20 years, in increments of one year. The last bin 
+includes all fished aged to be greater than 20 years. The Hook and Line Survey age-frequency data were included in the model as CAAL, and marginal age compositions were explored as sensitivities.
+Figure \ref{fig:hkl-ageComp} shows the age frequency data for the Hook and Line Survey.
+Table \ref{tab:sample-size-age} shows sample sizes.

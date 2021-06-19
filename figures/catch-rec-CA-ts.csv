@@ -1,0 +1,2 @@
+"caption","alt_caption","label","filein"
+"Time series of California recreational landings (mt) for the northern (darker color) and southern (lighter color) areas. The shape of the points indicates the information source (California Recreational Fisheries Survey, CRFS; linear interpolation, interpolate; Marine Recreational Fisheries Statistics Survey, MRFSS; old Stock Synthesis, SS, model).","","catch-rec-CA-ts","../figures/catch-rec-CA-ts.png"

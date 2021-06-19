@@ -4,6 +4,31 @@ Descriptions of each data source included in the model (Figure \ref{fig:data-plo
 and sources that were explored but not included
 are provided below.
 
+## Fishery-Independent Data
+```{r spin-21s-wcgbts, results = "asis"}
+sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
+```
+
+```{r spin-21s-tri, results = "asis"}
+sa4ss::read_child(file.path("21s-tri.Rmd"))
+```
+
+```{r spin-21s-hkl, results = "asis", opts.label = 'south'}
+sa4ss::read_child(file.path("21s-hkl.Rmd"))
+```
+
+```{r spin-21s-ccfrp, results = "asis"}
+sa4ss::read_child(file.path("21s-ccfrp.Rmd"))
+```
+
+```{r spin-21s-lam-research, results = "asis"}
+sa4ss::read_child(file.path("21s-lam-research.Rmd"))
+```
+
+```{r spin-21s-aslope, results = "asis"}
+sa4ss::read_child(file.path("21s-aslope.Rmd"))
+```
+
 ## Fishery-Dependent Data
 
 ```{r spin-catch, results = "asis"}
@@ -14,4 +39,8 @@ sa4ss::read_child(file.path("catch.Rmd"))
 
 ```{r render-reccpuewa, results = "asis", eval = grepl("North", params$area), cache = TRUE}
 sa4ss::read_child(file.path("reccpuewa.R"))
+```
+
+```{r render-rec-comps, results = "asis", eval = grepl("North", params$area), cache = TRUE}
+sa4ss::read_child(file.path("rec-comps.R"))
 ```
