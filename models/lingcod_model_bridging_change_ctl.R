@@ -7,21 +7,25 @@ for (area in c("n", "s")) {
 #for (area in c("n")) {
 
   if(area == "n") {
-    # unexpanded comp data
+    # data file model with unexpanded comp data (num = 4, sens = 4)
     # + WA rec CPUE (num = 4, sens = 7)
     # + remove extra Rec_OR index (num = 4, sens = 8)
     olddir <- get_dir_ling(area = area, num = 4, sens = 8) 
-    # remove offset for male selectivity (num = 8, sens = 4)
-    newdir <- get_dir_ling(area = area, num = 8, sens = 4)
+    # new directory
+    newdir <- get_dir_ling(area = area, num = 8, sens = 8)
+    # specific model from which to get the tunings (from the control file)
+    tuningdir <- get_dir_ling(area = area, num = 8, sens = 6)
   }
   if(area == "s") {
-    # unexpanded comp data (num = 4, sens = 4)
+    # data file model with unexpanded comp data (num = 4, sens = 4)
     olddir <- get_dir_ling(area = area, num = 4, sens = 4) 
-    # add forecast (num = 8, sens = 2)
-    # remove offset for male selectivity (num = 8, sens = 4) # skipping sens = 3
-    newdir <- get_dir_ling(area = area, num = 8, sens = 4)
+    # new directory
+    newdir <- get_dir_ling(area = area, num = 8, sens = 8)
+    # specific model from which to get the tunings (from the control file)
+    tuningdir <- get_dir_ling(area = area, num = 8, sens = 6)
   }
-  
+
+  # copy all inputs to new files
   r4ss::copy_SS_inputs(
     dir.old = olddir,
     dir.new = newdir,
@@ -41,24 +45,33 @@ for (area in c("n", "s")) {
   #' Update Hamel-Then natural mortality prior to be associated with a maximum
   #' age of 18 for females and 13 for males
   #' as discussed in https://github.com/iantaylor-NOAA/Lingcod_2021/issues/40
+
+  # NOTE: "NatM_.*_Fem" should work for both 3.30.16.02 and 3.30.17.01 labels
   newctl$MG_parms <- change_pars(newctl$MG_parms,
-                                 string = "NatM_p_1_Fem",
+                                 string = "NatM_.*_Fem",
                                  HI = 0.5,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 18),
                                  PR_SD = 0.438)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
-                                 string = "NatM_p_1_Mal",
+                                 string = "NatM_.*_Mal",
                                  HI = 0.5,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 13),
                                  PR_SD = 0.438)
 
-  #' turn on estimation for female growth
+  #' turn on estimation for female growth (was fixed in 2017 north model)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "L_at_Amax_Fem_GP",
                                  PHASE = 7)
 
+  newctl$Growth_Age_for_L2 <- 14
+  # change assumptions about variability in growth
+  if (grepl("CV_growth1", newdir)) {
+    newctl$CV_Growth_Pattern <- 1
+  }
+  
+  
   
   #' Update maturity using new age-based values provided by Melissa Head.
   #' The age-based maturity was more similar between areas suggesting that
@@ -113,7 +126,6 @@ for (area in c("n", "s")) {
     newctl$MG_parms["Wtlen_2_Mal_GP_1", "INIT"] <- lw.WCGBTS$South_NWFSC.Combo_M[["b"]]
   }
 
-  
   #########################################################################
   # RECRUITMENT
 
@@ -407,9 +419,25 @@ for (area in c("n", "s")) {
                                             INIT = 2,
                                             PHASE = 4)
   
-  #' reset data weighting to 100% for all fleets
-  newctl$Variance_adjustment_list$Value <- 1.0
+  #' apply data weighting from designated model
+  #' (reduces path dependency compared to just using whatever was the previous model)
+  if (exists("tuningdir")) {
+    newctl$Variance_adjustment_list <-
+      get_inputs_ling(dir = tuningdir)$ctl$Variance_adjustment_list
+  } else {
+    # alternatively set to 100% for all values
+    newctl$Variance_adjustment_list$Value <- 1.0
+  }
 
+  #' add 0.05 to discard CV for all fleet with that data type
+  if(!2 %in% newctl$Variance_adjustment_list$Factor) {
+    newctl$Variance_adjustment_list <- rbind(
+      data.frame(Factor = 2, Fleet = 1:2, Value = 0.05),
+      newctl$Variance_adjustment_list
+    )
+  }
+  
+  
   newctl$Comments <-
     c(
       paste(
@@ -441,7 +469,7 @@ for (area in c("n", "s")) {
                     )
 }
 
-if(FALSE){
+if(FALSE){ # stuff to never just source with the rest of the file
 
   # run models without estimation
   r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 8),
@@ -449,7 +477,42 @@ if(FALSE){
                       extras = c("-nohess -stopph 0"),
                       skipfinished = FALSE)
 
+  ### applying Francis weighting to model number 8 in each area
+  # copy all files, including output files
+  for (area in c("n", "s")) {
+    olddir <- get_dir_ling(area = area, num = 8, sens = 4)
+    newdir <- get_dir_ling(area = area, num = 8, sens = 5)
+    fs::dir_copy(olddir, newdir)
+  }
+
+  # read model results from copied models into R
+  get_mod(area = "n", num = 8, sens = 5, plot = FALSE)
+  get_mod(area = "s", num = 8, sens = 5, plot = FALSE)
+
+  # run tune_comps function without estimating anything to get model output files
+  # then run them separately in a command window
+  r4ss::SS_tune_comps(mod.2021.n.008.005,
+                      dir = mod.2021.n.008.005$inputs$dir,
+                      option = "Francis",
+                      niters_tuning = 1,
+                      extras = "-nohess -stopph 0")
+  r4ss::SS_tune_comps(mod.2021.s.008.005,
+                      dir = mod.2021.s.008.005$inputs$dir,
+                      option = "Francis",
+                      niters_tuning = 1,
+                      extras = "-nohess -stopph 0")
 }
+
+if (FALSE) {
+  # look at model output
+  get_mod(area = "n", num = 8, plot = TRUE)
+  get_mod(area = "s", num = 8, plot = TRUE)
+  get_mod(area = "n", num = 8, sens = 2, plot = FALSE)
+  get_mod(area = "s", num = 8, sens = 2, plot = FALSE)
+  get_mod(area = "n", num = 8, sens = 3, plot = FALSE)
+  get_mod(area = "s", num = 8, sens = 3, plot = FALSE)
+}
+
 
 ## ### applying the DM to model number 7 in each area
 ## # create new directories with input files
@@ -486,40 +549,3 @@ if(FALSE){
 ##                     option = "DM",
 ##                     niters_tuning = 1,
 ##                     extras = "-nohess")
-
-if (FALSE) {
-  ### applying Francis weighting to model number 8 in each area
-  # copy all files, including output files
-  for (area in c("n", "s")) {
-    olddir <- get_dir_ling(area = area, num = 8, sens = 4)
-    newdir <- get_dir_ling(area = area, num = 8, sens = 5)
-    fs::dir_copy(olddir, newdir)
-  }
-
-  # read model results from copied models into R
-  get_mod(area = "n", num = 8, sens = 5, plot = FALSE)
-  get_mod(area = "s", num = 8, sens = 5, plot = FALSE)
-
-  # run tune_comps function without estimating anything to get model output files
-  # then run them separately in a command window
-  r4ss::SS_tune_comps(mod.2021.n.008.005,
-                      dir = mod.2021.n.008.005$inputs$dir,
-                      option = "Francis",
-                      niters_tuning = 1,
-                      extras = "-nohess -stopph 0")
-  r4ss::SS_tune_comps(mod.2021.s.008.005,
-                      dir = mod.2021.s.008.005$inputs$dir,
-                      option = "Francis",
-                      niters_tuning = 1,
-                      extras = "-nohess -stopph 0")
-}
-
-if (FALSE) {
-  # look at model output
-  get_mod(area = "n", num = 8, plot = TRUE)
-  get_mod(area = "s", num = 8, plot = TRUE)
-  get_mod(area = "n", num = 8, sens = 2, plot = FALSE)
-  get_mod(area = "s", num = 8, sens = 2, plot = FALSE)
-  get_mod(area = "n", num = 8, sens = 3, plot = FALSE)
-  get_mod(area = "s", num = 8, sens = 3, plot = FALSE)
-}
