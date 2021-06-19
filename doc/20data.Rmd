@@ -5,27 +5,27 @@ and sources that were explored but not included
 are provided below.
 
 ## Fishery-Independent Data
-```{r spin-catch, results = "asis"}
+```{r spin-21s-wcgbts, results = "asis"}
 sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
 ```
 
-```{r spin-catch, results = "asis"}
+```{r spin-21s-tri, results = "asis"}
 sa4ss::read_child(file.path("21s-tri.Rmd"))
 ```
 
-```{r spin-catch, results = "asis", opts.label = 'south'}
+```{r spin-21s-hkl, results = "asis", opts.label = 'south'}
 sa4ss::read_child(file.path("21s-hkl.Rmd"))
 ```
 
-```{r spin-catch, results = "asis"}
+```{r spin-21s-ccfrp, results = "asis"}
 sa4ss::read_child(file.path("21s-ccfrp.Rmd"))
 ```
 
-```{r spin-catch, results = "asis"}
+```{r spin-21s-lam-research, results = "asis"}
 sa4ss::read_child(file.path("21s-lam-research.Rmd"))
 ```
 
-```{r spin-catch, results = "asis"}
+```{r spin-21s-aslope, results = "asis"}
 sa4ss::read_child(file.path("21s-aslope.Rmd"))
 ```
 
@@ -41,3 +41,6 @@ sa4ss::read_child(file.path("catch.Rmd"))
 sa4ss::read_child(file.path("reccpuewa.R"))
 ```
 
+```{r render-rec-comps, results = "asis", eval = grepl("North", params$area), cache = TRUE}
+sa4ss::read_child(file.path("rec-comps.R"))
+```

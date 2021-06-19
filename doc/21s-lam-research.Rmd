@@ -13,14 +13,17 @@ This was to ensure an even distribution of size and age classes from each port
 for purposes of comparing `r spp` von Bertalanffy growth curves by spatially 
 explicit regions. Of the total fish samples, 32 were sampled on CCFRP trips and so to avoid double 
 counting were excluded. Four addition samples had no year associated with them, and
-were excluded.Length compositions from this survey were used as numbers of fish, 
-and were not expanded.
+were excluded. Length compositions from this survey were used as numbers of fish, 
+and were not expanded. Lengths were measured in total length, and were converted to
+fork length following conversions from Laidig et al. @Laidig_conversions. Total
+and fork lengths for `r spp` were generally very similar given the tail shape 
+of `r spp`. 
 Figure \ref{fig:lam-lenComp} shows the length frequency distributions. 
 Table \ref{tab:sample-size-length} shows sample sizes.
 
 
 A random stratified subsample by size and sex was selected per region for ageing and genetics analysis. 
-These age composition data are therefore used as CAAL, and are not expanded.
+The age composition data are therefore used as CAAL, and are not expanded.
 Figure \ref{fig:lam-ageComp} shows the age frequency distributions. 
 Table \ref{tab:sample-size-length} shows sample sizes.
 

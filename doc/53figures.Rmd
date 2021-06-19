@@ -189,3 +189,25 @@ filein = file.path("..", "figures", nm),
 caption = "Age frequency for male and females from Lam research data",
 label = 'lam-ageComp')
 ```
+
+
+<!-- ====================================================================== -->
+<!-- ******************     Biology Figures     **************************** --> 
+<!-- ====================================================================== -->
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "Length_Weight_Combo_North.png"
+add_figure(
+filein = file.path("..", "figures", "biology_exploration", nm),
+caption = "Weight-length relationship for males and females from the WCGBTS",
+label = 'len-weight')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Length_Weight_Combo_South.png"
+add_figure(
+filein = file.path("..", "figures", "biology_exploration", nm),
+caption = "Weight-length relationship for males and females from the WCGBTS",
+label = 'len-weight')
+```
+
