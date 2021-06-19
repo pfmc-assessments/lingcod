@@ -1,4 +1,4 @@
-#### Fin Rays available from \glsentrylong{cdfw}
+#### Fin rays from \glsentrylong{cdfw}
 
 The \gls{cdfw} collected `r utils_name("common")` fin rays from the
 commercial and recreational fisheries in recent years and cleaned them in
