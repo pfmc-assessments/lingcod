@@ -1302,7 +1302,7 @@ for the total Oregon recreational landings (1974 – 2020).
 
 #### California recreational landings
 
-##### \glsentrylong{mrfs} (\glsentryshort{mrfss})
+##### \glsentrylong{mrfss} (\glsentryshort{mrfss})
 
 California recreational `r utils_name("common")` catches since
 `r min(catch_rec_1980[["Year"]]) - 1`
