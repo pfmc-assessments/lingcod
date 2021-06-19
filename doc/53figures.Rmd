@@ -36,3 +36,48 @@ sa4ss::add_figure(
   label = "data-plot"
 )
 ```
+
+
+<!-- ====================================================================== -->
+<!-- ******************     20Data figures     **************************** --> 
+<!-- ====================================================================== -->
+
+```{r, echo=FALSE, results='asis'}
+nm = "WCGBTS_presence_absence_by_depth_bin.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Presence/absence of ", spp, " in the WCGBTS by 25 m depth increments"),
+label = 'wcgbts-presAbs')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "WCGBTS - North _Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "WCGBTS - South _Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-lenComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+nm = "WCGBTS - North _Age_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-ageComp')
+```
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "WCGBTS - South _Age_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Length frequency for male and females in the WCGBTS"),
+label = 'wcgbts-ageComp')
+```
