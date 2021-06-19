@@ -1,0 +1,107 @@
+### \acrlong{s-wcgbt}
+
+The \Gls{s-wcgbt} is based on a random-grid design;
+covering the coastal waters from a depth of 55-1,280 m [@bradburn_2003_2011].
+This design generally uses four industry-chartered vessels per year assigned to a roughly equal number of randomly selected grid cells and divided into two 'passes' of the coast.
+Two vessels fish from north to south during each pass between late May to early October.
+This design therefore incorporates both vessel-to-vessel differences in catchability,
+as well as variance associated with selecting a relatively small number (approximately 700) of possible cells from a very large set of possible cells spread from the Mexican to the Canadian borders.
+
+Three sources of information are produced from the \Gls{s-wcgbt}: an index of relative
+abundance, length-frequency distributions, and age-frequency distributions. Length-weight 
+parameters were also estimated from data collected from the \Gls{s-wcgbt}, and details are
+described in Section {\ref biology}.
+
+#### Index
+
+[enter in index information here]
+
+#### Length-frequency data
+
+The length frequency of survey catches in each year was summarized using length bins in 
+2 cm increments from 10 to 130 cm. The first bin includes all observations less than 10 cm, 
+and the last bin includes all fish larger than 130 cm. The observed length compositions were 
+expanded to account for subsampling of tows, and the expansion was stratified by depth. Depth 
+strata of 55 - 183 m and 183 - 400m were selected, based on the sampling design of the survey (@kelleretal_survey_2017). Depth strata were capped at 400 m because catches of `r spp` in 
+the \Gls{s-wcgbt} occur infrequency beyond 400m (Figure \ref{fig:wcgbts-presAbs}). Samples were
+often sexed, so only male and female length frequencies were used. The few unsexed individuals 
+were assigned as male or female according to the sex ratio of the respective length bin. An 
+assumed sex ratio of 0.5 was applied for unsexed fish in length bin less than 40 cm, as sex 
+of smaller sized `r spp` is harder to differentiate. A bin of 40 cm was chosen as this is the
+length bin at which the length-weight relationship starts to diverge for males and females, 
+and therefore equal assigment is not influenced by sex-specific size differences. Figure \ref{fig:wcgbts-lenComp} shows the length frequency distributions for the \Gls{s-wcgbt}. 
+Table \ref{tab:sample-size-length} shows sample sizes.
+
+The input sample sizes were calculated via the Stewart method (Ian Stewart, personal communication) 
+which incorporate the number of trips and fish by year:
+
+[THE BELOW EQUATION DOES NOT APPEAR RIGHT BASED ON THE NUMBERS - NEED TO CONFIRM FOR SURVEY DATA]
+
+\begin{centering}
+
+Input effN = $N_{\text{trips}} + 0.138 * N_{\text{fish}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $<$ 44
+
+Input effN = $7.06 * N_{\text{trips}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $\geq$ 44
+
+\end{centering}
+
+
+
+#### Age-frequency data
+
+Age-frequency data from the \Gls{s-wcgbt} (Figure \ref{fig:wcgbts-ageComp}) were 
+included in the model as conditional age-at-length (CAAL) distributions by sex 
+(male and female) and year, and therefore were not expanded. The numbers of fish 
+are used without any adjustment. The age distribution of survey catches in each year 
+was summarized using age bins from 0 to 20 years, in increments of one year. The last bin 
+includes all fished aged to be greater than 20 years. 
+
+Individual length- and age-observations can be thought 
+of as entries in an age-length key (matrix), with age across the columns and length 
+down the rows. The CAAL approach consists of tabulating the sums within rows as the 
+standard length-frequency distribution and, instead of also tabulating the sums to 
+the age margin , the distribution of ages in each row of the age-length key is 
+treated as a separate observation, conditioned on the row (length) from which it came. 
+
+The CAAL approach has several benefits for analysis above the standard use of marginal age 
+compositions. First, age structures are generally collected as a subset of the fish 
+that have been measured. If the ages are to be used to create an external age-length 
+key to transform the lengths to ages, then the uncertainty due to sampling and missing 
+data in the key are not included in the resulting age-compositions used in the stock 
+assessment. If the marginal age compositions are used with the length compositions 
+in the assessment, the information content on sex-ratio and year class strength is 
+largely double-counted as the same fish are contributing to likelihood components 
+that are assumed to be independent. Using conditional age distributions for each 
+length bin allows only the additional information provided by the limited age data 
+(relative to the generally far more numerous length observations) to be captured, 
+without creating a ‘double-counting’ of the data in the total likelihood. The second 
+major benefit of using conditional age-composition observations is that in addition 
+to being able to estimate the basic growth parameters ($LminAge$, $LmaxAge$, $K$) inside 
+the assessment model, the distribution of lengths at a given age, governed by two 
+parameters for the standard deviation of length at a young age and the standard 
+deviation at an older age, is also quite reliably estimated. This information could 
+only be derived from marginal age-composition observations where very strong and 
+well-separated cohorts existed and where they were quite accurately aged and measured; 
+rare conditions at best. By fully estimating the growth specifications within the 
+stock assessment model, this major source of uncertainty is included in the assessment 
+results, and bias in the observation of length-at-age is avoided. 
+
+The CAAL apporach was only applied for male and female `r spp` and so unsexed fish were excluded. 
+
+```{asis, opts.label = 'north'}
+This results in 60 unsexed fish excluded from the CAAL distributions, or approximately
+one percent of the aged fish.
+```
+
+```{asis, opts.label = 'south'}
+This results in 504 unsexed fish excluded from the CAAL distributions, or approximately
+15 percent of the aged fish.
+```
+
+Table \ref{tab:sample-size-age} show sample sizes. Sensitivities to using the CAAL
+approach were explored by replacing with marginal age distributions. 
+
+
+
+
+

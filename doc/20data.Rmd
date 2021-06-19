@@ -4,7 +4,7 @@ Descriptions of each data source included in the model (Figure \ref{fig:data-plo
 and sources that were explored but not included
 are provided below.
 
-## Fishery-Dependent data
+## Fishery-Dependent Data
 
 ```{r render-catch, results = "asis"}
 sa4ss::read_child(file.path("catch.Rmd"))
@@ -25,6 +25,30 @@ sa4ss::read_child(file.path("24data-notused.Rmd"))
 ```
 
 ## Fishery-Independent data
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
+```
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("21s-tri.Rmd"))
+```
+
+```{r spin-catch, results = "asis", opts.label = 'south'}
+sa4ss::read_child(file.path("21s-hkl.Rmd"))
+```
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("21s-ccfrp.Rmd"))
+```
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("21s-lam-research.Rmd"))
+```
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("21s-aslope.Rmd"))
+```
 
 ### Unused fishery-independent data
 
