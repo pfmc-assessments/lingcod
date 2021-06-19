@@ -24,7 +24,7 @@ data$Year = as.numeric(substr(data$Date..yymmdd.,1,4))
 data$Len_Bin_FL = 2*floor(data$Length_cm/2)
 
 #Remove CCRFP fish (sampled before 1/20/2016, which all occurred in 2015)
-#Also reoves the four fish with no year
+#Also removes the four fish with no year
 data <- subset(data,data$Year > 2015) 
 
 #Set one record with sex = "M " to "M"
@@ -55,7 +55,7 @@ file.remove(file.path(dir, paste0("Survey_notExpanded_Length_comp_Sex_3_bin=", m
 
 #Visualize
 nwfscSurvey::PlotFreqData.fn(dir = dir,
-                dat = lfs_n$comps, ylim=c(0, max(info_bins[["length"]])+4),
+                dat = lfs_n$comps, ylim=c(0, max(info_bins[["length"]])+4), xlim = c(2015,2017),
                 main = "Lam Thesis lengths Male-Female North", yaxs="i", ylab="Length (cm)", dopng = TRUE)
 nwfscSurvey::PlotSexRatio.fn(dir = dir,
                 dat = data_n[!data_n$Year == 9999,], ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio North", yaxs="i", dopng = TRUE)
@@ -70,10 +70,39 @@ file.rename(from = file.path(dir, paste0("Survey_notExpanded_Length_comp_Sex_3_b
 
 #Visualize
 nwfscSurvey::PlotFreqData.fn(dir = dir,
-                dat = lfs_s$comps, ylim=c(0, max(info_bins[["length"]])+4),
+                dat = lfs_s$comps, ylim=c(0, max(info_bins[["length"]])+4), xlim = c(2015,2018),
                 main = "Lam Thesis lengths Male-Female South", yaxs="i", ylab="Length (cm)", dopng = TRUE)
 nwfscSurvey::PlotSexRatio.fn(dir = dir,
                 dat = data_s, ylim = c(-0.1, 1.1), main = "LamThesis Sex Ratio South", yaxs="i", dopng = TRUE)
+
+#############
+# Marginal Age Comps - just for visualization figures
+#############
+
+#Generate Comps - North
+afs_n = nwfscSurvey::UnexpandedAFs.fn(dir = dir,
+                                      datA = data_n, ageBins = info_bins[["age"]], printfolder = "forSS",
+                                      sex = 3,  partition = 0, fleet = get_fleet("Lam")$num, month = 7)
+afs_n = list("comps" = afs_n$comps[1,]) #Remove dummy year comp
+#Output removal direction within write.csv or else column headers are weird
+unlink(file.path(dir,"forSS"), recursive=TRUE)
+
+#Visualize
+nwfscSurvey::PlotFreqData.fn(dir = dir,
+                             dat = afs_n$comps, ylim=c(0, max(info_bins[["age"]])+4), xlim = c(2015,2017),
+                             main = "Lam Thesis ages Male-Female North", yaxs="i", ylab="Age", dopng = TRUE)
+
+#Generate Comps - South
+afs_s = nwfscSurvey::UnexpandedAFs.fn(dir = dir,
+                                      datA = data_s, ageBins = info_bins[["age"]], printfolder = "forSS",
+                                      sex = 3,  partition = 0, fleet = get_fleet("Lam")$num, month = 7)
+#Output removal direction within write.csv or else column headers are weird
+unlink(file.path(dir,"forSS"), recursive=TRUE)
+
+#Visualize
+nwfscSurvey::PlotFreqData.fn(dir = dir,
+                             dat = afs_s$comps, ylim=c(0, max(info_bins[["age"]])+4), xlim = c(2015,2018),
+                             main = "Lam Thesis ages Male-Female South", yaxs="i", ylab="Age", dopng = TRUE)
 
 
 ###############################
