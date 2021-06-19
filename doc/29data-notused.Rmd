@@ -1,0 +1,65 @@
+```{asis, opts.label = 'north'}
+#### Lander data
+
+\Gls{odfw} provided density estimates and a range of estimated population
+abundances from underwater video lander data for
+`r utils_name("common")`.
+The lander data was collected over nine years by \gls{odfw}
+[@rasmuson2020]. The data includes information from
+ten independent studies carried out in both nearshore rocky reefs
+coastwide, as well as select reef structures offshore of the central coast of
+Oregon. Underwater video landers are stationary platforms consisting of one
+to three video cameras. Landers used in deeper water employ advanced
+lighting systems for optimal viewing of fish and benthic habitat. Ambient
+light is used in shallow surveys. The variability in detection range by
+depth is an important factor to consider when deriving fish density from
+lander data. Therefore, a series of abundance estimates were provided to
+inform this assessment. Methods are summarized below and a more detailed
+document is available by \gls{odfw} upon request.
+
+Variability in range, and therefore area viewed, directly influences fish
+abundance. Thus, density estimates were calculated using five
+estimates of range. These include the average range, the range +/- one
+standard deviation from the mean, and the maximum and minimum ranges. The
+area viewed is calculated using both the range and the horizontal field of
+view. This viewed area was then combined with fish-count data to generate
+fish densities. Count data were provided from Rasmuson et al. [-@rasmuson2020].
+As expected, the viewed range has a large effect on the calculated density,
+with larger ranges resulting in a lower density of fish. There is
+no way to know which range model most accurately reflects the true density of
+fish, and thus, multiple range estimates were combined into a single density
+estimate using a weighted arithmetic mean. Although the arithmetic mean is
+simpler and more intuitive, the fact that the area viewed increases
+exponentially suggests a geometric mean may be more appropriate. As an
+alternative to the arithmetic mean, the geometric mean density was calculated
+three ways to address the zeros in the data. Abundance
+estimates (numbers of fish) were calculated by multiplying the density
+estimate by an estimate of the habitat area. Coastwide habitat area was
+limited to primary or secondary habitat containing hard substrate. The
+western boundary was defined as the 200 m contour based on the depth of the
+continental shelf-break. The eastern boundary was based on the shallowest
+lander observation for each species. `r utils_name("Common")` were
+observed on lander video in water as shallow as 4 m; therefore, the 0 m
+contour was used. It should be noted that, while the depth range of the
+lander surveys conducted by \gls{odfw} extends to 212 m, the majority of
+lander surveys have been conducted in either nearshore rocky reefs or at
+Stonewall Bank \gls{rca} on the central Oregon coast.
+
+Abundance estimates for the coastwide survey area are provided for
+`r utils_name("common")` derived from each of the nine density estimates; five
+range models, the weighted arithmetic mean, and three weighted geometric mean
+methods. For `r utils_name("common")`, density estimates ranged from
+0.020 ± 0.052 (no. fish / m2 ± SD) from the maximum range method to
+0.793 ± 1.850 for the third geometric mean method.
+The estimated habitat area was 1,940 thousands of km2.
+Abundance estimates ranged from 38.8 ± 100.8 (millions of fish ± SD)
+to 1,537 ± 3,585. Estimates of abundance from the five range
+models produced similar results to the weighted arithmetic mean, ranging from
+38.8 ± 100.8 (millions of fish ± SD) for the maximum range to 170.5 ± 472.8
+for the minimum range. These were generally considered more plausible than
+the results based on the geometric means. Caveats to this abundance
+estimate are provided in the detailed document, as well as
+considerations for using the lander data and the estimation of habitat area.
+```
+
+

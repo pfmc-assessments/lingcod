@@ -835,9 +835,9 @@ usethis::use_data(data_catch, overwrite = TRUE)
 <!---                               WRITE UP                                -->
 <!--- ===================================================================== -->
 
-## Commercial landings
+### Commercial landings
 
-### Commercial fleet structure
+#### Commercial fleet structure
 
 The fleet structure for commercial landings included two fleets,
 trawl (TW) and fixed gear (FG).
@@ -848,10 +848,10 @@ were assigned to FG.
 This fleet structure matches the fleet structure used in the
 previous assessment.
 
-### Reconstruction of commercial landings
+#### Reconstruction of commercial landings
 
 ```{asis, catch-comm-WA-text, opts.label = 'north'}
-#### Washington commercial reconstruction
+##### Washington commercial reconstruction
 
 The reconstruction of commercial landings for coastal waters off of Washington
 was provided by \gls{wdfw}.
@@ -886,7 +886,7 @@ compared to what was used in the previous assessment.
 ```
 
 ```{asis, catch-comm-OR-reconstruction, opts.label = 'north'}
-#### Oregon commercial reconstruction
+##### Oregon commercial reconstruction
 
 In Oregon, historical commercial landings from
 `r min(catch_comm_OR[["Year"]])` to
@@ -900,9 +900,9 @@ Historical landings exhibited an increasing trend until peaking at
 and averaged `r sprintf("%.1f mt", catch_comm_OR_summary[["mean"]])` annually.
 ```
 
-#### California commercial reconstruction
+##### California commercial reconstruction
 
-##### @sette1928
+###### @sette1928
 
 @sette1928 provided information from interviews and state records
 on fishing patterns from 1888 to 1926
@@ -962,7 +962,7 @@ starting in 1925 to 1931.
 The product of the means of these two proportions
 was used to partition data from @sette1928 to area.
 
-##### California fish market landings
+###### California fish market landings
 
 [California fish market data](https://oceanview.pfeg.noaa.gov/las_fish1/doc/names_describe.html),
 were available from the
@@ -984,7 +984,7 @@ region `r sprintf("(%.2f)", erddapmeanpropNEureka)` from block data [@Miller_201
 to partition the sum of yearly landings within
 the Eureka region between areas.
 
-##### @NOAA-TM-NMFS-SWFSC-461
+###### @NOAA-TM-NMFS-SWFSC-461
 
 @NOAA-TM-NMFS-SWFSC-461 represents the effort led by the \gls{swfsc}
 to reconstruct groundfish landings for the \gls{pfmc}, which
@@ -1017,7 +1017,7 @@ the following years:
 `r paste0(knitr::combine_words(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"]), ",")`.
 Years with no information were back filled using adjacent years.
 
-##### CALCOM landings
+###### CALCOM landings
 
 Starting in
 `r sprintf("%.0f,", min(catch_comm_CA_calcom[["Year"]]))`
@@ -1036,7 +1036,7 @@ minor, and thus, all landings within the Crescent City
 and Eureka port-group complexes were assigned to the northern area
 and all other ports were assigned to the southern area.
 
-##### Washington and Oregon catches landed in California
+###### Washington and Oregon catches landed in California
 
 Landings caught off of the coast of Oregon
 `r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Oregon"]]))`
@@ -1049,7 +1049,7 @@ These landings were assigned to the northern area TW fleet.
 In the future, the assignment of species and gear should be investigated
 more thoroughly for these landings.
 
-##### Missing data
+###### Missing data
 
 For combinations of year, area, and fleet that were missing
 in the reconstruction of California commercial landings,
@@ -1066,7 +1066,7 @@ and all subsequent missing years of data were filled in based on
 linear interpolation between missing years
 for a given area and fleet combination.
 
-### \glsentrylong{pacfin} (\glsentryshort{pacfin})
+#### \glsentrylong{pacfin} (\glsentryshort{pacfin})
 
 Commercial data were downloaded from the PacFIN database and provided
 data on landings for Washington, Oregon, and California since
@@ -1092,7 +1092,7 @@ before declining and fluctuating between
 mt since 2000.
 ```
 
-#### Assigning commercial landings to area
+##### Assigning commercial landings to area
 
 Before splitting the commercial landings to area, all landings that
 were known to have been caught outside of the U.S. Exclusive Economic Zone
@@ -1131,7 +1131,7 @@ Whereas, the percentage of commercial landings from TW in the South relative to
 in the North has, on average,
 decreased with time (lower panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
 
-### Comparisons with previous model
+#### Comparisons with previous model
 
 The current time series of commercial catches were aggregated using the previous
 model structure, i.e., the northern area included Washington and Oregon and the
@@ -1147,10 +1147,10 @@ the previous year.
 Differences in the early reconstruction for the southern model are the result
 of using landings from @sette1928 instead of ramping up catches from zero.
 
-## Recreational landings
+### Recreational landings
 
 ```{asis, catch-rec-WA-text, opts.label = 'north'}
-#### Washington recreational landings
+##### Washington recreational landings
 
 The time series of recreational catches (numbers of fish)
 were provided by \gls{wdfw} and
@@ -1178,7 +1178,7 @@ rather than retained and discarded (Figure \@ref(fig:catch-rec-ca-oldts)).
 ```
 
 ```{asis, catch-rec-OR-text, opts.label = 'north'}
-#### Oregon recreational landings
+##### Oregon recreational landings
 
 The recreational fishery in Oregon likely began in the early 1950s or 1960s
 but data on catches prior to
@@ -1187,7 +1187,7 @@ are not available.
 ODFW provided the time series of catches that includes information on
 shoreside activities, estuary boats, private ocean boats, and charter ocean boats.
 
-##### Historical ocean boat landings (1974 – 2000)
+###### Historical ocean boat landings (1974 – 2000)
 
 Recently, \gls{odfw} undertook an effort to comprehensively reconstruct
 all marine fish recreational ocean boat landings prior to 2001
@@ -1255,7 +1255,7 @@ with a peak of 237.2 mt in 1993,
 and fluctuate between approximately 50 and 200 mt
 following that peak (1979 – 2000).
 
-##### Modern ocean boat landings (2001 – 2020)
+###### Modern ocean boat landings (2001 – 2020)
 
 Recreational landings for ocean boat modes from 2001 – 2020
 are available from \gls{recfin} (extracted on 03/19/2021).
@@ -1267,7 +1267,7 @@ From 2001 – 2020, landings averaged 139.4 mt,
 ranging from 60.1 mt in 2001 to 229.1 mt in 2015.
 In 2020, Oregon ocean boat landings were 172.5 mt.
 
-##### Shore and estuary landings (1980 – 2020)
+###### Shore and estuary landings (1980 – 2020)
 
 \Gls{odfw} provided reconstructed estimates of shore and estuary
 landings for copper rockfish from 1980 – 2020,
@@ -1300,9 +1300,9 @@ Shore and estuary landings were combined with the ocean boat landings
 for the total Oregon recreational landings (1974 – 2020).
 ```
 
-#### California recreational landings
+##### California recreational landings
 
-##### \glsentrylong{mrfs} (\glsentryshort{mrfss})
+###### \glsentrylong{mrfss} (\glsentryshort{mrfss})
 
 California recreational `r utils_name("common")` catches since
 `r min(catch_rec_1980[["Year"]]) - 1`
@@ -1337,7 +1337,7 @@ Thus, linear interpolation was used to provide proxy estimates for
 `r knitr::combine_words(catch_rec_CA %>% dplyr::filter(source == "interpolate") %>% dplyr::pull(Year) %>% unique)`
 (Figure \@ref(fig:catch-rec-CA-ts)).
 
-##### \glsentrylong{crfs} (\glsentryshort{crfs})
+###### \glsentrylong{crfs} (\glsentryshort{crfs})
 
 Sampling under \gls{crfs} started in January of
 `r catch_rec_2000$Year %>% min`
@@ -1350,7 +1350,7 @@ Shelter Cove.
 This time series also includes landings from from Mexico and Canada
 that were excluded from this analysis.
 
-### Recreational fleet structure
+#### Recreational fleet structure
 
 Recreational data were first compiled to the state level as a single fleet
 with all gear types. Then, data from northern California was added to the northern

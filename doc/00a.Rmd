@@ -39,4 +39,20 @@ if (is.null(params$model) & file.exists("00mod.Rdata")) {
   load(dir(params$model, pattern = "00mod.Rdata", full.names = TRUE))
 }
 
+# AMAZING piece of code to allow for inline r in asis engine from
+# https://stackoverflow.com/questions/32944715/conditionally-display-block-of-markdown-text-using-knitr
+knitr::knit_engines$set(asis = function(options) {
+  if (options$echo && options$eval) knitr::knit_child(text = options$code)
+})
+# Define knitr chunk options with names
+knitr::opts_template$set(north = list(
+  echo = TRUE,
+  eval = ifelse(grepl("North", params$area), TRUE, FALSE),
+  include = TRUE
+))
+knitr::opts_template$set(south = list(
+  echo = TRUE,
+  eval = ifelse(grepl("South", params$area), TRUE, FALSE),
+  include = TRUE
+))
 ```
