@@ -43,13 +43,13 @@ for (area in c("n", "s")) {
   #' as discussed in https://github.com/iantaylor-NOAA/Lingcod_2021/issues/40
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_p_1_Fem",
-                                 HI = 5,
+                                 HI = 0.5,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 18),
                                  PR_SD = 0.438)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_p_1_Mal",
-                                 HI = 5,
+                                 HI = 0.5,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 13),
                                  PR_SD = 0.438)
@@ -487,31 +487,32 @@ if(FALSE){
 ##                     niters_tuning = 1,
 ##                     extras = "-nohess")
 
+if (FALSE) {
+  ### applying Francis weighting to model number 8 in each area
+  # copy all files, including output files
+  for (area in c("n", "s")) {
+    olddir <- get_dir_ling(area = area, num = 8, sens = 4)
+    newdir <- get_dir_ling(area = area, num = 8, sens = 5)
+    fs::dir_copy(olddir, newdir)
+  }
 
-## ### applying Francis weighting to model number 7 in each area
-## # copy all files, including output files
-## for (area in c("n", "s")) {
-##   olddir <- get_dir_ling(area = area, num = 8, sens = 1)
-##   newdir <- get_dir_ling(area = area, num = 8, sens = 3)
-##   fs::dir_copy(olddir, newdir)
-## }
+  # read model results from copied models into R
+  get_mod(area = "n", num = 8, sens = 5, plot = FALSE)
+  get_mod(area = "s", num = 8, sens = 5, plot = FALSE)
 
-## # read model results into R
-## get_mod(area = "n", num = 8, sens = 3, plot = FALSE)
-## get_mod(area = "s", num = 8, sens = 3, plot = FALSE)
-
-## # run tune_comps
-## r4ss::SS_tune_comps(mod.2021.n.008.003,
-##                     dir = mod.2021.n.008.003$inputs$dir,
-##                     option = "Francis",
-##                     niters_tuning = 1,
-##                     extras = "-nohess -stopph 0")
-## r4ss::SS_tune_comps(mod.2021.s.008.003,
-##                     dir = mod.2021.s.008.003$inputs$dir,
-##                     option = "Francis",
-##                     niters_tuning = 1,
-##                     extras = "-nohess -stopph 0")
-
+  # run tune_comps function without estimating anything to get model output files
+  # then run them separately in a command window
+  r4ss::SS_tune_comps(mod.2021.n.008.005,
+                      dir = mod.2021.n.008.005$inputs$dir,
+                      option = "Francis",
+                      niters_tuning = 1,
+                      extras = "-nohess -stopph 0")
+  r4ss::SS_tune_comps(mod.2021.s.008.005,
+                      dir = mod.2021.s.008.005$inputs$dir,
+                      option = "Francis",
+                      niters_tuning = 1,
+                      extras = "-nohess -stopph 0")
+}
 
 if (FALSE) {
   # look at model output
