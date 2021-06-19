@@ -20,11 +20,11 @@ sa4ss::read_child(file.path("reccpueor.Rmd"))
 
 ### Recreational age- and length-composition data
 
-```{r render-rec-comps-n, results = "asis", opts.label = 'north'}
+```{r render-rec-comps-n, results = "asis", eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("rec-comps-north.Rmd"))
 ```
 
-```{r render-rec-comps-s, results = "asis", opts.label = 'south'}
+```{r render-rec-comps-s, results = "asis", eval = grepl("South", params$area)}
 sa4ss::read_child(file.path("rec-comps-south.Rmd"))
 ```
 
@@ -45,7 +45,7 @@ sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
 sa4ss::read_child(file.path("21s-tri.Rmd"))
 ```
 
-```{r spin-21s-hkl, results = "asis", opts.label = 'south'}
+```{r spin-21s-hkl, results = "asis", eval = grepl("South", params$area)}
 sa4ss::read_child(file.path("21s-hkl.Rmd"))
 ```
 
