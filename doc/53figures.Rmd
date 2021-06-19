@@ -13,6 +13,15 @@ do.call(
 )
 ```
 
+```{r, results = "asis"}
+sa4ss::add_figure(
+  filein = file.path(params$model, "plots", "data_plot.png"),
+  caption = "Summary of data sources used in the base model",
+  alt_caption = "Dots for each year a source of data is available",
+  label = "data-plot"
+)
+```
+
 ```{r, catch-figures, results = "asis"}
 # Arrange figures in order of the time they were modified
 figdataframe <- dplyr::bind_rows(mapply(
@@ -25,14 +34,5 @@ ignore <- apply(
   figdataframe %>% dplyr::arrange(time) %>% dplyr::select(-time),
   1,
   function(x) do.call(sa4ss::add_figure, args = as.list(x))
-)
-```
-
-```{r, results = "asis"}
-sa4ss::add_figure(
-  filein = file.path(params$model, "plots", "data_plot.png"),
-  caption = "Summary of data sources used in the base model",
-  alt_caption = "Dots for each year a source of data is available",
-  label = "data-plot"
 )
 ```
