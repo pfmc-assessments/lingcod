@@ -4,14 +4,23 @@ Descriptions of each data source included in the model (Figure \ref{fig:data-plo
 and sources that were explored but not included
 are provided below.
 
-## Fishery-Dependent Data
+## Fishery-Dependent data
 
 ```{r spin-catch, results = "asis"}
 sa4ss::read_child(file.path("catch.Rmd"))
 ```
 
-### Recreational Data
+### Recreational \glsentrylong{cpue} (\glsentryshort{cpue})
 
-```{r render-reccpuewa, results = "asis", eval = grepl("North", params$area), cache = TRUE}
+```{r render-reccpuewa, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("reccpuewa.R"))
+sa4ss::read_child(file.path("recorcpue.Rmd"))
+```
+
+## Fishery-Independent data
+
+### Unused fishery-independent data
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("29data-notused.Rmd"))
 ```
