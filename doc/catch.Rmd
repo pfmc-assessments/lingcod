@@ -10,19 +10,13 @@
 # 4. write a function to format data_catch into SS.dat format
 # 5. create a figure showing similarities of composition data from OR and
 # northern CA recreational landings
-# 6. Get @mason2004
 # 7. Think about splitting catch_comm_CA_CALCOM ERK into area
 # where right now it is all going to the North
 # 9. for catch_rec_2000 maybe assign only a portion of Redwood
 # from early years to the north model
-# 3. find if I need these packages
-#   library(viridis) I think I got around this with ggplot2
-# 5. find a way to wrap in line code at the same length as the text
-# 6. Provide more text on OR aliwhitman
 # 9. Add variable at top for scrollable tables to either be included or omitted
 # and create a table for every data set. these can then be included if we want
 # or omitted when making the final .md file that we will source.
-# 10. Use glossaries terms \gls{}
 #
 # PIE IN THE SKY
 # 1. Why are WDFW 1995 to 1981 landings different than those in PacFIN
@@ -38,27 +32,16 @@
 ###############################################################################
 ```
 
-```{r catch-setupknitr}
-# AMAZING piece of code to allow for inline r in asis engine from
-# https://stackoverflow.com/questions/32944715/conditionally-display-block-of-markdown-text-using-knitr
-library(knitr)
-knit_engines$set(asis = function(options) {
-  if (options$echo && options$eval) knit_child(text = options$code)
-})
-# Define knitr chunk options with names
-knitr::opts_template$set(north = list(
-  echo = TRUE,
-  eval = ifelse(grepl("North", params$area), TRUE, FALSE),
-  include = TRUE
-))
-knitr::opts_template$set(south = list(
-  echo = TRUE,
-  eval = ifelse(grepl("South", params$area), TRUE, FALSE),
-  include = TRUE
-))
-```
+```{r catch, include = FALSE, eval = TRUE, cache = TRUE}
+###############################################################################
+# Set up objects, file paths,
+###############################################################################
 
-```{r catch-setupfilepaths}
+# Input required by user to change these things
+calcom_fleet_TW <- c("TWL", "NET")
+erddapmaxyrmeanbyarea <- 1933
+catch_comm_WA_yearstartpacfin <- 1995
+
 # patterns for dir(file.path("..", "data-raw"), pattern = grep_...)
 grep_pacfin <- "PacFIN.+FT.+RData"
 grep_recweightfile <- "SD501--2001---2020_rec_bio_lingcod_pulled_4_19_21"
@@ -88,18 +71,10 @@ file_password <- file.path(
     dirname(system.file(package = "PacFIN.Utilities")),
     "password.txt"
   )
-```
 
-```{r catch-setupobjects}
-# Input required by user to change these things
-calcom_fleet_TW <- c("TWL", "NET")
-erddapmaxyrmeanbyarea <- 1933
-catch_comm_WA_yearstartpacfin <- 1995
-# Set up area structure
-areas <- get_groups(info_groups)
-```
-```{r catch-readpacfin, include = FALSE}
-# Automated but needed for other things later
+###############################################################################
+# Commercial data
+###############################################################################
 # Read in PacFIN file
 if (file.exists(file_password)) {
   password <- readLines(file_password)
@@ -137,27 +112,8 @@ index <- which(
 )
 removenonEEZcatch <- round(catch.pacfin[index, "ROUND_WEIGHT_MTONS"] %>% sum, 2)
 catch.pacfin <- catch.pacfin[-index, ]
-```
 
-
-
-<!--- COMMERCIAL INFORMATION STARTS HERE -->
-## Commercial landings
-
-### Commercial fleet structure
-
-The fleet structure for commercial landings included two fleets,
-trawl (TW) and fixed gear (FG).
-The former included landings from
-bottom trawls, shrimp trawls, net gear, and dredging activities.
-Landings from all other gear types, mainly hook and line,
-were assigned to FG.
-This fleet structure matches the fleet structure used in the
-previous assessment.
-
-### Reconstruction of commercial landings
-
-```{r catch-comm-WA}
+# Washington commercial data
 catch_comm_WA <- utils::read.csv(file = file.path("..", "data-raw", file_comm_wa)) %>%
   dplyr::filter(Year < catch_comm_WA_yearstartpacfin) %>%
   dplyr::mutate(
@@ -168,46 +124,8 @@ catch_comm_WA <- utils::read.csv(file = file.path("..", "data-raw", file_comm_wa
   dplyr::select(-Total, -LINE, -NET, -TRAWL) %>%
   tidyr::gather(key = "fleet", value = "mt", -Year) %>%
   dplyr::mutate(area = "North", state = "WA")
-```
 
-```{asis, catch-comm-WA-text, opts.label = 'north'}
-#### Washington commercial reconstruction
-
-The reconstruction of commercial landings for coastal waters off of Washington
-was provided by \gls{wdfw}.
-This reconstruction included landings starting in
-`r min(catch_comm_WA[["Year"]])`.
-Data from the reconstruction was used instead of data in \gls{pacfin} when there was
-overlap because
-\gls{wdfw} separates landings from each fish ticket by area.
-This is important for fish tickets that include landings from
-Alaskan, Canadian, Puget Sound, and oceanic waters.
-In \gls{pacfin}, it is more than likely that landings from different
-areas included on a single fish ticket would be assigned to
-just one area and partitioning out these landings to area would require
-accessing logbook information as well as fish ticket information, which is
-difficult and not part of the current \gls{pacfin} protocols.
-The reconstruction should largely match what is in \gls{pacfin} because \gls{pacfin}
-does not currently have landings for years prior to 1980 and
-Canadian waters have been closed to U.S. fishers
-targeting groundfish since 1978.
-
-The reconstruction includes data from many sources, but consistently
-recorded data were largely available starting in 1943 from
-U.S. Fish Commission reports.
-Landings from prior to 1941 were converted to round fish weight using a
-conversion factor of 1.431 because it is assumed that reports were of filleted fish.
-Linear interpretation between adjacent years was used to fill in years without
-landings information. In the 2017 assessment, [@haltuch2019lingcod]
-missing years were filled forward rather than linearly interpolated
-(Figure \@ref(fig:catch-comm-state)).
-These differences were minor, and there were no major changes in the time series
-compared to what was used in the previous assessment.
-```
-
-
-
-```{r catch-comm-OR, include = FALSE}
+# Oregon commercial data
 # pacfin.psmfc.org/pacfin_pub/data_rpts_pub/code_lists/agency_gears.txt
 # pacfin.psmfc.org/pacfin_pub/data_rpts_pub/code_lists/gr_tree.txt
 # 140 == Gill net; 210 == Gill net; 440 == Bait shrimp pump; 490 == Other H&L
@@ -242,25 +160,8 @@ catch_comm_OR_summary <- catch_comm_OR %>%
   dplyr::ungroup() %>%
   dplyr::mutate(mean = mean(sum)) %>%
   dplyr::slice_max(order_by = sum, n = 1)
-```
-```{asis, catch-comm-OR-reconstruction, opts.label = 'north'}
-#### Oregon commercial reconstruction
 
-In Oregon, historical commercial landings from
-`r min(catch_comm_OR[["Year"]])` to
-`r max(catch_comm_OR[["Year"]])`
-were provided by \gls{odfw} [@karnowski2014].
-Historical landings began with exclusively longline landings,
-which was the primary gear type
-until the development of the trawl fishery in the 1940s.
-Historical landings exhibited an increasing trend until peaking at
-`r sprintf("%.0f mt in %.0f", catch_comm_OR_summary[["sum"]], catch_comm_OR_summary[["Year"]])`
-and averaged `r sprintf("%.1f mt", catch_comm_OR_summary[["mean"]])` annually.
-```
-
-
-
-```{r r catch-comm-CA}
+# California commercial data
 # erddap
 catch_erddap <- readxl::read_excel(
   path = file_erddap,
@@ -422,179 +323,9 @@ catch_comm_CA_MM <- readxl::read_excel(
     area = gsub("_all", "", area)
   ) %>%
   data.frame
-```
-#### California commercial reconstruction
 
-##### [@sette1928]
-
-@sette1928 provided information from interviews and state records
-on fishing patterns from 1888 to 1926
-for eight regions within U.S. waters.
-States along the Pacific Coast comprised one region,
-though state-specific landings were provided for Washington, Oregon,
-and California by species or species groups.
-For `r utils_name("common")`, the first positive record was from
-`r catch_sette1928 %>% dplyr::filter(lbs > 0) %>% dplyr::pull(Year) %>% min`
-and positive landings were documented for
-`r length(catch_sette1928 %>% dplyr::filter(lbs > 0) %>% dplyr::pull(Year) %>% unique) - 1`
-years.
-We used linear interpolation to fill in years with missing data,
-ramping up from zero in
-`r min(catch_sette1928[["Year"]])`
-to create a time series of
-`r length(min(catch_sette1928[["Year"]]):max(catch_sette1928[["Year"]]))`
-years (Figure \@ref(fig:catch-comm-CA-interpolate-ts)).
-
-Catches by gear type were only available from 1926, and thus,
-the calculated proportion of of the landings
-caught by FG and TW in 1926 was applied to all years because it was
-assumed that ratios were similar across the time series.
-Proportionally, FG represented
-`r catch_sette_prop_fa %>% dplyr::filter(fleet == "TW") %>% dplyr::pull(prop_fa) %>% sprintf("%.2f",.) %>% knitr::combine_words()`
-of the total catch for the
-`r catch_sette_prop_fa %>% dplyr::filter(fleet == "TW") %>% dplyr::pull(area) %>% tolower() %>% knitr::combine_words(.)`
-areas, respectively.
-The Northern California district was
-assumed to represent north of 40 degrees ten minutes and
-all other districts combined were used to represent the southern area.
-
-Landings from
-[California fish market data](https://oceanview.pfeg.noaa.gov/las_fish1/doc/names_describe.html),
-available within the
-[ERDDAP](https://coastwatch.pfeg.noaa.gov/erddap/tabledap/erdCAMarCatLM.html)
-database,
-were used to estimate the proportion of early landings that occurred in
-the northern area versus the southern area because fish market data were recorded
-by region on a yearly basis [@mason2004] within this data set.
-Whereas, @sette1928 only contained information on area for a single year.
-California fish market data represent a multi-organizational effort,
-but most landings are from
-fish ticket information collected by \gls{cdfw}.
-First, we calculated the yearly proportion of landings that occurred within
-the Eureka region north of Point Arena compared to all other regions
-`r sprintf("(%.2f)", erddapmeanpropEureka)`
-from port-specific landings from
-`r min(catch_erddap[["Year"]])`
-to
-`r sprintf("%s.", erddapmaxyrmeanbyarea)`
-Second, the proportion of landings within Eureka region
-that occurred north versus south of Cape Mendocino
-`r sprintf("(%.2f)", erddapmeanpropNEureka)`
-was calculated from 100-200 block data [@Miller_2014]
-starting in 1925 to 1931.
-The product of the means of these two proportions
-was used to partition data from @sette1928 to area.
-
-##### California fish market landings
-
-[California fish market data](https://oceanview.pfeg.noaa.gov/las_fish1/doc/names_describe.html),
-were available from the
-[ERDDAP](https://coastwatch.pfeg.noaa.gov/erddap/tabledap/erdCAMarCatLM.html)
-database
-over many years, but only those years that were missing
-between @sette1928 and the California Catch Reconstruction Project
-[@NOAA-TM-NMFS-SWFSC-461] were used.
-This resulted in keeping data from
-`r paste0(paste(collapse = " to ", catch_erddap %>% dplyr::filter(Year < catch_comm_CA_ralston$Year %>% min) %>% dplyr::pull(Year) %>% range),".")`
-<!--- to do: more text on erddap -->
-
-Information on region of landing was available and
-provided a means to assign the landings to the northern
-and southern areas. Though as previously mentioned,
-the Eureka region needed to be partitioned to area.
-We used the mean proportion of fish landed in the northern Eureka
-region `r sprintf("(%.2f)", erddapmeanpropNEureka)` from block data [@Miller_2014]
-to partition the sum of yearly landings within
-the Eureka region between areas.
-
-##### @NOAA-TM-NMFS-SWFSC-461
-
-@NOAA-TM-NMFS-SWFSC-461 represents the effort led by the \gls{swfsc}
-to reconstruct groundfish landings for the \gls{pfmc}, which
-are seen as the best available data for historical commercial
-landings from California ports.
-The data includes information on region of landing based on block assignments.
-Landings within region nine were assumed to be caught off of Mexico
-and were removed.
-Landings with a region code of two were partitioned to the northern and southern areas
-using the same method used above for California fish market landings.
-To check the validity of this assumption, we compared the proportion of
-landings assigned to the north versus the south to
-proportions calculated from confidential
-fish ticket data available in \gls{calcom} that have information on port of landing
-for available years between
-`r paste(collapse = " - ", range(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"]))`
-(pers. comm. M. Monk, \gls{swfsc}).
-The proportions showed similar trends, though the former were consistently
-higher than the latter for all years
-(Figure \@ref(fig:catch-comm-CA-proportionnorth)).
-
-The @NOAA-TM-NMFS-SWFSC-461 data also had to be partitioned to
-fleet given it does not contain information about gear.
-Fish ticket information in \gls{calcom} was used to calculate the
-proportion of landings landed by each fleet for the northern
-and southern areas separately; thus, partitioning landings by year
-into four groups, northern TW, northern FG, southern TW,
-and southern FG. Proportions were only available for
-the following years:
-`r paste0(knitr::combine_words(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"]), ",")`.
-Years with no information were back filled using adjacent years.
-
-##### CALCOM landings
-
-Starting in
-`r sprintf("%.0f,", min(catch_comm_CA_calcom[["Year"]]))`
-commercial landings were available for California by port-group complex
-and gear group from \gls{calcom}.
-The following gear groups
-`r knitr::combine_words(unique(catch_comm_CA_calcom %>% dplyr::filter(!GEAR_GRP %in% calcom_fleet_TW) %>% dplyr::pull(GEAR_GRP)))`
-were combined to encompass FG and
-`r knitr::combine_words(calcom_fleet_TW)`
-gear groups were combined to encompass TW.
-
-Unfortunately, the port-group complexes did not exactly align with the
-north-south split. But, it was assumed that the amount of landings
-within the Eureka port-group complex that occurred in the south was
-minor, and thus, all landings within the Crescent City
-and Eureka port-group complexes were assigned to the northern area
-and all other ports were assigned to the southern area.
-
-##### Washington and Oregon catches landed in California
-
-Landings caught off of the coast of Oregon
-`r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Oregon"]]))`
-and Washington
-`r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Washington"]]))`
-but landed in California during the period
-`r format_range(catch_comm_CA_ORwaters[["Year"]], parentheses = FALSE)`
-were added to the California reconstruction as was done in the previous assessment.
-These landings were assigned to the northern area TW fleet.
-In the future, the assignment of species and gear should be investigated
-more thoroughly for these landings.
-
-##### Missing data
-
-For combinations of year, area, and fleet that were missing
-in the reconstruction of California commercial landings,
-landings were interpolated based on a linear approximation
-between adjacent years with data
-(Figure \@ref(fig:catch-comm-CA-interpolate-ts)).
-Thus, the reconstruction ramped up from zero starting in
-`r catch_sette1928[["Year"]][1]`
-to
-`r sprintf("%.2f", catch_sette1928 %>% dplyr::filter(mt > 0) %>% dplyr::pull(mt) %>% dplyr::first())`
-mt in
-`r catch_sette1928 %>% dplyr::filter(mt > 0) %>% dplyr::pull(Year) %>% dplyr::first()`
-and all subsequent missing years of data were filled in based on
-linear interpolation between missing years
-for a given area and fleet combination.
-
-### PacFIN
-
-```{r catch_comm_NS}
-#
 # Find landings in Eureka
-#
+# Sort commercial catches out to area
 catch_comm_CA_ERA <- catch.pacfin %>%
   dplyr::filter(PACFIN_GROUP_PORT_CODE %in% c("ERA")) %>%
   dplyr::group_by(PORT_NAME) %>%
@@ -631,9 +362,7 @@ catch_comm_CA_noport_vesselid <- catch.pacfin %>%
   dplyr::summarize(
     ratio = sum(north) / sum(mt)
   ) %>% dplyr::arrange(ratio, VESSEL_ID)
-#
-# Assign area to PacFIN data
-#
+
 catch_comm_pacfin <- catch.pacfin %>%
   dplyr::mutate(
     area = dplyr::case_when(
@@ -665,72 +394,8 @@ dplyr::mutate(
   maxYear = Year[which.max(sum)],
   mean = mean(prop)
 )
-```
 
-Commercial data were downloaded from the PacFIN database and provided
-data on landings for Washington, Oregon, and California since
-`r min(catch.pacfin[["Year"]])` (Figure \@ref(fig:catch-comm-ts-pacfin)).
-These landings were treated as the best available information for
-California and for Washington and Oregon since the beginning of
-`r sprintf("%s and %s,", 1 + max(catch_comm_WA[["Year"]]), 1 + max(catch_comm_OR[["Year"]]))`
-respectively.
-
-```{asis, catch-comm-OR-recent, opts.label = 'north'}
-Though `r utils_name("common")` are encountered on a wide variety of gear types in Oregon,
-most landings are from bottom trawl gear types
-`r sprintf("(%.1f percent from %.0f - %.0f).", catch_comm_pacfin_summary %>% dplyr::filter(state == "OR",fleet=="TW") %>% dplyr::pull(prop) %>% mean * 100, max(catch_comm_OR[["Year"]]) + 1, max(catch.pacfin[["Year"]]) - 1)`
-Landings from all other gear types are minimal relative to these two gear types and relatively sporadic.
-Commercial landings from
-`r sprintf("%.0f - %.0f", max(catch_comm_OR[["Year"]]), max(catch.pacfin[["Year"]]) - 1)`
-peaked in
-`r catch_comm_pacfin_summary %>% dplyr::filter(state == "OR") %>% dplyr::pull(maxYear) %>% dplyr::first()`
-at
-`r catch_comm_pacfin_summary %>% dplyr::filter(state == "OR") %>% dplyr::pull(max) %>% dplyr::first() %>% sprintf("%.2f", .)`
-before declining and fluctuating between
-`r catch_comm_pacfin_summary %>% dplyr::filter(state == "OR" & Year >= 2000) %>% dplyr::pull(yearsum) %>% range %>% sprintf("%.2f",.) %>% knitr::combine_words()`
-mt since 2000.
-```
-
-#### Area
-
-Before splitting the commercial landings to area, all landings that
-were known to have been caught outside of the U.S. Exclusive Economic Zone
-`r paste0("(", removenonEEZcatch, " mt)")`
-were removed.
-These were landings that occurred in
-an unknown \gls{inpfc} area noted as XX or \gls{pacfin} area 02 or 4A.
-
-The split at 40 degrees 10 minutes N latitude required finding a method for
-splitting data within the Eureka (ERA) port-group complex.
-Data with a port of landing of Shelter Cove, a port within ERA were
-assigned to the southern model and data from all other ports within ERA, i.e.,
-`r paste0(knitr::combine_words(catch_comm_CA_ERA), ",")`
-were assigned to the northern model.
-If landings were not assigned to a port-group complex, then the physical location
-of the port of landing was used to assign an area. Lastly, if both
-port-group complex and port of landing were unknown, then area was assigned
-based on the mean behavior of a given vessel.
-For all vessels that had landings
-`r sprintf("(%.2f mt)", sum(catch_comm_CA_noport[["sumMT"]]))`
-without information on port-group complex or port of landing,
-their average port of landing for
-`r paste0(utils_name("common"), ".")`
-catches was used to assign port-group complex and thus area
-to these landings with no spatial information.
-Specifically, if more than half of a vessel's landings of
-`r utils_name("common")`
-were in ERA or CCA, then all of their landings without an assigned
-area were assigned to the northern area.
-
-For commercial landings from the state of California,
-the majority of the commercial FG landings occurred in the southern area and this
-has been relatively consistent for all years of data available in \gls{pacfin}
-(upper panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
-Whereas, the percentage of commercial landings from TW in the South relative to
-in the North has, on average,
-decreased with time (lower panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
-
-```{r catch-comm}
+# Fill in missing years
 catch_comm_CA_interpolate <- dplyr::full_join(
     by = c("Year", "area", "fleet", "source", "mt"),
     # Build up to 1930
@@ -920,29 +585,10 @@ utils::write.csv(
   x = catch_writetofile %>% dplyr::filter(state == "WA and OR"),
   file = file.path("..", "data-raw", "catch_comm_north_2019structure.csv")
 )
-```
 
-### Comparisons with previous model
-
-The current time series of commercial catches were aggregated using the previous
-model structure, i.e., the northern area included Washington and Oregon and the
-southern area included California, for comparison purposes
-(Figure \@ref(fig:catch-comm-state)).
-This comparison revealed differences in California data for both fleets.
-Subsequently, it was determined that in 2017 the trawl fleet included
-catches from both fleets. This has since been corrected, and the current catch
-stream represents what is known to be the best available data.
-Differences in the early reconstructions for the northern model are the result
-of linearly interpolating historical data rather than assuming it was equal to
-the previous year.
-Differences in the early reconstruction for the southern model are the result
-of using landings from @sette1928 instead of ramping up catches from zero.
-
-
-<!--- RECREATIONAL INFORMATION STARTS HERE -->
-## Recreational catches
-
-```{r catch-setuprec}
+###############################################################################
+# Recreational data
+###############################################################################
 catch_rec_2000 <- RecFIN::read_cte501(
   file = dir(file.path("..", "data-raw"), pattern = grep_rec_501, full.names = TRUE, recursive = TRUE)
 ) %>%
@@ -956,6 +602,7 @@ catch_rec_2000 <- RecFIN::read_cte501(
       ),
     source = "CRFS"
   )
+
 catch_rec_1980 <- RecFIN::read_mrfss(
   file = dir(file.path("..", "data-raw"), pattern = grep_rec_mrfss, full.names = TRUE, recursive = TRUE)
 ) %>%
@@ -964,7 +611,7 @@ catch_rec_1980 <- RecFIN::read_mrfss(
     Year > min(Year)
   ) %>%
   dplyr::mutate(Source = "RecFIN")
-#
+
 bio_rec_recfin <- utils::read.csv(
   file = dir(file.path("..", "data-raw"), pattern = grep_recweightfile, full.names = TRUE),
   header = TRUE
@@ -983,8 +630,7 @@ bio_rec_recfin <- utils::read.csv(
   # Remove bad sample for lingcod, already emailed Jason and Theresa T.
   dplyr::filter(!(RECFIN_DATE == "07/25/2007" & RECFIN_LENGTH_MM > 7499))
 
-```
-```{r bio_rec_recfin_meanlength}
+# Mean length to convert numbers to weight
 bio_rec_recfin_meanlength <- bio_rec_recfin %>%
   dplyr::group_by(STATE_NAME, IS_RETAINED) %>%
   dplyr::summarize(
@@ -992,9 +638,8 @@ bio_rec_recfin_meanlength <- bio_rec_recfin %>%
     n = dplyr::n(),
     .groups = "keep"
   )
-```
 
-```{r catch-rec-WA}
+# Washington recreational data
 catch_rec_WA <- suppressWarnings(suppressMessages(
   dplyr::bind_rows(.id = "Type", mapply(readxl::read_excel,
     MoreArgs = list(
@@ -1036,38 +681,8 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
     mt = mean_weight / 1000 * num,
     state = "WA"
   )
-```
-```{asis, catch-rec-WA-text, opts.label = 'north'}
-#### Washington recreational landings
 
-The time series of recreational catches (numbers of fish)
-were provided by \gls{wdfw} and
-included information on fishing within Washington's coastal areas sampled by the
-Ocean Sampling Program in Marine Areas 1-4.
-Catches that were landed within the Strait of Juan de Fuca, i.e.,
-Bonilla-Tatoosh line to the mouth of the Sekiu River,
-and sampled by the Puget Sound Sampling Program were included in the landings
-because they were potentially caught in ocean waters even though they were
-landed in coastal waters. Other non-ocean landings were excluded.
-
-First, we calculated the mean length
-`r sprintf("(%0.2f mm).", bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length))`
-of fish landed within Washington recreational fishery
-(Figure \@ref(fig:catch-rec-tsrecfinmeanlength)) across all years
-`r format_range(bio_rec_recfin %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(Year))`
-and sexes.
-Next, we used this mean length in the weight-length relationship
-as calculated from the most recent survey data to determine the mean weight.
-Finally, weight (mt) was determined from mean weight and numbers.
-
-The scale of the catches is smaller than what was used in the previous
-assessment because this assessment only includes information on retained fish
-rather than retained and discarded (Figure \@ref(fig:catch-rec-ca-oldts)).
-```
-
-
-
-```{r catch-rec-OR}
+# Oregon recreational data
 catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
   # OR data from Ali
   readxl::read_excel(
@@ -1096,9 +711,474 @@ catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
   dplyr::distinct(Year, .keep_all = TRUE) %>%
   dplyr::arrange(Year) %>%
   dplyr::mutate(area = "North", state = "OR")
+
+# California recreational data
+# albin
+# 2020-11-06 E.J. Dick, M. Monk, C. Wetzel, J. Budrick, I. Taylor
+# engaged in an email conversation but it pertained to Point Reyes, i.e.,
+# split between Mendocino/Sonoma and San Francisco, around 38.25
+#
+# 2021-04-14 E.J. Dick, M. Monk, I. Taylor, and K.F. Johnson
+# engaged in a video chat regarding how to split at 40-10 because
+# Redwood includes Humboldt County with Shelter Cove rather than
+# Humboldt County without Shelter Cove, which is what we want.
+# E.J. does not know of any other way to partition MRFSS data that has
+# two groups, Northern and Southern, for SUB_REGION_NAME == CA
+#   * 1990-1992 San Luis Obispo County in Southern region
+#   * 1993-.... San Luis Obispo County in Northern region
+#
+# csv is group = "35. LINGCOD" of Table 1 in Albin et al. 1993 which
+# contains county-specific catch estimates for 1981-1986
+data_albin <- read.csv(file = file.path("..", "data-raw", file_albin),
+  skip = 2, header = TRUE, check.names = FALSE
+) %>%
+  rlang::set_names(paste(sep = "_",
+    read.csv(
+      file = file.path("..", "data-raw", file_albin),
+      skip = 1, header = FALSE, check.names = FALSE, nrows = 1
+    ),
+    colnames(.))
+  ) %>%
+  dplyr::rename(Year = "NA_Year") %>%
+  tidyr::gather("type", "value", -Year) %>%
+  tidyr::separate(type, into = c("Area", "type"), sep = "_") %>%
+  tidyr::spread(key = "type", value = "value") %>%
+  dplyr::arrange(Area) %>%
+  dplyr::mutate(Source = "albinetal1993") %>%
+  dplyr::filter(Area != "Total") %>%
+  dplyr::group_by(Year) %>%
+  dplyr::mutate(sum = sum(Est)) %>%
+  dplyr::group_by(Area, Year) %>%
+  dplyr::mutate(prop_source = Est / sum) %>%
+  dplyr::ungroup()
+
+albinmeanpropN <- data_albin %>%
+          dplyr::group_by(Year) %>%
+          dplyr::mutate(YearT = sum(Est)) %>%
+          dplyr::ungroup() %>% dplyr::group_by(Area) %>%
+          dplyr::summarize(wm = stats::weighted.mean(prop_source, w = YearT)) %>%
+          dplyr::filter(grepl("Del", Area)) %>% dplyr::pull(wm)
+catch_rec_CA <- catch_rec_1980 %>%
+    dplyr::filter(state == "CA") %>%
+    dplyr::group_by(Year, state) %>%
+    dplyr::summarize(
+      mt = sum(WGT_AB1, na.rm = TRUE) / 1000,
+      .groups = "keep"
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(source = "MRFSS") %>%
+  dplyr::full_join(
+  by = c("Year", "state", "mt", "source"),
+  x = .,
+  y = dplyr::anti_join(
+    by = c("Year", "mt", "state", "source"),
+    y = .,
+    x = last_ssdat[[2]][["catch"]] %>%
+      dplyr::mutate(state = "CA", source = "old SS") %>%
+      dplyr::filter(
+        fleet == grep("CA_REC", last_ssdat[[2]][["fleetnames"]]),
+        catch > 0,
+        year < min(catch_rec_1980$Year)
+      ) %>%
+      dplyr::select(-seas, -catch_se, -fleet) %>%
+      dplyr::rename(Year = year, mt = catch)
+  )) %>%
+    tidyr::crossing(area = get_groups(info_groups)) %>%
+    dplyr::mutate(
+      mt = dplyr::case_when(
+        state == "CA" & area == "North" ~ mt * albinmeanpropN,
+        state == "CA" & area == "South" ~ mt * (1 - albinmeanpropN),
+        TRUE ~ mt
+      )
+    ) %>%
+  dplyr::full_join(
+    by = c("Year", "state", "mt", "source", "area"),
+    x = .,
+    y = catch_rec_2000 %>%
+    dplyr::group_by(area, state, Year, source) %>%
+    dplyr::summarize(mt = sum(TOTAL_MORTALITY_MT), .groups = "keep") %>%
+    dplyr::filter(state == "CA") %>%
+    dplyr::ungroup()
+  ) %>%
+  dplyr::group_by(area) %>%
+  tidyr::complete(
+    Year = tidyr::full_seq(Year, 1),
+    fill = list(source = "interpolate", state = "CA")
+  ) %>%
+  dplyr::mutate(mt = stats::approx(Year, mt, n = length(Year))$y) %>%
+  dplyr::ungroup()
+
+# Summarize recreational catches
+catch_rec <- dplyr::full_join(
+  by = c("Year", "mt", "state"),
+  catch_rec_WA,
+  catch_rec_OR
+) %>%
+  dplyr::select(Year, mt, state) %>% dplyr::mutate(area = "North") %>%
+  dplyr::full_join(
+    y = catch_rec_CA,
+    by = c("Year", "area", "state", "mt"),
+  )
+
+# Save the file
+data_catch <- dplyr::full_join(
+  by = c("Year", "area", "mt", fleet = "state"),
+  x = catch_comm,
+  y = catch_rec %>% dplyr::select(-source)
+)
+usethis::use_data(data_catch, overwrite = TRUE)
 ```
+```{r catch-figures-parent, eval = TRUE, child = "catch-figures.Rmd", include = FALSE, cache = TRUE}
+```
+
+<!--- ===================================================================== -->
+<!---                               WRITE UP                                -->
+<!--- ===================================================================== -->
+
+## Commercial landings
+
+### Commercial fleet structure
+
+The fleet structure for commercial landings included two fleets,
+trawl (TW) and fixed gear (FG).
+The former included landings from
+bottom trawls, shrimp trawls, net gear, and dredging activities.
+Landings from all other gear types, mainly hook and line,
+were assigned to FG.
+This fleet structure matches the fleet structure used in the
+previous assessment.
+
+### Reconstruction of commercial landings
+
+```{asis, catch-comm-WA-text, opts.label = 'north'}
+#### Washington commercial reconstruction
+
+The reconstruction of commercial landings for coastal waters off of Washington
+was provided by \gls{wdfw}.
+This reconstruction included landings starting in
+`r min(catch_comm_WA[["Year"]])`.
+Data from the reconstruction was used instead of data in \gls{pacfin} when there was
+overlap because
+\gls{wdfw} separates landings from each fish ticket by area.
+This is important for fish tickets that include landings from
+Alaskan, Canadian, Puget Sound, and oceanic waters.
+In \gls{pacfin}, it is more than likely that landings from different
+areas included on a single fish ticket would be assigned to
+just one area and partitioning out these landings to area would require
+accessing logbook information as well as fish ticket information, which is
+difficult and not part of the current \gls{pacfin} protocols.
+The reconstruction should largely match what is in \gls{pacfin} because \gls{pacfin}
+does not currently have landings for years prior to 1980 and
+Canadian waters have been closed to U.S. fishers
+targeting groundfish since 1978.
+
+The reconstruction includes data from many sources, but consistently
+recorded data were largely available starting in 1943 from
+U.S. Fish Commission reports.
+Landings from prior to 1941 were converted to round fish weight using a
+conversion factor of 1.431 because it is assumed that reports were of filleted fish.
+Linear interpretation between adjacent years was used to fill in years without
+landings information. In the 2017 assessment, [@haltuch2019lingcod]
+missing years were filled forward rather than linearly interpolated
+(Figure \@ref(fig:catch-comm-state)).
+These differences were minor, and there were no major changes in the time series
+compared to what was used in the previous assessment.
+```
+
+```{asis, catch-comm-OR-reconstruction, opts.label = 'north'}
+#### Oregon commercial reconstruction
+
+In Oregon, historical commercial landings from
+`r min(catch_comm_OR[["Year"]])` to
+`r max(catch_comm_OR[["Year"]])`
+were provided by \gls{odfw} [@karnowski2014].
+Historical landings began with exclusively longline landings,
+which was the primary gear type
+until the development of the trawl fishery in the 1940s.
+Historical landings exhibited an increasing trend until peaking at
+`r sprintf("%.0f mt in %.0f", catch_comm_OR_summary[["sum"]], catch_comm_OR_summary[["Year"]])`
+and averaged `r sprintf("%.1f mt", catch_comm_OR_summary[["mean"]])` annually.
+```
+
+#### California commercial reconstruction
+
+##### @sette1928
+
+@sette1928 provided information from interviews and state records
+on fishing patterns from 1888 to 1926
+for eight regions within U.S. waters.
+States along the Pacific Coast comprised one region,
+though state-specific landings were provided for Washington, Oregon,
+and California by species or species groups.
+For `r utils_name("common")`, the first positive record was from
+`r catch_sette1928 %>% dplyr::filter(lbs > 0) %>% dplyr::pull(Year) %>% min`
+and positive landings were documented for
+`r length(catch_sette1928 %>% dplyr::filter(lbs > 0) %>% dplyr::pull(Year) %>% unique) - 1`
+years.
+We used linear interpolation to fill in years with missing data,
+ramping up from zero in
+`r min(catch_sette1928[["Year"]])`
+to create a time series of
+`r length(min(catch_sette1928[["Year"]]):max(catch_sette1928[["Year"]]))`
+years (Figure \@ref(fig:catch-comm-CA-interpolate-ts)).
+
+Catches by gear type were only available from 1926, and thus,
+the calculated proportion of of the landings
+caught by FG and TW in 1926 was applied to all years because it was
+assumed that ratios were similar across the time series.
+Proportionally, FG represented
+`r catch_sette_prop_fa %>% dplyr::filter(fleet == "TW") %>% dplyr::pull(prop_fa) %>% sprintf("%.2f",.) %>% knitr::combine_words()`
+of the total catch for the
+`r catch_sette_prop_fa %>% dplyr::filter(fleet == "TW") %>% dplyr::pull(area) %>% tolower() %>% knitr::combine_words(.)`
+areas, respectively.
+The Northern California district was
+assumed to represent north of 40 degrees ten minutes and
+all other districts combined were used to represent the southern area.
+
+Landings from
+[California fish market data](https://oceanview.pfeg.noaa.gov/las_fish1/doc/names_describe.html),
+available within the
+[ERDDAP](https://coastwatch.pfeg.noaa.gov/erddap/tabledap/erdCAMarCatLM.html)
+database,
+were used to estimate the proportion of early landings that occurred in
+the northern area versus the southern area because fish market data were recorded
+by region on a yearly basis [@mason2004] within this data set.
+Whereas, @sette1928 only contained information on area for a single year.
+California fish market data represent a multi-organizational effort,
+but most landings are from
+fish ticket information collected by \gls{cdfw}.
+First, we calculated the yearly proportion of landings that occurred within
+the Eureka region north of Point Arena compared to all other regions
+`r sprintf("(%.2f)", erddapmeanpropEureka)`
+from port-specific landings from
+`r min(catch_erddap[["Year"]])`
+to
+`r sprintf("%s.", erddapmaxyrmeanbyarea)`
+Second, the proportion of landings within Eureka region
+that occurred north versus south of Cape Mendocino
+`r sprintf("(%.2f)", erddapmeanpropNEureka)`
+was calculated from 100-200 block data [@Miller_2014]
+starting in 1925 to 1931.
+The product of the means of these two proportions
+was used to partition data from @sette1928 to area.
+
+##### California fish market landings
+
+[California fish market data](https://oceanview.pfeg.noaa.gov/las_fish1/doc/names_describe.html),
+were available from the
+[ERDDAP](https://coastwatch.pfeg.noaa.gov/erddap/tabledap/erdCAMarCatLM.html)
+database
+over many years, but only those years that were missing
+between @sette1928 and the California Catch Reconstruction Project
+[@NOAA-TM-NMFS-SWFSC-461] were used.
+This resulted in keeping data from
+`r paste0(paste(collapse = " to ", catch_erddap %>% dplyr::filter(Year < catch_comm_CA_ralston$Year %>% min) %>% dplyr::pull(Year) %>% range),".")`
+<!--- to do: more text on erddap -->
+
+Information on region of landing was available and
+provided a means to assign the landings to the northern
+and southern areas. Though as previously mentioned,
+the Eureka region needed to be partitioned to area.
+We used the mean proportion of fish landed in the northern Eureka
+region `r sprintf("(%.2f)", erddapmeanpropNEureka)` from block data [@Miller_2014]
+to partition the sum of yearly landings within
+the Eureka region between areas.
+
+##### @NOAA-TM-NMFS-SWFSC-461
+
+@NOAA-TM-NMFS-SWFSC-461 represents the effort led by the \gls{swfsc}
+to reconstruct groundfish landings for the \gls{pfmc}, which
+are seen as the best available data for historical commercial
+landings from California ports.
+The data includes information on region of landing based on block assignments.
+Landings within region nine were assumed to be caught off of Mexico
+and were removed.
+Landings with a region code of two were partitioned to the northern and southern areas
+using the same method used above for California fish market landings.
+To check the validity of this assumption, we compared the proportion of
+landings assigned to the north versus the south to
+proportions calculated from confidential
+fish ticket data available in \gls{calcom} that have information on port of landing
+for available years between
+`r paste(collapse = " - ", range(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"]))`
+(pers. comm. M. Monk, \gls{swfsc}).
+The proportions showed similar trends, though the former were consistently
+higher than the latter for all years
+(Figure \@ref(fig:catch-comm-CA-proportionnorth)).
+
+The @NOAA-TM-NMFS-SWFSC-461 data also had to be partitioned to
+fleet given it does not contain information about gear.
+Fish ticket information in \gls{calcom} was used to calculate the
+proportion of landings landed by each fleet for the northern
+and southern areas separately; thus, partitioning landings by year
+into four groups, northern TW, northern FG, southern TW,
+and southern FG. Proportions were only available for
+the following years:
+`r paste0(knitr::combine_words(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"]), ",")`.
+Years with no information were back filled using adjacent years.
+
+##### CALCOM landings
+
+Starting in
+`r sprintf("%.0f,", min(catch_comm_CA_calcom[["Year"]]))`
+commercial landings were available for California by port-group complex
+and gear group from \gls{calcom}.
+The following gear groups
+`r knitr::combine_words(unique(catch_comm_CA_calcom %>% dplyr::filter(!GEAR_GRP %in% calcom_fleet_TW) %>% dplyr::pull(GEAR_GRP)))`
+were combined to encompass FG and
+`r knitr::combine_words(calcom_fleet_TW)`
+gear groups were combined to encompass TW.
+
+Unfortunately, the port-group complexes did not exactly align with the
+north-south split. But, it was assumed that the amount of landings
+within the Eureka port-group complex that occurred in the south was
+minor, and thus, all landings within the Crescent City
+and Eureka port-group complexes were assigned to the northern area
+and all other ports were assigned to the southern area.
+
+##### Washington and Oregon catches landed in California
+
+Landings caught off of the coast of Oregon
+`r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Oregon"]]))`
+and Washington
+`r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Washington"]]))`
+but landed in California during the period
+`r format_range(catch_comm_CA_ORwaters[["Year"]], parentheses = FALSE)`
+were added to the California reconstruction as was done in the previous assessment.
+These landings were assigned to the northern area TW fleet.
+In the future, the assignment of species and gear should be investigated
+more thoroughly for these landings.
+
+##### Missing data
+
+For combinations of year, area, and fleet that were missing
+in the reconstruction of California commercial landings,
+landings were interpolated based on a linear approximation
+between adjacent years with data
+(Figure \@ref(fig:catch-comm-CA-interpolate-ts)).
+Thus, the reconstruction ramped up from zero starting in
+`r catch_sette1928[["Year"]][1]`
+to
+`r sprintf("%.2f", catch_sette1928 %>% dplyr::filter(mt > 0) %>% dplyr::pull(mt) %>% dplyr::first())`
+mt in
+`r catch_sette1928 %>% dplyr::filter(mt > 0) %>% dplyr::pull(Year) %>% dplyr::first()`
+and all subsequent missing years of data were filled in based on
+linear interpolation between missing years
+for a given area and fleet combination.
+
+### \glsentrylong{pacfin} (\glsentryshort{pacfin})
+
+Commercial data were downloaded from the PacFIN database and provided
+data on landings for Washington, Oregon, and California since
+`r min(catch.pacfin[["Year"]])` (Figure \@ref(fig:catch-comm-ts-pacfin)).
+These landings were treated as the best available information for
+California and for Washington and Oregon since the beginning of
+`r sprintf("%s and %s,", 1 + max(catch_comm_WA[["Year"]]), 1 + max(catch_comm_OR[["Year"]]))`
+respectively.
+
+```{asis, catch-comm-OR-recent, opts.label = 'north'}
+Though `r utils_name("common")` are encountered on a wide variety of gear types in Oregon,
+most landings are from bottom trawl gear types
+`r sprintf("(%.1f percent from %.0f - %.0f).", catch_comm_pacfin_summary %>% dplyr::filter(state == "OR",fleet=="TW") %>% dplyr::pull(prop) %>% mean * 100, max(catch_comm_OR[["Year"]]) + 1, max(catch.pacfin[["Year"]]) - 1)`
+Landings from all other gear types are minimal relative to these two gear types and relatively sporadic.
+Commercial landings from
+`r sprintf("%.0f - %.0f", max(catch_comm_OR[["Year"]]), max(catch.pacfin[["Year"]]) - 1)`
+peaked in
+`r catch_comm_pacfin_summary %>% dplyr::filter(state == "OR") %>% dplyr::pull(maxYear) %>% dplyr::first()`
+at
+`r catch_comm_pacfin_summary %>% dplyr::filter(state == "OR") %>% dplyr::pull(max) %>% dplyr::first() %>% sprintf("%.2f", .)`
+before declining and fluctuating between
+`r catch_comm_pacfin_summary %>% dplyr::filter(state == "OR" & Year >= 2000) %>% dplyr::pull(yearsum) %>% range %>% sprintf("%.2f",.) %>% knitr::combine_words()`
+mt since 2000.
+```
+
+#### Assigning commercial landings to area
+
+Before splitting the commercial landings to area, all landings that
+were known to have been caught outside of the U.S. Exclusive Economic Zone
+`r paste0("(", removenonEEZcatch, " mt)")`
+were removed.
+These were landings that occurred in
+an unknown \gls{inpfc} area noted as XX or \gls{pacfin} area 02 or 4A.
+
+The split at 40 degrees 10 minutes N latitude required finding a method for
+splitting data within the Eureka (ERA) port-group complex.
+Data with a port of landing of Shelter Cove, a port within ERA were
+assigned to the southern model and data from all other ports within ERA, i.e.,
+`r paste0(knitr::combine_words(catch_comm_CA_ERA), ",")`
+were assigned to the northern model.
+If landings were not assigned to a port-group complex, then the physical location
+of the port of landing was used to assign an area. Lastly, if both
+port-group complex and port of landing were unknown, then area was assigned
+based on the mean behavior of a given vessel.
+For all vessels that had landings
+`r sprintf("(%.2f mt)", sum(catch_comm_CA_noport[["sumMT"]]))`
+without information on port-group complex or port of landing,
+their average port of landing for
+`r paste0(utils_name("common"), ".")`
+catches was used to assign port-group complex and thus area
+to these landings with no spatial information.
+Specifically, if more than half of a vessel's landings of
+`r utils_name("common")`
+were in ERA or CCA, then all of their landings without an assigned
+area were assigned to the northern area.
+
+For commercial landings from the state of California,
+the majority of the commercial FG landings occurred in the southern area and this
+has been relatively consistent for all years of data available in \gls{pacfin}
+(upper panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
+Whereas, the percentage of commercial landings from TW in the South relative to
+in the North has, on average,
+decreased with time (lower panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
+
+### Comparisons with previous model
+
+The current time series of commercial catches were aggregated using the previous
+model structure, i.e., the northern area included Washington and Oregon and the
+southern area included California, for comparison purposes
+(Figure \@ref(fig:catch-comm-state)).
+This comparison revealed differences in California data for both fleets.
+Subsequently, it was determined that in 2017 the trawl fleet included
+catches from both fleets. This has since been corrected, and the current catch
+stream represents what is known to be the best available data.
+Differences in the early reconstructions for the northern model are the result
+of linearly interpolating historical data rather than assuming it was equal to
+the previous year.
+Differences in the early reconstruction for the southern model are the result
+of using landings from @sette1928 instead of ramping up catches from zero.
+
+## Recreational landings
+
+```{asis, catch-rec-WA-text, opts.label = 'north'}
+#### Washington recreational landings
+
+The time series of recreational catches (numbers of fish)
+were provided by \gls{wdfw} and
+included information on fishing within Washington's coastal areas sampled by the
+Ocean Sampling Program in Marine Areas 1-4.
+Catches that were landed within the Strait of Juan de Fuca, i.e.,
+Bonilla-Tatoosh line to the mouth of the Sekiu River,
+and sampled by the Puget Sound Sampling Program were included in the landings
+because they were potentially caught in ocean waters even though they were
+landed in coastal waters. Other non-ocean landings were excluded.
+
+First, we calculated the mean length
+`r sprintf("(%0.2f mm).", bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length))`
+of fish landed within Washington recreational fishery
+(Figure \@ref(fig:catch-rec-tsrecfinmeanlength)) across all years
+`r format_range(bio_rec_recfin %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(Year))`
+and sexes.
+Next, we used this mean length in the weight-length relationship
+as calculated from the most recent survey data to determine the mean weight.
+Finally, weight (mt) was determined from mean weight and numbers.
+
+The scale of the catches is smaller than what was used in the previous
+assessment because this assessment only includes information on retained fish
+rather than retained and discarded (Figure \@ref(fig:catch-rec-ca-oldts)).
+```
+
 ```{asis, catch-rec-OR-text, opts.label = 'north'}
-#### Oregon
+#### Oregon recreational landings
 
 The recreational fishery in Oregon likely began in the early 1950s or 1960s
 but data on catches prior to
@@ -1218,116 +1298,17 @@ until peaking in 1993 at 16.7 mt.
 Shore and estuary boat landings average 6.5 mt annually from 1980 – 2003.
 Shore and estuary landings were combined with the ocean boat landings
 for the total Oregon recreational landings (1974 – 2020).
-
 ```
 
+#### California recreational landings
 
-
-```{r catch-rec-CA}
-# albin
-# 2020-11-06 E.J. Dick, M. Monk, C. Wetzel, J. Budrick, I. Taylor
-# engaged in an email conversation but it pertained to Point Reyes, i.e.,
-# split between Mendocino/Sonoma and San Francisco, around 38.25
-#
-# 2021-04-14 E.J. Dick, M. Monk, I. Taylor, and K.F. Johnson
-# engaged in a video chat regarding how to split at 40-10 because
-# Redwood includes Humboldt County with Shelter Cove rather than
-# Humboldt County without Shelter Cove, which is what we want.
-# E.J. does not know of any other way to partition MRFSS data that has
-# two groups, Northern and Southern, for SUB_REGION_NAME == CA
-#   * 1990-1992 San Luis Obispo County in Southern region
-#   * 1993-.... San Luis Obispo County in Northern region
-#
-# csv is group = "35. LINGCOD" of Table 1 in Albin et al. 1993 which
-# contains county-specific catch estimates for 1981-1986
-data_albin <- read.csv(file = file.path("..", "data-raw", file_albin),
-  skip = 2, header = TRUE, check.names = FALSE
-) %>%
-  rlang::set_names(paste(sep = "_",
-    read.csv(
-      file = file.path("..", "data-raw", file_albin),
-      skip = 1, header = FALSE, check.names = FALSE, nrows = 1
-    ),
-    colnames(.))
-  ) %>%
-  dplyr::rename(Year = "NA_Year") %>%
-  tidyr::gather("type", "value", -Year) %>%
-  tidyr::separate(type, into = c("Area", "type"), sep = "_") %>%
-  tidyr::spread(key = "type", value = "value") %>%
-  dplyr::arrange(Area) %>%
-  dplyr::mutate(Source = "albinetal1993") %>%
-  dplyr::filter(Area != "Total") %>%
-  dplyr::group_by(Year) %>%
-  dplyr::mutate(sum = sum(Est)) %>%
-  dplyr::group_by(Area, Year) %>%
-  dplyr::mutate(prop_source = Est / sum) %>%
-  dplyr::ungroup()
-
-# todo: pre-1980 catches from SSold
-albinmeanpropN <- data_albin %>%
-          dplyr::group_by(Year) %>%
-          dplyr::mutate(YearT = sum(Est)) %>%
-          dplyr::ungroup() %>% dplyr::group_by(Area) %>%
-          dplyr::summarize(wm = stats::weighted.mean(prop_source, w = YearT)) %>%
-          dplyr::filter(grepl("Del", Area)) %>% dplyr::pull(wm)
-catch_rec_CA <- catch_rec_1980 %>%
-    dplyr::filter(state == "CA") %>%
-    dplyr::group_by(Year, state) %>%
-    dplyr::summarize(
-      mt = sum(WGT_AB1, na.rm = TRUE) / 1000,
-      .groups = "keep"
-    ) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(source = "MRFSS") %>%
-  dplyr::full_join(
-  by = c("Year", "state", "mt", "source"),
-  x = .,
-  y = dplyr::anti_join(
-    by = c("Year", "mt", "state", "source"),
-    y = .,
-    x = last_ssdat[[2]][["catch"]] %>%
-      dplyr::mutate(state = "CA", source = "old SS") %>%
-      dplyr::filter(
-        fleet == grep("CA_REC", last_ssdat[[2]][["fleetnames"]]),
-        catch > 0,
-        year < min(catch_rec_1980$Year)
-      ) %>%
-      dplyr::select(-seas, -catch_se, -fleet) %>%
-      dplyr::rename(Year = year, mt = catch)
-  )) %>%
-    tidyr::crossing(area = areas) %>%
-    dplyr::mutate(
-      mt = dplyr::case_when(
-        state == "CA" & area == "North" ~ mt * albinmeanpropN,
-        state == "CA" & area == "South" ~ mt * (1 - albinmeanpropN),
-        TRUE ~ mt
-      )
-    ) %>%
-  dplyr::full_join(
-    by = c("Year", "state", "mt", "source", "area"),
-    x = .,
-    y = catch_rec_2000 %>%
-    dplyr::group_by(area, state, Year, source) %>%
-    dplyr::summarize(mt = sum(TOTAL_MORTALITY_MT), .groups = "keep") %>%
-    dplyr::filter(state == "CA") %>%
-    dplyr::ungroup()
-  ) %>%
-  dplyr::group_by(area) %>%
-  tidyr::complete(
-    Year = tidyr::full_seq(Year, 1),
-    fill = list(source = "interpolate", state = "CA")
-  ) %>%
-  dplyr::mutate(mt = stats::approx(Year, mt, n = length(Year))$y) %>%
-  dplyr::ungroup()
-```
-#### California
-
-##### Marine Recreational Fisheries Statistics Survey (MRFSS)
+##### \glsentrylong{mrfs} (\glsentryshort{mrfss})
 
 California recreational `r utils_name("common")` catches since
 `r min(catch_rec_1980[["Year"]]) - 1`
 are available within the \gls{mrfss} database
-(Figure \@ref(fig:catch-rec-CA-ts)).
+(Figure \@ref(fig:catch-rec-CA-ts)) and stored in
+the \gls{recfin} database.
 The first year of data are typically not used because of the lack
 of standardization within the sampling protocols which led to vastly
 different estimates of catches compared to later years. Thus,
@@ -1348,24 +1329,28 @@ A catch-weighted mean proportion for the years
 `r knitr::combine_words(unique(data_albin$Year))`
 was used to split coast-wide recreational landings to area.
 
-\gls{mrfss} data are not available for
+Between 1990 and 1992, the \gls{mrfss} sampling program ceased
+because of budgetary limitations.
+Additionally, there was a transition year between \gls{mrfss}
+and \gls{crfs} without data.
+Thus, linear interpolation was used to provide proxy estimates for
 `r knitr::combine_words(catch_rec_CA %>% dplyr::filter(source == "interpolate") %>% dplyr::pull(Year) %>% unique)`
-and thus these years were linearly interpolated from surrounding years.
+(Figure \@ref(fig:catch-rec-CA-ts)).
 
-##### California Recreational Fisheries Survey (CRFS)
+##### \glsentrylong{crfs} (\glsentryshort{crfs})
 
 Sampling under \gls{crfs} started in January of
 `r catch_rec_2000$Year %>% min`
-and is still currently being collected.
-Information includes on port group that was used to partition landings
-to the northern and southern areas.
+and data are still currently being collected.
+Information includes data on port group
+that was used to partition landings to area.
 Redwood was assigned to the northern area for all years since 2005,
 even though Redwood in 2005 through 2007 also contained landings from
 Shelter Cove.
 This time series also includes landings from from Mexico and Canada
 that were excluded from this analysis.
 
-### Fleet
+### Recreational fleet structure
 
 Recreational data were first compiled to the state level as a single fleet
 with all gear types. Then, data from northern California was added to the northern
@@ -1374,40 +1359,3 @@ because each fishery is subject to unique regulations that affect selectivity
 (Figure \@ref(fig:catch-rec-ts)).
 The remaining data from California was used to model recreational fisheries
 in the southern area as a single fleet.
-
-
-```{r catch-rec-final}
-catch_rec <- dplyr::full_join(
-  by = c("Year", "mt", "state"),
-  catch_rec_WA,
-  catch_rec_OR
-) %>%
-  dplyr::select(Year, mt, state) %>% dplyr::mutate(area = "North") %>%
-  dplyr::full_join(
-    y = catch_rec_CA,
-    by = c("Year", "area", "state", "mt"),
-  )
-```
-
-```{r catch-usethis}
-data_catch <- dplyr::full_join(
-  by = c("Year", "area", "mt", fleet = "state"),
-  x = catch_comm,
-  y = catch_rec %>% dplyr::select(-source)
-)
-usethis::use_data(data_catch, overwrite = TRUE)
-
-```
-
-
-
-```{asis catch-tables-title, eval = ifelse(knitr::opts_knit$get("child"), FALSE, TRUE)}
-### Tables
-```
-```{r catch-tables-parent, eval = ifelse(knitr::opts_knit$get("child"), FALSE, TRUE), child = "catch-tables.Rmd"}
-```
-```{asis catch-figures-title, eval = ifelse(knitr::opts_knit$get("child"), FALSE, TRUE)}
-### Figures
-```
-```{r catch-figures-parent, eval = TRUE, child = "catch-figures.Rmd", include = FALSE}
-```
