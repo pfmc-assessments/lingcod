@@ -6,19 +6,21 @@ are provided below.
 
 ## Fishery-Dependent data
 
-```{r spin-catch, results = "asis"}
+```{r render-catch, results = "asis"}
 sa4ss::read_child(file.path("catch.Rmd"))
 ```
 
-### Recreational \glsentrylong{cpue} (\glsentryshort{cpue})
+### \Glsentrylong{cpue} (\glsentryshort{cpue})
 
-```{r render-reccpuewa, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
-# sa4ss::read_child(file.path("reccpuewa.Rmd"))
-sa4ss::read_child(file.path("recorcpue.Rmd"))
+```{r render-cpue, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
+sa4ss::read_child(file.path("commcpueor.Rmd"))
+sa4ss::read_child(file.path("reccpuewa.Rmd"))
+sa4ss::read_child(file.path("reccpueor.Rmd"))
 ```
+
 ### Unused fishery-dependent data
 
-```{r spin-catch, results = "asis"}
+```{r render-24data-notused, results = "asis"}
 sa4ss::read_child(file.path("24data-notused.Rmd"))
 ```
 
@@ -26,6 +28,6 @@ sa4ss::read_child(file.path("24data-notused.Rmd"))
 
 ### Unused fishery-independent data
 
-```{r spin-catch, results = "asis"}
+```{r render-29data-notused, results = "asis"}
 sa4ss::read_child(file.path("29data-notused.Rmd"))
 ```

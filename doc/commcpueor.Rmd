@@ -1,0 +1,107 @@
+#### Oregon nearshore logbook index
+
+\Gls{odfw} has required nearshore commercial fishers
+(both nearshore permitted vessels and open access vessels)
+to submit fishing logbooks since 2004.
+Compliance is generally high, averaging around 80\%, but has varied through
+time, ranging from 65\% in 2007 to greater than 90\% in recent years. Although
+required to provide all requested information in the logbook per fishing
+gear set, there has been substantial variation in the quantity and quality
+of information reported in logbooks. The logbook database contains
+information on catch by species (number or pounds of retained and released
+fish), effort (hook hours), sample location (port), date, vessel, fishing
+depth, fishing gear, fishing permit, number of fishers, and harvest trip
+limits.
+
+##### Data preparation, filtering, and sample sizes
+
+Logbook information went through multiple data-quality filters to attain the
+best possible consistent and representative data set through time to estimate
+a relative abundance trend (Table \@ref(tab:cpue-commercialfixed-gear-filter)).
+Individual observations of catch and effort were at the trip level,
+where multi-set trips were aggregated to the trip level.
+CPUE was calculated for each trip, where total
+catch was defined as the total of all reported retained catch (in weight) and
+released catch (numbers converted to weight by applying a median catch
+weight) and total effort was defined by hook-hours (number of hooks used
+multiplied by the number of hours fished). The full dataset included data
+from 38,350 trips from 2004 – 2020. Encounter rates are relatively high in
+this dataset with `r spp`. In general, data filters that were applied
+included eliminating records with missing or unrealistic values, including
+permitted trips using only hook and line jig gear from ports with appreciable
+data, and using only vessels that fished in at least three years over the
+logbook history. Vessel operators may have changed through time as the filter
+was tied to the vessel name only. Gear type was restricted to hook-and-line
+only (excluding longline gear) because this gear type accounts for the vast
+majority of trips for `r spp` (approximately 78.5\% of unfiltered dataset).
+Ports retained in the dataset were Port Orford, Gold Beach and Brookings as
+these ports are where most commercially caught `r spp` are landed. With the
+exception of the vessel fishing for a minimum of three years and the
+abnormally deep trips, these filters are consistent with the most recent
+`r spp` assessment [@haltuch2019lingcod]. These two filters were used for
+development of the Oregon nearshore logbook index in the most recent cabezon
+assessment [@cope2019cabezon] and were retained here at the recommendation of
+ODFW staff.
+
+##### Standardization: model selection, fits, and diagnostics
+
+Covariates considered included month, vessel, port, depth, and people.
+Two-month periods associated with commercial trip limits were also considered
+but were excluded due to multicollinearity with month. All covariates were
+specified as factors, except depth was a continuous variable. Depth was
+included to account for general differences in bathymetry and fishing depth
+restrictions. People were included to try to control for the potential
+oversaturation of hooks at a given fishing location and the interaction that
+multi-crew trips (number of fishers onboard) may have on fishing efficiency.
+Accounting for vessel also accounts for variability in fishing capacity. 
+
+CPUE was modeled using a delta-GLM approach, where the catch occurrence
+(binomial) component was modeled using a logit link function and the log of
+the positive catch component was modeled according to a Gaussian distribution
+with an identity link function. The selection of covariates included in final
+models were evaluated using standard information criterion for relative
+goodness of fit (AIC and BIC), where a covariate remained in the model if
+model fit was improved relative to an otherwise identical model without the
+covariate (Table \@ref(tab:OR_COMM_NSLOG_CPUE_model_selection)). Model selection of all
+main effects identified the full model with covariates month, vessel, port,
+depth and people as the best fit to the data, along with the year factor of
+interest for the index. Residuals from the binomial component of the delta
+model are not expected to be normally distributed, so quantile residuals were
+simulated [@dunn1996] using the R package DHARMa [@hartig2021]. A
+quantile-quantile (QQ) plot of the simulated residuals suggests that the
+binomial component of the delta-model is a reasonable approximation of the
+data (Figure \@ref(fig:ScaledQQplot_bin)).
+However, as observed with the Oregon ORBS
+CPUE index, there were issues noted in the DHARMa simulated residuals,
+including curvature and significant outlier tests, for the positive component
+of the model (Figure \@ref(fig:ScaledQQplot_pos)). These were confirmed with standard
+diagnostic tools for GLMs.  Despite filtering procedures described above, it
+was noted that there are a wide range of positive CPUE values, which results
+in a heavy left skew in the log(CPUE) values. Multiple alternative
+distributions and more parsimonious models for the positive model were
+explored, as well as aggressive filter for outlier CPUE values, but did not
+substantially improve diagnostics. There was insufficient time to fully
+resolve these diagnostic issues and alternative approaches may need to be
+explored for future assessments.
+
+To estimate the uncertainty in the final index of abundance, it is necessary
+to account for the correlation structure between parameters within the
+binomial and lognormal components of the model, as well as with the combined
+(binomial and lognormal components) delta-model. The rstanarm package in R
+was used to replicate the best models using diffuse prior distributions that
+replicated point estimates from the maximum likelihood fits [rstanarm2020].
+The advantage of this approach is that the calculation of the index
+(summing relevant model parameters and combining model components) can be
+applied to posterior draws, preserving the correlation structure and
+propagating uncertainty into the final index
+(Figure \@ref(fig:)). As
+an additional diagnostic, replicate datasets were generated from the
+posterior predictive distribution, and compared the \gls{mle}
+from the model components to the median estimates from the
+posterior distribution. As expected with the above diagnostics, the binomial
+model closely matches the distribution from replicate datasets; however,
+there are some deviations with the positive model. \Gls{mle} were virtually
+identical to the medians of the posterior distributions in both cases,
+however.
+
+
