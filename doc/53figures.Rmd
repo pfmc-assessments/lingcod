@@ -220,3 +220,109 @@ caption = "Weight-length relationship for males and females from the WCGBTS",
 label = 'len-weight')
 ```
 
+
+<!-- ====================================================================== -->
+<!-- ******************     Recreational Length and Age Comps    ********** --> 
+<!-- ====================================================================== -->
+
+```{r, echo=FALSE, results='asis', opts.label = 'north'}
+##
+#Lenghts
+##
+
+nm = "WA Recreational - Sexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the Washington recreational fleet for males and females",
+label = 'wa-lencomp-sexed')
+
+nm = "WA Recreational - Unsexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the Washington recreational fleet for unsexed fish",
+label = 'wa-lencomp-unsexed')
+
+
+nm = "OR Recreational - Sexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the Oregon recreational fleet for males and females",
+label = 'or-lencomp-sexed')
+
+nm = "OR Recreational - Unsexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the Oregon recreational fleet for unsexed fish",
+label = 'or-lencomp-unsexed')
+
+
+nm = "CA North Recreational - Sexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the California recreational fleet north of 40 degrees 10 minuts N lattidue for males and females",
+label = 'ca-lencomp-sexed')
+
+nm = "CA North Recreational - Unsexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the California recreational fleet north of 40 degrees 10 minuts N lattidue for unsexed fish",
+label = 'ca-lencomp-unsexed')
+
+
+##
+#Ages
+##
+
+nm = "WA Recreational - Sexed_Age_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Age distributions for the Washington recreational fleet for males and females",
+label = 'wa-agecomp-sexed')
+
+nm = "WA Recreational - Unsexed_Age_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Age distributions for the Washington recreational fleet for unsexed fish",
+label = 'wa-agecomp-unsexed')
+
+nm = "OR Recreational - Sexed_Age_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Age distributions for the Oregon recreational fleet for males and females",
+label = 'or-agecomp-sexed')
+
+nm = "OR Recreational - Unsexed_Age_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Age distributions for the Oregon recreational fleet for unsexed fish",
+label = 'or-agecomp-unsexed')
+```
+
+
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+##
+#Lengths
+##
+nm = "CA South Recreational - Sexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the California recreational fleet south of 40 degrees 10 minuts N lattidue for males and females",
+label = 'ca-lencomp-sexed')
+
+nm = "CA South Recreational - Unsexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the California recreational fleet south of 40 degrees 10 minuts N lattidue for unsexed fish",
+label = 'ca-lencomp-unsexed')
+
+nm = "debHist - Unsexed_Length_Frequency.png"
+add_figure(
+filein = file.path("..", "figures", nm),
+caption = "Length distributions for the historical onbaord sampling of party boats from 1987-1998. Fish were not sexed from this dataset",
+label = 'debWV-lencomp-unsexed')
+
+
+
+```
+
