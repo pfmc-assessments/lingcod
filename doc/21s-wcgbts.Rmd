@@ -35,7 +35,7 @@ Table \ref{tab:sample-size-length} shows sample sizes.
 The input sample sizes were calculated via the Stewart method (Ian Stewart, personal communication) 
 which incorporate the number of trips and fish by year:
 
-[THE BELOW EQUATION DOES NOT APPEAR RIGHT BASED ON NUMBERS - NEED TO CONFIRM FOR SURVEY DATA]
+[THE BELOW EQUATION DOES NOT APPEAR RIGHT BASED ON THE NUMBERS - NEED TO CONFIRM FOR SURVEY DATA]
 
 \begin{centering}
 
@@ -86,19 +86,21 @@ rare conditions at best. By fully estimating the growth specifications within th
 stock assessment model, this major source of uncertainty is included in the assessment 
 results, and bias in the observation of length-at-age is avoided. 
 
-The CAAL was only applied to male and female `r spp` and so unsexed fish were excluded. 
+The CAAL apporach was only applied for male and female `r spp` and so unsexed fish were excluded. 
 
 ```{asis, opts.label = 'north'}
 This results in 60 unsexed fish excluded from the CAAL distributions, or approximately
 one percent of the aged fish.
 ```
 
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'south'}
 This results in 504 unsexed fish excluded from the CAAL distributions, or approximately
 15 percent of the aged fish.
 ```
 
-Table \ref{tab:sample-size-length} show sample sizes.
+Table \ref{tab:sample-size-age} show sample sizes. Sensitivities to using the CAAL
+approach were explored by replacing with marginal age distributions. 
+
 
 
 

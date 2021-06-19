@@ -17,3 +17,33 @@ The surveys in 1980, 1983, and 1986 covered the US West Coast south to 36.8\text
 The surveys in 1989 and 1992 covered the same depth range but extended the southern range to 34.5\textdegree N (near Point Conception).
 From 1995 through 2004, the surveys covered the depth range 55-500 m and surveyed south to 34.5\textdegree N.
 In 2004, the final year of the \gls{s-tri} series, the \gls{nwfsc} \gls{fram} conducted the survey following similar protocols to earlier years.
+
+The triennial data have historically been split into early (1980-1992) 
+and late (1995-2004) survey time series and treated independently, however
+for this assessment we combined across time series into a single fleet.
+Splitting the triennial survey into two time series was explored as a 
+sensitivity. 
+
+#### Index
+
+[enter in index information here]
+
+#### Length-frequency data
+
+Length data preparation followed the same methods as applied to the WCBTS data,
+but depth strata of 55 - 183 m and 183 - 350m were used for expanding the
+length comps for subsampling of tows. A depth split of 183 m was used because
+sampling appeared less intense after this depth, and raw catch per unit effort 
+more variable (Figure \ref{fig:tri-depthSplit}). A maximum
+depth of 350 m was used because lingcod were infrequently caught at depths 
+greater than 350 m (Figure \ref{fig:tri-depthSplit}). 
+Figure \ref{fig:tri-lenComp} shows the length frequency distributions for the \gls{s-tri}. 
+Table \ref{tab:sample-size-length} shows the sample sizes.
+
+#### Age-frequency data
+
+Age data preparation follow the same methods as the WCBTS length data. 
+The \gls{s-tri} age-frequency data were included in the model 
+as CAAL, and marginal age compositions were explored as sensitivities.
+Figure \ref{fig:tri-ageComp} shows the age frequency data for the \gls{s-tri}.
+Table \ref{tab:sample-size-age} shows sample sizes.

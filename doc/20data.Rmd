@@ -13,12 +13,20 @@ sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
 sa4ss::read_child(file.path("21s-tri.Rmd"))
 ```
 
-```{r spin-catch, results = "asis"}
-sa4ss::read_child(file.path("21s-slope.Rmd"))
+```{r spin-catch, results = "asis", opts.label = 'south'}
+sa4ss::read_child(file.path("21s-hkl.Rmd"))
 ```
 
 ```{r spin-catch, results = "asis"}
 sa4ss::read_child(file.path("21s-ccfrp.Rmd"))
+```
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("21s-lam-research.Rmd"))
+```
+
+```{r spin-catch, results = "asis"}
+sa4ss::read_child(file.path("21s-aslope.Rmd"))
 ```
 
 ## Fishery-Dependent Data
