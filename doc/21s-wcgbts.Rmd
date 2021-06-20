@@ -32,20 +32,11 @@ length bin at which the length-weight relationship starts to diverge for males a
 and therefore equal assigment is not influenced by sex-specific size differences. Figure \ref{fig:wcgbts-lenComp} shows the length frequency distributions for the \Gls{s-wcgbt}. 
 Table \ref{tab:sample-size-length} shows sample sizes.
 
-The input sample sizes were calculated via the Stewart method (pers. comm., I. Stewart, \gls{iphc}) 
-which incorporate the number of trips and fish by year:
-
-[THE BELOW EQUATION DOES NOT APPEAR RIGHT BASED ON THE NUMBERS - NEED TO CONFIRM FOR SURVEY DATA]
-
-\begin{centering}
-
-Input effN = $N_{\text{trips}} + 0.138 * N_{\text{fish}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $<$ 44
-
-Input effN = $7.06 * N_{\text{trips}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $\geq$ 44
-
-\end{centering}
-
-
+The input sample sizes for length and marginal age-composition data for all 
+fishery-independent surveys were calculated according to 
+Stewart and Hamel [-@stewart_bootstrapping_2014], which determined that the 
+approximate realized sample size for species in the "others" category 
+(which included `r spp`) was $2.38*N_{\text{tow}}$.
 
 #### Age-frequency data
 
