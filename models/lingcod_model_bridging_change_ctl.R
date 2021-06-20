@@ -12,7 +12,7 @@ for (area in c("n", "s")) {
     # + remove extra Rec_OR index (num = 4, sens = 8)
     olddir <- get_dir_ling(area = area, num = 4, sens = 8) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 8, sens = 8)
+    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
     # specific model from which to get the tunings (from the control file)
     tuningdir <- get_dir_ling(area = area, num = 8, sens = 6)
   }
@@ -20,7 +20,7 @@ for (area in c("n", "s")) {
     # data file model with unexpanded comp data (num = 4, sens = 4)
     olddir <- get_dir_ling(area = area, num = 4, sens = 4) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 8, sens = 8)
+    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
     # specific model from which to get the tunings (from the control file)
     tuningdir <- get_dir_ling(area = area, num = 8, sens = 6)
   }
@@ -65,7 +65,7 @@ for (area in c("n", "s")) {
                                  string = "L_at_Amax_Fem_GP",
                                  PHASE = 7)
 
-  newctl$Growth_Age_for_L2 <- 14
+  newctl$Growth_Age_for_L2 <- 14 # keep at value used in 2017
   # change assumptions about variability in growth
   if (grepl("CV_growth1", newdir)) {
     newctl$CV_Growth_Pattern <- 1
@@ -335,11 +335,26 @@ for (area in c("n", "s")) {
                                        paste0("#_", names(block_breaks)[iblock]))
   }
 
-  # put the right block on Surv_TRI catchability
+  ## # put the right block on Surv_TRI catchability
+  ## newctl$Q_parms <- change_pars(newctl$Q_parms,
+  ##                               string = "Surv_TRI",
+  ##                               Block = grep("Surv_TRI", names(block_breaks)))
+  # turn off split of triennial Q
   newctl$Q_parms <- change_pars(newctl$Q_parms,
                                 string = "Surv_TRI",
-                                Block = grep("Surv_TRI", names(block_breaks)))
-
+                                Block = 0,
+                                Block_Fxn = 0)
+  # take out block replacement parameter for triennial Q
+  newctl$Q_parms_tv <- NULL
+  
+  # turn of extraSD parameter for CPFV_DebWV because it is small and had
+  # problems correlation issues (#76)
+  if (area == "s") {
+    newctl$Q_parms <- change_pars(newctl$Q_parms,
+                                  string = "Q_extraSD_10_CPFV_DebWV",
+                                  INIT = 0,
+                                  PHASE = -2)
+  }
   
   # apply the blocks to the appropriate parameters
   fleets <- get_fleet()

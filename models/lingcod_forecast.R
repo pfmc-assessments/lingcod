@@ -4,10 +4,10 @@
 for (area in c("n", "s")){
   olddir <- get_dir_ling(area = area, num = 8, sens = 1)
   if (area == "n") {
-    newdir <- get_dir_ling(area = area, num = 8, sens = 3)
+    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
   }
   if (area == "s") {
-    newdir <- get_dir_ling(area = area, num = 8, sens = 2)
+    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
   }
   
   r4ss::copy_SS_inputs(
@@ -51,5 +51,5 @@ for (area in c("n", "s")){
   
   # assign modified forecast to new model files
   inputs$fore <- fore
-  write_inputs_ling(inputs = inputs, dir = newdir, files = "fore")
+  write_inputs_ling(inputs = inputs, dir = newdir, files = "fore", overwrite = TRUE)
 }

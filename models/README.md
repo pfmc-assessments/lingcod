@@ -73,7 +73,11 @@ name | notes | issue | source_model | script
 2021.s.008.005_Francis | apply Francis tuning to previous model | #59 | 2021.s.008.004 | lingcod_model_bridging_change_ctl.R
 2021.n.008.006_discardSD | increase discard uncertainty by 0.05 | #59 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R, lingcod_model_discardSD.R
 2021.s.008.006_discardSD | increase discard uncertainty by 0.05 | #59 | 2021.s.008.005 | lingcod_model_bridging_change_ctl.R, lingcod_model_discardSD.R
-2021.n.008.007_age14_for_L2 | increase Growth_Age_for_L2 from 10 to 14 | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
 2021.n.008.008_CV_growth1 | change CV_Growth_Pattern from 0 to 1 (with Growth_Age_for_L2 = 14) | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
 2021.s.008.008_CV_growth1 | change CV_Growth_Pattern from 0 to 1 | #76 | 2021.s.008.005 | lingcod_model_bridging_change_ctl.R
-
+2021.n.008.009_age999_for_L2 | increase Growth_Age_for_L2 to 999 | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
+2021.s.008.009_age999_for_L2 | increase Growth_Age_for_L2 to 999 | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
+2021.s.008.010_selex_test | initial_selex | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
+2021.s.008.011_selex_test2 | initial_selex | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
+2021.n.009.001_simplify | use 3.30.17.01, turn off a few parameters (remove block on Surv_TRI selex) | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R
+2021.s.009.001_simplify | use 3.30.17.01, turn off a few parameters (fix Q_extraSD_10_CPFV_DebWV = 0, remove block on Surv_TRI selex) | #76 | 2021.s.008.005 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R

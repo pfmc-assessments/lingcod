@@ -2,7 +2,7 @@
 ## # get the block_breaks vector from this file:
 ## knitr::purl("doc/selectivity.Rmd")
 ## source("selectivity.R")
-## usethis::use_data(block_breaks)
+## usethis::use_data(block_breaks, overwrite = TRUE)
 
 
 ## -----------------------------------------------------------------------------
@@ -38,5 +38,5 @@ block_breaks[["Rec_CA_sel"]] <- c(1999)
 
 ## -----------------------------------------------------------------------------
 # add block break points to list created above
-block_breaks[["Surv_TRI_sel"]] <- c(1995)
+# block_breaks[["Surv_TRI_sel"]] <- c(1995)
 
