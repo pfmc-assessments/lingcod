@@ -239,3 +239,9 @@ thanks to `.gitignore`)
 `r4ss::SS_output()` and save the results as an .rda file
 * If the repo is getting too big we can delete most of the .sso files from the repo
 and rely on Google Drive to pass these back and forth
+
+### Compiled pdf
+
+* The compiled pdf can be found on
+[google drive](https://drive.google.com/drive/folders/10-AZ7J51LoQ-YIFPLPKnyH_X2gu4lFZF?usp=sharing)
+and is not always pushed to github because of its size.
