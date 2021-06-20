@@ -1,3 +1,3 @@
 "caption","altcaption","label","filename","loc"
-"Filtering criteria for commercial fixed-gear data and the resulting number and percent positive records remaining after filtering.",NA,"cpue-commercialfixed-gear-filter","cpue-commercialfixed-gear-filter.csv","data-raw"
-"Filtering criteria for recreational Oregon data and the resulting number and percent positive records remaining after filtering."," ","cpue-recreationalOregon-filter","cpue-recreationalOregon-filter.csv","data-raw"
+"Filtering criteria for commercial fixed-gear data and the resulting number (N) and percent positive (pos) records remaining after filtering.",NA,"cpue-commercialfixed-gear-filter","cpue-commercialfixed-gear-filter.tex","../tables"
+"Filtering criteria for recreational Oregon data and the resulting number (N) and percent positive (pos) records remaining after filtering."," ","cpue-recreationalOregon-filter","cpue-recreationalOregon-filter.tex","../tables"

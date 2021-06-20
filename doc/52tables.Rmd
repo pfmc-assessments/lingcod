@@ -1,0 +1,16 @@
+\clearpage
+<!--
+to do onboarding sa4ss - move this to sa4ss.sty so everyone's figures hold their order
+https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-figure-caption-in-pdf-output-of-knitr
+-->
+\floatplacement{table}{H}
+# Tables
+
+```{r, cpue-tables, results = "asis"}
+# Arrange figures in order of the time they were modified
+tabledataframe <- utils::read.csv(file.path("..", "tables", "tables_cpue.csv"))
+tablefiles <- file.path("..", "tables",
+  gsub("\\.csv", ".tex", tabledataframe[["filename"]])
+)
+ignore <- mapply(sa4ss::read_child, tablefiles)
+```

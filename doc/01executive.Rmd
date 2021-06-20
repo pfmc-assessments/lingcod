@@ -1,8 +1,9 @@
 ```{r executive, echo = FALSE}
+assessmentyear <- as.numeric(format(Sys.Date(), "%Y")) - 1
 executive <- list()
 executive[["stock"]] <- paste0("This assessment reports the status of ",
-  spp, " (_", spp.sci, "_) off the ", coast, 
-  " coast using data through xxxx.")
+  spp, " (_", spp.sci, "_) off the ", tolower(params$area), "ern ", coast,
+  " coast using data through ", assessmentyear, ".")
 ```
 # Executive Summary{-}
 ## Stock{-}

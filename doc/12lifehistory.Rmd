@@ -15,7 +15,7 @@ are most abundant in areas of hard bottom with rocky relief [@rickey1991geograph
 They typically occur at depths less than 200 m but
 they are caught in the \Gls{s-wcgbt} up to depths of 450 m.
 
-### Size, Growth, and Maturity
+### Growth and maturity
 
 `r Spp` are sexually dimorphic,
 with females typically growing faster and
@@ -28,8 +28,6 @@ Consequently, individuals from northern waters generally
 grow faster, live longer, and mature at larger sizes
 than individuals from southern regions
 [@richards1990multivariate; @silberberg2001analysis; @lam2019geographic].
-
-### Spawning
 
 `r Spp` are iteroparous spawners.
 Male `r spp` aggregate in late fall and move to rocky habitat in
@@ -51,8 +49,6 @@ ability to spawn year round.
 Peak spawning takes place during October through December
 (pers. comm, Melissa Head, NWFSC).
 
-### Larvae
-
 At hatching, `r spp` larvae are about 12 mm in total length and
 are epipelagic for approximately 90 days,
 until reaching about 70 mm and settling to soft bottom habitats
@@ -63,8 +59,6 @@ shifting to larger copepods and fish larvae as they grow [@phillips1977early].
 staying on soft bottom until they grow to at least 350 mm in length.
 After reaching 350 mm, they move into rocky, high-relief substrate,
 which is the preferred adult habitat [@petrie2006hunger; @bassett2018lingcod].
-
-### Juveniles
 
 Newly settled juveniles are typically found
 at depths ranging from 9-55 m
@@ -135,8 +129,6 @@ trawl gear [@miller1973fish].
 Fishery and survey data indicate that male `r spp` tend to be more abundant
 than females in shallow waters, and
 the size of both sexes increase with depth [@jagielo1994assessment].
-
-### Movement
 
 The movement and migration of `r spp` has been extensively studied
 through tag-recapture methods and acoustic arrays.

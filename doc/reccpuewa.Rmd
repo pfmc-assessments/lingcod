@@ -87,7 +87,7 @@ file_reccpuewadockside81 <- file.path("..", "data-raw", "Sport Dockside Intervie
 file_reccpuewadockside90 <- file.path("..", "data-raw", "Sport Dockside Interviews 1990-2016.txt")
 file_reccpuewadockside17 <- file.path("..", "data-raw", "Sport Dockside Interviews 2017-2020.csv")
 file_reccpuewaresults <- file.path("..", "data-raw", "reccpuewa-results.RData")
-file_reccpuewafigures <- file.path("reccpuewa-figures.R")
+file_reccpuewafigures <- file.path("reccpuewa-figures.Rmd")
 WA_dockside_dat_81_89 <- read.csv(file_reccpuewadockside81)
 WA_dockside_dat_90_14 <- read.csv(file_reccpuewadockside90)
 WA_dockside_dat_17_20 <- read.csv(file_reccpuewadockside17)

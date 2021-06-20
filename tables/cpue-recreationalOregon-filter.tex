@@ -1,0 +1,21 @@
+
+\begin{longtable}[t]{l>{\raggedright\arraybackslash}p{6cm}rr}
+\caption{\label{tab:cpue-recreationalOregon-filter}Filtering criteria for recreational Oregon data and the resulting number (N) and percent positive (pos) records remaining after filtering.}\\
+\toprule
+Filter & Criteria & No. pos & \% pos\\
+\midrule
+All Data & Full data set aggregated to trip & 85494 & 20.8\\
+Bottomfish trips & Retain bottomfish trips only & 70672 & 52.8\\
+Trip time length & Remove exceedingly long or short trips (< 1 hr or > 12 hrs) & 70442 & 53.5\\
+Interview time & Remove trips with interviews within one minute & 62633 & 53.5\\
+Closed Season & Remove trips during closed season & 62633 & 54.2\\
+\addlinespace
+Outside 40fm & Remove trips outside of 40 fm (closed depths) & 61900 & 53.6\\
+Catches above boat limits & Remove trips above the catch limit & 51049 & 51.7\\
+Ports with rare catch encounters & Removed trips from Ports 30, 32 and 38 & 50888 & 48.9\\
+Negative effort & Remove trips with negative effort when accounting for travel time & 50779 & 49.0\\
+Anomalously high catch rates & Removes catch rates above the 97.5 percentile & 48194 & 47.7\\
+\addlinespace
+Charter vessels only & Removes private vessel trips & 17977 & 74.8\\
+\bottomrule
+\end{longtable}

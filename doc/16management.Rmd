@@ -34,9 +34,8 @@ all commercial fishing for `r spp`  was closed for six months
 During the open period between April and November,
 all commercial vessels were limited to 400 lbs per month and
 non-trawl vessels had a minimum size limit of
-**todo - find the symbol that is accessible**
-26 in south of Cape Mendocino ($40^\circ 10^\prime$ N) and
-24 in to the north of Cape Mendocino.
+26 inches south of Cape Mendocino ($40^\circ 10^\prime$ N) and
+24 inches to the north of Cape Mendocino.
 
 Between 2000 and 2005, while the fishery was rebuilding,
 cumulative trip limits were very low, at 800 lbs bimonthly,
@@ -58,21 +57,21 @@ with 100\% observer coverage.
 Recreational regulations for `r spp` were established in 1994 and included
 a bag limit of three fish in Washington and Oregon,
 a bag limit of five fish in California, and
-a minimum size limit of 22 in in Washington and California.
-The 22 in minimum size limit was adopted in Oregon in 1995 and
-increased to 24 in in all three states in 1998.
+a minimum size limit of 22 inches in Washington and California.
+The 22 inch minimum size limit was adopted in Oregon in 1995 and
+increased to 24 inches in all three states in 1998.
 In 1998, the bag limit in Washington and California dropped to two fish per day.
 Oregon followed suite in 1999, and
 the two-fish bag limit largely remained coastwide until 2008.
 
 Between 2000 and 2004,
 the California recreational bag limit dropped to 1 fish per day and
-the size limit increased from 26 to 30 in.
+the size limit increased from 26 to 30 inches.
 Oregon's bag limit fluctuated between one and two fish per day.
 Regulations have become less restrictive since the rebuilding period.
 In 2015, the bag limit increased to 3 fish per day in California,
 while the two-fish bag limit was retained in Oregon and Washington.
-A size limit of 22 in was adopted in all three states.
+A size limit of 22 inches was adopted in all three states.
 More recently, the bag limit in California has decreased to 2 fish per day.
 In Oregon, there have been multiple recreational groundfish in-season closures
 to reduce impacts to overfished rockfish.

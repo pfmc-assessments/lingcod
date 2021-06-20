@@ -1,0 +1,21 @@
+
+\begin{longtable}[t]{l>{\raggedright\arraybackslash}p{6cm}rr}
+\caption{\label{tab:cpue-commercialfixed-gear-filter}Filtering criteria for commercial fixed-gear data and the resulting number (N) and percent positive (pos) records remaining after filtering.}\\
+\toprule
+Filter & Criteria & N pos & \% pos\\
+\midrule
+All Data & Full data set aggregated to trip & 31464 & 81.7\\
+Depth min & Ensure depth = 1 fathom & 28890 & 81.8\\
+Fishermen & Ensure fishermen > 0 & 28294 & 81.9\\
+Gear ID & Gear ID is present & 27995 & 81.9\\
+Secondary Gear ID & Secondary Gear ID is present & 26968 & 81.7\\
+\addlinespace
+CPUE calculation & CPUE data are present & 26179 & 81.3\\
+Gear & Hook and line gear only & 20216 & 78.5\\
+Port & Port Orford south only & 15410 & 81.7\\
+CPUE outliers & Remove outlier values above 99 percentile & 14619 & 81.1\\
+Vessel & Vessel fished at least 3 years & 13530 & 81.3\\
+\addlinespace
+Depth & Remove abnormally deep trips & 13443 & 81.6\\
+\bottomrule
+\end{longtable}
