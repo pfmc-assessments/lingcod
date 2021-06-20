@@ -1,31 +1,31 @@
 ## Foreign Fisheries
 
-### Alaska
+Alaskan fisheries for `r spp` may not be foreign, but given that they
+are managed external to the \gls{pfmc}, we summarize them here
+along with information regarding Canadian and Mexican fisheries for
+`r spp`.
 
 `r Spp` fisheries in the Gulf of Alaska are managed
 in state waters by the State of Alaska Board of Fisheries and
-in federal waters by the \gls{npfmc}.
+in federal waters by the \gls{npfmc}, though no formal stock
+assessment exists for `r spp` in Alaskan waters.
 Commercial fisheries are restricted by catch and bycatch quotas.
 The sport fishery is restricted by daily bag and possession limits.
-Lingcod are a non-target species in the subsistence fishery.
-No formal assessment exists for `r spp` in Alaskan waters.
-
-### Canada
+`r Spp` are a non-target species in the subsistence fishery.
 
 `r Spp` in western Canada are managed under the \gls{bcigfp}
 by \gls{dfo} for take by
 First Nations, the commercial sector, and the recreational sector.
 Beginning in 1997,
 the \gls{bcigfp} implemented an individual vessel quota program
-that now incorporates all commercially caught trawl and hook-and-line groundfish.
+that now incorporates all commercially-caught trawl and hook-and-line groundfish.
 Stocks in distinct management areas are regularly assessed,
 with the most recent assessment of `r spp`
-in outer British Columbia waters ocurring in 2011 [@bcstockassessment2011] and
-**todo - need citation**
-in the Strait of Georgia in 2014 [@DFO2016].
+in outer British Columbia waters occurring in 2011 [@lingcodbcstockassessment2011] and
+in the Strait of Georgia in 2014 [@lingcodbcstockassessment2016].
 
-**todo - edit / add to the following two paragraphs**
-The 2011 outer British Columbia assessment implemented a
+The 2011 outer British Columbia assessment [@lingcodbcstockassessment2011]
+implemented a
 Bayesian surplus production model to assess
 the status of `r spp` in four assessment areas.
 Overall the stock appears to have
@@ -36,17 +36,30 @@ has continued to decline since then.
 However, at no time has the stock been estimated
 to have been below target reference points.
 
-The 2016 assessment [@bcstockassessment2016]
+The 2016 assessment [@lingcodbcstockassessment2016]
 implemented a two-sex Bayesian statistical catch-at-age model.
-The estimated spawning biomass in 2014 was greater than
-the estimated spawning biomass at the start of the current management regime during 2006 and
-that the stock is likely in a precautionary management zone.
+The stock was estimated to have declined between 1927 and the late 1980s.
+This was followed by a slow increase between 1990 and 2014.
+Spawning biomass in 2014 was estimated to be greater than
+the spawning biomass at the start of the current management regime during 2006 but
+likely still in a precautionary management zone.
 
-### Mexico
-
-`r Spp` are known to inhabit waters off the coast of Mexico as far south as
+`r Spp` are known to inhabit waters off the coast of Baja California,
+including Ensenada and Bahia de Todo Santos, as far south as
 Punta San Carlos, Baja California
 ([https://mexican-fish.com/lingcod/](https://mexican-fish.com/lingcod/)).
+There are some
+[specimens held at Scripps Institute of Oceanography](http://collections.ucsd.edu/mv/fish/act_searchCollection.php?name=Hexagrammidae+Ophiodon+elongatus&sort=&start=40)
+that document its distribution along Baja California [@rosales-casian2003] to Bahia San Quintin [@aristapalacios2018] and
+the Cedros archipelago [@ramirez-valdex2015].
+But, the [National Fisheries Registry](https://www.gob.mx/cms/uploads/attachment/file/334832/DOF_-_CNP_2017.pdf)
+that lists fisheries within Mexican waters does not list `r spp`.
+Multiple researchers reported that `r spp` is fished off Baja California using harpoons (pers. comm., H.N. Morzaria Luna, \gls{nwfsc})
+but not being recorded at the species level and instead perhaps under a general finfish permit.
+Though, it is listed as bycatch of the rockfish (rocotes; scorpinidae) fishery
+in the [National Fisheries Charter](https://www.gob.mx/cms/uploads/attachment/file/153374/Carta-Nacional-Pesquera-2012.pdf),
+which contains the management framework for species that are commercially fished.
+There are no known stock assessments for `r spp` off the coast of Mexico.
 
 Southern California recreational fishers have reported fishing in
 Mexican waters and landing fish in U.S. ports.
@@ -55,6 +68,3 @@ represents a potential future source of information for documenting
 catches that occur off the coast of Mexico but are landed in California.
 Anglers are required to fill out the report prior to entering U.S. waters
 but it is not clear if this information is currently included in RecFIN.
-
-** todo - check in with Hem if she has received any information**
-There are no known stock assessments for `r spp` off the coast of Mexico.

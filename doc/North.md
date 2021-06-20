@@ -493,9 +493,9 @@ of all lingcod Oregon and Washington landings, on average, and has continued to 
 
 Prior to 1977, lingcod stocks in the northeast Pacific were managed by the
 Canadian Government within its waters and
-by the individual states in waters (out to three miles) off of the U.S.
-With implementation of the \gls{msfcma} in 1976,
-primary responsibility for the management of the groundfish stocks off
+by the individual states in waters out to three miles off their coastline.
+With the implementation of the \gls{msfcma} in 1976,
+primary responsibility for the management of groundfish stocks off
 Washington, Oregon, and California shifted from the states to the \gls{pfmc}.
 The U.S. west coast \gls{abc} for lingcod  was set at 7,000 mt,
 but catch was consistently below this level.
@@ -503,14 +503,25 @@ In 1994, a \gls{hg} of 4,000 mt was set.
 In 1995, both the \gls{abc} and \gls{hg} were dropped to 2,400 mt
 based on a quantitative assessment [@jagielo2000assessment].
 
-**todo - add information about minimum size limits for commercial fishery**
+In 1995 a minimum size limit for the limited entry fishery was imposed
+for the first time that restricted landed lingcod to be at least 22 inches.
+This size restriction matched the restriction within the recreational fishery
+and trawl-caught lingcod, with a 100 lb exception for the latter.
+The minimum size was increased to 24 inches in 1998.
+Minimum size across areas diverged in 2000 when the minimum size of
+lingcod landed south of 40$\circ 10\prime$ N. latitude in the
+limited entry fixed gear fishery increased to 26 inches.
+Currently, the minimum size limits for the limited entry fixed gear
+and open access commercial fisheries
+are 22 and 24 inches north and south of 42$\circ$ N. latitude, respectively,
+which corresponds to 18 and 19.5 inches with the head removed.
 Trip limits on commercial lingcod catch were first instituted in 1995,
 when a 20,000 lbs/month limit was imposed.
 In 1998, a two-month cumulative limit of 1,000 lbs was imposed.
 Since then, management of the fishery has occurred through
-individual-year \gls{abc} and \gls{oy} levels.
+individual-year \gls{abc} and \gls{oy} levels (Table \@ref(tab:management-refpoints)).
 
-The \gls{pfmc} implemented an initial lingcod Rebuilding Plan in 2000
+The \gls{pfmc} implemented an initial Rebuilding Plan in 2000
 with size and seasonal limitations in the recreational fishery and
 a change to limited entry and open access sectors in the commercial fishery.
 Additionally, the coastwide \gls{abc} was reduced
@@ -532,14 +543,17 @@ with frequent closures.
 After 2006, \glspl{abc} and trip limits were increased,
 with a bimonthly limit of 1,200 lbs.
 Concurrently, \glspl{mpa} in California,
-\glspl{rca} and the \gls{cca} were established.
+\glspl{rca}, and the \gls{cca} were established.
 In these areas, take of all groundfish is prohibited within specified
 depths, habitats, and locations.
 
-**todo - perhaps add more information to this paragraph**
+**todo - add more information to this paragraph**
+Monitoring of this fishery started much earlier compared to some other
+groundfish species, where lingcod have almost always been their own
+market category for recording and sampling purposes.
 Between 2002 and 2011, observed trips were chosen by random stratified sampling.
-In 2011, the limited entry trawl sector became a catch share program
-with 100\% observer coverage.
+Since 2011, when the limited entry trawl sector became a catch share program,
+the fishery has had 100\% observer coverage.
 
 ### Recreational Fishery
 
@@ -552,6 +566,7 @@ increased to 24 inches in all three states in 1998.
 In 1998, the bag limit in Washington and California dropped to two fish per day.
 Oregon followed suite in 1999, and
 the two-fish bag limit largely remained coastwide until 2008.
+The minimum size limit for California increased in 2000 to 26 inches.
 
 Between 2000 and 2004,
 the California recreational bag limit dropped to 1 fish per day and
@@ -565,41 +580,34 @@ More recently, the bag limit in California has decreased to 2 fish per day.
 In Oregon, there have been multiple recreational groundfish in-season closures
 to reduce impacts to overfished rockfish.
 
-**todo - make summaries of management history as stated below**
-Summaries of regulatory histories for both federal and state management actions
-are available as supplementary materials to this stock assessment.
-See Table k
-**todo - reference table**
-for a recent history of \glspl{ofl}, \glspl{acl}, catch for each area.
-
 ## Foreign Fisheries
 
-### Alaska
+Alaskan fisheries for lingcod may not be foreign, but given that they
+are managed external to the \gls{pfmc}, we summarize them here
+along with information regarding Canadian and Mexican fisheries for
+lingcod.
 
 Lingcod fisheries in the Gulf of Alaska are managed
 in state waters by the State of Alaska Board of Fisheries and
-in federal waters by the \gls{npfmc}.
+in federal waters by the \gls{npfmc}, though no formal stock
+assessment exists for lingcod in Alaskan waters.
 Commercial fisheries are restricted by catch and bycatch quotas.
 The sport fishery is restricted by daily bag and possession limits.
 Lingcod are a non-target species in the subsistence fishery.
-No formal assessment exists for lingcod in Alaskan waters.
-
-### Canada
 
 Lingcod in western Canada are managed under the \gls{bcigfp}
 by \gls{dfo} for take by
 First Nations, the commercial sector, and the recreational sector.
 Beginning in 1997,
 the \gls{bcigfp} implemented an individual vessel quota program
-that now incorporates all commercially caught trawl and hook-and-line groundfish.
+that now incorporates all commercially-caught trawl and hook-and-line groundfish.
 Stocks in distinct management areas are regularly assessed,
 with the most recent assessment of lingcod
-in outer British Columbia waters ocurring in 2011 [@bcstockassessment2011] and
-**todo - need citation**
-in the Strait of Georgia in 2014 [@DFO2016].
+in outer British Columbia waters occurring in 2011 [@lingcodbcstockassessment2011] and
+in the Strait of Georgia in 2014 [@lingcodbcstockassessment2016].
 
-**todo - edit / add to the following two paragraphs**
-The 2011 outer British Columbia assessment implemented a
+The 2011 outer British Columbia assessment [@lingcodbcstockassessment2011]
+implemented a
 Bayesian surplus production model to assess
 the status of lingcod in four assessment areas.
 Overall the stock appears to have
@@ -610,17 +618,30 @@ has continued to decline since then.
 However, at no time has the stock been estimated
 to have been below target reference points.
 
-The 2016 assessment [@bcstockassessment2016]
+The 2016 assessment [@lingcodbcstockassessment2016]
 implemented a two-sex Bayesian statistical catch-at-age model.
-The estimated spawning biomass in 2014 was greater than
-the estimated spawning biomass at the start of the current management regime during 2006 and
-that the stock is likely in a precautionary management zone.
+The stock was estimated to have declined between 1927 and the late 1980s.
+This was followed by a slow increase between 1990 and 2014.
+Spawning biomass in 2014 was estimated to be greater than
+the spawning biomass at the start of the current management regime during 2006 but
+likely still in a precautionary management zone.
 
-### Mexico
-
-Lingcod are known to inhabit waters off the coast of Mexico as far south as
+Lingcod are known to inhabit waters off the coast of Baja California,
+including Ensenada and Bahia de Todo Santos, as far south as
 Punta San Carlos, Baja California
 ([https://mexican-fish.com/lingcod/](https://mexican-fish.com/lingcod/)).
+There are some
+[specimens held at Scripps Institute of Oceanography](http://collections.ucsd.edu/mv/fish/act_searchCollection.php?name=Hexagrammidae+Ophiodon+elongatus&sort=&start=40)
+that document its distribution along Baja California [@rosales-casian2003] to Bahia San Quintin [@aristapalacios2018] and
+the Cedros archipelago [@ramirez-valdex2015].
+But, the [National Fisheries Registry](https://www.gob.mx/cms/uploads/attachment/file/334832/DOF_-_CNP_2017.pdf)
+that lists fisheries within Mexican waters does not list lingcod.
+Multiple researchers reported that lingcod is fished off Baja California using harpoons (pers. comm., H.N. Morzaria Luna, \gls{nwfsc})
+but not being recorded at the species level and instead perhaps under a general finfish permit.
+Though, it is listed as bycatch of the rockfish (rocotes; scorpinidae) fishery
+in the [National Fisheries Charter](https://www.gob.mx/cms/uploads/attachment/file/153374/Carta-Nacional-Pesquera-2012.pdf),
+which contains the management framework for species that are commercially fished.
+There are no known stock assessments for lingcod off the coast of Mexico.
 
 Southern California recreational fishers have reported fishing in
 Mexican waters and landing fish in U.S. ports.
@@ -629,9 +650,6 @@ represents a potential future source of information for documenting
 catches that occur off the coast of Mexico but are landed in California.
 Anglers are required to fill out the report prior to entering U.S. waters
 but it is not clear if this information is currently included in RecFIN.
-
-** todo - check in with Hem if she has received any information**
-There are no known stock assessments for lingcod off the coast of Mexico.
 
 
 <!--chapter:end:11introduction.Rmd-->
@@ -1452,8 +1470,6 @@ medians of the posterior distributions in both cases, however.
 
 <!--- RECREATIONAL COMP INFORMATION STARTS HERE -->
 
-### Recreational composition data
-
 Recreational fishery length (Figures \ref{fig:wa-lencomp-sexed}, \ref{fig:wa-lencomp-unsexed}, \ref{fig:or-lencomp-sexed}, \ref{fig:or-lencomp-unsexed}, \ref{fig:ca-lencomp-sexed}, and \ref{fig:ca-lencomp-unsexed}) and age compositions (Figures \ref{fig:wa-agecomp-sexed}, \ref{fig:wa-agecomp-unsexed}, \ref{fig:or-agecomp-sexed}, \ref{fig:or-agecomp-unsexed}) were obtained directly from WDFW and ODFW, and from MRFSS for years 1980 - 2003 and from CRFS for years 2004 - 2020 from the RecFIN website for California. Note that, in consultation with WDFW and ODFW representatives, it was determined that the state databases were more reliable so the data were not obtained via RecFIN (MRFSS) for Washington and Oregon. Lengths fron WDFW with designation of total length (n = 591) were converted to fork length using the converstions of @Laidig_conversion. Lengths of fish in California, measured by samplers onboard Commercial Passenger Fishing Vessels (CPFV) prior to being released (Type 3d data) were also obtained from 2003 to 2020. Annual recreational length- and age-frequency distributions were developed for each state for which observations were available, following the same bin structure as was used for data from fishery-independent sources. Length and age compositions were applied for male, female, and unsexed fish, though the number of samples of unsexed aged fish was small. Many of these composition data lack information on the number of fish sampled out of those landed in a given trip, and therefore composition data are used without expansion to the sample level. Unexpanded recreational composition data are commonly used in West Coast stock assessments for the above reason. Sample sizes used in the model were therefore set at the number of fish sampled for each year and data set. Table \ref{tab:sample-size-length} show the sample sizes for lengths, and Table \ref{tab:sample-size-age} the sample sizes for ages. Conditional-length-at-age distributions were also applied for the recreational fleets for Washington and Oregon and explored within the model as a sensitivity.  
 
 Only landed fish were included in composition data. Fish designated as released were excluded from the length and age compositions. This occurred for 2,920 samples, which represent approximately 2 percent of the total samples.  
@@ -1821,6 +1837,11 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 \floatplacement{table}{H}
 # Tables
 
+<!-- Need tab:management-refpoints
+label = "tab:management-refpoints",
+caption = "Recent trends in landings and total catch (mt) relative to management guidelines. Total dead catch represents the total landings plus the model estimated dead discard biomass. Note that the model estimated total dead catch may not be the same as the \gls{wcgop} estimates of total mortality [@somers2017], which are the "official" records for determining whether the \gls{acl} has been exceeded."
+-->
+
 
 \begin{longtable}[t]{l>{\raggedright\arraybackslash}p{6cm}rr}
 \caption{\label{tab:cpue-commercialfixed-gear-filter}Filtering criteria for commercial fixed-gear data and the resulting number (N) and percent positive (pos) records remaining after filtering.}\\
@@ -1879,6 +1900,7 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 ![Map of the investigated area. The dashed line and colors delineate the northern (blue) from the southern (red) assessed area.\label{fig:map}](../figures/map_of_stock_boundaries_40-10.png){width=100% height=100% alt="Outline of U.S. west coast split at forty degrees ten minutes north latitude."}
 
 ![Length (cm) versus age (year) and associated von Bertalanffy growth curves (lines) by latitude (color). Models were fit to data from Lam research samples and West Coast Groundfish Bottom Trawl Survey data.\label{fig:Lam-vbgfcurves}](../figures/Lam-vbgfcurves.pdf){width=100% height=100% alt="Size-at-age increases with increasing latitude."}
+
 ![Estimated smoother of latitude (decimal degrees) for age-7 female fish when fitting length-at-age data.\label{fig:Lam-kapurage7latitude}](../figures/Lam-kapurage7latitude.png){width=100% height=100% alt="Change point was estimated at 38 degrees N latitude."}
 
 
