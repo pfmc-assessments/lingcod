@@ -1,5 +1,5 @@
 area,parameters,low,high,step_size,param_space
-,NatM_p_1_Fem_GP_1,0.2,0.6,0.1,real
+,NatM_uniform_Fem_GP_1,0.2,0.6,0.1,real
 ,SR_BH_steep,0.25,0.99,0.2,real
 n,SR_LN(R0),8,11,0.5,real
 s,SR_LN(R0),8,11,0.5,real
