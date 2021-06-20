@@ -79,5 +79,9 @@ name | notes | issue | source_model | script
 2021.s.008.009_age999_for_L2 | increase Growth_Age_for_L2 to 999 | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
 2021.s.008.010_selex_test | initial_selex | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
 2021.s.008.011_selex_test2 | initial_selex | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R
+2021.n.008.012_split_TRI_Q | estimate change in tri Q | #59 | 2021.n.008.006 | manual edit to control file
+2021.s.008.012_split_TRI_Q | estimate change in tri Q | #59 | 2021.n.008.006 | manual edit to control file
 2021.n.009.001_simplify | use 3.30.17.01, turn off a few parameters (remove block on Surv_TRI selex) | #76 | 2021.n.008.005 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R
 2021.s.009.001_simplify | use 3.30.17.01, turn off a few parameters (fix Q_extraSD_10_CPFV_DebWV = 0, remove block on Surv_TRI selex) | #76 | 2021.s.008.005 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R
+2021.n.009.002_applyFrancis | apply Francis tuning to model above | #76 | 2021.n.009.001 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R, r4ss::SS_tune_comps()
+2021.s.009.002_applyFrancis | apply Francis tuning to model above | #76 | 2021.n.009.001 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R, r4ss::SS_tune_comps()

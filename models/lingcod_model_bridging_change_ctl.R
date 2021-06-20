@@ -486,33 +486,33 @@ for (area in c("n", "s")) {
 
 if(FALSE){ # stuff to never just source with the rest of the file
 
-  # run models without estimation
-  r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 8),
-                                 get_dir_ling(area = "s", num = 8)),
-                      extras = c("-nohess -stopph 0"),
-                      skipfinished = FALSE)
+  ## # run models without estimation
+  ## r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 9),
+  ##                                get_dir_ling(area = "s", num = 9)),
+  ##                     extras = c("-nohess -stopph 0"),
+  ##                     skipfinished = FALSE)
 
   ### applying Francis weighting to model number 8 in each area
   # copy all files, including output files
   for (area in c("n", "s")) {
-    olddir <- get_dir_ling(area = area, num = 8, sens = 4)
-    newdir <- get_dir_ling(area = area, num = 8, sens = 5)
+    olddir <- get_dir_ling(area = area, num = 9, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 9, sens = 2)
     fs::dir_copy(olddir, newdir)
   }
 
   # read model results from copied models into R
-  get_mod(area = "n", num = 8, sens = 5, plot = FALSE)
-  get_mod(area = "s", num = 8, sens = 5, plot = FALSE)
+  get_mod(area = "n", num = 9, sens = 2, plot = FALSE)
+  get_mod(area = "s", num = 9, sens = 2, plot = FALSE)
 
   # run tune_comps function without estimating anything to get model output files
   # then run them separately in a command window
-  r4ss::SS_tune_comps(mod.2021.n.008.005,
-                      dir = mod.2021.n.008.005$inputs$dir,
+  r4ss::SS_tune_comps(mod.2021.n.009.002,
+                      dir = mod.2021.n.009.002$inputs$dir,
                       option = "Francis",
                       niters_tuning = 1,
                       extras = "-nohess -stopph 0")
-  r4ss::SS_tune_comps(mod.2021.s.008.005,
-                      dir = mod.2021.s.008.005$inputs$dir,
+  r4ss::SS_tune_comps(mod.2021.s.009.002,
+                      dir = mod.2021.s.009.002$inputs$dir,
                       option = "Francis",
                       niters_tuning = 1,
                       extras = "-nohess -stopph 0")
@@ -520,12 +520,12 @@ if(FALSE){ # stuff to never just source with the rest of the file
 
 if (FALSE) {
   # look at model output
-  get_mod(area = "n", num = 8, plot = TRUE)
-  get_mod(area = "s", num = 8, plot = TRUE)
-  get_mod(area = "n", num = 8, sens = 2, plot = FALSE)
-  get_mod(area = "s", num = 8, sens = 2, plot = FALSE)
-  get_mod(area = "n", num = 8, sens = 3, plot = FALSE)
-  get_mod(area = "s", num = 8, sens = 3, plot = FALSE)
+  get_mod(area = "n", num = 9, plot = TRUE)
+  get_mod(area = "s", num = 9, plot = TRUE)
+  get_mod(area = "n", num = 9, sens = 2, plot = FALSE)
+  get_mod(area = "s", num = 9, sens = 2, plot = FALSE)
+  get_mod(area = "n", num = 9, sens = 3, plot = FALSE)
+  get_mod(area = "s", num = 9, sens = 3, plot = FALSE)
 }
 
 
