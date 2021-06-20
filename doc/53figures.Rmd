@@ -14,6 +14,7 @@ do.call(
 ```
 
 ![Length (cm) versus age (year) and associated von Bertalanffy growth curves (lines) by latitude (color). Models were fit to data from Lam research samples and West Coast Groundfish Bottom Trawl Survey data.\label{fig:Lam-vbgfcurves}](../figures/Lam-vbgfcurves.pdf){width=100% height=100% alt="Size-at-age increases with increasing latitude."}
+
 ![Estimated smoother of latitude (decimal degrees) for age-7 female fish when fitting length-at-age data.\label{fig:Lam-kapurage7latitude}](../figures/Lam-kapurage7latitude.png){width=100% height=100% alt="Change point was estimated at 38 degrees N latitude."}
 
 ```{r, results = "asis"}
