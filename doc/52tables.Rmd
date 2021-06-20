@@ -6,6 +6,11 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 \floatplacement{table}{H}
 # Tables
 
+<!-- Need tab:management-refpoints
+label = "tab:management-refpoints",
+caption = "Recent trends in landings and total catch (mt) relative to management guidelines. Total dead catch represents the total landings plus the model estimated dead discard biomass. Note that the model estimated total dead catch may not be the same as the \gls{wcgop} estimates of total mortality [@somers2017], which are the "official" records for determining whether the \gls{acl} has been exceeded."
+-->
+
 ```{r, cpue-tables, results = "asis"}
 # Arrange figures in order of the time they were modified
 tabledataframe <- utils::read.csv(file.path("..", "tables", "tables_cpue.csv"))
