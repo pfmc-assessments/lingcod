@@ -1001,7 +1001,7 @@ proportions calculated from confidential
 fish ticket data available in \gls{calcom} that have information on port of landing
 for available years between
 `r paste(collapse = " - ", range(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"]))`
-(pers. comm. M. Monk, \gls{swfsc}).
+(pers. comm., M. Monk, \gls{swfsc}).
 The proportions showed similar trends, though the former were consistently
 higher than the latter for all years
 (Figure \@ref(fig:catch-comm-CA-proportionnorth)).
@@ -1191,7 +1191,7 @@ shoreside activities, estuary boats, private ocean boats, and charter ocean boat
 
 Recently, \gls{odfw} undertook an effort to comprehensively reconstruct
 all marine fish recreational ocean boat landings prior to 2001
-(pers. comm. A. Whitman, \gls{odfw}).
+(pers. comm., A. Whitman, \gls{odfw}).
 Reconstructed catch estimates from \gls{orbs} improve upon estimates
 from the federal \gls{mrfss},
 which have known biases related to effort estimation and sampling
@@ -1236,7 +1236,7 @@ that detailed the importance of each domain
 Ocean boat estimates from 1979 – 2000 in numbers of fish of
 `r utils_name("common")` from the above described methods were
 converted to biomass using biological samples from \gls{mrfss}
-(pers. comm. A. Whitman, \gls{odfw}).
+(pers. comm., A. Whitman, \gls{odfw}).
 \Gls{mrfss} biological data are available from
 1980 – 1989 and 1993 – 2000.
 An annual average weight was applied to the total annual number of fish

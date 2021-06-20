@@ -33,9 +33,10 @@ than individuals from southern regions
 Male `r spp` aggregate in late fall and move to rocky habitat in
 intertidal waters up to 126 m [@giorgi1981environmental; @o1993submersible]
 where they guard areas suitable for spawning.
-This movement is correlated with a decline in the proportion of males
+This movement has been correlated with a decline in the proportion of males
 in offshore trawl landings in late fall
-[@miller1973fish (California); @cass1990lingcod (British Columbia); @jagielo1994assessment (Washington)].
+off California [@miller1973fish], British Columbia [@cass1990lingcod],
+and Washington [@jagielo1994assessment].
 Mature females are rarely seen on the spawning grounds and
 appear to move from deep-water habitats into spawning areas only for
 a brief period to deposit eggs [@giorgi1981environmental].
@@ -47,12 +48,12 @@ between January and June [@jewell1968scuba; @low1978study].
 Recent maturity studies suggest that `r spp` are batch spawners with the
 ability to spawn year round.
 Peak spawning takes place during October through December
-(pers. comm, Melissa Head, NWFSC).
+(pers. comm., M. Head, \gls{nwfsc}).
 
 At hatching, `r spp` larvae are about 12 mm in total length and
 are epipelagic for approximately 90 days,
 until reaching about 70 mm and settling to soft bottom habitats
-[@phillips1977early; @cass1990lingcod; @hart1973pacific).
+[@phillips1977early; @cass1990lingcod; @hart1973pacific].
 Epipelagic larvae feed on small copepods and copepod eggs,
 shifting to larger copepods and fish larvae as they grow [@phillips1977early].
 \Gls{yoy} typically recruit to sandy, low-relief habitat near eelgrass or kelp beds,
@@ -90,23 +91,22 @@ in the Strait of Juan de Fuca, Grays Harbor and Willapa Bay,
 and from coastal waters nearshore to these embayments
 [@buckley1984enhancement; @jagielo1994assessment].
 
-Juvenile `r spp` feed on small fishes including
-**todo - check all these common names for how to capitalize**
+Juvenile `r spp` feed on small fishes [@cass1990lingcod] including
 Pacific Herring (*Clupea pallasii*) and
 Pacific Sand Lance (*Ammodytes hexapterus*),
 flatfishes (*Pleuronectidae*) including
 Shiner Perch (*Cymatogaster aggregate*) and
 Walleye Pollock (*Theragra chalcograma*), and
 an assortment of invertebrates including
-shrimps (Neomysis) and prawns (Pandalus) [@cass1990lingcod].
+shrimps (Neomysis) and prawns (Pandalus).
 As juvenile `r spp` begin to move into rocky habitats and exceed 30 cm,
 other rocky reef bottomfishes become a more prominent component of their diet,
 making up 48.8\% of total prey biomass by weight [@beaudreau2007spatial].
 
 Phillips and Barraclough [-@phillips1977early] estimated that \gls{yoy} growth
-was approximately 1.3 mm/day.
+was approximately 1.3 mm $day^{-1}$.
 Buckley et al. [-@buckley1984enhancement] reported \gls{yoy} growth from
-June to September in the Strait of Juan de Fuca also averaged 1.3mm/day.
+June to September in the Strait of Juan de Fuca also averaged 1.3 mm $day^{-1}$.
 Samples from the mouth of the Pysht River averaged
 96 mm in June,
 135 mm in July,
@@ -115,19 +115,18 @@ Samples from the mouth of the Pysht River averaged
 
 ### Habitat use
 
+<!---  to do - make these numbers dynamic if we are going to keep them -->
 Outside of the spawning season,
 male and female `r spp` are segregated by depth.
 Where, females tend to inhabit deeper offshore waters and
 males inhabit nearshore rocky reefs.
 Consequently, the sexes are vulnerable to different types of fishing gear.
-**todo - make these numbers dynamic if we are going to keep them**
-**toto - mention which fleet we are talking about, assuming commercial**
 The majority of nearshore males (66.3\%) are caught using
 hook-and-line or spearfishing gear, and
 the majority of deep water females (62.4\%) are caught using
 trawl gear [@miller1973fish].
 Fishery and survey data indicate that male `r spp` tend to be more abundant
-than females in shallow waters, and
+than females in shallow waters and
 the size of both sexes increase with depth [@jagielo1994assessment].
 
 The movement and migration of `r spp` has been extensively studied
@@ -168,45 +167,43 @@ Overall, residency times varied by sex, size, season, and habitat of residence.
 
 `r Spp` are top-order predators of the family `r utils_name("Family")`.
 Among the `r utils_name("Family")`,
-the genus *`r gsub("\\s.+", "", utils_name("latin"))`*
+the genus, *`r gsub("\\s.+", "", utils_name("latin"))`*
 is ecologically intermediate
 between the more littoral genera *Hexagrammos* and *Oxylebius*
 and the more pelagic *Pleurogrammus* [@rutenberg1962system].
 
-**todo - decide on a style for personal communication citations**
 Being opportunistic predators, `r spp` feed on a variety of
 fishes (pelagic and demersal), cephalopods, and crustaceans [@wilby1937ling].
 Their feeding strategies are known to vary with
 depth of occurrence, latitude, sex, and size
-(B. Brown, Moss Landing Marine Laboratories, personal communication, 31 March 2021).
+(pers. comm., B. Brown, \gls{mlml}).
 Geographic variation in trophic level is associated with oceanographic factors
 such as sea-surface temperature or chlorophyll-a density that
 likely corresponds to shifts in prey availability,
 suggesting a similar shift in the predatory role of `r spp` in coastal environments.
 
-**todo - the following paragraph could use some restructuring or more information potentially**
-**Not sure if comparing shallow males to shallow females, or to deep males and females**
 Male `r spp` caught in shallow depths have more diverse diets and consume
-more lower-trophic prey items (e.g,. cephalopods) and
+more lower-trophic prey items (e.g,. cephalopods)
 than females caught in deep depths that have less diverse diets and consume
 more higher-trophic prey items (e.g., groundfishes).
 Preliminary observations from `r spp` stomach contents sampled from
 Washington to California in both nearshore and offshore habitats indicate a
 higher occurrence of bony fishes in the diet of northern fish than those
 collected off of California
-(B. Brown, Moss Landing Marine Laboratories, personal communication, 6 April 2017).
+(pers. comm., B. Brown, \gls{mlml}).
 Fish collected off of California and southern Oregon had a higher occurrence of
 cephalopods in their diet than fish collected from more northern waters.
 This latitudinal shift in prey composition suggests differences
 in feeding behavior and the predatory role of `r spp` in coastal environments.
 Being opportunistic feeders, it is not a surprise that
 rockfish biomass in the `r spp` diet increases by three-fold for
-`r spp` found inside marine reserves [@beaudreau2007spatial].
+`r spp` found inside marine reserves compared to those found
+outside of reserves [@beaudreau2007spatial].
 
 ### Stock delineation
 
-Longo, et al. [-@longo2020strong] used
-restriction-site associated DNA sequencing
+Longo et al. [-@longo2020strong] used
+restriction-site associated deoxyribonucleic acid sequencing
 techniques and discovered evidence for distinct
 north and south genetic clusters
 with the presence of admixed individuals in the region of overlap.
@@ -219,94 +216,34 @@ Only two sites were sampled within the range where most admixed individuals
 were found, $38.6^\circ$ N and $39.5^\circ$ N.
 Thus, it was difficult to define a clean break between the clusters.
 The general results of the occurrence of two distinct genetic clusters
-were contrary to previous genetics work using
+were contrary to previous genetic work using
 mitochondrial deoxyribonucleic acid that found no
 genetic differentiation in the `r spp` population [@marko2007mtdna].
 
-The recent genetic results concurred with those from
+The recent genetic results concurred with results from
 recent work demonstrating that `r spp` growth, longevity, and timing at maturity
 exhibit a latitudinal gradient.
-`r spp` from higher latitudes are
-larger at age, live longer, and reach biological maturity at larger sizes
-**todo - Lam et al. Figure and MH Figure too?**.
-(Figures xxx and xxx)
+`r Spp` from higher latitudes are
+larger at age (Figure \@ref(fig:Lam-vbgfcurves)),
+live longer, and
+reach biological maturity at larger sizes
 compared to conspecifics from lower latitudes
-**todo - add the following citations**
-[@lam2021geographic; Head et al. in review?].
+[@lam2021geographic; pers. comm., M. Head, \gls{nwfsc}].
+<!--- to do - get M. Head figure -->
+<!--- to do - change pers. comm. to reference -->
 
+<!--- to do - fix all calls to $\circ$ b/c they are not _accessible -->
 This known variability in life-history parameters and genetic structure
 led to the reexamination of the previous stock boundary used for `r spp`,
 located at the California - Oregon border
 [@hamel2009lingcod; @haltuch2019lingcod].
-
-**todo - fix all calls to $\circ$ b/c they are not _accessible_**
 A break point at Cape Mendocino, California ($40^\circ 10^\prime$ N) was
 chosen for this assessment because it
-(1) falls within the mixing zone of the two genetic clusters, and
+(1) falls within the mixing zone of the two genetic clusters,
 (2) falls in the vicinity of where the greatest difference in
-`r spp` size-at-age was detected (see **todo - xxx**), and
+`r spp` size-at-age was detected (Figure \@ref(fig:Lam-vbgfcurves)), and
 (3) aligns with the federal management boundary for commercial quotas and
 a boundary between two \Gls{cdfw} management regions,
 which facilitates the
 application of assessment results for future management and
 separation of historical catch.
-
-**todo - move the following paragraphs to the appropriate section**
-
-**todo - edit the following paragraphs for grammar**
-A model based change-point analysis method outlined in Kapur et al. 2020
-was used to identify a biologically relevant stock boundary using size-at-age data.
-Using
-size and age data from the \Gls{s-wcgbt} and
-an independent study [@lam2021geographic],
-a generalized additive model was fit to a vector of
-observed `r spp` lengths of of a single age as the response variable, and
-predicted by a smoother for latitude.
-Each age-sex combination was analyzed separately.
-The first derivative was taken from the fitted spline
-to detect the latitude at which differences in size-at-age were most pronounced
-(i.e., the maximum absolute value) and
-statistically significant
-(i.e., where the confidence interval does not include 0).
-The resulting latitude was rounded to the nearest integer
-as there were no detectable differences when half-degrees were used.
-77.8\% of significant age-sex combinations detected a break between latitudes
-$38^\circ 00^\prime$ and $40^\circ 00^\prime$ N
-(Figure **todo - reference figure of derivative plots**).
-This range is in agreement with the genetic break point identified for
-`r spp` by Longo et al. [-@longo2020strong].
-
-### Ageing
-
-**todo - edit the following paragraphs for grammar**
-**Brian didn't see many grammatical issues**
-`r Spp` are aged using dorsal fin rays,
-which has been found to have the highest
-accuracy,
-readability,
-and minimal between-reader bias when compared to other ageing structures
-[e.g., @chiltonAgeDeterm; @cass1983first; Claiborne et al. 2016].
-However, recent studies suggest that surface reads from otoliths may be
-comparable in terms of accuracy and readability.
-For  this assessment, `r spp` samples from
-fishery-dependent and -independent sources were aged using the fin ray method.
-
-During the age reading process,
-the first and second annuli can be re-absorbed as the fish ages,
-obscuring early annulus rings and leading to error by under-ageing.
-However, error can be minimized using known mean annular radii measurements
-for the first, second, and third annuli, as established by
-Beamish and Chilton [-@beamish1977age] and
-later validated by
-McFarlane and King [-@mcfarlane2001validity].
-
-For this assessment,
-between-reader ageing error was determined using the nwfscAgeingError package [@nwfscAgeingError2008],
-which is publicly available at https://github.com/nwfsc-assess/nwfscAgeingError.
-This package implements the Punt et al. [-@punt2008quantifying] model.
-It calculates the likelihood of model parameters given an observed data set
-that includes age reads provided by multiple readers for a set of ageing structures.
-For each reader, two sets of parameters are estimated that define
-the standard deviation and bias of the reads provided by that reader.
-The set of parameters that best describes the standard deviation and bias between age readers
-is determined with a step-wise model selection function and compared using AIC.

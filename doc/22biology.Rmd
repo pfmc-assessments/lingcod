@@ -1,15 +1,15 @@
-## Biological Data
+## Biological data
 
-### Natural Mortality
-
-
-### Maturation and Fecundity
+### Natural mortality
 
 
-### Sex Ratio
+### Maturation and fecundity
 
 
-### Length-Weight Relationship
+### Sex ratio
+
+
+### Length-Weight relationship
 
 The weight-length relationship for `r spp` was estimated outside the model 
 using available biological data collected from the \Gls{s-wcgbt}. 
@@ -57,9 +57,38 @@ $W=$`r format(lw_ests$South_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw
 (Figure \ref{fig:len-weight}). These relationships are very similar to those used for the previous assessment (@Haltuch_lingcod_2017).
 
 
-### Growth (Length-at-Age)
+### Growth (length-at-age)
 
-`r Spp` display sexually dimorphic growth. Females grow faster than and reach larger sizes than males. Jagielo (1994) estimated growth using a fixed length at age 1 of 30 cm, and estimated $L_{\infty}$ for males of 93.21 cm and females of 131.05 cm, and $k$ of 0.1694 for males and 0.1137 for females. He also found that the average length for young-of-the-year (age 0) `r spp` was 11.99 cm and for age 2 (48.1 cm) for Washington samples, and that growth trajectories diverge considerably by sex after age 3, as female `r spp` tend to grow faster and live longer than male `r spp`, while male `r spp` mature at age 3.
+A model based change-point analysis [@kapur2020]
+was used to identify a biologically relevant stock boundary using size-at-age data
+from the \gls{s-wcgbt} and `r get_fleet("Lam", col="label_long")` [@lam2021geographic].
+A generalized additive model was fit to
+observed `r spp` lengths of a single age as the response variable.
+Predictor variables included a smoother for latitude.
+Each age-sex combination was analyzed separately.
+The first derivative was taken from the fitted spline
+to detect the latitude at which differences in size-at-age were most pronounced
+(i.e., the maximum absolute value) and
+statistically significant
+(i.e., where the confidence interval does not include 0).
+The resulting latitude was rounded to the nearest integer
+as there were no detectable differences when half-degrees were used.
+77.8\% of significant age-sex combinations detected a break between latitudes
+$38^\circ 00^\prime$ and $40^\circ 00^\prime$ N
+(Figure \@ref(fig:Lam-kapurage7latitude)).
+This range is in agreement with the genetic break point identified for
+`r spp` by Longo et al. [-@longo2020strong].
+
+`r Spp` display sexually dimorphic growth.
+Females grow faster than and reach larger sizes than males.
+Jagielo (1994) estimated growth using a fixed length at age 1 of 30 cm,
+and estimated $L_{\infty}$ for males of 93.21 cm and females of 131.05 cm,
+and $k$ of 0.1694 for males and 0.1137 for females.
+He also found that the average length for young-of-the-year (age-0)
+`r spp` was 11.99 cm and for age 2 was 48.1 cm for Washington samples.
+Additionally, growth trajectories diverge considerably by sex after age 3
+because female `r spp` tend to grow faster and live longer than male `r spp`.
+Male `r spp` mature at age 3.
 
 Estimates of growth parameters were investigated and starting values for model inputs were updated using the \Gls{s-wcgbt} data. Spatial differences were investigated by fitting an overall von Bertalanffy relationship between age and length across all coastwide samples, and then comparing the residuals across latitude and depth using Tukey HSD pairwise multiple comparison tests. Residuals of the fit between age and length showed significant differences among latitude (p-value < 0.001, as a continuous variable), and among regions north and south of 40 degrees 10 minutes N latitude (p-value < 0.001, as factors). `r Spp` 
 growth faster and attained a larger size in north of 40 degrees 10 minutes N latitude. 
@@ -90,4 +119,35 @@ Internally estimated growth curves are shown in ??
 [NEED TO PROVIDE INTERNALLY ESTIMATED GROWTH CURVE FIGURE]
 
 
-### Ageing Precision and Bias
+### Ageing precision and bias
+
+`r Spp` are aged using dorsal fin rays,
+which has been found to have the highest
+accuracy,
+readability,
+and minimal between-reader bias when compared to other ageing structures
+[e.g., @chiltonAgeDeterm; @cass1983first; Claiborne et al. 2016].
+However, recent studies suggest that surface reads from otoliths may be
+comparable in terms of accuracy and readability.
+For  this assessment, `r spp` samples from
+fishery-dependent and -independent sources were aged using the fin ray method.
+
+During the age reading process,
+the first and second annuli can be re-absorbed as the fish ages,
+obscuring early annulus rings and leading to error by under-ageing.
+However, error can be minimized using known mean annular radii measurements
+for the first, second, and third annuli, as established by
+Beamish and Chilton [-@beamish1977age] and
+later validated by
+McFarlane and King [-@mcfarlane2001validity].
+
+For this assessment,
+between-reader ageing error was determined using the nwfscAgeingError package [@nwfscAgeingError2008],
+which is publicly available at https://github.com/nwfsc-assess/nwfscAgeingError.
+This package implements the Punt et al. [-@punt2008quantifying] model.
+It calculates the likelihood of model parameters given an observed data set
+that includes age reads provided by multiple readers for a set of ageing structures.
+For each reader, two sets of parameters are estimated that define
+the standard deviation and bias of the reads provided by that reader.
+The set of parameters that best describes the standard deviation and bias between age readers
+is determined with a step-wise model selection function and compared using AIC.

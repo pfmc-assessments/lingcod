@@ -32,7 +32,7 @@ length bin at which the length-weight relationship starts to diverge for males a
 and therefore equal assigment is not influenced by sex-specific size differences. Figure \ref{fig:wcgbts-lenComp} shows the length frequency distributions for the \Gls{s-wcgbt}. 
 Table \ref{tab:sample-size-length} shows sample sizes.
 
-The input sample sizes were calculated via the Stewart method (Ian Stewart, personal communication) 
+The input sample sizes were calculated via the Stewart method (pers. comm., I. Stewart, \gls{iphc}) 
 which incorporate the number of trips and fish by year:
 
 [THE BELOW EQUATION DOES NOT APPEAR RIGHT BASED ON THE NUMBERS - NEED TO CONFIRM FOR SURVEY DATA]
