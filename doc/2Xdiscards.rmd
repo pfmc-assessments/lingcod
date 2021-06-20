@@ -1,0 +1,39 @@
+### Discard rates
+
+Discard rates were modeled for the commercial fisheries only (TW and FG)
+using data from the West Coast Groundfish Observer Program (WCGOP).
+This program is part of the NWFSC and has been recording discard observations
+starting in 2002. Since 2011, when the IFQ program was implemented,
+observer coverage rates increased to nearly 100 percent for all the
+limited entry trawl vessels in the program and discard rates 
+for the trawl fishery declined compared to pre-2011 rates. 
+Discard rates were obtained for both the
+IFQ catch-share (observed and electronic monitored vessels) and
+the non-catch share sector for `r spp`. A single aggregated annual
+discard rate for each fleet was calculated by weighting discard rates 
+from three sectors within each gear group:
+catch-shares, non-catch-shares, and electronic monitoring, where 
+the weights were based on the commercial landings by each sector.
+
+The variances of the total discard estimates were calculated
+for the non-catch shares sector and pre-catch share years by 
+bootstrapping vessels within ports because the observer program 
+randomly chooses vessels within ports to be observed. 
+Post trawl rationalization, all catch-share vessels (including
+electronic monitoring) have 100 percent 
+observer coverage and discarding from the catch-share subset of the fleet
+is assumed to be known.
+
+The variance of the aggregated annual discard amount was 
+calculated as the sum of the variances of the total annual discard
+for each sector under the assumption that the variances
+are independent. This variance of the total discard amount 
+was then converted to a standard error of the aggregated 
+discard rate. The precise discard rates from 2011 onward were
+found in initial model runs to be overly influential so a
+value of 0.05 was added to the standard error of all discard 
+rates to account for unmodeled variability in the retention 
+process rather than add additional parameters representing 
+that annual variability.
+
+[ADD DESCRIPTION OF RESULTING RATES]
