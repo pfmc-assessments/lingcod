@@ -1,0 +1,555 @@
+#V3.30.17.01;_2021_06_15;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.3
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+#_user_support_available_at:NMFS.Stock.Synthesis@noaa.gov
+#_user_info_available_at:https://vlab.noaa.gov/group/stock-synthesis
+#C control file for 2021 Lingcod North assessment
+#C modified using models/model_bridging_change_ctl.R
+#C see https://github.com/iantaylor-NOAA/Lingcod_2021/ for info
+#C file written to models/2021.n.010.001_fix_duplicate_CAAL
+#C at 2021-06-20 22:25:04
+#_data_and_control_files: ling_data.ss // ling_control.ss
+0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
+1  #_N_Growth_Patterns (Growth Patterns, Morphs, Bio Patterns, GP are terms used interchangeably in SS)
+1 #_N_platoons_Within_GrowthPattern 
+#_Cond 1 #_Platoon_within/between_stdev_ratio (no read if N_platoons=1)
+#_Cond  1 #vector_platoon_dist_(-1_in_first_val_gives_normal_approx)
+#
+4 # recr_dist_method for parameters:  2=main effects for GP, Area, Settle timing; 3=each Settle entity; 4=none (only when N_GP*Nsettle*pop==1)
+1 # not yet implemented; Future usage: Spawner-Recruitment: 1=global; 2=by area
+1 #  number of recruitment settlement assignments 
+0 # unused option
+#GPattern month  area  age (for each settlement assignment)
+ 1 1 1 0
+#
+#_Cond 0 # N_movement_definitions goes here if Nareas > 1
+#_Cond 1.0 # first age that moves (real age at begin of season, not integer) also cond on do_migration>0
+#_Cond 1 1 1 2 4 10 # example move definition for seas=1, morph=1, source=1 dest=2, age1=4, age2=10
+#
+8 #_Nblock_Patterns
+ 3 4 2 2 2 6 3 1 #_blocks_per_pattern 
+# begin and end years of blocks
+ 1993 1997 1998 2010 2011 2020
+ 1998 2006 2007 2009 2010 2010 2011 2020
+ 1998 2010 2011 2020
+ 1998 2010 2011 2020
+ 1998 2010 2011 2020
+ 1987 1994 1995 1997 1998 2006 2007 2010 2011 2016 2017 2020
+ 1995 1997 1998 2006 2007 2020
+ 1999 2020
+#
+# controls for all timevary parameters 
+1 #_time-vary parm bound check (1=warn relative to base parm bounds; 3=no bound check); Also see env (3) and dev (5) options to constrain with base bounds
+#
+# AUTOGEN
+ 1 1 1 1 1 # autogen: 1st element for biology, 2nd for SR, 3rd for Q, 4th reserved, 5th for selex
+# where: 0 = autogen time-varying parms of this category; 1 = read each time-varying parm line; 2 = read then autogen if parm min==-12345
+#
+#_Available timevary codes
+#_Block types: 0: P_block=P_base*exp(TVP); 1: P_block=P_base+TVP; 2: P_block=TVP; 3: P_block=P_block(-1) + TVP
+#_Block_trends: -1: trend bounded by base parm min-max and parms in transformed units (beware); -2: endtrend and infl_year direct values; -3: end and infl as fraction of base range
+#_EnvLinks:  1: P(y)=P_base*exp(TVP*env(y));  2: P(y)=P_base+TVP*env(y);  3: P(y)=f(TVP,env_Zscore) w/ logit to stay in min-max;  4: P(y)=2.0/(1.0+exp(-TVP1*env(y) - TVP2))
+#_DevLinks:  1: P(y)*=exp(dev(y)*dev_se;  2: P(y)+=dev(y)*dev_se;  3: random walk;  4: zero-reverting random walk with rho;  5: like 4 with logit transform to stay in base min-max
+#_DevLinks(more):  21-25 keep last dev for rest of years
+#
+#_Prior_codes:  0=none; 6=normal; 1=symmetric beta; 2=CASAL's beta; 3=lognormal; 4=lognormal with biascorr; 5=gamma
+#
+# setup for M, growth, wt-len, maturity, fecundity, (hermaphro), recr_distr, cohort_grow, (movement), (age error), (catch_mult), sex ratio 
+#_NATMORT
+0 #_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate;_5=BETA:_Maunder_link_to_maturity
+  #_no additional input for selected M option; read 1P per morph
+#
+1 # GrowthModel: 1=vonBert with L1&L2; 2=Richards with L1&L2; 3=age_specific_K_incr; 4=age_specific_K_decr; 5=age_specific_K_each; 6=NA; 7=NA; 8=growth cessation
+0.5 #_Age(post-settlement)_for_L1;linear growth below this
+14 #_Growth_Age_for_L2 (999 to use as Linf)
+-999 #_exponential decay for growth above maxage (value should approx initial Z; -999 replicates 3.24; -998 to not allow growth above maxage)
+0  #_placeholder for future growth feature
+#
+0 #_SD_add_to_LAA (set to 0.1 for SS2 V1.x compatibility)
+0 #_CV_Growth_Pattern:  0 CV=f(LAA); 1 CV=F(A); 2 SD=F(LAA); 3 SD=F(A); 4 logSD=F(A)
+#
+2 #_maturity_option:  1=length logistic; 2=age logistic; 3=read age-maturity matrix by growth_pattern; 4=read age-fecundity; 5=disabled; 6=read length-maturity
+1 #_First_Mature_Age
+1 #_fecundity option:(1)eggs=Wt*(a+b*Wt);(2)eggs=a*L^b;(3)eggs=a*Wt^b; (4)eggs=a+b*L; (5)eggs=a+b*W
+0 #_hermaphroditism option:  0=none; 1=female-to-male age-specific fxn; -1=male-to-female age-specific fxn
+1 #_parameter_offset_approach for M, G, CV_G:  1- direct, no offset**; 2- male=fem_parm*exp(male_parm); 3: male=female*exp(parm) then old=young*exp(parm)
+#_** in option 1, any male parameter with value = 0.0 and phase <0 is set equal to female parameter
+#
+#_growth_parms
+#_ LO HI INIT PRIOR PR_SD PR_type PHASE env_var&link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
+# Sex: 1  BioPattern: 1  NatMort
+ 0.05 0.8 0.427465 -1.20397 0.438 3 7 0 0 0 0 0.5 0 0 # NatM_uniform_Fem_GP_1
+# Sex: 1  BioPattern: 1  Growth
+ 4 60 15.0526 0 0 0 1 0 0 0 0 0.5 0 0 # L_at_Amin_Fem_GP_1
+ 40 130 106.122 0 0 0 7 0 0 0 0 0.5 0 0 # L_at_Amax_Fem_GP_1
+ 0.01 0.5 0.1369 0 0 0 3 0 0 0 0 0.5 0 0 # VonBert_K_Fem_GP_1
+ 0.01 0.5 0.190001 0 0 0 4 0 0 0 0 0.5 0 0 # CV_young_Fem_GP_1
+ 0.01 0.5 0.0365425 0 0 0 4 0 0 0 0 0 0 0 # CV_old_Fem_GP_1
+# Sex: 1  BioPattern: 1  WtLen
+ -3 3 2.80223e-06 0 0 0 -3 0 0 0 0 0.5 0 0 # Wtlen_1_Fem_GP_1
+ -3 5 3.27656 0 0 0 -3 0 0 0 0 0.5 0 0 # Wtlen_2_Fem_GP_1
+# Sex: 1  BioPattern: 1  Maturity&Fecundity
+ -3 100 3.23 0 0 0 -3 0 0 0 0 0.5 0 0 # Mat50%_Fem_GP_1
+ -5 5 -2.942 0 0 0 -3 0 0 0 0 0.5 0 0 # Mat_slope_Fem_GP_1
+ -3 3 1 0 0 0 -3 0 0 0 0 0.5 0 0 # Eggs/kg_inter_Fem_GP_1
+ -3 3 0 0 0 0 -3 0 0 0 0 0.5 0 0 # Eggs/kg_slope_wt_Fem_GP_1
+# Sex: 2  BioPattern: 1  NatMort
+ 0.15 0.8 0.432188 -0.87855 0.438 3 7 0 0 0 0 0.5 0 0 # NatM_uniform_Mal_GP_1
+# Sex: 2  BioPattern: 1  Growth
+ 10 60 13.9548 0 0 0 2 0 0 0 0 0.5 0 0 # L_at_Amin_Mal_GP_1
+ 40 110 79.4544 0 0 0 2 0 0 0 0 0.5 0 0 # L_at_Amax_Mal_GP_1
+ 0.01 1 0.270542 0 0 0 3 0 0 0 0 0.5 0 0 # VonBert_K_Mal_GP_1
+ 0.01 0.5 0.158737 0 0 0 4 0 0 0 0 0.5 0 0 # CV_young_Mal_GP_1
+ 0.01 0.5 0.0651136 0 0 0 4 0 0 0 0 0 0 0 # CV_old_Mal_GP_1
+# Sex: 2  BioPattern: 1  WtLen
+ -3 3 1.49298e-06 0 0 0 -3 0 0 0 0 0.5 0 0 # Wtlen_1_Mal_GP_1
+ -5 5 3.44489 0 0 0 -3 0 0 0 0 0.5 0 0 # Wtlen_2_Mal_GP_1
+# Hermaphroditism
+#  Recruitment Distribution  
+#  Cohort growth dev base
+ 0.1 10 1 1 1 0 -1 0 0 0 0 0 0 0 # CohortGrowDev
+#  Movement
+#  Age Error from parameters
+#  catch multiplier
+#  fraction female, by GP
+ 1e-06 0.999999 0.5 0 0 0 -3 0 0 0 0 0 0 0 # FracFemale_GP_1
+#
+#_no timevary MG parameters
+#
+#_seasonal_effects_on_biology_parms
+ 0 0 0 0 0 0 0 0 0 0 #_femwtlen1,femwtlen2,mat1,mat2,fec1,fec2,Malewtlen1,malewtlen2,L1,K
+#_ LO HI INIT PRIOR PR_SD PR_type PHASE
+#_Cond -2 2 0 0 -1 99 -2 #_placeholder when no seasonal MG parameters
+#
+3 #_Spawner-Recruitment; Options: 1=NA; 2=Ricker; 3=std_B-H; 4=SCAA; 5=Hockey; 6=B-H_flattop; 7=survival_3Parm; 8=Shepherd_3Parm; 9=RickerPower_3parm
+0  # 0/1 to use steepness in initial equ recruitment calculation
+0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
+             5            15       9.65002             0             0             0          1          0          0          0          0          0          0          0 # SR_LN(R0)
+           0.2             1           0.7             0             0             0         -4          0          0          0          0          0          0          0 # SR_BH_steep
+             0             2           0.6             0             0             0         -3          0          0          0          0          0          0          0 # SR_sigmaR
+            -5             5             0             0             0             0         -5          0          0          0          0          0          0          0 # SR_regime
+             0             2             0             0             0             0        -50          0          0          0          0          0          0          0 # SR_autocorr
+#_no timevary SR parameters
+1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
+1965 # first year of main recr_devs; early devs can preceed this era
+2018 # last year of main recr_devs; forecast devs start in following year
+2 #_recdev phase 
+1 # (0/1) to read 13 advanced options
+ 1889 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
+ 6 #_recdev_early_phase
+ 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
+ 1 #_lambda for Fcast_recr_like occurring before endyr+1
+ 1969 #_last_yr_nobias_adj_in_MPD; begin of ramp
+ 1993.6 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+ 2016.7 #_last_yr_fullbias_adj_in_MPD
+ 2019.4 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+ 0.9113 #_max_bias_adj_in_MPD (typical ~0.8; -3 sets all years to 0.0; -2 sets all non-forecast yrs w/ estimated recdevs to 1.0; -1 sets biasadj=1.0 for all yrs w/ recdevs)
+ 0 #_period of cycles in recruitment (N parms read below)
+ -4 #min rec_dev
+ 4 #max rec_dev
+ 0 #_read_recdevs
+#_end of advanced SR options
+#
+#_placeholder for full parameter lines for recruitment cycles
+# read specified recr devs
+#_Yr Input_value
+#
+# all recruitment deviations
+#  1889E 1890E 1891E 1892E 1893E 1894E 1895E 1896E 1897E 1898E 1899E 1900E 1901E 1902E 1903E 1904E 1905E 1906E 1907E 1908E 1909E 1910E 1911E 1912E 1913E 1914E 1915E 1916E 1917E 1918E 1919E 1920E 1921E 1922E 1923E 1924E 1925E 1926E 1927E 1928E 1929E 1930E 1931E 1932E 1933E 1934E 1935E 1936E 1937E 1938E 1939E 1940E 1941E 1942E 1943E 1944E 1945E 1946E 1947E 1948E 1949E 1950E 1951E 1952E 1953E 1954E 1955E 1956E 1957E 1958E 1959E 1960E 1961E 1962E 1963E 1964E 1965R 1966R 1967R 1968R 1969R 1970R 1971R 1972R 1973R 1974R 1975R 1976R 1977R 1978R 1979R 1980R 1981R 1982R 1983R 1984R 1985R 1986R 1987R 1988R 1989R 1990R 1991R 1992R 1993R 1994R 1995R 1996R 1997R 1998R 1999R 2000R 2001R 2002R 2003R 2004R 2005R 2006R 2007R 2008R 2009R 2010R 2011R 2012R 2013R 2014R 2015R 2016R 2017R 2018R 2019F 2020F 2021F
+#  -8.51536e-08 -1.0777e-07 -1.36439e-07 -1.72606e-07 -2.18593e-07 -2.7688e-07 -3.50798e-07 -4.44292e-07 -5.62608e-07 -7.12625e-07 -9.03251e-07 -1.14514e-06 -1.45194e-06 -1.84089e-06 -2.33334e-06 -2.95575e-06 -3.74091e-06 -4.73048e-06 -5.97633e-06 -7.54219e-06 -9.50561e-06 -1.19588e-05 -1.50179e-05 -1.88334e-05 -2.36141e-05 -2.96484e-05 -3.72937e-05 -4.69323e-05 -5.90106e-05 -7.41446e-05 -9.31052e-05 -0.000117095 -0.000147237 -0.000185047 -0.000232371 -0.000291367 -0.00036472 -0.00045636 -0.000571088 -0.000713643 -0.000890032 -0.00110581 -0.00137141 -0.00169732 -0.00209439 -0.00257337 -0.0031522 -0.00384905 -0.00467871 -0.00566012 -0.00680674 -0.00817142 -0.00975838 -0.0116222 -0.0137703 -0.0162981 -0.0192143 -0.0227908 -0.0269747 -0.0321286 -0.0381364 -0.0453987 -0.0540934 -0.0642909 -0.0765211 -0.0913 -0.109265 -0.128293 -0.153556 -0.184952 -0.218271 -0.253435 -0.283255 -0.288129 -0.228124 -0.106323 -0.0538081 0.0881388 0.131761 -0.127089 -0.185178 0.750564 1.25199 0.243667 0.555374 0.381702 -0.17822 -0.262097 -0.123796 0.161275 0.414444 0.0138924 -0.436253 -0.0489935 -0.430176 -0.59359 0.328933 0.0733975 -0.502102 -0.370664 -0.388588 -0.183525 -0.306807 -0.403416 -0.393667 0.0409803 0.172415 -0.269843 -0.0862689 -0.0925653 0.529273 0.581005 0.433474 0.036827 -0.275235 -0.262708 -0.761963 -0.130214 -0.0870243 0.841203 0.334629 0.175042 -0.200891 -0.00175108 0.533735 -0.547084 -0.362867 -0.00139578 -0.249195 0.24325 -0.217407 1.93831e-07 0
+#
+#Fishing Mortality info 
+0.1 # F ballpark value in units of annual_F
+-2001 # F ballpark year (neg value to disable)
+3 # F_Method:  1=Pope; 2=instan. F; 3=hybrid (hybrid is recommended)
+4 # max F or harvest rate, depends on F_Method
+# no additional F input needed for Fmethod 1
+# if Fmethod=2; read overall start F value; overall phase; N detailed inputs to read
+# if Fmethod=3; read N iterations for tuning for Fmethod 3
+5  # N iterations for tuning F in hybrid method (recommend 3 to 7)
+#
+#_initial_F_parms; for each fleet x season that has init_catch; nest season in fleet; count = 0
+#_for unconstrained init_F, use an arbitrary initial catch and set lambda=0 for its logL
+#_ LO HI INIT PRIOR PR_SD  PR_type  PHASE
+#
+# F rates by fleet x season
+# Yr:  1889 1890 1891 1892 1893 1894 1895 1896 1897 1898 1899 1900 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021
+# seas:  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+# 1_Comm_Trawl 8.92114e-05 0.000179184 0.00026985 0.000361356 0.00031462 0.000267045 0.000219109 0.000223155 0.000227261 0.000230767 0.000233689 0.000278773 0.000323874 0.000369091 0.00041448 0.000460054 0.000410639 0.000361065 0.000311406 0.000261734 0.000353716 0.000446554 0.000540654 0.000636303 0.000733693 0.000832953 0.000934187 0.00112688 0.00132721 0.00153657 0.00179508 0.00115499 0.000709165 0.000936914 0.0007634 0.000650305 0.00111032 0.00105166 0.000911874 0.000770009 0.00313866 0.00554015 0.00662315 0.0045619 0.00631983 0.010202 0.0122206 0.0131768 0.0197222 0.0133861 0.026873 0.046255 0.041636 0.068264 0.0801136 0.127783 0.0991809 0.13006 0.0999513 0.137163 0.0982106 0.099748 0.112042 0.0725263 0.0438795 0.0564866 0.100413 0.0742761 0.0959957 0.101352 0.154987 0.184961 0.189836 0.118226 0.0931334 0.134458 0.155836 0.170195 0.269802 0.337462 0.197887 0.121011 0.141794 0.151772 0.184747 0.16116 0.121235 0.104298 0.0855358 0.0705093 0.128593 0.139969 0.153148 0.202123 0.271611 0.28477 0.330402 0.225294 0.231489 0.249001 0.3339 0.27859 0.420054 0.235207 0.34699 0.308555 0.233705 0.258852 0.239007 0.0986909 0.0865725 0.0252265 0.0187315 0.0282126 0.0174841 0.014794 0.0170394 0.0232827 0.0191203 0.0203176 0.0172344 0.00792097 0.0274449 0.032808 0.0287715 0.0184462 0.0135276 0.0216172 0.0463427 0.0362393 0.0385659 0.0295181 0.0295181
+# 2_Comm_Fix 0.00491632 0.00527159 0.0055918 0.00767287 0.00655862 0.00565895 0.00648171 0.00832909 0.00777411 0.00300369 0.00246154 0.0027934 0.00312627 0.0034605 0.00379614 0.00413316 0.00372366 0.00331281 0.00290128 0.00248965 0.00458094 0.00668402 0.00880731 0.0109567 0.0131363 0.0153491 0.0175977 0.0229756 0.0285182 0.0342585 0.0139905 0.0105229 0.00905896 0.00610464 0.00524546 0.0101604 0.0140009 0.0154829 0.0183543 0.0148336 0.0313282 0.0295394 0.022561 0.0177104 0.0234284 0.0249077 0.0259604 0.0303059 0.0293015 0.0619497 0.0399921 0.0477683 0.0432605 0.0491002 0.0367968 0.0431298 0.0277534 0.0439358 0.0316155 0.037754 0.0431968 0.0272496 0.0270652 0.0284586 0.0129561 0.0162745 0.0129662 0.0122408 0.0154141 0.011922 0.0109678 0.0148796 0.0150448 0.0144875 0.0127394 0.00779149 0.00772344 0.0100968 0.0119266 0.00926192 0.0127317 0.0138987 0.0131825 0.0141244 0.00800786 0.00482623 0.00559383 0.00576438 0.00793544 0.0103697 0.0129995 0.00791936 0.0118259 0.0179125 0.0213382 0.023454 0.0342927 0.0404885 0.0358327 0.0365406 0.0549334 0.0523942 0.0276531 0.0301935 0.0245291 0.0331682 0.0246368 0.0255744 0.0320073 0.0176205 0.0182185 0.010185 0.0117526 0.0103005 0.00829362 0.00744193 0.00756536 0.00923375 0.00902768 0.0119706 0.0103604 0.00655647 0.00534486 0.00519917 0.00574401 0.00598151 0.0101782 0.00767313 0.00890046 0.0102765 0.0123969 0.0114067 0.0114067
+# 3_Rec_WA 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.00257817 0.00288023 0.00298577 0.00285829 0.00277302 0.00279518 0.00265653 0.00221384 0.00185039 0.000922067 0.00120478 0.00103273 0.00097368 0.00147012 0.00183889 0.00218619 0.00287444 0.00535771 0.00492899 0.00605497 0.00599524 0.0061633 0.00757657 0.00627406 0.0069458 0.0114249 0.0150143 0.0143667 0.00983907 0.00883284 0.00805074 0.00603011 0.00582204 0.00383712 0.00432166 0.0123528 0.00980377 0.00932917 0.00909027 0.00636411 0.00756222 0.00902004 0.0119155 0.0168932 0.0163095 0.0124427 0.0092773 0.0095883 0.00933645 0.0125441 0.00941502 0.00976384 0.0123849 0.00875994 0.00875994
+# 4_Rec_OR 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.00305673 0.00283122 0.00374022 0.00356422 0.00409848 0.00619405 0.00971909 0.00827947 0.00957066 0.00803103 0.0102007 0.0118617 0.0140546 0.0164932 0.00985261 0.0136147 0.0118835 0.0109942 0.0181055 0.028468 0.0243341 0.0144428 0.0176205 0.0209923 0.0150151 0.0118262 0.00656723 0.00667971 0.00880699 0.00907428 0.00775983 0.00832944 0.00772009 0.0068877 0.00654962 0.0065404 0.00782266 0.00839159 0.00925192 0.0125856 0.0101029 0.0140792 0.00939678 0.0113101 0.0151058 0.0128133 0.0134706 0.0134706
+# 5_Rec_CA 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.05402e-05 6.21058e-05 9.40409e-05 0.000125797 0.000157397 0.000190052 0.000223442 0.000258015 0.000404581 0.000500999 0.000710804 0.000766256 0.00072689 0.000396781 0.000391184 0.000334041 0.000460102 0.000811361 0.00300583 0.00332991 0.00369404 0.00331379 0.00341518 0.00240727 0.00171821 0.0026749 0.00285051 0.00390593 0.00455164 0.0050993 0.00416304 0.00368942 0.00388146 0.0039123 0.00390872 0.00383197 0.00579515 0.00846967 0.00953069 0.00989839 0.00768029 0.0106895 0.011342 0.0133067 0.012562 0.0106137 0.00904158 0.00809504 0.005603 0.00750239 0.0088428 0.0146157 0.0145197 0.0119892 0.00857149 0.00821802 0.0184709 0.0205341 0.0235711 0.0279404 0.026457 0.0231566 0.0214327 0.0196191 0.016292 0.00943705 0.010325 0.0138809 0.0100789 0.00859444 0.00779476 0.00402003 0.00311514 0.00868919 0.0142328 0.00751364 0.00283315 0.00265776 0.00321584 0.00148002 0.00267114 0.00215076 0.00287337 0.00280177 0.00288873 0.00373974 0.00645289 0.00405362 0.00373898 0.00364269 0.0030925 0.00290158 0.00290158
+#
+#_Q_setup for fleets with cpue or survey data
+#_1:  fleet number
+#_2:  link type: (1=simple q, 1 parm; 2=mirror simple q, 1 mirrored parm; 3=q and power, 2 parm; 4=mirror with offset, 2 parm)
+#_3:  extra input for link, i.e. mirror fleet# or dev index number
+#_4:  0/1 to select extra sd parameter
+#_5:  0/1 for biasadj or not
+#_6:  0/1 to float
+#_   fleet      link link_info  extra_se   biasadj     float  #  fleetname
+         1         1         0         1         0         1  #  1_Comm_Trawl
+         2         1         0         1         0         1  #  2_Comm_Fix
+         3         1         0         1         0         1  #  3_Rec_WA
+         4         1         0         1         0         1  #  4_Rec_OR
+         5         1         0         1         0         1  #  5_Rec_CA
+         6         1         0         0         0         1  #  6_Surv_TRI
+         7         1         0         0         0         1  #  7_Surv_WCGBTS
+-9999 0 0 0 0 0
+#
+#_Q_parms(if_any);Qunits_are_ln(q)
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
+           -15            15      -1.93416             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_1_Comm_Trawl(1)
+             0             2     0.0958259             0             0             0          2          0          0          0          0          0          0          0  #  Q_extraSD_1_Comm_Trawl(1)
+           -15            15      -8.03528             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_2_Comm_Fix(2)
+             0             2    1.4429e-08             0             0             0          2          0          0          0          0          0          0          0  #  Q_extraSD_2_Comm_Fix(2)
+           -15            15      -8.29783             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_3_Rec_WA(3)
+             0             2       0.20692             0             0             0          2          0          0          0          0          0          0          0  #  Q_extraSD_3_Rec_WA(3)
+           -15            15      -8.76333             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_4_Rec_OR(4)
+             0             2   8.89089e-09             0             0             0          2          0          0          0          0          0          0          0  #  Q_extraSD_4_Rec_OR(4)
+           -15            15      -8.92354             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_5_Rec_CA(5)
+             0             2      0.224773             0             0             0          2          0          0          0          0          0          0          0  #  Q_extraSD_5_Rec_CA(5)
+           -15            15     -0.615062             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_6_Surv_TRI(6)
+           -15            15     -0.248401             0             0             0         -1          0          0          0          0          0          0          0  #  LnQ_base_7_Surv_WCGBTS(7)
+#_no timevary Q parameters
+#
+#_size_selex_patterns
+#Pattern:_0;  parm=0; selex=1.0 for all sizes
+#Pattern:_1;  parm=2; logistic; with 95% width specification
+#Pattern:_2;  parm=6; modification of pattern 24 with improved sex-specific offset
+#Pattern:_5;  parm=2; mirror another size selex; PARMS pick the min-max bin to mirror
+#Pattern:_11; parm=2; selex=1.0  for specified min-max population length bin range
+#Pattern:_15; parm=0; mirror another age or length selex
+#Pattern:_6;  parm=2+special; non-parm len selex
+#Pattern:_43; parm=2+special+2;  like 6, with 2 additional param for scaling (average over bin range)
+#Pattern:_8;  parm=8; double_logistic with smooth transitions and constant above Linf option
+#Pattern:_9;  parm=6; simple 4-parm double logistic with starting length; parm 5 is first length; parm 6=1 does desc as offset
+#Pattern:_21; parm=2+special; non-parm len selex, read as pairs of size, then selex
+#Pattern:_22; parm=4; double_normal as in CASAL
+#Pattern:_23; parm=6; double_normal where final value is directly equal to sp(6) so can be >1.0
+#Pattern:_24; parm=6; double_normal with sel(minL) and sel(maxL), using joiners
+#Pattern:_25; parm=3; exponential-logistic in length
+#Pattern:_27; parm=special+3; cubic spline in length; parm1==1 resets knots; parm1==2 resets all 
+#Pattern:_42; parm=special+3+2; cubic spline; like 27, with 2 additional param for scaling (average over bin range)
+#_discard_options:_0=none;_1=define_retention;_2=retention&mortality;_3=all_discarded_dead;_4=define_dome-shaped_retention
+#_Pattern Discard Male Special
+ 24 2 0 0 # 1 1_Comm_Trawl
+ 24 2 0 0 # 2 2_Comm_Fix
+ 24 0 0 0 # 3 3_Rec_WA
+ 24 0 0 0 # 4 4_Rec_OR
+ 24 0 0 0 # 5 5_Rec_CA
+ 24 0 0 0 # 6 6_Surv_TRI
+ 24 0 0 0 # 7 7_Surv_WCGBTS
+ 0 0 0 0 # 8 8_Surv_HookLine
+ 24 0 0 0 # 9 9_Research_Lam
+ 0 0 0 0 # 10 10_CPFV_DebWV
+#
+#_age_selex_patterns
+#Pattern:_0; parm=0; selex=1.0 for ages 0 to maxage
+#Pattern:_10; parm=0; selex=1.0 for ages 1 to maxage
+#Pattern:_11; parm=2; selex=1.0  for specified min-max age
+#Pattern:_12; parm=2; age logistic
+#Pattern:_13; parm=8; age double logistic
+#Pattern:_14; parm=nages+1; age empirical
+#Pattern:_15; parm=0; mirror another age or length selex
+#Pattern:_16; parm=2; Coleraine - Gaussian
+#Pattern:_17; parm=nages+1; empirical as random walk  N parameters to read can be overridden by setting special to non-zero
+#Pattern:_41; parm=2+nages+1; // like 17, with 2 additional param for scaling (average over bin range)
+#Pattern:_18; parm=8; double logistic - smooth transition
+#Pattern:_19; parm=6; simple 4-parm double logistic with starting age
+#Pattern:_20; parm=6; double_normal,using joiners
+#Pattern:_26; parm=3; exponential-logistic in age
+#Pattern:_27; parm=3+special; cubic spline in age; parm1==1 resets knots; parm1==2 resets all 
+#Pattern:_42; parm=2+special+3; // cubic spline; with 2 additional param for scaling (average over bin range)
+#Age patterns entered with value >100 create Min_selage from first digit and pattern from remainder
+#_Pattern Discard Male Special
+ 0 0 0 0 # 1 1_Comm_Trawl
+ 0 0 0 0 # 2 2_Comm_Fix
+ 0 0 0 0 # 3 3_Rec_WA
+ 0 0 0 0 # 4 4_Rec_OR
+ 0 0 0 0 # 5 5_Rec_CA
+ 0 0 0 0 # 6 6_Surv_TRI
+ 0 0 0 0 # 7 7_Surv_WCGBTS
+ 0 0 0 0 # 8 8_Surv_HookLine
+ 0 0 0 0 # 9 9_Research_Lam
+ 0 0 0 0 # 10 10_CPFV_DebWV
+#
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
+# 1   1_Comm_Trawl LenSelex
+            20           100       83.2954             0             0             0          2          0          0          0          0          0          1          2  #  Size_DblN_peak_1_Comm_Trawl(1)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_1_Comm_Trawl(1)
+            -1             9       6.13384             0             0             0          3          0          0          0          0          0          1          2  #  Size_DblN_ascend_se_1_Comm_Trawl(1)
+            -1            15       14.2979             0             0             0          3          0          0          0          0          0          1          2  #  Size_DblN_descend_se_1_Comm_Trawl(1)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_1_Comm_Trawl(1)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_1_Comm_Trawl(1)
+            10            80            10             0             0             0         -4          0          0          0          0          0          2          2  #  Retain_L_infl_1_Comm_Trawl(1)
+             1            15            15             0             0             0         -4          0          0          0          0          0          3          2  #  Retain_L_width_1_Comm_Trawl(1)
+           -10            10            10             0             0             0         -5          0          0          0          0          0          0          0  #  Retain_L_asymptote_logit_1_Comm_Trawl(1)
+            -2             2             0             0             0             0         -5          0          0          0          0          0          0          0  #  Retain_L_maleoffset_1_Comm_Trawl(1)
+            -1             1             0             0             0             0         -4          0          0          0          0          0          0          0  #  DiscMort_L_infl_1_Comm_Trawl(1)
+            -1             1        0.0001             0             0             0         -5          0          0          0          0          0          0          0  #  DiscMort_L_width_1_Comm_Trawl(1)
+          0.01             1           0.5             0             0             0         -6          0          0          0          0          0          0          0  #  DiscMort_L_level_old_1_Comm_Trawl(1)
+            -2             2             0             0             0             0         -4          0          0          0          0          0          0          0  #  DiscMort_L_male_offset_1_Comm_Trawl(1)
+# 2   2_Comm_Fix LenSelex
+            20           100       68.7378             0             0             0          2          0          0          0          0          0          0          0  #  Size_DblN_peak_2_Comm_Fix(2)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_2_Comm_Fix(2)
+            -1             9       5.61737             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_ascend_se_2_Comm_Fix(2)
+            -1            15       14.6024             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_descend_se_2_Comm_Fix(2)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_2_Comm_Fix(2)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_2_Comm_Fix(2)
+            10            80            10             0             0             0         -4          0          0          0          0          0          4          2  #  Retain_L_infl_2_Comm_Fix(2)
+             1            15            15             0             0             0         -4          0          0          0          0          0          5          2  #  Retain_L_width_2_Comm_Fix(2)
+           -10            10            10             0             0             0         -5          0          0          0          0          0          0          0  #  Retain_L_asymptote_logit_2_Comm_Fix(2)
+            -2             2             0             0             0             0         -5          0          0          0          0          0          0          0  #  Retain_L_maleoffset_2_Comm_Fix(2)
+            -1             1             0             0             0             0         -4          0          0          0          0          0          0          0  #  DiscMort_L_infl_2_Comm_Fix(2)
+            -1             1        0.0001             0             0             0         -5          0          0          0          0          0          0          0  #  DiscMort_L_width_2_Comm_Fix(2)
+          0.01             1          0.07             0             0             0         -6          0          0          0          0          0          0          0  #  DiscMort_L_level_old_2_Comm_Fix(2)
+            -2             2             0             0             0             0         -4          0          0          0          0          0          0          0  #  DiscMort_L_male_offset_2_Comm_Fix(2)
+# 3   3_Rec_WA LenSelex
+            20           100       74.6733             0             0             0          2          0          0          0          0          0          6          2  #  Size_DblN_peak_3_Rec_WA(3)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_3_Rec_WA(3)
+            -1             9        5.6769             0             0             0          3          0          0          0          0          0          6          2  #  Size_DblN_ascend_se_3_Rec_WA(3)
+            -1            15       14.0879             0             0             0          3          0          0          0          0          0          6          2  #  Size_DblN_descend_se_3_Rec_WA(3)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_3_Rec_WA(3)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_3_Rec_WA(3)
+# 4   4_Rec_OR LenSelex
+            20           100        62.556             0             0             0          2          0          0          0          0          0          7          2  #  Size_DblN_peak_4_Rec_OR(4)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_4_Rec_OR(4)
+            -1             9       5.39813             0             0             0          3          0          0          0          0          0          7          2  #  Size_DblN_ascend_se_4_Rec_OR(4)
+            -1            15       12.9629             0             0             0          3          0          0          0          0          0          7          2  #  Size_DblN_descend_se_4_Rec_OR(4)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_4_Rec_OR(4)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_4_Rec_OR(4)
+# 5   5_Rec_CA LenSelex
+            20           100       76.7012             0             0             0          2          0          0          0          0          0          8          2  #  Size_DblN_peak_5_Rec_CA(5)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_5_Rec_CA(5)
+            -1             9       5.40485             0             0             0          3          0          0          0          0          0          8          2  #  Size_DblN_ascend_se_5_Rec_CA(5)
+            -1            15       13.2444             0             0             0          3          0          0          0          0          0          8          2  #  Size_DblN_descend_se_5_Rec_CA(5)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_5_Rec_CA(5)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_5_Rec_CA(5)
+# 6   6_Surv_TRI LenSelex
+            20           100       99.2737             0             0             0          2          0          0          0          0        0.5          0          0  #  Size_DblN_peak_6_Surv_TRI(6)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_6_Surv_TRI(6)
+            -1             9       7.36273             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_ascend_se_6_Surv_TRI(6)
+            -1            15       11.2896             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_descend_se_6_Surv_TRI(6)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_6_Surv_TRI(6)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_6_Surv_TRI(6)
+# 7   7_Surv_WCGBTS LenSelex
+            20           100       76.7093             0             0             0          2          0          0          0          0          0          0          0  #  Size_DblN_peak_7_Surv_WCGBTS(7)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_7_Surv_WCGBTS(7)
+            -1             9       6.91607             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_ascend_se_7_Surv_WCGBTS(7)
+            -1            15       6.70005             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_descend_se_7_Surv_WCGBTS(7)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_7_Surv_WCGBTS(7)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_7_Surv_WCGBTS(7)
+# 8   8_Surv_HookLine LenSelex
+# 9   9_Research_Lam LenSelex
+            20           100         89.45             0             0             0          2          0          0          0          0          0          0          0  #  Size_DblN_peak_9_Research_Lam(9)
+           -20             4           -15             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_top_logit_9_Research_Lam(9)
+            -1             9       6.48396             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_ascend_se_9_Research_Lam(9)
+            -1            15       5.12406             0             0             0          3          0          0          0          0          0          0          0  #  Size_DblN_descend_se_9_Research_Lam(9)
+            -5             9          -999             0             0             0         -2          0          0          0          0          0          0          0  #  Size_DblN_start_logit_9_Research_Lam(9)
+            -5             9          -999             0             0             0         -3          0          0          0          0          0          0          0  #  Size_DblN_end_logit_9_Research_Lam(9)
+# 10   10_CPFV_DebWV LenSelex
+# 1   1_Comm_Trawl AgeSelex
+# 2   2_Comm_Fix AgeSelex
+# 3   3_Rec_WA AgeSelex
+# 4   4_Rec_OR AgeSelex
+# 5   5_Rec_CA AgeSelex
+# 6   6_Surv_TRI AgeSelex
+# 7   7_Surv_WCGBTS AgeSelex
+# 8   8_Surv_HookLine AgeSelex
+# 9   9_Research_Lam AgeSelex
+# 10   10_CPFV_DebWV AgeSelex
+#_No_Dirichlet parameters
+# timevary selex parameters 
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type    PHASE  #  parm_name
+            20           100       86.8454             0             0             0      2  # Size_DblN_peak_1_Comm_Trawl(1)_BLK1repl_1993
+            20           100        82.973             0             0             0      2  # Size_DblN_peak_1_Comm_Trawl(1)_BLK1repl_1998
+            20           100        88.468             0             0             0      2  # Size_DblN_peak_1_Comm_Trawl(1)_BLK1repl_2011
+            -1             9       6.36777             0             0             0      3  # Size_DblN_ascend_se_1_Comm_Trawl(1)_BLK1repl_1993
+            -1             9       6.86233             0             0             0      3  # Size_DblN_ascend_se_1_Comm_Trawl(1)_BLK1repl_1998
+            -1             9       6.77386             0             0             0      3  # Size_DblN_ascend_se_1_Comm_Trawl(1)_BLK1repl_2011
+            -1            15       4.13888             0             0             0      3  # Size_DblN_descend_se_1_Comm_Trawl(1)_BLK1repl_1993
+            -1            15       5.56959             0             0             0      3  # Size_DblN_descend_se_1_Comm_Trawl(1)_BLK1repl_1998
+            -1            15       5.24731             0             0             0      3  # Size_DblN_descend_se_1_Comm_Trawl(1)_BLK1repl_2011
+            30            80       79.9953             0             0             0      4  # Retain_L_infl_1_Comm_Trawl(1)_BLK2repl_1998
+            30            80       77.2415             0             0             0      4  # Retain_L_infl_1_Comm_Trawl(1)_BLK2repl_2007
+            30            80       55.9075             0             0             0      4  # Retain_L_infl_1_Comm_Trawl(1)_BLK2repl_2010
+            30            80       55.1141             0             0             0      4  # Retain_L_infl_1_Comm_Trawl(1)_BLK2repl_2011
+             1            15       9.38627             0             0             0      4  # Retain_L_width_1_Comm_Trawl(1)_BLK3repl_1998
+             1            15       2.55316             0             0             0      4  # Retain_L_width_1_Comm_Trawl(1)_BLK3repl_2011
+            30            80        71.192             0             0             0      4  # Retain_L_infl_2_Comm_Fix(2)_BLK4repl_1998
+            30            80       59.9505             0             0             0      4  # Retain_L_infl_2_Comm_Fix(2)_BLK4repl_2011
+             1            15       14.9885             0             0             0      4  # Retain_L_width_2_Comm_Fix(2)_BLK5repl_1998
+             1            15       9.40704             0             0             0      4  # Retain_L_width_2_Comm_Fix(2)_BLK5repl_2011
+            20           100        59.149             0             0             0      2  # Size_DblN_peak_3_Rec_WA(3)_BLK6repl_1987
+            20           100        59.056             0             0             0      2  # Size_DblN_peak_3_Rec_WA(3)_BLK6repl_1995
+            20           100       63.6345             0             0             0      2  # Size_DblN_peak_3_Rec_WA(3)_BLK6repl_1998
+            20           100        60.892             0             0             0      2  # Size_DblN_peak_3_Rec_WA(3)_BLK6repl_2007
+            20           100       64.1186             0             0             0      2  # Size_DblN_peak_3_Rec_WA(3)_BLK6repl_2011
+            20           100       66.2896             0             0             0      2  # Size_DblN_peak_3_Rec_WA(3)_BLK6repl_2017
+            -1             9       4.45169             0             0             0      3  # Size_DblN_ascend_se_3_Rec_WA(3)_BLK6repl_1987
+            -1             9        3.0007             0             0             0      3  # Size_DblN_ascend_se_3_Rec_WA(3)_BLK6repl_1995
+            -1             9       2.79266             0             0             0      3  # Size_DblN_ascend_se_3_Rec_WA(3)_BLK6repl_1998
+            -1             9        2.9822             0             0             0      3  # Size_DblN_ascend_se_3_Rec_WA(3)_BLK6repl_2007
+            -1             9        3.7795             0             0             0      3  # Size_DblN_ascend_se_3_Rec_WA(3)_BLK6repl_2011
+            -1             9       4.99395             0             0             0      3  # Size_DblN_ascend_se_3_Rec_WA(3)_BLK6repl_2017
+            -1            15       14.6397             0             0             0      3  # Size_DblN_descend_se_3_Rec_WA(3)_BLK6repl_1987
+            -1            15       14.4614             0             0             0      3  # Size_DblN_descend_se_3_Rec_WA(3)_BLK6repl_1995
+            -1            15        8.1096             0             0             0      3  # Size_DblN_descend_se_3_Rec_WA(3)_BLK6repl_1998
+            -1            15       6.59721             0             0             0      3  # Size_DblN_descend_se_3_Rec_WA(3)_BLK6repl_2007
+            -1            15       9.04172             0             0             0      3  # Size_DblN_descend_se_3_Rec_WA(3)_BLK6repl_2011
+            -1            15       14.7592             0             0             0      3  # Size_DblN_descend_se_3_Rec_WA(3)_BLK6repl_2017
+            20           100       60.0617             0             0             0      2  # Size_DblN_peak_4_Rec_OR(4)_BLK7repl_1995
+            20           100       62.6851             0             0             0      2  # Size_DblN_peak_4_Rec_OR(4)_BLK7repl_1998
+            20           100       58.0617             0             0             0      2  # Size_DblN_peak_4_Rec_OR(4)_BLK7repl_2007
+            -1             9       3.37643             0             0             0      3  # Size_DblN_ascend_se_4_Rec_OR(4)_BLK7repl_1995
+            -1             9       1.70715             0             0             0      3  # Size_DblN_ascend_se_4_Rec_OR(4)_BLK7repl_1998
+            -1             9       1.79308             0             0             0      3  # Size_DblN_ascend_se_4_Rec_OR(4)_BLK7repl_2007
+            -1            15       13.1207             0             0             0      3  # Size_DblN_descend_se_4_Rec_OR(4)_BLK7repl_1995
+            -1            15       14.5976             0             0             0      3  # Size_DblN_descend_se_4_Rec_OR(4)_BLK7repl_1998
+            -1            15       7.52521             0             0             0      3  # Size_DblN_descend_se_4_Rec_OR(4)_BLK7repl_2007
+            20           100       63.7001             0             0             0      2  # Size_DblN_peak_5_Rec_CA(5)_BLK8repl_1999
+            -1             9       3.62681             0             0             0      3  # Size_DblN_ascend_se_5_Rec_CA(5)_BLK8repl_1999
+            -1            15       8.13504             0             0             0      3  # Size_DblN_descend_se_5_Rec_CA(5)_BLK8repl_1999
+# info on dev vectors created for selex parms are reported with other devs after tag parameter section 
+#
+0   #  use 2D_AR1 selectivity(0/1)
+#_no 2D_AR1 selex offset used
+#
+# Tag loss and Tag reporting parameters go next
+0  # TG_custom:  0=no read and autogen if tag data exist; 1=read
+#_Cond -6 6 1 1 2 0.01 -4 0 0 0 0 0 0 0  #_placeholder if no parameters
+#
+# deviation vectors for timevary parameters
+#  base   base first block   block  env  env   dev   dev   dev   dev   dev
+#  type  index  parm trend pattern link  var  vectr link _mnyr  mxyr phase  dev_vector
+#      5     1     1     1     2     0     0     0     0     0     0     0
+#      5     3     4     1     2     0     0     0     0     0     0     0
+#      5     4     7     1     2     0     0     0     0     0     0     0
+#      5     7    10     2     2     0     0     0     0     0     0     0
+#      5     8    14     3     2     0     0     0     0     0     0     0
+#      5    21    16     4     2     0     0     0     0     0     0     0
+#      5    22    18     5     2     0     0     0     0     0     0     0
+#      5    29    20     6     2     0     0     0     0     0     0     0
+#      5    31    26     6     2     0     0     0     0     0     0     0
+#      5    32    32     6     2     0     0     0     0     0     0     0
+#      5    35    38     7     2     0     0     0     0     0     0     0
+#      5    37    41     7     2     0     0     0     0     0     0     0
+#      5    38    44     7     2     0     0     0     0     0     0     0
+#      5    41    47     8     2     0     0     0     0     0     0     0
+#      5    43    48     8     2     0     0     0     0     0     0     0
+#      5    44    49     8     2     0     0     0     0     0     0     0
+     #
+# Input variance adjustments factors: 
+ #_1=add_to_survey_CV
+ #_2=add_to_discard_stddev
+ #_3=add_to_bodywt_CV
+ #_4=mult_by_lencomp_N
+ #_5=mult_by_agecomp_N
+ #_6=mult_by_size-at-age_N
+ #_7=mult_by_generalized_sizecomp
+#_Factor  Fleet  Value
+      2      1      0.05
+      2      2      0.05
+      4      1  0.051235
+      4      2  0.095382
+      4      3  0.031276
+      4      4  0.006239
+      4      6  0.037713
+      4      7  0.051078
+      4      9  0.085199
+      5      6   0.18038
+      5      7  0.174093
+      5      9  0.142777
+      4      5  0.019456
+      5      1  0.080429
+      5      2  0.080429
+      5      3   0.05367
+      5      4  0.035971
+ -9999   1    0  # terminator
+#
+1 #_maxlambdaphase
+1 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
+# read 0 changes to default Lambdas (default value is 1.0)
+# Like_comp codes:  1=surv; 2=disc; 3=mnwt; 4=length; 5=age; 6=SizeFreq; 7=sizeage; 8=catch; 9=init_equ_catch; 
+# 10=recrdev; 11=parm_prior; 12=parm_dev; 13=CrashPen; 14=Morphcomp; 15=Tag-comp; 16=Tag-negbin; 17=F_ballpark; 18=initEQregime
+#like_comp fleet  phase  value  sizefreq_method
+-9999  1  1  1  1  #  terminator
+#
+# lambdas (for info only; columns are phases)
+#  1 #_CPUE/survey:_1
+#  1 #_CPUE/survey:_2
+#  1 #_CPUE/survey:_3
+#  1 #_CPUE/survey:_4
+#  1 #_CPUE/survey:_5
+#  1 #_CPUE/survey:_6
+#  1 #_CPUE/survey:_7
+#  0 #_CPUE/survey:_8
+#  0 #_CPUE/survey:_9
+#  0 #_CPUE/survey:_10
+#  1 #_discard:_1
+#  1 #_discard:_2
+#  0 #_discard:_3
+#  0 #_discard:_4
+#  0 #_discard:_5
+#  0 #_discard:_6
+#  0 #_discard:_7
+#  0 #_discard:_8
+#  0 #_discard:_9
+#  0 #_discard:_10
+#  1 #_meanbodywt:1
+#  1 #_meanbodywt:2
+#  1 #_meanbodywt:3
+#  1 #_meanbodywt:4
+#  1 #_meanbodywt:5
+#  1 #_meanbodywt:6
+#  1 #_meanbodywt:7
+#  1 #_meanbodywt:8
+#  1 #_meanbodywt:9
+#  1 #_meanbodywt:10
+#  1 #_lencomp:_1
+#  1 #_lencomp:_2
+#  1 #_lencomp:_3
+#  1 #_lencomp:_4
+#  1 #_lencomp:_5
+#  1 #_lencomp:_6
+#  1 #_lencomp:_7
+#  0 #_lencomp:_8
+#  1 #_lencomp:_9
+#  0 #_lencomp:_10
+#  1 #_agecomp:_1
+#  1 #_agecomp:_2
+#  1 #_agecomp:_3
+#  1 #_agecomp:_4
+#  0 #_agecomp:_5
+#  1 #_agecomp:_6
+#  1 #_agecomp:_7
+#  0 #_agecomp:_8
+#  1 #_agecomp:_9
+#  0 #_agecomp:_10
+#  1 #_init_equ_catch1
+#  1 #_init_equ_catch2
+#  1 #_init_equ_catch3
+#  1 #_init_equ_catch4
+#  1 #_init_equ_catch5
+#  1 #_init_equ_catch6
+#  1 #_init_equ_catch7
+#  1 #_init_equ_catch8
+#  1 #_init_equ_catch9
+#  1 #_init_equ_catch10
+#  1 #_recruitments
+#  1 #_parameter-priors
+#  1 #_parameter-dev-vectors
+#  1 #_crashPenLambda
+#  0 # F_ballpark_lambda
+0 # (0/1/2) read specs for more stddev reporting: 0 = skip, 1 = read specs for reporting stdev for selectivity, size, and numbers, 2 = add options for M,Dyn. Bzero, SmryBio
+ # 0 2 0 0 # Selectivity: (1) fleet, (2) 1=len/2=age/3=both, (3) year, (4) N selex bins
+ # 0 0 # Growth: (1) growth pattern, (2) growth ages
+ # 0 0 0 # Numbers-at-age: (1) area(-1 for all), (2) year, (3) N ages
+ # -1 # list of bin #'s for selex std (-1 in first bin to self-generate)
+ # -1 # list of ages for growth std (-1 in first bin to self-generate)
+ # -1 # list of ages for NatAge std (-1 in first bin to self-generate)
+999
+
