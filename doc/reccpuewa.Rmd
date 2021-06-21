@@ -1,7 +1,6 @@
 #### Washington recreational index
 
 ```{r reccpuewa-setup, echo = FALSE, include = FALSE}
-#
 ###############################################################################
 # This file estimates the recreational CPUE for Washington
 # with the code and write up embedded in a single file.
@@ -26,7 +25,6 @@
 # 1. WA catches in CANADA, would be area == 20, which is already a filter
 #
 ###############################################################################
-#
 # Set knitr options
 run_data <- ifelse(exists("params"), params[["run_data"]], FALSE)
 # knitr templates can be used in code chunks for consistent styles
@@ -81,8 +79,7 @@ portgroup <- data.frame(
   )
 )
 
-```
-```{r reccpuewa-readindata}
+# Read in the data
 file_reccpuewadockside81 <- file.path("..", "data-raw", "Sport Dockside Interview_1981-1989.txt")
 file_reccpuewadockside90 <- file.path("..", "data-raw", "Sport Dockside Interviews 1990-2016.txt")
 file_reccpuewadockside17 <- file.path("..", "data-raw", "Sport Dockside Interviews 2017-2020.csv")
@@ -192,48 +189,102 @@ reccpuewa_data <- dplyr:: full_join(
     .cols = tidyselect::everything(),
     ~ gsub("Released", ".Released", .x)
   )
-#
 
-```
-```{r reccpuewa-summarizedata}
-#
-# Make tables needed before filtering the poor records
-
-```
-```{r reccpuewa-filter}
-#
-tot <- reccpuewa_data %>%  dplyr::filter(
-    # Remove records without Angler information
-    Anglers != 0,
-    # Non-winter months
-    Month %in% 4:8,
-    # Bottom fish only
-    TripType == 6,
-    # Remove shore-based boats
-    BoatType != 2,
-    BoatType != "",
-    # Remove records without Area information
-    !is.na(Area),
-    # Remove records without Year information
-    !is.na(Year)
+# Filter
+pretot <- reccpuewa_data %>%
+  dplyr::mutate(tot = sum(Lingcod > 0, na.rm = TRUE)) %>%
+  # Remove records without Angler information
+  dplyr::filter(Anglers != 0) %>%
+  # Remove records without Year information
+  dplyr::filter(!is.na(Year)) %>%
+  # Remove records without Area or BoatType information
+  dplyr::filter(BoatType != "") %>%
+  dplyr::filter(!is.na(Area)) %>%
+  dplyr::mutate(
+    `anncomplete info` = sum(Lingcod > 0, na.rm = TRUE),
+    `bfncomplete info` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
+  # Non-winter months
+  dplyr::filter(Month %in% 4:8) %>%
+  dplyr::mutate(
+    annsummer = sum(Lingcod > 0, na.rm = TRUE),
+    bfnsummer = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)
   ) %>%
+  # Bottom fish only
+  dplyr::filter(TripType == 6) %>%
+  dplyr::mutate(
+    `anngroundfish trip` = sum(Lingcod > 0, na.rm = TRUE),
+    `bfngroundfish trip` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
+  # Remove shore-based boats
+  dplyr::filter(BoatType != 2) %>%
+  dplyr::mutate(
+    `annopen water` = sum(Lingcod > 0, na.rm = TRUE),
+    `bfnopen water` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
+  # Areas not specific to rockfish
   dplyr::filter(
     # Areas not specific to rockfish
     !(Area %in% c(0, 5, 6, 20, 41, 42, 51, 53:56, 61) &
       Year >= 1990
      )
   ) %>%
+    # Areas not specific to rockfish
   dplyr::filter(
     # Areas not specific to rockfish
     !(Area %in% c(0, 5, 20, 42, 51, 55, 99) &
       Year < 1990
      )
   ) %>%
+  dplyr::mutate(
+    `annrockfish area` = sum(Lingcod > 0, na.rm = TRUE),
+    `bfnrockfish area` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
   # Not enough records in area 52
+  dplyr::mutate(
+    `annremove area 52` = sum(Lingcod > 0, na.rm = TRUE),
+    `bfnremove area 52` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
   dplyr::filter(Area != 52) %>%
   # Remove colresponse with zero positive trips
   dplyr::select_if(colSums(., na.rm = TRUE) != 0)
-#
+reccpuewa_filtersummary <- dplyr::select(pretot, dplyr::matches("^ann|^bfn")) %>%
+  dplyr::distinct() %>%
+  tidyr::gather(key="ff", "value") %>%
+  tidyr::separate(ff, sep = 3, into = c("type","Filter")) %>%
+  tidyr::spread(key = c("type"), "value") %>%
+  dplyr::arrange(bfn) %>%
+  dplyr::mutate(bfn = bfn * 100) %>%
+  dplyr::rename(`N pos.`= ann, `% pos.` = bfn) %>%
+  dplyr::mutate(Description = c(
+    "Remove records with missing information",
+    "Keep April-August",
+    "Remove all trips not targeting groundfish",
+    "Remove shore-based fishing",
+    "Remove area 52 because few samples",
+    "Remove non-rockfish areas"
+  )) %>%
+  dplyr::relocate(Description, .after = Filter)
+tot <- pretot %>%
+  dplyr::select(-dplyr::matches("ann"), -dplyr::matches("bfn"))
+t <- knitr::kable(
+  reccpuewa_filtersummary, booktabs = TRUE, longtable = TRUE, format = "latex",
+  caption = paste("Data filtering steps to increase the percent positive (pos.) or number (N) of trips that landed", utils_name("common"), " in the Washington recreational index derived from dockside-sampling data."),
+  label = "reccpuewa-filtersummary"
+)
+kableExtra::save_kable(x = t,
+  file = file.path("tables", "reccpuewa-filtersummary.tex")
+)
+t <- knitr::kable(
+  tot %>% dplyr::group_by(Year) %>%
+    dplyr::summarize(
+      `N pos.` = sum({{colresponse}} > 0),
+      `% pos.` = `N pos.` / dplyr::n() * 100, .groups = "keep"
+    ),
+    format = "latex", booktabs = TRUE, longtable = TRUE,
+    caption = paste0("Number (N) of positive (pos.) samples and percent pos. per year",
+      " of ", utils_name("common"), " in the Washington recreational dockside sampling program."),
+    label = "reccpuewa-n"
+)
+kableExtra::save_kable(x = t,
+  file = file.path("tables", "reccpuewa-n.tex")
+)
+
 # Table of n < 0, n > 0, is.na(n) for each species
 # to determine which species should be used in the SM filtering
 tablen <- tot %>%
@@ -252,9 +303,7 @@ tablen <- tot %>%
 #
 # Summary that was helpful while building
 # tot %>% dplyr::group_by(Year) %>% dplyr::summarize_all(.f = function(x) all(is.na(x)))
-
-```
-```{r reccpuewa-filterSM}
+# SM filtering
 sppusedinSM <- tablen %>%
   dplyr::filter(prop >= filter_SM_cutoff, is.na(`<NA>`)) %>%
   dplyr::ungroup() %>%
@@ -311,45 +360,6 @@ table(LingCaught=reccpuewa_dataforEM[[colresponse]]>0, KeepTrip=reccpuewa_datafo
 # look at the spatial and temporal distribution of samples
 with(reccpuewa_dataforEM, table(Year,Port))
 ```
-
-##### Data preparation, filtering, and sample sizes
-
-Information on retained `r utils_name()` from dockside interviews
-were available from \gls{wdfw} between
-`r knitr::combine_words(range(data_index_cpue[data_index_cpue[["index"]] == get_fleet("WA", col = "num"), "year"]))`.
-Recent data also included information on discarded fish,
-but this information was not used for this analysis because
-(1) it was not available for the entire time series and
-(2) the composition data that are associated with this index only include retained fish.
-Information from dockside interviews are thought to be more reliable than
-information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
-data were not explored for with respect to Washington recreational indices.
-
-The dockside data were filtered prior to being fit to models to
-identify the best subset of the available data that are likely to be
-consistent over the time series and provide a reliable index of abundance
-once standardized.
-Stephens-MacCall [-@Stephens2004] filtering approach was explored to
-predict the probability of catching `r utils_name("common")` based on
-the species composition of the sampler-observed catch in a given trip.
-Prior to applying the Stephens-MacCall filter, we identified potentially
-informative predictor species, i.e., species with sufficient sample sizes and
-temporal coverage (at least `r filter_SM_cutoff` \% of all trips)
-to inform the binomial \gls{glm} used in the Stephens-MacCall approach.
-Thus, the remaining species all co-occurred with
-`r utils_name("common")` in at least one trip
-and were retained for the Stephens-MacCall logistic regression.
-Estimated coefficients from the Stephens-MacCall analysis are
-positive for species that are likely to co-occur with the target species and
-negative for species that are likely to not co-occur with the target species
-(Figure \@ref(fig:reccpuewa-SMfilter)).
-**to do - update this list based on the results.**
-The top five species with high probability of
-co-occurrence with `r spp` include xxx, all of which are
-associated with rocky reef and kelp habitats. The five species with the lowest
-probability of co-occurrence were xxx.
-
-
 ```{r reccpuewa-mle}
 reccpuewa_dataforEM$Year <- factor(reccpuewa_dataforEM$Year)
 reccpuewa_dataforEM$Month <- factor(reccpuewa_dataforEM$Month)
@@ -368,7 +378,6 @@ reccpuewa_dataforEM <- subset(
   quantile(reccpuewa_dataforEM[[colresponse]] / reccpuewa_dataforEM[["Anglers"]], probs = filter_uppercpuequantile)
 )
 reccpuewa_dataforEM <- droplevels(reccpuewa_dataforEM)
-
 ```
 ```{r reccpuewa-models, opts.label = 'execute'}
 mod_b <- glm(tgt.sp.pa ~ Year + BoatType + Area + Month, family=binomial,data=reccpuewa_dataforEM)
@@ -404,7 +413,6 @@ save(
   best_bin.glm_STAN, best_pos.glm_STAN,
   file = file_reccpuewaresults
 )
-
 ```
 ```{r reccpuewa-stanresults, eval = !run_data}
 # Read in the results if run_data == FALSE
@@ -437,6 +445,72 @@ utils::write.csv(index_MCMC,
 )
 
 ```
+
+The Washington dockside sampling program (Ocean Sampling Program
+and Puget Sound Baseline Sampling Program) is supported by
+\gls{wdfw} and collects biological as well as catch data.
+The coastal portion of this program is largely sampled at three major ports,
+Westport, La Push, and Neah Bay. `r Spp` are one of three rockfish
+species that are highly targeting by recreational fishers, and thus,
+have been recorded to the species level since the beginning of the program.
+
+Information on retained `r utils_name()` from dockside interviews
+were available from \gls{wdfw} between
+`r knitr::combine_words(range(data_index_cpue[data_index_cpue[["index"]] == get_fleet("WA", col = "num"), "year"]))`.
+Recent data also included information on discarded fish,
+but this information was not used for this analysis because
+(1) it was not available for the entire time series and
+(2) the composition data that are associated with this index only include retained fish.
+Information from dockside interviews are thought to be more reliable than
+information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
+data were not explored with respect to Washington recreational \gls{cpue}.
+
+The dockside data were filtered prior to being fit to models to
+identify the best subset of the available data that are likely to be
+consistent over the time series and provide a reliable index of abundance
+once standardized (Table \@ref(tab:reccpuewa_filtersummary)).
+Depth was not recorded for the entire time period, and thus was not included
+as a filter or a subsequent covariate.
+The filtering procedure led to a final positive rate of
+`sprintf("%.2f", max(reccpuewa_filtersummary[["% pos."]]))`
+
+Stephens-MacCall [-@Stephens2004] filtering approach was explored to
+predict the probability of catching `r utils_name("common")` based on
+the species composition of the sampler-observed catch in a given trip.
+Prior to applying the Stephens-MacCall filter, we identified potentially
+informative predictor species, i.e., species with sufficient sample sizes and
+temporal coverage (at least `r filter_SM_cutoff` \% of all trips)
+to inform the binomial \gls{glm} used in the Stephens-MacCall approach.
+Thus, the remaining species all co-occurred with
+`r utils_name("common")` in at least one trip
+and were retained for the Stephens-MacCall logistic regression.
+Estimated coefficients from the Stephens-MacCall analysis are
+positive for species that are likely to co-occur with the target species and
+negative for species that are likely to not co-occur with the target species
+(Figure \@ref(fig:reccpuewa-SMfilter)).
+The top five species with high probability of
+co-occurrence with `r spp` included 
+`r knitr::combine_words(tolower(names(sort(coef(glm_SMresults),decreasing=TRUE)[1:5])))`
+(Figure \@ref(fig:reccpuewa-filterSMcoef)),
+all of which are associated with rocky reef and kelp habitats.
+The species with the lowest probability of co-occurrence with `r spp` was
+`r knitr::combine_words(tolower(names(sort(coef(glm_SMresults),decreasing=FALSE)[1])))`.
+Given the high positivity rate of `r spp` prior to the Stephens-MacCall filtering
+(Table \@ref(tab:reccpuewa-n)),
+we choose to not use this additional filtering process.
+
+The filtered data were used to fit Bayesian delta-\glspl{glm} using the “rstanarm” R package.
+Posterior predictive checks of the Bayesian model fit for all models
+regardless of the distributional assumptions used to fit the data were similar (results not shown).
+The Gamma distribution was chosen going forward given match of the theoretical quantiles to the
+data quantiles (Figure \@ref(fig:)).
+
+Based on the the negative binomial model were reasonable (Figures \@ref(fig:fig-posterior-mean-ORAtSea) and \@ref(fig:fig-posterior-sd-ORAtSea)). The negative binomial model generated data sets with the proportion zeros similar to the `r scales::percent(1-dim(dat %>% filter(Target>0))[1]/dim(dat)[1])` zeroes in the observed data 
+(Figure \@ref(fig:fig-propzero-ORAtSea)). The predicted marginal effects from 
+the negative binomial models can be found in (Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)). The 
+final index (Table \@ref(tab:tab-index-ORAtSea)) 
+represents a similar trend to the arithmetic mean of the annual CPUE (Figure \@ref(fig:fig-cpue-ORAtSea)).
+
 ```{r recwacpue-readfigures, results="asis", echo = FALSE}
 sa4ss::read_child(file_reccpuewafigures)
 ```

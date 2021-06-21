@@ -39,6 +39,7 @@ Suggests:
     cowplot,
     colorspace,
     DHARMa,
+    magick,
     plyr,
     testthat,
     usethis,
