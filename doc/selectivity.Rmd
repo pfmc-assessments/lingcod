@@ -2,7 +2,8 @@
 # get the block_breaks vector from this file:
 knitr::purl("doc/selectivity.Rmd")
 source("selectivity.R")
-usethis::use_data(block_breaks, overwrite = TRUE)
+usethis::use_data(block_breaks_north, overwrite = TRUE)
+usethis::use_data(block_breaks_south, overwrite = TRUE)
 ```
 
 ## Selectivity, retention, and discard mortality
@@ -37,6 +38,8 @@ with comments from those familiar with the history of the commercial fishery
 at the at the pre-assessment workshop and the Pikitch study in which 
 more than 99% of the observed `r spp` were retained
 (pers. comm., J. Wallace, \gls{nwfsc}).
+
+The specific years with time blocks used for each fleet are noted below.
 
 ### Commercial trawl
 
@@ -97,6 +100,7 @@ for all catch areas but the change happened in the middle of the year)
 # add block break points to list created above
 block_breaks[["Rec_WA_sel"]] <- c(1987, 1995, 1998, 2007, 2011, 2017)
 ```
+
 ```{asis, opts.label = 'north'}
 ### recreational Oregon
 
@@ -116,17 +120,44 @@ block_breaks[["Rec_OR_sel"]] <- c(1995, 1998, 2007)
 
 ### recreational California
 
-- 1999 (minimum size limit imposed
+```{asis, opts.label = 'north'}
+- 1999 (min size limit 24 inches)
+- 2011 (min size limit decreased to 22)
+
+This represents a smaller number of blocks than used in the south model
+which also included blocks starting in 1983 and 2017 as the data from 
+northern California used in the north model are
+sparser and correspond to a small fraction of the catch compared to the 
+south model.
+```
+
+```{asis, opts.label = 'south'}
+- 1983 (notable reduction in the number of small fish observed)
+- 1999 (min size limit 24 inches)
+- 2000 (min size limit increased to 26)
+- 2002 (min size limit decreased to 24)
+- 2011 (min size limit decreased to 22)
+- 2017 (recreational fishery had access to deeper waters)
+
+Not accounted for is a min size limit of 30 inches in 2004 as sample sizes
+were low in that year.
+```
+
 
 ```{r} 
+# split breaks into separate north and south
+block_breaks_north <- block_breaks
+block_breaks_south <- block_breaks
+
 # add block break points to list created above
-block_breaks[["Rec_CA_sel"]] <- c(1999)
+block_breaks_north[["Rec_CA_sel"]] <- c(      1999,             2011)
+block_breaks_south[["Rec_CA_sel"]] <- c(1983, 1999, 2000, 2002, 2011, 2017)
 ```
 
 ### Triennial survey
 
-Blocks on selectivity starting in 1995, the year associated with expanded 
-spatial coverage and shift in timing were considered but not included in the 
+A block on selectivity associated with 1995, the year associated with expanded 
+spatial coverage and shift in timing, was considered but not included in the 
 base model.
 
 ```{r} 

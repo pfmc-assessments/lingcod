@@ -12,17 +12,17 @@ for (area in c("n", "s")) {
     # + remove extra Rec_OR index (num = 4, sens = 8)
     olddir <- get_dir_ling(area = area, num = 4, sens = 9) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 11, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 11, sens = 6)
     # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 9, sens = 1)
+    tuningdir <- get_dir_ling(area = area, num = 11, sens = 2)
   }
   if(area == "s") {
     # data file model with unexpanded comp data (num = 4, sens = 4)
     olddir <- get_dir_ling(area = area, num = 4, sens = 9) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 11, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 11, sens = 6)
     # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 9, sens = 1)
+    tuningdir <- get_dir_ling(area = area, num = 11, sens = 2)
   }
 
   # copy all inputs to new files
@@ -52,13 +52,13 @@ for (area in c("n", "s")) {
                                  HI = 0.8,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 18),
-                                 PR_SD = 0.438)
+                                 PR_SD = 0.438/2)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_.*_Mal",
                                  HI = 0.8,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 13),
-                                 PR_SD = 0.438)
+                                 PR_SD = 0.438/2)
 
   # set L_at_Amin for females to phase 1 to avoid "no active parameter"
   # error associated with R0 profile (previously R0 was only phase 1 param)
@@ -135,6 +135,12 @@ for (area in c("n", "s")) {
   #########################################################################
   # RECRUITMENT
 
+  #' turn off early recdevs
+  if (grepl("fewer_recdevs", newdir)) {
+    newctl$recdev_early_phase <- -abs(newctl$recdev_early_phase)
+    newctl$MainRdevYrFirst <- 1980
+  }
+  
   #' as starting point for recdevs, increment range and ramp
   #' used in 2017 model by 3 years (would be 4 but no surveys in 2020)
   newctl$MainRdevYrLast <- newctl$MainRdevYrLast + 3
@@ -145,7 +151,12 @@ for (area in c("n", "s")) {
   newctl$SR_parms <- change_pars(newctl$SR_parms,
                                  string = "sigmaR",
                                  INIT = 0.6)
-                                 
+  # estimate steepness in one-off sensitivity models 011.004_Mprior_est_h
+  if (grepl("est_h", newdir)) {
+    newctl$SR_parms <- change_pars(newctl$SR_parms,
+                                   string = "steep",
+                                   PHASE = 6)
+  }  
   
   #########################################################################
   # SELECTIVITY
@@ -249,19 +260,6 @@ for (area in c("n", "s")) {
     # final_scale (P_6) all fixed at -999 already
   }
 
-  #### TODO: add blocks to more parameters for north and south
-  ## inputs.n$ctl$size_selex_parms[inputs.n$ctl$size_selex_parms$Block != 0,
-  ##                               13:14]
-  ## inputs.s$ctl$size_selex_parms[inputs.s$ctl$size_selex_parms$Block != 0,
-  ##                               13:14]
-
-  ## # South model had no time-varying selectivity peak parameters
-  ## newctl$size_selex_parms <-
-  ##   change_pars(pars = newctl$sizeselex_parms, string = "SizeSel_P_1_1_Comm_Trawl",
-  ##               Block = 3, Block_Fxn = 2)
-  ##   change_pars(pars = newctl$sizeselex_parms, string = "SizeSel_P_1_1_Comm_Trawl",
-  ##               Block = 1, Block_Fxn = 2)
-
   # turn off auto-generation of time-varying parameters (if it was on before)
   newctl$time_vary_auto_generation[5] <- 1
   
@@ -323,7 +321,16 @@ for (area in c("n", "s")) {
   # knitr::purl("doc/selectivity.Rmd")
   # source("selectivity.R")
   # usethis::use_data(block_breaks)
-  
+
+  if (area == "n") {
+    block_breaks <- block_breaks_north
+  } else {
+    block_breaks <- block_breaks_south
+  }
+  # add a block for the switch between CA rec MRFSS and onboardCPFV indices
+  if (area == "s") {
+    block_breaks[["Rec_CA_catchability"]] <- 1999
+  }  
   newctl$N_Block_Designs <- length(block_breaks)
   newctl$blocks_per_pattern <- block_breaks %>% lapply(FUN = length) %>% as.data.frame()
 
@@ -350,17 +357,38 @@ for (area in c("n", "s")) {
                                        paste0("#_", names(block_breaks)[iblock]))
   }
 
+  # turn off float option to estimate CA rec Q as a paramter
+  newctl$Q_options$float[newctl$Q_options$fleet == get_fleet("Rec_CA", col = "num")] <- 0
+
   ## # put the right block on Surv_TRI catchability
+  ## newctl$Q_options$float[newctl$Q_options$fleet == get_fleet("TRI", col = "num")] <- 0
   ## newctl$Q_parms <- change_pars(newctl$Q_parms,
   ##                               string = "Surv_TRI",
   ##                               Block = grep("Surv_TRI", names(block_breaks)))
-  # turn off split of triennial Q
+  # turn off any split of triennial Q included in initial setup
   newctl$Q_parms <- change_pars(newctl$Q_parms,
                                 string = "Surv_TRI",
                                 Block = 0,
                                 Block_Fxn = 0)
-  # take out block replacement parameter for triennial Q
-  newctl$Q_parms_tv <- NULL
+  if(area == "n") {
+    newctl$Q_parms_tv <- NULL
+  }
+  if(area == "s") {
+    # turn on split of Rec CA index
+    newctl$Q_parms <- change_pars(newctl$Q_parms,
+                                  string = "LnQ_base_._Rec_CA",
+                                  PHASE = 1,
+                                  Block = grep("Rec_CA_catchability", names(block_breaks)),
+                                  Block_Fxn = 2)
+    # setup time-varying Q for Rec_CA fleet
+    newctl$Q_parms_tv <- change_pars(newctl$Q_parms,
+                                     string = "LnQ_base_._Rec_CA",
+                                     PHASE = 1,
+                                     allrows = FALSE)[,1:7]
+  }
+  ## # take out block replacement parameter for triennial Q (if no other blocks used)
+  ## newctl$Q_parms_tv <- NULL
+
   
   # turn of extraSD parameter for CPFV_DebWV because it is small and had
   # problems correlation issues (#76)
@@ -370,7 +398,6 @@ for (area in c("n", "s")) {
                                   INIT = 0,
                                   PHASE = -2)
   }
-  
   # apply the blocks to the appropriate parameters
   fleets <- get_fleet()
   for (f in fleets$num) {
@@ -379,7 +406,8 @@ for (area in c("n", "s")) {
       message("adding blocks for fleet: ", fleet)
     }
     fleet_substring <- substring(fleet, 3)
-    block_for_this_fleet <- grep(fleet_substring, names(block_breaks))
+    block_for_this_fleet <- which(grepl(fleet_substring, names(block_breaks)) &
+                                  !grepl("catchability", names(block_breaks)))
     if (length(block_for_this_fleet) > 0) {
       for (iblock in block_for_this_fleet) {
         # block label is something like "Comm_Trawl_sel"
@@ -510,31 +538,31 @@ if(FALSE){ # stuff to never just source with the rest of the file
   ### applying Francis weighting to model number 8 in each area
   # copy all files, including output files
   for (area in c("n", "s")) {
-    olddir <- get_dir_ling(area = area, num = 10, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 10, sens = 2)
+    olddir <- get_dir_ling(area = area, num = 11, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 11, sens = 2)
     fs::dir_copy(olddir, newdir)
   }
 
-  # run models (10, sens = 1 versions with hessian still running)
-  r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 10, sens = 2),
-                                 get_dir_ling(area = "s", num = 10, sens = 2)),
-                      extras = c("-nohess"),
-                      skipfinished = FALSE)
+  ## # run models (10, sens = 1 versions with hessian still running)
+  ## r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 11, sens = 2),
+  ##                                get_dir_ling(area = "s", num = 11, sens = 2)),
+  ##                     extras = c("-nohess"),
+  ##                     skipfinished = FALSE)
   
   # read model results from copied models into R
 
   
   # run tune_comps function without estimating anything to get model output files
   # then run them separately in a command window
-  get_mod(area = "n", num = 10, sens = 2, plot = FALSE)
-  r4ss::SS_tune_comps(mod.2021.n.010.002,
-                      dir = mod.2021.n.010.002$inputs$dir,
+  get_mod(area = "n", num = 11, sens = 2, plot = FALSE)
+  r4ss::SS_tune_comps(mod.2021.n.011.002,
+                      dir = mod.2021.n.011.002$inputs$dir,
                       option = "Francis",
                       niters_tuning = 1,
                       extras = "-nohess")
-  get_mod(area = "s", num = 10, sens = 2, plot = FALSE)
-  r4ss::SS_tune_comps(mod.2021.s.010.002,
-                      dir = mod.2021.s.010.002$inputs$dir,
+  get_mod(area = "s", num = 11, sens = 2, plot = FALSE)
+  r4ss::SS_tune_comps(mod.2021.s.011.002,
+                      dir = mod.2021.s.011.002$inputs$dir,
                       option = "Francis",
                       niters_tuning = 1,
                       extras = "-nohess")
@@ -542,8 +570,9 @@ if(FALSE){ # stuff to never just source with the rest of the file
 
 if (FALSE) {
   # look at model output
-  get_mod(area = "n", num = 10, sens = 2, plot = TRUE)
-  get_mod(area = "s", num = 10, sens = 2, plot = TRUE)
+  get_mod(area = "s", num = 11, sens = 5, plot = TRUE)
+  get_mod(area = "n", num = 11, sens = 5, plot = TRUE)
+
   get_mod(area = "n", num = 9, sens = 2, plot = FALSE)
   get_mod(area = "s", num = 9, sens = 2, plot = FALSE)
   get_mod(area = "n", num = 9, sens = 3, plot = FALSE)

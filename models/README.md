@@ -97,3 +97,11 @@ name | notes | issue | source_model | script
 2021.s.011.001_v2_fix_duplicate_CAAL | FOR REAL remove duplicate CAAL from commercial fleets | #80 | 2021.n.004.009 | lingcod_model_bridging_change_ctl.R
 2021.n.011.002_v2_Francis | apply Francis tuning to above models | #80 | 2021.n.010.001 | lingcod_model_bridging_change_ctl.R
 2021.s.011.002_v2_Francis | apply Francis tuning to above models | #80 | 2021.n.010.001 | lingcod_model_bridging_change_ctl.R
+2021.n.011.003_Mprior | divide sd of M prior by 2 | #80 | 2021.n.011.002 | lingcod_model_bridging_change_ctl.R
+2021.s.011.003_Mprior | divide sd of M prior by 2 | #80 | 2021.n.011.002 | lingcod_model_bridging_change_ctl.R
+2021.n.011.004_Mprior_est_h | divide sd of M prior by 2 and estimate steepness | #80 | 2021.n.011.002 | lingcod_model_bridging_change_ctl.R
+2021.s.011.004_Mprior_est_h | divide sd of M prior by 2 and estimate steepness | #80 | 2021.n.011.002 | lingcod_model_bridging_change_ctl.R
+2021.n.011.005_Rec_CA_blocks | add blocks to Rec_CA catch and Q | #80 | 2021.n.011.003 | lingcod_model_bridging_change_ctl.R
+2021.s.011.005_Rec_CA_blocks | add blocks to Rec_CA catch and Q | #80 | 2021.s.011.003 | lingcod_model_bridging_change_ctl.R
+2021.n.011.006_fewer_recdevs | add blocks to Rec_CA catch and Q | #80 | 2021.n.011.005 | lingcod_model_bridging_change_ctl.R
+2021.s.011.006_fewer_recdevs | add blocks to Rec_CA catch and Q | #80 | 2021.s.011.005 | lingcod_model_bridging_change_ctl.R
