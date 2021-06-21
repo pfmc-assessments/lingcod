@@ -1298,63 +1298,6 @@ however.
 
 
 
-#### Washington recreational index
-
-
-
-
-
-
-
-
-
-
-##### Data preparation, filtering, and sample sizes
-
-Information on retained lingcod from dockside interviews
-were available from \gls{wdfw} between
-1981 and 2020.
-Recent data also included information on discarded fish,
-but this information was not used for this analysis because
-(1) it was not available for the entire time series and
-(2) the composition data that are associated with this index only include retained fish.
-Information from dockside interviews are thought to be more reliable than
-information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
-data were not explored for with respect to Washington recreational indices.
-
-The dockside data were filtered prior to being fit to models to
-identify the best subset of the available data that are likely to be
-consistent over the time series and provide a reliable index of abundance
-once standardized.
-Stephens-MacCall [-@Stephens2004] filtering approach was explored to
-predict the probability of catching lingcod based on
-the species composition of the sampler-observed catch in a given trip.
-Prior to applying the Stephens-MacCall filter, we identified potentially
-informative predictor species, i.e., species with sufficient sample sizes and
-temporal coverage (at least 1.5 \% of all trips)
-to inform the binomial \gls{glm} used in the Stephens-MacCall approach.
-Thus, the remaining species all co-occurred with
-lingcod in at least one trip
-and were retained for the Stephens-MacCall logistic regression.
-Estimated coefficients from the Stephens-MacCall analysis are
-positive for species that are likely to co-occur with the target species and
-negative for species that are likely to not co-occur with the target species
-(Figure \@ref(fig:reccpuewa-SMfilter)).
-**to do - update this list based on the results.**
-The top five species with high probability of
-co-occurrence with lingcod include xxx, all of which are
-associated with rocky reef and kelp habitats. The five species with the lowest
-probability of co-occurrence were xxx.
-
-
-
-
-
-
-
-
-
-
 #### \Glsentrylong{orbs} index
 
 Trip-level catch-per-unit-effort data from \gls{orbs} dockside sampling was
@@ -1550,20 +1493,11 @@ length bin at which the length-weight relationship starts to diverge for males a
 and therefore equal assigment is not influenced by sex-specific size differences. Figure \ref{fig:wcgbts-lenComp} shows the length frequency distributions for the \Gls{s-wcgbt}. 
 Table \ref{tab:sample-size-length} shows sample sizes.
 
-The input sample sizes were calculated via the Stewart method (pers. comm., I. Stewart, \gls{iphc}) 
-which incorporate the number of trips and fish by year:
-
-[THE BELOW EQUATION DOES NOT APPEAR RIGHT BASED ON THE NUMBERS - NEED TO CONFIRM FOR SURVEY DATA]
-
-\begin{centering}
-
-Input effN = $N_{\text{trips}} + 0.138 * N_{\text{fish}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $<$ 44
-
-Input effN = $7.06 * N_{\text{trips}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $\geq$ 44
-
-\end{centering}
-
-
+The input sample sizes for length and marginal age-composition data for all 
+fishery-independent surveys were calculated according to 
+Stewart and Hamel [-@stewart_bootstrapping_2014], which determined that the 
+approximate realized sample size for species in the "others" category 
+(which included lingcod) was $2.38*N_{\text{tow}}$.
 
 #### Age-frequency data
 
@@ -1734,9 +1668,6 @@ Sample sizes of lingcod were low during these four complete years, with 119 samp
 55 tows coastwide. Given that lingcod are primarily a shelf species, data from this
 survey was not included in the model. 
 
-[I DONT KNOW WHETHER THE NWFSC SLOPE SURVEYS ARE THE SAME AS AFSC SLOPE. SO NEED
-TO ADD DETAILS]
-
 The NWFSC also operated a slope survey during the years 1998-2002. Coastwide, 184
 lingcod were sampled across 64 tows. Data from this survey were not included in
 the model for the same reasons why data from the \gls{s-aslope} were not included. 
@@ -1805,6 +1736,65 @@ for the minimum range. These were generally considered more plausible than
 the results based on the geometric means. Caveats to this abundance
 estimate are provided in the detailed document, as well as
 considerations for using the lander data and the estimation of habitat area.
+
+#### Oregon hook and line survey in marine reserves
+
+The Marine Reserve Program in the \gls{odfw} has routinely monitored state
+marine reserves and associated comparison areas since 2011.
+Surveys in 2011 and 2012 only visited Redfish Rocks marine reserve.
+Surveys from 2013 – 2019 include reserves and
+comparison areas from four marine reserves,
+Redfish Rocks, Cape Falcon, Cape Perpetua, and Cascade Head
+(Table \@ref(tab:fi-index-ormarres-mr)).
+Each of these marine reserves has one to three associated comparison areas.
+Comparison areas are specifically selected for each
+marine reserve to be similar in location, habitat, and depth to the reserve but
+are subject to fishing pressure. 
+Not all sites are sampled in each year because of
+the gradual implementation of the reserve network and availability of
+staff to execute surveys.
+
+A 500 meter square grid overlaid on the area defines the sampling units or
+cells. Cells are randomly selected within a marine reserve or comparison area
+for each sampling event. Three replicate drifts are executed in each cell.
+The specific location of the drifts within the cell is selected by the
+captain. Over time, cells without appropriate habitat for the focus species,
+mainly groundfish, have been removed from the selection procedures, and
+information from all inactive cells is removed from the data prior to any
+analyses being conducted.
+The number of cells visited in a day ranges from three to five cells.
+Data are aggregated to the cell-day level.
+
+Of the 940 total cell-days at 14 areas, 626 (66.6\%) of those
+had positive lingcod catches
+(Table \@ref(tab:fi-index-ormarres-N)). The number of
+lingcod caught ranged from 0 to 34 fish in a cell-day
+(Figure \@ref(fig:fi-index-ormarres-HistogramofPositiveCatchesLing)).
+Areas differ in both geographic location and the
+level of fishing pressure experienced or allowed. Staff from the Marine
+Reserves Program suggested that the treatment (reserve vs. comparison area)
+may not be a delineating factor for the catch of lingcod due to the recent
+implementation of the reserves. It was suggested that data could be
+aggregated to the site level, functioning at the level of a reef complex, to
+examine patterns at different locations along the coast. However, this may
+not be possible with the sample size available at some sites.
+\Gls{cpue} was calculated using the number of fish per angler hour, where
+the number of anglers and hooks are standardized for each survey.
+Angler hours have been adjusted for non-fishing time (i.e., travel time, etc.).
+
+Additional filtering may not be necessary, as the filtering for active cells
+has already likely removed any unsuitable sampling units, based on habitat,
+depth, and local knowledge. Based on the annual proportion of positive
+cell-days and the relatively high encounter rate of lingcod in this survey,
+there could be enough data to move forward with a time series at a coastwide
+level. Additionally, Redfish Rocks has been sampled yearly since 2011,
+except for 2018, making it the best single reserve complex to monitor
+inter-annual trends.
+\Gls{cpue} at this site shows a relatively stable trend since
+2011 for lingcod (Figure \@ref(fig:fi-index-ormarres-BoxplotLingcodCPUERedfish)).
+Coastwide, lingcod \gls{cpue} appears to be oscillating around
+the long-term mean, with the last two years being below average
+(Figure \@ref(fig:fi-index-ormarres-RelativemeanLingcodCPUE95CI)).
 
 
 
@@ -1886,6 +1876,52 @@ Charter vessels only & Removes private vessel trips & 17977 & 74.8\\
 \bottomrule
 \end{longtable}
 
+
+\begin{longtable}[t]{lrrr}
+\caption{\label{tab:fi-index-ormarres-N}Number (N) and percent positive (pos.) cell-days and N caught across all cell-days for the Oregon hook and line survey inside marine reserves. Data were aggregated across sets within a cell for a given day (cell-day).}\\
+\toprule
+Year & N pos. cell-days & \% pos. cell-days & N caught\\
+\midrule
+\midrule
+2011 & 24 & 54.5 & 61\\
+2012 & 25 & 48.1 & 39\\
+2013 & 66 & 68.0 & 190\\
+2014 & 115 & 81.6 & 572\\
+2015 & 118 & 70.7 & 534\\
+\addlinespace
+2016 & 80 & 71.4 & 477\\
+2017 & 71 & 68.9 & 252\\
+2018 & 69 & 59.5 & 244\\
+2019 & 58 & 53.7 & 131\\
+Total & 626 & 66.6 & 2500\\
+\bottomrule
+\end{longtable}
+
+
+\begin{longtable}[t]{lllr}
+\caption{\label{tab:fi-index-ormarres-mr}Summary of marine reserves sampled within the Oregon hook and line survey by the Marine Reserve Program.}\\
+\toprule
+Site & Area & Years Sampled & Total Years Sampled\\
+\midrule
+Redfish Rocks & Humbug CA & 2011 - 2019 & 8\\
+Redfish Rocks & Redfish Rocks MR & 2011 - 2019 & 8\\
+Redfish Rocks & Orford Reef CA & 2014, 2015, 2017, 2019 & 4\\
+Cape Falcon & CA Adjacent to Cape Falcon MR & 2014, 2015, 2017, 2019 & 4\\
+Cape Falcon & Cape Falcon MR & 2014, 2015, 2017, 2019 & 4\\
+\addlinespace
+Cape Falcon & Cape Meares CA & 2014, 2015, 2017, 2019 & 4\\
+Cape Falcon & Three Arch Rocks CA & 2014, 2015, 2017, 2019 & 4\\
+Cape Perpetua & CA Outside Cape Perpetua MR & 2016, 2018 & 2\\
+Cape Perpetua & Cape Perpetua MR & 2013, 2014, 2017, 2018 & 4\\
+Cape Perpetua & Postage Stamp CA & 2013, 2014, 2017, 2018 & 4\\
+\addlinespace
+Cascade Head & Cape Foulweather CA & 2015, 2016, 2018 & 3\\
+Cascade Head & Cascade Head MR & 2013 - 2016, 2018 & 5\\
+Cascade Head & Cavalier CA & 2013, 2015, 2016, 2018 & 4\\
+Cascade Head & Schooner Creek CA & 2013 - 2016, 2018 & 5\\
+\bottomrule
+\end{longtable}
+
 <!--chapter:end:52tables.Rmd-->
 
 \clearpage
@@ -1904,7 +1940,7 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 ![Estimated smoother of latitude (decimal degrees) for age-7 female fish when fitting length-at-age data.\label{fig:Lam-kapurage7latitude}](../figures/Lam-kapurage7latitude.png){width=100% height=100% alt="Change point was estimated at 38 degrees N latitude."}
 
 
-![Summary of data sources used in the base model.\label{fig:data-plot}](../models/2021.s.005.001_initial_ctl_changes/plots/data_plot.png){width=100% height=100% alt="Dots for each year a source of data is available."}
+![Summary of data sources used in the base model.\label{fig:data-plot}](../models/2021.n.004.001_new_data_test/plots/data_plot.png){width=100% height=100% alt="Dots for each year a source of data is available."}
 
 
 ![Comparison of commercial catch time series from this model (dashed line) and the previous assessment model (solid line). Fixed gear (FG; dark blue) and trawl (TW; light blue) are shown for both the northern (top panel; Oregon and Washington) and southern (bottom panel; California) as defined in the previous assessment model.\label{fig:catch-comm-state}](../figures/catch-comm-state.png){width=100% height=100% alt="Time series of commercial catches are less in the early years for the new southern model than the previous assessment."}
@@ -1991,6 +2027,23 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 
 
 
+<!--- Oregon hook and line in marine reserves, index not used -->
+
+```r
+# Use figures-fi-index-ormarres.csv to bring in ordered set of figures
+ignore <- apply(
+  utils::read.csv(file.path("..", "figures", "figures-fi-index-ormarres.csv")),
+  1,
+  function(x) do.call(sa4ss::add_figure, args = as.list(x))
+)
+```
+
+
+![\Glsentrylong{cpue} (\glsentryshort{cpue}) of positive ,lingcod records within the Oregon hook and line survey within marine reserves.\label{fig:fi-index-ormarres-HistogramofPositiveCatchesLing}](../figures/fi-index-ormarres-HistogramofPositiveCatches_Ling.png){width=100% height=100% alt="Flat index with large uncertainty in recent years."}
+
+![Frequency of positive catches of ,lingcod across all years for the Oregon hook and line survey within marine reserves.\label{fig:fi-index-ormarres-BoxplotLingcodCPUERedfish}](../figures/fi-index-ormarres-Boxplot_LingcodCPUE_Redfish.png){width=100% height=100% alt="Large number of records with few `r spp`."}
+
+![Relative mean \Glsentrylong{cpue} (\glsentryshort{cpue}), i.e., number of positive records per angler hour, for lingcod in the Oregon hook and line survey within marine reserves.\label{fig:fi-index-ormarres-RelativemeanLingcodCPUE95CI}](../figures/fi-index-ormarres-Relativemean_LingcodCPUE_95CI.png){width=100% height=100% alt="Index is centered around zero."}
 
 <!-- ====================================================================== -->
 <!-- ******************     Biology Figures     **************************** --> 

@@ -1,0 +1,4 @@
+"caption","alt_caption","label","filein"
+"\Glsentrylong{cpue} (\glsentryshort{cpue}) of positive, lingcod records within the Oregon hook and line survey within marine reserves.","Flat index with large uncertainty in recent years.","fi-index-ormarres-HistogramofPositiveCatchesLing","../figures/fi-index-ormarres-HistogramofPositiveCatches_Ling.png"
+"Frequency of positive catches of, lingcod across all years for the Oregon hook and line survey within marine reserves.","Large number of records with few `r spp`.","fi-index-ormarres-BoxplotLingcodCPUERedfish","../figures/fi-index-ormarres-Boxplot_LingcodCPUE_Redfish.png"
+"Relative mean \Glsentrylong{cpue} (\glsentryshort{cpue}), i.e., number of positive records per angler hour, for lingcod in the Oregon hook and line survey within marine reserves.","Index is centered around zero.","fi-index-ormarres-RelativemeanLingcodCPUE95CI","../figures/fi-index-ormarres-Relativemean_LingcodCPUE_95CI.png"
