@@ -1,0 +1,29 @@
+### Model Changes from the Last Assessment
+
+In addition to the re-analysis of all data sources and the change in 
+boundary between north and south, the following changes were made to the 
+modeling approach in the previous assessments:
+- Separate natural mortality priors for males and females based on a lower
+maximum age (18 for females, 13 for males, compared to 21 for both sexes)
+- New age-based maturity estimates for each area
+- Update weight-length relationship to include additional samples
+- Fix the $\sigma_R$ = 0.6 for both models (in 2017 had been iteratively 
+tuned to 0.55 for the north model and 0.75 for the south)
+- In the *south* model, separate the "DebWV" CPFV index and associated 
+length composition into a separate fleet to provide independent selectivity
+parameters to account for this data source sampling both discarded and 
+retained catch whereas the rest of the 
+California recreational catch is modeled as retained catch only
+- In the *north* model, add selectivity parameters for the California
+recreational fishery
+- Turn off male offsets on selectivity to simplify the model
+- Estimate 3 double-normal selectivity parameters within each time block
+for each fleet (whereas the previous model had fewer or more parameters
+estimated depending on the fleet or time block)
+- Fix the retention parameters for the early period of the commercial 
+TW and FG fisheries to retain all selected fish prior to 1998
+- Revise the blocking on numerous selectivity parameters
+- Treat the Triennial survey as a continuous time-series rather than 
+two separate fleets with independent catchability and selectivity parameters
+- Use a newer version of Stock Synthesis version 3.30.17.01 (although
+comparison indicates very little impact of the change in version)
