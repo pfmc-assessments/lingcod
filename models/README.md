@@ -91,3 +91,5 @@ name | notes | issue | source_model | script
 2021.s.009.003_asymptotic_FG | force fixed-gear selectivity asymptotic | #76 | 2021.n.009.001 | lingcod_model_bridging_change_ctl.R
 2021.n.010.001_fix_duplicate_CAAL | remove duplicate CAAL from commercial fleets | #80 | 2021.n.004.009 | lingcod_model_bridging_change_ctl.R
 2021.s.010.001_fix_duplicate_CAAL | remove duplicate CAAL from commercial fleets | #80 | 2021.n.004.009 | lingcod_model_bridging_change_ctl.R
+2021.n.010.002_Francis | apply Francis tuning to above models | #80 | 2021.n.010.001 | lingcod_model_bridging_change_ctl.R
+2021.s.010.002_Francis | apply Francis tuning to above models | #80 | 2021.n.010.001 | lingcod_model_bridging_change_ctl.R

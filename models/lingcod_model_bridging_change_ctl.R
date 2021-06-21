@@ -510,26 +510,31 @@ if(FALSE){ # stuff to never just source with the rest of the file
   ### applying Francis weighting to model number 8 in each area
   # copy all files, including output files
   for (area in c("n", "s")) {
-    olddir <- get_dir_ling(area = area, num = 9, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 9, sens = 2)
+    olddir <- get_dir_ling(area = area, num = 10, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 10, sens = 2)
     fs::dir_copy(olddir, newdir)
   }
 
   # read model results from copied models into R
-  get_mod(area = "n", num = 9, sens = 2, plot = FALSE)
-  get_mod(area = "s", num = 9, sens = 2, plot = FALSE)
+  get_mod(area = "n", num = 10, sens = 2, plot = FALSE)
+  get_mod(area = "s", num = 10, sens = 2, plot = FALSE)
 
+  r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 10, sens = 2),
+                                 get_dir_ling(area = "s", num = 10, sens = 2)),
+                      extras = c("-nohess"),
+                      skipfinished = FALSE)
+  
   # run tune_comps function without estimating anything to get model output files
   # then run them separately in a command window
-  r4ss::SS_tune_comps(mod.2021.n.009.002,
+  r4ss::SS_tune_comps(mod.2021.n.010.002,
                       dir = mod.2021.n.009.002$inputs$dir,
                       option = "Francis",
-                      niters_tuning = 1,
+                      niters_tuning = 2,
                       extras = "-nohess -stopph 0")
-  r4ss::SS_tune_comps(mod.2021.s.009.002,
+  r4ss::SS_tune_comps(mod.2021.s.010.002,
                       dir = mod.2021.s.009.002$inputs$dir,
                       option = "Francis",
-                      niters_tuning = 1,
+                      niters_tuning = 2,
                       extras = "-nohess -stopph 0")
 }
 
