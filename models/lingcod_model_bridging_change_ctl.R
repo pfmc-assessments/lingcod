@@ -10,17 +10,17 @@ for (area in c("n", "s")) {
     # data file model with unexpanded comp data (num = 4, sens = 4)
     # + WA rec CPUE (num = 4, sens = 7)
     # + remove extra Rec_OR index (num = 4, sens = 8)
-    olddir <- get_dir_ling(area = area, num = 4, sens = 8) 
+    olddir <- get_dir_ling(area = area, num = 4, sens = 9) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 10, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 11, sens = 1)
     # specific model from which to get the tunings (from the control file)
     tuningdir <- get_dir_ling(area = area, num = 9, sens = 1)
   }
   if(area == "s") {
     # data file model with unexpanded comp data (num = 4, sens = 4)
-    olddir <- get_dir_ling(area = area, num = 4, sens = 4) 
+    olddir <- get_dir_ling(area = area, num = 4, sens = 9) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 10, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 11, sens = 1)
     # specific model from which to get the tunings (from the control file)
     tuningdir <- get_dir_ling(area = area, num = 9, sens = 1)
   }
@@ -515,33 +515,35 @@ if(FALSE){ # stuff to never just source with the rest of the file
     fs::dir_copy(olddir, newdir)
   }
 
-  # read model results from copied models into R
-  get_mod(area = "n", num = 10, sens = 2, plot = FALSE)
-  get_mod(area = "s", num = 10, sens = 2, plot = FALSE)
-
+  # run models (10, sens = 1 versions with hessian still running)
   r4ss::run_SS_models(dirvec = c(get_dir_ling(area = "n", num = 10, sens = 2),
                                  get_dir_ling(area = "s", num = 10, sens = 2)),
                       extras = c("-nohess"),
                       skipfinished = FALSE)
   
+  # read model results from copied models into R
+
+  
   # run tune_comps function without estimating anything to get model output files
   # then run them separately in a command window
+  get_mod(area = "n", num = 10, sens = 2, plot = FALSE)
   r4ss::SS_tune_comps(mod.2021.n.010.002,
-                      dir = mod.2021.n.009.002$inputs$dir,
+                      dir = mod.2021.n.010.002$inputs$dir,
                       option = "Francis",
-                      niters_tuning = 2,
-                      extras = "-nohess -stopph 0")
+                      niters_tuning = 1,
+                      extras = "-nohess")
+  get_mod(area = "s", num = 10, sens = 2, plot = FALSE)
   r4ss::SS_tune_comps(mod.2021.s.010.002,
-                      dir = mod.2021.s.009.002$inputs$dir,
+                      dir = mod.2021.s.010.002$inputs$dir,
                       option = "Francis",
-                      niters_tuning = 2,
-                      extras = "-nohess -stopph 0")
+                      niters_tuning = 1,
+                      extras = "-nohess")
 }
 
 if (FALSE) {
   # look at model output
-  get_mod(area = "n", num = 9, plot = TRUE)
-  get_mod(area = "s", num = 9, plot = TRUE)
+  get_mod(area = "n", num = 10, sens = 2, plot = TRUE)
+  get_mod(area = "s", num = 10, sens = 2, plot = TRUE)
   get_mod(area = "n", num = 9, sens = 2, plot = FALSE)
   get_mod(area = "s", num = 9, sens = 2, plot = FALSE)
   get_mod(area = "n", num = 9, sens = 3, plot = FALSE)
