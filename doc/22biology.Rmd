@@ -2,9 +2,59 @@
 
 ### Natural mortality
 
+Natural mortality was modeled as a single value for each sex applied across 
+all ages within that sex with a Hamel-Then prior applied as in the previous assessments.
+However, whereas the 2017 assessment used a maximum age of 21 for in calculating the prior
+for both females and males, here the maximum age has been updated to match the 
+99.9 percentile of the 9,000 ages for males and 30,000 ages for females in the 
+PacFIN database to develop separate priors for males and females. 
+Those percentiles are 18 years for females and 13 years for males. 
+The number of ages available in the south model were
+too few to explore a separate maximum age calculation for that area.
+
+The mean of the lognormal Hamel-Then prior is 5.4 divided by the maximum age, 
+so the resulting prior means were `round(5.4/18, 3)` for females 
+and `r round(5.4/13, 3)` for males.
+This represents a significant increase from the 0.257 mean used in the previous
+assessments for both sexes.
+
+The log-scale standard error of the Hamel-Then prior is 0.438, but initial model
+explorations showed poor convergence of the M parameters and high estimates of M
+for both sexes. To improve performance without fixing the M parameter
+(as was the case for the 2017 assessments), the prior standard 
+deviation was divided by 2 to get a log-scale standard error of 0.219. 
+The central 95% of the resulting prior for female M covered the range 
+`r round(qlnorm(p = 0.025, log(5.4/18),	0.219), 3)` to 
+`r round(qlnorm(p = 0.025, log(5.4/18),	0.219), 3)`. 
+The central 95% of the resulting prior for male M covered the range 
+`r round(qlnorm(p = 0.025, log(5.4/13),	0.219), 3)` to 
+`r round(qlnorm(p = 0.025, log(5.4/13),	0.219), 3)`. 
+
+These values were at the upper end of the range of values estimated in previous studies
+Jagielo 1994 estimated M for male and female lingcod using three empirical 
+models based on life history parameters (Hoenig 1983, Alverson and Carney 1975, 
+and Pauly 1980). Estimates of M for male lingcod ranged from 0.23 to 0.39, 
+while estimates for female lingcod range from 0.16 to 0.19. The averages of 
+the estimates were 0.18 for females and 0.32 for males. 
+Starr et al. 2005 estimated natural mortality rates from a short term 
+tag-recapture study and came up with ranges of 0.24-0.34 for females and 
+0.13-0.23 for males. However, these estimates do not take into account 
+variation in M across the year (or between years), especially for males 
+during nest-guarding.
 
 ### Maturation and fecundity
 
+A new estimate of functional maturity-at-age 
+based on histological analysis of ovaries was developed for these models 
+(pers. comm., M. Head, \gls{nwfsc}). The previous assessment 
+[@haltuch_2017_2018] used length-based maturity but noted that difference in 
+maturity at length between north and south areas appeared attributable
+to regional differences in growth.
+The estimated age at 50% maturity was 3.23 for the north based on 
+327 samples for which both ovaries and age estimates were available
+and 2.74 years for the south based on 322 samples.
+
+[*TODO: reference r4ss figure bio6_maturity.png and/or figures from M. Head]
 
 ### Sex ratio
 
@@ -151,3 +201,13 @@ For each reader, two sets of parameters are estimated that define
 the standard deviation and bias of the reads provided by that reader.
 The set of parameters that best describes the standard deviation and bias between age readers
 is determined with a step-wise model selection function and compared using AIC.
+
+Initial explorations for seven different combinations of age readers showed little 
+bias among readers. Therefore all 2,441 double reads were pooled 
+into a single analysis to estimate variability in age estimation 
+(\ref{fig:ageing-double-reads}[ageing-double-reads.png]). The best fit model,
+as chosen by both AIC and BIC, used "Curvilinear CV" (a 3-parameter Hollings-form
+relationship of CV with true age). The standard deviation in estimated age was 0.24 years
+at age-1, 0.56 years at age-5, 1.1 years at age-10, and 1.65 years at age 15 
+(*TODO: add reference to r4ss figure numbers10_ageerror_matrix_1.png*).
+
