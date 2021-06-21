@@ -9,9 +9,6 @@ Sample sizes of `r spp` were low during these four complete years, with 119 samp
 55 tows coastwide. Given that `r spp` are primarily a shelf species, data from this
 survey was not included in the model. 
 
-[I DONT KNOW WHETHER THE NWFSC SLOPE SURVEYS ARE THE SAME AS AFSC SLOPE. SO NEED
-TO ADD DETAILS]
-
 The NWFSC also operated a slope survey during the years 1998-2002. Coastwide, 184
 `r spp` were sampled across 64 tows. Data from this survey were not included in
 the model for the same reasons why data from the \gls{s-aslope} were not included. 
