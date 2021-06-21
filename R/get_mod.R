@@ -8,6 +8,8 @@
 #' @template sens
 #' @template yr 
 #' @template id
+#' @param covar Read covar.sso file? Passed to r4ss::SS_output() and
+#' required in some cases where there was a non-positive-definite Hessian.
 #' @param assign Assign the result of r4ss::SS_output() to the
 #' user's workspace with the name `mod.[id]` (e.g. `mod.2021.s.002.001`).
 #' @param printstats Argument passed on r4ss::SS_output()
@@ -39,6 +41,7 @@ get_mod <- function(area = NULL,
                     sens = 1,
                     yr = 2021,
                     id = NULL,
+                    covar = TRUE,
                     assign = TRUE,
                     printstats = FALSE,
                     plot = FALSE,
@@ -54,6 +57,7 @@ get_mod <- function(area = NULL,
     message("reading model from: ", dir)
   }
   mod <- r4ss::SS_output(dir = dir,
+                         covar = covar,
                          printstats = printstats,
                          verbose = FALSE)
   modname <- paste0("mod.", get_id_ling(dir))

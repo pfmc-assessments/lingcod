@@ -52,6 +52,8 @@ name | notes | issue | source_model | script
 2021.s.004.006_fix2_filter_sparse | filter small samples with unexpanded data | #69 | 2021.n.004.004 | lingcod_model_filter_sparse_comps.R
 2021.n.004.007_revised_WA_rec_CPUE | include revised WA rec CPUE index along with unexpanded commercial comps and other fixes | #52 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
 2021.n.004.008_remove_extra_index | recORCPFV got added by accident | #20, #59 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
+2021.n.004.009_fix_duplicate_CAAL | CAAL for TW and FG were the same | #80 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
+2021.s.004.009_fix_duplicate_CAAL | CAAL for TW and FG were the same | #80 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
 2021.n.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.s.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.s.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.n.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
@@ -85,3 +87,7 @@ name | notes | issue | source_model | script
 2021.s.009.001_simplify | use 3.30.17.01, turn off a few parameters (fix Q_extraSD_10_CPFV_DebWV = 0, remove block on Surv_TRI selex) | #76 | 2021.s.008.005 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R
 2021.n.009.002_applyFrancis | apply Francis tuning to model above | #76 | 2021.n.009.001 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R, r4ss::SS_tune_comps()
 2021.s.009.002_applyFrancis | apply Francis tuning to model above | #76 | 2021.n.009.001 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R, r4ss::SS_tune_comps()
+2021.n.009.003_asymptotic_FG | force fixed-gear selectivity asymptotic | #76 | 2021.n.009.001 | lingcod_model_bridging_change_ctl.R
+2021.s.009.003_asymptotic_FG | force fixed-gear selectivity asymptotic | #76 | 2021.n.009.001 | lingcod_model_bridging_change_ctl.R
+2021.n.010.001_fix_duplicate_CAAL | remove duplicate CAAL from commercial fleets | #80 | 2021.n.004.009 | lingcod_model_bridging_change_ctl.R
+2021.s.010.001_fix_duplicate_CAAL | remove duplicate CAAL from commercial fleets | #80 | 2021.n.004.009 | lingcod_model_bridging_change_ctl.R

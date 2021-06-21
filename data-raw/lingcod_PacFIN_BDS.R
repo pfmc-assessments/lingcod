@@ -285,16 +285,16 @@ make_PacFIN_CAAL <- function(bds.dat, fleet, append) {
 }
 
 # run the function above to create CAAL comps
-ageCAAL_N_TW <- make_PacFIN_CAAL(bds.dat = bds.pacfin.n,
+ageCAAL_N_TW <- make_PacFIN_CAAL(bds.dat = bds.pacfin.n[bds.pacfin.n$fleet=="TW",],
                                  append = "north_trawl",
                                  fleet = "Trawl")
-ageCAAL_S_TW <- make_PacFIN_CAAL(bds.dat = bds.pacfin.s,
+ageCAAL_S_TW <- make_PacFIN_CAAL(bds.dat = bds.pacfin.s[bds.pacfin.s$fleet=="TW",],
                                  append = "south_trawl",
                                  fleet = "Trawl")
-ageCAAL_N_FG <- make_PacFIN_CAAL(bds.dat = bds.pacfin.n,
+ageCAAL_N_FG <- make_PacFIN_CAAL(bds.dat = bds.pacfin.n[bds.pacfin.n$fleet=="FG",],
                                  append = "north_fix",
                                  fleet = "Fix")
-ageCAAL_S_FG <- make_PacFIN_CAAL(bds.dat = bds.pacfin.s,
+ageCAAL_S_FG <- make_PacFIN_CAAL(bds.dat = bds.pacfin.s[bds.pacfin.s$fleet=="FG",],
                                  append = "south_fix",
                                  fleet = "Fix")
 

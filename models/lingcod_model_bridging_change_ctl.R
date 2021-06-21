@@ -12,17 +12,17 @@ for (area in c("n", "s")) {
     # + remove extra Rec_OR index (num = 4, sens = 8)
     olddir <- get_dir_ling(area = area, num = 4, sens = 8) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 10, sens = 1)
     # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 8, sens = 6)
+    tuningdir <- get_dir_ling(area = area, num = 9, sens = 1)
   }
   if(area == "s") {
     # data file model with unexpanded comp data (num = 4, sens = 4)
     olddir <- get_dir_ling(area = area, num = 4, sens = 4) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 10, sens = 1)
     # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 8, sens = 6)
+    tuningdir <- get_dir_ling(area = area, num = 9, sens = 1)
   }
 
   # copy all inputs to new files
@@ -49,16 +49,22 @@ for (area in c("n", "s")) {
   # NOTE: "NatM_.*_Fem" should work for both 3.30.16.02 and 3.30.17.01 labels
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_.*_Fem",
-                                 HI = 0.5,
+                                 HI = 0.8,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 18),
                                  PR_SD = 0.438)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_.*_Mal",
-                                 HI = 0.5,
+                                 HI = 0.8,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 13),
                                  PR_SD = 0.438)
+
+  # set L_at_Amin for females to phase 1 to avoid "no active parameter"
+  # error associated with R0 profile (previously R0 was only phase 1 param)
+  newctl$MG_parms <- change_pars(newctl$MG_parms,
+                                 string = "L_at_Amin_Fem_GP",
+                                 PHASE = 1)
 
   #' turn on estimation for female growth (was fixed in 2017 north model)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
@@ -225,6 +231,15 @@ for (area in c("n", "s")) {
         pars = newctl[[tab]], string = "SizeSel_P_4",
         LO = -1, HI = 15, INIT = 7, PHASE = 3
       )
+
+    ## # force fixed-gear fishery to be asymptotic (was already estimated
+    ## # that way for 2021.n.009.001 but not for equivalent south model)
+    ## newctl[[tab]] <-
+    ##   change_pars(
+    ##     pars = newctl[[tab]], string = "SizeSel_P_4_2_Comm_Fix",
+    ##     LO = -1, HI = 15, INIT = 15, PHASE = -3
+    ##   )
+    
     # initial scale
     newctl[[tab]] <-
       change_pars(
