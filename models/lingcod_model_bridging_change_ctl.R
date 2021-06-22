@@ -3,29 +3,35 @@
 verbose <- TRUE
 
 # create new directories with input files
-#for (area in c("n", "s")) {
-for (area in c("s")) {
+for (area in c("n", "s")) {
+#for (area in c("s")) {
+
+  # source data file
+  # + add data
+  # + unexpanded comp data (num = 4, sens = 4)
+  # + WA rec CPUE (num = 4, sens = 7)
+  # + remove extra Rec_OR index (num = 4, sens = 8)
+  # + fix to commercial CAAL (num = 4, sens = 9)
+  #olddir <- get_dir_ling(area = area, num = 4, sens = 11) # fewer_ages
+  olddir <- get_dir_ling(area = area, num = 4, sens = 12) # marginal_ages
+
+  # new directory
+  #newdir <- get_dir_ling(area = area, num = 14, sens = 3) # fewer_ages
+  newdir <- get_dir_ling(area = area, num = 14, sens = 2) # marginal_ages
+  tuningdir <- get_dir_ling(area = area, num = 14, sens = 1)
 
   if(area == "n") {
-    # data file model with unexpanded comp data (num = 4, sens = 4)
-    # + WA rec CPUE (num = 4, sens = 7)
-    # + remove extra Rec_OR index (num = 4, sens = 8)
-    olddir <- get_dir_ling(area = area, num = 4, sens = 9) 
-    # new directory
-    newdir <- get_dir_ling(area = area, num = 13, sens = 2)
-    # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 11, sens = 8)
   }
   if(area == "s") {
-    # data file model with unexpanded comp data (num = 4, sens = 4)
-    #    olddir <- get_dir_ling(area = area, num = 4, sens = 9)
-        olddir <- get_dir_ling(area = area, num = 4, sens = 10) 
-    # new directory
-    newdir <- get_dir_ling(area = area, num = 12, sens = 5)
-    # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 11, sens = 8)
   }
 
+  # get model number (3rd element in model id) for filtering some options
+  newnum <- newdir %>%
+    stringr::str_split(pattern = stringr::fixed("."),
+                       simplify = TRUE) %>%
+    dplyr::nth(3) %>%
+    as.numeric()
+  
   # copy all inputs to new files
   r4ss::copy_SS_inputs(
     dir.old = olddir,
@@ -61,7 +67,7 @@ for (area in c("s")) {
                                  PRIOR = log(5.4 / 13),
                                  PR_SD = 0.438)
 
-  # estimate steepness in one-off sensitivity model
+  # fix female M at values used in 2019 in a one-off sensitivity model
   if (grepl("fix_oldM", newdir)) {
     newctl$MG_parms <- change_pars(newctl$MG_parms,
                                    string = "NatM_.*_Fem",
@@ -169,12 +175,19 @@ for (area in c("s")) {
   newctl$SR_parms <- change_pars(newctl$SR_parms,
                                  string = "sigmaR",
                                  INIT = 0.6)
-  # estimate steepness in one-off sensitivity models 011.004_Mprior_est_h
-  if (grepl("est_h", newdir)) {
+  # estimate steepness from model 14 onward or in one-off sensitivities
+  if (newnum >= 14 | grepl("est_h", newdir) | grepl("esth", newdir)) {
     newctl$SR_parms <- change_pars(newctl$SR_parms,
                                    string = "steep",
-                                   PHASE = 6)
+                                   LO = 0.2,
+                                   HI = 0.99,
+                                   PRIOR = 0.777,
+                                   PR_SD = 0.113,
+                                   PR_type = 2,
+                                   PHASE = 4
+                                   )
   }  
+
   
   #########################################################################
   # SELECTIVITY

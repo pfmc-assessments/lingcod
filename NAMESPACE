@@ -3,6 +3,7 @@
 export("%>%")
 export(SS_readdat.list)
 export(add_data)
+export(change_ages)
 export(change_control_fleets)
 export(change_data_fleets)
 export(change_pars)

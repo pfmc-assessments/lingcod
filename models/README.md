@@ -122,6 +122,7 @@ name | notes | issue | source_model | script
 2021.s.012.005_reverse_profiles | same as 12.004 but for runnig profiles in reverse |   | 2021.s.012.004 | lingcod_model_bridging_change_ctl.R
 2021.n.014.001_esth | estimate h with prior | #83, #85 | 2021.n.011.008 | lingcod_model_bridging_change_ctl.R, esth.R
 2021.s.014.001_esth | estimate h with prior | #83, #85 | 2021.s.012.004 | lingcod_model_bridging_change_ctl.R, esth.R
-2021.n.014.002_marginals | sensitivity to including ages as marginals | #80, #83 | 2021.n.014.001 | lingcod_model_bridging_change_ctl.R, model_bridging_change_ages.R
-2021.s.014.002_marginals | sensitivity to including ages as marginals | #80, #83 | 2021.s.014.001 | lingcod_model_bridging_change_ctl.R, model_bridging_change_ages.R
-2021.n.014.003_fewer_ages | north model equivalent of 2021.s.014.001  | #80, #83 | 2021.n.014.001 | lingcod_model_bridging_change_ctl.R,  model_bridging_change_ages.R
+2021.n.014.002_marginals | sensitivity to including ages as marginals | #80, #83 | 2021.n.004.012 | lingcod_model_bridging_change_ctl.R 
+2021.s.014.002_marginals | sensitivity to including ages as marginals | #80, #83 | 2021.s.004.012 | lingcod_model_bridging_change_ctl.R 
+2021.n.014.003_fewer_ages | north model equivalent of 2021.s.014.001  | #80, #83 | 2021.n.004.011 | lingcod_model_bridging_change_ctl.R 
+2021.s.014.003_fewer_ages | should be identical to 2021.s.014.001 only created with different script  | #80, #83 | 2021.s.004.011 | lingcod_model_bridging_change_ctl.R
