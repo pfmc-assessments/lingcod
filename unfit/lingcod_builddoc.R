@@ -1,3 +1,26 @@
+# Set the directories you care about
+basemodelgrep <- "2021.[ns].005"
+
+# Set up the base model folder with figures, csv, and tables
+# Write 00mod.Rdata for each model
+for (ii in dir("models", pattern = basemodelgrep, full.names = TRUE)) {
+  setwd(ii)
+  sa4ss::read_model(
+    mod_loc = getwd(),
+    create_plots = FALSE,
+    save_loc = file.path("tex_tables"),
+    verbose = TRUE
+  )
+  load("00mod.Rdata")
+  r4ss::SSexecutivesummary(replist = model, format = FALSE)
+  sa4ss::es_table_tex(
+    dir = mod_loc,
+    save_loc = file.path(mod_loc, "tex_tables"),
+    csv_name = "table_labels.csv"
+  )
+  setwd("../..")
+}
+
 # Set your working directory to the appropriate location to build
 # the document, this will work on everyone's machine
 indir <- getwd()
@@ -9,14 +32,16 @@ bookdown::render_book("00a.Rmd", output_dir = getwd(), clean = FALSE,
   params = list(
     run_data = FALSE,
     area = get_groups(info_groups)[1],
-    model = dir("../models", pattern = "2021.n.004.001_new_data_test", full.names = TRUE)
+    model = dir("../models", pattern = gsub("[ns]", "n", basemodelgrep),
+     full.names = TRUE)
   )
 )
 bookdown::render_book("00a.Rmd", output_dir = getwd(), clean = FALSE,
   config_file = "_bookdown_south.yml",
   params = list(
     area = get_groups(info_groups)[2],
-    model = dir("../models", pattern = "s.005.001_initial_ctl", full.names = TRUE)
+    model = dir("../models", pattern = gsub("[ns]", "s", basemodelgrep),
+     full.names = TRUE)
   )
 )
 setwd(indir)
