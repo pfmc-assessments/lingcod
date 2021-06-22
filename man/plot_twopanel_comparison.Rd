@@ -10,6 +10,7 @@ plot_twopanel_comparison(
   filename = NULL,
   print = TRUE,
   dir = "figures/compare",
+  hessian = TRUE,
   endyrvec = 2021,
   verbose = FALSE,
   ...

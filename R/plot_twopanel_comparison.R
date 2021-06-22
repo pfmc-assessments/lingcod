@@ -32,6 +32,7 @@ plot_twopanel_comparison <- function(mods,
                                      filename = NULL,
                                      print = TRUE,
                                      dir = "figures/compare",
+                                     hessian = TRUE,
                                      endyrvec = 2021,
                                      verbose = FALSE,
                                      ...) {
@@ -60,13 +61,13 @@ plot_twopanel_comparison <- function(mods,
   par(mfrow = c(2,1), mar = c(1, 3, 1, 1), oma = c(3, 0, 0, 0))
   r4ss::SSplotComparisons(summary,
                           endyrvec = endyrvec,
-                          subplot = 2,
+                          subplot = ifelse(hessian, 2, 1),
                           legendlabels = legendlabels,
                           new = FALSE,
                           ...)
   r4ss::SSplotComparisons(summary,
                           endyrvec = endyrvec,
-                          subplot = 4,
+                          subplot = ifelse(hessian, 4, 3),,
                           legend = FALSE,
                           new = FALSE,
                           ...)
