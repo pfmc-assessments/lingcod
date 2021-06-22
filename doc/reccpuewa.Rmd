@@ -268,7 +268,7 @@ t <- knitr::kable(
   label = "reccpuewa-filtersummary"
 )
 kableExtra::save_kable(x = t,
-  file = file.path("tables", "reccpuewa-filtersummary.tex")
+  file = file.path("..", "tables", "reccpuewa-filtersummary.tex")
 )
 t <- knitr::kable(
   tot %>% dplyr::group_by(Year) %>%
@@ -282,7 +282,7 @@ t <- knitr::kable(
     label = "reccpuewa-n"
 )
 kableExtra::save_kable(x = t,
-  file = file.path("tables", "reccpuewa-n.tex")
+  file = file.path("..", "tables", "reccpuewa-n.tex")
 )
 
 # Table of n < 0, n > 0, is.na(n) for each species
@@ -443,7 +443,143 @@ utils::write.csv(index_MCMC,
   row.names = FALSE,
   file = file.path("..", "data-raw", "reccpuewa.csv")
 )
+t <- kableExtra::kbl(
+  index_MCMC %>%
+    dplyr::select(year, obs, se_log, HPD_lower, HPD_upper) %>%
+    dplyr::mutate_at(vars(-year),round,2) %>%
+    dplyr::rename(Year = year, Mean = obs, logSE = se_log,
+           `lower HPD` = HPD_lower, 
+           `upper HPD` = HPD_upper),
+  booktabs = TRUE,
+  label = "reccpuewa-results",
+  caption = paste0("Standardized index for the ", paste0(params$area, "ern area "), 
+                  "survey index with log-scale standard errors (SEs) and 95 percent highest posterior density (HPD) intervals for ",
+                  utils_name("common"),"."),
+  row.names = F) %>% 
+  kableExtra::kable_styling(latex_options = "striped")
+kableExtra::save_kable(t,
+  file = file.path("..", "tables", "reccpuewa-results.tex")
+)
 
+# Make figures
+gg <- ggplot2::ggplot(
+  reccpuewa_SMcoefs %>% dplyr::mutate(names = factor(names, levels = names[order(Estimate)])) %>% 
+  dplyr::filter(!grepl("Intercept", names)),
+  ggplot2::aes(
+    x = factor(names),
+    y = Estimate
+  )
+) +
+  ggplot2::geom_bar(position = ggplot2::position_dodge(), stat = "identity", fill = "blue") +
+  ggplot2::geom_errorbar(
+    ggplot2::aes(
+      ymin = Estimate - 1.96 * Std..Error,
+      ymax = Estimate + 1.96 * Std..Error
+    ),
+    width = 0.6, # Width of the error bars
+    position = ggplot2::position_dodge(0.9)) +
+    ggplot2::labs(
+      x = "Species",
+      y = paste0("Estimated co-occurrence with ", utils_name("common"))
+    ) +
+    ggplot2::coord_flip() +
+    ggplot2::theme_bw()
+ignore <- ggsave2(
+  gg,
+  filename = file.path("..", "figures", "reccpuewa-filterSMcoef.png"),
+  caption = paste0(
+    "Estimates of species coefficients (blue bars) from the ",
+    "binomial generalized linear model (GLM) ",
+    "for presence/absence of ",
+    utils_name("common"),
+    " in the Washington recreational dockside interview data. ",
+    "Horizontal black bars represent the 95\\% confidence intervals."
+  ),
+  alttext = paste0(
+    tolower(reccpuewa_SMcoefs[1, "names"]), " and ",
+    tolower(dplyr::last(reccpuewa_SMcoefs[["names"]])),
+    " are the most and least likely species to co-occur with ",
+    utils_name("common"), " in the Washington recreational fishery."
+  ),
+  label = "reccpuewa-filterSMcoef"
+)
+#
+#
+#
+grDevices::png(
+  filename = file.path("..", "figures", "reccpuewa-ScaledQQplot_pos.png"),
+  width = 6, height = 3, units = "in", res = 300, pointsize=6
+)
+p_res <- DHARMa::simulateResiduals(fittedModel = mod_b, n = 500,integerResponse = T) # had to reduce n in order to run, hitting memory limit
+plot(p_res, rank=TRUE, quantreg=TRUE)
+grDevices::dev.off()
+utils::write.csv(
+  row.names = FALSE,
+  data.frame(
+    caption = "Scaled quantile-quantile (QQ) plot (left panel) and standardized residuals versus rank transformed model predictions (right panel) for the binomial response model fit using maximum likelihood for the Washington recreational index.",
+    alt_caption = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
+    label = "reccpuewa-mleqqscaled",
+    filein = file.path("..", "figures", "reccpuewa-ScaledQQplot_pos.png")
+  ),
+  file = file.path("..", "figures", "reccpuewa-ScaledQQplot_pos.csv")
+)
+#
+#
+#
+gg <- ggplot2::ggplot(
+  data = as.data.frame(
+    cbind(Median = coef(best_bin.glm_STAN), 
+      coef(mod_b))),
+  ggplot2::aes(V2, Median)
+) +
+ggplot2::geom_point(pch = 1, cex = 2) +
+ggplot2::geom_point(
+  data = as.data.frame(cbind(Median = coef(best_pos.glm_STAN), coef(mod_l))),
+  pch = 19, cex = 2
+) +
+ggplot2::geom_abline(intercept = 0, slope = 1) +
+ggplot2::labs(
+  x = "Maximum likelihood estimates of GLM parameters",
+  y = "Median posterior GLM parameters"
+) +
+ggplot2::theme_bw()
+ignore <- ggsave2(
+  gg,
+  filename = file.path("..", "figures", "reccpuewa-mlevbayesian.png"),
+  caption = paste0(
+    "Comparison of estimates of the delta generalized linear model (GLM) ",
+    "estimated using a maximum likelihood framework (x axis) and ",
+    "Bayesian framework (y axis) for the binomial model (open circles) and ",
+    "the positive model (closed circles) to a perfect relationship ",
+    "(i.e., 1:1; solid line)."
+  ),
+  alttext = paste0(
+    "Estimates fall on the one-to-one line for both models."
+  ),
+  label = "reccpuewa-mlevbayesian"
+)
+#
+#
+#
+# ggplot2::ggplot(index_MCMC, ggplot2::aes(year, obs)) +
+# ggplot2::geom_line(col = "black", size = 2) +
+# ggplot2::geom_ribbon(ggplot2::aes(ymin = HPD_lower, ymax = HPD_upper)) +
+# ggplot2::geom_line(col = "gray", size = 1,
+#   data = data.frame(year = as.numeric(names(index_mle)), obs = index_mle)
+# ) +
+# ggplot2::labs(x = "Year", y = "Estimated index (todo units here)") +
+# Previous estimates errors out
+# ggplot2::geom_line(data = old, col = "red")
+#
+#
+#
+# plot(stats::fitted(best_pos.glm_STAN),log(reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, "cpue"]),xlim=c(-5,2),ylim=c(-5,2),xlab="Expected value",ylab="ln(CPUE)")
+# lines(-5:5,-5:5)
+# plot(stats::fitted(best_pos.glm_STAN),resid(best_pos.glm_STAN),pch=20,cex=0.8,abline(0,0))
+# qqnorm(stats::resid(best_pos.glm_STAN),xlab="Quantiles of standard normal distribution",ylab="Residuals",xlim=c(-4,4),ylim=c(-4,4))
+# abline(0,1)
+# plot(fitted(best_pos.glm_STAN),sqrt(abs(resid(best_pos.glm_STAN))))
+# plot(best_pos.glm_STAN)
 ```
 
 The Washington dockside sampling program (Ocean Sampling Program
@@ -472,9 +608,9 @@ once standardized (Table \@ref(tab:reccpuewa_filtersummary)).
 Depth was not recorded for the entire time period, and thus was not included
 as a filter or a subsequent covariate.
 The filtering procedure led to a final positive rate of
-`sprintf("%.2f", max(reccpuewa_filtersummary[["% pos."]]))`
+`r sprintf("%.2f", max(reccpuewa_filtersummary[["% pos."]]))`\%.
 
-Stephens-MacCall [-@Stephens2004] filtering approach was explored to
+Stephens-MacCall [-@stephens2004] filtering approach was explored to
 predict the probability of catching `r utils_name("common")` based on
 the species composition of the sampler-observed catch in a given trip.
 Prior to applying the Stephens-MacCall filter, we identified potentially
@@ -486,8 +622,7 @@ Thus, the remaining species all co-occurred with
 and were retained for the Stephens-MacCall logistic regression.
 Estimated coefficients from the Stephens-MacCall analysis are
 positive for species that are likely to co-occur with the target species and
-negative for species that are likely to not co-occur with the target species
-(Figure \@ref(fig:reccpuewa-SMfilter)).
+negative for species that are likely to not co-occur with the target species.
 The top five species with high probability of
 co-occurrence with `r spp` included 
 `r knitr::combine_words(tolower(names(sort(coef(glm_SMresults),decreasing=TRUE)[1:5])))`
@@ -499,19 +634,18 @@ Given the high positivity rate of `r spp` prior to the Stephens-MacCall filterin
 (Table \@ref(tab:reccpuewa-n)),
 we choose to not use this additional filtering process.
 
-The filtered data were used to fit Bayesian delta-\glspl{glm} using the “rstanarm” R package.
+The filtered data were used to fit Bayesian delta-\glspl{glm} using the rstanarm R package.
 Posterior predictive checks of the Bayesian model fit for all models
 regardless of the distributional assumptions used to fit the data were similar (results not shown).
-The Gamma distribution was chosen going forward given match of the theoretical quantiles to the
-data quantiles (Figure \@ref(fig:)).
+The Gamma distribution was chosen going forward given a better match of the
+theoretical quantiles to the data quantiles (Figure \@ref(fig:reccpuewa-ScaledQQplot_pos))
+than the lognormal.
 
-Based on the the negative binomial model were reasonable (Figures \@ref(fig:fig-posterior-mean-ORAtSea) and \@ref(fig:fig-posterior-sd-ORAtSea)). The negative binomial model generated data sets with the proportion zeros similar to the `r scales::percent(1-dim(dat %>% filter(Target>0))[1]/dim(dat)[1])` zeroes in the observed data 
+Based on the the negative binomial model were reasonable
+(Figures \@ref(fig:fig-posterior-mean-ORAtSea) and \@ref(fig:fig-posterior-sd-ORAtSea)). The negative binomial model generated data sets with the proportion zeros similar to the
+`r scales::percent(1-dim(tot %>% dplyr::filter({{colresponse}}>0))[1]/dim(tot)[1])`
+zeroes in the observed data 
 (Figure \@ref(fig:fig-propzero-ORAtSea)). The predicted marginal effects from 
 the negative binomial models can be found in (Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)). The 
 final index (Table \@ref(tab:tab-index-ORAtSea)) 
 represents a similar trend to the arithmetic mean of the annual CPUE (Figure \@ref(fig:fig-cpue-ORAtSea)).
-
-```{r recwacpue-readfigures, results="asis", echo = FALSE}
-sa4ss::read_child(file_reccpuewafigures)
-```
-
