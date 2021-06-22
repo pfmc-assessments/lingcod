@@ -20,7 +20,7 @@ tablefiles <- file.path("..", "tables",
 ignore <- mapply(sa4ss::read_child, tablefiles)
 ```
 
-```{r, fi-index-ormarres-tables, results = "asis"}
+```{r, fi-index-ormarres-tables, results = "asis", eval = grepl("North", params$area)}
 xx <- dir(file.path("..", "tables"), pattern = "fi-index-ormarres", full.names= TRUE)
 ignore <- mapply(sa4ss::read_child, xx[order(file.info(xx)$mtime)])
 ```
