@@ -10,7 +10,7 @@ are provided below.
 sa4ss::read_child(file.path("catch.Rmd"))
 ```
 
-### \Glsentrylong{cpue} (\glsentryshort{cpue})
+### \Glsentrylong{cpue}
 
 ```{r render-cpue, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("commcpueor.Rmd"))
@@ -36,7 +36,8 @@ sa4ss::read_child(file.path("24data-notused.Rmd"))
 
 ## Fishery-Independent data
 
-### **to do - Need a header name**
+### Survey indices
+
 ```{r spin-21s-wcgbts, results = "asis"}
 sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
 ```

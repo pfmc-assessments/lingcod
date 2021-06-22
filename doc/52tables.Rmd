@@ -11,13 +11,15 @@ label = "tab:management-refpoints",
 caption = "Recent trends in landings and total catch (mt) relative to management guidelines. Total dead catch represents the total landings plus the model estimated dead discard biomass. Note that the model estimated total dead catch may not be the same as the \gls{wcgop} estimates of total mortality [@somers2017], which are the "official" records for determining whether the \gls{acl} has been exceeded."
 -->
 
-```{r, cpue-tables, results = "asis"}
+```{r, cpue-tables, results = "asis", eval = grepl("North", params$area)}
 # Arrange figures in order of the time they were modified
 tabledataframe <- utils::read.csv(file.path("..", "tables", "tables_cpue.csv"))
 tablefiles <- file.path("..", "tables",
   gsub("\\.csv", ".tex", tabledataframe[["filename"]])
 )
-ignore <- mapply(sa4ss::read_child, tablefiles)
+ignore <- mapply(sa4ss::read_child, tablefiles[grepl("comm", tablefiles)])
+ignore <- mapply(sa4ss::read_child, dir_order("..", "tables", grep = "reccpuewa"))
+ignore <- mapply(sa4ss::read_child, tablefiles[grepl("rec", tablefiles)])
 ```
 
 ```{r, fi-index-ormarres-tables, results = "asis", eval = grepl("North", params$area)}

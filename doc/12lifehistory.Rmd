@@ -104,9 +104,9 @@ other rocky reef bottomfishes become a more prominent component of their diet,
 making up 48.8\% of total prey biomass by weight [@beaudreau2007spatial].
 
 Phillips and Barraclough [-@phillips1977early] estimated that \gls{yoy} growth
-was approximately 1.3 mm $day^{-1}$.
+was approximately 1.3 mm day$^{-1}$.
 Buckley et al. [-@buckley1984enhancement] reported \gls{yoy} growth from
-June to September in the Strait of Juan de Fuca also averaged 1.3 mm $day^{-1}$.
+June to September in the Strait of Juan de Fuca also averaged 1.3 mm day$^{-1}$.
 Samples from the mouth of the Pysht River averaged
 96 mm in June,
 135 mm in July,
@@ -228,7 +228,8 @@ larger at age (Figure \@ref(fig:Lam-vbgfcurves)),
 live longer, and
 reach biological maturity at larger sizes
 compared to conspecifics from lower latitudes
-[@lam2021geographic; pers. comm., M. Head, \gls{nwfsc}].
+(Lam et al. -@lam2021geographic; pers. comm., M. Head, \gls{nwfsc}).
+
 <!--- to do - get M. Head figure -->
 <!--- to do - change pers. comm. to reference -->
 

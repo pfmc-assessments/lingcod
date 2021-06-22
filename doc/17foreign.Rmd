@@ -51,7 +51,7 @@ Punta San Carlos, Baja California
 There are some
 [specimens held at Scripps Institute of Oceanography](http://collections.ucsd.edu/mv/fish/act_searchCollection.php?name=Hexagrammidae+Ophiodon+elongatus&sort=&start=40)
 that document its distribution along Baja California [@rosales-casian2003] to Bahia San Quintin [@aristapalacios2018] and
-the Cedros archipelago [@ramirez-valdex2015].
+the Cedros archipelago [@ramirez-valdez2015].
 But, the [National Fisheries Registry](https://www.gob.mx/cms/uploads/attachment/file/334832/DOF_-_CNP_2017.pdf)
 that lists fisheries within Mexican waters does not list `r spp`.
 Multiple researchers reported that `r spp` is fished off Baja California using harpoons (pers. comm., H.N. Morzaria Luna, \gls{nwfsc})

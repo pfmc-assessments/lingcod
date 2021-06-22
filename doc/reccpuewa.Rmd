@@ -496,7 +496,7 @@ ignore <- ggsave2(
     "Horizontal black bars represent the 95\\% confidence intervals."
   ),
   alttext = paste0(
-    tolower(reccpuewa_SMcoefs[1, "names"]), " and ",
+    reccpuewa_SMcoefs[1, "names"], " and ",
     tolower(dplyr::last(reccpuewa_SMcoefs[["names"]])),
     " are the most and least likely species to co-occur with ",
     utils_name("common"), " in the Washington recreational fishery."
@@ -507,57 +507,85 @@ ignore <- ggsave2(
 #
 #
 grDevices::png(
+  filename = file.path("..", "figures", "reccpuewa-ScaledQQplot_bin.png"),
+  width = 6, height = 3, units = "in", res = 300, pointsize=6
+)
+p_res <- DHARMa::simulateResiduals(fittedModel = mod_l, n = 500,integerResponse = T) # had to reduce n in order to run, hitting memory limit
+plot(p_res, rank=TRUE, quantreg=TRUE)
+grDevices::dev.off()
+grDevices::png(
   filename = file.path("..", "figures", "reccpuewa-ScaledQQplot_pos.png"),
   width = 6, height = 3, units = "in", res = 300, pointsize=6
 )
 p_res <- DHARMa::simulateResiduals(fittedModel = mod_b, n = 500,integerResponse = T) # had to reduce n in order to run, hitting memory limit
 plot(p_res, rank=TRUE, quantreg=TRUE)
 grDevices::dev.off()
+
+# write an ordered csv file to be called in later
 utils::write.csv(
   row.names = FALSE,
+  lapply(
+    file.path("..", "figures", c("reccpuewa-filterSMcoef.csv")),
+    utils::read.csv
+  ) %>% dplyr::bind_rows(., .id = "id") %>% dplyr::select(-id) %>%
+  dplyr::full_join(., by = c("caption", "alt_caption", "label", "filein"),
   data.frame(
-    caption = "Scaled quantile-quantile (QQ) plot (left panel) and standardized residuals versus rank transformed model predictions (right panel) for the binomial response model fit using maximum likelihood for the Washington recreational index.",
-    alt_caption = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
-    label = "reccpuewa-mleqqscaled",
-    filein = file.path("..", "figures", "reccpuewa-ScaledQQplot_pos.png")
-  ),
-  file = file.path("..", "figures", "reccpuewa-ScaledQQplot_pos.csv")
+    caption = c(
+      "Scaled quantile-quantile (QQ) plot (left panel) and rank-transformed versus standardized residuals (right panel) for the binomial model of the Washington recreational index.",
+      "Scaled quantile-quantile (QQ) plot (left panel) and rank-transformed versus standardized residuals (right panel) for the positive model of the Washington recreational index."
+    ),
+    alt_caption = c(
+      "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
+      "Diagnostic tests reveal one to one relationship between expected and observed residuals."
+    ),
+    label = c(
+      "reccpuewa-mleqqscaledbin",
+      "reccpuewa-mleqqscaledpos"
+    ),
+    filein = c(
+      file.path("..", "figures", "reccpuewa-ScaledQQplot_bin.png"),
+     file.path("..", "figures", "reccpuewa-ScaledQQplot_pos.png")
+   )
+  )
+),
+  file = file.path("..", "figures", "reccpuewa.csv")
 )
+
 #
 #
 #
-gg <- ggplot2::ggplot(
-  data = as.data.frame(
-    cbind(Median = coef(best_bin.glm_STAN), 
-      coef(mod_b))),
-  ggplot2::aes(V2, Median)
-) +
-ggplot2::geom_point(pch = 1, cex = 2) +
-ggplot2::geom_point(
-  data = as.data.frame(cbind(Median = coef(best_pos.glm_STAN), coef(mod_l))),
-  pch = 19, cex = 2
-) +
-ggplot2::geom_abline(intercept = 0, slope = 1) +
-ggplot2::labs(
-  x = "Maximum likelihood estimates of GLM parameters",
-  y = "Median posterior GLM parameters"
-) +
-ggplot2::theme_bw()
-ignore <- ggsave2(
-  gg,
-  filename = file.path("..", "figures", "reccpuewa-mlevbayesian.png"),
-  caption = paste0(
-    "Comparison of estimates of the delta generalized linear model (GLM) ",
-    "estimated using a maximum likelihood framework (x axis) and ",
-    "Bayesian framework (y axis) for the binomial model (open circles) and ",
-    "the positive model (closed circles) to a perfect relationship ",
-    "(i.e., 1:1; solid line)."
-  ),
-  alttext = paste0(
-    "Estimates fall on the one-to-one line for both models."
-  ),
-  label = "reccpuewa-mlevbayesian"
-)
+# gg <- ggplot2::ggplot(
+#   data = as.data.frame(
+#     cbind(Median = coef(best_bin.glm_STAN), 
+#       coef(mod_b))),
+#   ggplot2::aes(V2, Median)
+# ) +
+# ggplot2::geom_point(pch = 1, cex = 2) +
+# ggplot2::geom_point(
+#   data = as.data.frame(cbind(Median = coef(best_pos.glm_STAN), coef(mod_l))),
+#   pch = 19, cex = 2
+# ) +
+# ggplot2::geom_abline(intercept = 0, slope = 1) +
+# ggplot2::labs(
+#   x = "Maximum likelihood estimates of GLM parameters",
+#   y = "Median posterior GLM parameters"
+# ) +
+# ggplot2::theme_bw()
+# ignore <- ggsave2(
+#   gg,
+#   filename = file.path("..", "figures", "reccpuewa-mlevbayesian.png"),
+#   caption = paste0(
+#     "Comparison of estimates of the delta generalized linear model (GLM) ",
+#     "estimated using a maximum likelihood framework (x axis) and ",
+#     "Bayesian framework (y axis) for the binomial model (open circles) and ",
+#     "the positive model (closed circles) to a perfect relationship ",
+#     "(i.e., 1:1; solid line)."
+#   ),
+#   alttext = paste0(
+#     "Estimates fall on the one-to-one line for both models."
+#   ),
+#   label = "reccpuewa-mlevbayesian"
+# )
 #
 #
 #
@@ -624,7 +652,7 @@ Estimated coefficients from the Stephens-MacCall analysis are
 positive for species that are likely to co-occur with the target species and
 negative for species that are likely to not co-occur with the target species.
 The top five species with high probability of
-co-occurrence with `r spp` included 
+co-occurrence with `r spp` included
 `r knitr::combine_words(tolower(names(sort(coef(glm_SMresults),decreasing=TRUE)[1:5])))`
 (Figure \@ref(fig:reccpuewa-filterSMcoef)),
 all of which are associated with rocky reef and kelp habitats.
@@ -634,18 +662,23 @@ Given the high positivity rate of `r spp` prior to the Stephens-MacCall filterin
 (Table \@ref(tab:reccpuewa-n)),
 we choose to not use this additional filtering process.
 
-The filtered data were used to fit Bayesian delta-\glspl{glm} using the rstanarm R package.
-Posterior predictive checks of the Bayesian model fit for all models
-regardless of the distributional assumptions used to fit the data were similar (results not shown).
+The filtered data were used to fit Bayesian delta-\glspl{glm} using the
+same modelling framework, rstanarm [@rstanarm2020], as the other \gls{cpue} indices developed
+for `r spp`.
+Covariates considered included year, boat type, area, and month.
+A management covariate was investigated previously, but the framework cannot estimate
+both fixed effects for year and groups of years.
+A full model with all covariates was fit and goodness of fit was tested using
+Chi-square goodness of fit test, that indicated a model with all variables
+fit the data the best. This process was repeated for several distributional
+assumptions for the positive component and
+posterior predictive checks of the Bayesian model fit for all models
+regardless of the distributional assumptions used to fit the data were similar
+(results not shown).
 The Gamma distribution was chosen going forward given a better match of the
-theoretical quantiles to the data quantiles (Figure \@ref(fig:reccpuewa-ScaledQQplot_pos))
-than the lognormal.
+theoretical quantiles to the data quantiles than the lognormal
+(Figures \@ref(fig:reccpuewa-mleqqscaledbin) and \@ref(fig:reccpuewa-mleqqscaledpos)).
 
-Based on the the negative binomial model were reasonable
-(Figures \@ref(fig:fig-posterior-mean-ORAtSea) and \@ref(fig:fig-posterior-sd-ORAtSea)). The negative binomial model generated data sets with the proportion zeros similar to the
-`r scales::percent(1-dim(tot %>% dplyr::filter({{colresponse}}>0))[1]/dim(tot)[1])`
-zeroes in the observed data 
-(Figure \@ref(fig:fig-propzero-ORAtSea)). The predicted marginal effects from 
-the negative binomial models can be found in (Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)). The 
-final index (Table \@ref(tab:tab-index-ORAtSea)) 
-represents a similar trend to the arithmetic mean of the annual CPUE (Figure \@ref(fig:fig-cpue-ORAtSea)).
+The terminal year of the index was poorly estimated and indicated a sharp increase
+in the abundance of the stock. This sharp increase in the terminal year is not
+new and was present in the last standardization of this data set.
