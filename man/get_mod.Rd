@@ -10,6 +10,7 @@ get_mod(
   sens = 1,
   yr = 2021,
   id = NULL,
+  covar = TRUE,
   assign = TRUE,
   printstats = FALSE,
   plot = FALSE,
@@ -28,6 +29,9 @@ get_mod(
 
 \item{id}{model id (like "2021.s.001.001") as an alternative to
 the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
+
+\item{covar}{Read covar.sso file? Passed to r4ss::SS_output() and
+required in some cases where there was a non-positive-definite Hessian.}
 
 \item{assign}{Assign the result of r4ss::SS_output() to the
 user's workspace with the name \code{mod.[id]} (e.g. \code{mod.2021.s.002.001}).}
