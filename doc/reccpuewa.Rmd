@@ -262,15 +262,15 @@ reccpuewa_filtersummary <- dplyr::select(pretot, dplyr::matches("^ann|^bfn")) %>
   dplyr::relocate(Description, .after = Filter)
 tot <- pretot %>%
   dplyr::select(-dplyr::matches("ann"), -dplyr::matches("bfn"))
-t <- knitr::kable(
+tt <- knitr::kable(
   reccpuewa_filtersummary, booktabs = TRUE, longtable = TRUE, format = "latex",
   caption = paste("Data filtering steps to increase the percent positive (pos.) or number (N) of trips that landed", utils_name("common"), " in the Washington recreational index derived from dockside-sampling data."),
   label = "reccpuewa-filtersummary"
 )
-kableExtra::save_kable(x = t,
+kableExtra::save_kable(x = tt,
   file = file.path("..", "tables", "reccpuewa-filtersummary.tex")
 )
-t <- knitr::kable(
+tt <- knitr::kable(
   tot %>% dplyr::group_by(Year) %>%
     dplyr::summarize(
       `N pos.` = sum({{colresponse}} > 0),
@@ -281,7 +281,7 @@ t <- knitr::kable(
       " of ", utils_name("common"), " in the Washington recreational dockside sampling program."),
     label = "reccpuewa-n"
 )
-kableExtra::save_kable(x = t,
+kableExtra::save_kable(x = tt,
   file = file.path("..", "tables", "reccpuewa-n.tex")
 )
 
@@ -443,7 +443,7 @@ utils::write.csv(index_MCMC,
   row.names = FALSE,
   file = file.path("..", "data-raw", "reccpuewa.csv")
 )
-t <- kableExtra::kbl(
+tt <- kableExtra::kbl(
   index_MCMC %>%
     dplyr::select(year, obs, se_log, HPD_lower, HPD_upper) %>%
     dplyr::mutate_at(vars(-year),round,2) %>%
@@ -457,7 +457,7 @@ t <- kableExtra::kbl(
                   utils_name("common"),"."),
   row.names = F) %>% 
   kableExtra::kable_styling(latex_options = "striped")
-kableExtra::save_kable(t,
+kableExtra::save_kable(tt,
   file = file.path("..", "tables", "reccpuewa-results.tex")
 )
 
@@ -506,6 +506,8 @@ ignore <- ggsave2(
 #
 #
 #
+```
+```{r reccpuewafigures, echo = FALSE, include = FALSE}
 grDevices::png(
   filename = file.path("..", "figures", "reccpuewa-ScaledQQplot_bin.png"),
   width = 6, height = 3, units = "in", res = 300, pointsize=6

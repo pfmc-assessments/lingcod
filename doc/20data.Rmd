@@ -18,7 +18,12 @@ sa4ss::read_child(file.path("reccpuewa.Rmd"))
 sa4ss::read_child(file.path("reccpueor.Rmd"))
 ```
 
-### Recreational length- and age-composition data
+### Commercial length- and age-frequency data
+```{r render-commcomp, results = "asis"}
+sa4ss::read_child("commcomp.Rmd")
+```
+
+### Recreational length- and age-frequency data
 
 ```{r render-rec-comps-n, results = "asis", eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("rec-comps-north.Rmd"))
@@ -47,7 +52,7 @@ sa4ss::read_child(file.path("24data-notused.Rmd"))
 sa4ss::read_child(file.path("surveyindex.Rmd"))
 ```
 
-### Survey length- and age-composition data
+### Survey length- and age-frequency data
 
 ```{r render-surveycomp, results = "asis"}
 sa4ss::read_child(file.path("surveycomp.Rmd"))

@@ -14,6 +14,11 @@ The \gls{nwfsc} also operated a slope survey during the years 1998-2002. Coastwi
 `r spp` were sampled across 64 tows. Data from this survey were not included in
 the model for the same reasons why data from the \gls{s-aslope} were not included. 
 
+#### \Glsentrylong{iphc} longline survey
+The \gls{iphc} longline survey data were examined in the past for their utility
+in building a fixed gear index of abundance.
+However, depth and hook size are not appropriate for `r spp` so these data were not used.
+
 ```{asis, opts.label = 'north'}
 #### Lander data
 
@@ -136,4 +141,20 @@ Coastwide, `r spp` \gls{cpue} appears to be oscillating around
 the long-term mean, with the last two years being below average
 (Figure \@ref(fig:fi-index-ormarres-RelativemeanLingcodCPUE95CI)).
 
+#### \Glsentrylong{wdfw} research compositions
+
+\Gls{wdfw} conducted mark-recapture experiments in the nearshore area at
+Cape Flattery from 1986 - 1994.
+Though study results were published in several journal articles [@jagielo1990movement].
+Additional surveys were conducted in 1997, 2001, 2002, 2003, and 2016 using bottom fish troll gear.
+Biological data collected from these surveys were investigated in the previous assessment
+but were ultimately removed from the base model because they were not informative
+[@haltuch2019lingcod].
+
+#### \Glsentrylong{wdfw} hook and line survey
+
+The \gls{wdfw} hook and line survey started as a pilot study and now includes
+more than five years of data.
+Unfortunately, the methods have changed over time and the data were not
+ready for their inclusion in this assessment.
 ```

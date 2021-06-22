@@ -1,20 +1,23 @@
 #### \Glsentrylong{s-wcgbt} lengths
 
 The length frequency of survey catches in each year was summarized using length bins in 
-2 cm increments from 10 to 130 cm. The first bin includes all observations less than 10 cm, 
+2 cm increments from 10 to 130 cm (Figure \@ref(fig:wcgbts-lenComp)).
+The first bin includes all observations less than 10 cm, 
 and the last bin includes all fish larger than 130 cm. The observed length compositions were 
 expanded to account for subsampling of tows, and the expansion was stratified by depth. Depth 
-strata of 55 - 183 m and 183 - 400m were selected, based on the sampling design of the survey (@kelleretal_survey_2017). Depth strata were capped at 400 m because catches of `r spp` in 
+strata of 55 - 183 m and 183 - 400m were selected, based on the sampling design of the survey (@kelleretal_survey_2017).
+Depth strata were capped at 400 m because catches of `r spp` in 
 the \Gls{s-wcgbt} occur infrequency beyond 400m (Figure \ref{fig:wcgbts-presAbs}). Samples were
 often sexed, so only male and female length frequencies were used. The few unsexed individuals 
 were assigned as male or female according to the sex ratio of the respective length bin. An 
 assumed sex ratio of 0.5 was applied for unsexed fish in length bin less than 40 cm, as sex 
 of smaller sized `r spp` is harder to differentiate. A bin of 40 cm was chosen as this is the
 length bin at which the length-weight relationship starts to diverge for males and females, 
-and therefore equal assignment is not influenced by sex-specific size differences. Figure \ref{fig:wcgbts-lenComp} shows the length frequency distributions for the \Gls{s-wcgbt}. 
-Table \ref{tab:sample-size-length} shows sample sizes.
+and therefore equal assignment is not influenced by sex-specific size differences.
+Figure  shows the length-frequency distributions for the \Gls{s-wcgbt}.
 
-The input sample sizes for length and marginal age-composition data for all 
+The input sample sizes (Table \@ref(tab:tab:sample-size-length))
+for length and marginal age-composition data for all 
 fishery-independent surveys were calculated according to 
 Stewart and Hamel [-@stewart_bootstrapping_2014], which determined that the 
 approximate realized sample size for species in the "others" category 
@@ -25,9 +28,9 @@ approximate realized sample size for species in the "others" category
 Length data preparation followed the same methods as applied to the WCBTS data,
 but depth strata of 55 - 183 m and 183 - 350m were used for expanding the
 length comps for subsampling of tows. A depth split of 183 m was used because
-sampling appeared less intense after this depth, and raw catch per unit effort 
+sampling appeared less intense after this depth and raw catch per unit effort 
 more variable (Figure \ref{fig:tri-depthSplit}). A maximum
-depth of 350 m was used because lingcod were infrequently caught at depths 
+depth of 350 m was used because `r spp` were infrequently caught at depths 
 greater than 350 m (Figure \ref{fig:tri-depthSplit}). 
 Figure \ref{fig:tri-lenComp} shows the length frequency distributions for the \gls{s-tri}. 
 Table \ref{tab:sample-size-length} shows the sample sizes.
@@ -35,17 +38,16 @@ Table \ref{tab:sample-size-length} shows the sample sizes.
 #### \Glsentrylong{s-hkl} lengths
 
 The length frequency of survey catches in each year was summarized using length bins in 
-2 cm increments from 10 to 130 cm. The first bin includes all observations less than 10 cm, 
+2 cm increments from 10 to 130 cm (Figures \ref{fig:hkl-lenComp-sexed} and \ref{fig:hkl-lenComp-unsexed}).
+The first bin includes all observations less than 10 cm, 
 and the last bin includes all fish larger than 130 cm. Length compositions from this 
 survey were used as numbers of fish, all fish were measured, and were not expanded.
 As such, composition data are available for male, female, and unsexed `r spp`. 
-Figures \ref{fig:hkl-lenComp-sexed} and \ref{fig:hkl-lenComp-unsexed} shows the length 
-frequency distributions for the Hook and Line Survey. 
 Table \ref{tab:sample-size-length} show the sample sizes.
 
 #### Lam research lengths
 
-In collaboration with the NWFSC and Moss Landing Marine Labs, lingcod in nearshore 
+In collaboration with the NWFSC and Moss Landing Marine Labs, `r spp` in nearshore 
 and offshore rocky reef habitats were collected between January 2016 and January 
 2017 via hook and line on chartered CPFVs (@lam2019geographic). Sixteen latitudinal distinct sampling 
 sites, or ports, were chosen from northern Washington to southern California. 85 
@@ -106,17 +108,9 @@ stock assessment model, this major source of uncertainty is included in the asse
 results, and bias in the observation of length-at-age is avoided. 
 
 The CAAL approach was only applied for male and female `r spp` and so unsexed fish were excluded. 
-
-```{asis, opts.label = 'north'}
-This results in 60 unsexed fish excluded from the CAAL distributions, or approximately
-one percent of the aged fish.
-```
-
-```{asis, opts.label = 'south'}
-This results in 504 unsexed fish excluded from the CAAL distributions, or approximately
-15 percent of the aged fish.
-```
-
+This results in `r ifelse(params$area == "North", 60, 504)`
+unsexed fish excluded from the CAAL distributions, or approximately
+`r ifelse(params$area == "North", "one", "fifteen")` percent of the aged fish.
 Table \ref{tab:sample-size-age} show sample sizes. Sensitivities to using the CAAL
 approach were explored by replacing with marginal age distributions. 
 
@@ -133,7 +127,9 @@ Table \ref{tab:sample-size-age} shows sample sizes.
 Ages from the Hook and Line survey were available for the years 2017 - 2019. 
 The age distribution of survey catches in each year 
 was summarized using age bins from 0 to 20 years, in increments of one year. The last bin 
-includes all fished aged to be greater than 20 years. The Hook and Line Survey age-frequency data were included in the model as CAAL, and marginal age compositions were explored as sensitivities.
+includes all fished aged to be greater than 20 years.
+The Hook and Line Survey age-frequency data were included in the model as CAAL,
+and marginal age compositions were explored as sensitivities.
 Figure \ref{fig:hkl-ageComp} shows the age frequency data for the Hook and Line Survey.
 Table \ref{tab:sample-size-age} shows sample sizes.
 
