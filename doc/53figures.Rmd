@@ -233,6 +233,12 @@ caption = "Weight-length relationship for males and females from the WCGBTS",
 label = 'len-weight')
 ```
 
+```{r, results = "asis"}
+do.call(
+  sa4ss::add_figure,
+  utils::read.csv(file.path("..", "figures", "ageing-double-reads.csv"))
+)
+```
 
 <!-- ====================================================================== -->
 <!-- ******************     Recreational Length and Age Comps    ********** --> 
