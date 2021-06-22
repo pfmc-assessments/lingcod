@@ -58,13 +58,20 @@ Concurrently, \glspl{mpa} in California,
 In these areas, take of all groundfish is prohibited within specified
 depths, habitats, and locations.
 
-**todo - add more information to this paragraph**
-Monitoring of this fishery started much earlier compared to some other
-groundfish species, where `r spp` have almost always been their own
-market category for recording and sampling purposes.
-Between 2002 and 2011, observed trips were chosen by random stratified sampling.
-Since 2011, when the limited entry trawl sector became a catch share program,
-the fishery has had 100\% observer coverage.
+Monitoring of the commercial catch of `r spp` started earlier compared 
+to some other U.S. west coast groundfish species, and `r spp` have 
+almost always been their own market category for recording and sampling purposes.
+
+At-sea monitoring of the commercial catch of `r spp` began when the 
+West Coast Groundfish Observer Program (WCGOP) was started in 2002.
+Initially about 20\% of TW trips and a smaller faction of FG trips were
+randomly chosen for observer coverage. In 2011, the limited entry trawl 
+sector became a catch share program and has had 100\% observer coverage since 
+that time. In recent years electronic monitoring (EM) has replaced human 
+observers on a subset of the vessels in the limited entry trawl sector.
+The number of bottom trawl trips with EM monitoring has increased from 24 in 2015 
+to 193 in 2019 but still represents a minority of the vessels and trips.
+
 
 ### Recreational Fishery
 
