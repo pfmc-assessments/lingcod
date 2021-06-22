@@ -1,0 +1,36 @@
+### Commercial composition data
+
+Commercial length and age compositions for the TW and FG fleets were developed 
+from the PacFIN database using the PacFIN.Utilities R package (
+https://github.com/nwfsc-assess/PacFIN.Utilities/).
+
+The majority of the available length and age data were from the northern area,
+reflecting the larger commercial catches of `r spp` in the north and the 
+larger commercial sampling and ageing programs employed by WDFW and ODFW.
+
+Length and age distributions from west coast groundfish commercial fisheries
+are typically expanded to account for variability in the number of fish sampled
+per trip relative to the total catch. This allows greater weight given to samples
+from a very large trip compared to one with a small catch. However,
+the commercial data for `r spp` as representedi in the PacFIN database,
+have a large fraction of trips without trip weights. This leads to
+large variability in the expanded sample sizes among trips and implausible amounts
+of variability in the resulting composition data among length bins within a given
+fleet and year. Unexpanded data did not show the variability, so the base models
+used only unexpanded composition data for the commercial fisheries.
+
+Commercial TW length composition data started in 1965 in the north and 
+1977 in the south. Commercial FG length compositions 
+began in 1986 in the north with additional samples in 1971, 1980, 
+and 1982 and began in 1992 in the south with additional samples in 1988 and 1989.
+
+Commercial age samples covered a much wider range of years than the south, 
+with annual age samples from all 43 years starting in 1978 for TW and 35 years 
+starting in 1986 for FG. In the south model, the only commercial TW ages were 
+from 10 years within the range 1993 to 2004 and only 2 years of commercial FG 
+ages were available: 1993 and 1994. The commercial age data was processed as
+both marginal and conditional age-at-length data to allow eplorations of either
+format in the models.
+
+The number of trips was used as the input sample size for all commercial 
+composition data.
