@@ -1,12 +1,12 @@
-fleet,label_short,label_long,label_twoletter,fleets_2019.s,fleets_2019.n,used_2021.n,used_2021.s,col.n,col.s
-1_Comm_Trawl,comm. trawl,commercial trawl,TW,1_CA_TRAWL,1_N_TRAWL,TRUE,TRUE,#3E5496,#8290BB
-2_Comm_Fix,comm. fixed,commercial fixed-gear,FG,2_CA_FIX,2_N_FIX,TRUE,TRUE,#008ECE,#59C7EB
-3_Rec_WA,rec. WA,recreational Washington,WA,NA,3_WA_REC,TRUE,FALSE,#077187,#077187
-4_Rec_OR,rec. OR,recreational Oregon,OR,NA,4_OR_REC,TRUE,FALSE,#0A9086,#0A9086
-5_Rec_CA,rec. CA,recreational California,CA,3_CA_REC,NA,TRUE,TRUE,#8E2043,#BC7A8F
-6_Surv_TRI,Triennial,Triennial Survey,,4_CA_TRI_Early,5_N_TRI_Early,TRUE,TRUE,#E0607E,#ECA0B2
-6_Surv_TRI,,,,5_CA_TRI_Late,6_N_TRI_Late,TRUE,TRUE,#000000,#000000
-7_Surv_WCGBTS,WCGBTS,WCGBT Survey,,6_CA_NWFSC,7_N_NWFSC,TRUE,TRUE,#FEA090,#FECFC7
-8_Surv_HookLine,H&L Survey,Hook & Line Survey,,7_CA_HookLine,NA,FALSE,TRUE,#6AAAB7,#6AAAB7
-9_Research_Lam,Research,Lam research samples,,8_CA_Lam_Research,8_N_Lam_Research,TRUE,TRUE,#B8BCC1,#E1E2E5
-10_CPFV_DebWV,rec. DebWV,recreational CPFV DebWV,WV,NA,NA,FALSE,TRUE,#54BFB7,#54BFB7
+fleet,label_short,label_long,label_twoletter,fleets_2019.s,fleets_2019.n,used_2021.n,used_2021.s,col.n,col.s,order
+1_Comm_Trawl,comm. trawl,commercial trawl,TW,1_CA_TRAWL,1_N_TRAWL,TRUE,TRUE,#3E5496,#8290BB,2
+2_Comm_Fix,comm. fixed,commercial fixed-gear,FG,2_CA_FIX,2_N_FIX,TRUE,TRUE,#008ECE,#59C7EB,1
+3_Rec_WA,rec. WA,recreational Washington,WA,NA,3_WA_REC,TRUE,FALSE,#077187,#077187,3
+4_Rec_OR,rec. OR,recreational Oregon,OR,NA,4_OR_REC,TRUE,FALSE,#0A9086,#0A9086,4
+5_Rec_CA,rec. CA,recreational California,CA,3_CA_REC,NA,TRUE,TRUE,#8E2043,#BC7A8F,5
+6_Surv_TRI,Triennial,Triennial Survey,,4_CA_TRI_Early,5_N_TRI_Early,TRUE,TRUE,#E0607E,#ECA0B2,7
+6_Surv_TRI,,,,5_CA_TRI_Late,6_N_TRI_Late,TRUE,TRUE,#000000,#000000,7
+7_Surv_WCGBTS,WCGBTS,WCGBT Survey,,6_CA_NWFSC,7_N_NWFSC,TRUE,TRUE,#FEA090,#FECFC7,6
+8_Surv_HookLine,H&L Survey,Hook & Line Survey,,7_CA_HookLine,NA,FALSE,TRUE,#6AAAB7,#6AAAB7,8
+9_Research_Lam,Research,Lam research samples,,8_CA_Lam_Research,8_N_Lam_Research,TRUE,TRUE,#B8BCC1,#E1E2E5,9
+10_CPFV_DebWV,rec. DebWV,recreational CPFV DebWV,WV,NA,NA,FALSE,TRUE,#54BFB7,#54BFB7,10
