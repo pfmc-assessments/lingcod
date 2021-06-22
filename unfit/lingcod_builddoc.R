@@ -1,5 +1,5 @@
 # Set the directories you care about
-basemodelgrep <- "2021.[ns].005"
+basemodelgrep <- "[ns].011.005"
 
 # Set up the base model folder with figures, csv, and tables
 # Write 00mod.Rdata for each model

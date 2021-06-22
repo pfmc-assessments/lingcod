@@ -18,14 +18,19 @@ sa4ss::read_child(file.path("reccpuewa.Rmd"))
 sa4ss::read_child(file.path("reccpueor.Rmd"))
 ```
 
-### Recreational age- and length-composition data
+### Recreational length- and age-composition data
 
 ```{r render-rec-comps-n, results = "asis", eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("rec-comps-north.Rmd"))
 ```
-
 ```{r render-rec-comps-s, results = "asis", eval = grepl("South", params$area)}
 sa4ss::read_child(file.path("rec-comps-south.Rmd"))
+```
+
+### Discard data
+
+```{r render-discards, results = "asis"}
+sa4ss::read_child(file.path("discards.Rmd"))
 ```
 
 ### Unused fishery-dependent data
@@ -38,28 +43,14 @@ sa4ss::read_child(file.path("24data-notused.Rmd"))
 
 ### Survey indices
 
-```{r spin-21s-wcgbts, results = "asis"}
-sa4ss::read_child(file.path("21s-wcgbts.Rmd"))
+```{r render-surveyindices, results = "asis"}
+sa4ss::read_child(file.path("surveyindex.Rmd"))
 ```
 
-```{r spin-21s-tri, results = "asis"}
-sa4ss::read_child(file.path("21s-tri.Rmd"))
-```
+### Survey length- and age-composition data
 
-```{r spin-21s-hkl, results = "asis", eval = grepl("South", params$area)}
-sa4ss::read_child(file.path("21s-hkl.Rmd"))
-```
-
-```{r spin-21s-ccfrp, results = "asis"}
-sa4ss::read_child(file.path("21s-ccfrp.Rmd"))
-```
-
-```{r spin-21s-lam-research, results = "asis"}
-sa4ss::read_child(file.path("21s-lam-research.Rmd"))
-```
-
-```{r spin-21s-aslope, results = "asis"}
-sa4ss::read_child(file.path("21s-aslope.Rmd"))
+```{r render-surveycomp, results = "asis"}
+sa4ss::read_child(file.path("surveycomp.Rmd"))
 ```
 
 ### Unused fishery-independent data
@@ -68,5 +59,6 @@ sa4ss::read_child(file.path("21s-aslope.Rmd"))
 sa4ss::read_child(file.path("29data-notused.Rmd"))
 ```
 
-
-
+```{r render-biology, results = "asis"}
+sa4ss::read_child(file.path("22biology.Rmd"))
+```

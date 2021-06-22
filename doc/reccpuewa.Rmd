@@ -419,7 +419,7 @@ save(
 load(file_reccpuewaresults)
 ```
 
-```{r reccpuewa-index}
+```{r reccpuewa-index, echo = FALSE, warnings = FALSE}
 pred_bin<- exp(coef_year(mod_b))/(1+exp(coef_year(mod_b)))
 var_pos <- diag(vcov(mod_l))[1:length(pred_bin)]
 pred_pos <- exp(coef_year(mod_l) + (var_pos / 2))

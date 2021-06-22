@@ -14,7 +14,7 @@ described in Section {\ref biology}.
 
 [enter in index information here]
 
-### \acrlong{s-tri}
+#### \acrlong{s-tri}
 
 The \gls{s-tri} was first conducted by the \gls{afsc} in 1977, and the survey continued until 2004 [@weinberg_2001_2002].
 Its basic design was a series of equally-spaced east-to-west transects across the continential shelf from which searches for tows in a specific depth range were initiated.
@@ -42,7 +42,7 @@ sensitivity.
 
 [enter in index information here]
 
-### NWFSC Hook and Line Survey
+#### NWFSC Hook and Line Survey
 
 [NEED TO COMFIRM WITH HARMS THIS WRITE UP IS APPROPRIATE FOR LINGCOD. I BORROWED FROM COPPER ROCKFISH SOUTH WRITE UP]
 
