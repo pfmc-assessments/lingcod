@@ -3,8 +3,8 @@
 verbose <- TRUE
 
 # create new directories with input files
-for (area in c("n", "s")) {
-#for (area in c("n")) {
+#for (area in c("n", "s")) {
+for (area in c("s")) {
 
   if(area == "n") {
     # data file model with unexpanded comp data (num = 4, sens = 4)
@@ -12,17 +12,18 @@ for (area in c("n", "s")) {
     # + remove extra Rec_OR index (num = 4, sens = 8)
     olddir <- get_dir_ling(area = area, num = 4, sens = 9) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 11, sens = 6)
+    newdir <- get_dir_ling(area = area, num = 13, sens = 2)
     # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 11, sens = 2)
+    tuningdir <- get_dir_ling(area = area, num = 11, sens = 8)
   }
   if(area == "s") {
     # data file model with unexpanded comp data (num = 4, sens = 4)
-    olddir <- get_dir_ling(area = area, num = 4, sens = 9) 
+    #    olddir <- get_dir_ling(area = area, num = 4, sens = 9)
+        olddir <- get_dir_ling(area = area, num = 4, sens = 10) 
     # new directory
-    newdir <- get_dir_ling(area = area, num = 11, sens = 6)
+    newdir <- get_dir_ling(area = area, num = 12, sens = 5)
     # specific model from which to get the tunings (from the control file)
-    tuningdir <- get_dir_ling(area = area, num = 11, sens = 2)
+    tuningdir <- get_dir_ling(area = area, num = 11, sens = 8)
   }
 
   # copy all inputs to new files
@@ -52,14 +53,31 @@ for (area in c("n", "s")) {
                                  HI = 0.8,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 18),
-                                 PR_SD = 0.438/2)
+                                 PR_SD = 0.438)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
                                  string = "NatM_.*_Mal",
                                  HI = 0.8,
                                  PHASE = 7,
                                  PRIOR = log(5.4 / 13),
-                                 PR_SD = 0.438/2)
+                                 PR_SD = 0.438)
 
+  # estimate steepness in one-off sensitivity model
+  if (grepl("fix_oldM", newdir)) {
+    newctl$MG_parms <- change_pars(newctl$MG_parms,
+                                   string = "NatM_.*_Fem",
+                                   INIT = round(5.4 / 21, 3),
+                                   PHASE = -7,
+                                   PRIOR = log(5.4 / 21),
+                                   PR_SD = 0.438)
+    newctl$MG_parms <- change_pars(newctl$MG_parms,
+                                   string = "NatM_.*_Fem",
+                                   INIT = round(5.4 / 21, 3),
+                                   PHASE = -7,
+                                   PRIOR = log(5.4 / 21),
+                                   PR_SD = 0.438)
+  }  
+  
+  
   # set L_at_Amin for females to phase 1 to avoid "no active parameter"
   # error associated with R0 profile (previously R0 was only phase 1 param)
   newctl$MG_parms <- change_pars(newctl$MG_parms,
@@ -243,13 +261,15 @@ for (area in c("n", "s")) {
         LO = -1, HI = 15, INIT = 7, PHASE = 3
       )
 
-    ## # force fixed-gear fishery to be asymptotic (was already estimated
-    ## # that way for 2021.n.009.001 but not for equivalent south model)
-    ## newctl[[tab]] <-
-    ##   change_pars(
-    ##     pars = newctl[[tab]], string = "SizeSel_P_4_2_Comm_Fix",
-    ##     LO = -1, HI = 15, INIT = 15, PHASE = -3
-    ##   )
+    # force fixed-gear fishery to be asymptotic (was already estimated
+    # that way for 2021.n.009.001 but not for equivalent south model)
+    if (grepl("asymptotic_FG", newdir)) {
+      newctl[[tab]] <-
+        change_pars(
+          pars = newctl[[tab]], string = "SizeSel_P_4_2_Comm_Fix",
+          LO = -1, HI = 15, INIT = 15, PHASE = -3
+        )
+    }
     
     # initial scale
     newctl[[tab]] <-
@@ -398,6 +418,8 @@ for (area in c("n", "s")) {
                                   INIT = 0,
                                   PHASE = -2)
   }
+  # TODO: turn off extraSD parameters hitting lower bound in north model
+  
   # apply the blocks to the appropriate parameters
   fleets <- get_fleet()
   for (f in fleets$num) {
@@ -482,6 +504,12 @@ for (area in c("n", "s")) {
   if (exists("tuningdir")) {
     newctl$Variance_adjustment_list <-
       get_inputs_ling(dir = tuningdir)$ctl$Variance_adjustment_list
+    if (grepl("fewer_ages", newdir)) {
+      # remove unneeded tunings
+      inputs$ctl$Variance_adjustment_list <-
+        inputs$ctl$Variance_adjustment_list %>%
+        dplyr::filter(Factor != 5 | Fleet == 7)
+    }
   } else {
     # alternatively set to 100% for all values
     newctl$Variance_adjustment_list$Value <- 1.0
@@ -538,8 +566,8 @@ if(FALSE){ # stuff to never just source with the rest of the file
   ### applying Francis weighting to model number 8 in each area
   # copy all files, including output files
   for (area in c("n", "s")) {
-    olddir <- get_dir_ling(area = area, num = 11, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 11, sens = 2)
+    olddir <- get_dir_ling(area = area, num = 12, sens = 3)
+    newdir <- get_dir_ling(area = area, num = 12, sens = 4)
     fs::dir_copy(olddir, newdir)
   }
 
@@ -549,20 +577,24 @@ if(FALSE){ # stuff to never just source with the rest of the file
   ##                     extras = c("-nohess"),
   ##                     skipfinished = FALSE)
   
-  # read model results from copied models into R
-
-  
-  # run tune_comps function without estimating anything to get model output files
+  # run tune_comps function
   # then run them separately in a command window
-  get_mod(area = "n", num = 11, sens = 2, plot = FALSE)
-  r4ss::SS_tune_comps(mod.2021.n.011.002,
-                      dir = mod.2021.n.011.002$inputs$dir,
+  setwd("c:/SS/Lingcod/Lingcod_2021")
+  devtools::load_all()
+  get_mod(area = "n", num = 11, sens = 8, plot = FALSE)
+  r4ss::SS_tune_comps(mod.2021.n.011.008,
+                      dir = mod.2021.n.011.008$inputs$dir,
+                      #option = "DM",
                       option = "Francis",
                       niters_tuning = 1,
                       extras = "-nohess")
-  get_mod(area = "s", num = 11, sens = 2, plot = FALSE)
-  r4ss::SS_tune_comps(mod.2021.s.011.002,
-                      dir = mod.2021.s.011.002$inputs$dir,
+
+  setwd("c:/SS/Lingcod/Lingcod_2021")
+  devtools::load_all()
+  get_mod(area = "s", num = 12, sens = 4, plot = FALSE)
+  r4ss::SS_tune_comps(mod.2021.s.012.004,
+                      dir = mod.2021.s.012.004$inputs$dir,
+                      #option = "DM",
                       option = "Francis",
                       niters_tuning = 1,
                       extras = "-nohess")

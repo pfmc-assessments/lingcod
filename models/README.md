@@ -54,6 +54,7 @@ name | notes | issue | source_model | script
 2021.n.004.008_remove_extra_index | recORCPFV got added by accident | #20, #59 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
 2021.n.004.009_fix_duplicate_CAAL | CAAL for TW and FG were the same | #80 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
 2021.s.004.009_fix_duplicate_CAAL | CAAL for TW and FG were the same | #80 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
+2021.s.004.010_fewer_ages | remove ages for all but WCGBTS |  | 2021.n.004.009 | lingcod_model_bridging_newdata.R, remove_south_ages.R
 2021.n.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.s.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.s.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.n.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
@@ -103,5 +104,14 @@ name | notes | issue | source_model | script
 2021.s.011.004_Mprior_est_h | divide sd of M prior by 2 and estimate steepness | #80 | 2021.n.011.002 | lingcod_model_bridging_change_ctl.R
 2021.n.011.005_Rec_CA_blocks | add blocks to Rec_CA catch and Q | #80 | 2021.n.011.003 | lingcod_model_bridging_change_ctl.R
 2021.s.011.005_Rec_CA_blocks | add blocks to Rec_CA catch and Q | #80 | 2021.s.011.003 | lingcod_model_bridging_change_ctl.R
-2021.n.011.006_fewer_recdevs | add blocks to Rec_CA catch and Q | #80 | 2021.n.011.005 | lingcod_model_bridging_change_ctl.R
-2021.s.011.006_fewer_recdevs | add blocks to Rec_CA catch and Q | #80 | 2021.s.011.005 | lingcod_model_bridging_change_ctl.R
+2021.n.011.006_fewer_recdevs | turn off recdevs prior to 1980 | #80 | 2021.n.011.005 | lingcod_model_bridging_change_ctl.R
+2021.s.011.006_fewer_recdevs | turn off recdevs prior to 1980 | #80 | 2021.s.011.005 | lingcod_model_bridging_change_ctl.R
+2021.n.011.007_DM | apply DM tuning to 011.005 models | #80 | 2021.n.011.005 | lingcod_model_bridging_change_ctl.R
+2021.s.011.007_DM | apply DM tuning to 011.005 models | #80 | 2021.s.011.005 | lingcod_model_bridging_change_ctl.R
+2021.n.011.008_Francis | apply Francis tuning to 011.005 models |   | 2021.n.011.005 | lingcod_model_bridging_change_ctl.R
+2021.s.011.008_Francis | apply Francis tuning to 011.005 models |   | 2021.s.011.005 | lingcod_model_bridging_change_ctl.R
+2021.s.011.010_asymptotic_FG | force fixed-gear selectivity asymptotic |   | 2021.s.011.008 | lingcod_model_bridging_change_ctl.R
+2021.s.012.001_fewer_ages | remove the CAAL from all but WCGBTS |   | 2021.s.011.008 | lingcod_model_bridging_change_ctl.R, remove_ages_south.R
+2021.s.012.002_fewer_ages_fix_oldM | remove the CAAL from all but WCGBTS and fix M at old value |   | 2021.s.012.001 | lingcod_model_bridging_change_ctl.R
+2021.s.012.003_fewer_ages_wide_M_prior | remove the CAAL from all but WCGBTS and restore the original 2021 M priors |   | 2021.s.012.001 | lingcod_model_bridging_change_ctl.R, remove_ages_south.R
+2021.s.012.004_fewer_ages_wide_M_prior_Francis | Francis tuning to model 2021.s.012.003. |   | 2021.s.012.001 | lingcod_model_bridging_change_ctl.R, remove_ages_south.R
