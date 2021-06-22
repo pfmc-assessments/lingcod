@@ -17,27 +17,22 @@ do.call(
 
 ![Estimated smoother of latitude (decimal degrees) for age-7 female fish when fitting length-at-age data.\label{fig:Lam-kapurage7latitude}](../figures/Lam-kapurage7latitude.png){width=100% height=100% alt="Change point was estimated at 38 degrees N latitude."}
 
+
+<!-- ====================================================================== -->
+<!-- 20Data figures -->
+<!-- ====================================================================== -->
+
 ```{r, results = "asis"}
-sa4ss::add_figure(
-  filein = file.path(params$model, "plots", "data_plot.png"),
-  caption = "Summary of data sources used in the base model",
-  alt_caption = "Dots for each year a source of data is available",
-  label = "data-plot"
-)
+add_figure_ling(csv=figurecsv, "data_plot$")
 ```
 
 ```{r, catch-figures, results = "asis"}
 # Arrange figures in order of the time they were modified
-figdataframe <- dplyr::bind_rows(mapply(
+add_figure_ling(dplyr::bind_rows(mapply(
   FUN = utils::read.csv,
   file = dir(file.path("..","figures"), pattern = "^catch-.+\\.csv",full.names=TRUE),
   SIMPLIFY = FALSE
-))
-figdataframe[, "time"] <- file.info(figdataframe[["filein"]])[["mtime"]]
-ignore <- apply(
-  figdataframe %>% dplyr::arrange(time) %>% dplyr::select(-time),
-  1,
-  function(x) do.call(sa4ss::add_figure, args = as.list(x))
+)) %>% dplyr::arrange(file.info(filein)$mtime)
 )
 ```
 
@@ -63,11 +58,6 @@ ignore <- apply(
 
 ```
 
-
-<!-- ====================================================================== -->
-<!-- ******************     20Data figures     **************************** --> 
-<!-- ====================================================================== -->
-
 <!-- WCGBTS -->
 
 ```{r, echo=FALSE, results='asis'}
@@ -78,38 +68,19 @@ caption = paste0("Presence/absence of ", spp, " in the WCGBTS by 25 m depth incr
 label = 'wcgbts-presAbs')
 ```
 
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
-nm = "WCGBTS - North _Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the WCGBTS"),
-label = 'wcgbts-lenComp')
-```
+```{r, results = "asis"}
+get_fleet("Surv|Res") %>% dplyr::arrange(order) %>%
+dplyr::mutate(dplyr::case_when(
 
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "WCGBTS - South _Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the WCGBTS"),
-label = 'wcgbts-lenComp')
+))
+for (iisurvey in )
+ignore <- mapply(FUN = sa4ss::add_figure,
+  filein = file.path("..", "figures",
+    paste0("WCGBTS - ", params$area, " _", c("Length", "Age"), "_Frequency.png")),
+  caption = paste0(c("Length", "Age"), " frequency for males and females in the \\glsentrylong{wcgbts} (\\glsentryshort{wcgbts})."),
+  label = paste0("wcbts-", c("len", "age"), "Comp")
+)
 ```
-
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
-nm = "WCGBTS - North _Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the WCGBTS"),
-label = 'wcgbts-ageComp')
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "WCGBTS - South _Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the WCGBTS"),
-label = 'wcgbts-ageComp')
-```
-
 
 <!-- Triennial -->
 
