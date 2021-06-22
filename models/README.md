@@ -54,7 +54,11 @@ name | notes | issue | source_model | script
 2021.n.004.008_remove_extra_index | recORCPFV got added by accident | #20, #59 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
 2021.n.004.009_fix_duplicate_CAAL | CAAL for TW and FG were the same | #80 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
 2021.s.004.009_fix_duplicate_CAAL | CAAL for TW and FG were the same | #80 | 2021.n.002.001_new_fleets | lingcod_model_bridging_newdata.R
-2021.s.004.010_fewer_ages | remove ages for all but WCGBTS |  | 2021.n.004.009 | lingcod_model_bridging_newdata.R, remove_south_ages.R
+2021.s.004.010_fewer_ages | remove ages for all but WCGBTS |  | 2021.s.004.009 | lingcod_model_bridging_newdata.R, remove_south_ages.R
+2021.n.004.011_fewer_ages_scripted | remove ages for all but WCGBTS using the full workflow | #80, #83 | 2021.n.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
+2021.s.004.011_fewer_ages_scripted | remove ages for all but WCGBTS using the full workflow | #80, #83 | 2021.s.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
+2021.n.004.012_marginal_ages | marginal ages for all but WCGBTS |  | 2021.n.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
+2021.s.004.012_marginal_ages | marginal ages for all but WCGBTS |  | 2021.s.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
 2021.n.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.s.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.s.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.n.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
@@ -115,3 +119,9 @@ name | notes | issue | source_model | script
 2021.s.012.002_fewer_ages_fix_oldM | remove the CAAL from all but WCGBTS and fix M at old value |   | 2021.s.012.001 | lingcod_model_bridging_change_ctl.R
 2021.s.012.003_fewer_ages_wide_M_prior | remove the CAAL from all but WCGBTS and restore the original 2021 M priors |   | 2021.s.012.001 | lingcod_model_bridging_change_ctl.R, remove_ages_south.R
 2021.s.012.004_fewer_ages_wide_M_prior_Francis | Francis tuning to model 2021.s.012.003. |   | 2021.s.012.001 | lingcod_model_bridging_change_ctl.R, remove_ages_south.R
+2021.s.012.005_reverse_profiles | same as 12.004 but for runnig profiles in reverse |   | 2021.s.012.004 | lingcod_model_bridging_change_ctl.R
+2021.n.014.001_esth | estimate h with prior | #83, #85 | 2021.n.011.008 | lingcod_model_bridging_change_ctl.R, esth.R
+2021.s.014.001_esth | estimate h with prior | #83, #85 | 2021.s.012.004 | lingcod_model_bridging_change_ctl.R, esth.R
+2021.n.014.002_marginals | sensitivity to including ages as marginals | #80, #83 | 2021.n.014.001 | lingcod_model_bridging_change_ctl.R, model_bridging_change_ages.R
+2021.s.014.002_marginals | sensitivity to including ages as marginals | #80, #83 | 2021.s.014.001 | lingcod_model_bridging_change_ctl.R, model_bridging_change_ages.R
+2021.n.014.003_fewer_ages | north model equivalent of 2021.s.014.001  | #80, #83 | 2021.n.014.001 | lingcod_model_bridging_change_ctl.R,  model_bridging_change_ages.R
