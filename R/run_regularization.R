@@ -8,7 +8,7 @@
 #'
 #' @template dirbase
 #' @param interaction A logical value specifying if you want to run the
-#' [shinystan::launch_shinyadmb].
+#' [adnuts::launch_shinyadmb].
 #' @param verbose A logical value specifying if information should be printed
 #' to the screen or not.
 #'

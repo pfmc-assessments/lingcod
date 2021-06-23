@@ -14,7 +14,7 @@ needs to be full or relative to your current location.}
 to the screen or not.}
 
 \item{interaction}{A logical value specifying if you want to run the
-\link[shinystan:launch_shinyadmb]{shinystan::launch_shinyadmb}.}
+\link[adnuts:launch_shinyadmb]{adnuts::launch_shinyadmb}.}
 }
 \description{
 Started Feb 2021 by Cole Monnahan (cole.monnahan@noaa.gov | AFSC)
