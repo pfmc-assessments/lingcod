@@ -1,47 +1,101 @@
-# Assessment Model
+# Model
 
-## Summary of Previous Assessments and Reviews
+## Previous assessments and reviews
+
+### History of modeling approaches
+
+There have been six assessments of `r spp` since 1986
+covering part or all of the West Coast of the United States.
+Adams (1986) conducted a yield per recruit analysis.
+Jagielo (1994) conducted an age-structured assessment of the status of the
+`r spp` stock between
+Cape Falcon in Northern Oregon to
+49\textdegree N latitude
+(off of southwest Vancouver Island in British Columbia - PMFC areas 3A, 3B, and 3C, including Canada),
+using the Stock Synthesis program (Methot, 1990).
+Data included trawl and recreational catch from 1979-1993
+with equilibrium catch before then,
+triennial shelf survey and trawl CPUE indices, and
+length- and age-frequency data.
+The final spawning output levels were estimated to be about
+20\% of pristine levels, and
+catch level recommendations ranged between 2500 and 3000 mt
+based on F40\% to F20\%.
+The 1997 assessment (Jagielo et al.1997) expanded the area
+south to Cape Blanco (42\textdegree 50\textquotesingle N latitude) and
+retained the northern boundary of 49\textdegree 00\textquotesingle N latitude
+using a Stock Synthesis model.
+Depletion in spawning output in this model was below 10\% for 1997.
+Adams et al. (1999), conducted a length-based, age-structured population model
+implemented in AD Model Builder (ADMB, Fournier 1996) for the southern area,
+which had not yet been assessed (Eureka, Monterey, and Conception INPFC areas).
+Jagielo et al. (2000) conducted age structured models in ADMB
+for two areas of the U.S.,
+U.S. Vancouver-Columbia (no longer including Canadian waters) and
+Eureka, Monterey, and Conception INPFC areas.
+Jagielo et al. (2003) conducted age structured assessments
+for the two areas using Coleraine.
+Jagielo et al. (2005) conducted age structured assessments for the two areas
+using Stock Synthesis 2 (SS2).
+They found that the northern stock had recovered substantially
+from a low point in the 1990s and was at 87\% depletion,
+while the southern area had not recovered as well and was at 24\% depletion,
+with a 64\% coast-wide depletion.
+
+The 2009 stock assessment, which used Stock Synthesis 2,
+divided the northern (Washington and Oregon) and southern (California) stocks
+by state line [@hamel2009].
+The point estimate for the spawning stock depletion at the start of 2009 was
+61.9\% for the northern area, 73.7\% for the southern area,
+indicating the stock was recovered.
+The axis of uncertainty for the decision table provided to managers was
+natural mortality for the north,
+with the base model $M$ = 0.18 for females and 0.32 for males.
+The “Low M” alternative used $M$ = 0.16 and 0.285 for females and males respectively,
+and the “High M” alternative used $M$ = 0.20 and 0.355.
+The axis of uncertainty for the South model was for the high alternative including age data,
+and for the low alternative excluding the dockside recreational CPUE index.
+The 2009 stock assessment removed all age data due to
+issues with outliers and possible aging bias.
+The northern and southern models were made as equivalent as possible
+by keeping fixed and estimated parameters largely the same for the two assessments.
+Natural mortality was fixed at 0.18 for females and 0.32 for males in both assessments,
+while stock-recruitment steepness was fixed at 0.8.
+
+** to do - summary of the 2017 and 2019 assessments **
+
+### Most recent STAR panel and SSC recommendations
 
 
 
-### History of Modeling Approaches (not required for an update assessment)
+### Response to Groundfish Subcommittee recommendations
 
 
 
-### Most Recent STAR Panel and SSC Recommendations (not required for an update assessment)
+## Model structure and assumptions
+
+### Model changes from the last assessment
 
 
-### Response to Groundfish Subcommittee Requests (not required in draft)
+
+### General model specifications
 
 
-## Model Structure and Assumptions
-
-
-### Model Changes from the Last Assessment (not required for an update assessment)
-
-
-### Modeling Platform and Structure
-
-General model specifications (e.g., executable version, model structure, definition of fleets and areas)
 
 ### Model Parameters
 
-Describe estimated vs. fixed parameters, priors
-
-### Key Assumptions and Structural Choices
 
 
-## Base Model Results
-
-### Parameter Estimates
+### Base model selection
 
 
-### Fits to the Data
+
+### Base model evaluation
 
 
-### Population Trajectory
+### Base model results
 
 
-### Reference Points
+### Evaluation of uncertainty
 
 
