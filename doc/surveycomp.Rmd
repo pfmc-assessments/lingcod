@@ -63,7 +63,7 @@ explicit regions. Of the total fish samples, 32 were sampled on CCFRP trips and 
 counting were excluded. Four addition samples had no year associated with them, and
 were excluded. Length compositions from this survey were used as numbers of fish, 
 and were not expanded. Lengths were measured in total length, and were converted to
-fork length following conversions from Laidig et al. @Laidig_conversion. Total
+fork length following conversions from Laidig et al. [-@laidig_lingcod_conversions_1997]. Total
 and fork lengths for `r spp` were generally very similar given the tail shape 
 of `r spp`. 
 Figure \ref{fig:lam-lenComp} shows the length frequency distributions. 

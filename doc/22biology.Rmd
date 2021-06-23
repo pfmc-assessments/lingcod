@@ -100,7 +100,7 @@ $W=$`r format(lw_ests$North_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw
 $W=$`r format(lw_ests$South_NWFSC.Combo_F[1], scientific = TRUE)`$L^`r format(lw_ests$South_NWFSC.Combo_F[2], scientific = TRUE)` for females, and 
 $W=$`r format(lw_ests$South_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw_ests$South_NWFSC.Combo_M[2], scientific = TRUE)` for males 
 ```
-(Figure \ref{fig:len-weight}). These relationships are very similar to those used for the previous assessment (@haltuch2019lingcod).
+(Figure \ref{fig:len-weight}). These relationships are very similar to those used for the previous assessment (@haltuch_2017_2018).
 
 
 ### Growth (length-at-age)
@@ -127,7 +127,7 @@ This range is in agreement with the genetic break point identified for
 
 `r Spp` display sexually dimorphic growth.
 Females grow faster than and reach larger sizes than males.
-Jagielo (1994) estimated growth using a fixed length at age 1 of 30 cm,
+@jagielo_lingcod_1994 estimated growth using a fixed length at age 1 of 30 cm,
 and estimated $L_{\infty}$ for males of 93.21 cm and females of 131.05 cm,
 and $k$ of 0.1694 for males and 0.1137 for females.
 He also found that the average length for young-of-the-year (age-0)
