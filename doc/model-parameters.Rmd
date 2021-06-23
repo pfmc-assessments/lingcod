@@ -1,0 +1,40 @@
+### Priors
+
+[TO DO: add here]
+
+### Estimated Parameters
+
+A full list of all estimated and fixed parameters is provided in Table XXX. 
+
+```{r parameters, include = FALSE, eval = TRUE, cache = TRUE}
+# get parameter names from base model
+estimated_pars <- mod.base$parameters %>%
+  dplyr::filter(!is.na(Active_Cnt)) %>%
+  rownames()
+```
+
+The base model has a total of `r length(estimated_pars)` estimated parameters 
+in the following categories:
+
+- 2 natural mortality parameters (female and male $M$)
+- 10 growth parameters, where females and males each had
+  - 3 von Bertalanffy parameters (length at age 0.5, length at age 14, and $k$)
+  - 2 parameters controlling variability in growth, the CV in length at age 0.5
+  and the CV in length at age 14 with a linear ramp in length-at-age.
+- 2 stock-recruit parameter
+  - $log(R_0)$ controlling equilibrium recruitment
+  - $h$ controlling the steepness of the stock-recruit relationship
+- `r sum(sum(grepl("Q_extra", estimated_pars)))` extra standard deviation parameters
+for indices
+- `r sum(grepl("Size_DblN", estimated_pars))` selectivity parameters of which
+`r sum(grepl("Size_DblN.*BLK", estimated_pars))` represented changes over time
+- `r sum(sum(grepl("Retain", estimated_pars)))` retention parameters of which
+`r sum(grepl("Retain.*BLK", estimated_pars))` represented changes over time
+
+The estimated parameters are described in greater detail below and a full list of 
+all estimated and fixed parameters is provided in Table XXX.
+
+[TO DO: add here]
+
+### Fixed Parameters
+
