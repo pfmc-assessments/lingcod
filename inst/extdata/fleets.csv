@@ -6,7 +6,7 @@ fleet,label_short,label_long,label_twoletter,fleets_2019.s,fleets_2019.n,used_20
 5_Rec_CA,rec. CA,recreational California,CA,3_CA_REC,NA,TRUE,TRUE,#8E2043,#BC7A8F,5,
 6_Surv_TRI,Triennial,Triennial Survey,,4_CA_TRI_Early,5_N_TRI_Early,TRUE,TRUE,#E0607E,#ECA0B2,7,s-tri
 6_Surv_TRI,,,,5_CA_TRI_Late,6_N_TRI_Late,TRUE,TRUE,#000000,#000000,7,s-tri
-7_Surv_WCGBTS,WCGBTS,WCGBT Survey,,6_CA_NWFSC,7_N_NWFSC,TRUE,TRUE,#FEA090,#FECFC7,6,s-wcgbts
+7_Surv_WCGBTS,WCGBTS,WCGBT Survey,,6_CA_NWFSC,7_N_NWFSC,TRUE,TRUE,#FEA090,#FECFC7,6,s-wcgbt
 8_Surv_HookLine,H&L Survey,Hook & Line Survey,,7_CA_HookLine,NA,FALSE,TRUE,#6AAAB7,#6AAAB7,8,s-hkl
 9_Research_Lam,Research,Lam research samples,,8_CA_Lam_Research,8_N_Lam_Research,TRUE,TRUE,#B8BCC1,#E1E2E5,9,
 10_CPFV_DebWV,rec. DebWV,recreational CPFV DebWV,WV,NA,NA,FALSE,TRUE,#54BFB7,#54BFB7,10,
