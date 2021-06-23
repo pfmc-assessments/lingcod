@@ -12,6 +12,9 @@ sa4ss::read_child(file.path("catch.Rmd"))
 
 ### \Glsentrylong{cpue}
 
+```{r render-cpue-pacfin, results = "asis"}
+sa4ss::read_child(file.path("commcpuepacfin.Rmd"))
+```
 ```{r render-cpue, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("commcpueor.Rmd"))
 sa4ss::read_child(file.path("reccpuewa.Rmd"))
