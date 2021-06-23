@@ -13,6 +13,9 @@
 #' add_figure_ling(csv=figurecsv, "data_plot")
 #' }
 add_figure_ling <- function(csv, grep = ".+", caption, alt_caption) {
+  if ("loc" %in% colnames(csv) & !("filein" %in% colnames(csv))) {
+    csv[, "loc"] <- file.path(csv[["loc"]], paste0(csv[["label"]], ".png"))
+  }
   info <- csv %>%
     dplyr::filter(grepl(grep, label)) %>%
     dplyr::rename_with(

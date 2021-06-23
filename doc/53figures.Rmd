@@ -6,6 +6,12 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 \floatplacement{figure}{H}
 # Figures
 
+```{r, setup-plotinfotable}
+figurecsv <- utils::read.csv(
+  file.path("..", "models", params$model, "plots", "plotinfotable_for_doc.csv")
+)
+```
+
 ```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
@@ -36,26 +42,12 @@ add_figure_ling(dplyr::bind_rows(mapply(
 )
 ```
 
-```{r, cpue-figures-north, results = "asis", opts.label = "north"}
+```{r, cpue-figures-north, results = "asis", opts.label = "north", echo = FALSE}
 # Use figures-cpue.csv to bring in ordered set of figures
 figures_cpuedata <- utils::read.csv(file.path("..", "figures", "figures_cpue.csv"))
-ignore <- apply(
-  figures_cpuedata %>% dplyr::filter(grepl("cpue-commercialfixed", label)),
-  1,
-  function(x) do.call(sa4ss::add_figure, args = as.list(x))
-)
-ignore <- apply(
-  utils::read.csv(file.path("..", "figures", "reccpuewa.csv")),
-  1,
-  function(x) do.call(sa4ss::add_figure, args = as.list(x))
-)
-ignore <- apply(
-  figures_cpuedata %>% dplyr::filter(grepl("cpue-recreationalOregon", label)),
-  1,
-  function(x) do.call(sa4ss::add_figure, args = as.list(x))
-)
-
-
+add_figure_ling(figures_cpuedata %>% dplyr::filter(grepl("cpue-commercialfixed", label)))
+add_figure_ling(utils::read.csv(file.path("..", "figures", "reccpuewa.csv")))
+add_figure_ling(figures_cpuedata %>% dplyr::filter(grepl("cpue-recreationalOregon", label)))
 ```
 
 <!-- WCGBTS -->
@@ -64,21 +56,24 @@ ignore <- apply(
 nm = "WCGBTS_presence_absence_by_depth_bin.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", nm),
-caption = paste0("Presence/absence of ", spp, " in the WCGBTS by 25 m depth increments"),
+caption = paste0("Presence/absence of ", spp, " in the  \\glsentrylong{s-wcgbt} (\\glsentryshort{s-wcgbt}) by 25 m depth increments"),
 label = 'wcgbts-presAbs')
 ```
 
-```{r, results = "asis"}
-get_fleet("Surv|Res") %>% dplyr::arrange(order) %>%
-dplyr::mutate(dplyr::case_when(
+<!-- WCGBTS -->
 
-))
-for (iisurvey in )
+```{r, results = "asis"}
 ignore <- mapply(FUN = sa4ss::add_figure,
   filein = file.path("..", "figures",
     paste0("WCGBTS - ", params$area, " _", c("Length", "Age"), "_Frequency.png")),
-  caption = paste0(c("Length", "Age"), " frequency for males and females in the \\glsentrylong{wcgbts} (\\glsentryshort{wcgbts})."),
+  caption = paste0(c("Length", "Age"), "-frequency data for males and females in the \\glsentrylong{s-wcgbt} (\\glsentryshort{s-wcgbt})."),
   label = paste0("wcbts-", c("len", "age"), "Comp")
+)
+ignore <- mapply(FUN = sa4ss::add_figure,
+  filein = file.path("..", "figures",
+    paste0("Triennial - ", params$area, " _", c("Length", "Age"), "_Frequency.png")),
+  caption = paste0(c("Length", "Age"), "-frequency data for males and females in the \\glsentrylong{s-tri} (\\glsentryshort{s-tri})."),
+  label = paste0("tri-", c("len", "age"), "Comp")
 )
 ```
 
@@ -93,115 +88,53 @@ caption = paste0("Raw catch per unit effort in positive tows by depth in
 label = 'tri-depthSplit')
 ```
 
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
-nm = "Triennial - North _Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the Triennial survey"),
-label = 'tri-lenComp')
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "Triennial - South _Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the Triennial survey"),
-label = 'tri-lenComp')
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
-nm = "Triennial - North _Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the Triennial survey"),
-label = 'tri-ageComp')
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "Triennial - South _Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Length frequency for male and females in the Triennial survey"),
-label = 'tri-ageComp')
-```
-
-
 <!-- Hook and Line -->
 
 ```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "HNL lengths Male-Female_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length frequency for male and females in the Hook and Line survey",
-label = 'hkl-lenComp-sexed')
-```
+ignore <- mapply(FUN = sa4ss::add_figure,
+  filein = file.path("..", "figures",
+    paste0(c(
+      "HNL lengths Male-Female_Length",
+      "HNL lengths Unsexed_Length",
+      "Hook and Line_Age"
+    ), "_Frequency.png")
+  ),
+  caption = paste0(
+    c("Length", "Length", "Age"),
+    "-frequency data for ",
+    c("males and females ", "unsexed fish ", "males and females "),
+    "in the ", sprintf("\\glsentrylong{s-%1$s} (\\glsentryshort{s-%1$s}).", "hkl")
+  ),
+  label = paste0("hkl-", c("len", "len", "age"), "Comp", c("-sexed", "-unsexed", ""))
+)
 
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "HNL lengths Unsexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length frequency for unsexed fish in the Hook and Line survey",
-label = 'hkl-lenComp-unsexed')
 ```
-
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "Hook and Line_Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Age frequency for male and females in the Hook and Line survey",
-label = 'hkl-ageComp')
-```
-
 
 <!-- Lam research -->
 
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
-nm = "Lam Thesis lengths Male-Female North_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length frequency for male and females from Lam research data",
-label = 'lam-lenComp')
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
+```{r, echo=FALSE, results='asis'}
 nm = "Lam Thesis lengths Male-Female South_Length_Frequency.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", nm),
-caption = "Length frequency for male and females from Lam research data",
+caption = "Length-frequency data for male and females from Lam Research data",
 label = 'lam-lenComp')
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
 nm = "Lam Thesis ages Male-Female South_Age_Frequency.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", nm),
-caption = "Age frequency for male and females from Lam research data",
-label = 'lam-ageComp')
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "Lam Thesis ages Male-Female South_Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Age frequency for male and females from Lam research data",
+caption = "Age-frequency data for male and females from Lam Research data",
 label = 'lam-ageComp')
 ```
 
 <!--- Oregon hook and line in marine reserves, index not used -->
-```{r, results = "asis", opts.label = "north"}
-# Use figures-fi-index-ormarres.csv to bring in ordered set of figures
-ignore <- apply(
-  utils::read.csv(file.path("..", "figures", "figures-fi-index-ormarres.csv")),
-  1,
-  function(x) do.call(sa4ss::add_figure, args = as.list(x))
-)
+```{r, results = "asis", opts.label = "north", echo = FALSE}
+add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-ormarres.csv")))
 ```
 
 <!-- ====================================================================== -->
-<!-- ******************     Biology Figures     **************************** --> 
+<!-- Biology Figures -->
 <!-- ====================================================================== -->
 
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
+```{r, echo=FALSE, results='asis'}
 nm = "Length_Weight_Combo_North.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", "biology_exploration", nm),
@@ -209,123 +142,54 @@ caption = "Weight-length relationship for males and females from the WCGBTS",
 label = 'len-weight')
 ```
 
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "Length_Weight_Combo_South.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", "biology_exploration", nm),
-caption = "Weight-length relationship for males and females from the WCGBTS",
-label = 'len-weight')
-```
-
 ```{r, results = "asis"}
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path("..", "figures", "ageing-double-reads.csv"))
-)
+add_figure_ling(utils::read.csv(file.path("..", "figures", "ageing-double-reads.csv")))
 ```
 
 <!-- ====================================================================== -->
-<!-- ******************     Recreational Length and Age Comps    ********** --> 
+<!-- Recreational Length and Age Comps -->
 <!-- ====================================================================== -->
 
 ```{r, echo=FALSE, results='asis', opts.label = 'north'}
-##
-#Lenghts
-##
-
-nm = "WA Recreational - Sexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the Washington recreational fleet for males and females",
-label = 'wa-lencomp-sexed')
-
-nm = "WA Recreational - Unsexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the Washington recreational fleet for unsexed fish",
-label = 'wa-lencomp-unsexed')
-
-
-nm = "OR Recreational - Sexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the Oregon recreational fleet for males and females",
-label = 'or-lencomp-sexed')
-
-nm = "OR Recreational - Unsexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the Oregon recreational fleet for unsexed fish",
-label = 'or-lencomp-unsexed')
-
-
-nm = "CA North Recreational - Sexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the California recreational fleet north of 40 degrees 10 minuts N lattidue for males and females",
-label = 'ca-lencomp-sexed')
-
-nm = "CA North Recreational - Unsexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the California recreational fleet north of 40 degrees 10 minuts N lattidue for unsexed fish",
-label = 'ca-lencomp-unsexed')
-
-
-##
-#Ages
-##
-
-nm = "WA Recreational - Sexed_Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Age distributions for the Washington recreational fleet for males and females",
-label = 'wa-agecomp-sexed')
-
-nm = "WA Recreational - Unsexed_Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Age distributions for the Washington recreational fleet for unsexed fish",
-label = 'wa-agecomp-unsexed')
-
-nm = "OR Recreational - Sexed_Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Age distributions for the Oregon recreational fleet for males and females",
-label = 'or-agecomp-sexed')
-
-nm = "OR Recreational - Unsexed_Age_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Age distributions for the Oregon recreational fleet for unsexed fish",
-label = 'or-agecomp-unsexed')
+get_fleet("rec") %>%
+  # Expand so each rec fleet has one row per sexes and types listed
+  tidyr::crossing(sex = c("Sexed", "Unsexed"), type = c("Length", "Age")) %>%
+  # Group lengths for a given fleet then ages
+  dplyr::arrange(desc(type), order, sex) %>%
+  # Keep only the appropriate fleets for the area
+  dplyr::filter(!!as.name(paste0("used_", substr(Sys.Date(),1,4),".", tolower(substr(params$area,1,1))))) %>%
+  # Create the caption and filename
+  dplyr::mutate(
+    alt_caption = "to do -- fill this in",
+    filein = file.path(
+      "..", "figures",
+      paste0(
+        ifelse(label_twoletter == "CA", paste(label_twoletter, params$area), label_twoletter),
+        " Recreational - ",
+        sex, "_", type,
+        "_Frequency.png"
+      )
+    ),
+    caption = paste0(stringr::str_to_title(type), "-frequency data for the ", label_twoletter, " recreational fleet for ", tolower(sex), " fish."),
+    label = paste0(tolower(label_twoletter), "-", substr(tolower(type), 1, 3), "comp-", tolower(sex))
+  ) %>%
+  dplyr::filter(file.exists(filein)) %>%
+  dplyr::select(filein, caption, label, alt_caption) %>%
+  add_figure_ling
 ```
 
 
+<!-- ====================================================================== -->
+<!-- VAST -->
+<!-- ====================================================================== -->
 
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-##
-#Lengths
-##
-nm = "CA South Recreational - Sexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the California recreational fleet south of 40 degrees 10 minuts N lattidue for males and females",
-label = 'ca-lencomp-sexed')
-
-nm = "CA South Recreational - Unsexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the California recreational fleet south of 40 degrees 10 minuts N lattidue for unsexed fish",
-label = 'ca-lencomp-unsexed')
-
-nm = "debHist - Unsexed_Length_Frequency.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = "Length distributions for the historical onbaord sampling of party boats from 1987-1998. Fish were not sexed from this dataset",
-label = 'debWV-lencomp-unsexed')
-
-
-
+```{r, results = "asis"}
+mapply(
+  FUN = add_figure_vast,
+  SIMPLIFY = FALSE,
+  file.path("..", "data-raw",
+    sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), "North")
+    # sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), params$area)
+  )
+) %>% dplyr::bind_rows(.id = "source") %>% add_figure_ling
 ```
-

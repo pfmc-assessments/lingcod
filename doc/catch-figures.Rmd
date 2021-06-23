@@ -167,7 +167,7 @@ ggsave2(
   filename = file.path("..", "figures", "catch-comm-CA-gearprop.png"),
   caption = paste0(
     "Percentage of California commercial catch by area within each fleet ",
-    "(fixed gear, FG, upper panel; trawl, TW, lower panel)",
+    "(fixed gear, FG, upper panel; trawl, TW, lower panel) ",
     "since 1981. ",
     "Darker shades represent the northern area and lighter shades represent the southern area."
   ),
