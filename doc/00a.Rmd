@@ -56,3 +56,7 @@ knitr::opts_template$set(south = list(
   include = TRUE
 ))
 ```
+
+\newcommand\CapeM{40\textdegree 10\textquotesingle N}
+\newcommand\PtC{34\textdegree 27\textquotesingle N}
+\newcommand\CAOR{42\textdegree 00\textquotesingle N}
