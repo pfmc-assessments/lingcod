@@ -510,13 +510,29 @@ add_data <- function(dat,
       }
 
       # rec fleets
-      if (f %in% get_fleet("Rec", col = "num")) {
+      if (f %in% c(get_fleet("Rec_OR", col = "num"),
+                   get_fleet("Rec_WA", col = "num"))) {
         # get data from these tables:
         #   ageCompN_OR_Rec
         #   ageCompN_WA_Rec
-        newvals <- paste0("ageComp", toupper(area), "_", state, "_Rec") %>%
-          {if(exists(.)) get(.) else NULL} %>% 
-          clean_comps(type = "age")
+        #
+        #   ageCAAL_N_WA_Rec
+        #   ageCAAL_N_OR_Rec
+        if ("agecomp" %in% dat_type) {
+          newvals <- paste0("ageComp", toupper(area), "_", state, "_Rec") %>%
+            {if(exists(.)) get(.) else NULL} %>% 
+            clean_comps(type = "age")
+          # negative fleet to make marginal as ghost observations by default
+          if(!is.null(newvals)) {
+            newvals$fleet <- -1 * abs(newvals$fleet)
+          }
+        }
+        if ("CAAL" %in% dat_type) {
+          newvals <- paste0("ageCAAL_", toupper(area), "_", state, "_Rec") %>%
+            get() %>%
+            clean_comps() %>%
+            rbind(newvals, .)
+        }
       }
 
       # trawl surveys

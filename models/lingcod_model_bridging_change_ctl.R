@@ -3,8 +3,9 @@
 verbose <- TRUE
 
 # create new directories with input files
-for (area in c("n", "s")) {
+#for (area in c("n", "s")) {
 #for (area in c("s")) {
+for (area in c("n")) {
 
   # source data file
   # + add data
@@ -12,17 +13,21 @@ for (area in c("n", "s")) {
   # + WA rec CPUE (num = 4, sens = 7)
   # + remove extra Rec_OR index (num = 4, sens = 8)
   # + fix to commercial CAAL (num = 4, sens = 9)
-  #olddir <- get_dir_ling(area = area, num = 4, sens = 11) # fewer_ages
-  olddir <- get_dir_ling(area = area, num = 4, sens = 12) # marginal_ages
-
+  #olddir <- get_dir_ling(area = area, num = 4, sens = 12) # marginal_ages
   # new directory
-  #newdir <- get_dir_ling(area = area, num = 14, sens = 3) # fewer_ages
-  newdir <- get_dir_ling(area = area, num = 14, sens = 2) # marginal_ages
-  tuningdir <- get_dir_ling(area = area, num = 14, sens = 1)
+  #newdir <- get_dir_ling(area = area, num = 14, sens = 2) # marginal_ages
 
   if(area == "n") {
+    olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
+    newdir <- get_dir_ling(area = area, num = 15, sens = 1) # rec_CAAL
+    # source for tuning
+    tuningdir <- get_dir_ling(area = area, num = 14, sens = 1) 
   }
   if(area == "s") {
+    olddir <- get_dir_ling(area = area, num = 4, sens = 11) # fewer_ages
+    newdir <- get_dir_ling(area = area, num = 14, sens = 3) # fewer_ages
+    # source for tuning
+    tuningdir <- get_dir_ling(area = area, num = 14, sens = 1) 
   }
 
   # get model number (3rd element in model id) for filtering some options

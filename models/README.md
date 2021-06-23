@@ -59,6 +59,7 @@ name | notes | issue | source_model | script
 2021.s.004.011_fewer_ages_scripted | remove ages for all but WCGBTS using the full workflow | #80, #83 | 2021.s.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
 2021.n.004.012_marginal_ages | marginal ages for all but WCGBTS |  | 2021.n.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
 2021.s.004.012_marginal_ages | marginal ages for all but WCGBTS |  | 2021.s.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
+2021.n.004.013_rec_CAAL | use CAAL for the rec fleets (previous had it marginal) | #80, #83 | 2021.n.002.001 | lingcod_model_bridging_newdata.R
 2021.n.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.s.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.s.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.n.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
@@ -126,3 +127,5 @@ name | notes | issue | source_model | script
 2021.s.014.002_marginals | sensitivity to including ages as marginals | #80, #83 | 2021.s.004.012 | lingcod_model_bridging_change_ctl.R 
 2021.n.014.003_fewer_ages | north model equivalent of 2021.s.014.001  | #80, #83 | 2021.n.004.011 | lingcod_model_bridging_change_ctl.R 
 2021.s.014.003_fewer_ages | should be identical to 2021.s.014.001 only created with different script  | #80, #83 | 2021.s.004.011 | lingcod_model_bridging_change_ctl.R
+2021.n.014.004_no_rec_WA_index | remove WA rec index |  | 2021.n.011.008 | lingcod_model_bridging_change_ctl.R
+2021.n.015.001_allCAALages | Rec_WA and Rec_OR as CAAL  | #80, #83 | 2021.n.004.012 | lingcod_model_bridging_change_ctl.R 

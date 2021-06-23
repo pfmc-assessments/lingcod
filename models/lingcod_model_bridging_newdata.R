@@ -2,8 +2,8 @@
 # initially used while developing the add_data() function to make sure it's working
 
 # create new directories with input files
+for (area in c("n")){
 #for (area in c("n", "s")){
-for (area in c("n", "s")){
   # newdir <- get_dir_ling(area = area, num = 4, sens = 2) # first model with complete data
   # newdir <- get_dir_ling(area = area, num = 4, sens = 3) # making marginal ages ghost flts #55 
   # newdir <- get_dir_ling(area = area, num = 4, sens = 4) # unexpanded data
@@ -12,7 +12,8 @@ for (area in c("n", "s")){
   if (area == "n") {
     # newdir <- get_dir_ling(area = area, num = 4, sens = 7) # unexpanded data + WA rec CPUE update
     # newdir <- get_dir_ling(area = area, num = 4, sens = 8) # remove recORCPFV
-    newdir <- get_dir_ling(area = area, num = 4, sens = 9) # fix duplicate CAAL TW & FG
+    # newdir <- get_dir_ling(area = area, num = 4, sens = 9) # fix duplicate CAAL TW & FG
+    newdir <- get_dir_ling(area = area, num = 4, sens = 13) # add CAAL for rec fleets
   }
   if (area == "s") {
     # skipping sens = 5 to 8 to get re-aligned with north model
