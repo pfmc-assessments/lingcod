@@ -203,7 +203,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
                  caption = 'Sample sizes of length composition data for the north model.',
-                 label = 'length_samps_N',
+                 label = 'sample_size_length',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,
@@ -211,7 +211,7 @@ t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_N.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_North.tex"))
 
 
 ####################
@@ -241,7 +241,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
                  caption = 'Sample sizes of length composition data for the south model.',
-                 label = 'length_samps_S',
+                 label = 'sample_size_length',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,
@@ -249,7 +249,7 @@ t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_S.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_South.tex"))
 
 
 ####################
@@ -258,7 +258,7 @@ kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_S.tex"))
 
 t4_or_rec <- table3_noexp(ageCompN_OR_Rec)
 t4_wa_rec <- table3_noexp(ageCompN_WA_Rec)
-t4_lam <- table4_fromCAAL(ageCAAL_N_LamThesis) ###<- add from CAAL
+t4_lam <- table4_fromCAAL(ageCAAL_N_LamThesis) #<- calculate from CAAL
 
 t4_wcgbts <- table3_exp(ageCompN_sex3_WCGBTS, region = "north", type = "age")
 t4_tri <- table3_exp(ageCompN_sex3_Triennial, region = "north", type = "age")
@@ -277,7 +277,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
                  caption = 'Sample sizes of age composition data for the north model.',
-                 label = 'age_samps_N',
+                 label = 'sample_size_age',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,
@@ -285,14 +285,14 @@ t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","age_samps_N.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"doc","age_samps_North.tex"))
 
 
 ####################
 ####South age samples
 ###################
 
-t4_lam <- table4_fromCAAL(ageCAAL_S_LamThesis) ###<- add from CAAL
+t4_lam <- table4_fromCAAL(ageCAAL_S_LamThesis) #<- calculate from CAAL
 t4_hkl <- table3_noexp(ageCompS_HKL)
 
 t4_wcgbts <- table3_exp(ageCompS_sex3_WCGBTS, region = "south", type = "age")
@@ -311,7 +311,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
                  caption = 'Sample sizes of age composition data for the south model.',
-                 label = 'age_samps_S',
+                 label = 'sample_size_age',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,
@@ -319,5 +319,5 @@ t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","age_samps_S.tex"))
-
+kableExtra::save_kable(t, file = file.path(getwd(),"doc","age_samps_South.tex"))
+  

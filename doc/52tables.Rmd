@@ -26,3 +26,10 @@ ignore <- mapply(sa4ss::read_child, tablefiles[grepl("rec", tablefiles)])
 xx <- dir(file.path("..", "tables"), pattern = "fi-index-ormarres", full.names= TRUE)
 ignore <- mapply(sa4ss::read_child, xx[order(file.info(xx)$mtime)])
 ```
+
+<!-- Sample size tables -->
+\input{file.path(getwd(), "doc", paste0("length_samps_", params$area, ".tex"))}
+
+\input{file.path(getwd(), "doc", paste0("age_samps_", params$area, ".tex"))}
+
+
