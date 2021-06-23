@@ -107,7 +107,7 @@ table3_exp_discard = function(comp){
   unsex$Nfemale <- ""
   unsex$Nfish <- ""
   unsex$Nsamp <- ""
-  unsex$Fleet <- get_fleet(unsex$fleet)$label_short
+  unsex$Fleet <- paste(get_fleet(unsex$fleet)$label_short, "discards")
   
   
   return(unsex)
@@ -174,6 +174,42 @@ table4_fromCAAL = function(comp){
   return(comb)
 }
 
+#Function to pull commercial samples sizes by state
+#Gear is entered as "FG" or "TW"
+#Region is "North" or "South"
+#Type is "length" or "age"
+table3_commState = function(region, type){
+  
+  samps_raw = read.csv(file.path(getwd(), "data-raw", 
+                   paste0("pacfin_", type, "_state_gear_sample_size_", region, ".csv")),
+                   header=T)
+  samps_raw[samps_raw$sex %in% c("F","M"),"Sex"] = 3
+  samps_raw[samps_raw$sex %in% c("U"),"Sex"] = 0
+  
+  samps = aggregate(samps_raw$nfish, 
+                        by = list("year" = samps_raw$yr, "fleet" = samps_raw$fleet, "sex" = samps_raw$Sex, 
+                                  "state" = samps_raw$state), 
+                        FUN = sum)
+  names(samps)[ncol(samps)] = "Nfish"
+  
+  samps$fleet_name = samps$fleet
+  samps[samps$fleet == "FG","fleet"] = 2
+  samps[samps$fleet == "TW","fleet"] = 1
+  samps$Fleet = NULL
+  samps$Fleet = paste(get_fleet(as.numeric(samps$fleet))$label_short, samps$state)
+  samps$Gender <- NULL
+  samps[samps$sex == 3, "Gender"] <- "Sexed"
+  samps[samps$sex == 0, "Gender"] <- "Unsexed"
+  
+  samps$Nmale <- ""
+  samps$Nfemale <- ""
+  samps$Units <- "Ntows"
+  samps$Nsamp <- ""
+  samps$Ntows <- ""
+  
+  return(samps[,c("year","fleet","sex","Nfish","Fleet","Gender", "Nmale","Nfemale","Units","Ntows","Nsamp")])
+}
+
 ##################################End of functions##################################
 
 ####################
@@ -189,15 +225,16 @@ t3_wcgbts <- table3_exp(lenCompN_sex3_WCGBTS, region = "north", type = "length")
 t3_tri <- table3_exp(lenCompN_sex3_Triennial, region = "north", type = "length")
 
 t3_discards <-table3_exp_discard(lenCompN_comm_discards)
-t3_com <-table3_exp_comm(lenCompN_comm)
+#t3_com <-table3_exp_comm(lenCompN_comm)
+t3_comState <- table3_commState(region = "North", type = "length")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t3_samples <- data.frame(rbind
                          (t3_ca_rec, t3_or_rec, t3_wa_rec, 
                            t3_lam,
                            t3_wcgbts, t3_tri,
-                           t3_discards, t3_com))[,colnames_ordered]
-t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$year),]
+                           t3_discards, t3_comState))[,colnames_ordered]
+t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$year),]
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
@@ -227,15 +264,16 @@ t3_wcgbts <- table3_exp(lenCompS_sex3_WCGBTS, region = "south", type = "length")
 t3_tri <- table3_exp(lenCompS_sex3_Triennial, region = "south", type = "length")
 
 t3_discards <-table3_exp_discard(lenCompS_comm_discards)
-t3_com <-table3_exp_comm(lenCompS_comm)
+#t3_com <-table3_exp_comm(lenCompS_comm)
+t3_comState <- table3_commState(region = "South", type = "length")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t3_samples <- data.frame(rbind
                          (t3_ca_rec, 
                            t3_lam, t3_deb,
                            t3_hkl, t3_wcgbts, t3_tri,
-                           t3_discards, t3_com))[,colnames_ordered]
-t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$year),] #Order by fleet and then year
+                           t3_discards, t3_comState))[,colnames_ordered]
+t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$year),] #Order by fleet and then year
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
@@ -263,15 +301,16 @@ t4_lam <- table4_fromCAAL(ageCAAL_N_LamThesis) #<- calculate from CAAL
 t4_wcgbts <- table3_exp(ageCompN_sex3_WCGBTS, region = "north", type = "age")
 t4_tri <- table3_exp(ageCompN_sex3_Triennial, region = "north", type = "age")
 
-t4_com <-table3_exp_comm(ageCompN_comm)
+#t4_com <-table3_exp_comm(ageCompN_comm)
+t4_comState <- table3_commState(region = "North", type = "age")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t4_samples <- data.frame(rbind
                          (t4_or_rec, t4_wa_rec, 
                            t4_lam,
                            t4_wcgbts, t4_tri,
-                           t4_com))[,colnames_ordered]
-t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$year),]
+                           t4_comState))[,colnames_ordered]
+t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$year),]
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
@@ -298,14 +337,15 @@ t4_hkl <- table3_noexp(ageCompS_HKL)
 t4_wcgbts <- table3_exp(ageCompS_sex3_WCGBTS, region = "south", type = "age")
 t4_tri <- table3_exp(ageCompS_sex3_Triennial, region = "south", type = "age")
 
-t4_com <-table3_exp_comm(ageCompS_comm)
+#t4_com <-table3_exp_comm(ageCompS_comm)
+t4_comState <- table3_commState(region = "South", type = "age")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t4_samples <- data.frame(rbind
                          (t4_lam,
                            t4_hkl, t4_wcgbts, t4_tri,
-                           t4_com))[,colnames_ordered]
-t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$year),]
+                           t4_comState))[,colnames_ordered]
+t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$year),]
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
