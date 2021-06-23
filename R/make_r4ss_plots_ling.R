@@ -27,7 +27,7 @@ make_r4ss_plots_ling <- function(mod, plot = 1:26, verbose = TRUE, ...) {
            fleets = showfleets$num,
            fleetnames = fleets$label_long,
            fleetcols = fleets[[paste0("col.", area)]],
-           comp.yupper = 0.25,
+           comp.yupper = 0.15,
            html = FALSE, # don't open HTML view yet
            verbose = verbose, ...)
   # make data plot with wider margin and taller to fit all fleet names

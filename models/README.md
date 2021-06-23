@@ -128,4 +128,7 @@ name | notes | issue | source_model | script
 2021.n.014.003_fewer_ages | north model equivalent of 2021.s.014.001  | #80, #83 | 2021.n.004.011 | lingcod_model_bridging_change_ctl.R 
 2021.s.014.003_fewer_ages | should be identical to 2021.s.014.001 only created with different script  | #80, #83 | 2021.s.004.011 | lingcod_model_bridging_change_ctl.R
 2021.n.014.004_no_rec_WA_index | remove WA rec index |  | 2021.n.011.008 | lingcod_model_bridging_change_ctl.R
-2021.n.015.001_allCAALages | Rec_WA and Rec_OR as CAAL  | #80, #83 | 2021.n.004.012 | lingcod_model_bridging_change_ctl.R 
+2021.n.015.001_allCAALages | Rec_WA and Rec_OR as CAAL  | #80, #83 | 2021.n.004.013 | lingcod_model_bridging_change_ctl.R 
+2021.n.015.002_allCAALages_no_rec_WA_index | rec as CAAL plus remove WA rec index  | #83 | 2021.n.004.013 | lingcod_model_bridging_change_ctl.R 
+2021.n.015.003_Francis | Francis tuning of model with all ages as CAAL  | #83 | 2021.n.015.001 | lingcod_model_bridging_change_ctl.R 
+2021.n.015.004_extraSD | turn on extraSD for Tri and float for all indices  | #83 | 2021.n.015.003 | lingcod_model_bridging_change_ctl.R 

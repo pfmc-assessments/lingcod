@@ -19,9 +19,9 @@ for (area in c("n")) {
 
   if(area == "n") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
-    newdir <- get_dir_ling(area = area, num = 15, sens = 1) # rec_CAAL
+    newdir <- get_dir_ling(area = area, num = 15, sens = 4) # rec_CAAL
     # source for tuning
-    tuningdir <- get_dir_ling(area = area, num = 14, sens = 1) 
+    tuningdir <- get_dir_ling(area = area, num = 15, sens = 3) 
   }
   if(area == "s") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 11) # fewer_ages
@@ -395,8 +395,6 @@ for (area in c("n")) {
                                        paste0("#_", names(block_breaks)[iblock]))
   }
 
-  # turn off float option to estimate CA rec Q as a paramter
-  newctl$Q_options$float[newctl$Q_options$fleet == get_fleet("Rec_CA", col = "num")] <- 0
 
   ## # put the right block on Surv_TRI catchability
   ## newctl$Q_options$float[newctl$Q_options$fleet == get_fleet("TRI", col = "num")] <- 0
@@ -409,9 +407,16 @@ for (area in c("n")) {
                                 Block = 0,
                                 Block_Fxn = 0)
   if(area == "n") {
+    # add extraSD option for Surv_TRI
+    newctl$Q_options$extra_se[newctl$Q_options$fleet == get_fleet("TRI", col = "num")] <- 1
+    # make sure float option is on for all Q parameters (#83)
+    newctl$Q_options$float <- 1
     newctl$Q_parms_tv <- NULL
   }
   if(area == "s") {
+    # turn off float option to estimate CA rec Q as a paramter
+    newctl$Q_options$float[newctl$Q_options$fleet == get_fleet("Rec_CA", col = "num")] <- 0
+
     # turn on split of Rec CA index
     newctl$Q_parms <- change_pars(newctl$Q_parms,
                                   string = "LnQ_base_._Rec_CA",
@@ -428,7 +433,23 @@ for (area in c("n")) {
   ## newctl$Q_parms_tv <- NULL
 
   
-  # turn of extraSD parameter for CPFV_DebWV because it is small and had
+  # add extraSD parameter for Index_TRI in the north because 2004 value has bad fit
+  if (area == "n") {
+    # get row with base parameter for Surv_TRI (depends on 2021 numbering scheme)
+    base_row <- grep("LnQ_base_6_Surv_TRI", rownames(newctl$Q_parms))
+    # add below it the Q_extraSD parameter for a previous index
+    newctl$Q_parms <- newctl$Q_parms[c(1:base_row,
+                                       base_row - 1,
+                                       (base_row+1):nrow(newctl$Q_parms)),]
+    # update the rowname
+    rownames(newctl$Q_parms)[base_row + 1] <- "Q_extraSD_6_Surv_TRI"
+    # make sure the parameter is estimated
+    newctl$Q_parms <- change_pars(newctl$Q_parms,
+                                  string = "Q_extraSD_6_Surv_TRI",
+                                  INIT = 0.1,
+                                  PHASE = 2)
+  }
+  # turn off extraSD parameter for CPFV_DebWV because it is small and had
   # problems correlation issues (#76)
   if (area == "s") {
     newctl$Q_parms <- change_pars(newctl$Q_parms,
@@ -583,9 +604,10 @@ if(FALSE){ # stuff to never just source with the rest of the file
 
   ### applying Francis weighting to model number 8 in each area
   # copy all files, including output files
-  for (area in c("n", "s")) {
-    olddir <- get_dir_ling(area = area, num = 12, sens = 3)
-    newdir <- get_dir_ling(area = area, num = 12, sens = 4)
+  for (area in c("n")) {
+  #for (area in c("n", "s")) {
+    olddir <- get_dir_ling(area = area, num = 15, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 15, sens = 3)
     fs::dir_copy(olddir, newdir)
   }
 
@@ -599,9 +621,9 @@ if(FALSE){ # stuff to never just source with the rest of the file
   # then run them separately in a command window
   setwd("c:/SS/Lingcod/Lingcod_2021")
   devtools::load_all()
-  get_mod(area = "n", num = 11, sens = 8, plot = FALSE)
-  r4ss::SS_tune_comps(mod.2021.n.011.008,
-                      dir = mod.2021.n.011.008$inputs$dir,
+  get_mod(area = "n", num = 15, sens = 3, plot = FALSE)
+  r4ss::SS_tune_comps(mod.2021.n.015.003,
+                      dir = mod.2021.n.015.003$inputs$dir,
                       #option = "DM",
                       option = "Francis",
                       niters_tuning = 1,
