@@ -6,6 +6,8 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 \floatplacement{figure}{H}
 # Figures
 
+## Data figures
+
 ```{r, setup-plotinfotable}
 figurecsv <- utils::read.csv(
   file.path("..", "models", params$model, "plots", "plotinfotable_for_doc.csv")
@@ -41,6 +43,14 @@ add_figure_ling(dplyr::bind_rows(mapply(
 )) %>% dplyr::arrange(file.info(filein)$mtime)
 )
 ```
+
+```{r, results = "asis"}
+do.call(
+  sa4ss::add_figure,
+  utils::read.csv(file.path("..", "models", params$model,  "index_data_all_fleets.csv"))
+)
+```
+
 
 ```{r, cpue-figures-north, results = "asis", opts.label = "north", echo = FALSE}
 # Use figures-cpue.csv to bring in ordered set of figures
@@ -134,6 +144,8 @@ add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-orm
 <!-- Biology Figures -->
 <!-- ====================================================================== -->
 
+## Biology figures
+
 ```{r, echo=FALSE, results='asis'}
 nm = "Length_Weight_Combo_North.png"
 sa4ss::add_figure(
@@ -193,3 +205,28 @@ mapply(
   )
 ) %>% dplyr::bind_rows(.id = "source") %>% add_figure_ling
 ```
+
+
+<!-- ====================================================================== -->
+<!-- ******************     Model results    ********** --> 
+<!-- ====================================================================== -->
+
+## Model results figures
+
+### Growth and selectivity
+
+### Fits to data
+```{r, results = "asis"}
+do.call(
+  sa4ss::add_figure,
+  utils::read.csv(file.path("..", "models", params$model,  "index_fits_all_fleets.csv"))
+)
+
+### Time series figures
+
+### Sensitivity analyses and retrospectives
+
+### Likelihood profiles
+
+### Reference points and forecasts
+
