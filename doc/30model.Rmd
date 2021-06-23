@@ -5,9 +5,9 @@
 ### History of modeling approaches
 
 There have been six assessments of `r spp` since 1986
-covering part or all of the West Coast of the United States.
-Adams (1986) conducted a yield per recruit analysis.
-Jagielo (1994) conducted an age-structured assessment of the status of the
+covering part or all of the West Coast of the U.S.
+Adams [-@pfmclingcod1986] conducted a yield per recruit analysis.
+Jagielo [-@jagielo1994assessment] conducted an age-structured assessment of the status of the
 `r spp` stock between
 Cape Falcon in Northern Oregon to
 49\textdegree N latitude
@@ -21,22 +21,22 @@ The final spawning output levels were estimated to be about
 20\% of pristine levels, and
 catch level recommendations ranged between 2500 and 3000 mt
 based on F40\% to F20\%.
-The 1997 assessment (Jagielo et al.1997) expanded the area
+The 1997 assessment [@jagielo1997assessment] expanded the area
 south to Cape Blanco (42\textdegree 50\textquotesingle N latitude) and
 retained the northern boundary of 49\textdegree 00\textquotesingle N latitude
 using a Stock Synthesis model.
 Depletion in spawning output in this model was below 10\% for 1997.
-Adams et al. (1999), conducted a length-based, age-structured population model
-implemented in AD Model Builder (ADMB, Fournier 1996) for the southern area,
+Adams et al. [-@pfmclingcod1999], conducted a length-based, age-structured population model
+implemented in AD Model Builder [ADMB; @fournier1996] for the southern area,
 which had not yet been assessed (Eureka, Monterey, and Conception INPFC areas).
-Jagielo et al. (2000) conducted age structured models in ADMB
+Jagielo et al. [-@jagielo2000assessment] conducted age structured models in ADMB
 for two areas of the U.S.,
 U.S. Vancouver-Columbia (no longer including Canadian waters) and
 Eureka, Monterey, and Conception INPFC areas.
-Jagielo et al. (2003) conducted age structured assessments
+Jagielo et al. [-@pfmclingcod2003] conducted age structured assessments
 for the two areas using Coleraine.
-Jagielo et al. (2005) conducted age structured assessments for the two areas
-using Stock Synthesis 2 (SS2).
+Jagielo et al. [-@pfmclingcod2005] conducted age structured assessments for the two areas
+using Stock Synthesis 2.
 They found that the northern stock had recovered substantially
 from a low point in the 1990s and was at 87\% depletion,
 while the southern area had not recovered as well and was at 24\% depletion,
