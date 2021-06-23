@@ -102,6 +102,6 @@ sooner at the angler’s discretion (e.g., to avoid losing fish).
 Five drops are attempted at each site for a maximum possible catch of
 75 fish per site per year (3 anglers x 5 hooks x 5 drops).
 Further details regarding the sample frame, site selection,
-and survey methodology are described by Harms et al. [-@harms_noaa_2008].
+and survey methodology are described by Harms et al. [-@harms2008].
 
 [**Need write-up from Tayna Rogers**]

@@ -5,7 +5,8 @@ The length frequency of survey catches in each year was summarized using length 
 The first bin includes all observations less than 10 cm, 
 and the last bin includes all fish larger than 130 cm. The observed length compositions were 
 expanded to account for subsampling of tows, and the expansion was stratified by depth. Depth 
-strata of 55 - 183 m and 183 - 400m were selected, based on the sampling design of the survey (@kelleretal_survey_2017).
+strata of 55 - 183 m and 183 - 400m were selected,
+based on the sampling design of the survey (@keller2017).
 Depth strata were capped at 400 m because catches of `r spp` in 
 the \Gls{s-wcgbt} occur infrequency beyond 400m (Figure \ref{fig:wcgbts-presAbs}). Samples were
 often sexed, so only male and female length frequencies were used. The few unsexed individuals 
