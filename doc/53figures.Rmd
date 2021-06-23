@@ -47,7 +47,7 @@ add_figure_ling(dplyr::bind_rows(mapply(
 ```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
-  utils::read.csv(file.path("..", "models", params$model,  "index_data_all_fleets.csv"))
+  utils::read.csv(file.path(params$model,  "index_data_all_fleets.csv"))
 )
 ```
 
@@ -220,7 +220,7 @@ mapply(
 ```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
-  utils::read.csv(file.path("..", "models", params$model,  "index_fits_all_fleets.csv"))
+  utils::read.csv(file.path(params$model,  "index_fits_all_fleets.csv"))
 )
 ```
 
