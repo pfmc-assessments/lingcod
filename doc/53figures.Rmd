@@ -10,7 +10,7 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 
 ```{r, setup-plotinfotable}
 figurecsv <- utils::read.csv(
-  file.path("..", "models", params$model, "plots", "plotinfotable_for_doc.csv")
+  file.path(params$model, "plots", "plotinfotable_for_doc.csv")
 )
 ```
 
@@ -47,7 +47,7 @@ add_figure_ling(dplyr::bind_rows(mapply(
 ```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
-  utils::read.csv(file.path(params$model,  "index_data_all_fleets.csv"))
+  utils::read.csv(file.path(params$model, "custom_plots", "index_data_all_fleets.csv"))
 )
 ```
 
@@ -220,7 +220,7 @@ mapply(
 ```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
-  utils::read.csv(file.path(params$model,  "index_fits_all_fleets.csv"))
+  utils::read.csv(file.path(params$model, "custom_plots", "index_fits_all_fleets.csv"))
 )
 ```
 
