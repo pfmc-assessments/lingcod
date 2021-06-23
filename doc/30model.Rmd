@@ -75,7 +75,9 @@ below the target reference point at 32.1\% of unfished spawning biomass.
 
 ### Most recent STAR panel and SSC recommendations
 
-
+```{r render-STARpanelRecs, results = "asis"}
+sa4ss::read_child(file.path("STARpanelRecs.Rmd"))
+```
 
 ### Response to Groundfish Subcommittee recommendations
 
