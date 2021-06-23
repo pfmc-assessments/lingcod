@@ -28,8 +28,10 @@ ignore <- mapply(sa4ss::read_child, xx[order(file.info(xx)$mtime)])
 ```
 
 <!-- Sample size tables -->
-\input{file.path(getwd(), "doc", paste0("length_samps_", params$area, ".tex"))}
+```{r, comp-sample-size-tables, results = "asis"}
 
-\input{file.path(getwd(), "doc", paste0("age_samps_", params$area, ".tex"))}
+read_child(filein = file.path(getwd(), "doc", paste0("length_samps_", params$area, ".tex")))
 
+read_child(filein = file.path(getwd(), "doc", paste0("age_samps_", params$area, ".tex")))
+```
 
