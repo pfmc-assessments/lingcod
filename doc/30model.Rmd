@@ -4,65 +4,74 @@
 
 ### History of modeling approaches
 
-There have been six assessments of `r spp` since 1986
-covering part or all of the West Coast of the U.S.
+There have been nine assessments of `r spp` that
+covered all or part of the U.S. West Coast since 1986.
 Adams [-@pfmclingcod1986] conducted a yield per recruit analysis.
 Jagielo [-@jagielo1994assessment] conducted an age-structured assessment of the status of the
-`r spp` stock between
-Cape Falcon in Northern Oregon to
-49\textdegree N latitude
-(off of southwest Vancouver Island in British Columbia - PMFC areas 3A, 3B, and 3C, including Canada),
-using the Stock Synthesis program (Methot, 1990).
+`r spp` stock between Cape Falcon in Northern Oregon to 49\textdegree 00\textquotesingle N latitude
+(off of southwest Vancouver Island in British Columbia - \gls{pmfc} areas 3A, 3B, and 3C, including Canada),
+using Stock Synthesis [@methot_stock_2013].
 Data included trawl and recreational catch from 1979-1993
 with equilibrium catch before then,
-triennial shelf survey and trawl CPUE indices, and
+\gls{s-tri} and trawl \gls{cpue} indices, and
 length- and age-frequency data.
-The final spawning output levels were estimated to be about
+The final spawning output was estimated to be about
 20\% of pristine levels, and
-catch level recommendations ranged between 2500 and 3000 mt
-based on F40\% to F20\%.
+catch recommendations ranged between 2500 and 3000 mt
+based on fishing mortality levels of 40\% and 20\%.
 The 1997 assessment [@jagielo1997assessment] expanded the area
 south to Cape Blanco (42\textdegree 50\textquotesingle N latitude) and
 retained the northern boundary of 49\textdegree 00\textquotesingle N latitude
 using a Stock Synthesis model.
-Depletion in spawning output in this model was below 10\% for 1997.
-Adams et al. [-@pfmclingcod1999], conducted a length-based, age-structured population model
-implemented in AD Model Builder [ADMB; @fournier1996] for the southern area,
-which had not yet been assessed (Eureka, Monterey, and Conception INPFC areas).
-Jagielo et al. [-@jagielo2000assessment] conducted age structured models in ADMB
+Estimated depletion of spawning output was below 10\% for 1997.
+In 1999, Adams et al. [-@pfmclingcod1999] conducted a length-based, age-structured population model
+implemented in AD Model Builder [ADMB; @fournier1996] for
+the southern area, Eureka, Monterey, and Conception \gls{inpfc} areas,
+which had not yet been assessed.
+Jagielo et al. [-@jagielo2000assessment] fit data to age structured models in ADMB
 for two areas of the U.S.,
 U.S. Vancouver-Columbia (no longer including Canadian waters) and
-Eureka, Monterey, and Conception INPFC areas.
+Eureka, Monterey, and Conception \gls{inpfc} areas.
 Jagielo et al. [-@pfmclingcod2003] conducted age structured assessments
 for the two areas using Coleraine.
-Jagielo et al. [-@pfmclingcod2005] conducted age structured assessments for the two areas
-using Stock Synthesis 2.
+In 2005, Jagielo et al. [-@pfmclingcod2005] switched back to
+using Stock Synthesis, which was then at version 2 of the code base.
 They found that the northern stock had recovered substantially
 from a low point in the 1990s and was at 87\% depletion,
 while the southern area had not recovered as well and was at 24\% depletion,
-with a 64\% coast-wide depletion.
+with a 64\% coastwide depletion.
 
 The 2009 stock assessment, which used Stock Synthesis 2,
 divided the northern (Washington and Oregon) and southern (California) stocks
 by state line [@hamel2009].
-The point estimate for the spawning stock depletion at the start of 2009 was
-61.9\% for the northern area, 73.7\% for the southern area,
-indicating the stock was recovered.
-The axis of uncertainty for the decision table provided to managers was
-natural mortality for the north,
-with the base model $M$ = 0.18 for females and 0.32 for males.
-The “Low M” alternative used $M$ = 0.16 and 0.285 for females and males respectively,
-and the “High M” alternative used $M$ = 0.20 and 0.355.
-The axis of uncertainty for the South model was for the high alternative including age data,
-and for the low alternative excluding the dockside recreational CPUE index.
-The 2009 stock assessment removed all age data due to
-issues with outliers and possible aging bias.
 The northern and southern models were made as equivalent as possible
 by keeping fixed and estimated parameters largely the same for the two assessments.
 Natural mortality was fixed at 0.18 for females and 0.32 for males in both assessments,
 while stock-recruitment steepness was fixed at 0.8.
+All of the age data were removed from the model prior to fitting the data because of
+issues with outliers and possible aging bias.
+The point estimate for the spawning stock depletion at the start of 2009 was
+61.9\% for the northern area and 73.7\% for the southern area,
+indicating the stock was recovered.
+The axis of uncertainty for the decision table provided to managers was
+natural mortality for the northern area,
+with the base model $M$ = 0.18 for females and 0.32 for males.
+The “Low M” alternative used $M$ = 0.16 and 0.285 for females and males respectively,
+and the “High M” alternative used $M$ = 0.20 and 0.355.
+The axis of uncertainty for the southern area
+for the high alternative was the inclusion of age data and
+for the low alternative was the exclusion of the dockside recreational \gls{cpue} index.
 
-** to do - summary of the 2017 and 2019 assessments **
+The 2017 assessment [@haltuch2019lingcod] was conducted using Stock Synthesis and
+matched the spatial structure used for 2009 [@hamel2009].
+The estimated scales of the populations were sensitive to the inclusion of age data,
+nevertheless, estimates of status remained the same with or without the age data.
+Natural mortality was unestimable and was fixed at the mean of the prior.
+Specifically,
+the northern stock was estimated to be
+above 40\% of estimated unfished spawning biomass and
+the southern stock was estimated to be
+below the target reference point at 32.1\% of unfished spawning biomass.
 
 ### Most recent STAR panel and SSC recommendations
 
