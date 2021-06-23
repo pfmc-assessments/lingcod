@@ -30,6 +30,13 @@ m <- 'ss'                               # model name
 ### copies will be made in the working directory during execution
 wd <- getwd()
 on.exit(setwd(wd), add = TRUE)
+  if (!file.exists(dirbase)) {
+    if (file.exists(file.path("models", dirbase))) {
+      dirbase <- file.path("models", dirbase)
+    } else {
+      stop("Cannot find ", dirbase, ", try relative paths.")
+    }
+  }
 
   # Run the model if need be
   if (!file.exists(file.path(dirbase, "Report.sso"))) {
@@ -64,11 +71,9 @@ on.exit(setwd(wd), add = TRUE)
   fit <- adnuts::sample_rwm(model=m, path=p, iter=2000, chains=2)
   ## This thin rate will lead to run time of ~60 mins below
   thin60min <- floor((60*60)/mean(fit$time.total))
-
   ## ------------------------------------------------------------
   ## Task 1: Run and demonstrate MCMC convergence diagnostics.
-  chains <- parallel::detectCores() -1
-
+  chains <- parallel::detectCores() - 3
 ## I recommend using 1000-2000 iterations, with first 10-25%
 ## warmup. Start with thin=1, then increase thin rate until
 ## convergence diagnostics passed (ESS>200 & Rhat<1.1).
