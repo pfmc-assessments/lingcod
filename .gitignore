@@ -104,3 +104,14 @@ suggested_tuning.ss
 
 # document files that we don't want to track
 _main*
+
+# additions on June 23 to help Ian navigate git better
+/models/
+!/models/2021.s.014.001*
+!/models/2021.n.015.004*
+/models/*_profile_*/
+!/models/*_profile_*/*.csv
+!/models/*_profile_*/*.png
+/models/*/custom_plots/
+/figures/compare/
+
