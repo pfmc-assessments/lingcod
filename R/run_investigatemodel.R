@@ -73,6 +73,7 @@ run_investigatemodel <- function(basemodelname,
     )
     # For testing purposes I was looking at smaller run times here
     model_settings[["Njitter"]] <- njitter
+    model_settings[["extras"]] <- "-cbs 1500000000"
     # model_settings[["retro_yrs"]] <- c(-1, -2)
     # model_settings$extras <- "-nohess -maxI 1"
 
