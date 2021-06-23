@@ -139,6 +139,33 @@ for(fleet in c("TW", "FG")){
   }
 }
 
+#Script to provide sample sizes (nfish) by state and gear. Used to generate table
+#of sample sizes (table_3.R)
+temp_dat.n = bds.pacfin.n[!is.na(bds.pacfin.n$lengthcm),]
+nlen_state.n <- aggregate(temp_dat.n$lengthcm,
+                               by = list(yr = temp_dat.n$SAMPLE_YEAR,
+                                         sex = temp_dat.n$SEX,
+                                         fleet = temp_dat.n$fleet,
+                                         state = temp_dat.n$state),
+                               FUN = length)
+names(nlen_state.n)[ncol(nlen_state.n)] <- "nfish"
+write.csv(nlen_state.n, 
+          file.path(getwd(),"data-raw","pacfin_state_gear_sample_size_North.csv"), 
+          row.names = FALSE)
+
+temp_dat.s = bds.pacfin.s[!is.na(bds.pacfin.s$lengthcm),]
+nlen_state.s <- aggregate(temp_dat.s$lengthcm,
+                               by = list(yr = temp_dat.s$SAMPLE_YEAR,
+                                         sex = temp_dat.s$SEX,
+                                         fleet = temp_dat.s$fleet,
+                                         state = temp_dat.s$state),
+                               FUN = length)
+names(nlen_state.s)[ncol(nlen_state.s)] <- "nfish"
+write.csv(nlen_state.s, 
+          file.path(getwd(),"data-raw","pacfin_state_gear_sample_size_South.csv"), 
+          row.names = FALSE)
+
+
 # get first stage expansions for north and south
 bds.pacfin.n.exp <-
   PacFIN.Utilities::getExpansion_1(Pdata = bds.pacfin.n,
