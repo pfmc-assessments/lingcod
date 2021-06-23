@@ -216,11 +216,13 @@ mapply(
 ### Growth and selectivity
 
 ### Fits to data
+
 ```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path("..", "models", params$model,  "index_fits_all_fleets.csv"))
 )
+```
 
 ### Time series figures
 
