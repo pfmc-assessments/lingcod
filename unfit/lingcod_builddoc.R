@@ -5,13 +5,19 @@ basemodelgrep <- "[ns].011.005"
 # Write 00mod.Rdata for each model
 for (ii in dir("models", pattern = basemodelgrep, full.names = TRUE)) {
   setwd(ii)
+  # creates 00mod.Rdata
   sa4ss::read_model(
     mod_loc = getwd(),
     create_plots = FALSE,
     save_loc = file.path("tex_tables"),
     verbose = TRUE
-  )
+    )
+  # load model
   load("00mod.Rdata")
+  # make plots using model object loaded above
+  make_r4ss_plots_ling(model, verbose = FALSE)
+  
+  # get exec summary tables
   r4ss::SSexecutivesummary(replist = model, format = FALSE)
   sa4ss::es_table_tex(
     dir = mod_loc,
