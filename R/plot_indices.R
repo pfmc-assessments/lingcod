@@ -47,7 +47,7 @@ plot_indices <- function(mod, png = TRUE, fit = TRUE, log = FALSE) {
                         "additional uncertainty parameters.")
     }
 
-    filepath <- file.path(mod$inputs$dir, "custom_plots", filename)
+    filepath <- file.path(basename(mod$inputs$dir), "custom_plots", filename)
     
     alt_caption <- strsplit(caption, split = ".", fixed = TRUE)[[1]][1]
     write.csv(x = data.frame(caption = caption,
