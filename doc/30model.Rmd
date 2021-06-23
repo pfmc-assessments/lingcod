@@ -63,15 +63,29 @@ for the high alternative was the inclusion of age data and
 for the low alternative was the exclusion of the dockside recreational \gls{cpue} index.
 
 The 2017 assessment [@haltuch2019lingcod] was conducted using Stock Synthesis and
-matched the spatial structure used for 2009 [@hamel2009].
+matched the spatial structure used for 2009 [@hamel2009] but made numerous changes,
+including
+- expansion of the time period of the assessments back to 1889,
+- separation of commercial fleets into TW and FG,
+- separation of state-specific recreational fleets
+- updating of numerous existing data sources
+- addition of numerous fishery-dependent CPUE indices and the \gls{s-hkl} index
+- updated prior on natural mortality
+- updated biology parameters for maturity and length-weight relationships
+- updated ageing uncertainty
+- different treatment of some age data as marginal vs conditioned on length
+
 The estimated scales of the populations were sensitive to the inclusion of age data,
 nevertheless, estimates of status remained the same with or without the age data.
-Natural mortality was unestimable and was fixed at the mean of the prior.
 Specifically,
 the northern stock was estimated to be
 above 40\% of estimated unfished spawning biomass and
 the southern stock was estimated to be
 below the target reference point at 32.1\% of unfished spawning biomass.
+
+In 2019 a catch-only projection was conducted in which observed catches for the
+years 2017 and 2018 were used in the forecast calculations, along with
+expected catches for 2019 and 2020, to provided updated catch limits for management.
 
 ### Most recent STAR panel and SSC recommendations
 
@@ -86,16 +100,19 @@ sa4ss::read_child(file.path("STARpanelRecs.Rmd"))
 ## Model structure and assumptions
 
 ### Model changes from the last assessment
-
-
+```{r render-model-changes, results = "asis"}
+sa4ss::read_child("model-changes.Rmd")
+```
 
 ### General model specifications
-
-
+```{r render-model-specification, results = "asis"}
+sa4ss::read_child("model-specification.Rmd")
+```
 
 ### Model Parameters
-
-
+```{r render-model-parameters, results = "asis"}
+sa4ss::read_child("model-parameters.Rmd")
+```
 
 ### Base model selection
 

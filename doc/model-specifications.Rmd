@@ -1,0 +1,17 @@
+With the exceptions noted above, the general model specifications were 
+retained from the previous assessment. The assessment is sex-specific, 
+including the estimation of separate growth curves and natural mortality
+for males and females. The sex ratio at birth is assume to be 50:50.
+Female spawning biomass is used in calculating stock status.
+
+The model starts at equilibrium, assuming an unfished initial age structure
+in 1889. The internal population dynamics include ages 0-25, where age 25 
+is the plus-group. As there is little growth occurring at age 25 and 
+very few observations, the data use a plus group of age 20.
+
+The following likelihood components are included in this model: catch, indices, 
+discards, length compositions, age compositions, recruitments, parameter priors, 
+and parameter soft bounds. See the Stock Synthesis technical documentation 
+for details [@methot_stock_2013]. 
+Estimated likelihood components from the base models 
+can be found in the model output files archived with this report.

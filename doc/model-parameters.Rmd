@@ -8,7 +8,7 @@ A full list of all estimated and fixed parameters is provided in Table XXX.
 
 ```{r parameters, include = FALSE, eval = TRUE, cache = TRUE}
 # get parameter names from base model
-estimated_pars <- mod.base$parameters %>%
+estimated_pars <- model$parameters %>%
   dplyr::filter(!is.na(Active_Cnt)) %>%
   rownames()
 ```
@@ -21,20 +21,27 @@ in the following categories:
   - 3 von Bertalanffy parameters (length at age 0.5, length at age 14, and $k$)
   - 2 parameters controlling variability in growth, the CV in length at age 0.5
   and the CV in length at age 14 with a linear ramp in length-at-age.
-- 2 stock-recruit parameter
+- `r 2 + nrow(model$recruit)` recruitment parameters
   - $log(R_0)$ controlling equilibrium recruitment
   - $h$ controlling the steepness of the stock-recruit relationship
+  - `r nrow(model$recruit)` recruitment deviations parameters covering the range
+  `r min(model$recruit$Yr)`-`r max(model$recruit$Yr)`, with 
+  `r min(model$recruit$Yr[model$recruit$era=="Main"])`-`r max(model$recruit$Yr[model$recruit$era=="Main"])`
+  representing the "main" period modeled as a zero-centered deviation vector.
 - `r sum(sum(grepl("Q_extra", estimated_pars)))` extra standard deviation parameters
 for indices
 - `r sum(grepl("Size_DblN", estimated_pars))` selectivity parameters of which
 `r sum(grepl("Size_DblN.*BLK", estimated_pars))` represented changes over time
-- `r sum(sum(grepl("Retain", estimated_pars)))` retention parameters of which
-`r sum(grepl("Retain.*BLK", estimated_pars))` represented changes over time
+- `r sum(sum(grepl("Retain", estimated_pars)))` retention parameters all of which
+represented changes over time since the retention prior to 1998 was assumed to be
+high for all selected fish.
 
 The estimated parameters are described in greater detail below and a full list of 
 all estimated and fixed parameters is provided in Table XXX.
 
-[TO DO: add here]
+[TO DO: add more detail here]
 
 ### Fixed Parameters
 
+Commercial fishery retention parameters for the period prior to 1998 were
+fixed at values that led to almost 100\% retention.

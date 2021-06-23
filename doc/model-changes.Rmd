@@ -3,6 +3,7 @@
 In addition to the re-analysis of all data sources and the change in 
 boundary between north and south, the following changes were made to the 
 modeling approach in the previous assessments:
+
 - Separate natural mortality priors for males and females based on a lower
 maximum age (18 for females, 13 for males, compared to 21 for both sexes)
 - New age-based maturity estimates for each area
