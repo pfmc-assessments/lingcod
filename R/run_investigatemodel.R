@@ -14,6 +14,10 @@
 #' @param run A vector of options you want to run,
 #' where the default is to run them all.
 #' @param njitter An integer number of jitter runs you want to complete.
+#' @param extras A single character entry that will be passed to [system]
+#' when running SS. Typically this is `"-nohess"` but we have added cbs to make it
+#' "-nohess -cbs 1500000000" which will decrease run time for larger models.
+#' See the github issue for [lingcod in 2021](https://github.com/iantaylor-NOAA/Lingcod_2021/issues/66).
 #'
 #' @export
 #' @author Chantel R. Wetzel from the example in \pkg{nwfscDiags}.
@@ -34,7 +38,8 @@
 run_investigatemodel <- function(basemodelname,
                                  pars = system.file("extdata", "diagpars.csv", package = "lingcod"),
                                  run = c("jitter", "profile", "retro"),
-                                 njitter = 100
+                                 njitter = 100,
+                                 extras = "-nohess -cbs 1500000000"
 ) {
 #######################################################################################################
 # Define the parameters to profile and the parameter ranges:
@@ -58,7 +63,7 @@ run_investigatemodel <- function(basemodelname,
     # Get settings that are area specific and global based on
     # what is in the csv and the model name that will have the
     # area embedded in it
-    iiarea <- gsub("[0-9]{4}\\.([a-z]+)\\.[0-9]+\\.[a-z0-9._]+", "\\1", iimname)
+    iiarea <- gsub("[0-9]{4}\\.([a-z]+)\\.[0-9]+\\.[a-zA-Z0-9._]+", "\\1", iimname)
     iipars <- parsettings %>%
       dplyr::filter(area %in% c("", iiarea)) %>%
       dplyr::select(names(formals(nwfscDiag::get_settings_profile)))
@@ -68,12 +73,12 @@ run_investigatemodel <- function(basemodelname,
       settings = list(
         base_name = iimname,
         run = run,
-        profile_details = do.call(nwfscDiag::get_settings_profile, iipars)
+        profile_details = do.call(nwfscDiag::get_settings_profile, iipars),
+        extras = extras
       )
     )
     # For testing purposes I was looking at smaller run times here
     model_settings[["Njitter"]] <- njitter
-    model_settings[["extras"]] <- "-cbs 1500000000"
     # model_settings[["retro_yrs"]] <- c(-1, -2)
     # model_settings$extras <- "-nohess -maxI 1"
 

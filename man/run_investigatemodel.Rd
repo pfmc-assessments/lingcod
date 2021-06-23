@@ -8,7 +8,8 @@ run_investigatemodel(
   basemodelname,
   pars = system.file("extdata", "diagpars.csv", package = "lingcod"),
   run = c("jitter", "profile", "retro"),
-  njitter = 100
+  njitter = 100,
+  extras = "-nohess -cbs 1500000000"
 )
 }
 \arguments{
@@ -29,6 +30,11 @@ to this package.}
 where the default is to run them all.}
 
 \item{njitter}{An integer number of jitter runs you want to complete.}
+
+\item{extras}{A single character entry that will be passed to \link{system}
+when running SS. Typically this is \code{"-nohess"} but we have added cbs to make it
+"-nohess -cbs 1500000000" which will decrease run time for larger models.
+See the github issue for \href{https://github.com/iantaylor-NOAA/Lingcod_2021/issues/66}{lingcod in 2021}.}
 }
 \description{
 Run all model investigations for a base model
