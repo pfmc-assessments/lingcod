@@ -31,6 +31,10 @@ vignettes/*.pdf
 *_cache/
 /cache/
 /doc/_bookdown_files/
+/doc/North.tex
+/doc/North.md
+/doc/South.tex
+/doc/South.md
 
 # Temporary files created by R markdown
 *.utf8.md
