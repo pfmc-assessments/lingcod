@@ -106,7 +106,7 @@ sa4ss::read_child("model-changes.Rmd")
 
 ### General model specifications
 ```{r render-model-specification, results = "asis"}
-sa4ss::read_child("model-specification.Rmd")
+sa4ss::read_child("model-specifications.Rmd")
 ```
 ```{r render-model-selectivity, results = "asis"}
 sa4ss::read_child("model-selectivity.Rmd")
