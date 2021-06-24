@@ -24,8 +24,8 @@ plot_indices <- function(mod, png = TRUE, fit = TRUE, log = FALSE) {
     subplot = 2
 
     # make caption
-    caption <- paste0("Index fits for all fleets.",
-                      "Lines indicate 95\\% uncertainty interval around index values ",
+    caption <- paste0("Index fits for all fleets. ",
+                      "Lines indicate 95\\% uncertainty interval around estimated values ",
                       "based on the model assumption of lognormal error. ",
                       "Thicker lines (if present) indicate input uncertainty ",
                       "before addition of an estimated additional uncertainty parameter ",

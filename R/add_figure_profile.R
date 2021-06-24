@@ -44,7 +44,7 @@ add_figure_retro <- function(pathtobase, n) {
     caption = paste0(
       "Change in the ",
       c("spawning biomass", "fraction unfished"),
-      " when the most recent ", n, " of data are removed sequentially."
+      " when the most recent ", n, " years of data are removed sequentially."
       ),
     alt_caption = c(
       paste0("to do"),
