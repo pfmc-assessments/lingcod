@@ -9,26 +9,25 @@ measured by samplers onboard Commercial Passenger Fishing Vessels (CPFV)
 prior to being released (Type 3d data) were also obtained from 2003 to 2020 
 from CDFW. A number of historical datasets that sampled the recreational 
 fishery were also obtained from the CDFW. These include lingcod samples from onboard 
-observers on commercial passenger fishing vessels (CPFV) in 1975-1978 and in 1984-1989
-from southern California, CCRS dockside sampling between 1977-1985 from party boats in
-central California, dockside party boat and skiff samples from 1959-1972 in central
-California focused on lingcod and Blue rockfish sampling, 
-and onboard observers on CPFV's in 1987-1998 from central California.
-<!-- Is Avila, Monterey, and Santa Cruz central california? I would say yes -->
-<!-- but the folder these data are located in say Northern California -->
+observers on commercial passenger fishing vessels (CPFV) in 1975-1978 (n = 832) and in 1984-1989
+(n = 865) from southern California, CCRS dockside sampling between 1977-1985 from party/charter 
+vessels (n = 692) in central California , dockside samples from party/charter (n = 4,818) 
+and skiff vessels (n = 4,307) from 1959-1972 in central
+California that focused on lingcod and Blue rockfish sampling, 
+and onboard observers on CPFV's in 1987-1998 (n = 8,668) from central California.
 The CPFV data from 1975-1979 were compiled by Rob Collins and Steve Crooke 
 from the California Department of Fish and Game, and the data from 1984-1989 were compiled by 
-Ray Alley and David Ono from California Department of Fish and Game and published
-in (@CDFG-Administrative-Report(No. 90-2, May 1991)).The CPFV data from 1987-1998 
+Ray Ally and David Ono from California Department of Fish and Game and published
+in Ally et al. [-@Ally1991]. The CPFV data from 1987-1998 
 (@Reillyetal_1998) were included as an index \@ref(lingcod_DebWV_onboard_writeup_NCA.pdf) 
 within the assessment and so 
 length composition data from this dataset were separated out from the other recreational
 data sources (Figure \ref{fig:debWV-lencomp-unsexed}). 
 
-Length composition data collected by CalPoly (n = 5,501) between 2003 and 2019 were also considered. These samples were part of CCFPR sampling but were similar in length to other length samples from RecFIN and were not used, consistent with the previous assessment.
-<!-- Is there better support for why CalPoly data are not used -->
+Length composition data collected by CalPoly (n = 5,501) between 2003 and 2019 were also considered. These samples were part of CCFPR sampling and were similar in length to other length samples from RecFIN. Given
+the overlap in sampling years, these data were not used, consistent with the previous assessment.
 
-Annual recreational length- and distributions were developed following the same bin structure as was used for data from fishery-independent sources. Many of these composition data lack information on the number of fish sampled out of those landed in a given trip, and therefore composition data are used without expansion to the sample level. Unexpanded recreational composition data are commonly used in West Coast stock assessments for the above reason. Samples sizes used in the model were therefore set at the number of fish sampled for each year and data set. Table \ref{tab:sample-size-length} show the sample sizes for lengths. 
+Annual recreational length- and distributions were developed following the same bin structure as was used for data from fishery-independent sources. Many of these composition data lack information on the number of fish sampled out of those landed in a given trip, and therefore composition data are used without expansion to the sample level. Unexpanded recreational composition data are commonly used in West Coast stock assessments for the above reason. Samples sizes used in the model were therefore set at the number of fish sampled for each year and dataset. Table \ref{tab:sample-size-length} show the sample sizes for lengths. 
 
 Only landed fish were included in composition data. Fish designated as released were excluded from length compositions. This occurred for 9,065 samples, which represent approximately 10 percent of the total samples. 
 
