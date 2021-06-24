@@ -1,11 +1,11 @@
 ### Model Changes from the Last Assessment
 The following is a brief list of the changes from the previous assessment
-[@haltuch_2017_2018].
+[@haltuch2019lingcod].
 
 #### Data
 - Change the boundary between north and south from \CAOR to \CapeM
 - Add new data from 2017-2020
-- Add new ages from earlier years in the \gls{s-wgbts}
+- Add new ages from earlier years in the \gls{s-wcgbt}
 - Re-analyze all data inputs from the raw data with the exception of the 
 trawl logbook index which was re-stratified to account for the change 
 in boundary
