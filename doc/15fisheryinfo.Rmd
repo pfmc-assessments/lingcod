@@ -1,4 +1,4 @@
-## Historical and Current Fishery Information
+## Historical and current fishery information
 
 ```{r textCatchpeakyear}
 # Calculate the year in which the total landings peaked

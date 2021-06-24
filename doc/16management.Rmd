@@ -1,6 +1,6 @@
-## Summary of Management History and Performance
+## Summary of management history and performance
 
-### Commercial Fishery
+### Commercial fishery
 
 Prior to 1977, `r spp` stocks in the northeast Pacific were managed by the
 Canadian Government within its waters and
@@ -72,8 +72,7 @@ observers on a subset of the vessels in the limited entry trawl sector.
 The number of bottom trawl trips with EM monitoring has increased from 24 in 2015 
 to 193 in 2019 but still represents a minority of the vessels and trips.
 
-
-### Recreational Fishery
+### Recreational fishery
 
 Recreational regulations for `r spp` were established in 1994 and included
 a bag limit of three fish in Washington and Oregon,

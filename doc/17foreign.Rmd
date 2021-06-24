@@ -1,4 +1,4 @@
-## Foreign Fisheries
+## Foreign fisheries
 
 Alaskan fisheries for `r spp` may not be foreign, but given that they
 are managed external to the \gls{pfmc}, we summarize them here

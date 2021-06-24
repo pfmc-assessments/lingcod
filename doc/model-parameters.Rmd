@@ -54,7 +54,7 @@ all estimated and fixed parameters is provided in Table \@ref(tab:).
 
 [**TO DO: add more detail here**]
 
-### Fixed Parameters
+### Fixed parameters
 
 Commercial fishery retention parameters for the period prior to 1998 were
 fixed at values that led to almost 100\% retention.
