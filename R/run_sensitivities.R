@@ -11,7 +11,7 @@
 run_sensitivities <- function(dirbase,
                               type = c("profile", "retro", "regularization", "jitter")
                               ) {
-browser()
+
   # Retros, Profile, Jitter
   if (any(grepl("retro|profile|jitter", type))) {
     run_investigatemodel(
