@@ -80,9 +80,10 @@ A similar spike in abundance in 2004 has been observed for other species sampled
 may be indicative of a change in the application of the survey
 rather than an increase in biomass.
 
+```{asis, opts.label = 'south'}
 #### NWFSC Hook and Line Survey
 
-[**NEED TO COMFIRM WITH HARMS THIS WRITE UP IS APPROPRIATE FOR LINGCOD because it was borrowed from copper rockfish**]
+<!-- NEED TO COMFIRM WITH HARMS THIS WRITE UP IS APPROPRIATE FOR LINGCOD because it was borrowed from copper rockfish -->
 
 Since 2004, the \gls{nwfsc} has conducted an annual hook and line survey
 targeting shelf rockfish in the genus Sebastes at fixed stations in the
@@ -105,3 +106,5 @@ Further details regarding the sample frame, site selection,
 and survey methodology are described by Harms et al. [-@harms2008].
 
 [**Need write-up from Tayna Rogers**]
+
+```
