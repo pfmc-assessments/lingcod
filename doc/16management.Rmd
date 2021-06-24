@@ -4,7 +4,7 @@
 
 Prior to 1977, `r spp` stocks in the northeast Pacific were managed by the
 Canadian Government within its waters and
-by the individual states in waters out to three miles off their coastline.
+by the individual states in waters out to three miles off their respective coastlines.
 With the implementation of the \gls{msfcma} in 1976,
 primary responsibility for the management of groundfish stocks off
 Washington, Oregon, and California shifted from the states to the \gls{pfmc}.
@@ -19,13 +19,14 @@ for the first time that restricted landed `r spp` to be at least 22 inches.
 This size restriction matched the restriction within the recreational fishery
 and trawl-caught `r spp`, with a 100 lb exception for the latter.
 The minimum size was increased to 24 inches in 1998.
-Minimum size across areas diverged in 2000 when the minimum size of
+Minimum size across areas diverged in 2000, when the minimum size of
 `r spp` landed south of 40$\circ 10\prime$ N. latitude in the
 limited entry fixed gear fishery increased to 26 inches.
 Currently, the minimum size limits for the limited entry fixed gear
 and open access commercial fisheries
-are 22 and 24 inches north and south of 42$\circ$ N. latitude, respectively,
-which corresponds to 18 and 19.5 inches with the head removed.
+are 22 and 24 inches north and south of 42$\circ$ N. latitude, respectively.
+This corresponds to fish 18 and 19.5 inches after the the head has been removed.
+
 Trip limits on commercial `r spp` catch were first instituted in 1995,
 when a 20,000 lbs/month limit was imposed.
 In 1998, a two-month cumulative limit of 1,000 lbs was imposed.
@@ -33,15 +34,15 @@ Since then, management of the fishery has occurred through
 individual-year \gls{abc} and \gls{oy} levels (Table \@ref(tab:management-refpoints)).
 
 The \gls{pfmc} implemented an initial Rebuilding Plan in 2000
-with size and seasonal limitations in the recreational fishery and
+with size and seasonal limitations in the recreational fishery, and
 a change to limited entry and open access sectors in the commercial fishery.
 Additionally, the coastwide \gls{abc} was reduced
 from 960 mt to 700 mt.
 In the commercial fishery sector, \glspl{hg} in 2000 were reduced by over 80\%
 from 1998 limits.
-To achieve these low harvest goals,
-all commercial fishing for `r spp`  was closed for six months
-(January to April and November to December).
+To achieve these restricted harvests,
+all commercial fishing for `r spp`  was closed for six months during the year,
+from January to April and November to December.
 During the open period between April and November,
 all commercial vessels were limited to 400 lbs per month and
 non-trawl vessels had a minimum size limit of
@@ -58,8 +59,8 @@ Concurrently, \glspl{mpa} in California,
 In these areas, take of all groundfish is prohibited within specified
 depths, habitats, and locations.
 
-Monitoring of the commercial catch of `r spp` started earlier compared 
-to some other U.S. west coast groundfish species, and `r spp` have 
+Monitoring of the commercial catch of `r spp` began earlier compared 
+to some other U.S. West Coast groundfish species, and `r spp` have 
 almost always been their own market category for recording and sampling purposes.
 
 At-sea monitoring of the commercial catch of `r spp` began when the 
@@ -70,7 +71,7 @@ sector became a catch share program and has had 100\% observer coverage since
 that time. In recent years electronic monitoring (EM) has replaced human 
 observers on a subset of the vessels in the limited entry trawl sector.
 The number of bottom trawl trips with EM monitoring has increased from 24 in 2015 
-to 193 in 2019 but still represents a minority of the vessels and trips.
+to 193 in 2019, however that still represents a small minority of the vessels and trips.
 
 ### Recreational fishery
 

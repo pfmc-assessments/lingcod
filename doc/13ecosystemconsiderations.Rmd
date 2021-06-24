@@ -3,13 +3,13 @@
 Ecosystem considerations were not explicitly included in this analysis.
 However, habitat variables were included in some of the models used to
 standardize commercial and recreational \gls{cpue} data prior to including
-the information as an index in the stock assessment model.
-Future work could expand upon that done by Bassett et al. [-@bassett2018lingcod] that
-found ontogenetic shifts in habitat utilization, which could be causing
-only certain ages to benefit from the placement of \glspl{rca} and \glspl{mpa}.
+that information as an index in the stock assessment model.
+Future work could expand upon that done by Bassett et al. [-@bassett2018lingcod], which 
+found that ontogenetic habitat shifts could be an age restriction on the `r spp`
+able to benefit from the placement of \glspl{rca} and \glspl{mpa}.
 
 Given the predatory nature of `r spp`, they more than likely influence the natural
-morality of rockfish species that are highly targeted by recreational fishers
+mortality of rockfish species that are highly targeted by recreational fishers
 [e.g., @beaudreau2007spatial]. When diet data are collected at a sufficient
 spatial resolution to inform predatory relationships, the estimated abundance of
 `r spp` could be used to inform estimates of time-varying natural mortality for
