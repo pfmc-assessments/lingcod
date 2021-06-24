@@ -47,3 +47,15 @@
 #' @format A vector of character values.
 #'
 "info_surveynames"
+
+#' Base model folder names
+#'
+#' A vector of names for the base models. These can be sourced by appending
+#' `"models"` to the beginning to make a file path, e.g.,
+#' `file.path("models", info_basemodels)`.
+#'
+#' @name info_basemodels
+#' @docType data
+#' @format A vector of character values.
+#'
+"info_basemodels"

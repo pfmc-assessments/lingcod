@@ -41,8 +41,15 @@ info_groups <- data.frame(
 #+ info-surveynames
 info_surveynames <- c("WCGBTS", "Triennial")
 
+#+ info_basemodels
+info_basemodels <- structure(
+  c("2021.n.016.001_tune", "2021.s.014.001_esth"),
+  names = get_groups(info_groups)
+  )
+
 #+ info_makedata
 usethis::use_data(info_authors, overwrite = TRUE)
+usethis::use_data(info_basemodels, overwrite = TRUE)
 usethis::use_data(info_bins, overwrite = TRUE)
 usethis::use_data(info_groups, overwrite = TRUE)
 usethis::use_data(info_surveynames, overwrite = TRUE)
