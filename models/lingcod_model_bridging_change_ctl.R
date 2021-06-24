@@ -356,8 +356,8 @@ for (area in c("n")) {
   newctl$size_selex_parms$Block_Fxn <- 0  
 
   ### block_breaks available in workspace were created via
-  # knitr::purl("doc/selectivity.Rmd")
-  # source("selectivity.R")
+  # knitr::purl("doc/model-selectivity.Rmd")
+  # source("model-selectivity.R")
   # usethis::use_data(block_breaks)
 
   if (area == "n") {

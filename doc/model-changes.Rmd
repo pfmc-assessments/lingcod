@@ -1,30 +1,53 @@
 ### Model Changes from the Last Assessment
+The following is a brief list of the changes from the previous assessment
+[@haltuch_2017_2018].
 
-In addition to the re-analysis of all data sources and the change in 
-boundary between north and south, the following changes were made to the 
-modeling approach in the previous assessments:
+#### Data
+- Change the boundary between north and south from \CAOR to \CapeM
+- Add new data from 2017-2020
+- Add new ages from earlier years in the \gls{s-wgbts}
+- Re-analyze all data inputs from the raw data with the exception of the 
+trawl logbook index which was re-stratified to account for the change 
+in boundary
 
+#### Fleet structure
+- In the *south* model, the DebWV CPFV index and associated 
+length composition were separated into a new fleet to allow different
+assumptions about selectivity
+- In the *north* model, add a California recreational fishery for the catches
+and length compositions between \CapeM and \CAOR
+- Early and late periods of the \gls{s-tri} were combined into a 
+continuous time-series
+
+#### Biology
+- Use new age-based maturity estimates for each area
+- Update weight-length relationship to include additional samples
 - Separate natural mortality priors for males and females based on a lower
 maximum age (18 for females, 13 for males, compared to 21 for both sexes)
-- New age-based maturity estimates for each area
-- Update weight-length relationship to include additional samples
+- Estimate female $M$ instead of fixing it at the mean of the prior
+
+#### Recruitment
 - Fix the $\sigma_R$ = 0.6 for both models (in 2017 had been iteratively 
 tuned to 0.55 for the north model and 0.75 for the south)
-- In the *south* model, separate the "DebWV" CPFV index and associated 
-length composition into a separate fleet to provide independent selectivity
-parameters to account for this data source sampling both discarded and 
-retained catch whereas the rest of the 
-California recreational catch is modeled as retained catch only
-- In the *north* model, add selectivity parameters for the California
-recreational fishery
-- Turn off male offsets on selectivity to simplify the model
+- Extend the end of the "main" period of recruitment deviations and the 
+recruitment bias adjustment settings by three years to account for the 
+additional survey data from 2017-2019 (no surveys were conducted in 2020
+do the pandemic)
+
+#### Selectivity and retention
 - Estimate 3 double-normal selectivity parameters within each time block
 for each fleet (whereas the previous model had fewer or more parameters
 estimated depending on the fleet or time block)
 - Fix the retention parameters for the early period of the commercial 
 TW and FG fisheries to retain all selected fish prior to 1998
 - Revise the blocking on numerous selectivity parameters
-- Treat the Triennial survey as a continuous time-series rather than 
-two separate fleets with independent catchability and selectivity parameters
-- Use a newer version of Stock Synthesis version 3.30.17.01 (although
-comparison indicates very little impact of the change in version)
+- Turn off male offsets on selectivity to simplify the model
+
+#### Software
+- Use a newer version of Stock Synthesis version 3.30.17.01
+- Use previously unavailable or updated versions of numerous R packages 
+related to processing input and output files for the assessment, 
+including _nwfscDiag_, _sa4ss_, _r4ss_, and _PacFIN.Utilities_.
+- Created a _lingcod_ R package in a publicly accessible repository on 
+github to provide a transparent and reproducible system for processing
+the data, modifying the model files, and writing these reports.

@@ -1,12 +1,12 @@
 ```{r selectivity-setupnotes, echo = FALSE, include = FALSE, eval = FALSE}
 # get the block_breaks vector from this file:
-knitr::purl("doc/selectivity.Rmd")
-source("selectivity.R")
+knitr::purl("doc/model-selectivity.Rmd")
+source("model-selectivity.R")
 usethis::use_data(block_breaks_north, overwrite = TRUE)
 usethis::use_data(block_breaks_south, overwrite = TRUE)
 ```
 
-## Selectivity, retention, and discard mortality
+#### Selectivity and retention
 
 Selectivity was modeled using the double-normal function of length
 (option 24 in Stock Synthesis) with three of the six possible parameters estimated 
@@ -41,21 +41,23 @@ more than 99% of the observed `r spp` were retained
 
 The specific years with time blocks used for each fleet are noted below.
 
-### Commercial trawl
+<!-- Commercial trawl -->
+For commercial trawl, the time period of blocking on selectivity parameters 
+were reduced from the the 2017 assessment, removing some blocks from the 
+early years. The remaining points of change in selectivity were:
 
-Time period of blocking on selectivity parameters were reduced from the
-the 2017 assessment, removing some blocks from the early years. The remaining
-points of change in selectivity were
 - 1993 (change in mesh size)
 - 1998 (trip limits and size limits) 
 - 2011 (implementation of the catch shares program)
 
 Additionally, there were retention changes modeled in the following years,
 retained from the 2017 assessment.
+
 - 1998 (implementation of groundfish regulations)
 - 2007 (groundfish regulations)
 - 2010 (pre-catch share behavior change and clear reduction in discard rate)
 - 2011 (implementation of the catch shares program)
+
 All blocks were applied to the length at 50% retention, but only the changes in
 1998 and 2011 were applied to the parameter controlling the slope of the
 retention function.
@@ -70,13 +72,16 @@ block_breaks[["Comm_Trawl_ret_infl"]] <- c(1998, 2007, 2010, 2011)
 block_breaks[["Comm_Trawl_ret_width"]] <- c(1998, 2011)
 ```
 
-### Commercial fixed-gear
+<!-- Commercial fixed-gear -->
+For commercial fixed-gear, selectivity was assumed to be constant
+and retention was assumed to change in the following years:
 
-The 2017 assessment had an additional block starting in 2002 and 2003 for 
-the south model to account for closed areas. However, the composition data
-don't show evidence of a change around that time.
 - 1998 (implementation of groundfish regulations) 
 - 2011 (implementation of the catch shares program)
+
+The 2017 south model had a additional
+blocks starting in 2002 and 2003 for the south model to account for closed areas. 
+However, the composition data don't show evidence of a change around that time.
 
 ```{r} 
 # add block break points to list created above
@@ -84,8 +89,10 @@ block_breaks[["Comm_Fix_ret_infl"]] <- c(1998, 2011)
 block_breaks[["Comm_Fix_ret_width"]] <- c(1998, 2011)
 ```
 
+<!--  recreational Washington (north model) -->
 ```{asis, opts.label = 'north'}
-### recreational Washington (north model)
+
+Changes in selectivity of the recreational WA fleet began in
 
 - 1987 (management changes)
 - 1995 (management changes)
@@ -101,16 +108,18 @@ for all catch areas but the change happened in the middle of the year)
 block_breaks[["Rec_WA_sel"]] <- c(1987, 1995, 1998, 2007, 2011, 2017)
 ```
 
+<!-- recreational Oregon -->
 ```{asis, opts.label = 'north'}
-### recreational Oregon
+Changes in selectivity of the recreational OR fleet began in
 
 - 1995 (the first year with a minimum size limit--22 inches)
 - 1998 (min size limit was increased to 24 inches)
 - 2007 (min size limit was reduced from 24 to 22 inches)
 
 Not accounted for is a max size limit in place in Oregon for one year only
-(2000) of 34 inches, as the absence of larger fish observed in a single year
-was assumed to have a negligible impact on the model results.
+(2000) of 34 inches, which is visible in the data, but the absence of larger 
+fish observed in a single year was assumed to have a negligible impact 
+on the model results.
 ```
 
 ```{r} 
@@ -118,7 +127,8 @@ was assumed to have a negligible impact on the model results.
 block_breaks[["Rec_OR_sel"]] <- c(1995, 1998, 2007)
 ```
 
-### recreational California
+<!-- recreational California -->
+Changes in selectivity of the recreational CA fleet began in
 
 ```{asis, opts.label = 'north'}
 - 1999 (min size limit 24 inches)
@@ -130,7 +140,6 @@ northern California used in the north model are
 sparser and correspond to a small fraction of the catch compared to the 
 south model.
 ```
-
 ```{asis, opts.label = 'south'}
 - 1983 (notable reduction in the number of small fish observed)
 - 1999 (min size limit 24 inches)
@@ -143,7 +152,6 @@ Not accounted for is a min size limit of 30 inches in 2004 as sample sizes
 were low in that year.
 ```
 
-
 ```{r} 
 # split breaks into separate north and south
 block_breaks_north <- block_breaks
@@ -154,10 +162,10 @@ block_breaks_north[["Rec_CA_sel"]] <- c(      1999,             2011)
 block_breaks_south[["Rec_CA_sel"]] <- c(1983, 1999, 2000, 2002, 2011, 2017)
 ```
 
-### Triennial survey
-
-A block on selectivity associated with 1995, the year associated with expanded 
-spatial coverage and shift in timing, was considered but not included in the 
+<!-- Triennial survey -->
+A block on selectivity associated for the Triennial survey was explored
+beginning 1995, the year associated with expanded 
+spatial coverage and shift in timing, but not included in the 
 base model.
 
 ```{r} 
