@@ -195,15 +195,15 @@ get_fleet("rec") %>%
 <!-- VAST -->
 <!-- ====================================================================== -->
 
-```{r, results = "asis"}
-mapply(
+```{r figures-vast, results = "asis"}
+ignore <- mapply(
   FUN = add_figure_vast,
   SIMPLIFY = FALSE,
   file.path("..", "data-raw",
     sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), "North")
     # sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), params$area)
   )
-) %>% dplyr::bind_rows(.id = "source") %>% add_figure_ling
+)
 ```
 
 
@@ -228,7 +228,17 @@ do.call(
 
 ### Sensitivity analyses and retrospectives
 
+```{r, figures-retro, echo = FALSE, results = "asis"}
+add_figure_retro(params$model, 5)
+```
+
 ### Likelihood profiles
+
+```{r, figures-profile, echo = FALSE, results = "asis"}
+add_figure_profile(params$model, "NatM")
+add_figure_profile(params$model, "steep")
+add_figure_profile(params$model, "R0")
+```
 
 ### Reference points and forecasts
 

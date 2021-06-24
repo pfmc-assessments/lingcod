@@ -4,8 +4,8 @@ The \Gls{s-wcgbt}, which began in 2003,
 is the longest time series of fishery-independent data
 included in this assessment and the most recent.
 This survey samples the shelf and slope off the U.S. West Coast covering depths
-from 30 - 700 fathoms (55 - 1,280 meters) on an annual basis
-(excluding 2020 due to COVID-19).
+from 30 - 700 fathoms (55 - 1,280 meters; Figure \@ref(fig:s-wcgbt-VAST_inputgrid))
+on an annual basis (excluding 2020 due to COVID-19).
 The survey is based on a random-grid design [@bradburn_2003_2011] that
 generally uses four industry-chartered vessels per year
 assigned to a roughly equal number of randomly selected grid cells and
@@ -31,12 +31,12 @@ Vessel-year effects were included for each unique combination of
 vessel and year in the data to account for the random selection of
 commercial vessels used during sampling
 [@helser_generalized_2004; @thorson_accounting_2014].
-Spatial variation was approximated using 500 knots,
+Spatial variation was approximated using 500 knots (Figure \@ref(fig:s-wcgbt-VAST_mesh)),
 and the model used the bias-correction algorithm
 [@thorson_implementing_2016] in Template Model Builder [@kristensen_tmb:_2016].
 
-The estimated index of abundance was assumed to follow a lognormal distribution
-(Figure \@ref(fig:))
+The estimated index of abundance was assumed to follow a gamma distribution
+(Figure \@ref(fig:s-wcgbt-VAST_QQ))
 but both the lognormal and the gamma fit equally well.
 The quantile-quantile plot did not a significant departure from the
 theoretical quantiles (Figure \@ref(fig:)) and

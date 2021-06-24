@@ -17,11 +17,11 @@ add_figure_vast <- function(dir, outfile) {
     "}"
   )
   data <- data.frame(
-    filein = file.path(dir, dir(dir, pattern = "VASTWestCoast_.*\\.png")),
-    order = c(4, 2, 3, 1),
+    filein = file.path(dir, dir(dir,
+      pattern = "VASTWestCoast_[Qmi].*\\.png")
+    ),
+    order = c(1, 2, 3),
     caption = c(
-      # to do - reference Ian's plot instead of individual plots
-      paste0("Results of ", boilerplate, "."),
       paste0(
         "Map of the area modeled by the index-standardization process for ",
         boilerplate, "."
@@ -35,16 +35,18 @@ add_figure_vast <- function(dir, outfile) {
       )
     ),
     alt_caption = c(
-      paste0("Time series of index points described in the model-results section."),
       paste0("Blue outline of area included in the model."),
       paste0("Web of points connected to 'knots', which is an input to the model."),
       paste0("Data largely follow the one-to-one line.")
     )
   )
-  data[, "label"] <- gsub("_[0-9]{4}\\.[a-zA-Z]{3}|\\.[a-zA-Z]{3}", "", basename(data[["filein"]]))
-  if (missing(outfile)) {
-    return(data)
-  } else {
-    write.csv(data, outfile, row.names = FALSE)
-  }
+
+  data[, "label"] <- paste0(get_fleet(col = "gls")[row], "-",
+    gsub("WestCoast|_[0-9]{4}\\.[a-zA-Z]{3}|\\.[a-zA-Z]{3}", "",
+      basename(data[["filein"]])
+    )
+  )
+
+  cat(add_figure_ling(data))
+
 }
