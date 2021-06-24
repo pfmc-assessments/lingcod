@@ -200,8 +200,7 @@ ignore <- mapply(
   FUN = add_figure_vast,
   SIMPLIFY = FALSE,
   file.path("..", "data-raw",
-    sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), "North")
-    # sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), params$area)
+    sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), params$area)
   )
 )
 ```
