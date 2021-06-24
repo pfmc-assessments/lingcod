@@ -99,12 +99,12 @@ sa4ss::read_child(file.path("STARpanelRecs.Rmd"))
 
 ## Model structure and assumptions
 
-### Model changes from the last assessment
 ```{r render-model-changes, results = "asis"}
 sa4ss::read_child("model-changes.Rmd")
 ```
 
 ### General model specifications
+
 ```{r render-model-specification, results = "asis"}
 sa4ss::read_child("model-specifications.Rmd")
 ```
@@ -112,7 +112,8 @@ sa4ss::read_child("model-specifications.Rmd")
 sa4ss::read_child("model-selectivity.Rmd")
 ```
 
-### Model Parameters
+### Model parameters
+
 ```{r render-model-parameters, results = "asis"}
 sa4ss::read_child("model-parameters.Rmd")
 ```
