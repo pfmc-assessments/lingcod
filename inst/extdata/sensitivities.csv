@@ -27,11 +27,11 @@
 #' dontrun: just create the follow to allow user to manually edit the files,,,,,,,,,,,,,,
 #',,,,,,,,,,,,,,
 group,num,north,south,parlabel,INIT,PHASE,PRIOR,PR_SD,lambda_comp,lambda_fleet,function,dontrun,suffix,description
-bio_rec,101,TRUE,TRUE,"""c('NatM_.*_Fem', 'NatM_.*_Mal')""","""c(0.3, 0)""","""c(5, -99)""",-1.028,0.467,,,,,_shareM,estimate a single M for both sexes with a mixture distribution of the priors
+bio_rec,101,TRUE,TRUE,"""c('NatM_uniform_Fem', 'NatM_uniform_Mal')""","""c(0.3, 0)""","""c(5, -99)""",-1.028,0.467,,,,,_shareM,estimate a single M for both sexes with a mixture distribution of the priors
 bio_rec,102,TRUE,TRUE,steep,0.7,-99,,,,,,,_h0.7,fix h at 0.7
-bio_rec,103,TRUE,TRUE,"""c('NatM_.*_Fem', 'steep')""","""c(0.3, 0.7)""",,,,,,,,_M0.3_h0.7,fix female M at 0.3 and h at 0.7
-bio_rec,104,TRUE,TRUE,sigmaR,0.8,,,,,,,,_sigmaR0.8,increase sigmaR from 0.6 to 0.8
-bio_rec,105,TRUE,TRUE,sigmaR,0.4,,,,,,,,_sigmaR0.4,decrease sigmaR from 0.6 to 0.4
+bio_rec,103,TRUE,TRUE,"""c('NatM_uniform_Fem', 'steep')""","""c(0.3, 0.7)""",,,,,,,,_M0.3_h0.7,fix female M at 0.3 and h at 0.7
+bio_rec,104,TRUE,TRUE,SR_sigmaR,0.8,,,,,,,,_sigmaR0.8,increase sigmaR from 0.6 to 0.8
+bio_rec,105,TRUE,TRUE,SR_sigmaR,0.4,,,,,,,,_sigmaR0.4,decrease sigmaR from 0.6 to 0.4
 comp,201,FALSE,TRUE,,,,,,,,,TRUE,_all_CAAL_ages,add all additional ages as CAAL to the south model
 comp,202,FALSE,TRUE,,,,,,,,,TRUE,_all_marg_ages,add all additional ages as marginal to the south model
 comp,203,FALSE,TRUE,,,,,,,,,TRUE,_some_CAAL_ages,add all fishery-independent ages as CAAL in the south model

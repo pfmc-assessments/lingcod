@@ -8,6 +8,7 @@
 #' \dontrun{
 #' dirbase <- get_dir_ling(area = area, num = 14, sens = 1)
 #' run_sensitivities(dirbase, c("profile", "retro", "regularization"))
+#' run_sensitivities(get_dir_ling("n", 17), type = "sens", numbers = c(102, 104))
 #' }
 run_sensitivities <- function(dirbase,
                               type = c("profile", "retro", "regularization",
@@ -29,7 +30,7 @@ run_sensitivities <- function(dirbase,
     dir %>%
       substring(first = 1,
                 last = nchar("models/2021.n.001")) %>%
-      paste0(., ".", sprintf("%03d", num), string)
+      paste0(., ".", sprintf("%03d", num), suffix)
   }
 
   #' wrapper for r4ss::copy_SS_inputs() with defaults for run_sensitivies()
@@ -42,10 +43,19 @@ run_sensitivities <- function(dirbase,
             copy_exe = TRUE,
             dir.exe = get_dir_exe(),
             overwrite = TRUE,
-            verbose = TRUE
+            verbose = FALSE
           )
   }
 
+  #' convert values from the CSV file into numeric or NULL
+  fix_val <- function(x) {
+    if (is.na(x) || x == "") {
+      NULL
+    } else {
+      as.numeric(x)
+    }
+  }
+  
   # Retros, Profile, Jitter
   if (any(grepl("retro|profile|jitter", type))) {
     run_investigatemodel(
@@ -68,22 +78,24 @@ run_sensitivities <- function(dirbase,
                                        package = "lingcod"),
                            comment.char = "#",
                            blank.lines.skip = TRUE)
-    for(isens in numbers) {
-      newdir <- dirbase %>%
-        sensitivity_path(num = isens, suffix = sens_table$suffix[isens])
+    for(isens in intersect(sens_table$num, numbers)) {
+      sens <- sens_table %>% dplyr::filter(num == isens)
+
+      newdir <- dirbase %>% sensitivity_path(num = isens, suffix = sens$suffix)
       message("creating ", newdir)
       sensitivity_copy(dirbase, newdir)
-
-      ## if (sens_table$parlabel != "") {
-      ##   r4ss::SS_changepars(newdir, 
-      ##                       ctlfile = "ling_control.ss", newctlfile = "ling_control.ss",
-      ##                       strings = "steep",
-      ##                       INIT = ifelse(senstable$newvals = NULL, repeat.vals = FALSE,
-      ##                                     ### continue here....
-      ##      newlos = NULL, newhis = NULL, newprior = NULL, newprsd = NULL, newprtype = NULL,
-      ##      estimate = NULL, verbose = TRUE,
-      ##      newphs = NULL
-      ##   }
-    }
-  }
+      if (sens$parlabel != "") {
+        r4ss::SS_changepars(dir = newdir, 
+                            ctlfile = "ling_control.ss",
+                            newctlfile = "ling_control.ss",
+                            strings = sens$parlabel,
+                            newvals = fix_val(sens$INIT),
+                            newphs = fix_val(sens$PHASE),
+                            newprior = fix_val(sens$PRIOR),
+                            newprsd = fix_val(sens$PR_SD),
+                            verbose = FALSE
+                            )
+      } # end test for non-empty parlabel
+    } # end loop over sensitivity numbers in the table
+  } # end check for "sens" in type
 }
