@@ -1,10 +1,23 @@
 ### Priors
 
-[TO DO: add here]
+The prior distributions for female and male natural mortality were based on
+the Hamel [-@hamel_method_2015] meta-analytic approach with an assumed maximum
+age of 18 and 13 years old for females and males, respectively.
+
+The prior distribution for steepness was based on the prior distribution used
+in the assessment of Pacific Hake, _Merluccius productus_ [@JTC2021],
+which is based on the 20th, 50th, and 80th percentiles (0.67, 0.79, and 0.87, respectively)
+from Myers et al. [@myers1999]. The prior has a beta distribution given the following
+parameters: 9.76 and 2.80, which translates to a mean of 0.777 and a log-standard
+deviation of 0.113. This prior has been used for Pacific Hake since 2007.
+The terms of reference for groundfish managed by the \gls{pfmc} suggest that priors
+on steepness should have a mean of 0.72 and a standard deviation of 0.16.
+An analysis from [FishLife](github.com/James-Thorson/FishLife) suggested a prior
+with a mean of 0.67 and a standard deviation of 0.22.
+
+[**TO DO: add text here, make figures of each prior, but see r4ss Pars tab**]
 
 ### Estimated parameters
-
-A full list of all estimated and fixed parameters is provided in Table XXX. 
 
 ```{r parameters, include = FALSE, eval = TRUE, cache = TRUE}
 # get parameter names from base model
@@ -27,19 +40,19 @@ in the following categories:
   - `r nrow(model$recruit)` recruitment deviations parameters covering the range
   `r min(model$recruit$Yr)`-`r max(model$recruit$Yr)`, with 
   `r min(model$recruit$Yr[model$recruit$era=="Main"])`-`r max(model$recruit$Yr[model$recruit$era=="Main"])`
-  representing the "main" period modeled as a zero-centered deviation vector.
+  representing the "main" period modeled as a zero-centered deviation vector
 - `r sum(sum(grepl("Q_extra", estimated_pars)))` extra standard deviation parameters
 for indices
 - `r sum(grepl("Size_DblN", estimated_pars))` selectivity parameters of which
 `r sum(grepl("Size_DblN.*BLK", estimated_pars))` represented changes over time
 - `r sum(sum(grepl("Retain", estimated_pars)))` retention parameters all of which
-represented changes over time since the retention prior to 1998 was assumed to be
-high for all selected fish.
+represented changes over time because the retention prior to 1998 was assumed to be
+high for all selected fish
 
 The estimated parameters are described in greater detail below and a full list of 
-all estimated and fixed parameters is provided in Table XXX.
+all estimated and fixed parameters is provided in Table \@ref(tab:).
 
-[TO DO: add more detail here]
+[**TO DO: add more detail here**]
 
 ### Fixed Parameters
 

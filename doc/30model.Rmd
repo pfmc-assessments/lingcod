@@ -65,15 +65,16 @@ for the low alternative was the exclusion of the dockside recreational \gls{cpue
 The 2017 assessment [@haltuch2019lingcod] was conducted using Stock Synthesis and
 matched the spatial structure used for 2009 [@hamel2009] but made numerous changes,
 including
+
 - expansion of the time period of the assessments back to 1889,
 - separation of commercial fleets into TW and FG,
 - separation of state-specific recreational fleets
 - updating of numerous existing data sources
-- addition of numerous fishery-dependent CPUE indices and the \gls{s-hkl} index
+- addition of numerous fishery-dependent \gls{cpue} indices and the \gls{s-hkl} index
 - updated prior on natural mortality
 - updated biology parameters for maturity and length-weight relationships
 - updated ageing uncertainty
-- different treatment of some age data as marginal vs conditioned on length
+- different treatment of some age data as marginal versus conditioned on length
 
 The estimated scales of the populations were sensitive to the inclusion of age data,
 nevertheless, estimates of status remained the same with or without the age data.
@@ -124,14 +125,18 @@ sa4ss::read_child("model-parameters.Rmd")
 sa4ss::read_child("model-selection.Rmd")
 ```
 
-
 ### Base model evaluation
 
+[**TO DO: add text here**]
 
 ### Base model results
 
+[**TO DO: add text here**]
 
 ### Evaluation of uncertainty
 
+[**TO DO: add text here**]
 
 ### Comparison of north and south models
+
+[**TO DO: add text here**]

@@ -35,7 +35,8 @@ Spatial variation was approximated using 500 knots (Figure \@ref(fig:s-wcgbt-VAS
 and the model used the bias-correction algorithm
 [@thorson_implementing_2016] in Template Model Builder [@kristensen_tmb:_2016].
 
-The estimated index of abundance was assumed to follow a gamma distribution
+The estimated index of abundance (Figure \@ref(fig:index_fits_all_fleets))
+was assumed to follow a gamma distribution
 (Figure \@ref(fig:s-wcgbt-VAST_QQ))
 but both the lognormal and the gamma fit equally well.
 The quantile-quantile plot did not a significant departure from the
@@ -75,7 +76,8 @@ for this assessment, we combined across time series into a single fleet.
 had a low gradient.
 
 The index was generally cup shaped but with a large spike up in 2004,
-the terminal year. The 2004 data point increased at a rate beyond what may be anticipated given the life history of `r spp`.
+the terminal year (Figure \@ref(fig:index_fits_all_fleets)).
+The 2004 data point increased at a rate beyond what may be anticipated given the life history of `r spp`.
 A similar spike in abundance in 2004 has been observed for other species sampled (e.g., petrale sole, dover) observed in the \gls{s-tri} which
 may be indicative of a change in the application of the survey
 rather than an increase in biomass.
@@ -105,6 +107,6 @@ Five drops are attempted at each site for a maximum possible catch of
 Further details regarding the sample frame, site selection,
 and survey methodology are described by Harms et al. [-@harms2008].
 
-[**Need write-up from Tayna Rogers**]
+[**to do - get write-up from Tayna Rogers**]
 
 ```
