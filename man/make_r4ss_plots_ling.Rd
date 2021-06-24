@@ -4,12 +4,14 @@
 \alias{make_r4ss_plots_ling}
 \title{Make r4ss plots for Lingcod assessment}
 \usage{
-make_r4ss_plots_ling(mod, plot = 1:26, verbose = TRUE, ...)
+make_r4ss_plots_ling(mod, plot = c(1:26, 31:50), verbose = TRUE, ...)
 }
 \arguments{
 \item{mod}{List created by \code{\link[=get_mod]{get_mod()}} or \code{r4ss::SS_output()}}
 
-\item{plot}{Vector of plot groups passed to \code{r4ss::SS_plots()}}
+\item{plot}{Vector of plot groups passed to \code{r4ss::SS_plots()}
+as well as cutom plots with numbers starting at 31
+(see code for which plots match which numbers).}
 
 \item{verbose}{A logical value specifying if output should be printed
 to the console or not. The default is \code{FALSE}, which will suppress messages.}

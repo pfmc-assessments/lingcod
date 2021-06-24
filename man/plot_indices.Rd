@@ -4,12 +4,18 @@
 \alias{plot_indices}
 \title{Plot all indices in one figure for the lingcod models}
 \usage{
-plot_indices(mod)
+plot_indices(mod, png = TRUE, fit = TRUE, log = FALSE)
 }
 \arguments{
 \item{mod}{A model object created by \code{\link[=get_mod]{get_mod()}}. Could also be
 created by \code{r4ss::SS_output()} but needs to have an element "area"
 added to the list.}
+
+\item{png}{write to png file or existing plot device}
+
+\item{fit}{include fit or just data only}
+
+\item{log}{plot on a log scale}
 }
 \value{
 A figure showing the fit to all indices.
