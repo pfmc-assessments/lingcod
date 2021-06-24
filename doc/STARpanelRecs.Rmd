@@ -2,7 +2,44 @@
 
 The 2017 STAR report [**to do cite report**] noted 4 Unresolved Problems, 
 3 Major Uncertainties, and provided 3 specific recommendations for future 
-research from the most recent full stock assessment @haltuch_2017_2018. 
+research from the most recent full stock assessment on `r spp` @haltuch_2017_2018. 
+In addition, the Panel made four recommendations for stock assessments in general. 
+
+The three specific recommendations from the 2017 STAR panel were as follows:
+
+\begin{enumerate}
+   
+  \item There should be a study to cross-validate age-readings of lingcod 
+  among the different laboratories contributing age data to the assessment. 
+  It may be necessary to develop laboratory-specific (and possibly year-specific) 
+  ageing-error vectors.
+  
+  \item Available information on lingcod catches, abundance trends, and 
+  age-compositions should be acquired from Canadian and Mexican authorities 
+  to take an initial step towards a more spatially-comprehensive view of lingcod 
+  population trends and dynamics.
+  
+  \item The next iteration of this assessment could be an update assessment. 
+  If a full assessment is done it should explore developing a spatial model 
+  that encompasses the northern and southern areas rather than again treating 
+  them as independent stocks, as in the current and previous assessments.
+  
+\end{enumerate}
+
+Two of the three recommendations were addressed. [**confirm if done**]
+
+The first recommendation on ageing error was addressed and is described in the 
+[Ageing Error](ageing-precision-and-bias) section of this report. 
+
+Additional information on lingcod in Mexico, Canada, and Alaska are provided in
+the [Foreign Fisheries](foreign-fisheries) section of this report. 
+[**potentially more information in issue #16, thoguh perhaps that is already
+in the foregin fisheries section**]
+
+In regards to spatial modeling [**to do Not sure how to state it elegently 
+that we did not do this**]
+
+
 The four Unresolved Problems were as follows:
 
 \begin{enumerate}
@@ -31,7 +68,7 @@ The four Unresolved Problems were as follows:
   
 \end{enumerate}
 
-All Unresolved Problems were addressed during this assessment. 
+All Unresolved Problems were addressed during this assessment. [**confirm if done**]
 
 Unresolved problem #1 was addressed by exploring the use of age data as conditioned 
 on length for sexed `r spp`, though unsexed fish were excluding with CAAL data. 
@@ -41,8 +78,8 @@ based on the create_caal_nonsurvey.R script. May wish to state here the amount o
 aged fish - and whether it was high or not. Regardless, sexed fish is a good start**]
 
 Unresolved problem #2 was address by conducting additional analysis
-on ageing error among readers. This is described in detail in 
-[Ageing Error](ageing-precision-and-bias) section.
+on ageing error among readers. This is described in detail in the
+[Ageing Error](ageing-precision-and-bias) section of this report.
 
 Unresolved problem #3 [**to do add more based on model exploration**]
 
@@ -51,3 +88,69 @@ and not unique to `r spp`. We explored a number of sensitivities
 excluding data sources and reconciling data conflicts. 
 
 [**to do add more based on model exploration**]
+
+The three Major Uncertainties were as follows:
+
+\begin{enumerate}
+   
+  \item Stock structure: Aspects of the length- and age-compositions evident 
+  in the NWFSC survey data strongly indicate spatial patterns that probably 
+  cannot be well mimicked with separate, independent models for the north and the south
+  
+  \item Key productivity parameters: Neither the northern model nor the 
+  southern model were able to estimate the steepness or the female natural 
+  mortality parameters given the available data. Values for these key parameters 
+  had to be fixed but there is very little knowledge to inform the choice of those 
+  values. As such this is a source of considerable uncertainty. During review of 
+  this report the STAT suggested that including the age-composition data in the 
+  northern base model (data had been removed during the STAR) would allow estimation of M and h.
+  
+  \item Habitat area, north versus south: The northern and southern base 
+  models estimate appreciable differences in the unfished spawning biomass 
+  of lingcod (37,974 mt in the north versus 20,462 mt in the south). It is 
+  unknown whether such a difference is consistent with the habitat areas 
+  suitable to support lingcod in the north versus the south.
+  
+\end{enumerate}
+
+All Major Uncertainties were explored during this assessment. [**confirm if done**]
+
+Research on `r spp` stock structure has been done since the last stock assessment
+and provides evidence of a stock break in central California [@longo2020strong]. Details were 
+described in the [Stock delineation](stock-delineation) section. Although this may
+not resolve evidence of wide scale spatial patters, major Uncertainty #1 
+can now be rexamined under additional information on stock structure. 
+
+[**maybe the issue in the data goes away. If so this should be updated**]
+
+Major Uncertainty #2 remains a source of uncertainty in the model. The Terms of Reference
+for the assessment provide a base assumption for the value of steepness in the event 
+steepness cannot be estimated. [**more work here**]
+
+Major Uncertainty #3 was addressed using simple assumptions on available habitat 
+by assuming the relative difference in the amount of area in depths between 55m and 300m 
+approximates the relative difference in habitat area between modeled regions. This is 
+discussed in the context of our next results [**shoudl discuss, or else point to section
+where this is discussed**]
+
+
+The four general recommendations on stock assessments were as follows:
+
+\begin{enumerate}
+   
+  \item Modify the software used to develop length- and age-compositions from PacFIN data so that unsexed fish are flagged rather than including them in compositions after the automatic application of an assumed sex-ratio (e.g., 50:50). If the analysts preparing the composition data need to develop sex-ratio coefficients to accommodate unsexed fish (e.g., by length-bin), the assessment documents should clearly state the methods and data used for this purpose and the resulting sex-ratio coefficients.
+  
+  \item If assessments use marginal age-compositions the STATs should evaluate whether the raw data are consistent with random sub-sampling from the available lengths. If the ages appear to have been subsampled non-randomly (e.g., no more than 5 fish from any length-bin), the age data should be suitably expanded to reflect the variable sampling fraction.
+  
+  \item A standard approach for combining conditional age-at-length sample data into annual CAAL compositions should be developed and reviewed. If age data are not selected in proportion to the available lengths, simple aggregation of the ages by length-bin may provide biased views of the overall age-composition and year-class strength.
+  
+  \item Comprehensively evaluate whether the Triennial survey should be split into early and late segments and the basis for making the decision. The lingcod assessment split the Triennial survey into separate early and late surveys, whereas there was a single Triennial survey in the draft assessment for Pacific ocean perch brought to this STAR.
+  
+\end{enumerate}
+
+Ongoing work by the NWFSC staff has addressed recommendations 1, 2, 3, and explorations 
+by the `r spp` STAT can inform recommendation 4, though not comprehensively. 
+[**to do, not entirely sure about address item 2. We expand ages now though dont explicitly see if 
+there are no more than 5 per length - though easy to do with CAAL**]
+
+
