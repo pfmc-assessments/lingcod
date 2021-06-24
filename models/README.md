@@ -60,6 +60,8 @@ name | notes | issue | source_model | script
 2021.n.004.012_marginal_ages | marginal ages for all but WCGBTS |  | 2021.n.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
 2021.s.004.012_marginal_ages | marginal ages for all but WCGBTS |  | 2021.s.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
 2021.n.004.013_rec_CAAL | use CAAL for the rec fleets (previous had it marginal) | #80, #83 | 2021.n.002.001 | lingcod_model_bridging_newdata.R
+2021.n.004.014_no_fishery_ages | remove fishery ages, all others as CAAL | #87 | 2021.n.004.013 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
+2021.s.004.014_no_fishery_ages | remove fishery ages, all others as CAAL | #87 | 2021.s.004.009 | lingcod_model_bridging_newdata.R, model_bridging_change_ages.R
 2021.n.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.s.005.001_initial_ctl_changes | initial default assumptions in the control file | #59 | 2021.s.004.002_new_data | lingcod_model_bridging_change_ctl.R
 2021.n.006.001_next_ctl_changes | continuing control file changes while leaving model 5 results for exploration | #59 | 2021.n.004.002_new_data | lingcod_model_bridging_change_ctl.R
@@ -132,3 +134,7 @@ name | notes | issue | source_model | script
 2021.n.015.002_allCAALages_no_rec_WA_index | rec as CAAL plus remove WA rec index  | #83 | 2021.n.004.013 | lingcod_model_bridging_change_ctl.R 
 2021.n.015.003_Francis | Francis tuning of model with all ages as CAAL  | #83 | 2021.n.015.001 | lingcod_model_bridging_change_ctl.R 
 2021.n.015.004_extraSD | turn on extraSD for Tri and float for all indices  | #83 | 2021.n.015.003 | lingcod_model_bridging_change_ctl.R 
+2021.n.016.001_tune | tune bias recruitment adjustment settings  | #99 | 2021.n.015.004 | lingcod_model_bridging_change_ctl.R 
+2021.s.016.001_tune | tune bias recruitment adjustment settings  | #99 | 2021.n.014.001 | lingcod_model_bridging_change_ctl.R 
+2021.n.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
+2021.s.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 

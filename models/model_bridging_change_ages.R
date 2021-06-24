@@ -2,9 +2,15 @@
 
 # create new directories with input files
 for (area in c("n", "s")){
-  olddir <- get_dir_ling(area = area, num = 4, sens = 9) # fix duplicate CAAL TW & FG
+  if (area == "n") {
+    olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
+  }
+  if (area == "s") {
+    olddir <- get_dir_ling(area = area, num = 4, sens = 9) # fix duplicate CAAL TW & FG
+  }
   #newdir <- get_dir_ling(area = area, num = 4, sens = 11) # no ages except WCGBTS
-  newdir <- get_dir_ling(area = area, num = 4, sens = 12) # marginal ages
+  #newdir <- get_dir_ling(area = area, num = 4, sens = 12) # marginal ages
+  newdir <- get_dir_ling(area = area, num = 4, sens = 14) # no fishery ages
 
   ## if (area == "n") {
   ## }
@@ -27,7 +33,8 @@ for (area in c("n", "s")){
   # modify ages
   fleets_with_ages <- unique(abs(inputs$dat$agecomp$FltSvy))
   WCGBTS_num <- get_fleet("WCGBTS", col = "num")
-
+  fishery_nums <- c(get_fleet("Comm", col = "num"),
+                    get_fleet("Rec", col = "num"))
   
   if (grepl("fewer_ages", newdir)) {
     message("making all ages as ghost ages except WCGBTS CAAL data")
@@ -51,6 +58,18 @@ for (area in c("n", "s")){
                              "#C modified to have all ages as marginal except WCGBTS CAAL comps"
                              )
   }
+  if (grepl("no_fishery_ages", newdir)) {
+    message("making all fishery ages as ghost ages")
+    inputs$dat <- change_ages(dat = inputs$dat,
+                              area = area,
+                              fleets_marginal = NULL,
+                              fleets_conditional = setdiff(fleets_with_ages, fishery_nums)
+                              )
+    inputs$dat$Comments <- c(inputs$dat$Comments,
+                             "#C modified to remove fishery ages and include other ages as CAAL comps"
+                             )
+  }
+  
   # add general comment
   inputs$dat$Comments <- c(inputs$dat$Comments,
                            paste0("#C file written to ", newdir),

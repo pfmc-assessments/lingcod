@@ -3,9 +3,9 @@
 verbose <- TRUE
 
 # create new directories with input files
-#for (area in c("n", "s")) {
-#for (area in c("s")) {
-for (area in c("n")) {
+for (area in c("n", "s")) {
+  #for (area in c("s")) {
+  #for (area in c("n")) {
 
   # source data file
   # + add data
@@ -13,21 +13,29 @@ for (area in c("n")) {
   # + WA rec CPUE (num = 4, sens = 7)
   # + remove extra Rec_OR index (num = 4, sens = 8)
   # + fix to commercial CAAL (num = 4, sens = 9)
-  #olddir <- get_dir_ling(area = area, num = 4, sens = 12) # marginal_ages
-  # new directory
-  #newdir <- get_dir_ling(area = area, num = 14, sens = 2) # marginal_ages
-
+  # + add rec CAAL (north only) (num = 4, sens = 13)
+  # + remove all but WCGBTS ages (south only) (num = 4, sens = 11)
+  
   if(area == "n") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
-    newdir <- get_dir_ling(area = area, num = 15, sens = 4) # rec_CAAL
-    # source for tuning
-    tuningdir <- get_dir_ling(area = area, num = 15, sens = 3) 
+    newdir <- get_dir_ling(area = area, num = 16, sens = 1)
+
+    # source for data weighting of comp data
+    tuningdir <- get_dir_ling(area = area, num = 15, sens = 4) 
+    # source for bias adjustment of recdevs
+    biasdir <- tuningdir
+    #biasdir = NULL # stick with values from 2017 adjusted by 3 years below
   }
+
   if(area == "s") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 11) # fewer_ages
-    newdir <- get_dir_ling(area = area, num = 14, sens = 3) # fewer_ages
-    # source for tuning
+    newdir <- get_dir_ling(area = area, num = 16, sens = 1) # 
+    
+    # source for data weighting of comp data
     tuningdir <- get_dir_ling(area = area, num = 14, sens = 1) 
+    # source for bias adjustment of recdevs
+    biasdir <- tuningdir
+    #biasdir = NULL # stick with values from 2017 adjusted by 3 years below
   }
 
   # get model number (3rd element in model id) for filtering some options
@@ -191,7 +199,29 @@ for (area in c("n")) {
                                    PR_type = 2,
                                    PHASE = 4
                                    )
-  }  
+  }
+  # get bias adjustment settings
+  if (!is.null(biasdir)) {
+    if (verbose) {
+      message("reading model for bias adjustment settings from ",
+              biasdir)
+    }
+    biasmod <- get_mod(dir = biasdir, verbose = FALSE, printstats = FALSE)
+    biasadj <- r4ss::SS_fitbiasramp(biasmod, plot=FALSE)
+    newctl$last_early_yr_nobias_adj <- biasadj$df$value[1]
+    newctl$first_yr_fullbias_adj <- biasadj$df$value[2]
+    newctl$last_yr_fullbias_adj <- biasadj$df$value[3]
+    newctl$first_recent_yr_nobias_adj <- biasadj$df$value[4]
+    newctl$max_bias_adj <- biasadj$df$value[5]
+
+    # change start of main recdevs from 1965 in north model
+    if (area == "n") {
+      if (verbose) {
+        message("shifting start of main recdevs to 1960")
+      }
+      newctl$MainRdevYrFirst <- 1960
+    }
+  }
 
   
   #########################################################################

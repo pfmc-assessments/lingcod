@@ -17,9 +17,9 @@ change_ages <- function(dat,
                         area,
                         fleets_marginal = NULL,
                         fleets_conditional = NULL) {
+
   # get agecomps from data file
   agecomp <- dat$agecomp
-
   # turn off all ages
   agecomp$FltSvy <- -1 * abs(agecomp$FltSvy)
   # turn on marginal ages for the chosen fleets
@@ -27,11 +27,13 @@ change_ages <- function(dat,
     sub <- abs(agecomp$FltSvy) %in% f & agecomp$Lbin_lo == -1
     agecomp$FltSvy[sub] <- abs(agecomp$FltSvy[sub])
   }
+  
   # turn on CAAL ages for the chosen fleets
   for(f in fleets_conditional) {
     sub <- abs(agecomp$FltSvy) %in% f & agecomp$Lbin_lo > 0
     agecomp$FltSvy[sub] <- abs(agecomp$FltSvy[sub])
   }
+
   # remove CAAL with negative fleets to speed up the model
   agecomp <- agecomp[agecomp$FltSvy > 0 | agecomp$Lbin_lo == -1,]
   
