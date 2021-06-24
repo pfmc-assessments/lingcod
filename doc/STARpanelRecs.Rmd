@@ -1,4 +1,53 @@
 <!-- Most recent STAR panel and SSC recommendations -->
 
+The 2017 STAR report [**to do cite report**] noted 4 Unresolved Problems, 
+3 Major Uncertainties, and provided 3 specific recommendations for future 
+research from the most recent full stock assessment @haltuch_2017_2018. 
+The four Unresolved Problems were as follows:
 
+\begin{enumerate}
+   
+  \item The models did not use the available age data sampled from the 
+  fishing fleets due to concerns that unsexed fish had been assigned equally 
+  to the sexes without regard to length and because of evidence there had 
+  been non-random subsampling of fish for age-reading.
+  
+  \item The available age-readings had been done by at least two laboratories. 
+  It was unclear that age-reading protocols had been employed consistently
+  
+  \item In the northern model the STAT fixed the parameter for female length 
+  at age 14 years because when this parameter was freely estimated the model 
+  estimated asymptotic selection for the trawl fishery and greatly altered 
+  the estimates of spawning biomass. It was unclear what data sources were 
+  responsible for this result.
+  
+  \item Sensitivity analyses for draft versions of both models indicated 
+  they were sensitive to underlying structural assumptions such as the starting 
+  year for recruitment deviations and which indices were included. Although 
+  the revisions to the models developed during the STAR may have lessened the 
+  sensitivity of the models by removing sources of tension and keeping the more 
+  reliable data, there was not sufficient time during the review to explore the 
+  sensitivity of the final base models.
+  
+\end{enumerate}
 
+All Unresolved Problems were addressed during this assessment. 
+
+Unresolved problem #1 was addressed by exploring the use of age data as conditioned 
+on length for sexed `r spp`, though unsexed fish were excluding with CAAL data. 
+
+[**currently nwfscSurvey methodology does not include unsexed fish. This could be overcome
+based on the create_caal_nonsurvey.R script. May wish to state here the amount of unsexed 
+aged fish - and whether it was high or not. Regardless, sexed fish is a good start**]
+
+Unresolved problem #2 was address by conducting additional analysis
+on ageing error among readers. This is described in detail in 
+[Ageing Error](ageing-precision-and-bias) section.
+
+Unresolved problem #3 [**to do add more based on model exploration**]
+
+Unresolved problem #4 is a general issue of stock assessment modeling, 
+and not unique to `r spp`. We explored a number of sensitivities 
+excluding data sources and reconciling data conflicts. 
+
+[**to do add more based on model exploration**]
