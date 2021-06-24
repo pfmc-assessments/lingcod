@@ -94,9 +94,20 @@ table3_exp = function(comp, region, type){
   return(sex)
 }
 
-table3_exp_discard = function(comp){
+table3_exp_discard = function(comp, region){
   
   #Expanded comps from comm discards. Sex = 0 so only unsexed
+  
+  #Region must be either "north" or "south" to obtain sample sizes
+  
+  
+  samps = read.csv(file.path(getwd(),"data-raw",
+            "Mendocino_Lincod_2021_WCGOP_Comps_LF_Sample_Sizes.csv"),
+            header = T)
+  samps$fleet <- 2
+  samps[samps$Gear == "TRAWL","fleet"] <- 1
+  nhauls = samps[tolower(samps$State) == tolower(region),]
+
 
   unsex <- comp[,c("year","fleet", "sex")]
   
@@ -105,10 +116,10 @@ table3_exp_discard = function(comp){
   unsex$Ntows <- comp$nsamp
   unsex$Nmale <- ""
   unsex$Nfemale <- ""
-  unsex$Nfish <- ""
+  unsex$Nfish <- nhauls[order(nhauls$fleet,nhauls$Year),"N_Fish"]
   unsex$Nsamp <- ""
   unsex$Fleet <- paste(get_fleet(unsex$fleet)$label_short, "discards")
-  
+
   
   return(unsex)
 }
@@ -122,7 +133,7 @@ table3_exp_comm = function(comp){
   sex$Nfemale <- ""
   sex$Gender <- "Sexed"
   sex$Units <- "Ntows"
-  sex$Nfish <- ""
+  sex$Nfish <- comp$FthenM$Nsamps
   sex$Nsamp <- ""
   sex$fleet = NA
   sex$fleet[which(comp$FthenM$fleet == "FG")] = 2
@@ -138,7 +149,7 @@ table3_exp_comm = function(comp){
   unsex$Nfemale <- ""
   unsex$Gender <- "Unsexed"
   unsex$Units <- "Ntows"
-  unsex$Nfish <- ""
+  unsex$Nfish <- comp$Uout$Nsamps
   unsex$Nsamp <- ""
   unsex$fleet = NA
   unsex$fleet[which(comp$Uout$fleet == "FG")] = 2
@@ -224,8 +235,8 @@ t3_lam <- table3_noexp(lenCompN_LamThesis)
 t3_wcgbts <- table3_exp(lenCompN_sex3_WCGBTS, region = "north", type = "length")
 t3_tri <- table3_exp(lenCompN_sex3_Triennial, region = "north", type = "length")
 
-t3_discards <-table3_exp_discard(lenCompN_comm_discards)
-#t3_com <-table3_exp_comm(lenCompN_comm)
+t3_discards <-table3_exp_discard(lenCompN_comm_discards, region = "North")
+t3_com <-table3_exp_comm(lenCompN_comm)
 t3_comState <- table3_commState(region = "North", type = "length")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
@@ -233,8 +244,12 @@ t3_samples <- data.frame(rbind
                          (t3_ca_rec, t3_or_rec, t3_wa_rec, 
                            t3_lam,
                            t3_wcgbts, t3_tri,
-                           t3_discards, t3_comState))[,colnames_ordered]
-t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$year),]
+                           #t3_comState,
+                           t3_discards, t3_com))[,colnames_ordered]
+t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$Gender, t3_samples$year),]
+
+#Can output csv's to test
+#write.csv(t3_samples, file.path(getwd(), "data-raw", "t3_north_length.csv"))
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
@@ -263,8 +278,8 @@ t3_deb <- table3_deb(lenCompS_debHist)
 t3_wcgbts <- table3_exp(lenCompS_sex3_WCGBTS, region = "south", type = "length")
 t3_tri <- table3_exp(lenCompS_sex3_Triennial, region = "south", type = "length")
 
-t3_discards <-table3_exp_discard(lenCompS_comm_discards)
-#t3_com <-table3_exp_comm(lenCompS_comm)
+t3_discards <-table3_exp_discard(lenCompS_comm_discards, region = "south")
+t3_com <-table3_exp_comm(lenCompS_comm)
 t3_comState <- table3_commState(region = "South", type = "length")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
@@ -272,8 +287,12 @@ t3_samples <- data.frame(rbind
                          (t3_ca_rec, 
                            t3_lam, t3_deb,
                            t3_hkl, t3_wcgbts, t3_tri,
-                           t3_discards, t3_comState))[,colnames_ordered]
-t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$year),] #Order by fleet and then year
+                           #t3_comState,
+                           t3_discards, t3_com))[,colnames_ordered]
+t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$Gender, t3_samples$year),] #Order by fleet and then year
+
+#Can output csv's to test
+#write.csv(t3_samples, file.path(getwd(), "data-raw", "t3_south_length.csv"))
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
@@ -301,7 +320,7 @@ t4_lam <- table4_fromCAAL(ageCAAL_N_LamThesis) #<- calculate from CAAL
 t4_wcgbts <- table3_exp(ageCompN_sex3_WCGBTS, region = "north", type = "age")
 t4_tri <- table3_exp(ageCompN_sex3_Triennial, region = "north", type = "age")
 
-#t4_com <-table3_exp_comm(ageCompN_comm)
+t4_com <-table3_exp_comm(ageCompN_comm)
 t4_comState <- table3_commState(region = "North", type = "age")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
@@ -309,8 +328,12 @@ t4_samples <- data.frame(rbind
                          (t4_or_rec, t4_wa_rec, 
                            t4_lam,
                            t4_wcgbts, t4_tri,
-                           t4_comState))[,colnames_ordered]
-t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$year),]
+                           #t4_comState,
+                           t4_com))[,colnames_ordered]
+t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$Gender, t4_samples$year),]
+
+#Can output csv's to test
+#write.csv(t4_samples, file.path(getwd(), "data-raw", "t4_north_age.csv"))
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
@@ -337,15 +360,19 @@ t4_hkl <- table3_noexp(ageCompS_HKL)
 t4_wcgbts <- table3_exp(ageCompS_sex3_WCGBTS, region = "south", type = "age")
 t4_tri <- table3_exp(ageCompS_sex3_Triennial, region = "south", type = "age")
 
-#t4_com <-table3_exp_comm(ageCompS_comm)
+t4_com <-table3_exp_comm(ageCompS_comm)
 t4_comState <- table3_commState(region = "South", type = "age")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t4_samples <- data.frame(rbind
                          (t4_lam,
                            t4_hkl, t4_wcgbts, t4_tri,
-                           t4_comState))[,colnames_ordered]
-t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$year),]
+                           t4_comState,
+                           t4_com))[,colnames_ordered]
+t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$Gender, t4_samples$year),]
+
+#Can output csv's to test
+#write.csv(t4_samples, file.path(getwd(), "data-raw", "t4_south_age.csv"))
 
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 
