@@ -3,7 +3,7 @@
 The following is a brief list of the changes from the previous assessment
 [@haltuch2019lingcod].
 
-#### Data
+**Data**
 
 - Change the boundary between north and south from \CAOR to \CapeM
 - Add new data from 2017-2020
@@ -12,34 +12,38 @@ The following is a brief list of the changes from the previous assessment
 trawl logbook index which was re-stratified to account for the change 
 in boundary
 
-#### Fleet structure
+**Fleet structure**
 
-- In the *south* model, the recreational CPFV DebWV index and associated 
+- In the south model, the recreational CPFV DebWV index and associated 
 length composition were separated into a new fleet to allow different
 assumptions about selectivity
-- In the *north* model, a California recreational fishery for the catches
+- In the north model, a California recreational fishery for the catches
 and length compositions between \CapeM and \CAOR was added
 - Early and late periods of the \gls{s-tri} were combined into a 
 continuous time-series
 
-#### Biology
+**Biology**
 
 - Use new age-based maturity estimates for each area
 - Update weight-length relationship to include additional samples
 - Separate $M$ priors for males and females based on a lower
 maximum age (18 for females, 13 for males, compared to 21 for both sexes)
 - Estimate female $M$ instead of fixing it at the mean of the prior
+- Estimate all 5 growth parameters within each model rather than 
+fixing the parameter controlling the length at age 14
 
-#### Recruitment
+**Recruitment**
 
 - Fix $\sigma_R$ = 0.6 for both models (in 2017 had been iteratively 
 tuned to 0.55 for the north model and 0.75 for the south)
+- Estimate the stock-recruit steepness parameter with a prior instead of 
+fixing it at $h$ = 0.7
 - Extend the end of the "main" period of recruitment deviations and the 
 recruitment bias adjustment settings by three years to account for the 
 additional survey data from 2017-2019 (no surveys were conducted in 2020
 do the pandemic)
 
-#### Selectivity and retention
+**Selectivity and retention**
 
 - Estimate three double-normal selectivity parameters within each time block
 for each fleet (whereas the previous model had fewer or more parameters
@@ -49,7 +53,7 @@ TW and FG fisheries to retain all selected fish prior to 1998
 - Revise the blocking on numerous selectivity parameters
 - Turn off male selectivity offsets to simplify the model
 
-#### Software
+**Software and workflow**
 
 - Use a newer version of Stock Synthesis, version 3.30.17.01
 - Use previously unavailable or updated versions of numerous R packages 

@@ -36,6 +36,7 @@ greater than 350 m (Figure \ref{fig:tri-depthSplit}).
 Figure \ref{fig:tri-lenComp} shows the length frequency distributions for the \gls{s-tri}. 
 Table \ref{tab:sample-size-length} shows the sample sizes.
 
+```{asis, opts.label = 'south'}
 #### \Glsentrylong{s-hkl} lengths
 
 The length frequency of survey catches in each year was summarized using length bins in 
@@ -45,6 +46,7 @@ and the last bin includes all fish larger than 130 cm. Length compositions from 
 survey were used as numbers of fish, all fish were measured, and were not expanded.
 As such, composition data are available for male, female, and unsexed `r spp`. 
 Table \ref{tab:sample-size-length} show the sample sizes.
+```
 
 #### Lam research lengths
 
@@ -123,7 +125,8 @@ as CAAL, and marginal age compositions were explored as sensitivities.
 Figure \ref{fig:tri-ageComp} shows the age frequency data for the \gls{s-tri}.
 Table \ref{tab:sample-size-age} shows sample sizes.
 
-#### \Glsentrylong{s-tri} ages
+```{asis, opts.label = 'south'}
+#### \Glsentrylong{s-hkl} lengths
 
 Ages from the Hook and Line survey were available for the years 2017 - 2019. 
 The age distribution of survey catches in each year 
@@ -133,6 +136,7 @@ The Hook and Line Survey age-frequency data were included in the model as CAAL,
 and marginal age compositions were explored as sensitivities.
 Figure \ref{fig:hkl-ageComp} shows the age frequency data for the Hook and Line Survey.
 Table \ref{tab:sample-size-age} shows sample sizes.
+```
 
 #### Lam research ages
 

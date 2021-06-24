@@ -1,0 +1,56 @@
+The initial structural changes from the previous assessment described above 
+were made in parallel to both models to provide a
+common set of assumptions as a starting place for both models based on 
+current best practices and common approaches. Assumptions for the north and south
+diverged once the fits to the data and model performance were examined.
+
+Following the previous assessment,
+all fishery-dependent indices had an estimated extra standard deviation parameter
+estimated and fishery-independent indices did not. However, the 2004 observation in 
+the \gls{s-tri} had a poor fit (while the other points were reasonable, including
+those around the transition between early and late periods). Furthermore, likelihood 
+profiles over $log(R_0)$ indicated a strong influence of this index on the scale 
+of the north model far above the model expectation (as has been the case for this
+survey year in many other species), so an extra SD parameter was added to the 
+north model for that index.
+
+Initial selectivity assumptions had fewer blocks in some cases, but examination of
+patterns in the data and the model fits, as well as consideration of the 
+management history led to refinements in the time blocks for selectivity and retention.
+
+Recruitment assumptions were adjusted to account for the additional years of data
+but otherwise unchanged from the initial setup.
+
+The biggest difference between the north and south models was in the treatment of
+age data. In the north model, ages were available from a large number of years 
+from almost every fleet and these were included as conditional-age-at-length 
+(CAAL) data to reduce potential biases associated
+with non-representative sampling of age structures within the sampled population
+(as discussed under the STAR panel recommendations from 2017 in Section \@ref(STAR)).
+The fit to the CAAL data was generally good across fleets and time periods in the north
+model and the model results were plausible. 
+
+In contrast, the south model 
+had sparse sampling of ages in all but the \gls{s-wcgbt} and the fits to these
+data were poor when represented either as CAAL or marginal age compositions.
+Likelihood profiles and other sensitivity analyses showed that the ages
+were strongly influencing the model results and pushing the scale of the estimated
+population to high levels. The problems of the age data in the south model
+could be due to a number of factors including sparse sampling and variability in 
+sampling location, variability in growth over time or space, or misspecification of
+some population dynamics process. However, a comparison of the fit to the 
+\gls{s-tri} CAAL composition data from 1995 with the ages observed within the 
+same length bins in the commercial TW and FG fleets from that same time period
+showed strong differences, suggesting that it would not be possible to 
+simultaneusly fit both data sources within the existing model structure, or 
+even a more complex model with time-varying growth. 
+Therefore, only the CAAL composition data from
+the \gls{s-wcgbt} was included in the south model (which already represented
+a majority of the ages) and all other age data were removed. This removed 
+the conflict within the model, allowing reasonable 
+estimates of population scale while retaining sufficent information about age
+at length to provide reasonable estimates of growth.
+
+
+
+
