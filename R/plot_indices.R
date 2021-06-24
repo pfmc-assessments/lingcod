@@ -47,13 +47,14 @@ plot_indices <- function(mod, png = TRUE, fit = TRUE, log = FALSE) {
                         "additional uncertainty parameters.")
     }
 
-    filepath <- file.path(basename(mod$inputs$dir), "custom_plots", filename)
-    
+    filepath <- file.path(mod$inputs$dir, "custom_plots", filename)
+    docpath <- file.path(dirname(system.file(package = "lingcod")), "doc")
     alt_caption <- strsplit(caption, split = ".", fixed = TRUE)[[1]][1]
     write.csv(x = data.frame(caption = caption,
                              alt_caption = alt_caption,
                              label = gsub(".png", "", filename),
-                             filein = file.path("..", filepath)),
+                             filein = R.utils::getRelativePath(filepath, docpath)
+                           ),
               file = gsub("png", "csv", filepath),
               row.names = FALSE)
 

@@ -22,6 +22,7 @@ Imports:
     magrittr,
     readr,
     readxl,
+    R.utils,
     stats,
     stringr,
     tidyr,

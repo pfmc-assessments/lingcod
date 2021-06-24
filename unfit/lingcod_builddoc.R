@@ -1,5 +1,5 @@
 # Set the directories you care about
-basemodelgrep <- "[ns].011.005"
+basemodelgrep <- "[s].014.001_esth$|[n].015.004_[a-zA-Z]+$"
 
 # Set up the base model folder with figures, csv, and tables
 # Write 00mod.Rdata for each model
@@ -14,9 +14,10 @@ for (ii in dir("models", pattern = basemodelgrep, full.names = TRUE)) {
     )
   # load model
   load("00mod.Rdata")
+  model$area <- gsub("[0-9]{4}\\.|\\.[0-9]+\\.[0-9]+_.+$", "", basename(ii))
   # make plots using model object loaded above
   make_r4ss_plots_ling(model, verbose = FALSE)
-  
+
   # get exec summary tables
   r4ss::SSexecutivesummary(replist = model, format = FALSE)
   sa4ss::es_table_tex(
