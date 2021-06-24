@@ -6,7 +6,8 @@
 \usage{
 run_sensitivities(
   dirbase,
-  type = c("profile", "retro", "regularization", "jitter")
+  type = c("profile", "retro", "regularization", ),
+  numbers = 1:999
 )
 }
 \arguments{
@@ -15,6 +16,16 @@ needs to be full or relative to your current location.}
 
 \item{type}{The type of sensitivity you want to run.
 See the formals for options.}
+
+\item{numbers}{Numbers of specific sensitivities to run.}
+
+\item{dir}{the source model directory}
+
+\item{num}{the senstiviity number as represented in sensitivity.csv}
+
+\item{suffix}{a string to append to the new path
+
+wrapper for r4ss::copy_SS_inputs() with defaults for run_sensitivies()}
 }
 \description{
 Run sensitivities for a base model
@@ -24,4 +35,9 @@ Run sensitivities for a base model
 dirbase <- get_dir_ling(area = area, num = 14, sens = 1)
 run_sensitivities(dirbase, c("profile", "retro", "regularization"))
 }
+create a path associated with a particular sensitivity
+by converting a source directory, like
+"2021.n.016.001_tune" to a sensitivity path like
+"2021.n.016.101_shareM".
+
 }

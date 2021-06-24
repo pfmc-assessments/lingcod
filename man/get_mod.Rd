@@ -10,6 +10,7 @@ get_mod(
   sens = 1,
   yr = 2021,
   id = NULL,
+  dir = NULL,
   covar = TRUE,
   assign = TRUE,
   printstats = FALSE,
@@ -29,6 +30,9 @@ get_mod(
 
 \item{id}{model id (like "2021.s.001.001") as an alternative to
 the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
+
+\item{dir}{Directory where model files are located as an alternative
+to the previous inputs}
 
 \item{covar}{Read covar.sso file? Passed to r4ss::SS_output() and
 required in some cases where there was a non-positive-definite Hessian.}

@@ -8,6 +8,8 @@
 #' @template sens
 #' @template yr 
 #' @template id
+#' @param dir Directory where model files are located as an alternative
+#' to the previous inputs
 #' @param covar Read covar.sso file? Passed to r4ss::SS_output() and
 #' required in some cases where there was a non-positive-definite Hessian.
 #' @param assign Assign the result of r4ss::SS_output() to the
@@ -41,18 +43,21 @@ get_mod <- function(area = NULL,
                     sens = 1,
                     yr = 2021,
                     id = NULL,
+                    dir = NULL,
                     covar = TRUE,
                     assign = TRUE,
                     printstats = FALSE,
                     plot = FALSE,
                     verbose = TRUE,
                     ...){
-  dir <- get_dir_ling(area = area,
-                      num = num,
-                      sens = sens,
-                      yr = yr,
-                      id = id,
-                      verbose = verbose)
+  if (is.null(dir)) {
+    dir <- get_dir_ling(area = area,
+                        num = num,
+                        sens = sens,
+                        yr = yr,
+                        id = id,
+                        verbose = verbose)
+  }
   if (verbose) {
     message("reading model from: ", dir)
   }
