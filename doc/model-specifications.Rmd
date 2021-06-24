@@ -1,7 +1,7 @@
 With the exceptions noted above, the general model specifications were 
 retained from the previous assessment. The assessment is sex-specific, 
 including the estimation of separate growth curves and natural mortality
-for males and females. The sex ratio at birth is assume to be 50:50.
+for males and females. The sex ratio at birth is assumed to be 50:50.
 Female spawning biomass is used in calculating stock status.
 
 The model starts at equilibrium, assuming an unfished initial age structure
