@@ -158,3 +158,24 @@ more than five years of data.
 Unfortunately, the methods have changed over time and the data were not
 ready for their inclusion in this assessment.
 ```
+
+#### Fishery independent data not use  
+
+<!-- Keeping this in both north and south report since has coastwide elements (BJL) -->
+<!-- and separate would make it clunky -->
+Data on the relative abundance of young-of-the-year (YOY) lingcod are available 
+from pelagic midwater trawl surveys that target YOY rockfish, other YOY groundfish 
+and forage species along the U.S. West Coast. The Rockfish Recruitment and 
+Ecosystem Assessment Survey has been conducted off central California annually 
+between 1983 and 2003 and off most California waters from 2004-2019 
+(Adams et al. [-@adams_RREAsurvey_1993]; Sakuma et al. [-@sakuma_RREAsurvey_2016]), 
+while the NWFSC pre-recruit survey has 
+been conducted off the coasts of Oregon and Washington in most years since 2011 
+(Brodeur et al. [-@brodeur_PRsurvey_2019]). Data from these two surveys are typically combined to 
+provide coastwide indices of recruitment for several rockfish stock assessments, 
+and as lingcod are encountered with some frequency, data from these surveys could 
+be explored for the development of pre-recruit indices for lingcod.  Some 
+additional research and analysis would be necessary to develop these indices, 
+primarily related to standardizing YOY abundance levels to a common age, as is 
+done for juvenile rockfish, and evaluating how well past abundance patterns relate 
+to assessment year class strength estimates.  
