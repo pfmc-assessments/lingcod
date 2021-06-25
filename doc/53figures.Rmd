@@ -214,6 +214,20 @@ ignore <- mapply(
 
 ### Growth and selectivity
 
+```{r, results = "asis"}
+do.call(
+  sa4ss::add_figure,
+  utils::read.csv(file.path(params$model, "custom_plots", "selectivity_comm.csv"))
+)
+```
+```{r, results = "asis"}
+do.call(
+  sa4ss::add_figure,
+  utils::read.csv(file.path(params$model, "custom_plots", "selectivity_noncomm.csv"))
+)
+```
+
+
 ### Fits to data
 
 ```{r, results = "asis"}
