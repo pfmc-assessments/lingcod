@@ -21,6 +21,7 @@ management history led to refinements in the time blocks for selectivity and ret
 Recruitment assumptions were adjusted to account for the additional years of data
 but otherwise unchanged from the initial setup.
 
+**to do: Possibly separate following paragraphs into north and south reports separately** 
 The biggest difference between the north and south models was in the treatment of
 age data. In the north model, ages were available from a large number of years 
 from almost every fleet and these were included as conditional-age-at-length 

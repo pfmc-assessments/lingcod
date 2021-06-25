@@ -29,7 +29,7 @@ Length data preparation followed the same methods as applied to the WCGBTS data,
 but depth strata of 55 - 183 m and 183 - 350m were used for expanding the
 length comps for subsampling of tows. A depth split of 183 m was used because
 sampling appeared less intense after this depth and raw catch per unit effort 
-more variable (Figure \ref{fig:tri-depthSplit}). A maximum
+more variable (Figure \ref{fig:tri-depthSplit}). A maximum 
 depth of 350 m was used because `r spp` were infrequently caught at depths 
 greater than 350 m (Figure \ref{fig:tri-depthSplit}). 
 Figure \ref{fig:tri-lenComp} shows the length frequency distributions for the \gls{s-tri}. 

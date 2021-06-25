@@ -88,7 +88,7 @@ In 2019 a catch-only projection was conducted in which observed catches for the
 years 2017 and 2018 were used in the forecast calculations, along with
 expected catches for 2019 and 2020, to provided updated catch limits for management.
 
-### Most recent STAR panel and SSC recommendations
+### Most recent STAR panel and SSC recommendations{#STAR}
 
 ```{r render-STARpanelRecs, results = "asis"}
 sa4ss::read_child(file.path("STARpanelRecs.Rmd"))

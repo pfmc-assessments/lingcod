@@ -339,7 +339,9 @@ t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$Gen
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
 
 t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale", "Nfemale"))],
-                 caption = 'Sample sizes of age composition data for the north model.',
+                 caption = 'Sample sizes of age composition data for the north model. 
+                 Compositions used as CAAL are
+                 shown here summed across lengths within a year.',
                  label = 'sample-size-age',
                  longtable = TRUE,
                  font_size = 9,
@@ -379,7 +381,9 @@ t4_samples[which(t4_samples$Fleet=="H&L Survey"),"Fleet"] = "HKL Survey"
 colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
 
 t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale", "Nfemale"))],
-                 caption = 'Sample sizes of age composition data for the south model.',
+                 caption = 'Sample sizes of age composition data for the south model. Not all
+                 age compositions were used in the base model. Compositions used as CAAL are
+                 shown here summed across lengths within a year.',
                  label = 'sample-size-age',
                  longtable = TRUE,
                  font_size = 9,
