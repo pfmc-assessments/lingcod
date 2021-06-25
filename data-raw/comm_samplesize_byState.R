@@ -35,66 +35,78 @@ write.csv(nlen_state.s,
           row.names = FALSE)
 
 ################################
-#Get ntrip by state
-temp = bds.pacfin.n[!is.na(bds.pacfin.n$lengthcm), ]
-temp = bds.pacfin.n
+#Get ntrip by state. 
+#Issue 1: Doing by SEX did not work. It does not produce comparable 
+#results to our comps in lenN_comm, so treat as all together. 
+#Issue 2: Need to keep NA lenghts in. Results across states are comparable
+#to standard approach using unsexed comps without state distinction. 
 
-temp$gend <- 0
-temp[temp$SEX %in% c("F","M"), "gend"] <- 3
+#North
+temp <- bds.pacfin.n[!is.na(bds.pacfin.n$lengthcm), ]
+temp <- bds.pacfin.n 
 
-fish = aggregate(SEX ~ fishyr + fleet + state, temp,
+fish <- aggregate(SEX ~ fishyr + fleet + state, temp,
                  FUN = function(x) { length(x) } )
 
-trips = aggregate(SAMPLE_NO~fishyr + fleet + state, temp,
+trips <- aggregate(SAMPLE_NO~fishyr + fleet + state, temp,
                   FUN = function(x) { length(unique(x)) } )
+names(trips) <- c("yr","fleet","state","ntows")
 
-#Getting 12 tows in 1987 for FG. Below I get 14 (if keep NA lengthcm then this resolves)
-aggregate(SAMPLE_NO ~ fishyr + fleet, trips, FUN = sum)
+write.csv(trips, 
+          file.path(getwd(),"data-raw","pacfin_length_ntows_state_North.csv"), 
+          row.names = FALSE)
 
-#Before doing this Im running the code below down to 266
-bds.pacfin.n.exp$SEX = "U"
-comps.n <- PacFIN.Utilities::getComps(Pdata = bds.pacfin.n.exp,
-                                      Comps = "LEN")
-
-lenCompN_comm <- PacFIN.Utilities::writeComps(inComps = comps.n,
-                                              fname = "data/lenCompN_comm_all_unesexed.csv",
-                                              lbins = info_bins$length,
-                                              sum1 = TRUE,
-                                              partition = 2,
-                                              digits = 3,
-                                              dummybins = FALSE)
+# #Testing to ensure results over all states are comparable
+# #Getting 12 tows in 1987 for FG. Below I get 14 (if keep NA lengthcm then this resolves)
+# aggregate(SAMPLE_NO ~ fishyr + fleet, trips, FUN = sum)
+# 
+# bds.pacfin.n.exp$SEX = "U"
+# comps.n <- PacFIN.Utilities::getComps(Pdata = bds.pacfin.n.exp,
+#                                       Comps = "LEN")
+# 
+# lenCompN_comm <- PacFIN.Utilities::writeComps(inComps = comps.n,
+#                                               fname = "data/lenCompN_comm_all_unesexed.csv",
+#                                               lbins = info_bins$length,
+#                                               sum1 = TRUE,
+#                                               partition = 2,
+#                                               digits = 3,
+#                                               dummybins = FALSE)
 
 
 #For south
-#If dont exclude NA lengthcm then get many extra years (where all lengthcms are NA)
-#If exclude NA lengthcm then do not reproduce expansion script
-temp = bds.pacfin.s[!is.na(bds.pacfin.s$lengthcm), ]
-temp = bds.pacfin.s
+temp <- bds.pacfin.s[!is.na(bds.pacfin.s$lengthcm), ]
+temp <- bds.pacfin.s
 
-temp$gend <- 0
-temp[temp$SEX %in% c("F","M"), "gend"] <- 3
-
-fish = aggregate(SEX ~ fishyr + fleet + state, temp,
+fish <- aggregate(SEX ~ fishyr + fleet + state, temp,
                  FUN = function(x) { length(x) } )
 
-trips = aggregate(SAMPLE_NO~fishyr + fleet + state, temp,
+trips <- aggregate(SAMPLE_NO~fishyr + fleet + state, temp,
                   FUN = function(x) { length(unique(x)) } )
 
-#Getting 12 tows in 1987 for FG. Below I get 14
-aggregate(SAMPLE_NO ~ fishyr + fleet, trips, FUN = sum)
+#Years added where the following shows only NAs for a fleet (1979,1980 for FG). These
+#must be removed.
+table(bds.pacfin.s$fishyr,is.na(bds.pacfin.s$lengthcm),bds.pacfin.s$fleet)
 
-#Before doing this Im running the code below down to 266
-bds.pacfin.s.exp$SEX = "U"
-comps.s <- PacFIN.Utilities::getComps(Pdata = bds.pacfin.s.exp,
-                                      Comps = "LEN")
+trips2 <- trips[!(trips$fishyr %in% c(1979,1980) & trips$fleet=="FG"),]
 
-lenCompS_comm <- PacFIN.Utilities::writeComps(inComps = comps.s,
-                                              fname = "data/lenCompS_comm_all_unesexed.csv",
-                                              lbins = info_bins$length,
-                                              sum1 = TRUE,
-                                              partition = 2,
-                                              digits = 3,
-                                              dummybins = FALSE)
+write.csv(trips2, 
+          file.path(getwd(),"data-raw","pacfin_length_ntows_state_South.csv"), 
+          row.names = FALSE)
+
+# #Testing to ensure results over all states are comparable
+# aggregate(SAMPLE_NO ~ fishyr + fleet, trips, FUN = sum)
+# 
+# bds.pacfin.s.exp$SEX = "U"
+# comps.s <- PacFIN.Utilities::getComps(Pdata = bds.pacfin.s.exp,
+#                                       Comps = "LEN")
+# 
+# lenCompS_comm <- PacFIN.Utilities::writeComps(inComps = comps.s,
+#                                               fname = "data/lenCompS_comm_all_unesexed.csv",
+#                                               lbins = info_bins$length,
+#                                               sum1 = TRUE,
+#                                               partition = 2,
+#                                               digits = 3,
+#                                               dummybins = FALSE)
 ###################################
 
 
