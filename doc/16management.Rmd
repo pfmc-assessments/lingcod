@@ -20,7 +20,7 @@ This size restriction matched the restriction within the recreational fishery
 and trawl-caught `r spp`, with a 100 lb exception for the latter.
 The minimum size was increased to 24 inches in 1998.
 Minimum size across areas diverged in 2000, when the minimum size of
-`r spp` landed south of 40$\circ 10\prime$ N. latitude in the
+`r spp` landed south of \CapeM. latitude in the
 limited entry fixed gear fishery increased to 26 inches.
 Currently, the minimum size limits for the limited entry fixed gear
 and open access commercial fisheries
@@ -46,7 +46,7 @@ from January to April and November to December.
 During the open period between April and November,
 all commercial vessels were limited to 400 lbs per month and
 non-trawl vessels had a minimum size limit of
-26 inches south of Cape Mendocino ($40^\circ 10^\prime$ N) and
+26 inches south of Cape Mendocino (\CapeM) and
 24 inches to the north of Cape Mendocino.
 
 Between 2000 and 2005, while the fishery was rebuilding,
@@ -65,7 +65,7 @@ almost always been their own market category for recording and sampling purposes
 
 At-sea monitoring of the commercial catch of `r spp` began when the 
 West Coast Groundfish Observer Program (WCGOP) was started in 2002.
-Initially about 20\% of TW trips and a smaller faction of FG trips were
+Initially about 20\% of trawl trips and a smaller faction of fixed-gear trips were
 randomly chosen for observer coverage. In 2011, the limited entry trawl 
 sector became a catch share program and has had 100\% observer coverage since 
 that time. In recent years electronic monitoring (EM) has replaced human 

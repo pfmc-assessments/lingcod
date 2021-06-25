@@ -168,10 +168,10 @@ from pelagic midwater trawl surveys that target YOY rockfish, other YOY groundfi
 and forage species along the U.S. West Coast. The Rockfish Recruitment and 
 Ecosystem Assessment Survey has been conducted off central California annually 
 between 1983 and 2003 and off most California waters from 2004-2019 
-(Adams et al. [-@adams_RREAsurvey_1993]; Sakuma et al. [-@sakuma_RREAsurvey_2016]), 
+(Adams et al. -@adams_RREAsurvey_1993; Sakuma et al. -@sakuma_RREAsurvey_2016), 
 while the NWFSC pre-recruit survey has 
 been conducted off the coasts of Oregon and Washington in most years since 2011 
-(Brodeur et al. [-@brodeur_PRsurvey_2019]). Data from these two surveys are typically combined to 
+(Brodeur et al. -@brodeur_PRsurvey_2019). Data from these two surveys are typically combined to 
 provide coastwide indices of recruitment for several rockfish stock assessments, 
 and as lingcod are encountered with some frequency, data from these surveys could 
 be explored for the development of pre-recruit indices for lingcod.  Some 

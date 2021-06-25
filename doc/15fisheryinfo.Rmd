@@ -39,9 +39,10 @@ At the peak of the `r spp` fishery, in `r textCatchpeakyear`,
 the landings were nearly equally divided between the commercial and recreational fleets.
 From 1980 to 2008, 95\% to 97\% of `r spp` caught were taken by boat-based anglers via
 \glspl{cpfv} and private/rental boats.
-Private boat landings (including kayaks) were higher than those from \glspl{cpfv}.
+Private boat landings were higher than those from \glspl{cpfv}.
 A small fraction of landings are from spear fishers using SCUBA or free diving gear [@lynn2008status].
 
+**to do: Consider moving to just the north report**
 Catches of `r spp` in Oregon and Washington have shifted from the commercial trawl fleet,
 which accounted for 90\% of landings during its mid-1980s peak,
 to a fishery evenly split between commercial and recreational landings in recent years.

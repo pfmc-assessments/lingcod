@@ -255,7 +255,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
                  caption = 'Sample sizes of length composition data for the north model.',
-                 label = 'sample_size_length',
+                 label = 'sample-size-length',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,
@@ -298,7 +298,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
                  caption = 'Sample sizes of length composition data for the south model.',
-                 label = 'sample_size_length',
+                 label = 'sample-size-length',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,
@@ -339,7 +339,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
                  caption = 'Sample sizes of age composition data for the north model.',
-                 label = 'sample_size_age',
+                 label = 'sample-size-age',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,
@@ -378,7 +378,7 @@ colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","N
 
 t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
                  caption = 'Sample sizes of age composition data for the south model.',
-                 label = 'sample_size_age',
+                 label = 'sample-size-age',
                  longtable = TRUE,
                  font_size = 9,
                  digits = 2,

@@ -1,5 +1,6 @@
-### Commercial composition data
+<!-- Commercial length- and age-frequency data -->
 
+**to do: Show plots of commercial composition data?**
 Length and age compositions from commercial landings 
 for the TW and FG fleets were developed 
 from the PacFIN database using the PacFIN.Utilities R package (
@@ -13,7 +14,7 @@ Length and age distributions from west coast groundfish commercial fisheries
 are typically expanded to account for variability in the number of fish sampled
 per trip relative to the total catch. This allows greater weight given to samples
 from a very large trip compared to one with a small catch. However,
-the commercial data for `r spp` as representedi in the PacFIN database,
+the commercial data for `r spp` as represented in the PacFIN database,
 have a large fraction of trips without trip weights. This leads to
 large variability in the expanded sample sizes among trips and implausible amounts
 of variability in the resulting composition data among length bins within a given

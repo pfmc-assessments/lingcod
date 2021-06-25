@@ -15,9 +15,8 @@ assumed sex ratio of 0.5 was applied for unsexed fish in length bin less than 40
 of smaller sized `r spp` is harder to differentiate. A bin of 40 cm was chosen as this is the
 length bin at which the length-weight relationship starts to diverge for males and females, 
 and therefore equal assignment is not influenced by sex-specific size differences.
-Figure  shows the length-frequency distributions for the \Gls{s-wcgbt}.
 
-The input sample sizes (Table \@ref(tab:tab:sample-size-length))
+The input sample sizes (Table \@ref(tab:sample-size-length))
 for length and marginal age-composition data for all 
 fishery-independent surveys were calculated according to 
 Stewart and Hamel [-@stewart_bootstrapping_2014], which determined that the 
@@ -26,7 +25,7 @@ approximate realized sample size for species in the "others" category
 
 #### \acrlong{s-tri} lengths
 
-Length data preparation followed the same methods as applied to the WCBTS data,
+Length data preparation followed the same methods as applied to the WCGBTS data,
 but depth strata of 55 - 183 m and 183 - 350m were used for expanding the
 length comps for subsampling of tows. A depth split of 183 m was used because
 sampling appeared less intense after this depth and raw catch per unit effort 
@@ -100,7 +99,7 @@ length bin allows only the additional information provided by the limited age da
 (relative to the generally far more numerous length observations) to be captured, 
 without creating a ‘double-counting’ of the data in the total likelihood. The second 
 major benefit of using conditional age-composition observations is that in addition 
-to being able to estimate the basic growth parameters ($LminAge$, $LmaxAge$, $K$) inside 
+to being able to estimate the basic growth parameters inside 
 the assessment model, the distribution of lengths at a given age, governed by two 
 parameters for the standard deviation of length at a young age and the standard 
 deviation at an older age, is also quite reliably estimated. This information could 
@@ -119,7 +118,7 @@ approach were explored by replacing with marginal age distributions.
 
 #### \acrlong{s-tri} ages
 
-Age data preparation follow the same methods as the WCBTS length data. 
+Age data preparation follow the same methods as the WCGBTS length data. 
 The \gls{s-tri} age-frequency data were included in the model 
 as CAAL, and marginal age compositions were explored as sensitivities.
 Figure \ref{fig:tri-ageComp} shows the age frequency data for the \gls{s-tri}.
@@ -143,5 +142,5 @@ Table \ref{tab:sample-size-age} shows sample sizes.
 A random stratified subsample by size and sex was selected per region for ageing and genetics analysis. 
 The age composition data are therefore used as CAAL, and are not expanded.
 Figure \ref{fig:lam-ageComp} shows the age frequency distributions. 
-Table \ref{tab:sample-size-length} shows sample sizes.
+Table \ref{tab:sample-size-age} shows sample sizes.
 

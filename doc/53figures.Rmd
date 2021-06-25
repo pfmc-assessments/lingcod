@@ -78,7 +78,7 @@ ignore <- mapply(FUN = sa4ss::add_figure,
   filein = file.path("..", "figures",
     paste0("WCGBTS - ", params$area, " _", c("Length", "Age"), "_Frequency.png")),
   caption = paste0(c("Length", "Age"), "-frequency data for males and females in the \\glsentrylong{s-wcgbt} (\\glsentryshort{s-wcgbt})."),
-  label = paste0("wcbts-", c("len", "age"), "Comp")
+  label = paste0("wcgbts-", c("len", "age"), "Comp")
 )
 ignore <- mapply(FUN = sa4ss::add_figure,
   filein = file.path("..", "figures",

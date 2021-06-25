@@ -7,6 +7,6 @@ of the index standardization approach is available in
 Haltuch et al. [-@haltuch_2017_2018]. The index was developed on a coastwide
 scale using VAST and post-stratified to produce separate indices for the 
 north and south stocks. For this assessment the stratification was updated 
-to reflect the new boundary at $40^\circ 10^\prime$ N without changing 
+to reflect the new boundary at \CapeM without changing 
 the underlying index standardization (pers. comm., J. Wallace, \gls{nwfsc}).
 

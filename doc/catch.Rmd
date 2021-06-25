@@ -1033,6 +1033,7 @@ and Eureka port-group complexes were assigned to the northern area
 and all other ports were assigned to the southern area.
 
 <!--Washington and Oregon catches landed in California-->
+**to do: Possibly move to just north model**
 Landings caught off of the coast of Oregon
 `r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Oregon"]]))`
 and Washington
@@ -1093,7 +1094,7 @@ were removed.
 These were landings that occurred in
 an unknown \gls{inpfc} area noted as XX or \gls{pacfin} area 02 or 4A.
 
-The split at 40 degrees 10 minutes N latitude required finding a method for
+The split at \CapeM required finding a method for
 splitting data within the Eureka (ERA) port-group complex.
 Data with a port of landing of Shelter Cove, a port within ERA were
 assigned to the southern model and data from all other ports within ERA, i.e.,
@@ -1140,6 +1141,16 @@ Differences in the early reconstruction for the southern model are the result
 of using landings from @sette1928 instead of ramping up catches from zero.
 
 ### Recreational landings
+
+#### Recreational fleet structure
+
+Recreational data were first compiled to the state level as a single fleet
+with all gear types. Then, data from northern California was added to the northern
+model as its own fleet rather than being combined with Oregon recreational data
+because each fishery is subject to unique regulations that affect selectivity
+(Figure \@ref(fig:catch-rec-ts)).
+The remaining data from California was used to model recreational fisheries
+in the southern area as a single fleet.
 
 ```{asis, catch-rec-WA-text, opts.label = 'north'}
 #### Washington recreational landings
@@ -1337,12 +1348,3 @@ Shelter Cove.
 This time series also includes landings from from Mexico and Canada
 that were excluded from this analysis.
 
-#### Recreational fleet structure
-
-Recreational data were first compiled to the state level as a single fleet
-with all gear types. Then, data from northern California was added to the northern
-model as its own fleet rather than being combined with Oregon recreational data
-because each fishery is subject to unique regulations that affect selectivity
-(Figure \@ref(fig:catch-rec-ts)).
-The remaining data from California was used to model recreational fisheries
-in the southern area as a single fleet.
