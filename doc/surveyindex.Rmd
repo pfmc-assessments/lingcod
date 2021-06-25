@@ -85,8 +85,6 @@ rather than an increase in biomass.
 ```{asis, opts.label = 'south'}
 #### NWFSC Hook and Line Survey
 
-<!-- NEED TO COMFIRM WITH HARMS THIS WRITE UP IS APPROPRIATE FOR LINGCOD because it was borrowed from copper rockfish -->
-
 Since 2004, the \gls{nwfsc} has conducted an annual hook and line survey
 targeting shelf rockfish in the genus Sebastes at fixed stations in the
 Southern California Bight. Key species of rockfish targeted by the survey are
@@ -94,9 +92,9 @@ bocaccio (*S. paucispinis*), cowcod (*S. levis*), greenspotted
 (*S. chlorostictus*), and vermilion (*S. miniatus* and *S. crocotulus*)
 rockfishes,
 <!--check that these species are not already listed -->
-although a wide range of groundfish species have been observed by this survey.
+although a wide range of groundfish species have been observed by this survey, including lingcod, and therefore provide potentially useful data for this assessment. 
 Starting in 2014 the NWFSC Hook and Line Survey added sampling sites located
-within the \gls{cca}.
+within the \gls{cca} and currently consists of a total of 201 sites. 
 
 During each site visit, three deckhands simultaneously deploy
 5-hook sampling rigs (this is referred to as a single drop)
