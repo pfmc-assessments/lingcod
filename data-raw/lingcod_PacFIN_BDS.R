@@ -138,7 +138,7 @@ for(fleet in c("TW", "FG")){
           pch = sex)
   }
 }
-
+###################################################################################
 #Script to provide sample sizes (nfish) by state and gear. Used to generate table
 #of sample sizes (table_3.R)
 ###Lengths
@@ -166,6 +166,34 @@ write.csv(nlen_state.s,
           file.path(getwd(),"data-raw","pacfin_length_state_gear_sample_size_South.csv"), 
           row.names = FALSE)
 
+################################
+#Get ntrip by state
+temp = bds.pacfin.n[!is.na(bds.pacfin.n$lengthcm), ]
+
+fish = aggregate(SEX ~ fishyr + fleet + state, temp,
+                 FUN = function(x) { length(x) } )
+
+trips = aggregate(SAMPLE_NO~fishyr + fleet + state, temp,
+                  FUN = function(x) { length(unique(x)) } )
+
+#Getting 12 tows in 1987 for FG. Below I get 14
+aggregate(SAMPLE_NO ~ fishyr + fleet, trips, FUN = sum)
+
+#Before doing this Im running the code below down to 266
+bds.pacfin.n.exp$SEX = "U"
+comps.n <- PacFIN.Utilities::getComps(Pdata = bds.pacfin.n.exp,
+                                      Comps = "LEN")
+
+lenCompN_comm <- PacFIN.Utilities::writeComps(inComps = comps.n,
+                                              fname = "data/lenCompN_comm_all_unesexed.csv",
+                                              lbins = info_bins$length,
+                                              sum1 = TRUE,
+                                              partition = 2,
+                                              digits = 3,
+                                              dummybins = FALSE)
+###################################
+
+
 ###Age
 temp_dat.n = bds.pacfin.n[!is.na(bds.pacfin.n$Age),]
 nage_state.n <- aggregate(temp_dat.n$Age,
@@ -190,7 +218,7 @@ names(nage_state.s)[ncol(nage_state.s)] <- "nfish"
 write.csv(nage_state.s, 
           file.path(getwd(),"data-raw","pacfin_age_state_gear_sample_size_South.csv"), 
           row.names = FALSE)
-
+####################################################################################
 
 # get first stage expansions for north and south
 bds.pacfin.n.exp <-
