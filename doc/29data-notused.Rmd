@@ -8,9 +8,9 @@ Sample sizes of `r spp` were low during these four complete years, with 119 samp
 55 tows coastwide. Given that `r spp` are primarily a shelf species, data from this
 survey was not included in the model. 
 
-#### \acrlong{s-aslope}
+#### \gls{nwfsc} \gls{s-aslope}
 
-The \gls{nwfsc} also operated a slope survey during the years 1998-2002. Coastwide, 184
+The \gls{nwfsc} also operated a \gls{s-aslope} during the years 1998-2002. Coastwide, 184
 `r spp` were sampled across 64 tows. Data from this survey were not included in
 the model for the same reasons why data from the \gls{s-aslope} were not included. 
 
@@ -159,23 +159,22 @@ Unfortunately, the methods have changed over time and the data were not
 ready for their inclusion in this assessment.
 ```
 
-#### Fishery independent data not use  
+#### Rockfish Recruitment and Ecosystem Assessment Survey
 
-<!-- Keeping this in both north and south report since has coastwide elements (BJL) -->
-<!-- and separate would make it clunky -->
-Data on the relative abundance of young-of-the-year (YOY) lingcod are available 
-from pelagic midwater trawl surveys that target YOY rockfish, other YOY groundfish 
+<!-- Keeping this in both north and south report because has coastwide elements (BJL) -->
+Data on the relative abundance of \gls{yoy} `r spp` are available 
+from pelagic midwater trawl surveys that target \gls{yoy} rockfish, other \gls{yoy} groundfish, 
 and forage species along the U.S. West Coast. The Rockfish Recruitment and 
 Ecosystem Assessment Survey has been conducted off central California annually 
 between 1983 and 2003 and off most California waters from 2004-2019 
-(Adams et al. -@adams_RREAsurvey_1993; Sakuma et al. -@sakuma_RREAsurvey_2016), 
-while the NWFSC pre-recruit survey has 
+(Adams et al. [-@adams_RREAsurvey_1993]; Sakuma et al. [-@sakuma_RREAsurvey_2016]), 
+while the \gls{nwfsc} pre-recruit survey has 
 been conducted off the coasts of Oregon and Washington in most years since 2011 
-(Brodeur et al. -@brodeur_PRsurvey_2019). Data from these two surveys are typically combined to 
+[@brodeur_PRsurvey_2019]. Data from these two surveys are typically combined to 
 provide coastwide indices of recruitment for several rockfish stock assessments, 
-and as lingcod are encountered with some frequency, data from these surveys could 
-be explored for the development of pre-recruit indices for lingcod.  Some 
-additional research and analysis would be necessary to develop these indices, 
-primarily related to standardizing YOY abundance levels to a common age, as is 
+and as `r spp` are encountered with some frequency, data from these surveys could 
+be explored for the development of pre-recruit index for `r spp`.  Some 
+additional research and analysis would be necessary to develop this index, 
+primarily related to standardizing \gls{yoy} abundance levels to a common age, as is 
 done for juvenile rockfish, and evaluating how well past abundance patterns relate 
-to assessment year class strength estimates.  
+to assessment year class strength estimates.

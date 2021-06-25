@@ -164,7 +164,7 @@ Tukey's honestly significant difference test for pairwise multiple comparisons.
 Residuals of the fit between age and length showed significant differences among
 latitude (p-value < 0.001, as a continuous variable) and
 among regions north and south of \CapeM (p-value < 0.001, as factors).
-`r Spp` growth faster and attained a larger size north of \CapeM.
+`r Spp` grow faster and attained a larger size north of \CapeM.
 The relationship between age and length changed with depth
 (p-value = 0.02, as a continuous variable), and
 unlike with the length-weight relationship, age and length fits varied by
