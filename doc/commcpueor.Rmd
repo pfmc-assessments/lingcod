@@ -82,7 +82,7 @@ Despite filtering procedures described above, it
 was noted that there were a wide range of positive \gls{cpue} values, which results
 in a heavy left skew in the log(\gls{cpue}) values. Multiple alternative
 distributions and more parsimonious models for the positive model were
-explored, as well as aggressive filter for outliers, but did not
+explored, as well as aggressive filters for outliers, but did not
 substantially improve diagnostics.
 
 A Bayesian delta-\gls{glm} modelling framework, rstanrm [@rstanarm2020],

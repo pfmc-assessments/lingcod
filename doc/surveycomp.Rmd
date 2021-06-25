@@ -51,7 +51,7 @@ Table \ref{tab:sample-size-length} show the sample sizes.
 
 In collaboration with the NWFSC and Moss Landing Marine Labs, `r spp` in nearshore 
 and offshore rocky reef habitats were collected between January 2016 and January 
-2017 via hook and line on chartered CPFVs (@lam2019geographic). Sixteen latitudinal distinct sampling 
+2017 via hook and line on chartered \glspl{cpfv} (@lam2019geographic). Sixteen latitudinal distinct sampling 
 sites, or ports, were chosen from northern Washington to southern California. 85 
 to 120 individuals were caught per port (N = 1,784, 922 Males, 862 Females) using 
 methods identical to those used by the onboard recreational lingcod fishery 
@@ -60,9 +60,10 @@ of 22 inches) and areas closed to recreational harvest were occasionally utilize
 (CDFW Permit #SC-6477, ODFW Permit #20237, WDFW Permit ID Samhouri 16-138). 
 This was to ensure an even distribution of size and age classes from each port 
 for purposes of comparing `r spp` von Bertalanffy growth curves by spatially 
-explicit regions. Of the total fish samples, 32 were sampled on CCFRP trips and so to avoid double 
-counting were excluded. Four addition samples had no year associated with them, and
-were excluded. Length compositions from this survey were used as numbers of fish, 
+explicit regions. Of the total fish samples, 32 were removed because they
+were sampled on \gls{s-ccfrp} would have led to double counting.
+Four additional samples were also excluded because they had no year associated with them.
+Length compositions from this survey were used as numbers of fish, 
 and were not expanded. Lengths were measured in total length, and were converted to
 fork length following conversions from Laidig et al. [-@laidig_lingcod_conversions_1997]. Total
 and fork lengths for `r spp` were generally very similar given the tail shape 

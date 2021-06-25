@@ -1011,7 +1011,7 @@ and southern areas separately; thus, partitioning landings by year
 into four groups, northern TW, northern FG, southern TW,
 and southern FG. Proportions were only available for
 the following years:
-`r paste0(knitr::combine_words(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"]), ",")`.
+`r knitr::combine_words(catch_comm_CA_MM[catch_comm_CA_MM[["type"]] == "ALL","Year"])`.
 Years with no information were back filled using adjacent years.
 
 <!--CALCOM landings-->
@@ -1064,7 +1064,7 @@ for a given area and fleet combination.
 #### \glsentrylong{pacfin} (\glsentryshort{pacfin})
 
 Commercial data were downloaded from the PacFIN database and provided
-data on landings for Washington, Oregon, and California since
+landings for Washington, Oregon, and California since
 `r min(catch.pacfin[["Year"]])` (Figure \@ref(fig:catch-comm-ts-pacfin)).
 These landings were treated as the best available information for
 California and for Washington and Oregon since the beginning of
@@ -1072,11 +1072,11 @@ California and for Washington and Oregon since the beginning of
 respectively.
 
 ```{asis, catch-comm-OR-recent, opts.label = 'north'}
-Though `r utils_name("common")` are encountered on a wide variety of gear types in Oregon,
+Though `r utils_name("common")` are encountered in a wide variety of gear types in Oregon,
 most landings are from bottom trawl gear types
 `r sprintf("(%.1f percent from %.0f - %.0f).", catch_comm_pacfin_summary %>% dplyr::filter(state == "OR",fleet=="TW") %>% dplyr::pull(prop) %>% mean * 100, max(catch_comm_OR[["Year"]]) + 1, max(catch.pacfin[["Year"]]) - 1)`
-Landings from all other gear types are minimal relative to these two gear types and relatively sporadic.
-Commercial landings from
+Landings from all other gear types are minimal relative to TW and FG and relatively sporadic.
+Commercial landings from Oregon waters between
 `r sprintf("%.0f - %.0f", max(catch_comm_OR[["Year"]]), max(catch.pacfin[["Year"]]) - 1)`
 peaked in
 `r catch_comm_pacfin_summary %>% dplyr::filter(state == "OR") %>% dplyr::pull(maxYear) %>% dplyr::first()`
@@ -1120,7 +1120,7 @@ For commercial landings from the state of California,
 the majority of the commercial FG landings occurred in the southern area and this
 has been relatively consistent for all years of data available in \gls{pacfin}
 (upper panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
-Whereas, the percentage of commercial landings from TW in the South relative to
+The percentage of commercial landings from TW in the South relative to
 in the North has, on average,
 decreased with time (lower panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
 
@@ -1166,7 +1166,7 @@ because they were potentially caught in ocean waters even though they were
 landed in coastal waters. Other non-ocean landings were excluded.
 
 First, we calculated the mean length
-`r sprintf("(%0.2f mm).", bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length))`
+`r sprintf("(%0.2f mm)", bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length))`
 of fish landed within Washington recreational fishery
 (Figure \@ref(fig:catch-rec-tsrecfinmeanlength)) across all years
 `r format_range(bio_rec_recfin %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(Year))`
@@ -1270,7 +1270,7 @@ In 2020, Oregon ocean boat landings were 172.5 mt.
 
 <!-- Shore and estuary landings (1980 – 2020) -->
 \Gls{odfw} provided reconstructed estimates of shore and estuary
-landings for copper rockfish from 1980 – 2020,
+landings for `r spp` from 1980 – 2020,
 using methodology similar to recent assessments
 [@berger2015kelpgreenling; @dick2018bluedeacon; @cope2019cabezon].
 Data sources include \gls{mrfss} and \gls{sebs}.

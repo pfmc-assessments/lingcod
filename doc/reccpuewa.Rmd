@@ -250,7 +250,7 @@ reccpuewa_filtersummary <- dplyr::select(pretot, dplyr::matches("^ann|^bfn")) %>
   tidyr::spread(key = c("type"), "value") %>%
   dplyr::arrange(bfn) %>%
   dplyr::mutate(bfn = bfn * 100) %>%
-  dplyr::rename(`N pos.`= ann, `% pos.` = bfn) %>%
+  dplyr::rename(`N pos`= ann, `\\% pos` = bfn) %>%
   dplyr::mutate(Description = c(
     "Remove records with missing information",
     "Keep April-August",
@@ -263,8 +263,8 @@ reccpuewa_filtersummary <- dplyr::select(pretot, dplyr::matches("^ann|^bfn")) %>
 tot <- pretot %>%
   dplyr::select(-dplyr::matches("ann"), -dplyr::matches("bfn"))
 tt <- knitr::kable(
-  reccpuewa_filtersummary, booktabs = TRUE, longtable = TRUE, format = "latex",
-  caption = paste("Data filtering steps to increase the percent positive (pos.) or number (N) of trips that landed", utils_name("common"), " in the Washington recreational index derived from dockside-sampling data."),
+  reccpuewa_filtersummary, booktabs = TRUE, longtable = TRUE, format = "latex", escape = FALSE,
+  caption = paste("Data filtering steps to increase the percent positive (pos) or number (N) of trips that landed", utils_name("common"), " in the Washington recreational index derived from dockside-sampling data."),
   label = "reccpuewa-filtersummary"
 )
 kableExtra::save_kable(x = tt,
@@ -616,9 +616,8 @@ The Washington dockside sampling program (Ocean Sampling Program
 and Puget Sound Baseline Sampling Program) is supported by
 \gls{wdfw} and collects biological as well as catch data.
 The coastal portion of this program is largely sampled at three major ports,
-Westport, La Push, and Neah Bay. `r Spp` are one of three rockfish
-species that are highly targeting by recreational fishers, and thus,
-have been recorded to the species level since the beginning of the program.
+Westport, La Push, and Neah Bay. `r Spp` are highly targeted by recreational fishers, and thus,
+they have been recorded to the species level since the beginning of the program.
 
 Information on retained `r utils_name()` from dockside interviews
 were available from \gls{wdfw} between

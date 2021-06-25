@@ -36,7 +36,7 @@ has continued to decline since then.
 However, at no time has the stock been estimated
 to have been below target reference points.
 
-The 2016 assessment [@lingcodbcstockassessment2016]
+The assessment of the resource as of 2014 [@lingcodbcstockassessment2016]
 implemented a two-sex Bayesian statistical catch-at-age model.
 The stock was estimated to have declined between 1927 and the late 1980s.
 This was followed by a slow increase between 1990 and 2014.

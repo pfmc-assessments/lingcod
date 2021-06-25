@@ -35,3 +35,9 @@ sa4ss::read_child(filein = file.path(paste0("length_samps_", params$area, ".tex"
 sa4ss::read_child(filein = file.path(paste0("age_samps_", params$area, ".tex")))
 ```
 
+<!-- ====================================================================== -->
+<!-- 30model tables -->
+<!-- ====================================================================== -->
+```{r tables-model, results = "asis"}
+table_modelconfig(model)
+```

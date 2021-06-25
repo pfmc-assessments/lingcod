@@ -13,7 +13,7 @@ demersal on the continental shelf,
 display a patchy distribution, and
 are most abundant in areas of hard bottom with rocky relief [@rickey1991geographical].
 They typically occur at depths less than 200 m but
-they are caught in the \Gls{s-wcgbt} up to depths of 450 m.
+are caught in the \Gls{s-wcgbt} up to depths of 450 m.
 
 ### Growth and maturity
 
@@ -117,8 +117,8 @@ Samples from the mouth of the Pysht River averaged
 
 <!---  to do - make these numbers dynamic if we are going to keep them -->
 Outside of the spawning season,
-male and female `r spp` are segregated by depth.
-Where, females tend to inhabit deeper offshore waters and
+male and female `r spp` are segregated by depth, where
+females tend to inhabit deeper offshore waters and
 males inhabit nearshore rocky reefs.
 Consequently, the sexes are vulnerable to different types of fishing gear.
 The majority of nearshore males (66.3\%) are caught using
@@ -183,9 +183,9 @@ likely corresponds to shifts in prey availability,
 suggesting a similar shift in the predatory role of `r spp` in coastal environments.
 
 Male `r spp` caught in shallow depths have more diverse diets and consume
-more lower-trophic prey items (e.g,. cephalopods)
+more prey items that are of a lower trophic level (e.g,. cephalopods)
 than females caught in deep depths that have less diverse diets and consume
-more higher-trophic prey items (e.g., groundfishes).
+more prey items that are of a higher trophic level (e.g., groundfishes).
 Preliminary observations from `r spp` stomach contents sampled from
 Washington to California in both nearshore and offshore habitats indicate a
 higher occurrence of bony fishes in the diet of northern fish than those

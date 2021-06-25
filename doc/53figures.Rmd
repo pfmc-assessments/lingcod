@@ -59,6 +59,23 @@ figures_cpuedata <- utils::read.csv(file.path("..", "figures", "figures_cpue.csv
 add_figure_ling(figures_cpuedata %>% dplyr::filter(grepl("cpue-commercialfixed", label)))
 add_figure_ling(utils::read.csv(file.path("..", "figures", "reccpuewa.csv")))
 add_figure_ling(figures_cpuedata %>% dplyr::filter(grepl("cpue-recreationalOregon", label)))
+sa4ss::add_figure(
+  filein = file.path("..", "figures", "OR_ORBS_CPUE", "ORBS_DataSummary.png"),
+  label = "reccpueor-orbsdatasummary",
+  caption = "Number of trips versus year, month, port, subregion, boat type, and effort (angler hours) for data that was used to estimate the Oregon recreational index."
+)
+sa4ss::add_figure(
+  filein = file.path("..", "figures", "OR_ORBS_CPUE", "ORBS_DataSummary.png"),
+  label = "reccpueor-mleqqscaledbin",
+  alt_captioin = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
+  caption = "Scaled quantile-quantile (QQ) plot (left panel) and rank-transformed versus standardized residuals (right panel) for the binomial model of the Oregon recreational index."
+)
+sa4ss::add_figure(
+  filein = file.path("..", "figures", "OR_ORBS_CPUE", "ORBS_DataSummary.png"),
+  label = "reccpueor-mleqqscaledpos",
+  alt_captioin = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
+  caption = "Scaled quantile-quantile (QQ) plot (left panel) and rank-transformed versus standardized residuals (right panel) for the positive model of the Oregon recreational index."
+)
 ```
 
 <!-- WCGBTS -->
@@ -234,13 +251,13 @@ ignore <- mapply(
 
 ### Growth and selectivity
 
-```{r, results = "asis"}
+```{r, results = "asis",eval=FALSE}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path(params$model, "custom_plots", "selectivity_comm.csv"))
 )
 ```
-```{r, results = "asis"}
+```{r, results = "asis",eval =FALSE}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path(params$model, "custom_plots", "selectivity_noncomm.csv"))

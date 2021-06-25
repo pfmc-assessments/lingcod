@@ -50,14 +50,14 @@ from differences in catch rate among years, we also considered changes
 associated with month, mega-region (north and south coasts, divided at the
 port of Florence on the central Oregon coast), port, season (summer and
 winter), the bag limit for `r spp`, and the depths available to the
-recreational fleet for fishing (Figure “ORBS_DataSummary”). The binomial
+recreational fleet for fishing (Figure \@ref(fig:reccpueor-orbsdatasummary)). The binomial
 component for catch occurrence was modeled using a logit link function while
 the log of positive \gls{cpue} was modeled with a Gaussian distribution and an
-identity link function. Based on the Akaike Information Criterion
-(AIC), Bayesian Information Criterion (BIC) and other factors described
+identity link function. Based on the \gls{aic}, \gls{bic}, and other factors described
 below, the binomial model selected as the best predictor of \gls{orbs} catch
 rates included year, port, month and open depths available to fishing
-(Table “OR_ORBS_CPUE_model_selection”). Season and mega-region were also
+<!-- to do - make the table of model selection for ORBS -->
+(Table \@ref(tab:OR_ORBS_CPUE_model_selection)). Season and mega-region were also
 evaluated but not included in the stepwise progression due to collinearity
 with other factors (month and port, respectively). Interactions between year
 and port, month and open depths were also evaluated.  Models with
@@ -67,8 +67,8 @@ from the binomial component of the delta-model are not expected to be
 normally distributed, so quantile residuals were simulated using the R
 package DHARMa [@hartig2021]. A quantile-quantile (QQ) plot of the simulated
 residuals suggests that the binomial component of the delta-model is a
-reasonable approximation of the data (Figure “ScaledQQplot_bin”, right
-panel); however, there was some curvature seen in the residuals
+reasonable approximation of the data (right panel of Figure \@ref(fig:reccpueor-mleqqscaledbin));
+however, there was some curvature seen in the residuals
 (left panel of Figure \@ref(fig:cpue-recreationalOregonqqbin)).
 These diagnostics were
 substantially improved by excluding the year:open depths interaction and the
@@ -78,9 +78,9 @@ port, month and open depths available to fishing
 (Table \@ref(tab:OR_ORBS_CPUE_model_selection)).
 Again, there were issues noted in
 the DHARMa simulated residuals, including curvature and significant outlier
-tests (Figure \@ref(fig:cpue-recreationalOregonqqpos)).
+tests (Figure \@ref(fig:reccpueor-mleqqscaledpos)).
 However, as noted with the binomial
-model, these were improved slightly, though not resolved, by exclusion of
+model, these were improved, though not resolved, by exclusion of
 any interaction terms and the removal of the private vessel trips. There was
 insufficient time to fully resolve these diagnostic issues and alternative
 approaches may need to be explored for future assessments. Given that
@@ -99,7 +99,7 @@ replicated point estimates from the \gls{mle}. The advantage of
 this approach is that the calculation of the index (summing relevant model
 parameters and combining model components) can be applied to posterior draws,
 preserving the correlation structure and propagating uncertainty into the
-final index (Figure \@ref(fig:)). As an
+final index (Figure \@ref(fig:index_data_all_fleets)). As an
 additional diagnostic, replicate datasets were generated from the posterior
 predictive distribution, and compared the \glspl{mle}
 from the model components to the median estimates from the posterior
