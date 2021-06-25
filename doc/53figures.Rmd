@@ -11,7 +11,8 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 ```{r, setup-plotinfotable}
 figurecsv <- utils::read.csv(
   file.path(params$model, "plots", "plotinfotable_for_doc.csv")
-)
+) %>%
+  dplyr::mutate(caption = gsub("\\n", "", caption))
 ```
 
 ```{r, results = "asis"}
@@ -21,7 +22,7 @@ do.call(
 )
 ```
 
-![Length (cm) versus age (year) and associated von Bertalanffy growth curves (lines) by latitude (color). Models were fit to data from Lam research samples and West Coast Groundfish Bottom Trawl Survey data.\label{fig:Lam-vbgfcurves}](../figures/Lam-vbgfcurves.pdf){width=100% height=100% alt="Size-at-age increases with increasing latitude."}
+![Length (cm) versus age (yr) and associated von Bertalanffy growth curves (lines) by latitude (colors). Models were fit to data from Lam research samples and \glsentrylong{s-wcgbt} data.\label{fig:Lam-vbgfcurves}](../figures/Lam-vbgfcurves.png){width=100% height=100% alt="Size-at-age increases with increasing latitude."}
 
 ![Estimated smoother of latitude (decimal degrees) for age-7 female fish when fitting length-at-age data.\label{fig:Lam-kapurage7latitude}](../figures/Lam-kapurage7latitude.png){width=100% height=100% alt="Change point was estimated at 38 degrees N latitude."}
 
@@ -140,6 +141,10 @@ label = 'lam-ageComp')
 add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-ormarres.csv")))
 ```
 
+<!-- comp_lendat_aggregated_across_time--->
+<!-- comp_lenddat_page[12]_multi-fleet_comparison--->
+<!-- don't show any CAAL in the report as raw data -->
+
 <!-- ====================================================================== -->
 <!-- Biology Figures -->
 <!-- ====================================================================== -->
@@ -148,29 +153,27 @@ add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-orm
 
 ```{r figures-biology, results = "asis"}
 sa4ss::add_figure(
-filein = file.path(
-  "..", "figures",
-  paste0("WCGBTS - ", params$area, " _length_fraction_female.png")
-),
-caption = "Fraction of the biological data from the \\gls{s-wcgbt} subset to just the area included in this assessment that are female by length (cm).",
-label = "biology-sexratio-lengthfractionfemale")
+  filein = file.path("..", "figures", paste0("WCGBTS - ", params$area, " _length_fraction_female.png")),
+  caption = "Fraction of the biological data from the \\gls{s-wcgbt} subset to just the area included in this assessment that are female by length (cm).",
+  label = "biology-sexratio-lengthfractionfemale"
+)
 
 sa4ss::add_figure(
-filein = file.path("..", "figures", "biology_exploration", "Length_by_Latitude_JustCombo.png"),
-caption = "Weight-length relationship for males and females from the WCGBTS",
-label = "biology-sexratio-lengthbylatitude")
+  filein = file.path("..", "figures", "biology_exploration", "Length_by_Latitude_JustCombo.png"),
+  caption = "Weight-length relationship for males and females from the WCGBTS",
+  label = "biology-sexratio-lengthbylatitude"
+)
 add_figure_ling(figurecsv %>% dplyr::filter(grepl("bio6_maturity", label)))
-```
-```{r, echo=FALSE, results='asis'}
+
 nm = "Length_Weight_Combo_North.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", "biology_exploration", nm),
-caption = "Weight-length relationship for males and females from the WCGBTS",
-label = 'len-weight')
-```
+caption = "Weight-length relationship for males and females from the \\gls{s-wcgbt}",
+label = "len-weight"
+)
 
-```{r, results = "asis"}
 add_figure_ling(utils::read.csv(file.path("..", "figures", "ageing-double-reads.csv")))
+add_figure_ling(figurecsv%>%dplyr::filter(grepl("numbers10",label)))
 ```
 
 <!-- ====================================================================== -->

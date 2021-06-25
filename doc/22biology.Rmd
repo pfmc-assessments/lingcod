@@ -7,7 +7,7 @@ all ages within that sex with a Hamel-Then prior applied as in the previous asse
 However, whereas the 2017 assessment used a maximum age of 21 for in calculating the prior
 for both females and males, here the maximum age has been updated to match the 
 99.9 percentile of the 9,000 ages for males and 30,000 ages for females in the 
-PacFIN database to develop separate priors for males and females. 
+\gls{pacfin} database to develop separate priors for males and females. 
 Those percentiles are 18 years for females and 13 years for males. 
 The number of ages available in the south model were
 too few to explore a separate maximum age calculation for that area.
@@ -19,20 +19,21 @@ This represents a significant increase from the 0.257 mean used in the previous
 assessments for both sexes.
 
 The log-scale standard error of the Hamel-Then prior is 0.438, so the 
-the central 95% of the resulting prior for female $M$ covered the range 
+the central 95\% of the resulting prior for female $M$ covered the range 
 `r round(qlnorm(p = 0.025, log(5.4/18),	0.438), 3)` to 
 `r round(qlnorm(p = 0.975, log(5.4/18),	0.438), 3)`. 
-The central 95% of the resulting prior for male $M$ covered the range 
+The central 95\% of the resulting prior for male $M$ covered the range 
 `r round(qlnorm(p = 0.025, log(5.4/13),	0.438), 3)` to 
 `r round(qlnorm(p = 0.975, log(5.4/13),	0.438), 3)`.
 
-These values were at the upper end of the range of values estimated in previous studies
-Jagielo 1994 estimated $M$ for male and female lingcod using three empirical 
-models based on life history parameters (Hoenig 1983, Alverson and Carney 1975, 
-and Pauly 1980). Estimates of $M$ for male lingcod ranged from 0.23 to 0.39, 
-while estimates for female lingcod range from 0.16 to 0.19. The averages of 
+These values were at the upper end of the range of values estimated in previous studies.
+Jagielo [-@jagielo1994assessment] estimated $M$ for male and female `r spp` using three empirical 
+models based on life-history parameters
+[@hoenig_empirical_1983; @alverson1975; @pauly1980].
+Estimates of $M$ for male `r spp` ranged from 0.23 to 0.39, 
+while estimates for female `r spp` ranged from 0.16 to 0.19. The averages of 
 the estimates were 0.18 for females and 0.32 for males. 
-Starr et al. 2005 estimated natural mortality rates from a short term 
+Starr et al. [-@starr2005] estimated natural mortality rates from a short term 
 tag-recapture study and came up with ranges of 0.24 to 0.34 for females and 
 0.13 to 0.23 for males. However, these estimates do not take into account 
 variation in $M$ across the year (or between years), especially for males 
@@ -40,13 +41,13 @@ during nest-guarding.
 
 ### Maturation and fecundity
 
-A new estimate of functional maturity-at-age 
+A new estimate of functional maturity-at-age (Figure \@ref(fig:bio6_maturity))
 based on histological analysis of ovaries was developed for these models 
 (pers. comm., M. Head, \gls{nwfsc}). The previous assessment 
-[@haltuch2019lingcod] used length-based maturity but noted that difference in 
+[@haltuch2019lingcod] used length-based maturity but noted that differences in 
 maturity at length between north and south areas appeared attributable
 to regional differences in growth.
-The estimated age at 50% maturity was 3.23 for the north based on 
+The estimated age at 50\% maturity was 3.23 for the north based on 
 327 samples for which both ovaries and age estimates were available
 and 2.74 years for the south based on 322 samples.
 
@@ -73,30 +74,38 @@ using available biological data collected from the \Gls{s-wcgbt}.
 The weight-length relationship is based on the standard power function: $W = aL^b$
 where W is weight in kilograms and L is fork length in centimeters. 
 
-Hart (1967) reported the relationship between length and weight as $W = 0.000282406·L^{3.011}$. The length-weight relationship was estimated by Jagielo (1994) using available survey data and was fit to mean weight-at-length measured in the West Coast survey as $W = 0.000003953·L^{3.2149}$ for males and $W = 0.00000176 L^{3.3978}$ for females. 
+Hart [-@hart1967] reported the relationship between length ($L$) and weight ($W$) as
+$W = 0.000282406·L^{3.011}$.
+The length-weight relationship was estimated by
+Jagielo [-@jagielo1994assessment] using available survey data
+was fit to mean weight-at-length measured in the West Coast survey as
+$W = 0.000003953·L^{3.2149}$ for males and
+$W = 0.00000176 L^{3.3978}$ for females.
 
 Between 2003 and 2019, lengths and weights were measured for 
 ```{asis, echo=FALSE, results='asis', opts.label = 'north'}
-7,869 `r spp` on the \Gls{s-wcgbt} north 40 degrees 10 minutes N latitude. Of these samples, 4,978 were female,
+7,869 `r spp` in the \Gls{s-wcgbt} north of \CapeM. Of these samples, 4,978 were female,
 and 2805 were male. 
 ```
 ```{asis, echo=FALSE, results='asis', opts.label = 'south'}
-5,547 `r spp` on the \Gls{s-wcgbt} south 40 degrees 10 minutes N latitude. Of these samples, 3,052 were female,
+5,547 `r spp` in the \Gls{s-wcgbt} south of \CapeM. Of these samples, 3,052 were female,
 and 1,787 were male. 
 ```
 
 Spatial differences were investigated by fitting an overall power 
 relationship between length and weight across all coastwide samples, and then comparing the residuals 
-across latitude, region, and depth using Tukey HSD pairwise multiple 
-comparison tests. Residuals of the fit between length and weight showed 
-significant differences among latitude (p-value < 0.001, as a continuous variable), and 
-among regions north and south of 40 degrees 10 minutes N latitude (p-value < 0.001, as factors).  
+across latitude, region, and depth using Tukey's honestly significant difference test
+for pairwise multiple comparisons [@tukey1949].
+Residuals of the fit between length and weight showed 
+significant differences among latitude (p-value < 0.001, as a continuous variable) and 
+among regions north and south of \CapeM (p-value < 0.001, as factors).  
 The relationship between length and weight change with depth (p-value = 0.02, as a continuous variable), 
-but not when applying similar depth categories (55 - 183, 183 - 400, and >400 m) as was used to expand composition data (p-value = 0.16), nor more refined depth categories 
+but not when applying similar depth categories (55 - 183, 183 - 400, and >400 m)
+as was used to expand composition data (p-value = 0.16) or more refined depth categories 
 (55 - 85, 85 - 110, 110 - 140, 140 - 183, and >183 m; p-value = 0.20). 
 
 The parameters of the weight-length relationship were re-estimated using data from 
-the \Gls{s-wcgbt}. New length and weight data from the survey for this assessment result in the 
+the \gls{s-wcgbt}. New length and weight data from the survey for this assessment result in the 
 following estimates for the weight-length relationships: 
 
 ```{asis, echo=FALSE, results='asis', opts.label = 'north'}
@@ -133,38 +142,52 @@ This range is in agreement with the genetic break point identified for
 `r spp` by Longo et al. [-@longo2020strong].
 
 `r Spp` display sexually dimorphic growth.
-Females grow faster than and reach larger sizes than males.
-@jagielo_lingcod_1994 estimated growth using a fixed length at age 1 of 30 cm,
-and estimated $L_{\infty}$ for males of 93.21 cm and females of 131.05 cm,
+Females grow faster and reach larger sizes than males.
+@jagielo_lingcod_1994 estimated growth using a fixed length at age 1 of 30 cm
+that resulted in estimates of
+$L_{\infty}$ for males of 93.21 cm and females of 131.05 cm
 and $k$ of 0.1694 for males and 0.1137 for females.
-He also found that the average length for young-of-the-year (age-0)
-`r spp` was 11.99 cm and for age 2 was 48.1 cm for Washington samples.
-Additionally, growth trajectories diverge considerably by sex after age 3
+He also found that the average length for age-0 fish, i.e., \gls{yoy},
+`r spp` was 11.99 cm and for age-2 fish was 48.1 cm for Washington samples.
+Additionally, growth trajectories diverge considerably by sex after the age of three
 because female `r spp` tend to grow faster and live longer than male `r spp`.
-Male `r spp` mature at age 3.
+Male `r spp` mature at age three.
 
-Estimates of growth parameters were investigated and starting values for model inputs were updated using the \Gls{s-wcgbt} data. Spatial differences were investigated by fitting an overall von Bertalanffy relationship between age and length across all coastwide samples, and then comparing the residuals across latitude and depth using Tukey HSD pairwise multiple comparison tests. Residuals of the fit between age and length showed significant differences among latitude (p-value < 0.001, as a continuous variable), and among regions north and south of 40 degrees 10 minutes N latitude (p-value < 0.001, as factors). `r Spp` 
-growth faster and attained a larger size in north of 40 degrees 10 minutes N latitude. 
-The relationship between age and length changed with depth (p-value = 0.02, as a continuous 
-variable), and unlike with the length-weight relationship, age and length fits varied by
-depth bins (p-value < 0.001). When applying similar depth categories (55 - 183, 183 - 400, and >400 m) as was used to expand composition data, patterns were not statistically distinguishable between shallow (55 - 183 m) and deep (>400 m) depths (p-value = 0.62), and mid (183-400 m) and deep depths (p-value = 0.24). When using more refined depth categories (55 - 85, 85 - 110, 110 - 140, 140 - 183, and >183 m), 
+Estimates of growth parameters were investigated and starting values for model inputs
+were updated using the \Gls{s-wcgbt} data.
+Spatial differences were investigated by fitting an overall von Bertalanffy relationship
+between age and length across all coastwide samples and
+then comparing the residuals across latitude and depth using
+Tukey's honestly significant difference test for pairwise multiple comparisons.
+Residuals of the fit between age and length showed significant differences among
+latitude (p-value < 0.001, as a continuous variable) and
+among regions north and south of \CapeM (p-value < 0.001, as factors).
+`r Spp` growth faster and attained a larger size north of \CapeM.
+The relationship between age and length changed with depth
+(p-value = 0.02, as a continuous variable), and
+unlike with the length-weight relationship, age and length fits varied by
+depth bins (p-value < 0.001).
+When applying similar depth categories (55 - 183, 183 - 400, and >400 m),
+as was used to expand composition data,
+patterns were not statistically distinguishable between shallow (55 - 183 m) and
+deep (>400 m) depths (p-value = 0.62) and
+mid (183-400 m) and deep depths (p-value = 0.24).
+When using more refined depth categories (55 - 85, 85 - 110, 110 - 140, 140 - 183, and >183 m), 
 patterns were nearly not statistically distinguishable between shallow (<85 m) and 
-mid-shallow (85-110 m) depths (p-value = 0.043), and were not statistically distinguishable 
+mid-shallow (85-110 m) depths (p-value = 0.043) and were not statistically distinguishable 
 between mid-deep (140-183 m) and deep (>183 m) depths (p-value = 0.84).
 
-Externally estimated von Bertalanffy growth parameters for `r spp` using the 2003-2019 \Gls{s-wcgbt} data are:
+Externally estimated von Bertalanffy growth parameters for `r spp` using \Gls{s-wcgbt} data are:
 ```{asis, echo=FALSE, results='asis', opts.label = 'north'}
 $k$ = `r round(la_ests$North_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la_ests$North_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la_ests$North_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la_ests$North_NWFSC.Combo_M[1],3)` for males. 
-
 These estimates are from 5,145 age and length samples, of which 3,290 are female, and 1,795 are male.
 ```
 ```{asis, echo=FALSE, results='asis', opts.label = 'south'}
 $k$ = `r round(la_ests$South_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la_ests$South_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la_ests$South_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la_ests$South_NWFSC.Combo_M[1],3)` for males. 
-
 These estimates are from 3,910 age and length samples, of which 2,178 are female, and 1,228 are male.
 ```
 
-[NEED TO PROVIDE INTERNALLY ESTIMATED GROWTH CURVE FIGURE]
+[**to do:NEED TO PROVIDE INTERNALLY ESTIMATED GROWTH CURVE FIGURE, but do we really (KFJ)?**]
 
 
 ### Ageing precision and bias
@@ -174,15 +197,15 @@ which has been found to have the highest
 accuracy,
 readability,
 and minimal between-reader bias when compared to other ageing structures
-[e.g., @chiltonAgeDeterm; @cass1983first; Claiborne et al. 2016].
+[e.g., @chiltonAgeDeterm; @cass1983first; @claiborne2016].
 However, recent studies suggest that surface reads from otoliths may be
 comparable in terms of accuracy and readability.
-For  this assessment, `r spp` samples from
-fishery-dependent and -independent sources were aged using the fin ray method.
+For this assessment, `r spp` samples from
+fishery-dependent and -independent sources were aged using the fin-ray method.
 
-During the age reading process,
+During the process of reading ages,
 the first and second annuli can be re-absorbed as the fish ages,
-obscuring early annulus rings and leading to error by under-ageing.
+obscuring early annulus rings and leading under-ageing.
 However, error can be minimized using known mean annular radii measurements
 for the first, second, and third annuli, as established by
 Beamish and Chilton [-@beamish1977age] and
@@ -198,15 +221,13 @@ that includes age reads provided by multiple readers for a set of ageing structu
 For each reader, two sets of parameters are estimated that define
 the standard deviation and bias of the reads provided by that reader.
 The set of parameters that best describes the standard deviation and bias between age readers
-is determined with a step-wise model selection function and compared using AIC.
+is determined with a step-wise model-selection function and compared using \gls{aic}.
 
 Initial explorations for seven different combinations of age readers showed little 
-bias among readers. Therefore all 2,441 double reads were pooled 
+bias among readers. Therefore, all 2,441 double reads were pooled 
 into a single analysis to estimate variability in age estimation 
-(\ref{fig:ageing-double-reads}[ageing-double-reads.png]). The best fit model,
-as chosen by both AIC and BIC, used "Curvilinear CV" (a 3-parameter Hollings-form
+(Figure \@ref(fig:ageing-double-reads)). The best fit model,
+as chosen by both \gls{aic} and \gls{bic}, used "Curvilinear CV" (a 3-parameter Hollings-form
 relationship of CV with true age). The standard deviation in estimated age was 0.24 years
 at age-1, 0.56 years at age-5, 1.1 years at age-10, and 1.65 years at age 15 
-(Figure \@ref(fig:)).
-**TO DO: add reference to r4ss figure numbers10_ageerror_matrix_1.png**
-
+(Figure \@ref(fig:numbers10_ageerror_matrix_1)).
