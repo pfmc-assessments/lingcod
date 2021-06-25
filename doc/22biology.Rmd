@@ -50,10 +50,21 @@ The estimated age at 50% maturity was 3.23 for the north based on
 327 samples for which both ovaries and age estimates were available
 and 2.74 years for the south based on 322 samples.
 
-<!--*TODO: reference r4ss figure bio6_maturity.png and/or figures from M. Head]-->
+<!--TO DO: reference figures from M. Head issue number #23]-->
 
 ### Sex ratio
 
+The observed sex ratio by length
+confirmed that males grow to a smaller size than females and
+suggested that there are slightly more females in the population or
+that females are better sampled than males
+(Figure \@ref(fig:biology-sexratio-lengthfractionfemale)).
+The impact of nest guarding may be limiting the availability of males, but
+there is limited data to investigate this.
+A cursory look at length by latitude and sex using data from the \gls{s-wcgbt}
+suggested that males and females are equally dispersed coastwide
+(Figure \@ref(fig:biology-sexratio-lengthbylatitude)), and thus,
+a sex ratio of 50:50 was assumed for this assessment.
 
 ### Length-Weight relationship
 

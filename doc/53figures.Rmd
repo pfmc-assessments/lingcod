@@ -146,6 +146,21 @@ add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-orm
 
 ## Biology figures
 
+```{r figures-biology, results = "asis"}
+sa4ss::add_figure(
+filein = file.path(
+  "..", "figures",
+  paste0("WCGBTS - ", params$area, " _length_fraction_female.png")
+),
+caption = "Fraction of the biological data from the \\gls{s-wcgbt} subset to just the area included in this assessment that are female by length (cm).",
+label = "biology-sexratio-lengthfractionfemale")
+
+sa4ss::add_figure(
+filein = file.path("..", "figures", "biology_exploration", "Length_by_Latitude_JustCombo.png"),
+caption = "Weight-length relationship for males and females from the WCGBTS",
+label = "biology-sexratio-lengthbylatitude")
+add_figure_ling(figurecsv %>% dplyr::filter(grepl("bio6_maturity", label)))
+```
 ```{r, echo=FALSE, results='asis'}
 nm = "Length_Weight_Combo_North.png"
 sa4ss::add_figure(
