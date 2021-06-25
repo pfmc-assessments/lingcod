@@ -10,7 +10,7 @@
 #' @export
 sens_clean_labels <- function(tab){
   newlabel <- tab$Label
-  newlabel <- gsub("like", "likelihood", newlabel)
+  newlabel <- gsub("like", "likelihood (diff from base)", newlabel)
   newlabel <- gsub("Ret", "Retained", newlabel)
   newlabel <- gsub("p_1_", "", newlabel)
   newlabel <- gsub("GP_1", "", newlabel)
@@ -140,6 +140,12 @@ sens_make_table <- function(area,
     #sens_convert_offsets() %>% # not needed here
     sens_clean_labels()
 
+  # convert likelihoods to difference from base (assumed to be in column 2)
+  like_rows <- grep("likelihood", sens_table$Label)
+  for (icol in ncol(sens_table):2) {
+    sens_table[like_rows, icol] <- sens_table[like_rows, icol] - sens_table[like_rows, 2]
+  }
+  
   # write to file
   if (write) {
     csvfile <- file.path(paste0("doc/sens_table_", area, "_", sens_type, ".csv"))
