@@ -14,7 +14,7 @@
 #' PHASE: new PHASE value (leave blank for no change),,,,,,,,,,,,,,,
 #' PRIOR: new PRIOR value (leave blank for no change),,,,,,,,,,,,,,,
 #' PR_SD: new PR_SD value (leave blank for no change),,,,,,,,,,,,,,,
-#' LO: new LO value (leave blank for no change), required if INIT is below the previous lower bound,,,,,,,,,,,,,,,
+#' LO: new LO value (leave blank for no change), required if INIT is below the previous lower bound,,,,,,,,,,,,,,
 #' lambda_comp: the likelihood component code for use in the lambda inputs,,,,,,,,,,,,,,,
 #'   where initially the only option is to fix the lambda value at 0,,,,,,,,,,,,,,,
 #'   (but that could be generalized with an additional 'value' column),,,,,,,,,,,,,,,
@@ -42,7 +42,7 @@ comp,206,TRUE,TRUE,,,,,,,,,,TRUE,_combMF,use the combM+F option to ignore sex ra
 comp,207,TRUE,TRUE,,,,,,,,,,TRUE,_no_unsexed,remove all unsexed fish
 index,301,FALSE,TRUE,,,,,,,,,,TRUE,_CA_CRFSPR_index,Change CA Rec index in recent years from onboardCPFV to CRFSPR
 index,302,TRUE,FALSE,,,,,,,,,,TRUE,_OR_CPFV_index,Change OR Rec index to onboard (CPFV ride along) index
-index,303,TRUE,TRUE,,,,,,,1,"""1:5""",,,_no_fishery_indices,remove all fishery-dependent indices
+index,303,TRUE,TRUE,,,,,,,"""rep(1,5)""","""1:5""",,,_no_fishery_indices,remove all fishery-dependent indices
 index,311,TRUE,TRUE,,,,,,,1,1,,,_no_Comm_Trawl_index,remove index for fleet 1_Comm_Trawl   
 index,312,TRUE,FALSE,,,,,,,1,2,,,_no_Comm_Fix_index,remove index for fleet 2_Comm_Fix     
 index,313,TRUE,FALSE,,,,,,,1,3,,,_no_Rec_WA_index,remove index for fleet 3_Rec_WA       

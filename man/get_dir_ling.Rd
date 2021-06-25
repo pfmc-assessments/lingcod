@@ -44,5 +44,5 @@ based on the table in the models/README.md
 \code{\link[=get_inputs_ling]{get_inputs_ling()}}
 }
 \author{
-Ian G. Taylor
+Ian G. Taylor, Kelli Faye Johnson
 }

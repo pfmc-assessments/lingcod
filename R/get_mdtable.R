@@ -3,6 +3,7 @@
 #' @param section A text string of the section in the markdown file
 #' that holds the table you want. This section should only contain the table,
 #' no other text.
+#' @author Kelli Faye Johnson
 get_mdtable <- function(file, section) {
 
   stopifnot(file.exists(file))

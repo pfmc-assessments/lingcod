@@ -139,3 +139,18 @@ name | notes | issue | source_model | script
 2021.n.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
 2021.s.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
 2021.s.016.002_jitter_sample | Run 90 of 100 from 2021.n.016.001_tune, must start from par | #99 | 2021.n.016.001 | northjittermove.R 
+2021.s.014.101_shareM                 | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.102_h0.7					  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.103_M0.3_h0.7			  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.104_sigmaR0.8			  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.105_sigmaR0.4			  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.303_no_fishery_indices	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.311_no_Comm_Trawl_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.312_no_Comm_Fix_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.313_no_Rec_WA_index		  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.314_no_Rec_OR_index		  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.315_no_Rec_CA_index		  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.316_no_Surv_TRI_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.317_no_Surv_WCGBTS_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.318_no_Surv_HookLine_index | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.320_no_CPFV_DebWV_index    | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()

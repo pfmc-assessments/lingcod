@@ -16,3 +16,6 @@ no other text.}
 \description{
 Get a markdown table from within a section in a .md file
 }
+\author{
+Kelli Faye Johnson
+}

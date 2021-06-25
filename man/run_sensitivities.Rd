@@ -46,7 +46,12 @@ Run sensitivities for a base model
 \dontrun{
 dirbase <- get_dir_ling(area = area, num = 14, sens = 1)
 run_sensitivities(dirbase, c("profile", "retro", "regularization"))
-run_sensitivities(get_dir_ling("n", 17), type = "sens", numbers = c(102, 104))
+run_sensitivities(get_dir_ling("n", 17),
+                  type = "sens_create",
+                  numbers = c(102, 104))
+run_sensitivities(get_dir_ling("s", 14),
+                  type = c("sens_run", "sens_create"),
+                  numbers = c(303:320))
 }
 create a path associated with a particular sensitivity
 by converting a source directory, like

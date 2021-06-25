@@ -11,7 +11,7 @@
 #' @template yr 
 #' @template id 
 #' @template verbose 
-#' @author Ian G. Taylor
+#' @author Ian G. Taylor, Kelli Faye Johnson
 #' @export
 #' @seealso [get_inputs_ling()]
 #' @examples
@@ -46,10 +46,11 @@ get_dir_ling <- function(area = NULL,
                 sprintf("%03d", sens),
                 sep = ".")
   }
-  
-  # find matching model
-  dir <- file.path("models", models$name[grep(id, models$name)])
 
+  # find matching model
+  dir <- models$name[substring(models$name,
+                               first = 1,
+                               last = nchar("2021.n.001.001")) %in% id]
   if (length(dir) == 0) {
     stop("no model has id = ", id)
   }
@@ -57,5 +58,7 @@ get_dir_ling <- function(area = NULL,
   if (verbose) {
     message("id = ", id, " dir = ", dir)
   }
+
+  dir <- file.path("models", dir) 
   return(dir)
 }

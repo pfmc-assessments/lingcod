@@ -16,7 +16,12 @@
 #' \dontrun{
 #' dirbase <- get_dir_ling(area = area, num = 14, sens = 1)
 #' run_sensitivities(dirbase, c("profile", "retro", "regularization"))
-#' run_sensitivities(get_dir_ling("n", 17), type = "sens", numbers = c(102, 104))
+#' run_sensitivities(get_dir_ling("n", 17),
+#'                   type = "sens_create",
+#'                   numbers = c(102, 104))
+#' run_sensitivities(get_dir_ling("s", 14),
+#'                   type = c("sens_run", "sens_create"),
+#'                   numbers = c(303:320))
 #' }
 run_sensitivities <- function(dirbase,
                               type = c("profile", "retro", "regularization",
@@ -89,15 +94,35 @@ run_sensitivities <- function(dirbase,
   }
 
   # create additional sensitivitities
-  if ("sens_create" %in% type) {
+  # create additional sensitivitities
+  if ("sens_create" %in% type | "sens_run" %in% type) {
     # read table of info on sensitivities
     sens_table <- read.csv(system.file("extdata", "sensitivities.csv",
                                        package = "lingcod"),
                            comment.char = "#",
                            blank.lines.skip = TRUE)
+    # there's a better way to get the area
+    area <- strsplit(dirbase, split = ".", fixed = TRUE)[[1]][2]
+
+    # remove rows that don't apply to this model
+    if (area == "n") {
+      sens_table <- sens_table[sens_table$north,]
+    }
+    if (area == "s") {
+      sens_table <- sens_table[sens_table$south,]
+    }
+    
     # add column to store directories that got created for the model in question
     sens_table$dir <- NA
-    for(isens in intersect(sens_table$num, numbers)) {
+
+    numbers_filtered <- intersect(sens_table$num, numbers)
+    message("requested sensitivities filtered for area = '", area, "':",
+            paste(numbers_filtered, collapse = ", "))
+  }
+
+  if ("sens_create" %in% type) {
+    # loop over sensititivy numbers
+    for(isens in numbers_filtered) {
       sens <- sens_table %>% dplyr::filter(num == isens)
 
       newdir <- dirbase %>% sensitivity_path(num = isens, suffix = sens$suffix)
@@ -119,6 +144,25 @@ run_sensitivities <- function(dirbase,
                             verbose = FALSE
                             )
       } # end test for non-empty parlabel
+
+      # sensitivities that involve changing lambdas
+      if (sens$lambda_comp != "") {
+        inputs <- get_inputs_ling(dir = newdir)
+        lambda_comp <- fix_val(sens$lambda_comp)
+        lambda_fleet <- fix_val(sens$lambda_fleet)
+        inputs$ctl$N_lambdas <- length(lambda_fleet)
+        inputs$ctl$lambdas <- data.frame(like_comp = fix_val(sens$lambda_comp),
+                                         fleet = fix_val(sens$lambda_fleet),
+                                         phase = 1, # starting in phase 1
+                                         value = 0, # only option now is to fix at 0
+                                         sizefreq_method = 999) # unused value
+        # had issue with get_fleet(1) matching fleets 1 and 10
+        rownames(inputs$ctl$lambdas) <-
+          paste0("#_turn_off_", ifelse(lambda_comp == 1, "index", "something"),
+                 "_for_", get_fleet()$fleet[get_fleet()$num == lambda_fleet]) 
+        write_inputs_ling(inputs, dir = newdir, files = "ctl")
+      }
+      
     } # end loop over sensitivity numbers
     
     filename <- paste0("sensitivities_",
@@ -132,14 +176,8 @@ run_sensitivities <- function(dirbase,
 
   # run additional sensitivitites
   if ("sens_run" %in% type) {
-    # read table of info on sensitivities
-    sens_table <- read.csv(system.file("extdata", "sensitivities.csv",
-                                       package = "lingcod"),
-                           comment.char = "#",
-                           blank.lines.skip = TRUE)
-    # add column to store directories that got created for the model in question
-    sens_table$dir <- NA
-    for(isens in intersect(sens_table$num, numbers)) {
+    # loop over sensititivy numbers
+    for(isens in numbers_filtered) {
       sens <- sens_table %>% dplyr::filter(num == isens)
 
       newdir <- dirbase %>% sensitivity_path(num = isens, suffix = sens$suffix)
