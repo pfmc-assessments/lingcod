@@ -251,9 +251,9 @@ t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$Gen
 #Can output csv's to test
 #write.csv(t3_samples, file.path(getwd(), "data-raw", "t3_north_length.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
 
-t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
+t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of length composition data for the north model.',
                  label = 'sample-size-length',
                  longtable = TRUE,
@@ -291,12 +291,13 @@ t3_samples <- data.frame(rbind
                            t3_discards, t3_com))[,colnames_ordered]
 t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$Gender, t3_samples$year),] #Order by fleet and then year
 
+t3_samples[which(t3_samples$Fleet=="H&L Survey"),"Fleet"] = "HKL Survey"
 #Can output csv's to test
 #write.csv(t3_samples, file.path(getwd(), "data-raw", "t3_south_length.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
 
-t = table_format(x = t3_samples[,-which(names(t3_samples)=="fleet")],
+t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of length composition data for the south model.',
                  label = 'sample-size-length',
                  longtable = TRUE,
@@ -335,9 +336,9 @@ t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$Gen
 #Can output csv's to test
 #write.csv(t4_samples, file.path(getwd(), "data-raw", "t4_north_age.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
 
-t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
+t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of age composition data for the north model.',
                  label = 'sample-size-age',
                  longtable = TRUE,
@@ -367,16 +368,17 @@ colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","N
 t4_samples <- data.frame(rbind
                          (t4_lam,
                            t4_hkl, t4_wcgbts, t4_tri,
-                           t4_comState,
+                           #t4_comState,
                            t4_com))[,colnames_ordered]
 t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$Gender, t4_samples$year),]
 
+t4_samples[which(t4_samples$Fleet=="H&L Survey"),"Fleet"] = "HKL Survey"
 #Can output csv's to test
 #write.csv(t4_samples, file.path(getwd(), "data-raw", "t4_south_age.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
 
-t = table_format(x = t4_samples[,-which(names(t4_samples)=="fleet")],
+t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of age composition data for the south model.',
                  label = 'sample-size-age',
                  longtable = TRUE,
