@@ -34,7 +34,7 @@ Since then, management of the fishery has occurred through
 individual-year \gls{abc} and \gls{oy} levels (Table \@ref(tab:management-refpoints)).
 
 The \gls{pfmc} implemented an initial Rebuilding Plan in 2000
-with size and seasonal limitations in the recreational fishery, and
+with size and seasonal limitations in the recreational fishery and
 a change to limited entry and open access sectors in the commercial fishery.
 Additionally, the coastwide \gls{abc} was reduced
 from 960 mt to 700 mt.
