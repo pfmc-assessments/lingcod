@@ -48,5 +48,5 @@ sa4ss::read_child(filein = file.path("..", "tables", paste0("age_samps_comm_bySt
 <!-- 30model tables -->
 <!-- ====================================================================== -->
 ```{r tables-model, results = "asis"}
-table_modelconfig(model)
+table_outputconfig(model)
 ```

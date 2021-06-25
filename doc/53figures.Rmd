@@ -67,13 +67,13 @@ sa4ss::add_figure(
 sa4ss::add_figure(
   filein = file.path("..", "figures", "OR_ORBS_CPUE", "ORBS_DataSummary.png"),
   label = "reccpueor-mleqqscaledbin",
-  alt_captioin = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
+  alt_caption = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
   caption = "Scaled quantile-quantile (QQ) plot (left panel) and rank-transformed versus standardized residuals (right panel) for the binomial model of the Oregon recreational index."
 )
 sa4ss::add_figure(
   filein = file.path("..", "figures", "OR_ORBS_CPUE", "ORBS_DataSummary.png"),
   label = "reccpueor-mleqqscaledpos",
-  alt_captioin = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
+  alt_caption = "Diagnostic tests reveal one to one relationship between expected and observed residuals.",
   caption = "Scaled quantile-quantile (QQ) plot (left panel) and rank-transformed versus standardized residuals (right panel) for the positive model of the Oregon recreational index."
 )
 ```
@@ -184,7 +184,7 @@ sa4ss::add_figure(
 )
 add_figure_ling(figurecsv %>% dplyr::filter(grepl("bio6_maturity", label)))
 
-nm = paste0("Length_Weight_Combo_", parms$area, ".png")
+nm = paste0("Length_Weight_Combo_", params$area, ".png")
 sa4ss::add_figure(
 filein = file.path("..", "figures", "biology_exploration", nm),
 caption = "Weight-length relationship for males and females from the \\gls{s-wcgbt}",
