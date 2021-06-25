@@ -94,8 +94,10 @@ ignore <- mapply(FUN = sa4ss::add_figure,
 nm = "Triennial_cpueXdepth.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", nm),
-caption = paste0("Raw catch per unit effort in positive tows by depth in
-                 the triennial survey"),
+caption = paste0("Raw catch per unit effort in  by depth in
+                 the triennial survey. The black verticale line indicate
+                 split in depth strata at 183m,
+                 and red vertical line shows end of depth strata at 350m"),
 label = 'tri-depthSplit')
 ```
 
@@ -160,12 +162,12 @@ sa4ss::add_figure(
 
 sa4ss::add_figure(
   filein = file.path("..", "figures", "biology_exploration", "Length_by_Latitude_JustCombo.png"),
-  caption = "Weight-length relationship for males and females from the WCGBTS",
+  caption = "Histograms of lengths for female (top panel), male (middle panel) and unsexed (bottom panel) fish by latitude, in half degree increments. Samples sizes (N) for each sex are displayed in the upper left of each panel. Histograms show the median (solid bar), quartiles (colored boxes), 1.5 times interquartile range from the closest quartile or the most extreme data point (whiskers), and data beyond 1.5 times the interquartile range from the closest quartile (points)",
   label = "biology-sexratio-lengthbylatitude"
 )
 add_figure_ling(figurecsv %>% dplyr::filter(grepl("bio6_maturity", label)))
 
-nm = "Length_Weight_Combo_North.png"
+nm = paste0("Length_Weight_Combo_", parms$area, ".png")
 sa4ss::add_figure(
 filein = file.path("..", "figures", "biology_exploration", nm),
 caption = "Weight-length relationship for males and females from the \\gls{s-wcgbt}",

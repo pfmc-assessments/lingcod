@@ -1,6 +1,6 @@
-"caption","alt_caption","label","filein"
+caption,alt_caption,label,filein
 "Comparison of age estimates from the double reads. Sample sizes
-associated with each combination of ages are shown by the size circles and the within them.
+associated with each combination of ages are shown by the size circles and the values within the circles.
 The blue histograms show the distribution of ages. 
 This represents all double reads pooled together so 'Reader 1' and 'Reader 2' are generic
-descriptions do not represent specific individuals.","","ageing-double-reads","../figures/ageing-double-reads.png"
+and descriptions do not represent specific individuals.",,ageing-double-reads,../figures/ageing-double-reads.png
