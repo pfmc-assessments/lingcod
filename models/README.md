@@ -138,3 +138,4 @@ name | notes | issue | source_model | script
 2021.s.016.001_tune | tune bias recruitment adjustment settings  | #99 | 2021.n.014.001 | lingcod_model_bridging_change_ctl.R 
 2021.n.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
 2021.s.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
+2021.s.016.002_jitter_sample | Run 90 of 100 from 2021.n.016.001_tune, must start from par | #99 | 2021.n.016.001 | northjittermove.R 
