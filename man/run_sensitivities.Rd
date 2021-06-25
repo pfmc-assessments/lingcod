@@ -7,7 +7,9 @@
 run_sensitivities(
   dirbase,
   type = c("profile", "retro", "regularization", ),
-  numbers = 1:999
+  numbers = 1:999,
+  extras = "-nox -nohess -cbs 1500000000",
+  skipfinished = TRUE
 )
 }
 \arguments{
@@ -15,9 +17,17 @@ run_sensitivities(
 needs to be full or relative to your current location.}
 
 \item{type}{The type of sensitivity you want to run.
-See the formals for options.}
+Options are
+"profile", "retro", "regularization", "sens_create", and "sens_run".}
 
-\item{numbers}{Numbers of specific sensitivities to run.}
+\item{numbers}{Numbers of specific sensitivities to create or run.}
+
+\item{extras}{additional arguments after the "ss" command passed to
+`r4ss::run_SS_}
+
+\item{skipfinished}{skip directories with existing Report.sso files
+(passed to \code{r4ss::SS_changepars()}). Doesn't apply to profiles,
+retros, or regularization.}
 
 \item{dir}{the source model directory}
 
@@ -25,7 +35,9 @@ See the formals for options.}
 
 \item{suffix}{a string to append to the new path
 
-wrapper for r4ss::copy_SS_inputs() with defaults for run_sensitivies()}
+wrapper for r4ss::copy_SS_inputs() with defaults for run_sensitivies()
+convert values from the CSV file into format required by
+r4ss::SS_changepars(), including splitting multiple entries}
 }
 \description{
 Run sensitivities for a base model
@@ -34,10 +46,14 @@ Run sensitivities for a base model
 \dontrun{
 dirbase <- get_dir_ling(area = area, num = 14, sens = 1)
 run_sensitivities(dirbase, c("profile", "retro", "regularization"))
+run_sensitivities(get_dir_ling("n", 17), type = "sens", numbers = c(102, 104))
 }
 create a path associated with a particular sensitivity
 by converting a source directory, like
 "2021.n.016.001_tune" to a sensitivity path like
 "2021.n.016.101_shareM".
 
+}
+\author{
+Kelli Faye Johnson, Ian G. Taylor
 }
