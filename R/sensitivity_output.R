@@ -148,7 +148,7 @@ sens_make_table <- function(area,
   
   # write to file
   if (write) {
-    csvfile <- file.path(paste0("doc/sens_table_", area, "_", sens_type, ".csv"))
+    csvfile <- file.path(paste0("tables/sens_table_", area, "_", sens_type, ".csv"))
     message("writing ", csvfile)
     write.csv(sens_table, file = csvfile, row.names = FALSE)
   }
