@@ -64,5 +64,11 @@ make_r4ss_plots_ling <- function(mod, plot = c(1:26, 31:50),
   if (33 %in% plot){
     plot_indices(mod, fit = TRUE, log = TRUE)
   } 
-
+  if (34 %in% plot) {
+    plot_sel_comm(mod)
+  }
+  if (35 %in% plot) {
+    plot_sel_noncomm(mod, area = area)
+  }    
+  
 }
