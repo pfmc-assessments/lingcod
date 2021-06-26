@@ -13,10 +13,32 @@ sa4ss::read_child(string_switchletter(
 ))
 ```
 
-<!-- Need tab:management-refpoints
-label = "tab:management-refpoints",
-caption = "Recent trends in landings and total catch (mt) relative to management guidelines. Total dead catch represents the total landings plus the model estimated dead discard biomass. Note that the model estimated total dead catch may not be the same as the \gls{wcgop} estimates of total mortality [@somers2017], which are the "official" records for determining whether the \gls{acl} has been exceeded."
--->
+```{r table-management-refpoints, results = "asis"}
+management_oflabcacl <- utils::read.csv(file.path("..", "tables", "management-oflabcacl.csv"))
+management_oflabcacl %>%
+  dplyr::filter(area == params$area) %>%
+  dplyr::select(-area) %>%
+  dplyr::left_join(
+    x = .,
+    y = model[["catch"]] %>%
+      dplyr::group_by(Yr) %>%
+      dplyr::summarize(Observed = sum(Obs, na.rm = TRUE), Expected = sum(kill_bio, na.rm = TRUE), .groups = "keep") %>%
+      dplyr::ungroup(),
+    by = c(Year = "Yr")
+  ) %>%
+  dplyr::mutate_at(2:NCOL(.), ~ sprintf("%.2f", .x)) %>%
+  kableExtra::kbl(
+    longtable = FALSE, booktabs = TRUE, format = "latex",
+    caption = paste0(
+      "Recent trends in observed landings and expected dead biomass (mt) relative to management guidelines (\\glsentrylong{ofl}, \\glsentryshort{ofl}; \\glsentrylong{abc}, \\glsentryshort{abc}; \\glsentrylong{acl}, \\glsentryshort{acl}). Expected dead biomass represents the total landings plus the model-estimated dead discard biomass.",
+      " ", text_wcgop, " ",
+      "Additionally, management in 2011 and 2012 was based on a break at 42\\textdegree00\\textquotesingle N versus all other years used \\CapeM."
+    ),
+    label = "management-refpoints"
+  ) %>%
+  kableExtra::add_header_above(c(" ", "Management" = 3, "Landings" = 2)) %>%
+  kableExtra::kable_styling(latex_options = c("repeat_header"))
+```
 
 ```{r, cpue-tables, results = "asis", eval = grepl("North", params$area)}
 # Arrange figures in order of the time they were modified

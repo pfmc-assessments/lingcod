@@ -1327,6 +1327,7 @@ ggsave2(
 <!--- ===================================================================== -->
 ```{r catch-loadrdata, eval = TRUE, echo = FALSE}
 load(file.path("..", "data-raw", "catch.Rdata"))
+text_wcgop <- "Note that the model estimated total dead catch may not be the same as the \\gls{wcgop} estimates of total mortality \\citep{somers2021}, which are the `official' records for determining whether the \\gls{acl} has been exceeded."
 ```
 ### Commercial landings
 
@@ -1340,6 +1341,9 @@ Landings from all other gear types, mainly hook and line,
 were assigned to FG.
 This fleet structure matches the fleet structure used in the
 previous assessment.
+```{r results = "asis"}
+cat(text_wcgop)
+```
 
 #### Reconstruction of commercial landings
 
