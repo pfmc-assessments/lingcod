@@ -81,6 +81,7 @@ sens_convert_offsets <- function(tab){
 sens_make_table <- function(area,
                             sens_nums,
                             sens_type = NULL,
+                            plot = TRUE,
                             write = FALSE) {
 
   if (area == "n") {
@@ -113,9 +114,11 @@ sens_make_table <- function(area,
     r4ss::SSgetoutput(dirvec = c(file.path("models",info_basemodels[[Area]]),
                                  sens_dirs),
                       getcovar = FALSE)
+
   # summarize the results
   sens_summary <- r4ss::SSsummarize(sens_mods, verbose = FALSE)
 
+  
   # names for the columns in the table
   sens_names <- c("Base model",
                   stringr::str_sub(sens_dirs,
@@ -125,6 +128,38 @@ sens_make_table <- function(area,
   # TODO: convert short sens_names to long names by adding a long name
   #       column to selectivities.csv
 
+  # make plot
+  if (plot) {
+    plot_filename <- paste0("sens_timeseries_", area, "_", sens_type, ".png") 
+    plot_twopanel_comparison(mods = sens_mods,
+                             legendlabels = sens_names,
+                             file = plot_filename,
+                             dir = file.path("models",
+                                             info_basemodels[[Area]],
+                                             "custom_plots"
+                                             )
+                             )
+    # get an explanation of the type for use in the caption
+    if (sens_type == "bio_rec") {
+      sens_type_long <- "biology and recruitment."
+    }
+    if (sens_type == "index") {
+      sens_type_long <- "indices of abundance."
+    }
+    if (sens_type == "comp") {
+      sens_type_long <- "composition data."
+    }
+    
+    caption <-
+      paste("Time series of spawning biomass (top) and fraction of unfished",
+            "(bottom) for the sensitivity analyses related to",
+            sens_type_long)
+            
+    write_custom_plots_csv(mod = sens_mods[[1]],
+                           filename = plot_filename,
+                           caption = caption)
+  }
+  
   # make table of model results
   sens_table <-
     r4ss::SStableComparisons(sens_summary,
@@ -145,6 +180,12 @@ sens_make_table <- function(area,
   for (icol in ncol(sens_table):2) {
     sens_table[like_rows, icol] <- sens_table[like_rows, icol] - sens_table[like_rows, 2]
   }
+
+  # convert male offset for the shareM case
+  if ("shareM" %in% names(sens_table)) {
+    sens_table[grep("M Male", sens_table$Label), "shareM"] <-
+      sens_table[grep("M Female", sens_table$Label), "shareM"]
+  }
   
   # write to file
   if (write) {
@@ -153,5 +194,5 @@ sens_make_table <- function(area,
     write.csv(sens_table, file = csvfile, row.names = FALSE)
   }
 
-  invisible(sens_table)
+  sens_table
 }

@@ -58,7 +58,7 @@ plot_twopanel_comparison <- function(mods,
     png(file.path(dir, filename),
         width = 6.5, height = 6.5, units = "in", pointsize = 10, res = 300)
   }
-  par(mfrow = c(2,1), mar = c(1, 3, 1, 1), oma = c(3, 0, 0, 0))
+  par(mfrow = c(2,1), mar = c(1, 5, 1, 1), oma = c(3, 1, 0, 0))
   r4ss::SSplotComparisons(summary,
                           endyrvec = endyrvec,
                           subplot = ifelse(hessian, 2, 1),
@@ -71,6 +71,7 @@ plot_twopanel_comparison <- function(mods,
                           legend = FALSE,
                           new = FALSE,
                           ...)
+  mtext("Year", side = 1, line = 1, outer = TRUE)
   
   if (print) {
     dev.off()

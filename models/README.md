@@ -158,3 +158,6 @@ name | notes | issue | source_model | script
 2021.n.016.004_wider_bounds | fix some parameters that are on bounds and widen other bounds | #99 | 2021.n.016.001 | manual edits
 2021.n.016.005_wider_bounds_Francis | fix some parameters that are on bounds and widen other bounds | #99 | 2021.n.016.001 | manual edits
 2021.n.018.001_refined | scripted version of 2021.n.016.005 | #99 | 2021.n.016.001 | lingcod_model_bridging_change_ctl.R 
+2021.n.019.001_fewer_blocks | removing a couple blocks | #99 | 2021.n.016.001 | lingcod_model_bridging_change_ctl.R 
+2021.n.019.002_add_asymp_ret | adding parameter for asymptotic retention in the trawl fishery | #99 | 2021.n.019.001 | manual edit
+2021.n.019.003_tune_discard_comps | reduce the sample size of the discard comps by 50% | #99 | 2021.n.019.001 | model_tune_discard_comps.R

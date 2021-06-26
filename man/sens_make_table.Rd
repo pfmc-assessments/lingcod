@@ -4,7 +4,7 @@
 \alias{sens_make_table}
 \title{Make a table of senstivity results}
 \usage{
-sens_make_table(area, sens_nums, sens_type = NULL, write = FALSE)
+sens_make_table(area, sens_nums, sens_type = NULL, plot = TRUE, write = FALSE)
 }
 \arguments{
 \item{area}{which area "n" or "s"}
