@@ -7,9 +7,7 @@
 #' Error: 'worldHiresMapEnv' is not an exported object from 'namespace:maps'
 #' so include require(mapdata) in the function as a quick solution.
 #'
-#' @param cols A vector of colors for north and south areas. Default is
-#' unikn::usecol(pal_unikn_pair, 16L)[c(2,10)] as used in data-raw/lingcod_catch.R
-#' but could/should be updated to use values stored in the package 
+#' @param cols A vector of colors for north and south areas. 
 #' @param names A vector of names for north and south areas
 #' @param caption A character string providing the caption for the figure.
 #' The caption should not contain any special LaTeX characters because escaping
@@ -29,12 +27,15 @@
 #' # make map using colors used in data-raw/lingcod_catch.R
 #' plot_stock_boundary_map()
 plot_stock_boundary_map <- function(names = c("North", "South"),
-                                    cols = c("#8290BB", "#BC7A8F"),
+                                    cols = NULL,
                                     caption = "Map of the investigated area. The dashed line and colors delineate the northern (blue) from the southern (red) assessed area",
                                     alttext = "Outline of U.S. west coast split at forty degrees ten minutes north latitude"
 ) {
   require(mapdata)
 
+  if(is.null(cols)) {
+    cols <- info_areacolors
+  }
   # File structure
   filename <- file.path("figures", "map_of_stock_boundaries_40-10.png")
   # Write the caption to the same location as the figure

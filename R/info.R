@@ -59,3 +59,13 @@
 #' @format A vector of character values.
 #'
 "info_basemodels"
+
+#' Area colors
+#'
+#' A vector of colors for each area
+#'
+#' @name info_areacolors
+#' @docType data
+#' @format A vector of character values which represent colors.
+#'
+"info_areacolors"

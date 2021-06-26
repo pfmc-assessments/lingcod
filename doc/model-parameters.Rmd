@@ -58,3 +58,6 @@ all estimated and fixed parameters is provided in Table \@ref(tab:).
 
 Commercial fishery retention parameters for the period prior to 1998 were
 fixed at values that led to almost 100\% retention.
+
+[**TO DO: if north 2021.n.020.001 is the base model,
+describe the reasons for fixing 3 selectivity parameters that were hitting the bounds]

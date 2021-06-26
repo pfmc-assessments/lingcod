@@ -1,31 +1,8 @@
-#' function adapted from GetPrior function within r4ss::SSplotPars()
-#' returns the negative log-likelihood
-get_beta_prior <- function(Pr, Psd, Pval, Pmin = 0.2, Pmax = 0.99, verbose = TRUE) {
-  # CASAL's Beta;  check to be sure that Aprior and Bprior are OK before running SS2!
-  mu <- (Pr - Pmin) / (Pmax - Pmin) # CASAL's v
-  tau <- (Pr - Pmin) * (Pmax - Pr) / (Psd^2) - 1.0
-  Bprior <- tau * mu
-  Aprior <- tau * (1 - mu) # CASAL's m and n
-  if (verbose) {
-    message("Aprior = ", round(Aprior,3), ", Bprior = ", round(Bprior,3))
-  }
-  if (Bprior <= 1.0 | Aprior <= 1.0) {
-    warning("bad Beta prior")
-  }
-  Pconst <- 0.0001
-  Prior_Like <- (1.0 - Bprior) * log(Pconst + Pval - Pmin) +
-    (1.0 - Aprior) * log(Pconst + Pmax - Pval) -
-    (1.0 - Bprior) * log(Pconst + Pr - Pmin) -
-    (1.0 - Aprior) * log(Pconst + Pmax - Pr)
-
-  # convert from neg-log-likelihood to normal space
-  exp(-Prior_Like)
-}
-
 # values from hake assessment
 x <- seq(0.2, 0.99, length = 1e4) # x vector for subsequent calcs
-prior_hake <- get_beta_prior(Pr = 0.777, Psd = 0.113, Pval = x)
-
+prior_hake <- exp(-1 * get_SS_prior(Ptype = "Full_Beta",
+                                     Pmin = 0.2, Pmax = 0.99,
+                                     Pr = 0.777, Psd = 0.113, Pval = x))
 ## # values from fishlife
 ## fishlife::Plot_taxa(Search_species(Genus="Ophiodon",
 ##                     Species="elongatus",
@@ -36,7 +13,9 @@ prior_hake <- get_beta_prior(Pr = 0.777, Psd = 0.113, Pval = x)
 ## prior_fishlife <- get_beta_prior(Pr = 0.67, Psd = 0.22, Pval = x)
 
 # slightly narrow prior works OK as beta
-prior_fishlife <- get_beta_prior(Pr = 0.67, Psd = 0.20, Pval = x)
+prior_fishlife <- exp(-1 * get_SS_prior(Ptype = "Full_Beta",
+                                        Pmin = 0.2, Pmax = 0.99,
+                                        Pr = 0.67, Psd = 0.20, Pval = x))
 prior_fishlife_normal <- dnorm(x, 0.67, 0.20)
 # make plot
 colvec1 <- c(rgb(0,1,0,.2), rgb(1,0,0,.2), rgb(0,0,1,.2))
