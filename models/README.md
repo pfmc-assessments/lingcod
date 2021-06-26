@@ -138,7 +138,7 @@ name | notes | issue | source_model | script
 2021.s.016.001_tune | tune bias recruitment adjustment settings  | #99 | 2021.n.014.001 | lingcod_model_bridging_change_ctl.R 
 2021.n.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
 2021.s.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
-2021.s.016.002_jitter_sample | Run 90 of 100 from 2021.n.016.001_tune, must start from par | #99 | 2021.n.016.001 | northjittermove.R 
+2021.n.016.002_tune_sample | Run 90 of 100 from 2021.n.016.001_tune, must start from par | #99 | 2021.n.016.001 | northjittermove.R 
 2021.s.014.101_shareM                 | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.102_h0.7					  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.103_M0.3_h0.7			  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
@@ -154,3 +154,7 @@ name | notes | issue | source_model | script
 2021.s.014.317_no_Surv_WCGBTS_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.318_no_Surv_HookLine_index | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.320_no_CPFV_DebWV_index    | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.n.016.003_fix_pars_on_bounds | fix some parameters that are on bounds | #99 | 2021.n.016.001 | manual edits
+2021.n.016.004_wider_bounds | fix some parameters that are on bounds and widen other bounds | #99 | 2021.n.016.001 | manual edits
+2021.n.016.005_wider_bounds_Francis | fix some parameters that are on bounds and widen other bounds | #99 | 2021.n.016.001 | manual edits
+2021.n.018.001_refined | scripted version of 2021.n.016.005 | #99 | 2021.n.016.001 | lingcod_model_bridging_change_ctl.R 

@@ -3,9 +3,10 @@
 verbose <- TRUE
 
 # create new directories with input files
-for (area in c("n", "s")) {
-  #for (area in c("s")) {
-  #for (area in c("n")) {
+
+#for (area in c("n", "s")) {
+#for (area in c("s")) {
+for (area in c("n")) {
 
   # source data file
   # + add data
@@ -15,15 +16,15 @@ for (area in c("n", "s")) {
   # + fix to commercial CAAL (num = 4, sens = 9)
   # + add rec CAAL (north only) (num = 4, sens = 13)
   # + remove all but WCGBTS ages (south only) (num = 4, sens = 11)
-  
+
   if(area == "n") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
-    newdir <- get_dir_ling(area = area, num = 16, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 18, sens = 1)
 
     # source for data weighting of comp data
-    tuningdir <- get_dir_ling(area = area, num = 15, sens = 4) 
+    tuningdir <- get_dir_ling(area = area, num = 16, sens = 5) 
     # source for bias adjustment of recdevs
-    biasdir <- tuningdir
+    biasdir <- get_dir_ling(area = area, num = 16, sens = 1) 
     #biasdir = NULL # stick with values from 2017 adjusted by 3 years below
   }
 
@@ -288,7 +289,7 @@ for (area in c("n", "s")) {
     newctl[[tab]] <-
       change_pars(
         pars = newctl[[tab]], string = "SizeSel_P_1",
-        LO = 20, HI = 100, INIT = 60, PHASE = 2
+        LO = 20, HI = 120, INIT = 60, PHASE = 2
       )
     # width of top (fix at small value)
     newctl[[tab]] <-
@@ -346,7 +347,7 @@ for (area in c("n", "s")) {
   newctl$size_selex_parms <-
     change_pars(
       pars = newctl$size_selex_parms, string = "SizeSel_PRet_1",
-      LO = 10, HI = 80, INIT = 10, PHASE = -4
+      LO = 10, HI = 100, INIT = 10, PHASE = -4
     )
   # ascending slope (baseline value set to retain all fish)
   newctl$size_selex_parms <-
@@ -479,6 +480,17 @@ for (area in c("n", "s")) {
                                   INIT = 0.1,
                                   PHASE = 2)
   }
+  # turn off extraSD parameters that were hitting bounds in the N model
+  if (area == "n") {
+    newctl$Q_parms <- change_pars(newctl$Q_parms,
+                                  string = "Q_extraSD_2_Comm_Fix",
+                                  INIT = 0,
+                                  PHASE = -2)
+    newctl$Q_parms <- change_pars(newctl$Q_parms,
+                                  string = "Q_extraSD_4_Rec_OR",
+                                  INIT = 0,
+                                  PHASE = -2)
+  }
   # turn off extraSD parameter for CPFV_DebWV because it is small and had
   # problems correlation issues (#76)
   if (area == "s") {
@@ -487,7 +499,6 @@ for (area in c("n", "s")) {
                                   INIT = 0,
                                   PHASE = -2)
   }
-  # TODO: turn off extraSD parameters hitting lower bound in north model
   
   # apply the blocks to the appropriate parameters
   fleets <- get_fleet()
@@ -572,7 +583,7 @@ for (area in c("n", "s")) {
   #' (reduces path dependency compared to just using whatever was the previous model)
   if (exists("tuningdir")) {
     newctl$Variance_adjustment_list <-
-      get_inputs_ling(dir = tuningdir)$ctl$Variance_adjustment_list
+      get_inputs_ling(dir = tuningdir, ss_new = FALSE)$ctl$Variance_adjustment_list
     if (grepl("fewer_ages", newdir)) {
       # remove unneeded tunings
       inputs$ctl$Variance_adjustment_list <-
@@ -636,8 +647,8 @@ if(FALSE){ # stuff to never just source with the rest of the file
   # copy all files, including output files
   for (area in c("n")) {
   #for (area in c("n", "s")) {
-    olddir <- get_dir_ling(area = area, num = 15, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 15, sens = 3)
+    olddir <- get_dir_ling(area = area, num = 16, sens = 4)
+    newdir <- get_dir_ling(area = area, num = 16, sens = 5)
     fs::dir_copy(olddir, newdir)
   }
 
@@ -651,9 +662,9 @@ if(FALSE){ # stuff to never just source with the rest of the file
   # then run them separately in a command window
   setwd("c:/SS/Lingcod/Lingcod_2021")
   devtools::load_all()
-  get_mod(area = "n", num = 15, sens = 3, plot = FALSE)
-  r4ss::SS_tune_comps(mod.2021.n.015.003,
-                      dir = mod.2021.n.015.003$inputs$dir,
+  get_mod(area = "n", num = 16, sens = 5, plot = FALSE)
+  r4ss::SS_tune_comps(mod.2021.n.016.005,
+                      dir = mod.2021.n.016.005$inputs$dir,
                       #option = "DM",
                       option = "Francis",
                       niters_tuning = 1,
