@@ -19,7 +19,7 @@ for (area in c("n")) {
 
   if(area == "n") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
-    newdir <- get_dir_ling(area = area, num = 18, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 20, sens = 1)
 
     # source for data weighting of comp data
     tuningdir <- get_dir_ling(area = area, num = 16, sens = 5) 
@@ -396,6 +396,13 @@ for (area in c("n")) {
   } else {
     block_breaks <- block_breaks_south
   }
+
+  ## if (area == "n") {
+  ##   # remove some blocks for model 19 block
+  ##   block_breaks[["Comm_Trawl_sel"]] <- c(1998, 2011)
+  ##   block_breaks[["Comm_Trawl_ret_infl"]] <- c(1998, 2010, 2011)
+  ## }
+  
   # add a block for the switch between CA rec MRFSS and onboardCPFV indices
   if (area == "s") {
     block_breaks[["Rec_CA_catchability"]] <- 1999
@@ -531,6 +538,7 @@ for (area in c("n")) {
         if (block_parm == "ret_width") {
           parmlabels <- paste0("SizeSel_PRet_2_", fleet)
         }
+        
         for (label in parmlabels) {
           # get parameter line with new block
           linenumber <- grep(label, rownames(newctl$size_selex_parms))
@@ -578,6 +586,38 @@ for (area in c("n")) {
                                             string = "PRet_2",
                                             INIT = 2,
                                             PHASE = 4)
+
+  # fix all Rec_OR descending selectivity BASE PAR at the upper bound
+  newctl$size_selex_parms <- change_pars(newctl$size_selex_parms,
+                                            string = "SizeSel_P_4_4_Rec_OR",
+                                            INIT = 15,
+                                            PHASE = -99)
+  # fix all Rec_OR descending selectivity time-varying params at the upper bound
+  newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
+                                            string = "SizeSel_P_4_4_Rec_OR",
+                                            INIT = 15,
+                                            PHASE = -99)
+  # free up the 2007+ period Rec_OR descending selectivity at the upper bound
+  newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
+                                            string = "SizeSel_P_4_4_Rec_OR_2007",
+                                            INIT = 7,
+                                            PHASE = 4)
+  # fix a descending selex parameter for commercial trawl in 1993
+  # that was hitting was hitting the lower bound = 1
+  newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
+                                            string = "SizeSel_P_4_1_Comm_Trawl_1993",
+                                            INIT = 1,
+                                            PHASE = -99)
+
+  # fix a block on commercial trawl retention replacement in 1998
+  # that was hitting the upper bound = 100
+  newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
+                                            string = "SizeSel_PRet_1_1_Comm_Trawl_1998",
+                                            INIT = 100,
+                                            PHASE = -99)
+
+
+  
   
   #' apply data weighting from designated model
   #' (reduces path dependency compared to just using whatever was the previous model)
