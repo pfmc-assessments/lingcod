@@ -35,6 +35,15 @@ sa4ss::read_child(filein = file.path(paste0("length_samps_", params$area, ".tex"
 sa4ss::read_child(filein = file.path(paste0("age_samps_", params$area, ".tex")))
 ```
 
+<!-- Sample size tables for commercial by state -->
+```{r, comp-sample-size-tables-commbyState, results = "asis", eval = grepl("North", params$area)}
+
+sa4ss::read_child(filein = file.path(paste0("length_samps_comm_byState_", params$area, ".tex")))
+
+sa4ss::read_child(filein = file.path(paste0("age_samps_comm_byState_", params$area, ".tex")))
+```
+
+
 <!-- ====================================================================== -->
 <!-- 30model tables -->
 <!-- ====================================================================== -->

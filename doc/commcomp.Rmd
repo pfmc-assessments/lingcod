@@ -37,7 +37,14 @@ format in the models.
 Unsexed fish were represented as separate composition vectors in addition to the 
 compositions of fish with known sex.
 The number of trips was used as the input sample size for all commercial 
-composition data.
+composition data. 
+Table \ref{tab:sample-size-length} show the sample sizes for lengths, 
+and Table \ref{tab:sample-size-age} the sample sizes for ages.
+```{asis, opts.label = 'north'}
+Sample sizes by state aggregated across sexes are provided in 
+Table \ref{tab:sample-size-length-byState} for lengths and
+Table \ref{tab:sample-size-age-byState} for ages.
+```
 
 Length compositions and mean body weight observations were also available 
 from commercial discards for the years 2004 to 2019. These observations were 
