@@ -50,3 +50,10 @@ sa4ss::read_child(filein = file.path("..", "tables", paste0("age_samps_comm_bySt
 ```{r tables-model, results = "asis"}
 table_outputconfig(model)
 ```
+
+\begin{landscape}
+```{r tables-model-sens, results = "asis"}
+table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area))
+table_sens(string_switchletter("../tables/sens_table_s_index.csv", params$area))
+```
+\end{landscape}
