@@ -263,7 +263,7 @@ t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_North.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_North.tex"))
 
 
 ####################
@@ -307,7 +307,7 @@ t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_South.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_South.tex"))
 
 
 ####################
@@ -350,7 +350,7 @@ t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","age_samps_North.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_North.tex"))
 
 
 ####################
@@ -392,5 +392,5 @@ t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","age_samps_South.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_South.tex"))
   

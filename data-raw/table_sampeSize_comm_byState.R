@@ -79,7 +79,7 @@ t = table_format(x = t3_comState[,-which(names(t3_comState) %in% c("fleet"))],
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","length_samps_comm_byState_North.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_comm_byState_North.tex"))
 
 
 ####################
@@ -106,4 +106,4 @@ t = table_format(x = t4_comState[,-which(names(t4_comState) %in% c("fleet"))],
                  col_names = colnames,
                  row.names = FALSE)
 
-kableExtra::save_kable(t, file = file.path(getwd(),"doc","age_samps_comm_byState_North.tex"))
+kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_comm_byState_North.tex"))
