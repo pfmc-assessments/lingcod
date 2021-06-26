@@ -15,6 +15,17 @@
 #'
 #' @author Kelli F. Johnson
 string_switchletter <- function(x, newletter) {
+  if (newletter == "") {
+    return(gsub(
+      "[\\._-][a-zA-Z][\\._-]",
+      "",
+      x
+    ))
+  }
   arealetter <- substr(tolower(newletter), 1, 1)
-  gsub("([\\._-])[a-z]([\\._-])", paste0("\\1", arealetter, "\\1"), x)
+  return(gsub(
+    "([\\._-])[a-z]([\\._-])",
+    paste0("\\1", arealetter, "\\1"),
+    x
+  ))
 }

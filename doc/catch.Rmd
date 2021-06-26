@@ -32,7 +32,7 @@
 ###############################################################################
 ```
 
-```{r catch, include = FALSE, eval = TRUE, cache = TRUE}
+```{r catch, include = FALSE, eval = FALSE}
 ###############################################################################
 # Set up objects, file paths,
 ###############################################################################
@@ -44,18 +44,17 @@ catch_comm_WA_yearstartpacfin <- 1995
 
 # patterns for dir(file.path("..", "data-raw"), pattern = grep_...)
 grep_pacfin <- "PacFIN.+FT.+RData"
-grep_recweightfile <- "SD501--2001---2020_rec_bio_lingcod_pulled_4_19_21"
+grep_recweightfile <- "rec_bio_lingcod"
 grep_comm_or <- "FINAL COMMERCIAL LANDINGS"
 grep_comm_ca_or <- "CAlandingsCaughtORWA"
-# Provided by E.J. Dick
+# grep_comm_ca_ralston provided by E.J. Dick
 grep_comm_ca_ralston <- "reconstruction_Ralston_et_al_2010"
-# Used in 2017, NOT used here
-# grep_comm_ca_MH <- "CA_final_reconstruction_landings"
 grep_comm_ca_calcom <- "1969-1980_CALCOM"
 grep_rec_501 <- "CTE501"
 grep_rec_mrfss <- "MRFSS-CATCH-ESTIMATES"
 grep_rec_or <- "FINAL RECREATIONAL LANDINGS"
 grep_rec_wa <- "Lingcod_RecCatch"
+
 # paths for file.path("..", "data-raw", file_...)
 file_comm_wa <- "WA_historical_Lingcod_forMelissa_V2.csv"
 file_albin <- "Albin_et_al_1993_Lingcod_rows.csv"
@@ -75,6 +74,7 @@ file_password <- file.path(
 ###############################################################################
 # Commercial data
 ###############################################################################
+
 # Read in PacFIN file
 if (file.exists(file_password)) {
   password <- readLines(file_password)
@@ -85,33 +85,41 @@ if (file.exists(file_password)) {
   rm(password)
 }
 load(dir_recent(file.path("..", "data-raw"), pattern = grep_pacfin))
+catch.pacfin <- PacFIN.Utilities::getGearGroup(catch.pacfin, verbose = FALSE)
 catch.pacfin <- catch.pacfin %>%
   dplyr::rename(Year = LANDING_YEAR) %>%
   dplyr::filter(
     !(AGENCY_CODE == "W" & Year %in% 0:(catch_comm_WA_yearstartpacfin - 1)),
     !(AGENCY_CODE == "O" & Year <
+      # Read in this file from OR to determine which years they provide
+      # that should be removed from the PacFIN data
       readxl::read_excel(
-        path = dir(
-          path = file.path("..", "data-raw"),
+        path = dir_recent(
+          dir = file.path("..", "data-raw"),
           pattern = grep_comm_or,
-          full.names = TRUE
         ),
         sheet = 2
       ) %>% dplyr::filter(SOURCE != "PacFIN") %>% dplyr::pull(YEAR) %>% max
     )
   ) %>%
-  dplyr::mutate(PACFIN_GEAR_CODE = dplyr::case_when(
-    GEAR_NAME == "SCALLOP DREDGE" ~ "SCD",
-    TRUE ~ PACFIN_GEAR_CODE
-  ))
-catch.pacfin <- PacFIN.Utilities::getGearGroup(catch.pacfin)
-catch.pacfin[, "fleet"] <- use_fleetabb(catch.pacfin[["geargroup"]])
-index <- which(
-  (catch.pacfin[["INPFC_AREA_TYPE_CODE"]] == "XX") |
-  (catch.pacfin[["ORIG_PACFIN_CATCH_AREA_CODE"]] %in% c("02", "4A"))
-)
-removenonEEZcatch <- round(catch.pacfin[index, "ROUND_WEIGHT_MTONS"] %>% sum, 2)
-catch.pacfin <- catch.pacfin[-index, ]
+  dplyr::mutate(
+    PACFIN_GEAR_CODE = dplyr::case_when(
+      GEAR_NAME == "SCALLOP DREDGE" ~ "SCD",
+      TRUE ~ PACFIN_GEAR_CODE
+    ),
+    fleet = use_fleetabb(geargroup),
+    eez = dplyr::case_when(
+      INPFC_AREA_TYPE_CODE == "XX" ~ "outside",
+      ORIG_PACFIN_CATCH_AREA_CODE %in% c("02", "4A") ~ "outside",
+      TRUE ~ "inside"
+    )
+  ) %>%
+  dplyr::mutate(eezcatch = sum(ifelse(
+    eez == "inside", 0, ROUND_WEIGHT_MTONS),
+    na.rm = TRUE)
+  ) %>%
+  dplyr::filter(eez == "inside")
+removenonEEZcatch <- catch.pacfin[1,"eezcatch"]
 
 # Washington commercial data
 catch_comm_WA <- utils::read.csv(file = file.path("..", "data-raw", file_comm_wa)) %>%
@@ -152,7 +160,7 @@ catch_comm_OR <- readxl::read_excel(
     )
   ) %>%
   data.frame
-catch_comm_OR <- PacFIN.Utilities::getGearGroup(catch_comm_OR)
+catch_comm_OR <- PacFIN.Utilities::getGearGroup(catch_comm_OR, verbose = FALSE)
 catch_comm_OR[, "fleet"] <- use_fleetabb(catch_comm_OR[["geargroup"]])
 catch_comm_OR_summary <- catch_comm_OR %>%
   dplyr::group_by(Year) %>%
@@ -363,6 +371,7 @@ catch_comm_CA_noport_vesselid <- catch.pacfin %>%
     ratio = sum(north) / sum(mt)
   ) %>% dplyr::arrange(ratio, VESSEL_ID)
 
+# Summarize commercial pacfin catches
 catch_comm_pacfin <- catch.pacfin %>%
   dplyr::mutate(
     area = dplyr::case_when(
@@ -395,7 +404,7 @@ dplyr::mutate(
   mean = mean(prop)
 )
 
-# Fill in missing years
+# Fill in missing years for California commercial catches
 catch_comm_CA_interpolate <- dplyr::full_join(
     by = c("Year", "area", "fleet", "source", "mt"),
     # Build up to 1930
@@ -501,6 +510,16 @@ catch_comm_reconstruction <- catch_comm_reconstruction_notsummed %>%
   dplyr::group_by(Year, area, fleet) %>%
   dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
   dplyr::ungroup()
+
+###############################################################################
+# Summarize the commercial catches three ways
+# this information is helpful for future runs and for building the document
+# 1. For the models: year, area, fleet
+# 2. For the document: year, area, state, fleet
+# 3. For comparison with the 2017 assessment boundaries at state lines: year, state, fleet
+###############################################################################
+
+#### # 1
 catch_comm <- dplyr::full_join(
   by = c("Year", "area", "fleet", "mt"),
   x = catch_comm_reconstruction,
@@ -510,6 +529,18 @@ catch_comm <- dplyr::full_join(
   dplyr::ungroup() %>%
   data.frame
 
+#### # 2 Table 1. Catches by state x fleet
+catch_comm_fordoc <- dplyr::full_join(
+    by = c("Year", "area", "state", "fleet", "mt"),
+    x = catch_comm_pacfin,
+    y = catch_comm_reconstruction_notsummed
+  ) %>%
+  dplyr::group_by(Year, area, state, fleet) %>%
+  dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
+  dplyr::ungroup()
+
+#### # 3 Run the model with the previous stratification at state lines
+####   combine with the old data file catches
 catch_comm_state <- dplyr::full_join(
     by = c("Year", "state", "fleet", "mt"),
     x = catch_comm_pacfin,
@@ -613,7 +644,7 @@ catch_rec_1980 <- RecFIN::read_mrfss(
   dplyr::mutate(Source = "RecFIN")
 
 bio_rec_recfin <- utils::read.csv(
-  file = dir(file.path("..", "data-raw"), pattern = grep_recweightfile, full.names = TRUE),
+  file = dir_recent(file.path("..", "data-raw"), pattern = grep_recweightfile),
   header = TRUE
 ) %>% dplyr::rename(Year = "RECFIN_YEAR") %>%
   dplyr::mutate(
@@ -808,33 +839,495 @@ catch_rec_CA <- catch_rec_1980 %>%
   dplyr::mutate(mt = stats::approx(Year, mt, n = length(Year))$y) %>%
   dplyr::ungroup()
 
+###############################################################################
 # Summarize recreational catches
+# 1 For use in the stock assessment
+# 2 For Table 1 in the document
+###############################################################################
+
+#### # 1
 catch_rec <- dplyr::full_join(
   by = c("Year", "mt", "state"),
   catch_rec_WA,
   catch_rec_OR
 ) %>%
-  dplyr::select(Year, mt, state) %>% dplyr::mutate(area = "North") %>%
+  dplyr::select(Year, mt, state) %>%
+  dplyr::mutate(area = "North") %>%
   dplyr::full_join(
     y = catch_rec_CA,
     by = c("Year", "area", "state", "mt"),
   )
-
 # Save the file
 data_catch <- dplyr::full_join(
   by = c("Year", "area", "mt", fleet = "state"),
   x = catch_comm,
   y = catch_rec %>% dplyr::select(-source)
 )
+
+#### # 2
+catch_fordoc <- dplyr::full_join(
+  x = catch_comm_fordoc %>%
+    dplyr::mutate(state = paste0(fleet, "-", state)) %>%
+    dplyr::select(-fleet) %>%
+    tidyr::spread("state", "mt"),
+  y = catch_rec %>%
+    # dplyr::mutate(state = paste0("rec-", state)) %>%
+    dplyr::select(-source) %>%
+    tidyr::spread("state", "mt"),
+  by = c("Year", "area")
+) %>%
+  dplyr::mutate_if(is.numeric, tidyr::replace_na, 0) %>%
+  dplyr::mutate(Total = purrr::reduce(dplyr::select(., !dplyr::matches("Year|area")), `+`)) %>%
+  dplyr::rename_with(~ gsub("FG-", "  ", .x)) %>%
+  dplyr::rename_with(~ gsub("TW-", " ", .x)) %>%
+  dplyr::filter(Total != 0, Year < as.numeric(substr(Sys.Date(), 1, 4))) %>%
+  dplyr::mutate_at(3:NCOL(.), ~ sprintf("%.2f", .x))
+
+catchcaption <- "Commercial (by fleet and state) and recreational (by state) landings (mt) with yearly totals. Commercial landings were modeled as gear-specific landings and separated here by state for information purposes only."
+catchlabel <- "table-catchbystate"
+kableExtra::kbl(catch_fordoc %>% dplyr::filter(area == "North") %>% dplyr::select(-area),
+  booktabs = TRUE, longtable = TRUE,
+  caption = catchcaption, label = catchlabel, format = "latex",
+  align = "r",
+) %>%
+kableExtra::kable_styling(latex_options = c("repeat_header")) %>%
+kableExtra::add_header_above(c(" ", "Fixed gear" = 3, "Trawl" = 3, "Recreational" = 3, "")) %>%
+kableExtra::save_kable(file = file.path("..", "tables", paste0(catchlabel, "-n-", ".tex")))
+kableExtra::kbl(catch_fordoc %>% dplyr::filter(area == "South") %>% dplyr::select(-area),
+  booktabs = TRUE, longtable = TRUE,
+  caption = catchcaption, label = catchlabel, format = "latex",
+  align = "r",
+) %>%
+kableExtra::kable_styling(latex_options = c("repeat_header")) %>%
+kableExtra::add_header_above(c(" ", "Fixed gear" = 3, "Trawl" = 3, "Recreational" = 3, "")) %>%
+kableExtra::save_kable(file = file.path("..", "tables", paste0(catchlabel, "-s-", ".tex")))
+
+###############################################################################
+# Save the data
+###############################################################################
+save.image(file = file.path("..", "data-raw", "catch.RData"))
 usethis::use_data(data_catch, overwrite = TRUE)
+usethis::use_data(catch_info, overwrite = TRUE)
+
+###############################################################################
+# Make the figures for the catches
+###############################################################################
+gg <- ggplot2::ggplot(
+  catch_comm_state,
+  ggplot2::aes(Year, mt, lty = source, pch = fleet, col = fleet)
+) +
+  ggplot2::geom_line() +
+  # ggplot2::geom_point() +
+  ggplot2::geom_line(ggplot2::aes(y = catch)) +
+  # ggplot2::geom_point(aes(y = catch)) +
+  ggplot2::facet_grid(state ~ .) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(strip.background = ggplot2::element_rect(fill = NA)) +
+  ggplot2::theme(legend.position = c(0.1, 0.8)) +
+  ggplot2::ylab("Landings (mt)") +
+  ggplot2::scale_color_manual(
+    values = unlist(t(get_fleet(value="Comm")[,c("col.n")]),use.names=FALSE)
+  )
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-comm-state.png"),
+  caption = paste0(
+    "Comparison of commercial catch time series from this model ",
+    "(dashed line) and the previous assessment model (solid line). ",
+    "Fixed gear (FG; dark blue) and trawl (TW; light blue) ",
+    "are shown for both the northern (top panel; Oregon and Washington) and ",
+    "southern (bottom panel; California) as defined in the previous assessment model."
+  ),
+  alttext = paste(
+    "Time series of commercial catches are less in the early years for the new southern model than the previous assessment."
+  )
+)
+
+gg <- ggplot2::ggplot(catch_comm_CA_interpolate,
+  ggplot2::aes(
+    x = Year,
+    y = mt_orig,
+    col = interaction(area, fleet, sep = " - "),
+  )
+) +
+  ggplot2::geom_line() +
+  ggplot2::geom_line(ggplot2::aes(y = mt), lty = 2) +
+  ggplot2::geom_point(cex = 2) +
+  ggplot2::ylab("Commercial landings (mt)") +
+  ggplot2::guides(
+    colour = ggplot2::guide_legend(title = "area x fleet")
+  ) +
+  ggplot2::scale_colour_manual(
+    values = unlist(t(get_fleet(value="Comm")[,c("col.n","col.s")]),use.names=FALSE)
+  ) +
+  ggplot2::theme_bw() + ggplot2::theme(legend.position = c(0.1, 0.8))
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-comm-CA-interpolate-ts.png"),
+  caption = paste0(
+    "Reconstructed commercial landings for the state of California by fleet ",
+    "(fixed gear, FG, circles; trawl gear, TW, triangles) and ", 
+    "area (northern region, blue; southern region, red). ",
+    "Dashed line indicates data were interpolated across years."
+  ),
+  alttext = paste(
+    ""
+  )
+)
+
+gg <- catch_comm_CA_ralston %>%
+  dplyr::group_by(Year, area, state) %>%
+  dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
+  dplyr::ungroup() %>%
+  dplyr::group_by(Year, state) %>%
+  dplyr::mutate(prop = mt / sum(mt)) %>%
+  dplyr::full_join(
+    by = c("Year", "area"),
+    x = .,
+    y = catch_comm_CA_MM
+  ) %>% data.frame %>%
+  dplyr::filter(type == "ALL" & area == "North") %>%
+ggplot2::ggplot(
+  size = 2,
+  ggplot2::aes(x = Year, y = prop)
+) +
+  ggplot2::geom_point(pch = 1) +
+  ggplot2::geom_point(ggplot2::aes(y = prop_fa)) +
+  ggplot2::ylim(c(0, 1.0)) +
+  ggplot2::theme_bw() +
+  ggplot2::ylab("Proportion of CA commercial catch in the northern area")
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-comm-CA-proportionnorth.png"),
+  caption = paste0(
+    "Yearly proportion of California (CA) commercial catch landed in the ",
+    "the northern region (i.e., north of ",
+    "forty degrees ten minutes latitude", ") ",
+    "of all CA commercial catches from two data sources, ",
+    "the Raltson et al. (2010) catch reconstruction effort (open circles) and ",
+    "fish ticket data in CALCOM, the database used by the ",
+    "California Cooperative Groundfish Survey to store and manage ",
+    "commercial market sample data, (filled circles)."
+  ),
+  alttext = paste0(
+    "Proportions largely agree between both data sets."
+  ),
+  label = "catch-comm-CA-proportionnorth"
+)
+
+gg <- ggplot2::ggplot(data = catch_comm_pacfin %>%
+  dplyr::filter(Year < as.numeric(format(Sys.Date(), "%Y"))) %>%
+  dplyr::group_by(Year, area, fleet) %>%
+  dplyr::summarize(MT = sum(ROUND_WEIGHT_MTONS), .groups = "keep")) +
+  ggplot2::geom_bar(stat="identity", lwd = 0.2,
+    ggplot2::aes(
+      x = Year,
+      y = MT,
+      fill = interaction(area, fleet, sep = " ")
+    )
+  ) +
+  ggplot2::scale_fill_manual(
+    values  = unlist(t(get_fleet(value="Comm")[,c("col.n","col.s")]),use.names=FALSE)
+  ) +
+  ggplot2::facet_grid(area ~ .) +
+  ggplot2::xlab("Year") + ggplot2::ylab("Landings (mt)") +
+  ggplot2::labs(fill = ggplot2::guide_legend(title = "area x fleet")) +
+  ggplot2::theme_bw() + ggplot2::theme(
+    strip.background = ggplot2::element_rect(fill = NA),
+    text = ggplot2::element_text(size = 16)
+    )
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-comm-ts-pacfin.png"),
+  caption = paste0(
+    "Yearly commercial landings (mt) from the PacFIN database since 1981 ",
+    " by area (panel and color) and fleet (shading). ",
+    "Trawl gear (TW) includes all trawl, nets, and dredging. ",
+    "Fixed gear (FG) includes all other gear types."
+  ),
+  alttext = paste(
+    ""
+  )
+)
+
+gg <- catch_comm_pacfin %>%
+  dplyr::filter(AGENCY_CODE == "C", Year != as.numeric(format(Sys.Date(), "%Y"))) %>%
+  dplyr::mutate(gear = factor(fleet)) %>%
+  dplyr::group_by(Year, fleet, area)  %>%
+  dplyr::summarize(mt = sum(ROUND_WEIGHT_MTONS), .groups = "keep") %>%
+  dplyr::group_by(Year, fleet) %>%
+  dplyr::mutate(percentage = mt/sum(mt)) %>%
+  ggplot2::ggplot(ggplot2::aes(
+    x = Year,
+    y = percentage,
+    fill = interaction(area, fleet)
+  )) +
+  ggplot2::scale_fill_manual(
+    values = unlist(t(get_fleet(value="Comm")[,c("col.n","col.s")]),use.names=FALSE)
+  ) +
+  ggplot2::facet_grid(fleet ~ .) +
+  ggplot2::geom_bar(position = "stack", stat = "identity") +
+  ggplot2::scale_y_continuous(labels = scales::percent) +
+  ggplot2::theme_bw() + ggplot2::theme(
+    strip.background = ggplot2::element_rect(fill = NA),
+    # text = ggplot2::element_text(size = 10),
+    legend.position = "none"
+  ) +
+  ggplot2::xlab("Year") + ggplot2::ylab("California commercial catch by area")
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-comm-CA-gearprop.png"),
+  caption = paste0(
+    "Percentage of California commercial catch by area within each fleet ",
+    "(fixed gear, FG, upper panel; trawl, TW, lower panel) ",
+    "since 1981. ",
+    "Darker shades represent the northern area and lighter shades represent the southern area."
+  ),
+  alttext = paste(
+    ""
+  )
+)
+
+gg <- bio_rec_recfin %>%
+  dplyr::group_by(Year, STATE_NAME, AGENCY_WEIGHT_UNITS, IS_RETAINED, sex) %>%
+  dplyr::summarize(.groups = "keep",
+    mean = mean(RECFIN_LENGTH_MM, na.rm = TRUE)
+  ) %>%
+  ggplot2::ggplot(ggplot2::aes(Year, mean, col = STATE_NAME, lty = STATE_NAME)) +
+  ggplot2::geom_point(cex = 5, alpha = 0.5) +
+  ggplot2::geom_smooth(method = "lm", se = FALSE) +
+  ggplot2::scale_color_manual(
+    values = get_fleet(value="rec")[,c("col.n")]
+  ) +
+  ggplot2::ylab("Mean length (mm)") +
+  ggplot2::labs(col = "", lty = "") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    legend.position = c(0.15, 0.90),
+    strip.background = ggplot2::element_rect(fill = NA)
+  ) +
+  ggplot2::facet_grid(tolower(IS_RETAINED) ~ factor(sex, labels = c("female", "male", "unknown sex")))
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-rec-tsrecfinmeanlength.png"),
+  caption = paste0(
+    "Mean length (mm) of released (top) and retained (bottom) fish from the ",
+    "recreational fishery for Washington (squares and dashed line), ",
+    "Oregon (triangles and dash-dot line), and California (circles and solid line) ",
+    " by sex (columns). ",
+    "The average of retained fish across all years was used to translate ",
+    "numbers to weight for Washington."
+  ),
+  alttext = paste(
+    ""
+  )
+)
+
+gg <- ggplot2::ggplot(
+  catch_rec %>%
+    dplyr::group_by(Year, state) %>%
+    dplyr::summarize(mt = sum(mt), .groups = "keep") %>%
+    dplyr::ungroup(),
+    ggplot2::aes(Year, mt)
+  ) +
+  ggplot2::geom_line(ggplot2::aes(col = state), lty = 2) +
+  ggplot2::scale_color_manual(
+    values = rev(get_fleet(value="rec")[,c("col.n")])
+  ) +
+  ggplot2::geom_line(
+    lty = 1,
+    col = get_fleet(value="CA")[,c("col.n")],
+    data = last_ssdat[[2]][["catch"]] %>%
+      dplyr::filter(fleet == grep("REC", last_ssdat[[2]][["fleetnames"]]), catch > 0),
+    ggplot2::aes(year, catch)
+  ) +
+  ggplot2::geom_line(
+    lty = 1,
+    col = get_fleet(value="OR")[,c("col.n")],
+    data = last_ssdat[[1]][["catch"]] %>%
+      dplyr::filter(fleet == grep("OR", last_ssdat[[1]][["fleetnames"]]), catch > 0),
+    ggplot2::aes(year, catch)
+  ) +
+  ggplot2::geom_line(
+    lty = 1,
+    col = get_fleet(value="WA")[,c("col.n")],
+    data = last_ssdat[[1]][["catch"]] %>%
+      dplyr::filter(fleet == grep("WA", last_ssdat[[1]][["fleetnames"]]), catch > 0),
+    ggplot2::aes(year, catch)
+  ) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position = c(0.1, 0.8)) +
+  ggplot2::ylab("Recreational landings (mt)")
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-rec-ca-oldts.png"),
+  caption = paste0(
+    "Comparison of recreational landings from this assessment (dashed line) versus ",
+    "the previous assessment (solid line) for each state (colors)."
+  ),
+  alttext = paste(
+    ""
+  )
+)
+
+gg <- ggplot2::ggplot(
+  catch_rec_CA,
+  ggplot2::aes(Year, mt, col = area)
+) +
+  ggplot2::geom_point(ggplot2::aes(pch = source)) +
+  ggplot2::geom_line() +
+  ggplot2::scale_colour_manual(
+    values = unlist(use.names = FALSE, get_fleet("CA", col = c("col.n", "col.s")))
+  ) +
+  ggplot2::theme_bw() +
+  ggplot2::ylab("Recreational California landings (mt)")
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-rec-CA-ts.png"),
+  caption = paste0(
+    "Time series of California recreational landings (mt) for the ",
+    "northern (darker color) and southern (lighter color) areas. ",
+    "The shape of the points indicates the information source ",
+    "(California Recreational Fisheries Survey, CRFS; linear interpolation, interpolate; ",
+    "Marine Recreational Fisheries Statistics Survey, MRFSS; ",
+    "old Stock Synthesis, SS, model)."
+  ),
+  alttext = paste(
+    ""
+  )
+)
+
+gg <- ggplot2::ggplot(
+  catch_rec,
+  ggplot2::aes(Year, mt, col = interaction(area, state, sep = " "))
+) +
+  ggplot2::geom_line(size=1.2) +
+  ggplot2::scale_color_manual(
+    values = unlist(use.names = FALSE, get_fleet(value="rec")[c(3,3,2,1), c("col.n", "col.s")])[c(1,5,3,4)]
+  ) +
+  ggplot2::labs(col = "fleet") +
+  ggplot2::ylab("Recreational landings (mt)") +
+  ggplot2::theme_bw()
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-rec-ts.png"),
+  caption = paste0(
+    "Time series of recreational landings by state and area."
+  ),
+  alttext = paste(
+    ""
+  )
+)
 ```
-```{r catch-figures-parent, eval = TRUE, child = "catch-figures.Rmd", include = FALSE, cache = TRUE}
+<!--
+###############################################################################
+# Not used
+###############################################################################
+-->
+```{r catch-comm-recent, eval = FALSE}
+catch.pacfin %>%
+  dplyr::select(matches("Year|^area$|Round.+MT")) %>%
+  dplyr::mutate(Year = Year) %>%
+  dplyr::group_by(Year, area) %>%
+  dplyr::summarize(MT = sum(ROUND_WEIGHT_MTONS), .groups = "keep") %>%
+  tidyr::pivot_wider(names_from = area, values_from = MT) %>%
+  kableExtra::kbl(
+    longtable = TRUE,
+    caption = "Yearly commercial landings (mt) from the PacFIN database by area, North and South, since 1981."
+  ) %>%
+  kableExtra::kable_paper(full_width = TRUE) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed", "responsive")) %>%
+  kableExtra::scroll_box(width = "500px", height = "200px")
+```
+```{r catch-rec-OR-comparetoprevmodel, include = FALSE, echo = FALSE, eval = FALSE}
+dplyr::full_join(
+  by = c(Year = "year"),
+  x = catch_rec %>%
+    dplyr::group_by(Year) %>%
+    dplyr::filter(state == "OR") %>%
+    dplyr::summarize(mt=sum(mt)),
+  y = last_ssdat[[1]][["catch"]] %>%
+      dplyr::filter(fleet == grep("OR", last_ssdat[[1]][["fleetnames"]]), catch > 0)
+  ) %>%
+  dplyr::mutate(diff = mt - catch) %>%
+  dplyr::select(Year, mt, catch, diff) %>%
+  kable(.)
+  data.frame()
+```
+```{r catch-comm-seasonality, eval = FALSE, fig.cap = ""}
+gg <- ggplot2::ggplot(data = catch_comm_pacfin %>%
+  dplyr::group_by(Year, LANDING_MONTH, area, fleet) %>%
+  dplyr::summarize(.groups = "keep",
+    MT = sum(ROUND_WEIGHT_MTONS),
+    n = length(unique(VESSEL_ID))) %>%
+  dplyr::mutate(fleet = ifelse(fleet == "FG", "Fixed gear", "Trawl")) %>%
+  dplyr::ungroup() %>%
+  dplyr::filter(n > 3),
+  ggplot2::aes(y = MT, x = LANDING_MONTH, col = Year)) +
+  ggplot2::xlab("") + ggplot2::ylab("Commercial landings (mt; log scale)") +
+  ggplot2::geom_point(size=4, alpha = 0.3) +
+  ggplot2::guides(alpha = "none") +
+  ggplot2::theme_bw() + ggplot2::theme(
+    legend.position = "bottom",
+    legend.key.width = grid::unit(3, "cm"),
+    strip.background = ggplot2::element_rect(fill = NA),
+    text = ggplot2::element_text(size = 16)
+    ) +
+  ggplot2::labs(colour = ggplot2::guide_legend(title = "Year")) +
+  ggplot2::coord_polar() +
+  ggplot2::facet_grid(fleet~area) +
+  ggplot2::scale_colour_viridis_c(direction = -1) +
+  ggplot2::scale_x_continuous(
+    limits = c(0, 12), expand = c(0, 0),
+    breaks = seq(1, 12, by = 1),
+    labels = c("Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug",
+      "Sep", "Oct", "Nov", "Dec")) +
+  ggplot2::scale_y_continuous(trans = "log", breaks = c(0, 1, 10, 100, 1000))
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-comm-seasonality.png"),
+  caption = paste0(
+    "Exploratory figure, not ready for production. ",
+    "Seasonality (month; x axis) of landings (mt) by area (column) and fleet (row). ",
+    "The y axis is on the log scale, colors represent years, and ",
+    "circles are transparent to facilitate visualization of months with many records."
+  ),
+  alttext = paste(
+    ""
+  )
+)
+
+
+gg <- ggplot2::ggplot(
+  catch_comm,
+  ggplot2::aes(Year, mt, col = interaction(area, fleet, sep = " "))
+) +
+  ggplot2::geom_line(size = 1.2) +
+  ggplot2::scale_colour_manual(
+    values = unlist(t(get_fleet(value="Comm")[,c("col.n","col.s")]),use.names=FALSE)
+  ) +
+  ggplot2::labs(ylab = "Landings (mt)", colour = ggplot2::guide_legend(title = "area x fleet")) +
+  ggplot2::theme_bw()
+ggsave2(
+  gg,
+  filename = file.path("..", "figures", "catch-comm-ts-full.png"),
+  caption = paste0(
+    "Commercial landings (mt) by year (x axis), area, and fleet, ",
+    "with darker colors representing catch from the northern area and ",
+    "lighter colors from the southern area."
+  ),
+  alttext = paste(
+    "Recent landings are much smaller than pre-2000 landings for all commercial fleets."
+  )
+)
 ```
 
 <!--- ===================================================================== -->
 <!---                               WRITE UP                                -->
 <!--- ===================================================================== -->
-
+```{r catch-loadrdata, eval = TRUE, echo = FALSE}
+load(file.path("..", "data-raw", "catch.Rdata"))
+```
 ### Commercial landings
 
 #### Commercial fleet structure
