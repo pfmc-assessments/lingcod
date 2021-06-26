@@ -52,6 +52,7 @@ Suggests:
     nwfscDiag,
     nwfscDiscard,
     PacFIN.Utilities,
+    PEPtools
     recFIN,
     VASTWestCoast
 Remotes:
@@ -62,6 +63,7 @@ Remotes:
     github::nwfsc-assess/nwfscDiscard,
     github::nwfsc-assess/nwfscSurvey,
     github::nwfsc-assess/PacFIN.Utilities,
+    github::nwfsc-assess/PEPtools,
     github::nwfsc-assess/recFIN,
     github::nwfsc-assess/sa4ss,
     github::nwfsc-assess/VASTWestCoast

@@ -2,12 +2,13 @@
 
 # loop over areas to modify filenames and starter file
 for (area in c("n", "s")){
-  olddir <- get_dir_ling(area = area, num = 8, sens = 1)
   if (area == "n") {
-    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
+    olddir <- get_dir_ling(area = area, num = 20, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 20, sens = 10)
   }
   if (area == "s") {
-    newdir <- get_dir_ling(area = area, num = 9, sens = 1)
+    olddir <- get_dir_ling(area = area, num = 14, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 14, sens = 10)
   }
   
   r4ss::copy_SS_inputs(
@@ -23,6 +24,9 @@ for (area in c("n", "s")){
 
   # read all inputs for new model
   inputs <- get_inputs_ling(dir = newdir, verbose = FALSE)
+  # read model output from old model
+  mod.old <- get_mod(dir = olddir)
+  
   # get forecast from model before forecast was temporarily turned off
   foredir <- get_dir_ling(area = area, num = 1)
   inputs_fore <- get_inputs_ling(dir = foredir, verbose = FALSE)
@@ -37,9 +41,11 @@ for (area in c("n", "s")){
   # benchmarks based on final year
   fore$Fcast_years <- rep(0, length(fore$Fcast_years))
 
-  # TODO: update these values with the time-varying buffer values in the future
-  fore$Flimitfraction <- 1
-  fore$Flimitfraction_m <- NULL
+  # get time-varying buffer from PEPtools function thanks to Chantel Wetzel
+  fore$Flimitfraction <- -1
+  fore$Flimitfraction_m <- PEPtools::get_buffer(years = 2021:2032,
+                                                sigma = 0.50,
+                                                pstar = 0.45) %>% data.frame()
   
   fore$FirstYear_for_caps_and_allocations <- 2040 # ignore far into future
 
@@ -47,8 +53,12 @@ for (area in c("n", "s")){
   fore$vals_fleet_relative_f <- NULL
 
   # TODO: add fixed forecast catch for 2021 and 2022
-  fore$ForeCatch <- NULL
-  
+  fore$ForeCatch <- r4ss::SS_ForeCatch(mod.old,
+                                       yrs = 2021:2022,
+                                       average = TRUE,
+                                       avg.yrs = 2016:2020)
+  fore$ForeCatch[["dead(B)"]][fore$ForeCatch$Fleet %in% 1:2] <-
+    round(c(0.4, 0.6) * sum(fore$ForeCatch[["dead(B)"]][fore$ForeCatch$Fleet %in% 1:2]), 2)
   # assign modified forecast to new model files
   inputs$fore <- fore
   write_inputs_ling(inputs = inputs, dir = newdir, files = "fore", overwrite = TRUE)
