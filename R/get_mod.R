@@ -79,7 +79,7 @@ get_mod <- function(area = NULL,
   # make plots
   if(plot | as.numeric(plot)){
     if (is.logical(plot)) {
-      plot <- 1:26
+      plot <- 1:50
     }
     make_r4ss_plots_ling(mod, plot = plot, verbose = verbose, ...)
   }

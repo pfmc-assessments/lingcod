@@ -1,0 +1,2 @@
+"caption","alt_caption","label","filein"
+"Index fits on a log scale for all fleets. Lines indicate 95\% uncertainty interval around estimated values based on the model assumption of lognormal error. Thicker lines (if present) indicate input uncertainty before addition of an estimated additional uncertainty parameter which is added to the standard error of all years within an index.","Index fits on a log scale for all fleets","index_log_fits_all_fleets","../models/2021.n.020.001_refined_fixed/custom_plots/index_log_fits_all_fleets.png"

@@ -70,6 +70,9 @@ sens_convert_offsets <- function(tab){
 #' /inst/extdata/sensitivities.csv to make a table of results
 #' 
 #' @param area which area "n" or "s"
+#' @template num
+#' @param sens_base sensitivity number associated with the base model
+#' or source for the other sensitivities.
 #' @param sens_nums a vector of values from /inst/extdata/sensitivities.csv
 #' @param sens_type a string indicating the type which is appended to the csv
 #' file containing the sensitivity results
@@ -79,18 +82,17 @@ sens_convert_offsets <- function(tab){
 #' @export
 
 sens_make_table <- function(area,
+                            num,
+                            sens_base = 1,
+                            yr = 2021,
                             sens_nums,
                             sens_type = NULL,
                             plot = TRUE,
                             write = FALSE) {
 
-  if (area == "n") {
-    Area <- "North"
-  }
-  if (area == "s") {
-    Area <- "South"
-  }
-  
+  # get base model directory (may not always match info_basemodels)
+  basedir <- basename(get_dir_ling(area, num, sens = sens_base, yr = yr))
+
   # which things to read from the model output
   thingnames <- c("Recr_Virgin", "R0", "NatM", "Linf",
                   "LnQ_base_WCGBTS",
@@ -102,16 +104,21 @@ sens_make_table <- function(area,
                 "Discard", "priors")
 
   # sens dirs doesn't include the base
-  sens_dirs <- info_basemodels[[Area]] %>%
+  sens_dirs <- basedir %>%
     get_id_ling() %>%
     stringr::str_sub(end = nchar("2021.s.001.")) %>%
     paste0(., sprintf("%03d", sens_nums)) %>%
     get_dir_ling(id = .)
 
+  # filter for directories which are present
+  message("the following directories not found for this model:\n",
+          paste(sens_dirs[!dir.exists(sens_dirs)], collapse = "\n"))
+  sens_dirs <- sens_dirs[dir.exists(sens_dirs)]
+  
   # read the model output
   # sens_mods includes the base (re-read here because that's easy)
   sens_mods <-
-    r4ss::SSgetoutput(dirvec = c(file.path("models",info_basemodels[[Area]]),
+    r4ss::SSgetoutput(dirvec = c(file.path("models",basedir),
                                  sens_dirs),
                       getcovar = FALSE)
 
@@ -133,9 +140,11 @@ sens_make_table <- function(area,
     plot_filename <- paste0("sens_timeseries_", area, "_", sens_type, ".png") 
     plot_twopanel_comparison(mods = sens_mods,
                              legendlabels = sens_names,
+                             legendloc = "bottomleft",
+                             legendncol = ifelse(length(sens_mods) < 5, 1, 2),
                              file = plot_filename,
                              dir = file.path("models",
-                                             info_basemodels[[Area]],
+                                             basedir,
                                              "custom_plots"
                                              )
                              )

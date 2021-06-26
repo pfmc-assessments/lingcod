@@ -19,7 +19,7 @@ The elements are
 # table
 
 name | notes | issue | source_model | script
---   | --    | --    | --	        | --
+--   | --    | --    | --           | --
 2017.n.001.001.final_base | 2017 base | #32 | archive | 
 2017.s.001.001.final_base | 2017 base | #32 | archive | 
 2017.s.002.001.SSv3.30.16.02 | testing newer SS version | #32 | 2017.s.001.001.final_base | models/lingcod_model_bridging_new_exe.R
@@ -140,18 +140,18 @@ name | notes | issue | source_model | script
 2021.s.017.001_no_fishery_ages | make all fishery ages ghost fleets | #87 | 2021.n.004.014 | lingcod_model_bridging_change_ctl.R 
 2021.n.016.002_tune_sample | Run 90 of 100 from 2021.n.016.001_tune, must start from par | #99 | 2021.n.016.001 | northjittermove.R 
 2021.s.014.101_shareM                 | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.102_h0.7					  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.103_M0.3_h0.7			  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.104_sigmaR0.8			  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.105_sigmaR0.4			  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.303_no_fishery_indices	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.311_no_Comm_Trawl_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.312_no_Comm_Fix_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.313_no_Rec_WA_index		  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.314_no_Rec_OR_index		  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.315_no_Rec_CA_index		  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.316_no_Surv_TRI_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
-2021.s.014.317_no_Surv_WCGBTS_index	  | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.102_h0.7                   | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.103_M0.3_h0.7              | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.104_sigmaR0.8              | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.105_sigmaR0.4              | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.303_no_fishery_indices     | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.311_no_Comm_Trawl_index    | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.312_no_Comm_Fix_index      | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.313_no_Rec_WA_index        | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.314_no_Rec_OR_index        | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.315_no_Rec_CA_index        | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.316_no_Surv_TRI_index      | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.317_no_Surv_WCGBTS_index   | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.318_no_Surv_HookLine_index | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.320_no_CPFV_DebWV_index    | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.n.016.003_fix_pars_on_bounds | fix some parameters that are on bounds | #99 | 2021.n.016.001 | manual edits
@@ -162,3 +162,18 @@ name | notes | issue | source_model | script
 2021.n.019.002_add_asymp_ret | adding parameter for asymptotic retention in the trawl fishery | #99 | 2021.n.019.001 | manual edit
 2021.n.019.003_tune_discard_comps | reduce the sample size of the discard comps by 50% | #99 | 2021.n.019.001 | model_tune_discard_comps.R
 2021.n.020.001_refined_fixed | like 2021.n.018.001_refined but with 3 sel and ret parameters fixed on bounds | #99 | 2021.n.018.001 | lingcod_model_bridging_change_ctl.R 
+2021.n.020.101_shareM                  | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities() 
+2021.n.020.102_h0.7                    | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.103_M0.3_h0.7               | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.104_sigmaR0.8               | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.105_sigmaR0.4               | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.302_OR_CPFV_index           | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.303_no_fishery_indices      | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.311_no_Comm_Trawl_index     | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.312_no_Comm_Fix_index       | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.313_no_Rec_WA_index         | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.314_no_Rec_OR_index         | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.315_no_Rec_CA_index         | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.316_no_Surv_TRI_index       | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.317_no_Surv_WCGBTS_index    | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.020.318_no_Surv_HookLine_index  | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()

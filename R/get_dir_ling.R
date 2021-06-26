@@ -25,6 +25,7 @@ get_dir_ling <- function(area = NULL,
                          yr = 2021,
                          id = NULL,
                          verbose = FALSE){
+  
   if (is.null(id)) {
     if (is.null(area) | is.null(num)) {
       stop("Either 'id' or both 'area' and 'num' are required inputs")
@@ -52,11 +53,12 @@ get_dir_ling <- function(area = NULL,
                                first = 1,
                                last = nchar("2021.n.001.001")) %in% id]
   if (length(dir) == 0) {
-    stop("no model has id = ", id)
+    stop("no model in models/README.md has id = ", paste(id, collapse = ", "))
   }
 
   if (verbose) {
-    message("id = ", id, " dir = ", dir)
+    message("id = ", paste(id, collapse = ", "),
+            "\ndir = ", paste(dir, collapse = ", "))
   }
 
   dir <- file.path("models", dir) 

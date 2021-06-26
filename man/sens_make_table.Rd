@@ -4,10 +4,24 @@
 \alias{sens_make_table}
 \title{Make a table of senstivity results}
 \usage{
-sens_make_table(area, sens_nums, sens_type = NULL, plot = TRUE, write = FALSE)
+sens_make_table(
+  area,
+  num,
+  sens_base = 1,
+  yr = 2021,
+  sens_nums,
+  sens_type = NULL,
+  plot = TRUE,
+  write = FALSE
+)
 }
 \arguments{
 \item{area}{which area "n" or "s"}
+
+\item{num}{base model number}
+
+\item{sens_base}{sensitivity number associated with the base model
+or source for the other sensitivities.}
 
 \item{sens_nums}{a vector of values from /inst/extdata/sensitivities.csv}
 
