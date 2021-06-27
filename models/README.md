@@ -179,3 +179,6 @@ name | notes | issue | source_model | script
 2021.n.020.316_no_Surv_TRI_index       | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
 2021.n.020.317_no_Surv_WCGBTS_index    | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
 2021.n.020.318_no_Surv_HookLine_index  | sensitivities run on 26 June 2021 | #99 | 2021.n.020.001 | run_sensitivities()
+2021.n.021.001_more_asymptotic | like 2021.n.020.001_refined_fixed but all asymptotic selex fixed at upper bound | NA | 2021.n.020.001 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R
+2021.n.021.002_more_asymptotic_manual | manual edits that match above model | NA | 2021.n.020.001 | manual edit
+2021.n.021.003_more_asymptotic_manual_hess | manual edits that match above model | NA | 2021.n.020.001 | manual edit

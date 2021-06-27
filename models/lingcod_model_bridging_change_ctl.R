@@ -19,8 +19,10 @@ for (area in c("n")) {
 
   if(area == "n") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
-    newdir <- get_dir_ling(area = area, num = 20, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 21, sens = 1)
 
+    # source for determining which fleets are estimated asymptotic
+    selexdir <- get_dir_ling(area = area, num = 20, sens = 1) 
     # source for data weighting of comp data
     tuningdir <- get_dir_ling(area = area, num = 16, sens = 5) 
     # source for bias adjustment of recdevs
@@ -31,7 +33,8 @@ for (area in c("n")) {
   if(area == "s") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 11) # fewer_ages
     newdir <- get_dir_ling(area = area, num = 16, sens = 1) # 
-    
+
+    selexdir <- NULL
     # source for data weighting of comp data
     tuningdir <- get_dir_ling(area = area, num = 14, sens = 1) 
     # source for bias adjustment of recdevs
@@ -579,7 +582,7 @@ for (area in c("n")) {
   # because retention was assumed to be high in early period for all sizes
   newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
                                             string = "PRet_1",
-                                            LO = 30,
+                                            LO = 40,
                                             INIT = 55,
                                             PHASE = 4)
   newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
@@ -587,21 +590,51 @@ for (area in c("n")) {
                                             INIT = 2,
                                             PHASE = 4)
 
-  # fix all Rec_OR descending selectivity BASE PAR at the upper bound
-  newctl$size_selex_parms <- change_pars(newctl$size_selex_parms,
-                                            string = "SizeSel_P_4_4_Rec_OR",
-                                            INIT = 15,
-                                            PHASE = -99)
-  # fix all Rec_OR descending selectivity time-varying params at the upper bound
-  newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
-                                            string = "SizeSel_P_4_4_Rec_OR",
-                                            INIT = 15,
-                                            PHASE = -99)
-  # free up the 2007+ period Rec_OR descending selectivity at the upper bound
-  newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
-                                            string = "SizeSel_P_4_4_Rec_OR_2007",
-                                            INIT = 7,
-                                            PHASE = 4)
+  # fix all descending selectivity parameters that are near the upper bound
+  if (!is.null(selexdir)){
+    # read source model with estimated values in control.ss_new
+    selex_ctl <-
+      get_inputs_ling(dir = selexdir, ss_new = TRUE)$ctl
+    # get parameter lables associated with high value for descending slope
+    asymptotic_basepars <-
+      selex_ctl[["size_selex_parms"]] %>%
+      dplyr::filter(INIT > 13) %>%
+      rownames() %>%
+      grep(pattern = "SizeSel_P_4", value = TRUE)
+    message("fixing the following to be asymptotic: \n  ",
+            paste(asymptotic_basepars, collapse = "\n  "))
+    # change parameters to be fixed asymptotic,
+    newctl$size_selex_parms[which(rownames(selex_ctl[["size_selex_parms"]]) %in%
+                                  asymptotic_basepars), "INIT"] <- 15
+    newctl$size_selex_parms[which(rownames(selex_ctl[["size_selex_parms"]]) %in%
+                                  asymptotic_basepars), "PHASE"] <- -99
+    # repeat above for time-varying block parameters
+    asymptotic_tvpars <-
+      selex_ctl[["size_selex_parms_tv"]] %>%
+      dplyr::filter(INIT > 13) %>%
+      rownames() %>%
+      grep(pattern = "SizeSel_P_4", value = TRUE)
+    message("fixing the following to be asymptotic: \n  ",
+            paste(asymptotic_tvpars, collapse = "\n  "))
+    # parameter labels for time-varying selectivity were produced above and
+    # don't match those created by SS_readctl(), so just relying on matching rows
+    newctl$size_selex_parms_tv[which(rownames(selex_ctl[["size_selex_parms_tv"]]) %in%
+                                     asymptotic_tvpars), "INIT"] <- 15
+    newctl$size_selex_parms_tv[which(rownames(selex_ctl[["size_selex_parms_tv"]]) %in%
+                                     asymptotic_tvpars), "PHASE"] <- -99
+    
+  }
+  
+  ## # fix all Rec_OR descending selectivity time-varying params at the upper bound
+  ## newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
+  ##                                           string = "SizeSel_P_4_4_Rec_OR",
+  ##                                           INIT = 15,
+  ##                                           PHASE = -99)
+  ## # free up the 2007+ period Rec_OR descending selectivity at the upper bound
+  ## newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
+  ##                                           string = "SizeSel_P_4_4_Rec_OR_2007",
+  ##                                           INIT = 7,
+  ##                                           PHASE = 4)
   # fix a descending selex parameter for commercial trawl in 1993
   # that was hitting was hitting the lower bound = 1
   newctl$size_selex_parms_tv <- change_pars(newctl$size_selex_parms_tv,
