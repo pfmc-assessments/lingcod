@@ -1,10 +1,10 @@
 ```{r comparison-load-model-summaries, eval = TRUE, echo = FALSE}
 # read ss_summary.sso files for each area
-vals.n <- file.path("models",
+vals.n <- file.path("..", "models",
                     info_basemodels[["North"]],
                     "ss_summary.sso") %>%
   r4ss::SS_read_summary()
-vals.s <- file.path("models",
+vals.s <- file.path("..", "models",
                     info_basemodels[["South"]],
                     "ss_summary.sso") %>%
   r4ss::SS_read_summary()
