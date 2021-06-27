@@ -46,6 +46,7 @@ add_figure_ling(dplyr::bind_rows(mapply(
 ```
 
 ```{r, results = "asis"}
+add_figure_ling(csv=figurecsv, "catch2landings")
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path(params$model, "custom_plots", "index_data_all_fleets.csv"))
@@ -94,13 +95,13 @@ label = 'wcgbts-presAbs')
 ignore <- mapply(FUN = sa4ss::add_figure,
   filein = file.path("..", "figures",
     paste0("WCGBTS - ", params$area, " _", c("Length", "Age"), "_Frequency.png")),
-  caption = paste0(c("Length", "Age"), "-frequency data for males and females in the \\glsentrylong{s-wcgbt} (\\glsentryshort{s-wcgbt})."),
+  caption = paste0(c("Length", "Age"), "-composition data for males and females in the \\glsentrylong{s-wcgbt} (\\glsentryshort{s-wcgbt})."),
   label = paste0("wcgbts-", c("len", "age"), "Comp")
 )
 ignore <- mapply(FUN = sa4ss::add_figure,
   filein = file.path("..", "figures",
     paste0("Triennial - ", params$area, " _", c("Length", "Age"), "_Frequency.png")),
-  caption = paste0(c("Length", "Age"), "-frequency data for males and females in the \\glsentrylong{s-tri} (\\glsentryshort{s-tri})."),
+  caption = paste0(c("Length", "Age"), "-composition data for males and females in the \\glsentrylong{s-tri} (\\glsentryshort{s-tri})."),
   label = paste0("tri-", c("len", "age"), "Comp")
 )
 ```
@@ -131,7 +132,7 @@ ignore <- mapply(FUN = sa4ss::add_figure,
   ),
   caption = paste0(
     c("Length", "Length", "Age"),
-    "-frequency data for ",
+    "-composition data for ",
     c("males and females ", "unsexed fish ", "males and females "),
     "in the ", sprintf("\\glsentrylong{s-%1$s} (\\glsentryshort{s-%1$s}).", "hkl")
   ),
@@ -146,12 +147,12 @@ ignore <- mapply(FUN = sa4ss::add_figure,
 nm = "Lam Thesis lengths Male-Female South_Length_Frequency.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", nm),
-caption = "Length-frequency data for male and females from Lam Research data",
+caption = "Length-composition data for male and females from Lam Research data",
 label = 'lam-lenComp')
 nm = "Lam Thesis ages Male-Female South_Age_Frequency.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", nm),
-caption = "Age-frequency data for male and females from Lam Research data",
+caption = "Age-composition data for male and females from Lam Research data",
 label = 'lam-ageComp')
 ```
 
@@ -219,7 +220,7 @@ get_fleet("rec") %>%
         "_Frequency.png"
       )
     ),
-    caption = paste0(stringr::str_to_title(type), "-frequency data for the ", label_twoletter, " recreational fleet for ", tolower(sex), " fish."),
+    caption = paste0(stringr::str_to_title(type), "-composition data for the ", label_twoletter, " recreational fleet for ", tolower(sex), " fish."),
     label = paste0(tolower(label_twoletter), "-", substr(tolower(type), 1, 3), "comp-", tolower(sex))
   ) %>%
   dplyr::filter(file.exists(filein)) %>%

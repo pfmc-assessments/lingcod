@@ -1,6 +1,6 @@
 #### \Glsentrylong{s-wcgbt} lengths
 
-The length frequency of survey catches in each year was summarized using length bins in 
+The length compositions of survey catches in each year was summarized using length bins in 
 2 cm increments from 10 to 130 cm (Figure \@ref(fig:wcgbts-lenComp)).
 The first bin includes all observations less than 10 cm, 
 and the last bin includes all fish larger than 130 cm. The observed length compositions were 
@@ -8,37 +8,37 @@ expanded to account for subsampling of tows, and the expansion was stratified by
 strata of 55 - 183 m and 183 - 400m were selected,
 based on the sampling design of the survey (@keller2017).
 Depth strata were capped at 400 m because catches of `r spp` in 
-the \Gls{s-wcgbt} occur infrequency beyond 400m (Figure \ref{fig:wcgbts-presAbs}). Samples were
+the \Gls{s-wcgbt} occur infrequently beyond 400 m (Figure \ref{fig:wcgbts-presAbs}). Samples were
 often sexed, so only male and female length frequencies were used. The few unsexed individuals 
 were assigned as male or female according to the sex ratio of the respective length bin. An 
 assumed sex ratio of 0.5 was applied for unsexed fish in length bin less than 40 cm, as sex 
 of smaller sized `r spp` is harder to differentiate. A bin of 40 cm was chosen as this is the
 length bin at which the length-weight relationship starts to diverge for males and females, 
-and therefore equal assignment is not influenced by sex-specific size differences.
+and therefore, equal assignment is not influenced by sex-specific size differences.
 
 The input sample sizes (Table \@ref(tab:sample-size-length))
 for length and marginal age-composition data for all 
 fishery-independent surveys were calculated according to 
 Stewart and Hamel [-@stewart_bootstrapping_2014], which determined that the 
-approximate realized sample size for species in the "others" category 
+approximate realized sample size for species in the `others' category 
 (which included `r spp`) was $2.38*N_{\text{tow}}$.
 
 #### \acrlong{s-tri} lengths
 
-Length data preparation followed the same methods as applied to the WCGBTS data,
+Length data preparation followed the same methods as applied to the \gls{wcgbts} data,
 but depth strata of 55 - 183 m and 183 - 350m were used for expanding the
 length comps for subsampling of tows. A depth split of 183 m was used because
 sampling appeared less intense after this depth and raw catch per unit effort 
 more variable (Figure \ref{fig:tri-depthSplit}). A maximum 
 depth of 350 m was used because `r spp` were infrequently caught at depths 
 greater than 350 m (Figure \ref{fig:tri-depthSplit}). 
-Figure \ref{fig:tri-lenComp} shows the length frequency distributions for the \gls{s-tri}. 
+Figure \ref{fig:tri-lenComp} shows the length-composition distributions for the \gls{s-tri}. 
 Table \ref{tab:sample-size-length} shows the sample sizes.
 
 ```{asis, opts.label = 'south'}
 #### \Glsentrylong{s-hkl} lengths
 
-The length frequency of survey catches in each year was summarized using length bins in 
+The length composition of survey catches in each year was summarized using length bins in 
 2 cm increments from 10 to 130 cm (Figures \ref{fig:hkl-lenComp-sexed} and \ref{fig:hkl-lenComp-unsexed}).
 The first bin includes all observations less than 10 cm, 
 and the last bin includes all fish larger than 130 cm. Length compositions from this 
@@ -49,12 +49,12 @@ Table \ref{tab:sample-size-length} show the sample sizes.
 
 #### Lam research lengths
 
-In collaboration with the NWFSC and Moss Landing Marine Labs, `r spp` in nearshore 
+In collaboration with the \gls{nwfsc} and Moss Landing Marine Labs, `r spp` in nearshore 
 and offshore rocky reef habitats were collected between January 2016 and January 
 2017 via hook and line on chartered \glspl{cpfv} (@lam2019geographic). Sixteen latitudinal distinct sampling 
 sites, or ports, were chosen from northern Washington to southern California. 85 
 to 120 individuals were caught per port (N = 1,784, 922 Males, 862 Females) using 
-methods identical to those used by the onboard recreational lingcod fishery 
+methods identical to those used by the onboard recreational `r spp` fishery 
 except that shorts were retained (individuals smaller than the legal-size limit 
 of 22 inches) and areas closed to recreational harvest were occasionally utilized 
 (CDFW Permit #SC-6477, ODFW Permit #20237, WDFW Permit ID Samhouri 16-138). 
@@ -68,12 +68,12 @@ and were not expanded. Lengths were measured in total length, and were converted
 fork length following conversions from Laidig et al. [-@laidig_lingcod_conversions_1997]. Total
 and fork lengths for `r spp` were generally very similar given the tail shape 
 of `r spp`. 
-Figure \ref{fig:lam-lenComp} shows the length frequency distributions. 
+Figure \ref{fig:lam-lenComp} shows the length-composition distributions. 
 Table \ref{tab:sample-size-length} shows sample sizes.
 
 #### \Glsentrylong{s-wcgbt} ages
 
-Age-frequency data from the \Gls{s-wcgbt} (Figure \ref{fig:wcgbts-ageComp}) were 
+Age-composition data from the \Gls{s-wcgbt} (Figure \ref{fig:wcgbts-ageComp}) were 
 included in the model as conditional age-at-length (CAAL) distributions by sex 
 (male and female) and year, and therefore were not expanded. The numbers of fish 
 are used without any adjustment. The age distribution of survey catches in each year 
@@ -83,7 +83,7 @@ includes all fished aged to be greater than 20 years.
 Individual length- and age-observations can be thought 
 of as entries in an age-length key (matrix), with age across the columns and length 
 down the rows. The CAAL approach consists of tabulating the sums within rows as the 
-standard length-frequency distribution and, instead of also tabulating the sums to 
+standard length-composition distribution and, instead of also tabulating the sums to 
 the age margin , the distribution of ages in each row of the age-length key is 
 treated as a separate observation, conditioned on the row (length) from which it came. 
 
@@ -120,9 +120,9 @@ approach were explored by replacing with marginal age distributions.
 #### \acrlong{s-tri} ages
 
 Age data preparation follow the same methods as the WCGBTS length data. 
-The \gls{s-tri} age-frequency data were included in the model 
+The \gls{s-tri} age-composition data were included in the model 
 as CAAL, and marginal age compositions were explored as sensitivities.
-Figure \ref{fig:tri-ageComp} shows the age frequency data for the \gls{s-tri}.
+Figure \ref{fig:tri-ageComp} shows the age-composition data for the \gls{s-tri}.
 Table \ref{tab:sample-size-age} shows sample sizes.
 
 ```{asis, opts.label = 'south'}
@@ -132,9 +132,9 @@ Ages from the Hook and Line survey were available for the years 2017 - 2019.
 The age distribution of survey catches in each year 
 was summarized using age bins from 0 to 20 years, in increments of one year. The last bin 
 includes all fished aged to be greater than 20 years.
-The Hook and Line Survey age-frequency data were included in the model as CAAL,
+The Hook and Line Survey age-composition data were included in the model as CAAL,
 and marginal age compositions were explored as sensitivities.
-Figure \ref{fig:hkl-ageComp} shows the age frequency data for the Hook and Line Survey.
+Figure \ref{fig:hkl-ageComp} shows the age-composition data for the Hook and Line Survey.
 Table \ref{tab:sample-size-age} shows sample sizes.
 ```
 
@@ -142,6 +142,6 @@ Table \ref{tab:sample-size-age} shows sample sizes.
 
 A random stratified subsample by size and sex was selected per region for ageing and genetics analysis. 
 The age composition data are therefore used as CAAL, and are not expanded.
-Figure \ref{fig:lam-ageComp} shows the age frequency distributions. 
+Figure \ref{fig:lam-ageComp} shows the age-composition distributions. 
 Table \ref{tab:sample-size-age} shows sample sizes.
 

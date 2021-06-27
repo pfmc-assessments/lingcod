@@ -15,7 +15,7 @@ This design therefore incorporates vessel-to-vessel differences in catchability
 and variance associated with selecting a relatively small number (approximately 700) of possible cells from a very large set of possible cells spread from the Mexican to the Canadian borders.
 
 Three sources of information are produced from the \Gls{s-wcgbt}, an index of relative
-abundance, length-frequency distributions, and age-frequency distributions. Length-weight 
+abundance, length-composition distributions, and age-composition distributions. Length-weight 
 parameters were also estimated from data collected from the \Gls{s-wcgbt}, and details are
 described in Section \@ref(biology).
 

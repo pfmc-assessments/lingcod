@@ -7,14 +7,14 @@
 There have been nine assessments of `r spp` that
 covered all or part of the U.S. West Coast since 1986.
 Adams [-@pfmclingcod1986] conducted a yield per recruit analysis.
-Jagielo [-@jagielo1994assessment] conducted an age-structured assessment of the status of the
-`r spp` stock between Cape Falcon in Northern Oregon to 49\textdegree 00\textquotesingle N latitude
+Jagielo [-@jagielo1994assessment] conducted an age-structured assessment of its status
+between Cape Falcon in Northern Oregon to 49\textdegree 00\textquotesingle N latitude
 (off of southwest Vancouver Island in British Columbia - \gls{psmfc} areas 3A, 3B, and 3C, including Canada),
 using Stock Synthesis [@methot_stock_2013].
 Data included trawl and recreational catch from 1979-1993
 with equilibrium catch before then,
 \gls{s-tri} and trawl \gls{cpue} indices, and
-length- and age-frequency data.
+length- and age-composition data.
 The final spawning output was estimated to be about
 20\% of pristine levels, and
 catch recommendations ranged between 2500 and 3000 mt
