@@ -25,8 +25,8 @@ approximate realized sample size for species in the `others' category
 
 #### \acrlong{s-tri} lengths
 
-Length data preparation followed the same methods as applied to the \gls{wcgbts} data,
-but depth strata of 55 - 183 m and 183 - 350m were used for expanding the
+Length data preparation followed the same methods as applied to the \gls{s-wcgbt} data,
+but depth strata of 55 - 183 m and 183 - 350 m were used for expanding the
 length comps for subsampling of tows. A depth split of 183 m was used because
 sampling appeared less intense after this depth and raw catch per unit effort 
 more variable (Figure \ref{fig:tri-depthSplit}). A maximum 

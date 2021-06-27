@@ -1813,7 +1813,7 @@ is used as the first year of \gls{mrfss} data.
 Data were provided by John Field for years prior to
 `r min(catch_rec_1980[["Year"]])`
 and these data have been unchanged since the
-2009 assessment of `r utils_name("common")` [@hamel2009].
+2009 assessment of `r utils_name("common")` [@hamel2009lingcod].
 
 For this assessment, we had to split the historical data provided by
 John Field and \gls{mrfss} to area. This was accomplished using data from
