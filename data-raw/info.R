@@ -43,7 +43,7 @@ info_surveynames <- c("WCGBTS", "Triennial")
 
 #+ info_basemodels
 info_basemodels <- structure(
-  c("2021.n.020.001_refined_fixed", "2021.s.014.001_esth"),
+  c("2021.n.021.001_more_asymptotic", "2021.s.014.001_esth"),
   names = get_groups(info_groups)
   )
 
