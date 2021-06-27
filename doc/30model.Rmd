@@ -7,7 +7,7 @@
 There have been nine assessments of `r spp` that
 covered all or part of the U.S. West Coast since 1986.
 Adams [-@pfmclingcod1986] conducted a yield per recruit analysis.
-Jagielo [-@jagielo1994assessment] conducted an age-structured assessment of its status
+Jagielo [-@jagielo1994assessment] conducted an age-structured assessment for the portion of the resource
 between Cape Falcon in Northern Oregon to 49\textdegree 00\textquotesingle N latitude
 (off of southwest Vancouver Island in British Columbia - \gls{psmfc} areas 3A, 3B, and 3C, including Canada),
 using Stock Synthesis [@methot_stock_2013].
@@ -23,12 +23,12 @@ The 1997 assessment [@jagielo1997assessment] expanded the area
 south to Cape Blanco (42\textdegree 50\textquotesingle N latitude) and
 retained the northern boundary of 49\textdegree 00\textquotesingle N latitude
 using a Stock Synthesis model.
-Estimated depletion of spawning output was below 10\% for 1997.
+Estimated fraction unfished was below 0.10 for 1997.
 In 1999, Adams et al. [-@pfmclingcod1999] conducted a length-based, age-structured population model
-implemented in AD Model Builder [ADMB; @fournier1996] for
+implemented in \gls{admb} [@fournier1996] for
 the southern area, Eureka, Monterey, and Conception \gls{inpfc} areas,
 which had not yet been assessed.
-Jagielo et al. [-@jagielo2000assessment] fit data to age structured models in ADMB
+Jagielo et al. [-@jagielo2000assessment] fit data to age structured models in \gls{admb}
 for two areas of the U.S.,
 U.S. Vancouver-Columbia (no longer including Canadian waters) and
 Eureka, Monterey, and Conception \gls{inpfc} areas.
@@ -37,9 +37,9 @@ for the two areas using Coleraine.
 In 2005, Jagielo et al. [-@pfmclingcod2005] switched back to
 using Stock Synthesis, which was then at version 2 of the code base.
 They found that the northern stock had recovered substantially
-from a low point in the 1990s and was at 87\% depletion,
-while the southern area had not recovered as well and was at 24\% depletion,
-with a 64\% coastwide depletion.
+from a low point in the 1990s and was at 0.87 fraction unfished,
+while the southern area had not recovered as well and was at 0.24 fraction unfished,
+with a 0.64 coastwide fraction unfished.
 
 The 2009 stock assessment, which used Stock Synthesis 2,
 divided the northern (Washington and Oregon) and southern (California) stocks
@@ -50,14 +50,14 @@ Natural mortality was fixed at 0.18 for females and 0.32 for males in both asses
 while stock-recruitment steepness was fixed at 0.8.
 All of the age data were removed from the model prior to fitting the data because of
 issues with outliers and possible aging bias.
-The point estimate for the spawning stock depletion at the start of 2009 was
-61.9\% for the northern area and 73.7\% for the southern area,
+The point estimate for fraction unfished at the start of 2009 was
+0.619 for the northern area and 0.737 for the southern area,
 indicating the stock was recovered.
 The axis of uncertainty for the decision table provided to managers was
 natural mortality for the northern area,
 with the base model $M$ = 0.18 for females and 0.32 for males.
-The “Low M” alternative used $M$ = 0.16 and 0.285 for females and males respectively,
-and the “High M” alternative used $M$ = 0.20 and 0.355.
+The 'Low M' alternative used $M$ = 0.16 and $M$ = 0.285 for females and males respectively,
+and the 'High M' alternative used $M$ = 0.20 and 0.355.
 The axis of uncertainty for the southern area
 for the high alternative was the inclusion of age data and
 for the low alternative was the exclusion of the dockside recreational \gls{cpue} index.
