@@ -91,7 +91,7 @@ plot_rec_selectivity_illustration <- function() {
                                    "with retained recreational catch and",
                                    "the difference in expected proportion at length between",
                                    "retained-only and retained plus dead discards."),
-               label = "selectivity",
+               label = "rec-selectivity-illustration",
                filein = file.path("..", "figures", file))
   write.csv(file = file.path("figures", gsub("png", "csv", file)),
             csv_info,
