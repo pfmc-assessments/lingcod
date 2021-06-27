@@ -145,6 +145,6 @@ of model structural uncertainty.
 ### Comparison of north and south models
 
 <!-- doc is currently empty, but Ian is getting started on it now (7pm Saturday) -->
-```{r render-model-selection, results = "asis"}
+```{r render-model-compareareas, results = "asis"}
 sa4ss::read_child("model-north-vs-south.Rmd")
 ```
