@@ -165,6 +165,8 @@ add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-orm
 <!-- comp_lenddat_page[12]_multi-fleet_comparison--->
 <!-- don't show any CAAL in the report as raw data -->
 
+
+
 <!-- ====================================================================== -->
 <!-- Biology Figures -->
 <!-- ====================================================================== -->
@@ -199,6 +201,13 @@ add_figure_ling(figurecsv%>%dplyr::filter(grepl("numbers10",label)))
 <!-- ====================================================================== -->
 <!-- Recreational Length and Age Comps -->
 <!-- ====================================================================== -->
+
+```{r, results = "asis"}
+do.call(
+  sa4ss::add_figure,
+  utils::read.csv(file.path("..", "figures", "rec_selectivity_illustration.csv"))
+)
+```
 
 ```{r, echo=FALSE, results='asis', opts.label = 'north'}
 get_fleet("rec") %>%

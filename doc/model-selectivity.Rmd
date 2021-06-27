@@ -21,23 +21,43 @@ were not used (via the -999 code in SS).
 
 Retention was modeled for the commercial trawl and commercial fixed-gear fleets
 using a logistic function of length with 2 of the possible 4 parameters estimated.
-The two estimated parameters controlled the length at 50% retention and the 
-slope of the ascending curve. Asymptotic retention was fixed at 100% and no
+The two estimated parameters controlled the length at 50\% retention and the 
+slope of the ascending curve. Asymptotic retention was fixed at 100\% and no
 sex-specific differences in retention were estimated.
 
 Changes in selectivity and retention over time were modeled to account for 
 management changes and gear changes. For changes in selectivity, all three 
 estimated double-normal parameters were allowed to vary among time blocks 
 as any change in the peak parameter will impact the shape associated with the 
-other two. For changes in retention, the length at 50% retention was allowed 
+other two. For changes in retention, the length at 50\% retention was allowed 
 to vary over time, but the slope parameter was assumed to apply to all years
 after the management measures were imposed in 1998.
 
-Prior to 1998, all selected fish are assumed to be retained in keeping
+Prior to 1998, all selected fish are assumed to be retained in the commercial
+fisheries in keeping
 with comments from those familiar with the history of the commercial fishery 
 at the at the pre-assessment workshop and the Pikitch study in which 
-more than 99% of the observed `r spp` were retained
+more than 99\% of the observed `r spp` were retained
 (pers. comm., J. Wallace, \gls{nwfsc}).
+
+For commercial fisheries the assumed discard mortality rates are 
+retained from the previous assessment: 50\% for trawl and 7\% for fixed gear. 
+
+Selectivity for the recreational fisheries was modeled as representing
+retained fish only and the retention process is represented within the 
+assessment model only through time-varying selectivity that accounts
+for changes in minimum size limits. 
+A 7\% mortality rate has been assumed for lingcod
+discarded in recreational fisheries and these dead discards
+are accounted for in the total catch, but an exploratory analysis 
+(Figure \@ref(fig:rec-selectivity-illustration)) indicated the the difference
+between the expected length distributions with or without the dead 
+discards included was small. Therefore, the length compositions
+from recreational fisheries exclude all discards. Alternative approaches
+to these assumptions were considered, but the available data do not support
+them as it would "require 'unscrambling the egg' since B1 is a mixture of 
+retained and discarded fish in the MRFSS data" 
+(pers. comm., E.J. Dick, \gls{swfsc}).
 
 The specific years with time blocks used for each fleet are noted below.
 
@@ -58,7 +78,7 @@ retained from the 2017 assessment.
 - 2010 (pre-catch share behavior change and clear reduction in discard rate)
 - 2011 (implementation of the catch shares program)
 
-All blocks were applied to the length at 50% retention, but only the changes in
+All blocks were applied to the length at 50\% retention, but only the changes in
 1998 and 2011 were applied to the parameter controlling the slope of the
 retention function.
 
