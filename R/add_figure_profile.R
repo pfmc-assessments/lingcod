@@ -3,6 +3,7 @@ add_figure_profile <- function(pathtobase, par) {
   path <- file.path(dirname(pathtobase),
     dir(dirname(pathtobase), pattern = paste0(basename(pathtobase), "_profile.*", par))
   )
+  stopifnot(length(path) == 1)
   parname <- gsub(".+profile_", "", basename(path))
   parpretty <- 
     gsub("LN(\\(R0\\))", "$log\\1$",

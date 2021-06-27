@@ -43,7 +43,7 @@ with a 64\% coastwide depletion.
 
 The 2009 stock assessment, which used Stock Synthesis 2,
 divided the northern (Washington and Oregon) and southern (California) stocks
-by state line [@hamel2009].
+by state line [@hamel2009lingcod].
 The northern and southern models were made as equivalent as possible
 by keeping fixed and estimated parameters largely the same for the two assessments.
 Natural mortality was fixed at 0.18 for females and 0.32 for males in both assessments,
@@ -63,7 +63,7 @@ for the high alternative was the inclusion of age data and
 for the low alternative was the exclusion of the dockside recreational \gls{cpue} index.
 
 The 2017 assessment [@haltuch2019lingcod] was conducted using Stock Synthesis and
-matched the spatial structure used for 2009 [@hamel2009] but made numerous changes,
+matched the spatial structure used for 2009 [@hamel2009lingcod] but made numerous changes,
 including
 
 - expansion of the time period of the assessments back to 1889,
@@ -145,6 +145,6 @@ of model structural uncertainty.
 ### Comparison of north and south models
 
 <!-- doc is currently empty, but Ian is getting started on it now (7pm Saturday) -->
-```{r render-model-selection, results = "asis"}
+```{r render-model-compareareas, results = "asis"}
 sa4ss::read_child("model-north-vs-south.Rmd")
 ```
