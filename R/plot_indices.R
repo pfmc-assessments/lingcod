@@ -82,7 +82,7 @@ plot_indices <- function(mod, png = TRUE, fit = TRUE, log = FALSE) {
     title(main = get_fleet(f, col = "label_short"))
   }
   mtext("Year", side = 1, line = 1, outer = TRUE)
-  mtext(ifelse(log, "Log-scale index", "Index"), side = 1, line = 1, outer = TRUE)
+  mtext(ifelse(log, "Log-scale index", "Index"), side = 2, line = 1, outer = TRUE)
 
   # close png file
   if (png) {
