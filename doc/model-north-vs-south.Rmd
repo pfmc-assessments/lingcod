@@ -1,1 +1,103 @@
-[**TO DO: add text here**]
+```{r comparison-load-model-summaries, eval = TRUE, echo = FALSE}
+# read ss_summary.sso files for each area
+vals.n <- file.path("models",
+                    info_basemodels[["North"]],
+                    "ss_summary.sso") %>%
+  r4ss::SS_read_summary()
+vals.s <- file.path("models",
+                    info_basemodels[["South"]],
+                    "ss_summary.sso") %>%
+  r4ss::SS_read_summary()
+
+# get M estimates for each area/sex
+M.f.n <- vals.n[["parameters"]]["NatM_uniform_Fem_GP_1", "Value"] %>% round(3)
+M.m.n <- vals.n[["parameters"]]["NatM_uniform_Mal_GP_1", "Value"] %>% round(3)
+M.f.s <- vals.s[["parameters"]]["NatM_uniform_Fem_GP_1", "Value"] %>% round(3)
+M.m.s <- vals.s[["parameters"]]["NatM_uniform_Mal_GP_1", "Value"] %>% round(3)
+
+# unfished spawning and summary biomass 
+smry.n <- vals.n[["derived_quants"]]["SmryBio_unfished","Value"] %>%
+  round() %>% 
+  format(., big.mark = ',')
+smry.s <- vals.s[["derived_quants"]]["SmryBio_unfished","Value"] %>%
+  round() %>% 
+  format(., big.mark = ',')
+SSB.n <- vals.n[["derived_quants"]]["SSB_unfished","Value"] %>%
+  round() %>%
+  format(., big.mark = ',')
+SSB.s <- vals.s[["derived_quants"]]["SSB_unfished","Value"] %>%
+  round() %>%
+  format(., big.mark = ',')
+
+# # catchability when calculated as a float is not 
+# # available in ss_summary.sso
+# Q.n <- mod.n$cpue$Eff_Q[mod.n$cpue$Fleet == 7][1]
+
+```
+
+The north and south models represent genetically distinct
+sub-populations of `r spp` and may differ in numerous ways.
+However, there are enough similarities
+in management, fisheries, and biology that some similarity 
+across these stocks is to be expected. A fundamental challenge
+in fisheries stock assessment is understanding spatial
+variability among stocks and finding appropriate ways to
+share inforamtion across stocks.
+<!-- reference Punt et al. 2011? 
+https://academic.oup.com/icesjms/article/68/5/972/653125 -->
+The following section is intended to provide information to 
+help evaluate the plausibility of the estimates for the two areas.
+
+Estimates of growth in the two areas match prior expectations
+with both males and females estimated as reaching larger
+sizes (Figure \@ref(fig:compare_north_vs_south_growth)). 
+The estimated variability in growth is smaller in the north
+which may reflect different biology or a greater spatial
+heterogeneity in growth in the south. The estimated growth 
+parameters include mean length at age 14,
+but the corresponding $L_\infty$ values are 118.8 
+and 77.5 
+<!-- Linf not available in SS_summary.sso
+`r model$Growth_Parameters$Linf %>% round(1) %>% 
+paste(collapse = " and ")` -->
+for females and males respectively in the north
+and 115.1 and 66.4
+in the south. The estimated length at age 14 in the north is more precise 
+than in the south (Figure \@ref(fig:compare_north_vs_south_pars)), 
+reflecing the larger volume of conditional age-at-length data include in 
+the north model.
+
+Estimates of key productivity parameters natural mortality ($M$)
+and stock-recruit steepness ($h$) differ significantly among the 
+two areas, with the south model estimates indicating a less productive stock
+(Figure \@ref(fig:compare_north_vs_south_pars)).
+In addition to the difference between areas, 
+the north model estimates almost
+equal $M$ for females and males (`r M.f.n` and `r M.m.n` respectively), 
+whereas the south model has a lower estimate of female $M$ than
+male $M$ (`r M.f.s` and `r M.m.s`). The $M$ estimates 
+are uncertain in both models, although more so in the south.
+
+The estimates of unfished spawning biomass in the two areas are similar 
+(`r SSB.n` mt and `r SSB.s` mt for north and south), but this comparison
+is misleading due to the differences in $M$ between areas resulting in
+a smaller fraction of recruits reaching spawning ages in the north than
+the south. The estimates of unfished age 3+ biomass are `r smry.n` mt 
+and `r smry.s` mt for the north and south 
+(Figure \@ref(fig:compare_north_vs_south_quants)).
+The differences in estimated MSY are larger than those for biomass
+because the lower estimates of $M$ and $h$ in the south equate to 
+lower productivity relative to stock size.
+
+There are no precise estimates for the amount of lingcod habitat in either area,
+but a rough approximation can be found by calculating the spatial extent of
+the \gls{s-wcgbt} survey area between the 55 m inner limit and 300 m, a depth 
+which represents a decline in frequency of `r spp` in that survey.
+By this measure, the ratio of north to south areas is about 2.3:1.
+<!-- value taken from https://github.com/iantaylor-NOAA/Lingcod_2021/issues/79 -->
+Thus, the biomass estimates are more similar than would be expected had the
+densities been equal in the two areas. The estimated
+catchability of the \gls{s-wcgbt} is more similar among areas: 
+<!-- values not dynamic --> 
+0.88 in the north and 0.73 in the south. However, differences in selectivity
+of this survey between areas make interpretation of catchability problematic.
