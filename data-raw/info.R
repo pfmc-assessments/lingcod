@@ -47,7 +47,17 @@ info_basemodels <- structure(
   names = get_groups(info_groups)
   )
 
+#+ info_areacolors
+# 
+info_areacolors <- structure(
+  unikn::usecol(pal_unikn_pair, 16L)[c(2,10)], 
+  names = get_groups(info_groups)
+  )
+
+
+
 #+ info_makedata
+usethis::use_data(info_areacolors, overwrite = TRUE)
 usethis::use_data(info_authors, overwrite = TRUE)
 usethis::use_data(info_basemodels, overwrite = TRUE)
 usethis::use_data(info_bins, overwrite = TRUE)

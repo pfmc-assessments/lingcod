@@ -17,6 +17,13 @@ To interact with this repository
 [Github issue guidelines](#Github-issues)  
 [Modeling workflow](#Modeling-workflow)  
 
+## Disclaimer
+_These materials do not constitute a formal publication and
+are for information only. They are in a pre-review, pre-decisional state and
+should not be formally cited (or reproduced). They are to be considered
+provisional and do not represent any determination or policy of NOAA or the
+Department of Commerce._
+
 ## Overview
 
 This repository houses information related to the U.S. West Coast 2021 lingcod stock assessment.

@@ -135,8 +135,16 @@ sa4ss::read_child("model-selection.Rmd")
 
 ### Evaluation of uncertainty
 
-[**TO DO: add text here**]
+<!-- text below poached from Dover https://github.com/chantelwetzel-noaa/dover_sole_2021/ -->
+The model estimated uncertainty around the `r model$endyr+1` spawning biomass 
+was $\sigma$ = `r round(model$Pstar_sigma,2)` and the uncertainty around 
+the OFL was $\sigma$ = `r round(model$OFL_sigma, 2)`. This is an 
+underestimate of overall uncertainty because there is no explicit incorporation 
+of model structural uncertainty.
 
 ### Comparison of north and south models
 
-[**TO DO: add text here**]
+<!-- doc is currently empty, but Ian is getting started on it now (7pm Saturday) -->
+```{r render-model-selection, results = "asis"}
+sa4ss::read_child("model-north-vs-south.Rmd")
+```
