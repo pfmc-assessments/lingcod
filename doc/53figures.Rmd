@@ -297,7 +297,5 @@ add_figure_profile(params$model, "R0")
 ### Comparisons of north and south models
 
 ```{r, results = "asis", eval = TRUE}
-ignore <- apply(utils::read.csv(file.path("..", "figures", "figures_compare_north_vs_south.csv")), 1,
-  function(x) do.call(sa4ss::add_figure, as.list(x))
-)
+add_figure_ling(utils::read.csv(file.path("..", "figures", "figures_compare_north_vs_south.csv")))
 ```
