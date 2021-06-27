@@ -42,7 +42,7 @@ add_figure_ling <- function(csv, grep = ".+", caption, alt_caption) {
         )
     ) %>%
     dplyr::select(filein, caption, label, alt_caption) %>%
-    dplyr::mutate(label = gsub("_", "-", label))
+    dplyr::mutate(label = gsub(" ", "", gsub("_", "-", label)))
   if (!missing(caption)) info[, "caption"] <- caption
   if (!missing(alt_caption)) info[, "alt_caption"] <- alt_caption
   ignore <- apply(info, 1, function(x) do.call(sa4ss::add_figure, as.list(x)))
