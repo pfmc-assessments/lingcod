@@ -1,4 +1,4 @@
-## Biological data {#biology}
+## Biological data {#sec-biological-data}
 
 ### Natural mortality
 

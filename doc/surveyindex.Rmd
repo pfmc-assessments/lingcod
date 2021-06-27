@@ -16,8 +16,8 @@ and variance associated with selecting a relatively small number (approximately 
 
 Three sources of information are produced from the \Gls{s-wcgbt}, an index of relative
 abundance, length-composition distributions, and age-composition distributions. Length-weight 
-parameters were also estimated from data collected from the \Gls{s-wcgbt}, and details are
-described in Section \@ref(biology).
+parameters were also estimated from data collected from the \Gls{s-wcgbt}
+(see Section \@ref(sec-biological-data) for details).
 
 The data from the \gls{s-wcgbt} was analyzed using a
 spatio-temporal delta-model [@thorson_geostatistical_2015],
