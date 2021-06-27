@@ -182,3 +182,5 @@ name | notes | issue | source_model | script
 2021.n.021.001_more_asymptotic | like 2021.n.020.001_refined_fixed but all asymptotic selex fixed at upper bound | NA | 2021.n.020.001 | lingcod_model_bridging_change_ctl.R, lingcod_forecast.R
 2021.n.021.002_more_asymptotic_manual | manual edits that match above model | NA | 2021.n.020.001 | manual edit
 2021.n.021.003_more_asymptotic_manual_hess | manual edits that match above model | NA | 2021.n.020.001 | manual edit
+2021.n.020.020_refined_fixed_jitterpar | | #111 | |
+2021.n.022.001_new_INIT | like 2021.n.021.001 but with new initial values | #111 | 2021.n.021.001 | lingcod_model_bridging_change_ctl.R

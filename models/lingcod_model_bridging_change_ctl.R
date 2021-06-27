@@ -19,8 +19,10 @@ for (area in c("n")) {
 
   if(area == "n") {
     olddir <- get_dir_ling(area = area, num = 4, sens = 13) # rec_CAAL
-    newdir <- get_dir_ling(area = area, num = 21, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 23, sens = 1)
 
+    # source for determining initial values of estimated parameters
+    initdir <- get_dir_ling(area = area, num = 20, sens = 20) 
     # source for determining which fleets are estimated asymptotic
     selexdir <- get_dir_ling(area = area, num = 20, sens = 1) 
     # source for data weighting of comp data
@@ -34,6 +36,7 @@ for (area in c("n")) {
     olddir <- get_dir_ling(area = area, num = 4, sens = 11) # fewer_ages
     newdir <- get_dir_ling(area = area, num = 16, sens = 1) # 
 
+    initdir <- NULL
     selexdir <- NULL
     # source for data weighting of comp data
     tuningdir <- get_dir_ling(area = area, num = 14, sens = 1) 
@@ -690,6 +693,38 @@ for (area in c("n")) {
       paste0("#C at ", Sys.time())
     )
 
+  if(!is.null(initdir)) {
+    # read model to get initial values from control.ss_new
+    init_ctl <-
+      get_inputs_ling(dir = initdir, ss_new = TRUE)$ctl
+    # replace INIT for estimated parameters
+    newctl$size_selex_parms$INIT[newctl$size_selex_parms$PHASE > 0] <-
+      init_ctl$size_selex_parms$INIT[newctl$size_selex_parms$PHASE > 0]
+
+    newctl$size_selex_parms_tv$INIT[newctl$size_selex_parms_tv$PHASE > 0] <-
+      init_ctl$size_selex_parms_tv$INIT[newctl$size_selex_parms_tv$PHASE > 0]
+
+    newctl$MG_parms$INIT[newctl$MG_parms$PHASE > 0] <-
+      init_ctl$MG_parms$INIT[newctl$MG_parms$PHASE > 0]
+
+    newctl$SR_parms$INIT[newctl$SR_parms$PHASE > 0] <-
+      init_ctl$SR_parms$INIT[newctl$SR_parms$PHASE > 0]
+
+    newctl$Q_parms$INIT[newctl$Q_parms$PHASE > 0] <-
+      init_ctl$Q_parms$INIT[newctl$Q_parms$PHASE > 0]
+    # estimate recdevs in phase 1
+    newctl$recdev_phase <- 1
+
+    # optionally get initial values for recdevs
+    if(grepl("new_INIT_recdev", newdir)
+       init_ctl_lines <- readLines(file.path(initdir, "control.ss_new"))
+       recdev_lines <- init_ctl_lines[grep("all recruitment deviations", init_ctl_lines) + 1:2]
+       recdev_lines <- gsub("# ", "", recdev_lines)
+       recdev_lines <- gsub("E", "", recdev_lines)
+       stringr::str_split(recdev_lines, pattern = " ", simplify = TRUE)
+    }
+
+  }
 
   # replace control values with new ones
   inputs$ctl <- newctl
