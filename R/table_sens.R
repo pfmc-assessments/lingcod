@@ -15,9 +15,9 @@ table_sens <- function(file_csv,
 
   # Make a new label that doesn't depend on area
   # Expecting sens_table_[a-z]_.+.csv
-  label <- gsub("sens_table_[a-z]", "sens_table",
+  label <- gsub("sens_table_[a-z]", "sens-table",
            gsub("_", "-",
-           gsub("\\.[a-z]{3}$", "", file_csv
+           gsub("\\.[a-z]{3}$", "", basename(file_csv)
          )))
 
   data <- utils::read.csv(file_csv) %>%

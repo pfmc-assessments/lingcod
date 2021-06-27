@@ -68,7 +68,7 @@ table_outputconfig <- function(output) {
       dplyr::rename(Section = label_long, Parameterization = form)
     ),
     booktabs = TRUE, escape = FALSE,
-    format = "latex", longtable = TRUE,
+    format = "latex", longtable = FALSE,
     caption = "Specifications and structure of the base output.",
     label = "output-specifications"
   ) %>%
