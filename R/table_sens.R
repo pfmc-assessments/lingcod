@@ -40,7 +40,7 @@ table_sens <- function(file_csv,
       color = ifelse(x >= 0, "black", "red")
     )
   }
-  kableExtra::kbl(
+  tt <- kableExtra::kbl(
     data %>%
       dplyr::mutate_if(is.numeric, round, 2) %>%
       dplyr::mutate_if(is.numeric, conditional_color),
@@ -49,9 +49,18 @@ table_sens <- function(file_csv,
     digits = 2,
     caption = caption,
     label = label
-  ) %>%
+  )
+
+  if ("Total" %in% data[, 1]) {
+    tt <- tt %>%
     kableExtra::pack_rows("Diff. in likelihood from base model", 1, 6) %>%
     kableExtra::pack_rows("Estimates of key parameters", 7, 10) %>%
     kableExtra::pack_rows("Estimates of derived quantities", 11, 18)
-
+  } else {
+    switch <- grep("SSB", data[, 1])[1]
+    tt <- tt %>%
+    kableExtra::pack_rows("Estimates of key parameters", 1, switch - 1) %>%
+    kableExtra::pack_rows("Estimates of derived quantities", switch, NROW(data))
+  }
+  return(tt)
 }

@@ -983,7 +983,7 @@ table_compweight(model)
 ```{r tables-model-sens, results = "asis"}
 table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area))
 table_sens(string_switchletter("../tables/sens_table_s_index.csv", params$area))
-#table_sens(string_switchletter("../tables/sens_table_s_comp.csv", params$area))
-#table_sens("../tables/table_compare_north_vs_south.csv")
+table_sens(string_switchletter("../tables/sens_table_s_comp.csv", params$area))
+table_sens("../tables/table_compare_north_vs_south.csv")
 ```
 \end{landscape}

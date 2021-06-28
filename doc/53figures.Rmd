@@ -425,6 +425,17 @@ do.call(
 
 ### Time series figures
 
+```{r, figures-timeseries, echo = FALSE, results = "asis"}
+add_figure_ling(csv = figurecsv, "ts7_.+with")
+add_figure_ling(csv = figurecsv, "ts9_.+ls$")
+add_figure_ling(csv = figurecsv, "ts1_Total")
+add_figure_ling(csv = figurecsv, "ts9_.+ls$")
+add_figure_ling(csv = figurecsv, "SR_curve$")
+add_figure_ling(csv = figurecsv, "SPR2")
+add_figure_ling(csv = figurecsv, "SPR4")
+add_figure_ling(csv = figurecsv, "yield2")
+```
+
 ### Sensitivity analyses and retrospectives
 
 ```{r, figures-retro, echo = FALSE, results = "asis"}
