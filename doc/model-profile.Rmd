@@ -1,0 +1,80 @@
+Likelihood profiles were conducted by
+fixing a given parameter that was estimated in the base model
+at a range of values in turn while estimating the remaining parameters.
+These profiles were conducted for female $M$, $h$, and $R_0$.
+We choose to not profile over male $M$ because male and female $M$ are
+highly correlated, and therefore, it is instructive to see the estimates
+of male $M$ given a fixed value for females.
+
+```{asis, opts.label = "north"}
+Female $M$ was most informed by length-composition data and
+secondarily by the Washington recreational index and the \gls{s-tri}
+(Figure \@ref(fig:profile-piner-femaleM)).
+This information conflicted with age-compositions from the Washington recreational fleet
+(left panels of Figure \@ref(fig:profile-piner-femaleM)).
+Data from the commercial FG fleet suggested a much smaller $M$, closer to that
+of the previous assessment.
+```
+```{asis, opts.label = "south"}
+Female $M$ was most informed by mainly length-composition data and
+secondarily age-composition data from the \gls{s-wcgbt} because it was the only source
+for which ages were included in the base model
+(Figure \@ref(fig:profile-piner-femaleM)).
+Information in the surveys provided little information with respect to female $M$ and
+was slightly conflicting for the Deb WV index, which suggested a lower $M$.
+```
+From the stock trajectories, it is apparent that the upper range of investigated female $M$
+values are implausible given that they lead to a highly unlikely increase in stock size relative
+to all other values
+(Figure \@ref(fig:profile-ssb-femaleM))
+The current status of the stock was highly dependent upon the assumed value of
+female $M$
+(Figure \@ref(fig:profile-depl-femaleM)).
+
+There was less information in the data available to estimate $h$ than female $M$,
+which can be seen with the smaller differences in likelihoods across fixed values compared
+to female $M$
+(Figure \@ref(fig:profile-piner-steepness)).
+This was not surprising, as estimating $h$ is notoriously difficult.
+```{asis, opts.label = "north"}
+Almost all values of $h$ that were explored are equally likely, but the
+age-composition data appear to have pushed the estimate higher than the prior
+(lower left panel of Figure \@ref(fig:profile-piner-steepness)).
+```
+```{asis, opts.label = "south"}
+All data types contributed to the estimate of $h$, but the information in the ages
+conflicted with the lengths for all sources except the commercial FG fleet and
+the California recreational ages in the Deb WV index
+(Figure \@ref(fig:profile-piner-steepness)).
+This index includes information on discarded fish, and thus may be sampling slightly
+smaller ages than the other recreational and commercial sources.
+Information in the surveys provided little information with respect to female $M$ and
+was slightly conflicting for the Deb WV index, which suggested a lower $M$.
+```
+The largest changes in the time series of spawning stock biomass with different values
+of $h$ are in the historical period before the main recruitment deviations are estimated
+or before there are reliable composition data
+(Figure \@ref(fig:profile-ssb-steepness))
+The current status of the stock was highly dependent upon the assumed value of $h$
+(Figure \@ref(fig:profile-depl-steepness)).
+
+```{asis, opts.label = "north"}
+The length data were highly informative with respect to $R_0$, in particular the
+commercial TW lengths and recreational lengths from Oregon and Washington
+(Figure \@ref(fig:profile-piner-logR0)).
+All investigated values of $R_0$ led to the different estimates of the time series of
+spawning stock biomass with the population increasing in scale incrementally with $R_0$,
+which is not surprising
+(Figures \@ref(fig:profile-ssb-logR0) and \@ref(fig:profile-depl-logR0)).
+Though, the current fraction unfished never reached 1.0 for any value investigated
+and remained above the minimum stock size threshold of 0.25 for all values except 8.0.
+```
+```{asis, opts.label = "south"}
+Many data sources contributed to the estimate of $R_0$,
+including prior information, which happened to have a minimum at the cross roads of
+where length and age information intersected
+(Figure \@ref(fig:profile-piner-logR0)).
+Values greater than nine led to large increases in the current estimate of
+spawning stock biomass and a stock size that was larger than that from the unfished state
+(Figures \@ref(fig:profile-ssb-logR0) and \@ref(fig:profile-depl-logR0)).
+```
