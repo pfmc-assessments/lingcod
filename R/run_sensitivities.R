@@ -168,13 +168,14 @@ run_sensitivities <- function(dirbase,
       
       #####################################################################
       # other sensitivities
-      if (sens$suffix == "_DM") { #205
+      if (substring(sens$suffix, 1, 3) == "_DM") { #205 or 208
         # copy report because Ian is paranoid about accidentally overwriting the base model
         file.copy(from = file.path(dirbase, "Report.sso"),
                   to = file.path(newdir, "Report.sso"))
         mod.tuning <- r4ss::SS_output(newdir, covar =FALSE, NoCompOK = TRUE, forecast = FALSE,
                                       verbose = FALSE, printstats = FALSE)
         r4ss::SS_tune_comps(mod.tuning, dir = newdir, option = "DM", niters_tuning = 0)
+        # requires manual delete of Report
       }
 
       # combine males and females for small size bins
@@ -196,6 +197,21 @@ run_sensitivities <- function(dirbase,
         write_inputs_ling(inputs, dir = newdir, files = "dat")
       }
       
+      if (substring(sens$suffix, 1, 6) == "_tuned") { #211 to 217
+        olddir <- newdir %>%
+          get_id_ling() %>%
+          gsub(pattern = "\\.21", # depends on having fewer than 200 model numbesr
+               replacement = "\\.20") %>%
+          get_dir_ling(id = .)
+        sensitivity_copy(olddir, newdir)
+        # strugglingwith SS_tune_comps(), adding brute force mess of file copying
+        file.copy(file.path(olddir, "Report.sso"),
+                  file.path(newdir, "Report.sso"))
+        mod.tuning <- r4ss::SS_output(olddir, verbose = FALSE, printstats = FALSE)
+        r4ss::SS_tune_comps(replist = mod.tuning,
+                            dir = newdir, option = "Francis", niters_tuning = 1)
+        # requires manual delete of Report
+      }
       
       #####################################################################
       # sensitivities that involve changing lambdas

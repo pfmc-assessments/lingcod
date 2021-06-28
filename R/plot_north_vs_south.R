@@ -11,7 +11,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#' plot_north_vs_south(mod.2021.n.020.001, mod.2021.s.014.001)
+#' plot_north_vs_south(mod.2021.n.022.001, mod.2021.s.014.001)
 #' }
 #' 
 plot_north_vs_south <- function(mod.n,
@@ -20,7 +20,6 @@ plot_north_vs_south <- function(mod.n,
 
   # empty place to store info on each plot
   plot_info <- NULL
-
 
   mod.sum <- r4ss::SSsummarize(list(mod.n, mod.s))
 
@@ -63,7 +62,7 @@ plot_north_vs_south <- function(mod.n,
                         legendloc=FALSE, ltyvec=c(5,4),
                         mainTitle = FALSE)
     # plot south growth
-    r4ss::SSplotBiology(mod.2021.s.014.001, subplot=1,
+    r4ss::SSplotBiology(mod.s, subplot=1,
                         colvec = col2, 
                         legendloc=FALSE, ltyvec=c(1,2),
                         add=TRUE)
@@ -95,7 +94,7 @@ plot_north_vs_south <- function(mod.n,
     x_h <- seq(0.2, 0.99, length = 1000) # x vector for subsequent calcs
     prior_h <- exp(-1 * get_SS_prior(Ptype = "Full_Beta",
                                      Pmin = 0.2, Pmax = 0.99,
-                                     Pr = 0.777, Psd = 0.113, Pval = x))
+                                     Pr = 0.777, Psd = 0.113, Pval = x_h))
     # M priors
     M_fem <- mod.n$parameters["NatM_uniform_Fem_GP_1",]
     M_mal <- mod.n$parameters["NatM_uniform_Mal_GP_1",]
@@ -106,13 +105,13 @@ plot_north_vs_south <- function(mod.n,
                                          Pmax = M_fem$Max,
                                          Pr = M_fem$Prior,
                                          Psd = M_fem$Pr_SD,
-                                         Pval = x))
+                                         Pval = x_M))
     prior_M_mal <- exp(-1 * get_SS_prior(Ptype = "Log_Norm",
                                          Pmin = M_mal$Min,
                                          Pmax = M_mal$Max,
                                          Pr = M_mal$Prior,
                                          Psd = M_mal$Pr_SD,
-                                         Pval = x))
+                                         Pval = x_M))
 
     par(mfcol = c(2,2), mar = c(4,4,1,1), las = 1, mgp = c(2.5,1,0))
     plot(0, type = 'n', xlim = c(0, 0.5), ylim = c(0,30), xaxs = "i", yaxs = 'i',
@@ -180,32 +179,6 @@ plot_north_vs_south <- function(mod.n,
            lty = 1, lwd = 2, pch = c(1,2), bty = 'n',
            legend = c("North", "South"))
 
-    
-    ## par(mfcol = c(2,2), mar = c(4,4,1,1), las = 1, mgp = c(2.5,1,0))
-    ## plot(0, type = 'n', xlim = c(0, 0.5), ylim = c(0,30), xaxs = "i", yaxs = 'i',
-    ##      xlab = "Female natural mortality (M)", ylab = "Density")
-    ## plot_density(densitynames = "NatM_uniform_Fem_GP_1",
-    ##              legendloc = "topleft")
-    ## lines(x_M, prior_M_fem/(diff(x_M[1:2])*sum(prior_M_fem)))
-    ## box()
-
-    ## plot(0, type = 'n', xlim = c(0, 0.5), ylim = c(0,30), xaxs = "i", yaxs = 'i',
-    ##      xlab = "Male natural mortality (M)", ylab = "Density")
-    ## plot_density(densitynames = "NatM_uniform_Mal_GP_1")
-    ## lines(x_M, prior_M_mal/(diff(x_M[1:2])*sum(prior_M_mal)))
-    ## box()
-
-    ## plot(0, type = 'n', xlim = c(90, 110), ylim = c(0,1), xaxs = "i", yaxs = 'i',
-    ##      xlab = "Female length at age 14", ylab = "Density")
-    ## plot_density(densitynames = "L_at_Amax_Fem")
-    ## box()
-
-    ## plot(0, type = 'n', xlim = c(0.2, 1.0), ylim = c(0,6), xaxs = "i", yaxs = 'i',
-    ##      xlab = "Stock-recruit steepness (h)", ylab = "Density")
-    ## plot_density(densitynames = "steep")
-    ## lines(x_h, prior_h/(diff(x_M[1:2])*sum(prior_h)))
-    ## box()
-
     dev.off()
   }
 
@@ -217,4 +190,53 @@ plot_north_vs_south <- function(mod.n,
             file = file.path("figures", "figures_compare_north_vs_south.csv"),
             row.names = FALSE)
 
+}
+
+table_north_vs_south <- function() {
+  mod.old.n <- mod.2019.n.001.001
+  mod.old.s <- mod.2019.s.001.001
+  # rename some parameters so they line up in the table
+  mod.old.n$parameters$Label <- gsub("NatM_p_1", "NatM_uniform",
+                                     mod.old.n$parameters$Label)
+  mod.old.s$parameters$Label <- gsub("NatM_p_1", "NatM_uniform",
+                                     mod.old.s$parameters$Label)
+  ## # north_vs_south_vs_old table
+  ## sens_make_table(area = "both",
+  ##                 sens_type = "both",
+  ##                 plot = FALSE,
+  ##                 write = TRUE)
+  # make table of model results
+
+  thingnames <- c("Recr_Virgin", "R0", "NatM", "Linf",
+                  "LnQ_base_WCGBTS",
+                  "SSB_Virg", "SSB_2021", "SSB_2017",
+                  "Bratio_2017", "Bratio_2021",
+                  "SPRratio_2016", "SPRratio_2020",
+                  "Ret_Catch_MSY", "Dead_Catch_MSY",
+                  "SmryBio_unfished", "OFLCatch_2021")
+
+  compare_table <- r4ss::SSsummarize(list(mod.2021.n.022.001,
+                                          mod.2021.s.014.001,
+                                          mod.old.n,
+                                          mod.old.s)) %>%
+    r4ss::SStableComparisons(modelnames = c("North base",
+                                            "South base",
+                                            "North 2017",
+                                            "South 2017"),
+                             names = thingnames,
+                             likenames = NULL,
+                             csv = FALSE
+                             )
+
+  # convert some things to new units (non-log or non-offset)
+  compare_table <- compare_table %>%
+    sens_convert_vals() %>%
+    #sens_convert_offsets() %>% # not needed here
+    sens_clean_labels()
+
+  # write to file
+  csvfile <- file.path("tables",
+                       paste0("table_compare_north_vs_south.csv"))
+  message("writing ", csvfile)
+  write.csv(compare_table, file = csvfile, row.names = FALSE)
 }
