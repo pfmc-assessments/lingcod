@@ -135,7 +135,9 @@ sa4ss::read_child("model-results.Rmd")
 
 #### Convergence
 
-[**TO DO: add text here**]
+```{r render-model-jitter, results = "asis"}
+sa4ss::read_child(file.path(paste0(params$model, "_jitter_0.05"), "model-results-jitter.md"))
+```
 
 #### Sensitivity Analyses
 
@@ -145,13 +147,30 @@ sa4ss::read_child("model-sensitivities.Rmd")
 
 #### Likelihood Profiles
 
-```{r render-model-sensitivities, results = "asis"}
+```{r render-model-profile, results = "asis"}
 sa4ss::read_child("model-profile.Rmd")
 ```
 
 #### Retrospective Analysis
 
-[**TO DO: add text here**]
+A five-year retrospective analysis was conducted by successively removing years of data
+starting with the most recent year.
+For the removal of the most recent year of data there were no changes to the model
+trajectory or estimates of fraction unfished
+(Figures \@ref(fig:retro-ssb-) and \@ref(fig:retro-depl-)).
+```{asis, opts.label = "north"}
+Peeling off more than one year of data led to a retrospective pattern with respect
+to the estimated scale of the population but not current status.
+```
+```{asis, opts.label = "south"}
+Removing five years of data led to a different historical time series for the stock,
+one that indicated much higher productivity.
+Regardless, the estimate of the current spawning stock biomass remained largely
+consistent with the estimates from the base model.
+```
+Given time constraints, each of these models were not tuned, i.e.,
+data weighting was not performed in an iterative fashion and bias adjustment
+was not conducted, which could impact the model results.
 
 #### Historical Analysis
 
