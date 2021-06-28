@@ -1,0 +1,58 @@
+The senstivity analyses were divided into three groups: biology and recruitment,
+composition, and indices (Tables \ref{tab:sens-table-s-bio-rec}, 
+\ref{tab:sens-table-s-comp}, and
+\ref{tab:sens-table-s-index}; Figures \ref{fig:sens-timeseries-s-bio-rec},
+\ref{fig:sens-timeseries-s-comp}, and \ref{fig:sens-timeseries-s-index}).
+
+The biology and recruitment senstivities included
+
+- estimate a single $M$ for both sexes with a prior which is a mixture distribution 
+of the two priors sex-specific priors in the base model 
+(a lognormal with mean = 0.358, sd = 0.467)
+- fix $h$ at 0.7
+- fix female $M$ at 0.3 and $h$ at 0.7
+- increase $\sigma_R$ from 0.6 to 0.8
+- decrease $\sigma_R$ from 0.6 to 0.4
+
+The composition senstivities included
+
+```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+- add all additional ages as CAAL to the south model
+- add all additional ages as marginal
+- use the "combM+F" option in stock synthesis to ignore sex ratios among small fish
+- remove all composition data vectors for unsexed fish (which were already represented
+separately from the sexed fish in the base model)
+- apply the Dirichlet-Multinomial likelihood to automatically tune the composition 
+sample sizes (instead of the Francis method applied in the base model)
+```
+```{asis, exho = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+- use the "combM+F" option in stock synthesis to ignore sex ratios among small fish
+- remove all composition data vectors for unsexed fish (which were already represented
+separately from the sexed fish in the base model)
+- apply the Dirichlet-Multinomial likelihood to automatically tune the composition 
+sample sizes (instead of the Francis method applied in the base model)
+```
+
+Additional composition-related sensitivities were conducted in earlier versions of
+the model but could not be repeated for the base model in time for inclusion in
+this pre-review version of the report.
+
+The index sensitivities involved removing each index from the model as well
+as removing all the fishery-dependent indices.
+
+```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+[to do: add interpretation for north model sensitivities]
+```
+
+```{asis, exho = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+Among the biology sensitvities, the south model was most senstive to  
+fixing female $M$ at 0.3 and $h$ at 0.7 which pushed the scale up to a high level
+with the final 2021 spawning biomass estimated close to $B_0$.
+
+The addition of ages as CAAL or marginal in the south model likewise pushed the 
+scale upwards (with the scale of the biomass in the CAAL sensitivity so high that
+it doesn't appear within the range shown in the figure). The Dirichlet-Multinomial
+sensitivity, which led to increased weight on the length and age compositions
+likewise pushed the scale upwards.
+```
+
