@@ -252,7 +252,8 @@ table_compweight(model)
 ```{r tables-model-sens, results = "asis"}
 table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area))
 table_sens(string_switchletter("../tables/sens_table_s_index.csv", params$area))
-table_sens(string_switchletter("../tables/sens_table_s_comp.csv", params$area))
+table_sens(string_switchletter("../tables/sens_table_s_comp.csv", params$area),
+caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). Red values indicate negative log likelihoods that were lower than that for the base model. Each column refers to index data that were taken out of the model.")
 table_sens("../tables/table_compare_north_vs_south.csv")
 ```
 \end{landscape}

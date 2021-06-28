@@ -37,8 +37,8 @@ table_ts <- function(output,
         "Mortality",
         "Age-0",
         "Fraction unfished",
-        "1-\\$SPR\\$",
-        "\\$F\\$"
+        "1-SPR",
+        "F"
       )
     )  %>%
     kableExtra::kable_styling(latex_options = c("repeat_header")) %>%
