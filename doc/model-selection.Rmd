@@ -5,7 +5,7 @@ current best practices and common approaches. Assumptions for the north and sout
 diverged once the fits to the data and model performance were examined.
 
 Following the previous assessment,
-all fishery-dependent indices had an estimated extra standard deviation parameter
+all fishery-dependent indices initially an estimated extra standard deviation parameter
 estimated and fishery-independent indices did not. However, the 2004 observation in 
 the \gls{s-tri} had a poor fit (while the other points were reasonable, including
 those around the transition between early and late periods). Furthermore, likelihood 
@@ -13,10 +13,31 @@ profiles over $log(R_0)$ indicated a strong influence of this index on the scale
 of the north model far above the model expectation (as has been the case for this
 survey year in many other species), so an extra SD parameter was added to the 
 north model for that index.
+```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+Conversely, the extra standard deviation parameter for the Oregon nearshore 
+logbook index and the Oregon Recreational Boat Survey index hit the lower bound 
+of 0 indicating that the input uncertainty was appropriate for the degree 
+of fit within the model.
+That parameter was fixed at 0 both both indices.
+```
 
 Initial selectivity assumptions had fewer blocks in some cases, but examination of
 patterns in the data and the model fits, as well as consideration of the 
 management history led to refinements in the time blocks for selectivity and retention.
+```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+The north model also had a number of parameters on bounds that needed to be 
+fixed in order to enable good convergence 
+(see Section \@ref(sec-model-selection) for details). One of these
+that was most problematic was the length at 50\% retention for the 
+commercial trawl fleet during the period 1998-2006, which hit the upper bound of 100 cm.
+Alternative time-blocks were explored, but did not solve the problem. Increasing the
+bound provided a better fit to the discard and retained length compositions for 
+this fleet, but a much worse fit to the discard ratios for 2002-2006.
+There is no estimablished data-weighting method to balance the tune the 
+undertainty in discard ratios so the bound on the retention parameter
+was retained to keep the fit to the discards within a reasonable range.
+
+```
 
 Recruitment assumptions were adjusted to account for the additional years of data
 but otherwise unchanged from the initial setup.

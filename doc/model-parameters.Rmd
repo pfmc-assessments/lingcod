@@ -1,4 +1,4 @@
-#### Priors
+#### Priors {#sec-priors}
 
 The prior distributions for female and male natural mortality
 (Figure \@ref(fig:compare-north-vs-south-pars)) were based on
@@ -20,7 +20,7 @@ but do not specify anything related to `r spp`.
 An analysis from [FishLife](github.com/James-Thorson/FishLife) suggested a prior
 with a mean of 0.67 and a standard deviation of 0.22.
 
-#### Estimated parameters
+#### Estimated parameters {#sec-estimated-parameters}
 
 ```{r parameters, include = FALSE, eval = TRUE, cache = TRUE}
 # get parameter names from base model
@@ -34,7 +34,7 @@ first_main <- min(model$recruit$Yr[model$recruit$era=="Main"])
 last_main <- max(model$recruit$Yr[model$recruit$era=="Main"])
 ```
 
-<!-- manual updates needed here -->
+<!-- manual updates needed here if models change -->
 The base model has a total of `r length(estimated_pars)` estimated parameters
 (Figure \@ref(fig:table-pars-base)) that can be grouped into the following
 categories and are described in more detail in the following sections:
@@ -64,14 +64,30 @@ derived analytical)
 represented changes over time because the retention prior to 1998 was assumed to be
 high for all selected fish.
 
-#### Fixed parameters
+#### Fixed parameters {#sec-fixed-parameters}
 
 Commercial fishery retention parameters for the period prior to 1998 were
 fixed at values that led to almost 100\% retention.
 
 ```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
-[**TO DO: if north 2021.n.020.001 is the base model,
-describe the reasons for fixing 3 selectivity parameters that were hitting the bounds]
+The extra standard deviation parameters for two Oregon CPUE indices were fixed
+at 0 as discussed in Section \@ref(sec-model-selection). 
+The parameter controlling the descending slope of the dome-shaped selectivity 
+function hit a bound for many combinations of fleet and time-block in the north model.
+Model diagnostics indicated that these parameters were causing problems with 
+convergence so they were all fixed equal to the bound.
+
+<!-- manual updates needed here if models change -->
+Selectivity was estimated as asymptotic in many cases 
+(Figure \@ref(fig:selectivity_noncomm)), including the commercial trawl prior to 
+1993, the fixed-gear fleet (not time-varying), any many of the time-blocks 
+for the recreational fleets. In all these cases, the parameter controlling
+the descending slope of the dome-shaped selectivity was fixed at the upper bound. 
+One descending slope parameter hit the lower bound, for commercial trawl 
+in the period 1993-1997. This parameter was
+also fixed at that bound (1.0). The length at 50\% retention for the 
+commercial trawl fleet hit the upper bound of 100 cm for the period 1998-2006
+and was likewise fixed at that bound.
 ```
 
 The following additional parameters were fixed based on standard practices for west coast assessments.
@@ -79,6 +95,10 @@ The following additional parameters were fixed based on standard practices for w
 The standard deviation of recruitment deviations was fixed at
 `r sprintf("%.2f", model$parameters %>% dplyr::filter(grepl("sigma",Label)) %>% dplyr::pull(Value))`.
 ```
+<!-- manual updates needed here if models change -->
+A tuning algorithm [@methot_adjusting_2011] indicated little change was needed from 
+this starting value and sensitivity analyses showed the results to be relatively
+insensitive to alternative values.
 ```{asis, exho = TRUE, eval = !any(grepl("Mat", estimated_pars))}
 The maturity parameters were fixed at values based on the analysis described in Section
 \@ref(sec-biological-data-maturation-and-fecundity).
