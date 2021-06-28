@@ -1,56 +1,56 @@
-#' table of sensitivity analyses,,,,,,,,,,,,,,,
-#',,,,,,,,,,,,,,,
-#' This list is used by humans to keep track of our sensitivity analyses as well as by ,,,,,,,,,,,,,,,
-#' the function `run_sensitivities()` to change the model,,,,,,,,,,,,,,,
-#' ,,,,,,,,,,,,,,,
-#' The elements are,,,,,,,,,,,,,,,
-#' group: a label for future use,,,,,,,,,,,,,,,
-#' num: a unique code for the sensitivity in question, repeated on multiple rows ,,,,,,,,,,,,,,
-#'      if multiple inputs need to change,,,,,,,,,,,,,,,
-#' north: TRUE/FALSE for whether the north model needs this sensitivity,,,,,,,,,,,,,,,
-#' south: TRUE/FALSE for whether the south model needs this sensitivity,,,,,,,,,,,,,,,
-#' parlabel: string that matches the parameter label,,,,,,,,,,,,,,,
-#' INIT: new INIT value (leave blank for no change),,,,,,,,,,,,,,,
-#' PHASE: new PHASE value (leave blank for no change),,,,,,,,,,,,,,,
-#' PRIOR: new PRIOR value (leave blank for no change),,,,,,,,,,,,,,,
-#' PR_SD: new PR_SD value (leave blank for no change),,,,,,,,,,,,,,,
-#' LO: new LO value (leave blank for no change), required if INIT is below the previous lower bound,,,,,,,,,,,,,,
-#' lambda_comp: the likelihood component code for use in the lambda inputs,,,,,,,,,,,,,,,
-#'   where initially the only option is to fix the lambda value at 0,,,,,,,,,,,,,,,
-#'   (but that could be generalized with an additional 'value' column),,,,,,,,,,,,,,,
-#'   Current codes (in SS 3.30.17.01) are 1=surv; 2=disc; 3=mnwt; 4=length; 5=age;,,,,,,,,,,,,,,,
-#'   6=SizeFreq; 7=sizeage; 8=catch; 9=init_equ_catch; 10=recrdev; 11=parm_prior;,,,,,,,,,,,,,,,
-#'   12=parm_dev; 13=CrashPen; 14=Morphcomp; 15=Tag-comp; 16=Tag-negbin;,,,,,,,,,,,,,,,
-#'   17=F_ballpark; 18=initEQregime,,,,,,,,,,,,,,,
-#' lambda_fleet: the fleet to which a lambda = 0 will be applied,,,,,,,,,,,,,,,
-#' description: a description of the sensitivity that is easy to understand by humans,,,,,,,,,,,,,,,
-#' function: function within the lingcod package to run to make the change,,,,,,,,,,,,,,,
-#' dontrun: just create the follow to allow user to manually edit the files,,,,,,,,,,,,,,,
-#',,,,,,,,,,,,,,,
-group,num,north,south,parlabel,INIT,PHASE,PRIOR,PR_SD,LO,lambda_comp,lambda_fleet,function,dontrun,suffix,description
-bio_rec,101,TRUE,TRUE,"""c('NatM_p_1_Fem', 'NatM_p_1_Mal')""","""c(0.3, 0)""","""c(5, -99)""","""c(-1.028,-1.028)""","""c(0.467, 0.467)""","""c(0.1, -999)""",,,,,_shareM,estimate a single M for both sexes with a mixture distribution of the priors
-bio_rec,102,TRUE,TRUE,steep,0.7,-99,,,,,,,,_h0.7,fix h at 0.7
-bio_rec,103,TRUE,TRUE,"""c('NatM_p_1_Fem', 'steep')""","""c(0.3, 0.7)""",,,,,,,,,_M0.3_h0.7,fix female M at 0.3 and h at 0.7
-bio_rec,104,TRUE,TRUE,SR_sigmaR,0.8,,,,,,,,,_sigmaR0.8,increase sigmaR from 0.6 to 0.8
-bio_rec,105,TRUE,TRUE,SR_sigmaR,0.4,,,,,,,,,_sigmaR0.4,decrease sigmaR from 0.6 to 0.4
-comp,201,FALSE,TRUE,,,,,,,,,,TRUE,_all_CAAL_ages,add all additional ages as CAAL to the south model
-comp,202,FALSE,TRUE,,,,,,,,,,TRUE,_all_marg_ages,add all additional ages as marginal to the south model
-comp,203,FALSE,TRUE,,,,,,,,,,TRUE,_some_CAAL_ages,add all fishery-independent ages as CAAL in the south model
+#' table of sensitivity analyses,,,,,,,,,,,,,,,,
+#',,,,,,,,,,,,,,,,
+#' This list is used by humans to keep track of our sensitivity analyses as well as by ,,,,,,,,,,,,,,,,
+#' the function `run_sensitivities()` to change the model,,,,,,,,,,,,,,,,
+#' ,,,,,,,,,,,,,,,,
+#' The elements are,,,,,,,,,,,,,,,,
+#' group: a label for future use,,,,,,,,,,,,,,,,
+#' num: a unique code for the sensitivity in question, repeated on multiple rows ,,,,,,,,,,,,,,,
+#'      if multiple inputs need to change,,,,,,,,,,,,,,,,
+#' north: TRUE/FALSE for whether the north model needs this sensitivity,,,,,,,,,,,,,,,,
+#' south: TRUE/FALSE for whether the south model needs this sensitivity,,,,,,,,,,,,,,,,
+#' parlabel: string that matches the parameter label,,,,,,,,,,,,,,,,
+#' INIT: new INIT value (leave blank for no change),,,,,,,,,,,,,,,,
+#' PHASE: new PHASE value (leave blank for no change),,,,,,,,,,,,,,,,
+#' PRIOR: new PRIOR value (leave blank for no change),,,,,,,,,,,,,,,,
+#' PR_SD: new PR_SD value (leave blank for no change),,,,,,,,,,,,,,,,
+#' LO: new LO value (leave blank for no change), required if INIT is below the previous lower bound,,,,,,,,,,,,,,,
+#' lambda_comp: the likelihood component code for use in the lambda inputs,,,,,,,,,,,,,,,,
+#'   where initially the only option is to fix the lambda value at 0,,,,,,,,,,,,,,,,
+#'   (but that could be generalized with an additional 'value' column),,,,,,,,,,,,,,,,
+#'   Current codes (in SS 3.30.17.01) are 1=surv; 2=disc; 3=mnwt; 4=length; 5=age;,,,,,,,,,,,,,,,,
+#'   6=SizeFreq; 7=sizeage; 8=catch; 9=init_equ_catch; 10=recrdev; 11=parm_prior;,,,,,,,,,,,,,,,,
+#'   12=parm_dev; 13=CrashPen; 14=Morphcomp; 15=Tag-comp; 16=Tag-negbin;,,,,,,,,,,,,,,,,
+#'   17=F_ballpark; 18=initEQregime,,,,,,,,,,,,,,,,
+#' lambda_fleet: the fleet to which a lambda = 0 will be applied,,,,,,,,,,,,,,,,
+#' description: a description of the sensitivity that is easy to understand by humans,,,,,,,,,,,,,,,,
+#' function: function within the lingcod package to run to make the change,,,,,,,,,,,,,,,,
+#' dontrun: just create the follow to allow user to manually edit the files,,,,,,,,,,,,,,,,
+#',,,,,,,,,,,,,,,,
+group,num,north,south,parlabel,INIT,PHASE,PRIOR,PR_SD,LO,lambda_comp,lambda_fleet,function,dontrun,suffix,description,
+bio_rec,101,TRUE,TRUE,"""c('NatM_p_1_Fem', 'NatM_p_1_Mal')""","""c(0.3, 0)""","""c(5, -99)""","""c(-1.028,-1.028)""","""c(0.467, 0.467)""","""c(0.1, -999)""",,,,,_shareM,estimate a single M for both sexes with a mixture distribution of the priors,
+bio_rec,102,TRUE,TRUE,steep,0.7,-99,,,,,,,,_h0.7,fix h at 0.7,
+bio_rec,103,TRUE,TRUE,"""c('NatM_p_1_Fem', 'steep')""","""c(0.3, 0.7)""","""c(-99, -99)""",,,,,,,,_M0.3_h0.7,fix female M at 0.3 and h at 0.7,
+bio_rec,104,TRUE,TRUE,SR_sigmaR,0.8,,,,,,,,,_sigmaR0.8,increase sigmaR from 0.6 to 0.8,
+bio_rec,105,TRUE,TRUE,SR_sigmaR,0.4,,,,,,,,,_sigmaR0.4,decrease sigmaR from 0.6 to 0.4,
+comp,201,FALSE,TRUE,,,,,,,,,,TRUE,_all_CAAL_ages,add all additional ages as CAAL to the south model,
+comp,202,FALSE,TRUE,,,,,,,,,,TRUE,_all_marg_ages,add all additional ages as marginal to the south model,
+comp,203,FALSE,TRUE,,,,,,,,,,TRUE,_some_CAAL_ages,add all fishery-independent ages as CAAL in the south model,
 comp,204,TRUE,FALSE,,,,,,,,,,TRUE,_no_fishery_ages,remove fishery-dependent ages, all others as CAAL
-comp,205,TRUE,TRUE,,,,,,,,,,TRUE,_DM,apply D-M tuning
-comp,206,TRUE,TRUE,,,,,,,,,,TRUE,_combMF,use the combM+F option to ignore sex ratios among small fish
-comp,207,TRUE,TRUE,,,,,,,,,,TRUE,_no_unsexed,remove all unsexed fish
-index,301,FALSE,TRUE,,,,,,,,,,TRUE,_CA_CRFSPR_index,Change CA Rec index in recent years from onboardCPFV to CRFSPR
-index,302,TRUE,FALSE,,,,,,,,,,TRUE,_OR_CPFV_index,Change OR Rec index to onboard (CPFV ride along) index
-index,303,TRUE,TRUE,,,,,,,"""rep(1,5)""","""1:5""",,,_no_fishery_indices,remove all fishery-dependent indices
-index,311,TRUE,TRUE,,,,,,,1,1,,,_no_Comm_Trawl_index,remove index for fleet 1_Comm_Trawl   
-index,312,TRUE,FALSE,,,,,,,1,2,,,_no_Comm_Fix_index,remove index for fleet 2_Comm_Fix     
-index,313,TRUE,FALSE,,,,,,,1,3,,,_no_Rec_WA_index,remove index for fleet 3_Rec_WA       
-index,314,TRUE,FALSE,,,,,,,1,4,,,_no_Rec_OR_index,remove index for fleet 4_Rec_OR       
-index,315,TRUE,TRUE,,,,,,,1,5,,,_no_Rec_CA_index,remove index for fleet 5_Rec_CA       
-index,316,TRUE,TRUE,,,,,,,1,6,,,_no_Surv_TRI_index,remove index for fleet 6_Surv_TRI     
-index,317,TRUE,TRUE,,,,,,,1,7,,,_no_Surv_WCGBTS_index,remove index for fleet 7_Surv_WCGBTS  
-index,318,TRUE,TRUE,,,,,,,1,8,,,_no_Surv_HookLine_index,remove index for fleet 8_Surv_HookLine
-index,320,FALSE,TRUE,,,,,,,1,10,,,_no_CPFV_DebWV_index,remove index for fleet 10_CPFV_DebWV  
-sel,401,TRUE,TRUE,SizeSel_P_4_2_Comm_Fix,15,-99,,,,,,,,_asymptotic_FG,fix the commercial FG selectivity to be asymptotic
-sel,402,TRUE,TRUE,,,,,,,,,,TRUE,_male_sel_offset,add male offsets to selectivity (initially just Male_Scale within offset option 3)
+comp,205,TRUE,TRUE,,,,,,,,,,TRUE,_DM,apply D-M tuning,
+comp,206,TRUE,TRUE,,,,,,,,,,TRUE,_combMF,use the combM+F option to ignore sex ratios among small fish,
+comp,207,TRUE,TRUE,,,,,,,,,,TRUE,_no_unsexed,remove all unsexed fish,
+index,301,FALSE,TRUE,,,,,,,,,,TRUE,_CA_CRFSPR_index,Change CA Rec index in recent years from onboardCPFV to CRFSPR,
+index,302,TRUE,FALSE,,,,,,,,,,TRUE,_OR_CPFV_index,Change OR Rec index to onboard (CPFV ride along) index,
+index,303,TRUE,TRUE,,,,,,,"""rep(1,5)""","""1:5""",,,_no_fishery_indices,remove all fishery-dependent indices,
+index,311,TRUE,TRUE,,,,,,,1,1,,,_no_Comm_Trawl_index,remove index for fleet 1_Comm_Trawl   ,
+index,312,TRUE,FALSE,,,,,,,1,2,,,_no_Comm_Fix_index,remove index for fleet 2_Comm_Fix     ,
+index,313,TRUE,FALSE,,,,,,,1,3,,,_no_Rec_WA_index,remove index for fleet 3_Rec_WA       ,
+index,314,TRUE,FALSE,,,,,,,1,4,,,_no_Rec_OR_index,remove index for fleet 4_Rec_OR       ,
+index,315,TRUE,TRUE,,,,,,,1,5,,,_no_Rec_CA_index,remove index for fleet 5_Rec_CA       ,
+index,316,TRUE,TRUE,,,,,,,1,6,,,_no_Surv_TRI_index,remove index for fleet 6_Surv_TRI     ,
+index,317,TRUE,TRUE,,,,,,,1,7,,,_no_Surv_WCGBTS_index,remove index for fleet 7_Surv_WCGBTS  ,
+index,318,FALSE,TRUE,,,,,,,1,8,,,_no_Surv_HookLine_index,remove index for fleet 8_Surv_HookLine,
+index,320,FALSE,TRUE,,,,,,,1,10,,,_no_CPFV_DebWV_index,remove index for fleet 10_CPFV_DebWV  ,
+sel,401,TRUE,TRUE,SizeSel_P_4_2_Comm_Fix,15,-99,,,,,,,,_asymptotic_FG,fix the commercial FG selectivity to be asymptotic,
+sel,402,TRUE,TRUE,,,,,,,,,,TRUE,_male_sel_offset,add male offsets to selectivity (initially just Male_Scale within offset option 3),
