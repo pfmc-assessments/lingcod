@@ -36,7 +36,7 @@ bio_rec,105,TRUE,TRUE,SR_sigmaR,0.4,,,,,,,,,_sigmaR0.4,decrease sigmaR from 0.6 
 comp,201,FALSE,TRUE,,,,,,,,,,TRUE,_all_CAAL_ages,add all additional ages as CAAL to the south model
 comp,202,FALSE,TRUE,,,,,,,,,,TRUE,_all_marg_ages,add all additional ages as marginal to the south model
 comp,203,FALSE,TRUE,,,,,,,,,,TRUE,_some_CAAL_ages,add all fishery-independent ages as CAAL in the south model
-comp,204,TRUE,FALSE,,,,,,,,,,TRUE,_no_fishery_ages,remove fishery-dependent ages from the north model
+comp,204,TRUE,FALSE,,,,,,,,,,TRUE,_no_fishery_ages,remove fishery-dependent ages, all others as CAAL
 comp,205,TRUE,TRUE,,,,,,,,,,TRUE,_DM,apply D-M tuning
 comp,206,TRUE,TRUE,,,,,,,,,,TRUE,_combMF,use the combM+F option to ignore sex ratios among small fish
 comp,207,TRUE,TRUE,,,,,,,,,,TRUE,_no_unsexed,remove all unsexed fish

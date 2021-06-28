@@ -184,3 +184,8 @@ name | notes | issue | source_model | script
 2021.n.021.003_more_asymptotic_manual_hess | manual edits that match above model | NA | 2021.n.020.001 | manual edit
 2021.n.020.020_refined_fixed_jitterpar | | #111 | |
 2021.n.022.001_new_INIT | like 2021.n.021.001 but with new initial values | #111 | 2021.n.021.001 | lingcod_model_bridging_change_ctl.R
+2021.s.014.201_all_CAAL_ages  | comp sensitivities run on 27 June 2021 | NA | 2021.s.014.001 | run_sensitivities()
+2021.s.014.202_all_marg_ages  | comp sensitivities run on 27 June 2021 | NA | 2021.s.014.001 | run_sensitivities()
+2021.s.014.205_DM			  | comp sensitivities run on 27 June 2021 | NA | 2021.s.014.001 | run_sensitivities()
+2021.s.014.206_combMF		  | comp sensitivities run on 27 June 2021 | NA | 2021.s.014.001 | run_sensitivities()
+2021.s.014.207_no_unsexed     | comp sensitivities run on 27 June 2021 | NA | 2021.s.014.001 | run_sensitivities()

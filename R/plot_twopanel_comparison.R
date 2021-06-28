@@ -14,6 +14,11 @@
 #' @param dir Where to put the PNG file if `print = TRUE`.
 #' @param endyrvec final year to include in the figure passed to
 #' r4ss::SSplotComparisons()
+#' @param ylimAdj1 adjustment to y-axis limit for the first plot,
+#' relative to highest point among all models shown
+#' @param ylimAdj2 adjustment to y-axis limit for the second plot,
+#' relative to highest point among all models shown
+#' @template verbose
 #' @param dots additional arguments that will get passed to
 #' r4ss::SSplotComparisons()
 #'
@@ -34,6 +39,8 @@ plot_twopanel_comparison <- function(mods,
                                      dir = "figures/compare",
                                      hessian = TRUE,
                                      endyrvec = 2021,
+                                     ylimAdj1 = 1.05,
+                                     ylimAdj2 = 1.05,
                                      verbose = FALSE,
                                      ...) {
   summary <- r4ss::SSsummarize(mods)
@@ -64,12 +71,14 @@ plot_twopanel_comparison <- function(mods,
                           subplot = ifelse(hessian, 2, 1),
                           legendlabels = legendlabels,
                           new = FALSE,
+                          ylimAdj = ylimAdj1,
                           ...)
   r4ss::SSplotComparisons(summary,
                           endyrvec = endyrvec,
                           subplot = ifelse(hessian, 4, 3),,
                           legend = FALSE,
                           new = FALSE,
+                          ylimAdj = ylimAdj2,
                           ...)
   mtext("Year", side = 1, line = 1, outer = TRUE)
   

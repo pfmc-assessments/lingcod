@@ -16,7 +16,7 @@
 #' \dontrun{
 #' dirbase <- get_dir_ling(area = area, num = 14, sens = 1)
 #' run_sensitivities(dirbase, c("profile", "retro", "regularization"))
-#' run_sensitivities(get_dir_ling("n", 17),
+#' run_sensitivities(get_dir_ling("n", 22),
 #'                   type = "sens_create",
 #'                   numbers = c(102, 104))
 #' run_sensitivities(get_dir_ling("s", 14),
@@ -94,7 +94,6 @@ run_sensitivities <- function(dirbase,
   }
 
   # create additional sensitivitities
-  # create additional sensitivitities
   if ("sens_create" %in% type | "sens_run" %in% type) {
     # read table of info on sensitivities
     sens_table <- read.csv(system.file("extdata", "sensitivities.csv",
@@ -130,6 +129,7 @@ run_sensitivities <- function(dirbase,
       message("creating ", newdir)
       sensitivity_copy(dirbase, newdir)
 
+      #####################################################################
       # sensitivities that involve changing parameter lines
       if (sens$parlabel != "") {
         r4ss::SS_changepars(dir = newdir, 
@@ -145,6 +145,59 @@ run_sensitivities <- function(dirbase,
                             )
       } # end test for non-empty parlabel
 
+      #####################################################################
+      # sensitivities that involve changing age data
+      datdir <- NULL
+      if (sens$suffix == "_all_CAAL_ages") { # 201
+        datdir <- get_dir_ling(area = area, num = 4, sens = 9)
+      }
+      if (sens$suffix == "_all_marg_ages") { # 202
+        datdir <- get_dir_ling(area = area, num = 4, sens = 12)
+      }
+      ## if (sens$suffix == "_some_CAAL_ages" & area == "a") {
+      ##   datdir <- file.path(olddir = get_dir_ling(area = area, num = 4, sens = 13))
+      ## }
+      if (sens$suffix == "_no_fishery_ages") { #204
+        datdir <- get_dir_ling(area = area, num = 4, sens = 14)
+      }
+      if (!is.null(datdir)) {
+        file.copy(from = file.path(datdir, "ling_data.ss"),
+                  to = file.path(newdir, "ling_data.ss"),
+                  overwrite = TRUE)
+      }
+      
+      #####################################################################
+      # other sensitivities
+      if (sens$suffix == "_DM") { #205
+        # copy report because Ian is paranoid about accidentally overwriting the base model
+        file.copy(from = file.path(dirbase, "Report.sso"),
+                  to = file.path(newdir, "Report.sso"))
+        mod.tuning <- r4ss::SS_output(newdir, covar =FALSE, NoCompOK = TRUE, forecast = FALSE,
+                                      verbose = FALSE, printstats = FALSE)
+        r4ss::SS_tune_comps(mod.tuning, dir = newdir, option = "DM", niters_tuning = 0)
+      }
+
+      # combine males and females for small size bins
+      if (sens$suffix == "_combMF") { #206
+        inputs <- get_inputs_ling(dir = newdir)
+        inputs$dat$len_info$combine_M_F <- which(info_bins$length == 40)
+        inputs$dat$Comments <- c(inputs$dat$Comments,
+                                 "#C males and females < 40cm combined")
+        write_inputs_ling(inputs, dir = newdir, files = "dat")
+      }
+
+      # remove unsexed fish
+      if (sens$suffix == "_no_unsexed") { # 207
+        inputs <- get_inputs_ling(dir = newdir)
+        inputs$dat$lencomp <- inputs$dat$lencomp %>% dplyr::filter(Gender != 0)
+        inputs$dat$agecomp <- inputs$dat$agecomp %>% dplyr::filter(Gender != 0)
+        inputs$dat$Comments <- c(inputs$dat$Comments,
+                                 "#C all unsexed lengths and ages removed")
+        write_inputs_ling(inputs, dir = newdir, files = "dat")
+      }
+      
+      
+      #####################################################################
       # sensitivities that involve changing lambdas
       if (sens$lambda_comp != "") {
         inputs <- get_inputs_ling(dir = newdir)
@@ -162,7 +215,7 @@ run_sensitivities <- function(dirbase,
                  "_for_", get_fleet()$fleet[get_fleet()$num == lambda_fleet]) 
         write_inputs_ling(inputs, dir = newdir, files = "ctl")
       }
-      
+
     } # end loop over sensitivity numbers
     
     filename <- paste0("sensitivities_",

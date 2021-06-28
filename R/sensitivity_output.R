@@ -69,15 +69,22 @@ sens_convert_offsets <- function(tab){
 #' Works with [run_sensitivities()] and the info in
 #' /inst/extdata/sensitivities.csv to make a table of results
 #' 
-#' @param area which area "n" or "s"
+#' @param area Which area "n" or "s"
 #' @template num
-#' @param sens_base sensitivity number associated with the base model
+#' @param sens_base Sensitivity number associated with the base model
 #' or source for the other sensitivities.
-#' @param sens_nums a vector of values from /inst/extdata/sensitivities.csv
-#' @param sens_type a string indicating the type which is appended to the csv
+#' @param sens_nums A vector of values from /inst/extdata/sensitivities.csv
+#' @param sens_mods Optional list containing output from multiple models. If present
+#' this will skip the reading of the models specified by the inputs above.
+#' @param sens_type A string indicating the type which is appended to the csv
 #' file containing the sensitivity results
-#' @param write logical to write csv file to doc or not
+#' @param plot Logical for whether to make a two-panel time series plot
+#' @param plot_dir Directory for the plot
+#' @param table_dir Directory for the table
+#' @param write Logical to write csv file to doc or not
+#' @param dots Additional arguments passed to plot_twopanel_comparison()
 #'
+#' @example 
 #' @author Ian G. Taylor
 #' @export
 
@@ -86,12 +93,13 @@ sens_make_table <- function(area,
                             sens_base = 1,
                             yr = 2021,
                             sens_nums,
+                            sens_mods = NULL,
                             sens_type = NULL,
                             plot = TRUE,
-                            write = FALSE) {
-
-  # get base model directory (may not always match info_basemodels)
-  basedir <- basename(get_dir_ling(area, num, sens = sens_base, yr = yr))
+                            plot_dir = NULL,
+                            table_dir = "tables",
+                            write = FALSE,
+                            ...) {
 
   # which things to read from the model output
   thingnames <- c("Recr_Virgin", "R0", "NatM", "Linf",
@@ -103,25 +111,38 @@ sens_make_table <- function(area,
   likenames = c("TOTAL", "Survey", "Length_comp", "Age_comp",
                 "Discard", "priors")
 
-  # sens dirs doesn't include the base
-  sens_dirs <- basedir %>%
-    get_id_ling() %>%
-    stringr::str_sub(end = nchar("2021.s.001.")) %>%
-    paste0(., sprintf("%03d", sens_nums)) %>%
-    get_dir_ling(id = .)
+  # read models (if needed)
+  if (!is.null(sens_mods)) {
+    # get vectory of directory associated with each model
+    sens_dirs <- NULL
+    for (i in 1:length(sens_mods)) {
+      sens_dirs <- c(sens_dirs, sens_mods$inputs$dir)
+    }
+    basedir <- ""
+  } else {
+    # get base model directory (may not always match info_basemodels)
+    basedir <- basename(get_dir_ling(area, num, sens = sens_base, yr = yr))
 
-  # filter for directories which are present
-  message("the following directories not found for this model:\n",
-          paste(sens_dirs[!dir.exists(sens_dirs)], collapse = "\n"))
-  sens_dirs <- sens_dirs[dir.exists(sens_dirs)]
+    # sens dirs doesn't include the base
+    sens_dirs <- basedir %>%
+      get_id_ling() %>%
+      stringr::str_sub(end = nchar("2021.s.001.")) %>%
+      paste0(., sprintf("%03d", sens_nums)) %>%
+      get_dir_ling(id = .)
+
+    # filter for directories which are present
+    message("the following directories not found for this model:\n",
+            paste(sens_dirs[!dir.exists(sens_dirs)], collapse = "\n"))
+    sens_dirs <- sens_dirs[dir.exists(sens_dirs)]
+    
+    # read the model output
+    # sens_mods includes the base (re-read here because that's easy)
+    sens_mods <-
+      r4ss::SSgetoutput(dirvec = c(file.path("models",basedir),
+                                   sens_dirs),
+                        getcovar = FALSE)
+  }
   
-  # read the model output
-  # sens_mods includes the base (re-read here because that's easy)
-  sens_mods <-
-    r4ss::SSgetoutput(dirvec = c(file.path("models",basedir),
-                                 sens_dirs),
-                      getcovar = FALSE)
-
   # summarize the results
   sens_summary <- r4ss::SSsummarize(sens_mods, verbose = FALSE)
 
@@ -137,18 +158,24 @@ sens_make_table <- function(area,
 
   # make plot
   if (plot) {
-    plot_filename <- paste0("sens_timeseries_", area, "_", sens_type, ".png") 
+    plot_filename <- paste0("sens_timeseries_", area, "_", sens_type, ".png")
+    if (is.null(plot_dir)) {
+      plot_dir <- file.path("models",
+                            basedir,
+                            "custom_plots"
+                            )
+    }
     plot_twopanel_comparison(mods = sens_mods,
                              legendlabels = sens_names,
                              legendloc = "bottomleft",
                              legendncol = ifelse(length(sens_mods) < 5, 1, 2),
                              file = plot_filename,
-                             dir = file.path("models",
-                                             basedir,
-                                             "custom_plots"
-                                             )
+                             dir = plot_dir,
+                             ...
                              )
+
     # get an explanation of the type for use in the caption
+    sens_type_long <- ""
     if (sens_type == "bio_rec") {
       sens_type_long <- "biology and recruitment."
     }
@@ -195,10 +222,11 @@ sens_make_table <- function(area,
     sens_table[grep("M Male", sens_table$Label), "shareM"] <-
       sens_table[grep("M Female", sens_table$Label), "shareM"]
   }
-  
+
   # write to file
   if (write) {
-    csvfile <- file.path(paste0("tables/sens_table_", area, "_", sens_type, ".csv"))
+    csvfile <- file.path(table_dir,
+                         paste0("sens_table_", area, "_", sens_type, ".csv"))
     message("writing ", csvfile)
     write.csv(sens_table, file = csvfile, row.names = FALSE)
   }
