@@ -2,7 +2,8 @@
 
 ## Basic information
 
-`r executive[["stock"]]`
+```{asis executive-summary-stock, echo = TRUE}
+```
 
 ```{r introfiles, results = "asis"}
 files_intro <- dir('.', pattern = '^1[2-9][a-z]*\\.Rmd', full.names = TRUE)

@@ -14,8 +14,6 @@ information on catch by species (number of retained fish), effort
 limits, boat type (charter or private), and trip type (e.g., bottom
 associated fish).
 
-##### Data preparation, filtering, and sample sizes
-
 The unfiltered data set contained 411,528 trips. Multiple standardized filters
 are applied to \gls{orbs} trip-level data in order to remove outliers and
 data unsuitable for an index (Table \@ref(tab:cpue-recreationalOregon-filter)).
@@ -42,8 +40,6 @@ Thus, the model was estimated using data that was both filtered and
 not filtered with the Stephens-MacCall filter.
 Filtering the data did not change the model diagnostics, and thus, it
 was not utilized for the final data set.
-
-##### Standardization: model selection, fits, and diagnostics
 
 A delta-\gls{glm} approach was used to model \gls{cpue}. Apart
 from differences in catch rate among years, we also considered changes
@@ -108,4 +104,51 @@ closely matches the distribution from replicate datasets; however, there are
 some deviations with the positive model. \Gls{mle} were virtually identical to the
 medians of the posterior distributions in both cases, however.
 
+#### Oregon At Sea CPFV index
+
+The ODFW initiated an onboard CPFV observer program in 2001, which
+became a yearly sampling program in 2003 (Monk et al. 2013).
+
+Data at the drift level were obtained from ODFW on 4/15/2021 (n =
+15,632). Drifts with no catch were
+removed from the dataset. Other filters include: drifts that were too
+long (above 99 percentile) or too deep (above 99 percentile, or 60 fms),
+and drifts where a majority of the catch were midwater species (92% or
+the 99 percentile). These filters were intended to provide a final
+drift-level dataset without drifts that were significantly unlikely to
+encounter lingcod. Low sample sizes also necessitated the removal of
+2020 and drifts from February. The final dataset selected included
+8472 drifts,
+46\% of
+which encountered lingcod. Sample sizes by the factors selected to model
+are in Table \@ref(tab:tab-year-ORAtSea).
+
+Initial exploration of Bayesian delta-GLM models for this dataset proved
+to be ill-fitting and the proportion of zeroes predicted by the
+delta-GLM models were different enough from the fraction of zeroes in
+the raw data, that this model was not considered for model selection. We
+modeled catch (number of retained and discarded fish) with an offset for
+effort (angler hours) using a Bayesian negative binomial model. Models
+incorporating temporal (year, two-month wave) and geographic (port and
+depth) factors were evaluated. Depth was defined as the starting depth
+for the drift and binned to five fm bins from 0 - 30 fms with a plus 30
+fm bin for all drifts with a starting depth \> 30fms. Indices with year
+and geographic interactions were not considered in model selection.
+
+Based on AIC values from maximum likelihood fits (Table
+\@ref(tab:tab-model-select-ORAtSea)) a model including
+Year and Port and Wave and DEPTH bin and log(Effort) was selected.
+
+Models were fit using the "rstanarm" R package (version 2.21.1).
+Posterior predictive checks of the Bayesian model fit for the negative
+binomial model were reasonable (Figures
+\@ref(fig:fig-posterior-mean-ORAtSea) and
+\@ref(fig:fig-posterior-sd-ORAtSea)). The negative binomial model
+generated data sets with the proportion zeros similar to the
+54\%
+zeroes in the observed data (Figure \@ref(fig:fig-propzero-ORAtSea)).
+The predicted marginal effects from the negative binomial models can be
+found in (Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)). The final index
+(Table \@ref(tab:tab-index-ORAtSea)) represents a similar trend to the
+arithmetic mean of the annual CPUE (Figure \@ref(fig:fig-cpue-ORAtSea)).
 

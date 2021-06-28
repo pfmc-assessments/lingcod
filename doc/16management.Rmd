@@ -79,9 +79,12 @@ to 193 in 2019, however that still represents a small minority of the vessels an
 
 ### Recreational fishery
 
-Recreational regulations for `r spp` were established in 1994 and included
-a bag limit of three fish in Washington and Oregon,
-a bag limit of five fish in California, and
+Recreational regulations for `r spp` were established in 1976 in Oregon
+that included a five fish sub-bag limit for marine species.
+Bag limits in Oregon were reduced to three fish in 1978 and remained at three until 1999.
+Regulations in Washington were established in 1994 and included
+a bag limit of three fish. In California,
+a bag limit of five fish was implemented in 1994 and
 a minimum size limit of 22 inches in Washington and California.
 The 22 inch minimum size limit was adopted in Oregon in 1995 and
 increased to 24 inches in all three states in 1998.

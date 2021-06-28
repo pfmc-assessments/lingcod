@@ -48,7 +48,7 @@ From 1980 to 2008, 95\% to 97\% of `r spp` caught were taken by boat-based angle
 Private boat landings were higher than those from \glspl{cpfv}.
 A small fraction of landings are from spear fishers using SCUBA or free diving gear [@lynn2008status].
 
-**to do: Consider moving to just the north report**
+```{asis, opts.label = "north"}
 Catches of `r spp` in Oregon and Washington have shifted from the commercial trawl fleet,
 which accounted for 90\% of landings during its mid-1980s peak,
 to a fishery evenly split between commercial and recreational landings in recent years.
@@ -56,7 +56,7 @@ Between 1980 and 1996, the majority of `r spp` were caught by the bottom trawl f
 followed by troll and hook-and-line (between 10-20\%),
 with a small fraction of additional landings from
 pots and traps, nets, and shrimp trawls [@jagielo1997assessment].
-From 1999 to 2016, however, the recreational fishery has contributed about half
+Since 1999, however, the recreational fishery has contributed about half
 of all `r spp` Oregon and Washington landings, on average, and has continued to grow.
-
+```
 <!-- **todo - generate numbers dynamically** -->

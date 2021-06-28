@@ -18,7 +18,12 @@ sa4ss::read_child(file.path("commcpuepacfin.Rmd"))
 ```{r render-cpue, results = "asis", cache = TRUE, eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("commcpueor.Rmd"))
 sa4ss::read_child(file.path("reccpuewa.Rmd"))
+```
+```{r render-cpueor, results = "asis", cache = FALSE, eval = grepl("North", params$area)}
 sa4ss::read_child(file.path("reccpueor.Rmd"))
+```
+```{r render-cpueca, results = "asis", cache = FALSE}
+sa4ss::read_child(file.path("reccpueca.Rmd"))
 ```
 
 ### Commercial length- and age-composition data
