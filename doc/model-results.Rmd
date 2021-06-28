@@ -1,6 +1,67 @@
 #### Parameter estimates {#sec-model-estimates}
-Parameter estimates
 
 #### Fits to the data {#sec-model-fits}
+```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+The fit to the seven indices of abundance are all reasonably good, with 
+the timing and magnitude of changes in expected abundance following the 
+observed patterns (Figure \ref{fig:index-fits-all-fleets}). 
+The five contemporary indices all increased over the 2010s with a peak 
+around 2005, which the model expectation fits well driven by a large 2008 cohort. 
+The areas with the biggest lack of fit are the first two years of the 
+trawl logbook CPUE index, which were much higher than the rest of the time series, 
+the 2004 observations of the \gls{s-tri}, and the 2020 observation of 
+the Washington recreational CPUE index. All of these observations are 
+inconsistent with the adjacent observations in the same index suggesting 
+that they may be outlier rather than a signal about the true dynamics of 
+the underlying population.
+
+The fit to the length data, when aggregated over time 
+(Figure \ref{fig:comp-lenfit--aggregated-across-time}) shows 
+some imbalances in the sex ratios but the modes are generally falling in the right
+places. The commercial trawl discards show modes associated with 
+the length at ages 1 and 2 the first of which is better fit than the second. 
+This could be due to the fishery taking places over a protracted season while the model
+expectation is based on a mid-year snapshot. Looking at the 
+fits for individual years (available in electronic appendix) shows high variability for the 
+commercial trawl length comps and a large blotches in the Pearson residuals.
+In general, the recreational and survey length compositions are reasonably well fit.
+
+Ages in the north model are all conditioned on length, but also included as
+marginal "ghost age comps" ("AgeComp" in electronic appendix) which are excluded 
+from the likelihood for purposes of 
+visualing the implied fit. These data do not show strong cohorts very clearly,
+although some modes progress through the population, such as the 2008 cohort 
+as observed by the \gls{s-wcgbt} in the years 2008-2011 (the observed mode in 2012 
+is off by 1 year). 
+
+The conditional age-at-length (CAAL, "A\@LComp" in electronic appendix) data 
+in the north model are numerous. They represent over 72,000 indivual fish
+from a total of 161 fleet/year combinations. In general, most years and most fleets 
+show no strong patterns in the Pearson residuals, but there are a few exceptions.
+For instance, the commercial trawl fit in 1980 has many fish older than expected
+within all of the smaller length bins, while in 1981 the ages observations
+all fall in the middle of the expected range. The "Conditional AAL plot" diagnostic
+shows that both the mean age in each length bin and the variability in age at length
+have a good match for most years and most fleets.
+
+The expected commercial trawl discard fractions ("Discard" in electronic appendix) 
+are higher than observed for the period 2002-2009, where
+the large uncertainty in estimated discards allows the model to misfit these 
+to better fit the length comps, with the parameter for length at 50\% retention
+pushed to the upper bound as discussed in Section \ref{sec-model-selection}. 
+However, discards prior to 1998 are assumed to be low
+and the fits from 2010 onward are good, so the impact of the lack of fit on 
+the estimated mortality is limited to a 12-year period. The commercial fixed-gear
+discards show less variability over time, are more uncertain, and the fits
+are well within the uncertainty intervals for all but 2002.
+
+The fit to the mean body weight ("Mnwt") of discards are good for most years
+although the observed discards in the first two years (2002 and 2003) were lighter 
+than the expectation. There are no discard length compositions from those years
+so it's difficult to judge the reasons for the lack of fit.
+```
+```{asis, exho = TRUE, eval = ifelse(params$area == "Sout", TRUE, FALSE)}
+```
 
 #### Population trajectory {#sec-model-trajectory}
+
