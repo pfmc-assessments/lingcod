@@ -113,13 +113,13 @@ sa4ss::read_child("model-specifications.Rmd")
 sa4ss::read_child("model-selectivity.Rmd")
 ```
 
-### Model parameters
+### Model parameters {#sec-model-parameters}
 
 ```{r render-model-parameters, results = "asis"}
 sa4ss::read_child("model-parameters.Rmd")
 ```
 
-### Base model selection
+### Base model selection {#sec-model-selection}
 
 ```{r render-model-selection, results = "asis"}
 sa4ss::read_child("model-selection.Rmd")

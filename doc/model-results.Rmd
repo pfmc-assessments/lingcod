@@ -1,5 +1,6 @@
-#### Parameter estimates
+#### Parameter estimates {#sec-model-estimates}
+Parameter estimates
 
-#### Fits to the data
+#### Fits to the data {#sec-model-fits}
 
-#### Population trajectory
+#### Population trajectory {#sec-model-trajectory}
