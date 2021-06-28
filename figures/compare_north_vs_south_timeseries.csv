@@ -1,0 +1,2 @@
+caption,alt_caption,label,filein
+Time series of estimated spawning biomass for the north and south areas in 2021 and 2017. The 2017 models used \CAOR as a boundary while the 2021 models use \CapeM.,,compare_north_vs_south_timeseries,../figures/compare_north_vs_south_timeseries.png
