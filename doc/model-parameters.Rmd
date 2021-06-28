@@ -27,8 +27,14 @@ with a mean of 0.67 and a standard deviation of 0.22.
 estimated_pars <- model$parameters %>%
   dplyr::filter(!is.na(Active_Cnt)) %>%
   rownames()
+  
+estimated_pars <- estimated_pars[!grepl("ForeRecr", estimated_pars)]
+nrecdevs <- sum(grepl("RecrDev", estimated_pars))
+first_main <- min(model$recruit$Yr[model$recruit$era=="Main"])
+last_main <- max(model$recruit$Yr[model$recruit$era=="Main"])
 ```
 
+<!-- manual updates needed here -->
 The base model has a total of `r length(estimated_pars)` estimated parameters
 (Figure \@ref(fig:table-pars-base)) that can be grouped into the following
 categories and are described in more detail in the following sections:
@@ -38,15 +44,20 @@ categories and are described in more detail in the following sections:
   - 3 von Bertalanffy parameters (length at age 0.5, length at age 14, and $k$)
   - 2 parameters controlling variability in growth, the CV in length at age 0.5
   and the CV in length at age 14 with a linear ramp in length-at-age
-- `r 2 + nrow(model$recruit)` recruitment parameters
+- `r 2 + sum(grepl("RecrDev", estimated_pars))` recruitment parameters
   - $log(R_0)$ controlling equilibrium recruitment
   - $h$ controlling the steepness of the stock-recruit relationship
   - `r nrow(model$recruit)` recruitment deviations parameters covering the range
-  `r min(model$recruit$Yr)`-`r max(model$recruit$Yr)`, with 
-  `r min(model$recruit$Yr[model$recruit$era=="Main"])`-`r max(model$recruit$Yr[model$recruit$era=="Main"])`
+  `r min(model$recruit$Yr)`-`r model$endyr`, with 
+  `r first_main`-`r last_main`
   representing the "main" period modeled as a zero-centered deviation vector
 - `r sum(sum(grepl("Q_extra", estimated_pars)))` extra standard deviation parameters
 for indices
+```{asis, exho = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+- 2 parameters representing the catchability in the two periods of the
+index for the recreational California fleet (all other catchability values were 
+derived analytical)
+```
 - `r sum(grepl("Size_DblN", estimated_pars))` selectivity parameters, of which
 `r sum(grepl("Size_DblN.*BLK", estimated_pars))` represented changes over time
 - `r sum(sum(grepl("Retain", estimated_pars)))` retention parameters, all of which
