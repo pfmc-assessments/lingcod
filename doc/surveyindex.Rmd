@@ -105,6 +105,21 @@ Five drops are attempted at each site for a maximum possible catch of
 Further details regarding the sample frame, site selection,
 and survey methodology are described by Harms et al. [-@harms2008].
 
-[**to do - get write-up from Tayna Rogers**]
 
+`r Spp` is a commonly encountered species in the NWFSC hook-and-line survey (Figure \@ref(fig:spp-sites)). Sample sizes by depth and year can be found in Tables 
+\@ref(tab:tab-depth-nwfschl) and \@ref(tab:tab-year-nwfschl).
+Note that depth was used as a continuous variable in the model, and depth bins were created for data exploration only. 
+
+A number of distributions were explored to fit an appropriate error distribution to the data.
+The final model included terms for Year, Site, Drop number within a site,
+second order depth, and a random effect for each observation.
+
+Models were fit using the “rstanarm” R package (version 2.21.1). Posterior predictive 
+checks of the Bayesian model fit for the binomial model and the positive model 
+were all reasonable (Figures \@ref(fig:fig-posterior-mean-nwfschl)  and 
+ \@ref(fig:fig-posterior-sd-nwfschl)). The model generated data sets with the 
+ proportion of zeros similar to the observed data (91\%; Figure \@ref(fig:fig-propzero-nwfschl)).
+The depth effect is masked by the site effect in the marginal effects (Figures \@ref(fig:marginal-nwfschl).
+A model without Site confirms that that depth follows the expected pattern observed in the data.
+The final index represents a similar trend to the arithmetic mean of the annual CPUE (Figure \@ref(fig:index_fits_all_fleets)).
 ```

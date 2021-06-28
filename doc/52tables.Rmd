@@ -50,11 +50,900 @@ ignore <- mapply(sa4ss::read_child, tablefiles[grepl("comm", tablefiles)])
 ignore <- mapply(sa4ss::read_child, dir_order("..", "tables", grep = "reccpuewa"))
 ignore <- mapply(sa4ss::read_child, tablefiles[grepl("rec", tablefiles)])
 ```
+```{asis, opts.label = "north"}
+\begin{table}
+
+\caption{\label{tab:tab-year-ORAtSea}Samples by year of lingcod from the  OR At Sea CPFV survey by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Drifts & Positive Drifts & Percent positive\\
+\midrule
+\cellcolor{gray!6}{2001} & \cellcolor{gray!6}{383} & \cellcolor{gray!6}{179} & \cellcolor{gray!6}{47\%}\\
+2003 & 602 & 339 & 56\%\\
+\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{424} & \cellcolor{gray!6}{248} & \cellcolor{gray!6}{58\%}\\
+2005 & 490 & 237 & 48\%\\
+\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{496} & \cellcolor{gray!6}{253} & \cellcolor{gray!6}{51\%}\\
+\addlinespace
+2007 & 593 & 249 & 42\%\\
+\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{539} & \cellcolor{gray!6}{215} & \cellcolor{gray!6}{40\%}\\
+2009 & 360 & 145 & 40\%\\
+\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{392} & \cellcolor{gray!6}{163} & \cellcolor{gray!6}{42\%}\\
+2011 & 361 & 179 & 50\%\\
+\addlinespace
+\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{618} & \cellcolor{gray!6}{292} & \cellcolor{gray!6}{47\%}\\
+2013 & 465 & 245 & 53\%\\
+\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{468} & \cellcolor{gray!6}{225} & \cellcolor{gray!6}{48\%}\\
+2015 & 403 & 167 & 41\%\\
+\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{457} & \cellcolor{gray!6}{196} & \cellcolor{gray!6}{43\%}\\
+\addlinespace
+2017 & 467 & 190 & 41\%\\
+\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{507} & \cellcolor{gray!6}{205} & \cellcolor{gray!6}{40\%}\\
+2019 & 447 & 159 & 36\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:tab-model-select-ORAtSea}Negative binomial model selection for the OR At Sea CPFV survey index for  lingcod.}
+\centering
+\begin{tabular}[t]{ll}
+\toprule
+Model & AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{19256.43}\\
+Year + Port + log(Effort) & 18415.84\\
+\cellcolor{gray!6}{Year + Port + Wave + log(Effort)} & \cellcolor{gray!6}{18083.25}\\
+Year + Port + Wave + DEPTH bin + log(Effort) & 18037.72\\
+\cellcolor{gray!6}{Year + Wave + DEPTH bin + log(Effort)} & \cellcolor{gray!6}{18273.32}\\
+\addlinespace
+Year + DEPTH bin + log(Effort) & 18576.12\\
+\cellcolor{gray!6}{Year + Port + DEPTH bin + log(Effort)} & \cellcolor{gray!6}{18378.51}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:tab-index-ORAtSea}Standardized index for the OR At Sea CPFV survey index with log-scale standard errors and 95 percent highest posterior density (HPD) intervals for lingcod.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & logSE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{2001} & \cellcolor{gray!6}{1.93} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{1.51} & \cellcolor{gray!6}{2.42}\\
+2003 & 2.68 & 0.11 & 2.13 & 3.32\\
+\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{1.89} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{1.49} & \cellcolor{gray!6}{2.36}\\
+2005 & 1.69 & 0.11 & 1.34 & 2.10\\
+\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{1.90} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{1.50} & \cellcolor{gray!6}{2.37}\\
+\addlinespace
+2007 & 1.21 & 0.12 & 0.95 & 1.52\\
+\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{1.15} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{0.91} & \cellcolor{gray!6}{1.43}\\
+2009 & 1.33 & 0.12 & 1.04 & 1.69\\
+\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{1.47} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{1.14} & \cellcolor{gray!6}{1.87}\\
+2011 & 1.82 & 0.12 & 1.44 & 2.28\\
+\addlinespace
+\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{1.76} & \cellcolor{gray!6}{0.11} & \cellcolor{gray!6}{1.40} & \cellcolor{gray!6}{2.19}\\
+2013 & 1.86 & 0.12 & 1.47 & 2.31\\
+\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{1.59} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{1.25} & \cellcolor{gray!6}{1.98}\\
+2015 & 1.74 & 0.12 & 1.36 & 2.20\\
+\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{1.53} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{1.19} & \cellcolor{gray!6}{1.93}\\
+\addlinespace
+2017 & 1.41 & 0.12 & 1.10 & 1.77\\
+\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{1.47} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{1.15} & \cellcolor{gray!6}{1.85}\\
+2019 & 1.22 & 0.13 & 0.94 & 1.55\\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
+<!--                         CALIFORNIA rec cpue tables                     -->
+\begin{table}
+\caption{\label{tab:tab-region-mrfss}Samples of lingcod in the northern model by subregion used in the index.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{Central} & \cellcolor{gray!6}{314} & \cellcolor{gray!6}{491} & \cellcolor{gray!6}{64\%}\\
+North & 350 & 496 & 71\%\\
+\cellcolor{gray!6}{South} & \cellcolor{gray!6}{107} & \cellcolor{gray!6}{145} & \cellcolor{gray!6}{74\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-year-mrfss}Samples of lingcod in the northern model by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{1980} & \cellcolor{gray!6}{103} & \cellcolor{gray!6}{122} & \cellcolor{gray!6}{84\%}\\
+1981 & 38 & 60 & 63\%\\
+\cellcolor{gray!6}{1982} & \cellcolor{gray!6}{33} & \cellcolor{gray!6}{66} & \cellcolor{gray!6}{50\%}\\
+1983 & 41 & 67 & 61\%\\
+\cellcolor{gray!6}{1984} & \cellcolor{gray!6}{56} & \cellcolor{gray!6}{89} & \cellcolor{gray!6}{63\%}\\
+\addlinespace
+1985 & 93 & 148 & 63\%\\
+\cellcolor{gray!6}{1986} & \cellcolor{gray!6}{70} & \cellcolor{gray!6}{109} & \cellcolor{gray!6}{64\%}\\
+1987 & 48 & 57 & 84\%\\
+\cellcolor{gray!6}{1988} & \cellcolor{gray!6}{43} & \cellcolor{gray!6}{65} & \cellcolor{gray!6}{66\%}\\
+1989 & 32 & 55 & 58\%\\
+\addlinespace
+\cellcolor{gray!6}{1995} & \cellcolor{gray!6}{33} & \cellcolor{gray!6}{45} & \cellcolor{gray!6}{73\%}\\
+1996 & 95 & 137 & 69\%\\
+\cellcolor{gray!6}{1999} & \cellcolor{gray!6}{86} & \cellcolor{gray!6}{112} & \cellcolor{gray!6}{77\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{table}
+\caption{\label{tab:tab-model-select-mrfss}Model selection for the MRFSS dockside survey index for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Model & Binomial $\Delta$AIC & Lognormal $\Delta$AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{53.69} & \cellcolor{gray!6}{87.46}\\
+YEAR + SubRegion & 22.62 & 27.41\\
+\cellcolor{gray!6}{YEAR + SubRegion + WAVE} & \cellcolor{gray!6}{0.00} & \cellcolor{gray!6}{0.00}\\
+YEAR + SubRegion + WAVE + AREA X & 0.14 & 0.10\\
+\cellcolor{gray!6}{YEAR + WAVE + AREA X} & \cellcolor{gray!6}{12.41} & \cellcolor{gray!6}{22.44}\\
+\addlinespace
+YEAR + AREA X & 32.57 & 51.56\\
+\cellcolor{gray!6}{YEAR + SubRegion + AREA X} & \cellcolor{gray!6}{22.27} & \cellcolor{gray!6}{27.59}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-index-mrfss}Standardized index for the MRFSS dockside survey index with log-scale standard errors and 95\%. highest
+       posterior density (HPD) intervals for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & logSE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{1980} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{0.18} & \cellcolor{gray!6}{0.09} & \cellcolor{gray!6}{0.17}\\
+1981 & 0.08 & 0.27 & 0.05 & 0.14\\
+\cellcolor{gray!6}{1982} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.32} & \cellcolor{gray!6}{0.02} & \cellcolor{gray!6}{0.07}\\
+1983 & 0.07 & 0.27 & 0.04 & 0.10\\
+\cellcolor{gray!6}{1984} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.25} & \cellcolor{gray!6}{0.03} & \cellcolor{gray!6}{0.09}\\
+\addlinespace
+1985 & 0.05 & 0.22 & 0.03 & 0.08\\
+\cellcolor{gray!6}{1986} & \cellcolor{gray!6}{0.05} & \cellcolor{gray!6}{0.23} & \cellcolor{gray!6}{0.03} & \cellcolor{gray!6}{0.08}\\
+1987 & 0.07 & 0.22 & 0.04 & 0.10\\
+\cellcolor{gray!6}{1988} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.26} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.10}\\
+1989 & 0.03 & 0.33 & 0.01 & 0.05\\
+\addlinespace
+\cellcolor{gray!6}{1995} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.26} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.10}\\
+1996 & 0.06 & 0.20 & 0.04 & 0.08\\
+\cellcolor{gray!6}{1999} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.18} & \cellcolor{gray!6}{0.03} & \cellcolor{gray!6}{0.06}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+```{asis, opts.label = "north"}
+\begin{table}
+\caption{\label{tab:tab-data-filter-crfspr}Data filtering steps CRFS PR dockside survey index for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{8em}>{\raggedright\arraybackslash}p{15em}c>{\centering\arraybackslash}p{8em}>{\centering\arraybackslash}p{8em}}
+\toprule
+Filter & Description & Trip & Positive Trips & Percent drifts retained\\
+\midrule
+\cellcolor{gray!6}{All data} & \cellcolor{gray!6}{Pre-filtered for drifts with marked for exclusion} & \cellcolor{gray!6}{20924} & \cellcolor{gray!6}{10056} & \cellcolor{gray!6}{48\%}\\
+MOnths samples & Remove waves less than 3 due to small sample sizes and fishery closures. & 20916 & 10053 & 48\%\\
+\cellcolor{gray!6}{Groundfish} & \cellcolor{gray!6}{Removed trips with no observed groundfish} & \cellcolor{gray!6}{18615} & \cellcolor{gray!6}{10053} & \cellcolor{gray!6}{54\%}\\
+HMS & Remove trips with more than half the catch composed of HMS species & 18613 & 10052 & 54\%\\
+\cellcolor{gray!6}{Final trips} & \cellcolor{gray!6}{Retained trips with at least 0.95 groundfish.} & \cellcolor{gray!6}{17371} & \cellcolor{gray!6}{9357} & \cellcolor{gray!6}{54\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-region-crfspr}Samples of lingcod in the northern model by subregion used in the index.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{15} & \cellcolor{gray!6}{5803} & \cellcolor{gray!6}{9718} & \cellcolor{gray!6}{60\%}\\
+23 & 3554 & 7653 & 46\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-year-crfspr}Samples of lingcod in the northern model by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{298} & \cellcolor{gray!6}{823} & \cellcolor{gray!6}{36\%}\\
+2005 & 640 & 1081 & 59\%\\
+\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{623} & \cellcolor{gray!6}{1227} & \cellcolor{gray!6}{51\%}\\
+2007 & 630 & 1189 & 53\%\\
+\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{493} & \cellcolor{gray!6}{1129} & \cellcolor{gray!6}{44\%}\\
+\addlinespace
+2009 & 539 & 1404 & 38\%\\
+\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{321} & \cellcolor{gray!6}{866} & \cellcolor{gray!6}{37\%}\\
+2011 & 512 & 969 & 53\%\\
+\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{435} & \cellcolor{gray!6}{780} & \cellcolor{gray!6}{56\%}\\
+2013 & 453 & 670 & 68\%\\
+\addlinespace
+\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{756} & \cellcolor{gray!6}{1117} & \cellcolor{gray!6}{68\%}\\
+2015 & 844 & 1283 & 66\%\\
+\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{692} & \cellcolor{gray!6}{1108} & \cellcolor{gray!6}{62\%}\\
+2017 & 745 & 1148 & 65\%\\
+\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{667} & \cellcolor{gray!6}{1149} & \cellcolor{gray!6}{58\%}\\
+\addlinespace
+2019 & 618 & 1151 & 54\%\\
+\cellcolor{gray!6}{2020} & \cellcolor{gray!6}{91} & \cellcolor{gray!6}{277} & \cellcolor{gray!6}{33\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-model-select-crfspr}Model selection for the CRFS PR dockside survey index for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Model & Binomial $\Delta$AIC & Gamma $\Delta$AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{1049.27} & \cellcolor{gray!6}{808.88}\\
+YEAR + CNTY & 68.37 & 75.93\\
+\cellcolor{gray!6}{YEAR + CNTY + WAVE} & \cellcolor{gray!6}{68.37} & \cellcolor{gray!6}{28.66}\\
+YEAR + CNTY + WAVE + AREA X & 0.00 & 0.00\\
+\cellcolor{gray!6}{YEAR + WAVE + AREA X} & \cellcolor{gray!6}{230.58} & \cellcolor{gray!6}{3.85}\\
+\addlinespace
+YEAR + AREA X & 226.94 & 808.88\\
+\cellcolor{gray!6}{YEAR + CNTY + AREA X} & \cellcolor{gray!6}{0.37} & \cellcolor{gray!6}{46.75}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-index-crfspr}Standardized index for the CRFS PR dockside survey index with log-scale standard errors and 95\%. highest
+       posterior density (HPD) intervals for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & logSE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{0.32} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.28} & \cellcolor{gray!6}{0.35}\\
+2005 & 0.70 & 0.04 & 0.65 & 0.75\\
+\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{0.60} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.56} & \cellcolor{gray!6}{0.65}\\
+2007 & 0.63 & 0.04 & 0.58 & 0.67\\
+\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{0.42} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.39} & \cellcolor{gray!6}{0.46}\\
+\addlinespace
+2009 & 0.38 & 0.04 & 0.35 & 0.41\\
+\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{0.35} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.31} & \cellcolor{gray!6}{0.39}\\
+2011 & 0.55 & 0.04 & 0.51 & 0.60\\
+\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{0.66} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.60} & \cellcolor{gray!6}{0.71}\\
+2013 & 0.84 & 0.04 & 0.77 & 0.91\\
+\addlinespace
+\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{0.87} & \cellcolor{gray!6}{0.03} & \cellcolor{gray!6}{0.82} & \cellcolor{gray!6}{0.93}\\
+2015 & 1.01 & 0.03 & 0.95 & 1.08\\
+\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{0.91} & \cellcolor{gray!6}{0.03} & \cellcolor{gray!6}{0.85} & \cellcolor{gray!6}{0.97}\\
+2017 & 0.81 & 0.03 & 0.75 & 0.86\\
+\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{0.68} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.63} & \cellcolor{gray!6}{0.73}\\
+\addlinespace
+2019 & 0.56 & 0.04 & 0.51 & 0.60\\
+\cellcolor{gray!6}{2020} & \cellcolor{gray!6}{0.32} & \cellcolor{gray!6}{0.11} & \cellcolor{gray!6}{0.26} & \cellcolor{gray!6}{0.39}\\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+```{asis, opts.label = "south"}
+\begin{table}
+\caption{\label{tab:tab-data-filter-crfspr}Data filtering steps CRFS PR dockside survey index for lingcod.}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{8em}>{\raggedright\arraybackslash}p{15em}c>{\centering\arraybackslash}p{8em}>{\centering\arraybackslash}p{8em}}
+\toprule
+Filter & Description & Trip & Positive Trips & Percent drifts retained\\
+\midrule
+\cellcolor{gray!6}{All data} & \cellcolor{gray!6}{Pre-filtered for drifts with marked for exclusion} & \cellcolor{gray!6}{111982} & \cellcolor{gray!6}{27858} & \cellcolor{gray!6}{25\%}\\
+MOnths samples & Remove waves less than 2 due to small sample sizes and fishery closures. & 109627 & 27767 & 25\%\\
+\cellcolor{gray!6}{Groundfish} & \cellcolor{gray!6}{Removed trips with no observed groundfish} & \cellcolor{gray!6}{67391} & \cellcolor{gray!6}{27767} & \cellcolor{gray!6}{41\%}\\
+HMS & Remove trips with more than half the catch composed of HMS species & 67370 & 27763 & 41\%\\
+\cellcolor{gray!6}{Final trips} & \cellcolor{gray!6}{Retained trips with at least 0.95 groundfish.} & \cellcolor{gray!6}{48303} & \cellcolor{gray!6}{22693} & \cellcolor{gray!6}{47\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-region-crfspr}Samples of lingcod in by subregion used in the index.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{521} & \cellcolor{gray!6}{3374} & \cellcolor{gray!6}{15\%}\\
+2 & 627 & 3356 & 19\%\\
+\cellcolor{gray!6}{3} & \cellcolor{gray!6}{12146} & \cellcolor{gray!6}{24865} & \cellcolor{gray!6}{49\%}\\
+4 & 6436 & 12107 & 53\%\\
+\cellcolor{gray!6}{5} & \cellcolor{gray!6}{2963} & \cellcolor{gray!6}{4601} & \cellcolor{gray!6}{64\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-year-crfspr}Samples of lingcod by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{384} & \cellcolor{gray!6}{2129} & \cellcolor{gray!6}{18\%}\\
+2005 & 1272 & 2947 & 43\%\\
+\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{1694} & \cellcolor{gray!6}{3770} & \cellcolor{gray!6}{45\%}\\
+2007 & 851 & 2682 & 32\%\\
+\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{932} & \cellcolor{gray!6}{2753} & \cellcolor{gray!6}{34\%}\\
+\addlinespace
+2009 & 908 & 2714 & 33\%\\
+\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{555} & \cellcolor{gray!6}{1856} & \cellcolor{gray!6}{30\%}\\
+2011 & 1005 & 2161 & 47\%\\
+\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{1183} & \cellcolor{gray!6}{2310} & \cellcolor{gray!6}{51\%}\\
+2013 & 1655 & 3273 & 51\%\\
+\addlinespace
+\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{2044} & \cellcolor{gray!6}{3419} & \cellcolor{gray!6}{60\%}\\
+2015 & 2646 & 4074 & 65\%\\
+\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{2306} & \cellcolor{gray!6}{3622} & \cellcolor{gray!6}{64\%}\\
+2017 & 1994 & 3373 & 59\%\\
+\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{1620} & \cellcolor{gray!6}{3099} & \cellcolor{gray!6}{52\%}\\
+\addlinespace
+2019 & 1339 & 3026 & 44\%\\
+\cellcolor{gray!6}{2020} & \cellcolor{gray!6}{305} & \cellcolor{gray!6}{1095} & \cellcolor{gray!6}{28\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-model-select-crfspr}Model selection for the CRFS PR dockside survey index for lingcod.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Model & Binomial $\Delta$AIC & Lognormal $\Delta$AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{6704.32} & \cellcolor{gray!6}{2539.55}\\
+YEAR + DISTRICT & 44.51 & 94.75\\
+\cellcolor{gray!6}{YEAR + DISTRICT + WAVE} & \cellcolor{gray!6}{39.92} & \cellcolor{gray!6}{22.27}\\
+YEAR + DISTRICT + WAVE + AREA X & 0.00 & 0.00\\
+\cellcolor{gray!6}{YEAR + WAVE + AREA X} & \cellcolor{gray!6}{2850.55} & \cellcolor{gray!6}{411.52}\\
+\addlinespace
+YEAR + AREA X & 3163.47 & 470.73\\
+\cellcolor{gray!6}{YEAR + DISTRICT + AREA X} & \cellcolor{gray!6}{4.01} & \cellcolor{gray!6}{71.41}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-index-crfspr}Standardized index for the CRFS PR dockside survey index with log-scale standard errors and 95\%. highest
+       posterior density (HPD) intervals for lingcod.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & logSE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{0.02} & \cellcolor{gray!6}{0.09} & \cellcolor{gray!6}{0.02} & \cellcolor{gray!6}{0.03}\\
+2005 & 0.08 & 0.07 & 0.07 & 0.10\\
+\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{0.08} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.09}\\
+2007 & 0.05 & 0.08 & 0.04 & 0.06\\
+\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{0.05} & \cellcolor{gray!6}{0.08} & \cellcolor{gray!6}{0.05} & \cellcolor{gray!6}{0.06}\\
+\addlinespace
+2009 & 0.05 & 0.08 & 0.04 & 0.06\\
+\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.09} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.05}\\
+2011 & 0.11 & 0.07 & 0.09 & 0.12\\
+\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{0.14} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{0.16}\\
+2013 & 0.15 & 0.07 & 0.13 & 0.17\\
+\addlinespace
+\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{0.22} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.19} & \cellcolor{gray!6}{0.25}\\
+2015 & 0.28 & 0.06 & 0.25 & 0.32\\
+\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{0.26} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.23} & \cellcolor{gray!6}{0.29}\\
+2017 & 0.19 & 0.07 & 0.17 & 0.21\\
+\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{0.13} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.11} & \cellcolor{gray!6}{0.15}\\
+\addlinespace
+2019 & 0.09 & 0.07 & 0.08 & 0.10\\
+\cellcolor{gray!6}{2020} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.10} & \cellcolor{gray!6}{0.03} & \cellcolor{gray!6}{0.04}\\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
+\begin{table}
+\caption{\label{tab:tab-data-filter-debwv}Data filtering steps DebWV onboard survey index for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{8em}>{\raggedright\arraybackslash}p{15em}c>{\centering\arraybackslash}p{8em}>{\centering\arraybackslash}p{8em}}
+\toprule
+Filter & Description & Trip & Positive Trips & Percent drifts retained\\
+\midrule
+\cellcolor{gray!6}{All} & \cellcolor{gray!6}{None} & \cellcolor{gray!6}{7192} & \cellcolor{gray!6}{3606} & \cellcolor{gray!6}{50\%}\\
+No catch & Remove no catch trips & 6691 & 3105 & 46\%\\
+\cellcolor{gray!6}{Sparse data} & \cellcolor{gray!6}{Remove District 6 and 1987} & \cellcolor{gray!6}{6395} & \cellcolor{gray!6}{2996} & \cellcolor{gray!6}{47\%}\\
+Time fished & Remove drifts fished less than 6 minutes & 6297 & 2978 & 47\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-depth-debwv}Positive samples of lingcod in the northern model by depth (fm).}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{(0,10]} & \cellcolor{gray!6}{149} & \cellcolor{gray!6}{476} & \cellcolor{gray!6}{31\%}\\
+(10,20] & 435 & 1343 & 32\%\\
+\cellcolor{gray!6}{(20,30]} & \cellcolor{gray!6}{398} & \cellcolor{gray!6}{1197} & \cellcolor{gray!6}{33\%}\\
+(30,40] & 431 & 1296 & 33\%\\
+\cellcolor{gray!6}{(40,50]} & \cellcolor{gray!6}{354} & \cellcolor{gray!6}{955} & \cellcolor{gray!6}{37\%}\\
+\addlinespace
+(50,60] & 173 & 528 & 33\%\\
+\cellcolor{gray!6}{(60,70]} & \cellcolor{gray!6}{44} & \cellcolor{gray!6}{231} & \cellcolor{gray!6}{19\%}\\
+(70,118] & 41 & 271 & 15\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-region-debwv}Samples of lingcod in the northern model by subregion used in the index.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{V1} & \cellcolor{gray!6}{390} & \cellcolor{gray!6}{1279} & \cellcolor{gray!6}{30\%}\\
+V2 & 400 & 1348 & 30\%\\
+\cellcolor{gray!6}{V3} & \cellcolor{gray!6}{486} & \cellcolor{gray!6}{1533} & \cellcolor{gray!6}{32\%}\\
+V4 & 749 & 2137 & 35\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-year-debwv}Samples of lingcod in the northern model by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{1988} & \cellcolor{gray!6}{188} & \cellcolor{gray!6}{391} & \cellcolor{gray!6}{48\%}\\
+1989 & 172 & 421 & 41\%\\
+\cellcolor{gray!6}{1990} & \cellcolor{gray!6}{48} & \cellcolor{gray!6}{111} & \cellcolor{gray!6}{43\%}\\
+1991 & 70 & 126 & 56\%\\
+\cellcolor{gray!6}{1992} & \cellcolor{gray!6}{163} & \cellcolor{gray!6}{426} & \cellcolor{gray!6}{38\%}\\
+\addlinespace
+1993 & 159 & 456 & 35\%\\
+\cellcolor{gray!6}{1994} & \cellcolor{gray!6}{156} & \cellcolor{gray!6}{534} & \cellcolor{gray!6}{29\%}\\
+1995 & 236 & 752 & 31\%\\
+\cellcolor{gray!6}{1996} & \cellcolor{gray!6}{250} & \cellcolor{gray!6}{938} & \cellcolor{gray!6}{27\%}\\
+1997 & 392 & 1268 & 31\%\\
+\addlinespace
+\cellcolor{gray!6}{1998} & \cellcolor{gray!6}{191} & \cellcolor{gray!6}{874} & \cellcolor{gray!6}{22\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-model-select-debwv}Model selection for the DebWV onboard survey index for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Model & Binomial $\Delta$AIC & Lognormal $\Delta$AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{349.71} & \cellcolor{gray!6}{286.68}\\
+YEAR + MegaReef & 200.15 & 26.69\\
+\cellcolor{gray!6}{YEAR + MegaReef + WAVE} & \cellcolor{gray!6}{129.54} & \cellcolor{gray!6}{22.94}\\
+YEAR + MegaReef + WAVE + DEPTH bin & 0.00 & 0.00\\
+\cellcolor{gray!6}{YEAR + WAVE + DEPTH bin} & \cellcolor{gray!6}{57.95} & \cellcolor{gray!6}{102.82}\\
+\addlinespace
+YEAR + DEPTH bin & 114.18 & 113.02\\
+\cellcolor{gray!6}{YEAR + MegaReef + DEPTH bin} & \cellcolor{gray!6}{47.28} & \cellcolor{gray!6}{4.98}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-index-debwv}Standardized index for the DebWV onboard survey index with log-scale standard errors and 95\%. highest
+       posterior density (HPD) intervals for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & logSE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{1988} & \cellcolor{gray!6}{0.13} & \cellcolor{gray!6}{0.17} & \cellcolor{gray!6}{0.09} & \cellcolor{gray!6}{0.17}\\
+1989 & 0.11 & 0.17 & 0.08 & 0.15\\
+\cellcolor{gray!6}{1990} & \cellcolor{gray!6}{0.10} & \cellcolor{gray!6}{0.21} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.14}\\
+1991 & 0.09 & 0.20 & 0.06 & 0.13\\
+\cellcolor{gray!6}{1992} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.17} & \cellcolor{gray!6}{0.05} & \cellcolor{gray!6}{0.10}\\
+\addlinespace
+1993 & 0.05 & 0.18 & 0.04 & 0.07\\
+\cellcolor{gray!6}{1994} & \cellcolor{gray!6}{0.05} & \cellcolor{gray!6}{0.18} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.08}\\
+1995 & 0.07 & 0.17 & 0.05 & 0.10\\
+\cellcolor{gray!6}{1996} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.18} & \cellcolor{gray!6}{0.05} & \cellcolor{gray!6}{0.09}\\
+1997 & 0.09 & 0.17 & 0.06 & 0.13\\
+\addlinespace
+\cellcolor{gray!6}{1998} & \cellcolor{gray!6}{0.06} & \cellcolor{gray!6}{0.19} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.08}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-data-filter-cpfvonboard}Data filtering steps California \glsentrylong{cpfv} onboard survey index for lingcod in the southern model.}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{15em}c>{\centering\arraybackslash}p{5em}>{\centering\arraybackslash}p{5em}}
+\toprule
+Filter & Description & Trip & Positive Trips & Percent drifts retained\\
+\midrule
+\cellcolor{gray!6}{All} & \cellcolor{gray!6}{Download from SQL; identifiable errors filtered} & \cellcolor{gray!6}{41168} & \cellcolor{gray!6}{1866} & \cellcolor{gray!6}{5\%}\\
+Fishery closed & Removed samples when target fish fishery closed & 33224 & 1834 & 6\%\\
+\cellcolor{gray!6}{Ocean only} & \cellcolor{gray!6}{Removed samples from major bays} & \cellcolor{gray!6}{33029} & \cellcolor{gray!6}{1834} & \cellcolor{gray!6}{6\%}\\
+Catch & Removed samples with zero catch of any species & 30469 & 1834 & 6\%\\
+\cellcolor{gray!6}{Depth} & \cellcolor{gray!6}{Removed samples in less than max depth of species} & \cellcolor{gray!6}{29858} & \cellcolor{gray!6}{1817} & \cellcolor{gray!6}{6\%}\\
+\addlinespace
+Time fished & Removed upper two percent of time fished & 29252 & 1802 & 6\%\\
+\cellcolor{gray!6}{Percent groundfish in samples} & \cellcolor{gray!6}{Removed samples with fewer groundfish than when the target observed} & \cellcolor{gray!6}{14664} & \cellcolor{gray!6}{1718} & \cellcolor{gray!6}{12\%}\\
+Another area gfish filter & Removed samples & 9043 & 1469 & 16\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-depth-cpfvonboard}Positive samples of lingcod in the southern model by depth (fm).}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{(0,10]} & \cellcolor{gray!6}{80} & \cellcolor{gray!6}{415} & \cellcolor{gray!6}{19\%}\\
+(10,20] & 341 & 1717 & 20\%\\
+\cellcolor{gray!6}{(20,30]} & \cellcolor{gray!6}{484} & \cellcolor{gray!6}{2499} & \cellcolor{gray!6}{19\%}\\
+(30,40] & 211 & 1683 & 13\%\\
+\cellcolor{gray!6}{(40,50]} & \cellcolor{gray!6}{276} & \cellcolor{gray!6}{1918} & \cellcolor{gray!6}{14\%}\\
+\addlinespace
+(50,60] & 77 & 811 & 9\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-region-cpfvonboard}Samples of lingcod in the southern model by subregion used in the index.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{4} & \cellcolor{gray!6}{1469} & \cellcolor{gray!6}{9043} & \cellcolor{gray!6}{16\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-year-cpfvonboard}Samples of lingcod in the southern model by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{1999} & \cellcolor{gray!6}{29} & \cellcolor{gray!6}{154} & \cellcolor{gray!6}{19\%}\\
+2000 & 2 & 73 & 3\%\\
+\cellcolor{gray!6}{2001} & \cellcolor{gray!6}{9} & \cellcolor{gray!6}{86} & \cellcolor{gray!6}{10\%}\\
+2002 & 21 & 116 & 18\%\\
+\cellcolor{gray!6}{2003} & \cellcolor{gray!6}{93} & \cellcolor{gray!6}{325} & \cellcolor{gray!6}{29\%}\\
+\addlinespace
+2004 & 54 & 466 & 12\%\\
+\cellcolor{gray!6}{2005} & \cellcolor{gray!6}{38} & \cellcolor{gray!6}{290} & \cellcolor{gray!6}{13\%}\\
+2006 & 49 & 360 & 14\%\\
+\cellcolor{gray!6}{2007} & \cellcolor{gray!6}{46} & \cellcolor{gray!6}{490} & \cellcolor{gray!6}{9\%}\\
+2008 & 24 & 327 & 7\%\\
+\addlinespace
+\cellcolor{gray!6}{2009} & \cellcolor{gray!6}{21} & \cellcolor{gray!6}{409} & \cellcolor{gray!6}{5\%}\\
+2010 & 33 & 450 & 7\%\\
+\cellcolor{gray!6}{2011} & \cellcolor{gray!6}{74} & \cellcolor{gray!6}{644} & \cellcolor{gray!6}{11\%}\\
+2012 & 121 & 697 & 17\%\\
+\cellcolor{gray!6}{2013} & \cellcolor{gray!6}{101} & \cellcolor{gray!6}{653} & \cellcolor{gray!6}{15\%}\\
+\addlinespace
+2014 & 134 & 617 & 22\%\\
+\cellcolor{gray!6}{2015} & \cellcolor{gray!6}{145} & \cellcolor{gray!6}{592} & \cellcolor{gray!6}{24\%}\\
+2016 & 164 & 597 & 27\%\\
+\cellcolor{gray!6}{2017} & \cellcolor{gray!6}{149} & \cellcolor{gray!6}{627} & \cellcolor{gray!6}{24\%}\\
+2018 & 95 & 578 & 16\%\\
+\addlinespace
+\cellcolor{gray!6}{2019} & \cellcolor{gray!6}{67} & \cellcolor{gray!6}{492} & \cellcolor{gray!6}{14\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-model-select-cpfvonboard}Model selection for the California \glsentrylong{cpfv} onboard survey index for lingcod in the southern model.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Model & Binomial $\Delta$AIC & Lognormal $\Delta$AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{594.73} & \cellcolor{gray!6}{141.15}\\
+YEAR + DISTRICT & 67.23 & 23.26\\
+\cellcolor{gray!6}{YEAR + DISTRICT + WAVE} & \cellcolor{gray!6}{13.38} & \cellcolor{gray!6}{0.00}\\
+YEAR + DISTRICT + WAVE + DEPTH bin & 0.00 & 3.49\\
+\cellcolor{gray!6}{YEAR + WAVE + DEPTH bin} & \cellcolor{gray!6}{165.27} & \cellcolor{gray!6}{2.41}\\
+\addlinespace
+YEAR + DEPTH bin & 254.91 & 23.60\\
+\cellcolor{gray!6}{YEAR + DISTRICT + DEPTH bin} & \cellcolor{gray!6}{50.93} & \cellcolor{gray!6}{25.23}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-index-cpfvonboard}Standardized index for the California \glsentrylong{cpfv} onboard survey index with log-scale standard errors and 95\%. highest posterior density (HPD) intervals for lingcod in the southern model.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & logSE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{1999} & \cellcolor{gray!6}{0.24} & \cellcolor{gray!6}{0.34} & \cellcolor{gray!6}{0.11} & \cellcolor{gray!6}{0.43}\\
+2000 & 0.03 & 0.96 & 0.00 & 0.10\\
+\cellcolor{gray!6}{2001} & \cellcolor{gray!6}{0.22} & \cellcolor{gray!6}{0.50} & \cellcolor{gray!6}{0.07} & \cellcolor{gray!6}{0.49}\\
+2002 & 0.19 & 0.33 & 0.09 & 0.33\\
+\cellcolor{gray!6}{2003} & \cellcolor{gray!6}{0.31} & \cellcolor{gray!6}{0.29} & \cellcolor{gray!6}{0.17} & \cellcolor{gray!6}{0.52}\\
+\addlinespace
+2004 & 0.05 & 0.25 & 0.03 & 0.08\\
+\cellcolor{gray!6}{2005} & \cellcolor{gray!6}{0.22} & \cellcolor{gray!6}{0.35} & \cellcolor{gray!6}{0.10} & \cellcolor{gray!6}{0.42}\\
+2006 & 0.27 & 0.35 & 0.12 & 0.50\\
+\cellcolor{gray!6}{2007} & \cellcolor{gray!6}{0.19} & \cellcolor{gray!6}{0.37} & \cellcolor{gray!6}{0.08} & \cellcolor{gray!6}{0.36}\\
+2008 & 0.18 & 0.40 & 0.08 & 0.37\\
+\addlinespace
+\cellcolor{gray!6}{2009} & \cellcolor{gray!6}{0.10} & \cellcolor{gray!6}{0.43} & \cellcolor{gray!6}{0.04} & \cellcolor{gray!6}{0.21}\\
+2010 & 0.12 & 0.38 & 0.05 & 0.23\\
+\cellcolor{gray!6}{2011} & \cellcolor{gray!6}{0.25} & \cellcolor{gray!6}{0.33} & \cellcolor{gray!6}{0.13} & \cellcolor{gray!6}{0.45}\\
+2012 & 0.38 & 0.30 & 0.20 & 0.64\\
+\cellcolor{gray!6}{2013} & \cellcolor{gray!6}{0.34} & \cellcolor{gray!6}{0.30} & \cellcolor{gray!6}{0.17} & \cellcolor{gray!6}{0.58}\\
+\addlinespace
+2014 & 0.45 & 0.28 & 0.25 & 0.75\\
+\cellcolor{gray!6}{2015} & \cellcolor{gray!6}{0.63} & \cellcolor{gray!6}{0.28} & \cellcolor{gray!6}{0.35} & \cellcolor{gray!6}{1.02}\\
+2016 & 0.83 & 0.27 & 0.46 & 1.34\\
+\cellcolor{gray!6}{2017} & \cellcolor{gray!6}{0.57} & \cellcolor{gray!6}{0.29} & \cellcolor{gray!6}{0.31} & \cellcolor{gray!6}{0.93}\\
+2018 & 0.46 & 0.31 & 0.24 & 0.80\\
+\addlinespace
+\cellcolor{gray!6}{2019} & \cellcolor{gray!6}{0.36} & \cellcolor{gray!6}{0.34} & \cellcolor{gray!6}{0.17} & \cellcolor{gray!6}{0.64}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-region-ccfrp}Samples of lingcod in the northern model by subregion used in the index.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{South Cape Mendocino} & \cellcolor{gray!6}{131} & \cellcolor{gray!6}{289} & \cellcolor{gray!6}{45\%}\\
+Ten Mile & 139 & 297 & 47\%\\
+\cellcolor{gray!6}{Stewarts Point} & \cellcolor{gray!6}{127} & \cellcolor{gray!6}{293} & \cellcolor{gray!6}{43\%}\\
+Bodega Head & 139 & 275 & 51\%\\
+\cellcolor{gray!6}{Ano Nuevo} & \cellcolor{gray!6}{701} & \cellcolor{gray!6}{1879} & \cellcolor{gray!6}{37\%}\\
+\addlinespace
+Point Lobos & 553 & 1369 & 40\%\\
+\cellcolor{gray!6}{Piedras Blancas} & \cellcolor{gray!6}{384} & \cellcolor{gray!6}{953} & \cellcolor{gray!6}{40\%}\\
+Point Buchon & 535 & 1324 & 40\%\\
+\cellcolor{gray!6}{Anacapa Island} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{52} & \cellcolor{gray!6}{6\%}\\
+Carrington Point & 93 & 182 & 51\%\\
+\addlinespace
+\cellcolor{gray!6}{South La Jolla} & \cellcolor{gray!6}{9} & \cellcolor{gray!6}{50} & \cellcolor{gray!6}{18\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-depth-ccfrp}Positive samples of lingcod in the northern model by depth (fm).}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{(0,10]} & \cellcolor{gray!6}{589} & \cellcolor{gray!6}{1809} & \cellcolor{gray!6}{33\%}\\
+(10,15] & 1215 & 2942 & 41\%\\
+\cellcolor{gray!6}{(15,20]} & \cellcolor{gray!6}{834} & \cellcolor{gray!6}{1827} & \cellcolor{gray!6}{46\%}\\
+(20,30] & 176 & 385 & 46\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-year-ccfrp}Samples of lingcod in the northern model by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Samples & Positive Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{2007} & \cellcolor{gray!6}{87} & \cellcolor{gray!6}{552} & \cellcolor{gray!6}{16\%}\\
+2008 & 134 & 564 & 24\%\\
+\cellcolor{gray!6}{2009} & \cellcolor{gray!6}{94} & \cellcolor{gray!6}{370} & \cellcolor{gray!6}{25\%}\\
+2010 & 142 & 420 & 34\%\\
+\cellcolor{gray!6}{2011} & \cellcolor{gray!6}{170} & \cellcolor{gray!6}{374} & \cellcolor{gray!6}{45\%}\\
+\addlinespace
+2012 & 237 & 397 & 60\%\\
+\cellcolor{gray!6}{2013} & \cellcolor{gray!6}{201} & \cellcolor{gray!6}{428} & \cellcolor{gray!6}{47\%}\\
+2014 & 262 & 449 & 58\%\\
+\cellcolor{gray!6}{2015} & \cellcolor{gray!6}{135} & \cellcolor{gray!6}{224} & \cellcolor{gray!6}{60\%}\\
+2016 & 240 & 429 & 56\%\\
+\addlinespace
+\cellcolor{gray!6}{2017} & \cellcolor{gray!6}{304} & \cellcolor{gray!6}{590} & \cellcolor{gray!6}{52\%}\\
+2018 & 332 & 700 & 47\%\\
+\cellcolor{gray!6}{2019} & \cellcolor{gray!6}{279} & \cellcolor{gray!6}{740} & \cellcolor{gray!6}{38\%}\\
+2020 & 197 & 726 & 27\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-model-select-ccfrp}Model selection for the CCFRP survey index for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Model & Binomial $\Delta$AIC & Lognormal $\Delta$AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{873.41} & \cellcolor{gray!6}{775.69}\\
+YEAR + AREA & 237.89 & 160.63\\
+\cellcolor{gray!6}{YEAR + AREA + SITE} & \cellcolor{gray!6}{55.57} & \cellcolor{gray!6}{46.76}\\
+YEAR + AREA + SITE + DEPTH bin & 0.00 & 0.00\\
+\cellcolor{gray!6}{YEAR + SITE + DEPTH bin} & \cellcolor{gray!6}{83.23} & \cellcolor{gray!6}{403.90}\\
+\addlinespace
+YEAR + DEPTH bin & 241.15 & 497.94\\
+\cellcolor{gray!6}{YEAR + AREA + DEPTH bin} & \cellcolor{gray!6}{151.37} & \cellcolor{gray!6}{97.41}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-index-ccfrp}Standardized index for the CCFRP survey index with log-scale standard errors and 95\%. highest
+       posterior density (HPD) intervals for lingcod in the northern model.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & logSE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{2007} & \cellcolor{gray!6}{0.24} & \cellcolor{gray!6}{0.19} & \cellcolor{gray!6}{0.16} & \cellcolor{gray!6}{0.33}\\
+2008 & 0.30 & 0.16 & 0.21 & 0.40\\
+\cellcolor{gray!6}{2009} & \cellcolor{gray!6}{0.35} & \cellcolor{gray!6}{0.17} & \cellcolor{gray!6}{0.25} & \cellcolor{gray!6}{0.49}\\
+2010 & 0.45 & 0.14 & 0.33 & 0.58\\
+\cellcolor{gray!6}{2011} & \cellcolor{gray!6}{0.63} & \cellcolor{gray!6}{0.13} & \cellcolor{gray!6}{0.49} & \cellcolor{gray!6}{0.79}\\
+\addlinespace
+2012 & 0.85 & 0.10 & 0.69 & 1.03\\
+\cellcolor{gray!6}{2013} & \cellcolor{gray!6}{0.77} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{0.60} & \cellcolor{gray!6}{0.97}\\
+2014 & 1.08 & 0.10 & 0.87 & 1.30\\
+\cellcolor{gray!6}{2015} & \cellcolor{gray!6}{1.19} & \cellcolor{gray!6}{0.11} & \cellcolor{gray!6}{0.94} & \cellcolor{gray!6}{1.46}\\
+2016 & 0.92 & 0.11 & 0.74 & 1.13\\
+\addlinespace
+\cellcolor{gray!6}{2017} & \cellcolor{gray!6}{0.78} & \cellcolor{gray!6}{0.10} & \cellcolor{gray!6}{0.63} & \cellcolor{gray!6}{0.95}\\
+2018 & 0.56 & 0.11 & 0.44 & 0.68\\
+\cellcolor{gray!6}{2019} & \cellcolor{gray!6}{0.38} & \cellcolor{gray!6}{0.13} & \cellcolor{gray!6}{0.29} & \cellcolor{gray!6}{0.49}\\
+2020 & 0.43 & 0.15 & 0.31 & 0.56\\
+\bottomrule
+\end{tabular}
+\end{table}
+<!--                                                                        -->
+<!--                                                                        -->
+<!--                                                                        -->
+
+
+
+
+
+
+
+
 
 ```{r, fi-index-ormarres-tables, results = "asis", eval = grepl("North", params$area)}
 xx <- dir(file.path("..", "tables"), pattern = "fi-index-ormarres", full.names= TRUE)
 ignore <- mapply(sa4ss::read_child, xx[order(file.info(xx)$mtime)])
 ```
+
+<!-- Hook and line index -->
+```{asis, opts.label = "south"}
+\begin{table}
+\caption{\label{tab:tab-depth-nwfschl}Positive samples of lingcod in the \glsentrylong{s-hkl} by depth (fm).}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Positive Samples & Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{(0,50]} & \cellcolor{gray!6}{4} & \cellcolor{gray!6}{207} & \cellcolor{gray!6}{2\%}\\
+(50,75] & 86 & 724 & 12\%\\
+\cellcolor{gray!6}{(75,100]} & \cellcolor{gray!6}{226} & \cellcolor{gray!6}{2383} & \cellcolor{gray!6}{9\%}\\
+(100,125] & 123 & 1620 & 8\%\\
+\cellcolor{gray!6}{(125,150]} & \cellcolor{gray!6}{101} & \cellcolor{gray!6}{1121} & \cellcolor{gray!6}{9\%}\\
+\addlinespace
+(150,175] & 98 & 982 & 10\%\\
+\cellcolor{gray!6}{(175,200]} & \cellcolor{gray!6}{20} & \cellcolor{gray!6}{268} & \cellcolor{gray!6}{7\%}\\
+(200,230] & 14 & 97 & 14\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-depthsite-nwfschl}Samples of lingcod in the \glsentrylong{s-hkl} by area and depth bins (ft).}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lllllllll}
+\toprule
+Area name & (125,150] & (175,200] & (200,230] & (0,50] & (50,75] & (75,100] & (100,125] & (150,175]\\
+\midrule
+\cellcolor{gray!6}{Fourteen Mile Bank} & \cellcolor{gray!6}{1\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{}\\
+107 and 118 Banks &  & 5\% & 0\% &  &  &  &  & \\
+\cellcolor{gray!6}{43 Fathom Bank} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{3\%} & \cellcolor{gray!6}{10\%} & \cellcolor{gray!6}{}\\
+Anacapa Island & 18\% & 0\% &  &  & 0\% & 4\% & 4\% & 9\%\\
+\cellcolor{gray!6}{Catalina Island} & \cellcolor{gray!6}{10\%} & \cellcolor{gray!6}{11\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{1\%} & \cellcolor{gray!6}{1\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{11\%}\\
+\addlinespace
+Central Coast &  &  &  &  &  & 2\% & 0\% & \\
+\cellcolor{gray!6}{Cherry Bank} & \cellcolor{gray!6}{10\%} & \cellcolor{gray!6}{5\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{9\%} & \cellcolor{gray!6}{10\%} & \cellcolor{gray!6}{}\\
+Cortez Bank & 4\% &  &  & 12\% & 6\% & 5\% & 3\% & 7\%\\
+\cellcolor{gray!6}{Garrett Bank} & \cellcolor{gray!6}{6\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{}\\
+Harrison Reef & 0\% &  &  &  &  & 2\% & 1\% & \\
+\addlinespace
+\cellcolor{gray!6}{Hidden Reef} & \cellcolor{gray!6}{25\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{7\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{9\%}\\
+Kidney Bank & 11\% &  &  &  &  &  & 12\% & 0\%\\
+\cellcolor{gray!6}{Nine Mile Bank} & \cellcolor{gray!6}{1\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{0\%}\\
+Osborn Bank &  &  &  & 0\% & 15\% & 32\% &  & 24\%\\
+\cellcolor{gray!6}{Point Conception/Arguello} & \cellcolor{gray!6}{14\%} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{11\%} & \cellcolor{gray!6}{11\%} & \cellcolor{gray!6}{3\%}\\
+\addlinespace
+Potato Bank & 4\% &  &  &  &  & 20\% & 8\% & \\
+\cellcolor{gray!6}{San Clemente Island} & \cellcolor{gray!6}{8\%} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{1\%} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{6\%} & \cellcolor{gray!6}{1\%} & \cellcolor{gray!6}{5\%}\\
+San Miguel Island & 10\% &  &  &  & 41\% & 22\% & 10\% & \\
+\cellcolor{gray!6}{San Nicolas Island East} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{17\%} & \cellcolor{gray!6}{25\%} & \cellcolor{gray!6}{33\%} & \cellcolor{gray!6}{5\%}\\
+San Nicolas Island West & 40\% & 0\% &  &  & 5\% & 11\% & 20\% & 5\%\\
+\addlinespace
+\cellcolor{gray!6}{San Pedro Bay} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{4\%} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{}\\
+Santa Barbara &  &  &  & 1\% & 17\% & 5\% &  & \\
+\cellcolor{gray!6}{Santa Barbara Channel} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{2\%} & \cellcolor{gray!6}{13\%}\\
+Santa Barbara Island & 8\% & 8\% & 0\% & 4\% & 0\% & 12\% & 15\% & 19\%\\
+\cellcolor{gray!6}{Santa Cruz Island} & \cellcolor{gray!6}{33\%} & \cellcolor{gray!6}{15\%} & \cellcolor{gray!6}{20\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{6\%} & \cellcolor{gray!6}{9\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{17\%}\\
+\addlinespace
+Santa Monica Bay & 1\% &  &  &  &  & 1\% & 0\% & \\
+\cellcolor{gray!6}{Santa Rosa Flats} & \cellcolor{gray!6}{11\%} & \cellcolor{gray!6}{6\%} & \cellcolor{gray!6}{15\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{9\%} & \cellcolor{gray!6}{11\%}\\
+Santa Rosa Island &  &  &  &  & 18\% & 19\% & 0\% & \\
+\cellcolor{gray!6}{Sixty Mile Bank} & \cellcolor{gray!6}{2\%} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{2\%} & \cellcolor{gray!6}{0\%}\\
+South Coast &  &  &  & 0\% & 3\% & 6\% &  & \\
+\addlinespace
+\cellcolor{gray!6}{Tanner Bank} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{7\%} & \cellcolor{gray!6}{0\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{3\%} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{0\%}\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}
+\caption{\label{tab:tab-year-nwfschl}Samples of lingcod in the \glsentrylong{s-hkl} by year.}
+\centering
+\begin{tabular}[t]{lrrl}
+\toprule
+Year & Positive Samples & Samples & Percent Positive\\
+\midrule
+\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{29} & \cellcolor{gray!6}{270} & \cellcolor{gray!6}{11\%}\\
+2005 & 27 & 307 & 9\%\\
+\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{17} & \cellcolor{gray!6}{303} & \cellcolor{gray!6}{6\%}\\
+2007 & 27 & 335 & 8\%\\
+\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{11} & \cellcolor{gray!6}{412} & \cellcolor{gray!6}{3\%}\\
+\addlinespace
+2009 & 16 & 405 & 4\%\\
+\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{11} & \cellcolor{gray!6}{414} & \cellcolor{gray!6}{3\%}\\
+2011 & 30 & 393 & 8\%\\
+\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{53} & \cellcolor{gray!6}{414} & \cellcolor{gray!6}{13\%}\\
+2013 & 62 & 409 & 15\%\\
+\addlinespace
+\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{67} & \cellcolor{gray!6}{530} & \cellcolor{gray!6}{13\%}\\
+2015 & 75 & 615 & 12\%\\
+\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{77} & \cellcolor{gray!6}{623} & \cellcolor{gray!6}{12\%}\\
+2017 & 69 & 652 & 11\%\\
+\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{64} & \cellcolor{gray!6}{660} & \cellcolor{gray!6}{10\%}\\
+\addlinespace
+2019 & 37 & 660 & 6\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
 
 <!-- Sample size tables -->
 ```{r, comp-sample-size-tables, results = "asis"}
@@ -94,5 +983,7 @@ table_compweight(model)
 ```{r tables-model-sens, results = "asis"}
 table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area))
 table_sens(string_switchletter("../tables/sens_table_s_index.csv", params$area))
+#table_sens(string_switchletter("../tables/sens_table_s_comp.csv", params$area))
+#table_sens("../tables/table_compare_north_vs_south.csv")
 ```
 \end{landscape}

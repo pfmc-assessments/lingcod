@@ -127,7 +127,7 @@ sa4ss::read_child("model-selection.Rmd")
 
 ### Base model results
 
-```{r render-model-selection, results = "asis"}
+```{r render-model-results, results = "asis"}
 sa4ss::read_child("model-results.Rmd")
 ```
 
@@ -139,7 +139,7 @@ sa4ss::read_child("model-results.Rmd")
 
 #### Sensitivity Analyses
 
-```{r render-model-selection, results = "asis"}
+```{r render-model-sensitivities, results = "asis"}
 sa4ss::read_child("model-sensitivities.Rmd")
 ```
 

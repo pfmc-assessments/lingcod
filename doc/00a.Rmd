@@ -46,6 +46,8 @@ knitr::knit_engines$set(asis = function(options) {
   if (options$echo && options$eval) knitr::knit_child(text = options$code)
 })
 # Define knitr chunk options with names
+# Use this within the chunk options as e.g.,
+# opts.label = "north"
 knitr::opts_template$set(north = list(
   echo = TRUE,
   eval = ifelse(grepl("North", params$area), TRUE, FALSE),
@@ -58,6 +60,7 @@ knitr::opts_template$set(south = list(
 ))
 ```
 
+<!-- Define areas as words using degree minute notation -->
 \newcommand\CapeM{40\textdegree 10\textquotesingle N}
 \newcommand\PtC{34\textdegree 27\textquotesingle N}
 \newcommand\CAOR{42\textdegree 00\textquotesingle N}

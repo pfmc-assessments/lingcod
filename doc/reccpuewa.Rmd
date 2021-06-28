@@ -33,9 +33,12 @@ knitr::opts_template$set(execute = list(
   include = FALSE,
   echo = FALSE
 ))
+
+file_reccpuewaresults <- file.path("..", "data-raw", "reccpuewa-results.RData")
+file_reccpuewaeverything <- file.path("..", "data-raw", "reccpuewa-everything.RData")
 ```
 
-```{r reccpuewa-objects}
+```{r reccpuewa-objects, eval = FALSE, echo = FALSE}
 #
 # Response variable in the data set
 colresponse <- sym(utils_name("Common"))
@@ -83,7 +86,6 @@ portgroup <- data.frame(
 file_reccpuewadockside81 <- file.path("..", "data-raw", "Sport Dockside Interview_1981-1989.txt")
 file_reccpuewadockside90 <- file.path("..", "data-raw", "Sport Dockside Interviews 1990-2016.txt")
 file_reccpuewadockside17 <- file.path("..", "data-raw", "Sport Dockside Interviews 2017-2020.csv")
-file_reccpuewaresults <- file.path("..", "data-raw", "reccpuewa-results.RData")
 file_reccpuewafigures <- file.path("reccpuewa-figures.Rmd")
 WA_dockside_dat_81_89 <- read.csv(file_reccpuewadockside81)
 WA_dockside_dat_90_14 <- read.csv(file_reccpuewadockside90)
@@ -335,32 +337,6 @@ if (filter_SM) {
   reccpuewa_dataforEM <- fishprob
 }
 
-```
-```{r todocleanthisup, echo = FALSE, include = FALSE, eval = FALSE}
-###############################################################################
-# clean up following code
-#
-# WRITE TWO DATA FRAMES: 
-# 1) EQUAL NUMBER OF FALSE POSTIVES AND FALSE NEGATIVES
-# 2) DROP ONLY THE 'TRUE NEGATIVES' (KEEP FALSE NEGATIVES... 'LOW PROBABILITY' TRIPS THAT STILL CAUGHT LINGCOD)
-# BALANCE FALSE POSITIVES AND FALSE NEGATIVES
-balanced_FPFN.df <- fishprob[fishprob$prob>=best.thresh,]
-dim(balanced_FPFN.df)
-length(which(balanced_FPFN.df[[colresponse]] >0))
-summary(balanced_FPFN.df)
-# write.table(balanced_FPFN.df, quote=F, row=F, sep=',', file="filtered_OR_ORBS_data_BALANCED_FP-FN.csv")
-table(LingCaught=balanced_FPFN.df[[colresponse]]>0, KeepTrip=balanced_FPFN.df$prob>=best.thresh)
-# look at the spatial and temporal distribution of samples
-with(balanced_FPFN.df, table(Year,Port))
-#print("Filtered data set saved as 'filtered_OR_ORBS_data_BALANCED_FP-FN.csv'")
-# DROP ONLY TRUE NEGATIVES
-# keep all trips with prob >= best.thresh ***OR*** with positive Lingcod catch (correct habitat, by def'n)
-# write.table(reccpuewa_dataforEM, quote=F, row=F, sep=',', file="filtered_OR_ORBS_data_DROP_ONLY_TRUE_NEGS.csv")
-table(LingCaught=reccpuewa_dataforEM[[colresponse]]>0, KeepTrip=reccpuewa_dataforEM$prob>=best.thresh)
-# look at the spatial and temporal distribution of samples
-with(reccpuewa_dataforEM, table(Year,Port))
-```
-```{r reccpuewa-mle}
 reccpuewa_dataforEM$Year <- factor(reccpuewa_dataforEM$Year)
 reccpuewa_dataforEM$Month <- factor(reccpuewa_dataforEM$Month)
 reccpuewa_dataforEM$BoatType <- factor(reccpuewa_dataforEM$BoatType)
@@ -378,8 +354,8 @@ reccpuewa_dataforEM <- subset(
   quantile(reccpuewa_dataforEM[[colresponse]] / reccpuewa_dataforEM[["Anglers"]], probs = filter_uppercpuequantile)
 )
 reccpuewa_dataforEM <- droplevels(reccpuewa_dataforEM)
-```
-```{r reccpuewa-models, opts.label = 'execute'}
+
+if (!file.exists(file_reccpuewaresults)) {
 mod_b <- glm(tgt.sp.pa ~ Year + BoatType + Area + Month, family=binomial,data=reccpuewa_dataforEM)
 mod_l_lognormal <- glm(log(cpue) ~ Year + BoatType + Area + Month, data=reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ])
 mod_l <- glm(cpue ~ Year + BoatType + Area + Month, data=reccpuewa_dataforEM[reccpuewa_dataforEM[[colresponse]] > 0, ], family = Gamma(link="log"))
@@ -413,13 +389,11 @@ save(
   best_bin.glm_STAN, best_pos.glm_STAN,
   file = file_reccpuewaresults
 )
-```
-```{r reccpuewa-stanresults, eval = !run_data}
+} else {
 # Read in the results if run_data == FALSE
 load(file_reccpuewaresults)
-```
+}
 
-```{r reccpuewa-index, echo = FALSE, warnings = FALSE}
 pred_bin<- exp(coef_year(mod_b))/(1+exp(coef_year(mod_b)))
 var_pos <- diag(vcov(mod_l))[1:length(pred_bin)]
 pred_pos <- exp(coef_year(mod_l) + (var_pos / 2))
@@ -452,8 +426,8 @@ tt <- kableExtra::kbl(
            `upper HPD` = HPD_upper),
   booktabs = TRUE,
   label = "reccpuewa-results",
-  caption = paste0("Standardized index for the ", paste0(params$area, "ern area "), 
-                  "survey index with log-scale standard errors (SEs) and 95 percent highest posterior density (HPD) intervals for ",
+  caption = paste0("Standardized index for the Washington recreational fleet", 
+                  "with log-scale standard errors (SEs) and 95 percent highest posterior density (HPD) intervals for ",
                   utils_name("common"),"."),
   row.names = F) %>% 
   kableExtra::kable_styling(latex_options = "striped")
@@ -503,11 +477,7 @@ ignore <- ggsave2(
   ),
   label = "reccpuewa-filterSMcoef"
 )
-#
-#
-#
-```
-```{r reccpuewafigures, echo = FALSE, include = FALSE}
+
 grDevices::png(
   filename = file.path("..", "figures", "reccpuewa-ScaledQQplot_bin.png"),
   width = 6, height = 3, units = "in", res = 300, pointsize=6
@@ -610,8 +580,38 @@ utils::write.csv(
 # abline(0,1)
 # plot(fitted(best_pos.glm_STAN),sqrt(abs(resid(best_pos.glm_STAN))))
 # plot(best_pos.glm_STAN)
-```
 
+
+###############################################################################
+# clean up following code
+#
+# WRITE TWO DATA FRAMES: 
+# 1) EQUAL NUMBER OF FALSE POSTIVES AND FALSE NEGATIVES
+# 2) DROP ONLY THE 'TRUE NEGATIVES' (KEEP FALSE NEGATIVES... 'LOW PROBABILITY' TRIPS THAT STILL CAUGHT LINGCOD)
+# BALANCE FALSE POSITIVES AND FALSE NEGATIVES
+# balanced_FPFN.df <- fishprob[fishprob$prob>=best.thresh,]
+# dim(balanced_FPFN.df)
+# length(which(balanced_FPFN.df[[colresponse]] >0))
+# summary(balanced_FPFN.df)
+# # write.table(balanced_FPFN.df, quote=F, row=F, sep=',', file="filtered_OR_ORBS_data_BALANCED_FP-FN.csv")
+# table(LingCaught=balanced_FPFN.df[[colresponse]]>0, KeepTrip=balanced_FPFN.df$prob>=best.thresh)
+# # look at the spatial and temporal distribution of samples
+# with(balanced_FPFN.df, table(Year,Port))
+# #print("Filtered data set saved as 'filtered_OR_ORBS_data_BALANCED_FP-FN.csv'")
+# # DROP ONLY TRUE NEGATIVES
+# # keep all trips with prob >= best.thresh ***OR*** with positive Lingcod catch (correct habitat, by def'n)
+# # write.table(reccpuewa_dataforEM, quote=F, row=F, sep=',', file="filtered_OR_ORBS_data_DROP_ONLY_TRUE_NEGS.csv")
+# table(LingCaught=reccpuewa_dataforEM[[colresponse]]>0, KeepTrip=reccpuewa_dataforEM$prob>=best.thresh)
+# # look at the spatial and temporal distribution of samples
+# with(reccpuewa_dataforEM, table(Year,Port))
+
+
+
+save.image(file = file_reccpuewaeverything)
+```
+```{r loadwacpuerec, eval = TRUE, echo = FALSE}
+load(file_reccpuewaeverything)
+```
 The Washington dockside sampling program (Ocean Sampling Program
 and Puget Sound Baseline Sampling Program) is supported by
 \gls{wdfw} and collects biological as well as catch data.
@@ -637,7 +637,7 @@ once standardized (Table \@ref(tab:reccpuewa_filtersummary)).
 Depth was not recorded for the entire time period, and thus was not included
 as a filter or a subsequent covariate.
 The filtering procedure led to a final positive rate of
-`r sprintf("%.2f", max(reccpuewa_filtersummary[["% pos."]]))`\%.
+`r sprintf("%.2f", max(reccpuewa_filtersummary[["\\% pos"]]))`\%.
 
 Stephens-MacCall [-@stephens2004] filtering approach was explored to
 predict the probability of catching `r utils_name("common")` based on
