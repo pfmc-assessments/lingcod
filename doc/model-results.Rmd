@@ -8,7 +8,8 @@ observed patterns (Figure \ref{fig:index-fits-all-fleets}).
 The five contemporary indices all increased over the 2010s with a peak 
 around 2005, which the model expectation fits well driven by a large 2008 cohort. 
 The areas with the biggest lack of fit are the first two years of the 
-trawl logbook CPUE index, which were much higher than the rest of the time series, 
+trawl logbook CPUE index, which are much higher than the rest of the time series,
+and are also poorly fit in the south model, 
 the 2004 observations of the \gls{s-tri}, and the 2020 observation of 
 the Washington recreational CPUE index. All of these observations are 
 inconsistent with the adjacent observations in the same index suggesting 
@@ -29,13 +30,18 @@ In general, the recreational and survey length compositions are reasonably well 
 Ages in the north model are all conditioned on length, but also included as
 marginal "ghost age comps" ("AgeComp" in electronic appendix) which are excluded 
 from the likelihood for purposes of 
-visualing the implied fit. These data do not show strong cohorts very clearly,
+visualizing the implied fit. These data do not show strong cohorts very clearly,
 although some modes progress through the population, such as the 2008 cohort 
 as observed by the \gls{s-wcgbt} in the years 2008-2011 (the observed mode in 2012 
 is off by 1 year). 
 
-The conditional age-at-length (CAAL, "A\@LComp" in electronic appendix) data 
-in the north model are numerous. They represent over 72,000 indivual fish
+<!-- values in paragraph below are from 
+dat.n <- get_inputs_ling('n', 22)$dat
+sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
+length(unique(paste(test$FltSvy, test$Yr)))
+-->
+The conditional age-at-length data (CAAL, "A\@LComp" in the electronic appendix)
+in the north model are numerous. They represent over 72,000 individual fish
 from a total of 161 fleet/year combinations. In general, most years and most fleets 
 show no strong patterns in the Pearson residuals, but there are a few exceptions.
 For instance, the commercial trawl fit in 1980 has many fish older than expected
@@ -61,6 +67,78 @@ than the expectation. There are no discard length compositions from those years
 so it's difficult to judge the reasons for the lack of fit.
 ```
 ```{asis, exho = TRUE, eval = ifelse(params$area == "Sout", TRUE, FALSE)}
+The fit to the six indices of abundance available for the south model
+are reasonably good although many of the indices are noisier than for the north
+model reflecting the smaller sample sizes associated with the smaller area
+(Figure \ref{fig:index-fits-all-fleets}).
+The first two years of trawl logbook CPUE are poorly fit but they 
+are much higher than the rest of the time series,
+and are also poorly fit in the north model.
+observed patterns (Figure \ref{fig:index-fits-all-fleets}). 
+The recreational California CPUE and the \gls{s-wcgbt} both show a the strong
+increase starting in 2010. The rec CA peaks in 2016 while the \gls{s-wcgbt}
+is stable across 2014-2016. In the 2017 STAR, the conflict between these
+indices led to the removal of the CPUE index, but the addition of a low 2019
+observation in the \gls{s-wcgbt} makes these indices appear more consistent than 
+before. The lack of 2020 survey due to the COVID-19 pandemic makes
+it harder to judge whether the 2019 \gls{s-wcgbt} observation is an outlier
+or representing a steep decline in selected biomass.
+
+The fit to the length data in the south model is generally in aggregate
+(Figure \ref{fig:comp-lenfit--aggregated-across-time}). The limited number of 
+ages in the south model means that there is less potential conflict among data 
+sources than in the north. Many sources show clear size modes, including 
+the commercial trawl discards, the \gls{s-tri}, and the \gls{s-wcgbt}.
+In general these are well fit. The \gls{s-wcgbt} is estimated as selecting 
+smaller fish in the south than in the north and shows modes indicating strong
+cohorts for all years 2007-2010 (see electronic appendix), 
+whereas the north model had a single large
+estimated 2008 cohort. Pearson residuals for the commercial trawl
+(LenComp in electronic appendix) show some noise
+and lack of fit, but there are few clear trends in the residuals. 
+Some of the biggest
+residuals come from the recreational California length compositions but this
+source represents multiple sampling programs with regional variability in
+sampling location, so some lack of fit is to be expected.
+
+Early explorations of the south model showed bad patterns in the fit to the 
+age data from the commercial trawl fishery, leading to the removal of all
+ages other than those fro \gls{s-wcgbt} in the final model. Nevertheless,
+these ages are included as marginal "ghost age comps" ("AgeComp" in electronic appendix) 
+which are excluded from the likelihood for purposes of visualizing the implied fit. 
+The implied fit to the ages from the commercial trawl and fixed-gear fleets
+show expected modes at younger ages than observed as discussed in 
+Section \ref{sec-model-selection}. The implied fits to the \gls{s-tri} is good
+even though these data are not included in the model likelihood.
+
+<!-- values in paragraph below are from 
+dat.n <- get_inputs_ling('n', 22)$dat
+sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
+length(unique(paste(test$FltSvy, test$Yr)))
+-->
+The ages included in the south model are all from the \gls{s-wcgbt} survey
+and represented as conditional age-at-length data (CAAL, "A\@LComp" in 
+electronic appendix). These represent about 3,400 fish (compared to over
+72,000 in the north model, of which about 5,000 were from the \gls{s-wcgbt}).
+The fits to these data are all reasonably good, although the expected proportion
+of males older than 10 years is greater than observed in many years.
+The observed data would be more consistent with a higher mortality rate for males
+but the estimated values are similar among the rates, presumably driven by 
+information in the larger volume of length data.
+The mean age within these data rises from about 2.5 in 2003 to almost
+5 in 2007 followed by a steep decline as the addition of new recruits brings
+down the mean observed age.
+
+The expected commercial trawl discard fractions ("Discard" in electronic appendix) 
+are lower than observed for the first four years but otherwise are relatively well fit.
+The most estimates match the observed decline in discard rate over the most recent 
+7 years, which is likely driven by the shift toward larger individuals as the above
+cohorts born in the 2007-2010 period grew older. The commercial fixed-gear
+discards show little variability over time and the fits
+are well within the uncertainty intervals.
+
+The fit to the mean body weight ("Mnwt") of discards are within the confidence
+intervals for most years although there's relatively little signal in those data.
 ```
 
 #### Population trajectory {#sec-model-trajectory}
