@@ -24,7 +24,7 @@ table_ts <- function(output,
     dplyr::mutate_at(c(5, 8:9), ~ sprintf("%.3f", .x))%>%
     kableExtra::kbl(
       align = "r",
-      row.names = FALSE,
+      row.names = FALSE, escape = FALSE,
       longtable = TRUE, booktabs = TRUE,
       format = "latex",
       caption = caption,

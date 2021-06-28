@@ -31,6 +31,7 @@ table_sens <- function(file_csv,
     x <- gsub("sigmaR", "\\$\\\\sigma_R\\$", x)
     x <- gsub("([0-9\\.]+)", " = \\1", x, perl = TRUE)
     x <- gsub("([0-9])\\$", "\\1 \\$", x, perl = TRUE)
+    x <- gsub("indices|index", "", x)
     return(x)
   }
   colnames(data) <- prettynames(colnames(data))

@@ -53,7 +53,7 @@ the evaluation of the plausibility of the estimates for the two areas.
 
 Estimates of growth in the two areas match prior expectations
 with both males and females estimated as reaching larger
-sizes (Figure \@ref(fig:compare_north_vs_south_growth)).
+sizes (Figure \@ref(fig:compare-north-vs-south-growth)).
 The estimated variability in growth is smaller in the north compared to the south,
 which may reflect differences in biology or a greater spatial
 heterogeneity in growth in the south. Estimated growth in both areas use

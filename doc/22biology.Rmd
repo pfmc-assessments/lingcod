@@ -237,4 +237,4 @@ into a single analysis to estimate variability in age estimation
 as chosen by both \gls{aic} and \gls{bic}, used "Curvilinear CV" (a 3-parameter Hollings-form
 relationship of CV with true age). The standard deviation in estimated age was 0.24 years
 at age-1, 0.56 years at age-5, 1.1 years at age-10, and 1.65 years at age 15 
-(Figure \@ref(fig:numbers10_ageerror_matrix_1)).
+(Figure \@ref(fig:numbers10-ageerror-matrix-1)).

@@ -16,6 +16,7 @@ table_compweight <- function(output,
   ) %>%
     dplyr::mutate(Fleet = get_fleet(col = "label_long")[match(Fleet_name, get_fleet(col = "fleet"))]) %>%
     dplyr::select(Type, Fleet, "Francis" = Curr_Var_Adj) %>%
+    dplyr::mutate(Francis = sprintf("%.2f", Francis)) %>%
     kableExtra::kbl(
       row.names = FALSE,
       longtable = FALSE, booktabs = TRUE,

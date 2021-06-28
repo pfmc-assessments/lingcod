@@ -22,16 +22,17 @@ table_pars <- function(output,
       Bounds = sprintf("(%8.3f, %8.3f)", Min, Max),
       Status = dplyr::case_when(
         is.na(Status) ~ "-",
+        Status == "act" ~ "-",
         TRUE ~ Status
       ),
       SD = ifelse(is.na(Parm_StDev), " - ", sprintf("%2.2f", Parm_StDev)),
-      pv = sprintf("%2.2f", Prior),
-      psd = sprintf("%2.2f", Pr_SD),
+      pv = sprintf("%2.3f", Prior),
+      psd = sprintf("%2.3f", Pr_SD),
       Prior = dplyr::case_when(
-        Pr_type == "Log_Norm" ~ paste0("lognormal(", pv, ", ", psd, ")"),
+        Pr_type == "Log_Norm" ~ paste0("lognormal(", sprintf("%2.3f", exp(Prior)), ", ", psd, ")"),
         Pr_type == "No_prior" ~ "-",
         Pr_type == "Full_Beta" ~ paste0("beta(", pv, ", ", psd, ")"),
-        Pr_type == "dev" ~ paste0("lognormal(0.00, ", sigmar, ")"),
+        Pr_type == "dev" ~ paste0("normal(0.00, ", sigmar, ")"),
         TRUE ~ Pr_type
       )
     ) %>%

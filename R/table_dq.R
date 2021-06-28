@@ -14,8 +14,8 @@ table_dq <- function(output,
 ) {
   output[["derived_quants"]] %>%
     dplyr::mutate(
-      Lower = Value - 1.96 * StdDev,
-      Upper = Value + 1.96 * StdDev,
+      Lower = sprintf("%5.2f", Value - 1.96 * StdDev),
+      Upper = sprintf("%5.2f", Value + 1.96 * StdDev),
       Value = sprintf("%5.2f", Value)
     ) %>%
     dplyr::rename(Estimate = "Value") %>%
