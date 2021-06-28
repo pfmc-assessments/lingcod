@@ -19,7 +19,7 @@ The \gls{iphc} longline survey data were examined in the past for their utility
 in building a fixed gear index of abundance.
 However, depth and hook size are not appropriate for `r spp` so these data were not used.
 
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 #### Lander data
 
 \Gls{odfw} provided density estimates and a range of estimated population

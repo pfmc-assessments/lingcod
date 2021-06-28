@@ -1348,7 +1348,7 @@ cat(text_wcgop)
 
 #### Reconstruction of commercial landings
 
-```{asis, catch-comm-WA-text, opts.label = 'north'}
+```{asis, catch-comm-WA-text, opts.label = 'north', echo = TRUE}
 ##### Washington commercial reconstruction
 
 The reconstruction of commercial landings for coastal waters off of Washington
@@ -1383,7 +1383,7 @@ These differences were minor, and there were no major changes in the time series
 compared to what was used in the previous assessment.
 ```
 
-```{asis, catch-comm-OR-reconstruction, opts.label = 'north'}
+```{asis, catch-comm-OR-reconstruction, opts.label = 'north', echo = TRUE}
 ##### Oregon commercial reconstruction
 
 In Oregon, historical commercial landings from
@@ -1531,7 +1531,7 @@ and Eureka port-group complexes were assigned to the northern area
 and all other ports were assigned to the southern area.
 
 <!--Washington and Oregon catches landed in California-->
-```{asis, eval = param$model == "North"}
+```{asis, eval = params$model == "North", echo = TRUE}
 Landings caught off of the coast of Oregon
 `r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Oregon"]]))`
 and Washington
@@ -1570,7 +1570,7 @@ California and for Washington and Oregon since the beginning of
 `r sprintf("%s and %s,", 1 + max(catch_comm_WA[["Year"]]), 1 + max(catch_comm_OR[["Year"]]))`
 respectively.
 
-```{asis, catch-comm-OR-recent, opts.label = 'north'}
+```{asis, catch-comm-OR-recent, opts.label = 'north', echo = TRUE}
 Though `r utils_name("common")` are encountered in a wide variety of gear types in Oregon,
 most landings are from bottom trawl gear types
 `r sprintf("(%.1f percent from %.0f - %.0f).", catch_comm_pacfin_summary %>% dplyr::filter(state == "OR",fleet=="TW") %>% dplyr::pull(prop) %>% mean * 100, max(catch_comm_OR[["Year"]]) + 1, max(catch.pacfin[["Year"]]) - 1)`
@@ -1626,7 +1626,7 @@ because each fishery is subject to unique regulations that affect selectivity
 The remaining data from California was used to model recreational fisheries
 in the southern area as a single fleet.
 
-```{asis, catch-rec-WA-text, opts.label = 'north'}
+```{asis, catch-rec-WA-text, opts.label = 'north', echo = TRUE}
 #### Washington recreational landings
 
 The time series of recreational catches (numbers of fish)
@@ -1655,7 +1655,7 @@ assessment because this assessment only includes information on retained fish
 rather than retained and discarded (Figure \@ref(fig:catch-rec-ca-oldts)).
 ```
 
-```{asis, catch-rec-OR-text, opts.label = 'north'}
+```{asis, catch-rec-OR-text, opts.label = 'north', echo = TRUE}
 #### Oregon recreational landings
 
 The recreational fishery in Oregon likely began in the early 1950s or 1960s
@@ -1835,7 +1835,7 @@ It was determined that the 2017 catch stream for the California TW fleet include
 catches from both TW and FG fleets. This has since been corrected, and the current catch
 stream represents what is known to be the best available data.
 
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 Differences in the reconstructions for commercial catches are the result
 of linearly interpolating historical data rather than assuming it was equal to
 the previous year (Figure \@ref(fig:catch-comm-state)).

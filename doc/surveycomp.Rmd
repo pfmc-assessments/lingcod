@@ -20,7 +20,7 @@ The input sample sizes (Table \@ref(tab:sample-size-length))
 for length and marginal age-composition data for all 
 fishery-independent surveys were calculated according to 
 Stewart and Hamel [-@stewart_bootstrapping_2014], which determined that the 
-approximate realized sample size for species in the `others' category 
+approximate realized sample size for species in the "others" category 
 (which included `r spp`) was $2.38*N_{\text{tow}}$.
 
 #### \acrlong{s-tri} lengths
@@ -35,7 +35,7 @@ greater than 350 m (Figure \ref{fig:tri-depthSplit}).
 Figure \ref{fig:tri-lenComp} shows the length-composition distributions for the \gls{s-tri}. 
 Table \ref{tab:sample-size-length} shows the sample sizes.
 
-```{asis, opts.label = 'south'}
+```{asis, opts.label = 'south', echo = TRUE}
 #### \Glsentrylong{s-hkl} lengths
 
 The length composition of survey catches in each year was summarized using length bins in 
@@ -110,22 +110,24 @@ rare conditions at best. By fully estimating the growth specifications within th
 stock assessment model, this major source of uncertainty is included in the assessment 
 results, and bias in the observation of length-at-age is avoided. 
 
-The CAAL approach was only applied for male and female `r spp` and so unsexed fish were excluded. 
+The CAAL approach was only applied for male and female `r spp` and
+no sex ratio was applied to unsexed fish; so, unsexed fish were excluded
+from CAAL data. 
 This results in `r ifelse(params$area == "North", 60, 504)`
 unsexed fish excluded from the CAAL distributions, or approximately
 `r ifelse(params$area == "North", "one", "fifteen")` percent of the aged fish.
 Table \ref{tab:sample-size-age} show sample sizes. Sensitivities to using the CAAL
-approach were explored by replacing with marginal age distributions. 
+approach were explored by replacing CAAL compositions with marginal age compositions.
 
 #### \acrlong{s-tri} ages
 
-Age data preparation follow the same methods as the WCGBTS length data. 
+Age data preparation follow the same methods as the \gls{s-wcgbt} length data. 
 The \gls{s-tri} age-composition data were included in the model 
 as CAAL, and marginal age compositions were explored as sensitivities.
 Figure \ref{fig:tri-ageComp} shows the age-composition data for the \gls{s-tri}.
 Table \ref{tab:sample-size-age} shows sample sizes.
 
-```{asis, opts.label = 'south'}
+```{asis, opts.label = 'south', echo = TRUE}
 #### \Glsentrylong{s-hkl} lengths
 
 Ages from the Hook and Line survey were available for the years 2017 - 2019. 
@@ -141,7 +143,7 @@ Table \ref{tab:sample-size-age} shows sample sizes.
 #### Lam research ages
 
 A random stratified subsample by size and sex was selected per region for ageing and genetics analysis. 
-The age composition data are therefore used as CAAL, and are not expanded.
+The age-composition data are therefore used as CAAL, and are not expanded.
 Figure \ref{fig:lam-ageComp} shows the age-composition distributions. 
 Table \ref{tab:sample-size-age} shows sample sizes.
 

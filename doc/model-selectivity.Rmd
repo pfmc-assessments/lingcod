@@ -110,7 +110,7 @@ block_breaks[["Comm_Fix_ret_width"]] <- c(1998, 2011)
 ```
 
 <!--  recreational Washington (north model) -->
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 
 Changes in selectivity of the recreational WA fleet began in
 
@@ -129,7 +129,7 @@ block_breaks[["Rec_WA_sel"]] <- c(1987, 1995, 1998, 2007, 2011, 2017)
 ```
 
 <!-- recreational Oregon -->
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 Changes in selectivity of the recreational OR fleet began in
 
 - 1995 (the first year with a minimum size limit--22 inches)
@@ -150,7 +150,7 @@ block_breaks[["Rec_OR_sel"]] <- c(1995, 1998, 2007)
 <!-- recreational California -->
 Changes in selectivity of the recreational CA fleet began in
 
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 - 1999 (min size limit 24 inches)
 - 2011 (min size limit decreased to 22)
 
@@ -160,7 +160,7 @@ northern California used in the north model are
 sparser and correspond to a small fraction of the catch compared to the 
 south model.
 ```
-```{asis, opts.label = 'south'}
+```{asis, opts.label = 'south', echo = TRUE}
 - 1983 (notable reduction in the number of small fish observed)
 - 1999 (min size limit 24 inches)
 - 2000 (min size limit increased to 26)

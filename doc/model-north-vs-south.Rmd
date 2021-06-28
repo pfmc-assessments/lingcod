@@ -66,14 +66,14 @@ paste(collapse = " and ")` -->
 for females and males respectively in the north
 and 115.1 and 66.4
 in the south. The estimated length at age 14 in the north is more precise 
-than in the south (Figure \@ref(fig:compare_north_vs_south_pars)), 
+than in the south (Figure \@ref(fig:compare-north-vs-south-pars)), 
 reflecting the larger volume of conditional age-at-length data include in 
 the north model.
 
 Estimates of key productivity parameters (i.e., $M$ and $h$)
 differ significantly among the 
 two areas, indicating that the southern stock is less productive than the northern stock
-(Figure \@ref(fig:compare_north_vs_south_pars)).
+(Figure \@ref(fig:compare-north-vs-south-pars)).
 Additionally, the north model estimates almost
 equal $M$ for females and males (`r M.f.n` and `r M.m.n` respectively), 
 whereas the south model has a lower estimate of female $M$ than
@@ -86,7 +86,7 @@ is misleading due to the differences in $M$ between areas resulting in
 a smaller fraction of recruits reaching spawning ages in the north than
 the south. The estimates of unfished age-3+ biomass are `r smry.n` mt 
 and `r smry.s` mt for the north and south 
-(Figure \@ref(fig:compare_north_vs_south_quants)).
+(Figure \@ref(fig:compare-north-vs-south-quants)).
 The differences in estimated \glspl{msy} are larger than those for biomass
 because the lower estimates of $M$ and $h$ in the south equate to 
 lower productivity relative to stock size.

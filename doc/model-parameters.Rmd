@@ -74,6 +74,6 @@ The maturity parameters were fixed at values based on the analysis described in 
 ```
 ```{asis, eval = !any(grepl("Wtlen", estimated_pars))}
 The weight-length parameters were fixed at values estimated externally using data
-with paired observations of length and weight from the \gls{s-wcgbts}
+with paired observations of length and weight from the \gls{s-wcgbt}
 \@ref(sec-biological-data-Length-Weight-relationship).
 ```

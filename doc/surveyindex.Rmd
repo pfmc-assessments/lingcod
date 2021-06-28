@@ -35,9 +35,9 @@ Spatial variation was approximated using 500 knots (Figure \@ref(fig:s-wcgbt-VAS
 and the model used the bias-correction algorithm
 [@thorson_implementing_2016] in Template Model Builder [@kristensen_tmb:_2016].
 
-The estimated index of abundance (Figure \@ref(fig:index_fits_all_fleets))
+The estimated index of abundance (Figure \@ref(fig:index-fits-all-fleets))
 was assumed to follow a gamma distribution
-(Figure \@ref(fig:s-wcgbt-VAST_QQ))
+(Figure \@ref(fig:s-wcgbt-VAST-QQ))
 but both the lognormal and the gamma fit equally well.
 The quantile-quantile plot did not a significant departure from the
 theoretical quantiles (Figure \@ref(fig:)) and
@@ -82,7 +82,7 @@ A similar spike in abundance in 2004 has been observed for other species sampled
 may be indicative of a change in the application of the survey
 rather than an increase in biomass.
 
-```{asis, opts.label = 'south'}
+```{asis, opts.label = 'south', echo = TRUE}
 #### NWFSC Hook and Line Survey
 
 Since 2004, the \gls{nwfsc} has conducted an annual hook and line survey

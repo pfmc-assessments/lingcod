@@ -21,7 +21,7 @@ of variability in the resulting composition data among length bins within a give
 fleet and year. Unexpanded data did not show this variability, so the base models
 used only unexpanded composition data for the commercial fisheries.
 
-Commercial TW length composition data started in 1965 in the north and 
+Commercial TW length-composition data started in 1965 in the north and 
 1977 in the south. Commercial FG length compositions 
 began in 1986 in the north with additional samples in 1971, 1980, 
 and 1982 and began in 1992 in the south with additional samples in 1988 and 1989.
@@ -40,7 +40,7 @@ The number of trips was used as the input sample size for all commercial
 composition data. 
 Table \ref{tab:sample-size-length} show the sample sizes for lengths, 
 and Table \ref{tab:sample-size-age} the sample sizes for ages.
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 Sample sizes by state aggregated across sexes are provided in 
 Table \ref{tab:sample-size-length-byState} for lengths and
 Table \ref{tab:sample-size-age-byState} for ages.

@@ -1,6 +1,7 @@
 ### Model changes from the last assessment
 
-The following is a brief list of the changes from the previous assessment
+The following is a brief list of changes that were made to the
+model configuration compared to the previous assessment
 [@haltuch2019lingcod].
 
 **Data**
@@ -14,17 +15,22 @@ in boundary
 
 **Fleet structure**
 
-- In the south model, the recreational CPFV DebWV index and associated 
-length composition were separated into a new fleet to allow different
-assumptions about selectivity
-- In the north model, a California recreational fishery for the catches
-and length compositions between \CapeM and \CAOR was added
 - Early and late periods of the \gls{s-tri} were combined into a 
 continuous time-series
+```{asis, opts.label = "south", echo = TRUE}
+- The recreational CPFV DebWV index and associated 
+length compositions were separated from the California recreational
+fleet into into a new fleet to allow different
+assumptions about selectivity
+```
+```{asis, opts.label = "north", echo = TRUE}
+- A California recreational fishery for the catches
+and length compositions between \CapeM and \CAOR was added
+```
 
 **Biology**
 
-- Use new age-based maturity estimates for each area
+- Use new area-specific age-based maturity estimates
 - Update weight-length relationship to include additional samples
 - Separate $M$ priors for males and females based on a lower
 maximum age (18 for females, 13 for males, compared to 21 for both sexes)
@@ -37,7 +43,7 @@ fixing the parameter controlling the length at age 14
 - Fix $\sigma_R$ = 0.6 for both models (in 2017 had been iteratively 
 tuned to 0.55 for the north model and 0.75 for the south)
 - Estimate the stock-recruit steepness parameter with a prior instead of 
-fixing it at $h$ = 0.7
+fixing it at 0.7
 - Extend the end of the "main" period of recruitment deviations and the 
 recruitment bias adjustment settings by three years to account for the 
 additional survey data from 2017-2019 (no surveys were conducted in 2020
@@ -59,6 +65,7 @@ TW and FG fisheries to retain all selected fish prior to 1998
 - Use previously unavailable or updated versions of numerous R packages 
 related to processing input and output files for the assessment, 
 including _nwfscDiag_, _sa4ss_, _r4ss_, and _PacFIN.Utilities_.
-- Created a _lingcod_ R package in a publicly accessible repository on 
-github to provide a transparent and reproducible system for processing
+- Created a _lingcod_ R package in a
+[publicly accessible repository](https::/github.com/iantaylor-NOAA/lingcod_2021)
+on github to provide a transparent and reproducible system for processing
 the data, modifying the model files, and writing these reports.

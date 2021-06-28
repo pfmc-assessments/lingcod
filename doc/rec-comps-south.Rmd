@@ -8,23 +8,23 @@ RecFIN samples from Mexico were excluded from analysis. Lengths of fish
 measured by samplers onboard CPFVs 
 prior to being released (Type 3d data) were also obtained from 2003 to 2020 
 from CDFW. A number of historical datasets that sampled the recreational 
-fishery were also obtained from the CDFW. These include lingcod samples from onboard 
+fishery were also obtained from the CDFW. These include `r spp` samples from onboard 
 observers on CPFVs in 1975-1978 (n = 832) and in 1984-1989
 (n = 865) from southern California, dockside sampling within the California Cooperative Rockfish survey 
 (CCRS) between 1977-1985 from party/charter 
 vessels (n = 692) in central California, dockside samples from party/charter (n = 4,818) 
 and skiff vessels (n = 4,307) from 1959-1972 in central
-California that focused on lingcod and Blue rockfish (*Sebastes mystinus*) sampling, 
+California that focused on `r spp` and Blue rockfish (*Sebastes mystinus*) sampling, 
 and onboard observers on CPFV's in 1987-1998 (n = 8,668) from central California.
 The CPFV data from 1975-1979 were compiled by Rob Collins and Steve Crooke 
 from the California Department of Fish and Game, and the data from 1984-1989 were compiled by 
 Ray Ally and David Ono from California Department of Fish and Game and published
 in Ally et al. [-@Ally1991]. The dockside CCRS data are described in [@Mason_caHist_1995] and [@Mason_rockfishHist_1998], and the dockside data from 1959 to 1972 are described in [@Karpov1995]. The CPFV data from 1987-1998 (@Reillyetal_1998) were included as an index \@ref(lingcod_DebWV_onboard_writeup_NCA.pdf) 
-within the assessment and so 
-length composition data from this dataset were separated out from the other recreational
+within the assessment.
+So, length-composition data from this dataset were separated from the other recreational
 data sources (Figure \ref{fig:debWV-lencomp-unsexed}). 
 
-Length composition data collected by California Polytechnic State University 
+Length-composition data collected by California Polytechnic State University 
 (Cal Poly; n = 5,501) between 2003 and 2019 were also considered. These 
 samples were part of CCFPR sampling and were similar in length to other length samples from RecFIN. Given
 the overlap in sampling years, these data were not used, consistent with the previous assessment.

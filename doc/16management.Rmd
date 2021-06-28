@@ -15,7 +15,7 @@ In 1995, both the \gls{abc} and \gls{hg} were dropped to 2,400 mt
 based on results of Jagielo [-@jagielo1994assessment].
 Further reductions were made in 1998
 to 1,532 mt with a \gls{hg} of 838 mt based on an assessment of the
-northern area [@jagielo1997lingcod].
+northern area [@jagielo1997assessment].
 
 In 1995 a minimum size limit for the limited entry fishery was imposed
 for the first time that restricted landed `r spp` to be at least 22 inches.

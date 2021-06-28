@@ -88,11 +88,11 @@ $W = 0.00000176L^{3.3978}$ for females.
 
 Between 2003 and 2019, lengths and weights were measured for
 [**to do: Confirm sample sizes show up now**]
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 7,869 `r spp` in the \Gls{s-wcgbt} north of \CapeM. Of these samples, 4,978 were female,
 and 2805 were male. 
 ```
-```{asis, opts.label = 'south'}
+```{asis, opts.label = 'south', echo = TRUE}
 5,547 `r spp` in the \Gls{s-wcgbt} south of \CapeM. Of these samples, 3,052 were female,
 and 1,787 were male. 
 ```
@@ -114,11 +114,11 @@ the \gls{s-wcgbt}. New length and weight data from the survey for this assessmen
 following estimates for the weight-length relationships: 
 
 [**to do: Confirm equations show up now**]
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 $W=$`r format(lw.WCGBTS$North_NWFSC.Combo_F[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$North_NWFSC.Combo_F[2], scientific = TRUE)` for females, and 
 $W=$`r format(lw.WCGBTS$North_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$North_NWFSC.Combo_M[2], scientific = TRUE)` for males 
 ```
-```{asis, opts.label = 'south'}
+```{asis, opts.label = 'south', echo = TRUE}
 $W=$`r format(lw.WCGBTS$South_NWFSC.Combo_F[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$South_NWFSC.Combo_F[2], scientific = TRUE)` for females, and 
 $W=$`r format(lw.WCGBTS$South_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$South_NWFSC.Combo_M[2], scientific = TRUE)` for males 
 ```
@@ -185,11 +185,11 @@ between mid-deep (140-183 m) and deep (>183 m) depths (p-value = 0.84).
 
 Externally estimated von Bertalanffy growth parameters for `r spp` using \Gls{s-wcgbt} data are:
 [**to do: Confirm equations show up now**]
-```{asis, opts.label = 'north'}
+```{asis, opts.label = 'north', echo = TRUE}
 $k$ = `r round(la.WCGBTS$North_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$North_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la.WCGBTS$North_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$North_NWFSC.Combo_M[1],3)` for males. 
 These estimates are from 5,145 age and length samples, of which 3,290 are female, and 1,795 are male.
 ```
-```{asis, opts.label = 'south'}
+```{asis, opts.label = 'south', echo = TRUE}
 $k$ = `r round(la.WCGBTS$South_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$South_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la.WCGBTS$South_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$South_NWFSC.Combo_M[1],3)` for males. 
 These estimates are from 3,910 age and length samples, of which 2,178 are female, and 1,228 are male.
 ```
