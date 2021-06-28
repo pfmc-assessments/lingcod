@@ -6,19 +6,26 @@
 #' No underscores allowed.
 #' @examples
 #' \dontrun{
-#' table_projections(model)
+#'   table_projections(model)
 #' }
 table_projections <-
   function(output,
            caption = paste("Projections of potential OFLs (mt), ABCs (mt),",
-                           "estimated spawning biomass and fraction unfished."),
+                           "estimated spawning biomass and fraction unfished.",
+                           "Assumed removal for 2021 and 2022 are average",
+                           "catch from the period 2016-2020 with a 40:60",
+                           "split of trawl:fixed-gear."),
            label = "table-projections-base"
            )
 {
-  # currently the forecasts are in a parellel directory to the models
-  forecast_dir <- model$inputs$dir %>%
-    stringr::str_sub(end = nchar("models/2021.n.020.")) %>%
+  # currently the south model forecast is in a parellel directory to the base
+  forecast_dir <- output$inputs$dir %>%
+    stringr::str_sub(end = nchar("models/2021.n.001.")) %>%
     paste0("010_forecast")
+  if (!dir.exists(forecast_dir)) {
+    forecast_dir <- output$inputs$dir
+  }
+  
   # file created by r4ss::SS_executivesummary()
   tab_csv <- file.path(forecast_dir, "tables", "g_Projections_ES.csv")
   # run the function if the file doesn't exist
@@ -28,13 +35,27 @@ table_projections <-
     r4ss::SS_output(forecast_dir) %>% r4ss::SSexecutivesummary()
   }
   # make the table
-  tab <- read.csv(tab_csv, check.names = FALSE) %>%
-    kableExtra::kbl(
-                  row.names = FALSE,
-                  longtable = TRUE, booktabs = TRUE,
-                  format = "latex",
-                  caption = caption,
-                  label = label,
-                  align = "lr"
-                )
+  tab <- read.csv(tab_csv, check.names = FALSE)
+  # I'm sure all the following could be done in dplyr in 1/10th the space
+
+  # remove the decimal places from the strings
+  for (icol in which(names(tab) != "Fraction Unfished")) {
+    tab[, icol] <- gsub("\\.\\d\\d", "", tab[, icol], perl = TRUE)
+  }
+  # fixed catch values to a new column
+  assumed <- tab[,"ABC Catch (mt)"] # terrible hack to duplicate ABC column
+  assumed[tab$Year > output$endyr + 2] <- "-"
+  assumed[tab$Year > output$endyr + 2] <- "-"
+  tab[tab$Year <= output$endyr + 2, c("Predicted OFL (mt)", "ABC Catch (mt)")] <- "-"
+  tab <- cbind(tab$Year, assumed, tab[,-1])
+  names(tab)[names(tab) == "assumed"] <- "Assumed Removal (mt)"
+
+  tab %>% kableExtra::kbl(
+                        row.names = FALSE,
+                        longtable = TRUE, booktabs = TRUE,
+                        format = "latex",
+                        caption = caption,
+                        label = label,
+                        align = "lr"
+                      )
 }
