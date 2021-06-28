@@ -15,6 +15,10 @@ too few to explore a separate maximum age calculation for that area.
 The mean of the lognormal Hamel-Then prior is 5.4 divided by the maximum age, 
 so the resulting prior means were `r round(5.4/18, 3)` for females 
 and `r round(5.4/13, 3)` for males.
+The oldest aged `r spp` in the commercial fishery was 35 for females and 16 for males.
+No fish older than age 17 were seen in any of the surveys and the
+oldest fish landed by the recreational fleet was 23.
+
 This represents a significant increase from the 0.257 mean used in the previous
 assessments for both sexes.
 
@@ -39,19 +43,19 @@ tag-recapture study and came up with ranges of 0.24 to 0.34 for females and
 variation in $M$ across the year (or between years), especially for males 
 during nest-guarding.
 
-### Maturation and fecundity
+### Maturation and fecundity {#sec-biological-data-maturation-and-fecundity}
 
-A new estimate of functional maturity-at-age (Figure \@ref(fig:bio6_maturity))
+A new estimate of functional maturity-at-age (Figure \@ref(fig:bio6-maturity))
 based on histological analysis of ovaries was developed for these models 
-(pers. comm., M. Head, \gls{nwfsc}). The previous assessment 
+(pers. comm., M. Head, \gls{nwfsc}; (Figure \@ref(fig:age-mat-forassessment))).
+The previous assessment 
 [@haltuch2019lingcod] used length-based maturity but noted that differences in 
 maturity at length between north and south areas appeared attributable
 to regional differences in growth.
+<!-- updatetext data -->
 The estimated age at 50\% maturity was 3.23 for the north based on 
 327 samples for which both ovaries and age estimates were available
 and 2.74 years for the south based on 322 samples.
-
-<!--TO DO: reference figures from M. Head issue number #23]-->
 
 ### Sex ratio
 
@@ -67,7 +71,7 @@ suggested that males and females are equally dispersed coastwide
 (Figure \@ref(fig:biology-sexratio-lengthbylatitude)), and thus,
 a sex ratio of 50:50 was assumed for this assessment.
 
-### Length-Weight relationship
+### Length-Weight relationship {#sec-biological-data-Length-Weight-relationship}
 
 The weight-length relationship for `r spp` was estimated outside the model 
 using available biological data collected from the \Gls{s-wcgbt}. 

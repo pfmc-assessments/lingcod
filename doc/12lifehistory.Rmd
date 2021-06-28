@@ -92,10 +92,10 @@ and from coastal waters nearshore to these embayments
 [@buckley1984enhancement; @jagielo1994assessment].
 
 Juvenile `r spp` feed on small fishes [@cass1990lingcod] including
-Pacific Herring (*Clupea pallasii*) and
+Pacific Herring (*Clupea pallasii*),
 Pacific Sand Lance (*Ammodytes hexapterus*),
-flatfishes (*Pleuronectidae*) including
-Shiner Perch (*Cymatogaster aggregate*) and
+flatfishes (*Pleuronectidae*),
+Shiner Perch (*Cymatogaster aggregate*),
 Walleye Pollock (*Theragra chalcograma*), and
 an assortment of invertebrates including
 shrimps (Neomysis) and prawns (Pandalus).
@@ -117,8 +117,8 @@ Samples from the mouth of the Pysht River averaged
 
 <!---  to do - make these numbers dynamic if we are going to keep them -->
 Outside of the spawning season,
-male and female `r spp` are segregated by depth, where
-females tend to inhabit deeper offshore waters and
+male and female `r spp` are segregated by depth
+Females tend to inhabit deeper offshore waters, and
 males inhabit nearshore rocky reefs.
 Consequently, the sexes are vulnerable to different types of fishing gear.
 The majority of nearshore males (66.3\%) are caught using
@@ -167,7 +167,7 @@ Overall, residency times varied by sex, size, season, and habitat of residence.
 
 `r Spp` are top-order predators of the family `r utils_name("Family")`.
 Among the `r utils_name("Family")`,
-the genus, *`r gsub("\\s.+", "", utils_name("latin"))`*
+the genus *`r gsub("\\s.+", "", utils_name("latin"))`*
 is ecologically intermediate
 between the more littoral genera *Hexagrammos* and *Oxylebius*
 and the more pelagic *Pleurogrammus* [@rutenberg1962system].
@@ -226,12 +226,11 @@ exhibit a latitudinal gradient.
 `r Spp` from higher latitudes are
 larger at age (Figure \@ref(fig:Lam-vbgfcurves)),
 live longer, and
-reach biological maturity at larger sizes
+reach biological maturity at larger sizes (Figure \@ref(fig:age-mat-forassessment))
 compared to conspecifics from lower latitudes
 (Lam et al. -@lam2021geographic; pers. comm., M. Head, \gls{nwfsc}).
 
-<!--- to do - get M. Head figure -->
-<!--- to do - change pers. comm. to reference -->
+<!--- to do - change pers. comm., M. Head to reference -->
 
 <!--- to do - fix all calls to $\circ$ b/c they are not _accessible -->
 This known variability in life-history parameters and genetic structure

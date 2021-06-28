@@ -1,7 +1,8 @@
 ```{r catch-setupnotes, echo = FALSE, include = FALSE, eval = FALSE}
 ###############################################################################
 # Working directory: in doc, e.g., lingcod_2021\doc
-# source("lingcod_catch.R")
+# rmarkdown::render("catch.Rmd")
+# Results are saved in ..\data-raw\catch.RData
 #
 # TO DO
 # 1. Add source to the commercial catch stream
@@ -32,7 +33,7 @@
 ###############################################################################
 ```
 
-```{r catch, include = FALSE, eval = FALSE}
+```{r catch, include = FALSE, eval = !file.exists(file.path("..", "data-raw", "catch.RData"))}
 ###############################################################################
 # Set up objects, file paths,
 ###############################################################################
@@ -1530,7 +1531,7 @@ and Eureka port-group complexes were assigned to the northern area
 and all other ports were assigned to the southern area.
 
 <!--Washington and Oregon catches landed in California-->
-**to do: Possibly move to just north model**
+```{asis, eval = param$model == "North"}
 Landings caught off of the coast of Oregon
 `r sprintf("(%.2f mt)", sum(catch_comm_CA_ORwaters[["Oregon"]]))`
 and Washington
@@ -1541,6 +1542,7 @@ were added to the California reconstruction as was done in the previous assessme
 These landings were assigned to the northern area TW fleet.
 In the future, the assignment of species and gear should be investigated
 more thoroughly for these landings.
+```
 
 <!-- Missing data -->
 For combinations of year, area, and fleet that were missing
@@ -1593,49 +1595,24 @@ an unknown \gls{inpfc} area noted as XX or \gls{pacfin} area 02 or 4A.
 
 The split at \CapeM required finding a method for
 splitting data within the Eureka (ERA) port-group complex.
-Data with a port of landing of Shelter Cove, a port within ERA were
+Data with the port of landing of Shelter Cove, a port within ERA, were
 assigned to the southern model and data from all other ports within ERA, i.e.,
 `r paste0(knitr::combine_words(catch_comm_CA_ERA), ",")`
 were assigned to the northern model.
 If landings were not assigned to a port-group complex, then the physical location
 of the port of landing was used to assign an area. Lastly, if both
-port-group complex and port of landing were unknown, then area was assigned
-based on the mean behavior of a given vessel.
-For all vessels that had landings
-`r sprintf("(%.2f mt)", sum(catch_comm_CA_noport[["sumMT"]]))`
-without information on port-group complex or port of landing,
-their average port of landing for
-`r paste0(utils_name("common"), ".")`
-catches was used to assign port-group complex and thus area
-to these landings with no spatial information.
-Specifically, if more than half of a vessel's landings of
+port-group complex and port of landing were unknown, then the landings were
+assigned to an area based on a vessel's historical behavior while landing `r spp`.
+This ad hoc method that was used to assign area of landing to a trivial amount
+of landings without spatial information
+(`r sprintf("(%.2f mt)", sum(catch_comm_CA_noport[["sumMT"]]))`)
+has almost zero influence on the resulting catch streams and was done largely as
+an exercise to document how to do this should the stock boundary change again and the
+numbers would need to be recalculated.
+For example, if more than half of a vessel's landings of
 `r utils_name("common")`
 were in ERA or CCA, then all of their landings without an assigned
 area were assigned to the northern area.
-
-For commercial landings from the state of California,
-the majority of the commercial FG landings occurred in the southern area and this
-has been relatively consistent for all years of data available in \gls{pacfin}
-(upper panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
-The percentage of commercial landings from TW in the South relative to
-in the North has, on average,
-decreased with time (lower panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
-
-#### Comparisons with previous model
-
-The current time series of commercial catches were aggregated using the previous
-model structure, i.e., the northern area included Washington and Oregon and the
-southern area included California, for comparison purposes
-(Figure \@ref(fig:catch-comm-state)).
-This comparison revealed differences in California data for both fleets.
-Subsequently, it was determined that in 2017 the trawl fleet included
-catches from both fleets. This has since been corrected, and the current catch
-stream represents what is known to be the best available data.
-Differences in the early reconstructions for the northern model are the result
-of linearly interpolating historical data rather than assuming it was equal to
-the previous year.
-Differences in the early reconstruction for the southern model are the result
-of using landings from @sette1928 instead of ramping up catches from zero.
 
 ### Recreational landings
 
@@ -1660,7 +1637,8 @@ Catches that were landed within the Strait of Juan de Fuca, i.e.,
 Bonilla-Tatoosh line to the mouth of the Sekiu River,
 and sampled by the Puget Sound Sampling Program were included in the landings
 because they were potentially caught in ocean waters even though they were
-landed in coastal waters. Other non-ocean landings were excluded.
+landed in coastal waters. All other landings from the Puget Sound Sampling Program
+were excluded because they are from the Puget Sound rather than the Pacific Ocean.
 
 First, we calculated the mean length
 `r sprintf("(%0.2f mm)", bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length))`
@@ -1668,7 +1646,7 @@ of fish landed within Washington recreational fishery
 (Figure \@ref(fig:catch-rec-tsrecfinmeanlength)) across all years
 `r format_range(bio_rec_recfin %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(Year))`
 and sexes.
-Next, we used this mean length in the weight-length relationship
+Next, we used this mean length and the weight-length relationship
 as calculated from the most recent survey data to determine the mean weight.
 Finally, weight (mt) was determined from mean weight and numbers.
 
@@ -1746,7 +1724,7 @@ Landings from 1974 – 1978 were estimated using similar
 methods to the above reconstruction,
 but are not currently part of this reconstructed time period,
 and were not updated from the 2017 assessment [@haltuch2019lingcod].
-Updated landings only include those from 1979 – 2000.
+Updated landings include only those from 1979 – 2000.
 These landings in biomass were provided by \gls{odfw}
 and do not include an estimate of discards.
 Landings during this time period fluctuate,
@@ -1845,3 +1823,23 @@ Shelter Cove.
 This time series also includes landings from from Mexico and Canada
 that were excluded from this analysis.
 
+### Comparison of current catch stream to previous model
+
+The current time series of catches were aggregated using the previous
+model structure, i.e., the northern area included Washington and Oregon and the
+southern area included California, for comparison purposes
+(Figure \@ref(fig:catch-comm-state)).
+This comparison revealed differences in the current catch stream for the commercial
+FG and TW fleets compared to what was previously used for the southern model.
+It was determined that the 2017 catch stream for the California TW fleet included
+catches from both TW and FG fleets. This has since been corrected, and the current catch
+stream represents what is known to be the best available data.
+
+```{asis, opts.label = 'north'}
+Differences in the reconstructions for commercial catches are the result
+of linearly interpolating historical data rather than assuming it was equal to
+the previous year (Figure \@ref(fig:catch-comm-state)).
+```
+Differences in the early reconstruction for California commercial catches are the result
+of using landings from @sette1928 instead of ramping up catches from zero
+(Figure \@ref(fig:catch-comm-state)).

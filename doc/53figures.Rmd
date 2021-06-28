@@ -178,6 +178,11 @@ sa4ss::add_figure(
   label = "biology-sexratio-lengthbylatitude"
 )
 add_figure_ling(figurecsv %>% dplyr::filter(grepl("bio6_maturity", label)))
+sa4ss::add_figure(
+  filein = file.path("..", "figures", "age_mat_forassessment.png"),
+  caption = "Proportion mature versus age (left panel; years) and length (right panel; cm) from fishery-independent and -dependent data sources. See Section \\@ref(sec-biological-data-maturation-and-fecundity) for details on the analysis.",
+  label = "age-mat-forassessment"
+)
 
 nm = paste0("Length_Weight_Combo_", params$area, ".png")
 sa4ss::add_figure(

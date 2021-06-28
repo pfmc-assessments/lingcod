@@ -19,6 +19,12 @@ The commercial fishery off
 California dates back more than a century (i.e., 1920s) and
 the fishery off of Washington and Oregon dates back nearly as far (i.e., 1940s).
 These commercial fishers are largely harvested using trawl and longline gear.
+For longline and other fixed gear in waters off of California, the majority
+of the landings from these gear types have consistently been landed
+off of the southern rather than the northern portion of the coast
+(upper panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
+Comparatively, the trawl fishery off of the California coast has progressively
+shifted north with time (lower panel of Figure \@ref(fig:catch-comm-CA-gearprop)).
 Recreational fisheries are dominated by hook-and-line and spear methods.
 
 The commercial fishery steadily grew with the rise of the groundfish trawl industry.

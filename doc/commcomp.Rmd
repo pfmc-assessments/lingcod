@@ -8,13 +8,13 @@ https://github.com/nwfsc-assess/PacFIN.Utilities/).
 
 The majority of the available length and age data were from the northern area,
 reflecting the larger commercial catches of `r spp` in the north and the 
-larger commercial sampling and ageing programs employed by WDFW and ODFW.
+larger commercial sampling and ageing programs employed by \gls{wdfw} and \gls{odfw}.
 
 Length and age distributions from west coast groundfish commercial fisheries
 are typically expanded to account for variability in the number of fish sampled
 per trip relative to the total catch. This allows greater weight given to samples
 from a very large trip compared to one with a small catch. However,
-the commercial data for `r spp` as represented in the PacFIN database,
+the commercial data for `r spp`, as represented in the PacFIN database,
 have a large fraction of trips without trip weights. This leads to
 large variability in the expanded sample sizes among trips and implausible amounts
 of variability in the resulting composition data among length bins within a given

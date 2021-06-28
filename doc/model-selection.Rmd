@@ -32,8 +32,9 @@ The fit to the CAAL data was generally good across fleets and time periods in th
 model and the model results were plausible. 
 
 In contrast, the south model 
-had sparse sampling of ages in all but the \gls{s-wcgbt} and the fits to these
-data were poor when represented either as CAAL or marginal age compositions.
+had sparse sampling of ages in all but the \gls{s-wcgbt} and the fits to
+all data sets other than the \gls{s-wcgbt}
+were poor when represented either as CAAL or marginal age compositions.
 Likelihood profiles and other sensitivity analyses showed that the ages
 were strongly influencing the model results and pushing the scale of the estimated
 population to high levels. The problems of the age data in the south model
@@ -43,7 +44,7 @@ some population dynamics process. However, a comparison of the fit to the
 \gls{s-tri} CAAL composition data from 1995 with the ages observed within the 
 same length bins in the commercial TW and FG fleets from that same time period
 showed strong differences, suggesting that it would not be possible to 
-simultaneusly fit both data sources within the existing model structure, or 
+simultaneously fit both data sources within the existing model structure, or 
 even a more complex model with time-varying growth. 
 Therefore, only the CAAL composition data from
 the \gls{s-wcgbt} was included in the south model (which already represented

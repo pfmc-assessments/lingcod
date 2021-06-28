@@ -62,3 +62,18 @@ fixed at values that led to almost 100\% retention.
 [**TO DO: if north 2021.n.020.001 is the base model,
 describe the reasons for fixing 3 selectivity parameters that were hitting the bounds]
 ```
+
+The following additional parameters were fixed based on standard practices for west coast assessments.
+```{asis, eval = !any(grepl("sigma", estimated_pars))}
+The standard deviation of recruitment deviations was fixed at
+`r sprintf("%.2f", model$parameters %>% dplyr::filter(grepl("sigma",Label)) %>% dplyr::pull(Value))`.
+```
+```{asis, eval = !any(grepl("Mat", estimated_pars))}
+The maturity parameters were fixed at values based on the analysis described in Section
+\@ref(sec-biological-data-maturation-and-fecundity).
+```
+```{asis, eval = !any(grepl("Wtlen", estimated_pars))}
+The weight-length parameters were fixed at values estimated externally using data
+with paired observations of length and weight from the \gls{s-wcgbts}
+\@ref(sec-biological-data-Length-Weight-relationship).
+```

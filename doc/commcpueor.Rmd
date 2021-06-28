@@ -43,7 +43,7 @@ development of the Oregon nearshore logbook index in the most recent cabezon
 assessment [@cope2019cabezon] and were retained here at the recommendation of
 \gls{odfw} staff.
 
-Covariates considered included month, vessel, port, depth, and people.
+Covariates considered included month, vessel, port, depth, and person.
 Two-month periods associated with commercial trip limits were also considered
 but were excluded due to multicollinearity with month. All covariates were
 specified as factors, except depth was a continuous variable. Depth was
