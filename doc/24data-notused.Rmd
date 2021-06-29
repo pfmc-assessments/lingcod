@@ -28,3 +28,21 @@ treatment of length information attained from carcasses. These samples may
 be used to inform growth, create conditional-age-at-length data, or to supplement
 samples from other sampling programs used to represent age composition
 directly in future assessments.
+
+#### California Collaborative Fisheries Research Project
+
+The California Collaborative Fisheries Research Project, [CCFRP](https://www.mlml.calstate.edu/ccfrp/), 
+is a fishery-independent 
+hook-and-line survey designed to monitor nearshore fish populations at a series of sampling 
+locations both inside and adjacent to \glspl{mpa} along the central California coast 
+[@Wendt2009; @Starr2015].  The CCFRP survey began in 2007 and was originally
+designed as a statewide program in collaboration with NMFS scientists and fishermen. 
+From 2007-2016 the CCFRP project was focused on the central California coast, and has monitored 
+four \glspl{mpa} consistently.  In 2017, 
+the program was expanded coastwide within California.  The index of abundance was 
+developed from the four \glspl{mpa} sampled consistently,
+A&ntilde;o Nuevo and Point Lobos by Moss Landing Marine Labs;
+Point Buchon and Piedras Blancas by \gls{calpoly}.
+
+See the following pdfs for more information about these indices that were not included in this assessment:
+lingcod_CRFS_PR_dockside_writeup.NCA.pdf and lingcod_CRFS_PR_dockside_writeup.SCA.pdf.

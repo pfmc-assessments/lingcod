@@ -2,7 +2,9 @@
 
 A commercial trawl CPUE index was retained from the previous assessment.
 The index spans the years 1981-1997, with the end point chosen prior 
-to significant changes in management beginning in 1998. A detailed description
+to significant changes in management beginning in 1998
+(Figure \@ref(fig:index-fits-all-fleets)).
+A detailed description
 of the index standardization approach is available in 
 Haltuch et al. [-@haltuch2019lingcod]. The index was developed on a coastwide
 scale using VAST and post-stratified to produce separate indices for the 

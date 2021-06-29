@@ -1,11 +1,7 @@
 
-#### California recreational indices
+#### MRFSS Dockside CPFV Index
 
-Please see the provided pdf documents for information regarding
-each of the California recreational indices that were
-analyzed for their inclusion into this stock assessment.
-
-In short, 
+In short,
 From 1980 to 2003 the \gls{mrfss} program conducted dockside intercept surveys of 
 recreational \gls{cpfv} fishing fleet. No \gls{mrfss} \gls{cpue} data are available for the years 
 1990-1992, due to a hiatus in sampling related to funding issues. 
@@ -15,11 +11,96 @@ onboard observer program (i.e., the same observer samples the catch while
 onboard the vessel and also conducts the dockside intercept survey for 
 the same vessel). 
 
-Catch and effort data from CRFS dockside sampling of private boats, 2004-2018, 
-were provided by \gls{cdfw} for use in this assessment. The data include catch (number 
-of fish) by species, number of anglers (i.e. effort units are angler trips), 
-angler-reported distance from shore, (Area.X: inside/outside of 3 nm, county, port, 
-interview site, year, month, and CRFS district.
+\Gls{mrfss} data were dowloaded from the \gls{recfin} Type 3 database, where
+each entry corresponds to a 
+single fish examined by a sampler at a particular survey site. Since only a 
+subset of the catch may be sampled, each record also 
+identifies the total number of that species possessed by the group of anglers 
+being interviewed.  The number of anglers and the hours fished are also recorded. 
+The data, as they exist in RecFIN, do not indicate which records 
+belong to the same boat trip. A description of the algorithms and process used to 
+aggregate the RecFIN records to the trip level is outlined in the Supplemental Materials 
+(“Identifying Trips in RecFIN”).
+Trips recorded as having the primary area fished in Mexico or occurring in bays, e.g., 
+San Francisco Bay, were excluded before any filtering on species composition.
+```{asis, eval = params$area == "North", echo = TRUE, results = "asis"}
+The years 1993-1994 were excluded due to limited spatial coverage.
+```
+The Stephens-MacCall [-@Stephens2004] filtering approach was used to predict the 
+probability of of catching lingcod, based 
+on the species composition of the sampler observed catch in a given trip. Prior 
+to applying the Stephens-MacCall filter, we identified potentially informative 
+predictor species, i.e., species with sufficient sample sizes and temporal coverage 
+(at least 5\% of all trips) to inform the binomial model.  The remaining 
+30 all co-occurred with lingcod in at least one trip 
+and were retained for the Stephens-MacCall logistic regression. Coefficients 
+from the Stephens-MacCall analysis (a binomial GLM) are positive 
+for species that are more likely to co-occur with lingcod, 
+and negative for species that are less likely to be caught with lingcod.
+<<!-- to do reference this (Figure \@ref(fig:fig-sm-mrfss))-->
+The top five species with high probability of co-occurrence with lingcod include
+Yellowtail, Treefish, Canary, Olive, and Brown rockfishes, all of which are associated with rocky reef and kelp 
+habitats. The five species with the lowest probability of co-occurrence were 
+Barred sandbass, Kelp bass, Pacific bonito, Squarespot rockfish, and California barracuda.
+While the filter is useful in identifying co-occurring or non-occurring species 
+assuming all effort was exerted in pursuit of a single target, the targeting of 
+more than one species or species complex ("mixed trips") can result in co-occurrence of species in the catch 
+that do not truly co-occur in terms of habitat
+associations informative for an index of abundance. Stephens and MacCall 
+[-@Stephens2004] recommended including all trips above a threshold where the 
+false negatives and false positives are equally balanced.  However, this does 
+not have any biological relevance and for this data set, we assume that if a 
+lingcod was landed, the anglers had to have fished in appropriate habitat, 
+especially given lingcod is strongly associated with rocky habitat.
+
+The Stephens-MacCall filtering method identified the probability of occurrence 
+at which the rate of "false 
+positives" equals "false negatives" of 0.35. The 
+trips selected using this criteria were compared to an alternative method 
+including all the "false positive" trips, regardless of the probability of 
+encountering lingcod. 
+This assumes that if lingcod were caught, the anglers must have fished in 
+appropriate habitat during the trip. The catch included in this index is 
+"sampler-examined" and the samplers are well trained in species identification.
+Stephens and MacCall proposed filtering (excluding) trips from the index 
+standardization based on a criterion of balancing the number of false positives 
+and false negatives. False positives (FP) are trips that are predicted to catch 
+a lingcod based on the species composition of the catch, but did not. False 
+negatives (FN) are trips that were not predicted to catch a lingcod, given the 
+catch composition, but caught at least one. 
+
+Initial exploration of negative binomial models for this dataset proved to be 
+ill-fitting and the proportion of zeroes predicted by the Bayesian negative binomial 
+models were different enough from the fraction of zeroes in the raw data, that 
+a negative binomial model was not considered for model selection. We modeled catch 
+per angler hour (CPUE; number of fish per angler hour) a Bayesian delta-GLM model. 
+Models incorporating temporal (year, 2-month waves) 
+and geographic (region and primary area fished (inshore <3 nm, offshore >3 nm) 
+factors were evaluated. Two regions were defined based on counties, 1) Del Norte 
+to Santa Cruz ("N") and 2) Monterey to San Luis Obispo ("C") north of Pt. Conception. 
+For models that span counties north and south of Pt. Conception, Santa Barbara to 
+San Diego counties compose a third region ("S"). For models tha exclusively south 
+of Pt. Conception, the region represent individual counties. Indices with a year 
+and area interaction were not considered in model selection; trends in the average 
+CPUE by region were similar in the filtered data set.
+
+A lognormal model  was 
+selected for the positive observation GLM by 
+a $\Delta AIC$ of 66.36 over a Gamma model and supported by Q-Q plots of the positive observations fit to both distributions.
+The delta-GLM
+method allows the linear predictors to differ between the binomial and positive models.
+Based on AIC values from maximum likelihood fits,
+a main effects model including 
+YEAR and SubRegion and WAVE and AREA X 
+was fit for the binomial model and a main 
+effects model including 
+YEAR and SubRegion and WAVE and AREA X 
+was fit for the lognormal model.
+The final index if plotted in Figure \@ref(fig:index-fits-all-fleets).
+Figures and Tables for this analysis can be seen in
+lingcod_MRFSS_dockside_writeup_NCA.pdf.
+
+#### Califronia Onboard Observer Survey, 1999-2019
 
 The state of California implemented a statewide onboard observer sampling 
 program in 1999 [@Monk2014]. 
@@ -54,20 +135,40 @@ fish.  Therefore, only retained fish were modeled in this index. The length
 from \gls{cdfw} sampling are contained in the RecFIN database and included in the 
 length composition for the recreational fleet in the assessment model. 
 
-The California Collaborative Fisheries Research Project, [CCFRP](https://www.mlml.calstate.edu/ccfrp/), 
-is a fishery-independent 
-hook-and-line survey designed to monitor nearshore fish populations at a series of sampling 
-locations both inside and adjacent to \glspl{mpa} along the central California coast 
-[@Wendt2009; @Starr2015].  The CCFRP survey began in 2007 and was originally
-designed as a statewide program in collaboration with NMFS scientists and fishermen. 
-From 2007-2016 the CCFRP project was focused on the central California coast, and has monitored 
-four \glspl{mpa} consistently.  In 2017, 
-the program was expanded coastwide within California.  The index of abundance was 
-developed from the four \glspl{mpa} sampled consistently,
-A&ntilde;o Nuevo and Point Lobos by Moss Landing Marine Labs;
-Point Buchon and Piedras Blancas by \gls{calpoly}.
+A number of filters are applied to these data.  All of the Cal Poly data were 
+QA/QC-ed once key-punched, whereas a number of errors remain in the 
+data from CDFW.  Data sheets from CDFW are not available prior to 2012 and 
+staff constraints have also prevented a quality control review of the data. 
 
-### Deb Wilson-Vandenberg Index
+Each drift was assigned to a reef (hard bottom). Hard bottom was extracted from 
+the [California Seafloor Mapping Project](http://seafloor.otterlabs.org/index.html), 
+with bathymetric data from state waters available at a 2 m resolution.  Reefs were 
+developed based on a number of factors described in the supplemental material 
+("Reef Delineation"). Depth restrictions in the recreational fishery were fairly 
+consistent from 2004-2016. Starting in 2017, depth restrictions eased in districts 
+north of Pt. Conception and the recreational fleet targeted these depths. The deeper waters (40-50 fm) are 
+outside of the mapped hard bottom habitat, but could be assigend to the larger 
+areas considered as a factor in the index.
+
+We modeled retained catch per angler hour (CPUE; number of fish per angler hour) 
+a Bayesian delta-GLM model.  Indices with a year and area interaction were not 
+considered in model selection; trends in the average CPUE by region were similar 
+in the filtered data set.
+The delta-GLM
+method allows the linear predictors to differ between the binomial and positive models.
+Based on AIC values from maximum likelihood fits, 
+a main effects model including 
+YEAR and WAVE and DEPTH bin 
+was fit for the binomial model and a main 
+effects model including 
+YEAR and DISTRICT and WAVE and DEPTH bin 
+was fit for the lognormal model.
+The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
+More information is available about this survey in
+lingcod_CA_CPFV_onboard_writeup_SCA.pdf
+
+
+#### Deb Wilson-Vandenberg Index
 
 The Deb Wilson-Vanedenberg data set is an onboard observer survey data conducted 
 by \gls{cdfw} survey in central California from 1987-1998 and referred to as the Deb 
@@ -83,3 +184,33 @@ data allow us to better filter the data for indices
 to fishing stops within suitable habitat for the target species.
 A large effort was made by the SWFSC to recover data from the original data 
 sheets for this survey and developed into a relational database [@Monk2016]. 
+
+A large effort was made by the SWFSC to recover data from the original data 
+sheets for this survey and developed into a relational database [@Monk2016]. 
+The specific fishing locations at each fishing stop  were recorded at a finer 
+scale than the catch data for this survey. We aggregated the relevant location 
+information (time and number of observed anglers) to match the available catch 
+information.  Between April 1987 and July 1992 the number of observed anglers 
+was not recorded for each fishing stop, but the number of anglers aboard the 
+vessel is available.  We imputed the number of observed anglers using the number 
+of anglers aboard the vessel and the number of observed anglers at each fishing 
+stop from the August 1992-December 1998 data (see Supplemental materials for 
+details). In 1987, trips were only observed in Monterey, CA and were therefore 
+excluded from the analysis. Sampling 
+targeted areas of central California.  Of the 2,256 trips observed, only 12 of 
+those launched from port in District 6, which was removed from the analysis.
+
+
+Each fishing location was assigned to a reef based on the on the bathymetric maps 
+and interpretation of hard bottom was extracted from 
+the [California Seafloor Mapping Project](http://seafloor.otterlabs.org/index.html).
+Reefs were aggregated to four regions produce adequate sample sizes; 
+Ft. Bragg to Santa Cruz (V1), Moss Landing to Big Sur (V2), San Luis Obispo to 
+Pt. Conception (V3), and Offshore (deeper) locations including the Farallon 
+Islands and reefs of Half Moon Bay and Monterey Bay (V4).  The ports in San 
+Luis Obispo county were sampled more frequently than other regions and the arithmetic 
+mean of CPUE by year was higher also higher in this area.
+
+The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
+More information is available about this survey in
+lingcod_DebWV_onboard_writeup_NCA.pdf
