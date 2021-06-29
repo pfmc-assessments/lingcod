@@ -6,6 +6,11 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 \floatplacement{figure}{H}
 # Figures
 
+Many more figures are available for the base model than what are included in this document.
+For easy viewing in your web browser please feel free to view them on the web at
+[Lingcod_2021](\url{https://iantaylor-noaa.github.io/Lingcod_2021/}).
+During the review, decisions regarding which figures are included in the final document can be discussed.
+
 ## Data figures
 
 ```{r, setup-plotinfotable}
@@ -318,7 +323,7 @@ add_figure_ling(csv = figurecsv, "yield2")
 
 ### Sensitivity analyses and retrospectives
 
-```{r, results = "asis",eval=FALSE, opts.label = north'}
+```{r, results = "asis",eval=FALSE, opts.label = 'north'}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_bio_rec.csv"))

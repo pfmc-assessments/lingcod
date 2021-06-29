@@ -1,6 +1,6 @@
 <!-- Most recent STAR panel and SSC recommendations -->
-
-The 2017 STAR report [**to do cite report**] noted four Unresolved Problems, 
+<!-- cite star report -->
+The 2017 STAR report noted four Unresolved Problems, 
 three Major Uncertainties, and provided three specific recommendations for future 
 research from the most recent full stock assessment on `r spp` [@haltuch2019lingcod]. 
 In addition, the Panel made four recommendations for stock assessments in general. 
