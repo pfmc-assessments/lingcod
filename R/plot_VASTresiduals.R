@@ -1,6 +1,7 @@
 #' Plot VAST residuals
 #'
 #' @param working_dir Where the VAST files are located.
+#' @param nrow The number of rows.
 #' @author Kelli F. Johnson
 plot_VASTresiduals <- function(working_dir) {
 
@@ -8,7 +9,9 @@ plot_VASTresiduals <- function(working_dir) {
   
   # REALLY BAD practice, but it won't work unless it is in the parent environment
   fit <<- out
+  fit <- out
   secretwd <<- working_dir
+  secretwd <- working_dir
   on.exit(rm(fit, secretwd), add = TRUE)
 
   dharmaRes = summary( fit, what="residuals", working_dir=secretwd, type=1)
@@ -45,7 +48,7 @@ gg <- ggplot2::ggplot(states_map, ggplot2::aes(x = long, y = lat)) +
     )
   ) +
   plot_theme() +
-  ggplot2::facet_wrap("Year", nrow = 2) + 
+  ggplot2::facet_wrap("Year") + 
   ggplot2::scale_colour_gradient2(low = "darkblue", mid = "white", high = "red") +
   ggplot2::theme(legend.position = "none") +
   xlab("Longitude (dd)") + ylab("Latitude (dd)")
@@ -53,9 +56,9 @@ gg <- ggplot2::ggplot(states_map, ggplot2::aes(x = long, y = lat)) +
     gg <- gg + 
       ggplot2::xlim(xlim) + ggplot2::ylim(ylim)
   }
+  pngname <- file.path(working_dir, "VASTWestCoast_scaledresidualsmap.png")
   ggplot2::ggsave(
-    gg,
-    filename = file.path(working_dir, "VASTWestCoast_scaledresidualsmap.png")
+    filename = 
   )
-
+  dev.off()
 }
