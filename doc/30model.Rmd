@@ -172,11 +172,6 @@ Given time constraints, each of these models were not tuned, i.e.,
 data weighting was not performed in an iterative fashion and bias adjustment
 was not conducted, which could impact the model results.
 
-#### Historical Analysis
-
-<!-- we could add a bit more about this in north vs south and drop the section -->
-[**TO DO: add text here**]
-
 ### Evaluation of uncertainty
 
 <!-- text below poached from Dover https://github.com/chantelwetzel-noaa/dover_sole_2021/ -->
