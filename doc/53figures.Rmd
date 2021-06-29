@@ -147,6 +147,11 @@ ignore <- mapply(FUN = sa4ss::add_figure,
   caption = paste0(c("Length", "Age"), "-composition data for males and females in the \\glsentrylong{s-wcgbt} (\\glsentryshort{s-wcgbt})."),
   label = paste0("wcgbts-", c("len", "age"), "Comp")
 )
+# CAAL comps from r4ss
+add_figure_ling(csv = figurecsv, "comp_condAALdat_bubflt7mkt0_page1.png")
+add_figure_ling(csv = figurecsv, "comp_condAALdat_bubflt7mkt0_page2.png")
+add_figure_ling(csv = figurecsv, "comp_condAALdat_bubflt7mkt0_page3.png")
+# triennial ages
 ignore <- mapply(FUN = sa4ss::add_figure,
   filein = file.path("..", "figures",
     paste0("Triennial - ", params$area, " _", c("Length", "Age"), "_Frequency.png")),
@@ -332,8 +337,30 @@ do.call(
 ### Fits to data
 
 ```{r, results = "asis"}
+# index fits
 add_figure_ling(utils::read.csv(file.path(params$model, "custom_plots", "index_fits_all_fleets.csv")))
+
+# fits to length comp distributions
+add_figure_ling(csv = figurecsv, "comp_lenfit__aggregated_across_time")
+
+# pearson resids for length comps
+add_figure_ling(csv = figurecsv, "comp_lenfit__page1_multi-fleet_comparison")
+add_figure_ling(csv = figurecsv, "comp_lenfit__page2_multi-fleet_comparison")
+
+# CAAL residuals from WCGBT only
+add_figure_ling(csv = figurecsv, "comp_condAALfit_residsflt7mkt0_page1.png")
+add_figure_ling(csv = figurecsv, "comp_condAALfit_residsflt7mkt0_page2.png")
+add_figure_ling(csv = figurecsv, "comp_condAALfit_residsflt7mkt0_page3.png")
+
+# discard fits
+add_figure_ling(csv = figurecsv, "discard_fitcommercial trawl.png")
+add_figure_ling(csv = figurecsv, "discard_fitcommercial fixed-gear.png")
+
+# mean body weight figs
+add_figure_ling(csv = figurecsv, "bodywt_fit_fltcommercial trawl.png")
+add_figure_ling(csv = figurecsv, "bodywt_fit_fltcommercial fixed-gear.png")
 ```
+
 
 ### Time series figures
 
@@ -342,6 +369,8 @@ add_figure_ling(csv = figurecsv, "ts7_.+with")
 add_figure_ling(csv = figurecsv, "ts9_.+ls$")
 add_figure_ling(csv = figurecsv, "ts1_Total")
 add_figure_ling(csv = figurecsv, "ts9_.+ls$")
+add_figure_ling(csv = figurecsv, "ts11_.+ls$")
+add_figure_ling(csv = figurecsv, "recdevs2_withbars.png")
 add_figure_ling(csv = figurecsv, "SR_curve$")
 add_figure_ling(csv = figurecsv, "SPR2")
 add_figure_ling(csv = figurecsv, "SPR4")
