@@ -13,7 +13,7 @@ profiles over $log(R_0)$ indicated a strong influence of this index on the scale
 of the north model far above the model expectation (as has been the case for this
 survey year in many other species), so an extra SD parameter was added to the 
 north model for that index.
-```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 Conversely, the extra standard deviation parameter for the Oregon nearshore 
 logbook index and the Oregon Recreational Boat Survey index hit the lower bound 
 of 0 indicating that the input uncertainty was appropriate for the degree 
@@ -24,7 +24,7 @@ That parameter was fixed at 0 both both indices.
 Initial selectivity assumptions had fewer blocks in some cases, but examination of
 patterns in the data and the model fits, as well as consideration of the 
 management history led to refinements in the time blocks for selectivity and retention.
-```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 The north model also had a number of parameters on bounds that needed to be 
 fixed in order to enable good convergence 
 (see Section \@ref(sec-model-selection) for details). One of these

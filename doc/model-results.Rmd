@@ -1,7 +1,7 @@
 #### Parameter estimates {#sec-model-estimates}
 
 #### Fits to the data {#sec-model-fits}
-```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 The fit to the seven indices of abundance are all reasonably good, with 
 the timing and magnitude of changes in expected abundance following the 
 observed patterns (Figure \ref{fig:index-fits-all-fleets}). 
@@ -66,7 +66,7 @@ although the observed discards in the first two years (2002 and 2003) were light
 than the expectation. There are no discard length compositions from those years
 so it's difficult to judge the reasons for the lack of fit.
 ```
-```{asis, exho = TRUE, eval = ifelse(params$area == "Sout", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "Sout", TRUE, FALSE)}
 The fit to the six indices of abundance available for the south model
 are reasonably good although many of the indices are noisier than for the north
 model reflecting the smaller sample sizes associated with the smaller area

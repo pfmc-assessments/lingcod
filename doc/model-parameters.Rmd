@@ -53,7 +53,7 @@ categories and are described in more detail in the following sections:
   representing the "main" period modeled as a zero-centered deviation vector
 - `r sum(sum(grepl("Q_extra", estimated_pars)))` extra standard deviation parameters
 for indices
-```{asis, exho = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
 - 2 parameters representing the catchability in the two periods of the
 index for the recreational California fleet (all other catchability values were 
 derived analytical)
@@ -69,7 +69,7 @@ high for all selected fish.
 Commercial fishery retention parameters for the period prior to 1998 were
 fixed at values that led to almost 100\% retention.
 
-```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 The extra standard deviation parameters for two Oregon CPUE indices were fixed
 at 0 as discussed in Section \@ref(sec-model-selection). 
 The parameter controlling the descending slope of the dome-shaped selectivity 
@@ -91,7 +91,7 @@ and was likewise fixed at that bound.
 ```
 
 The following additional parameters were fixed based on standard practices for west coast assessments.
-```{asis, exho = TRUE, eval = !any(grepl("sigma", estimated_pars))}
+```{asis, echo = TRUE, eval = !any(grepl("sigma", estimated_pars))}
 The standard deviation of recruitment deviations was fixed at
 `r sprintf("%.2f", model$parameters %>% dplyr::filter(grepl("sigma",Label)) %>% dplyr::pull(Value))`.
 ```
@@ -99,11 +99,11 @@ The standard deviation of recruitment deviations was fixed at
 A tuning algorithm [@methot_adjusting_2011] indicated little change was needed from 
 this starting value and sensitivity analyses showed the results to be relatively
 insensitive to alternative values.
-```{asis, exho = TRUE, eval = !any(grepl("Mat", estimated_pars))}
+```{asis, echo = TRUE, eval = !any(grepl("Mat", estimated_pars))}
 The maturity parameters were fixed at values based on the analysis described in Section
 \@ref(sec-biological-data-maturation-and-fecundity).
 ```
-```{asis, exho = TRUE, eval = !any(grepl("Wtlen", estimated_pars))}
+```{asis, echo = TRUE, eval = !any(grepl("Wtlen", estimated_pars))}
 The weight-length parameters were fixed at values estimated externally using data
 with paired observations of length and weight from the \gls{s-wcgbt}
 \@ref(sec-biological-data-Length-Weight-relationship).

@@ -16,7 +16,7 @@ of the two priors sex-specific priors in the base model
 
 The composition senstivities included
 
-```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 - add all additional ages as CAAL to the south model
 - add all additional ages as marginal
 - use the "combM+F" option in stock synthesis to ignore sex ratios among small fish
@@ -25,7 +25,7 @@ separately from the sexed fish in the base model)
 - apply the Dirichlet-Multinomial likelihood to automatically tune the composition 
 sample sizes (instead of the Francis method applied in the base model)
 ```
-```{asis, exho = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
 - use the "combM+F" option in stock synthesis to ignore sex ratios among small fish
 - remove all composition data vectors for unsexed fish (which were already represented
 separately from the sexed fish in the base model)
@@ -40,11 +40,11 @@ this pre-review version of the report.
 The index sensitivities involved removing each index from the model as well
 as removing all the fishery-dependent indices.
 
-```{asis, exho = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 [to do: add interpretation for north model sensitivities]
 ```
 
-```{asis, exho = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
 Among the biology sensitvities, the south model was most senstive to  
 fixing female $M$ at 0.3 and $h$ at 0.7 which pushed the scale up to a high level
 with the final 2021 spawning biomass estimated close to $B_0$.
