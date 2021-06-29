@@ -73,57 +73,42 @@ a sex ratio of 50:50 was assumed for this assessment.
 
 ### Length-Weight relationship {#sec-biological-data-Length-Weight-relationship}
 
-The weight-length relationship for `r spp` was estimated outside the model 
-using available biological data collected from the \Gls{s-wcgbt}. 
-The weight-length relationship is based on the standard power function: $W = aL^b$
-where W is weight in kilograms and L is fork length in centimeters. 
+Using data from the \Gls{s-wcgbt},
+the weight-length relationship for `r spp` was estimated outside of the assessment model
+by fitting biological data to the standard power function, $W = aL^b$.
+$W$ is weight in kilograms and $L$ is fork length in centimeters.
+Data included lengths and weights collected between 2003 and 2019 for
+`r ifelse(params$area == "North", "7,869", "5,547")` fish. Of these samples,
+`r ifelse(params$area == "North", "4,978", "3,052")` were female, and
+`r ifelse(params$area == "North", "2,805", "1,787")`were male.
 
-Hart [-@hart1967] reported the relationship between length ($L$) and weight ($W$) as
-$W = 0.000282406L^{3.011}$.
-The length-weight relationship was estimated by
-Jagielo [-@jagielo1994assessment] using available survey data
-was fit to mean weight-at-length measured in the West Coast survey as
-$W = 0.000003953L^{3.2149}$ for males and
-$W = 0.00000176L^{3.3978}$ for females.
-
-Between 2003 and 2019, lengths and weights were measured for
-[**to do: Confirm sample sizes show up now**]
-```{asis, opts.label = 'north', echo = TRUE}
-7,869 `r spp` in the \Gls{s-wcgbt} north of \CapeM. Of these samples, 4,978 were female,
-and 2805 were male. 
-```
-```{asis, opts.label = 'south', echo = TRUE}
-5,547 `r spp` in the \Gls{s-wcgbt} south of \CapeM. Of these samples, 3,052 were female,
-and 1,787 were male. 
-```
-
-Spatial differences were investigated by fitting an overall power 
-relationship between length and weight across all coastwide samples, and then comparing the residuals 
-across latitude, region, and depth using Tukey's honestly significant difference test
+Spatial differences were investigated by comparing the residuals 
+across latitude, region, and depth for a model that included the standard
+power relationship fit to all coastwide samples.
+Comparisons were made using Tukey's honestly significant difference test
 for pairwise multiple comparisons [@tukey1949].
 Residuals of the fit between length and weight showed 
 significant differences among latitude (p-value < 0.001, as a continuous variable) and 
 among regions north and south of \CapeM (p-value < 0.001, as factors). The 
-relationship between length and weight change with depth (p-value = 0.02, as a continuous variable), 
+relationship between length and weight changed with depth (p-value = 0.02, as a continuous variable), 
 but not when applying similar depth categories (55 - 183, 183 - 400, and >400 m)
 as was used to expand composition data (p-value = 0.16) or more refined depth categories 
 (55 - 85, 85 - 110, 110 - 140, 140 - 183, and >183 m; p-value = 0.20). 
 
 The parameters of the weight-length relationship were re-estimated using data from 
 the \gls{s-wcgbt}. New length and weight data from the survey for this assessment result in the 
-following estimates for the weight-length relationships: 
-
-[**to do: Confirm equations show up now**]
-```{asis, opts.label = 'north', echo = TRUE}
-$W=$`r format(lw.WCGBTS$North_NWFSC.Combo_F[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$North_NWFSC.Combo_F[2], scientific = TRUE)` for females, and 
-$W=$`r format(lw.WCGBTS$North_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$North_NWFSC.Combo_M[2], scientific = TRUE)` for males 
-```
-```{asis, opts.label = 'south', echo = TRUE}
-$W=$`r format(lw.WCGBTS$South_NWFSC.Combo_F[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$South_NWFSC.Combo_F[2], scientific = TRUE)` for females, and 
-$W=$`r format(lw.WCGBTS$South_NWFSC.Combo_M[1], scientific = TRUE)`$L^`r format(lw.WCGBTS$South_NWFSC.Combo_M[2], scientific = TRUE)` for males 
-```
-(Figure \ref{fig:len-weight}). These relationships are very similar to those used for the previous assessment (@haltuch2019lingcod).
-
+following estimates, 
+`r sprintf("$W=%1.003e * L^%1.003e$", ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_F[1], lw.WCGBTS$South_NWFSC.Combo_F[1]), ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_F[2], lw.WCGBTS$South_NWFSC.Combo_F[2]))` for females, and
+`r sprintf("$W=%1.003e * L^%1.003e$", ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_M[1], lw.WCGBTS$South_NWFSC.Combo_M[1]), ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_M[2], lw.WCGBTS$South_NWFSC.Combo_M[2]))` for males
+(Figure \ref{fig:len-weight}).
+These relationships are very similar to those used for the previous assessment [@haltuch2019lingcod].
+Additioinally, Hart [-@hart1967] reported the relationship between $W$ and $L$ as
+$W = 0.000282406 * L^{3.011}$.
+The length-weight relationship was estimated by
+Jagielo [-@jagielo1994assessment] using available survey data
+was fit to mean weight-at-length measured in the West Coast survey as
+$W = 0.000003953 * L^{3.2149}$ for males and
+$W = 0.00000176 * L^{3.3978}$ for females.
 
 ### Growth (length-at-age)
 
@@ -160,7 +145,7 @@ because female `r spp` tend to grow faster and live longer than male `r spp`.
 Male `r spp` mature at age three.
 
 Estimates of growth parameters were investigated and starting values for model inputs
-were updated using the \Gls{s-wcgbt} data.
+were updated using the \gls{s-wcgbt} data.
 Spatial differences were investigated by fitting an overall von Bertalanffy relationship
 between age and length across all coastwide samples and
 then comparing the residuals across latitude and depth using
@@ -183,8 +168,8 @@ patterns were nearly not statistically distinguishable between shallow (<85 m) a
 mid-shallow (85-110 m) depths (p-value = 0.043) and were not statistically distinguishable 
 between mid-deep (140-183 m) and deep (>183 m) depths (p-value = 0.84).
 
-Externally estimated von Bertalanffy growth parameters for `r spp` using \Gls{s-wcgbt} data are:
-[**to do: Confirm equations show up now**]
+Externally estimated von Bertalanffy growth parameters for `r spp` using \Gls{s-wcgbt} data
+that were used for initial parameter values were as follows:
 ```{asis, opts.label = 'north', echo = TRUE}
 $k$ = `r round(la.WCGBTS$North_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$North_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la.WCGBTS$North_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$North_NWFSC.Combo_M[1],3)` for males. 
 These estimates are from 5,145 age and length samples, of which 3,290 are female, and 1,795 are male.
@@ -193,9 +178,7 @@ These estimates are from 5,145 age and length samples, of which 3,290 are female
 $k$ = `r round(la.WCGBTS$South_NWFSC.Combo_F[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$South_NWFSC.Combo_F[1],3)` for females, and $k$= `r  round(la.WCGBTS$South_NWFSC.Combo_M[2],3)` and  $L_{\infty}$ = `r round(la.WCGBTS$South_NWFSC.Combo_M[1],3)` for males. 
 These estimates are from 3,910 age and length samples, of which 2,178 are female, and 1,228 are male.
 ```
-
-[**to do:NEED TO PROVIDE INTERNALLY ESTIMATED GROWTH CURVE FIGURE, but do we really (KFJ)?**]
-
+<!-- to do - internally estimated growth figure -->
 
 ### Ageing precision and bias
 
