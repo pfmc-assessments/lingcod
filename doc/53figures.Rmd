@@ -284,13 +284,13 @@ ignore <- mapply(
 
 ### Growth and selectivity
 
-```{r, results = "asis",eval=FALSE}
+```{r, results = "asis", eval = TRUE, echo = FALSE}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path(params$model, "custom_plots", "selectivity_comm.csv"))
 )
 ```
-```{r, results = "asis",eval =FALSE}
+```{r, results = "asis", eval = TRUE, echo = FALSE}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path(params$model, "custom_plots", "selectivity_noncomm.csv"))
@@ -322,33 +322,21 @@ add_figure_ling(csv = figurecsv, "yield2")
 
 ### Sensitivity analyses and retrospectives
 
-```{r, results = "asis",eval=FALSE, opts.label = 'north'}
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_bio_rec.csv"))
-)
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_comp.csv"))
-)
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_index.csv"))
-)
-```
-```{r, results = "asis",eval=FALSE, opts.label = 'south'}
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_bio_rec.csv"))
-)
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_comp.csv"))
-)
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_index.csv"))
-)
+```{r, results = "asis"}
+# Read in three separate csv files
+# timeseries_[ns]_ will be changed by string_switchletter to be the appropriate area
+# to do -- change the file name to no be specific to area b/c the file isn't in Figures
+add_figure_ling(dplyr::bind_rows(mapply(
+  SIMPLIFY = FALSE,
+    FUN = utils::read.csv,
+    file = file.path(params$model, "custom_plots", string_switchletter(newletter = params$area,
+        x = c(
+          "sens_timeseries_n_bio_rec.csv",
+          "sens_timeseries_n_comp.csv",
+          "sens_timeseries_n_index.csv"
+        )
+    ))
+)))
 ```
 
 ```{r, figures-retro, echo = FALSE, results = "asis"}
