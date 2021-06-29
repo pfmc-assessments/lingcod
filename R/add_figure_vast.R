@@ -18,9 +18,9 @@ add_figure_vast <- function(dir, outfile) {
   )
   data <- data.frame(
     filein = file.path(dir, dir(dir,
-      pattern = "VASTWestCoast_[Qmi].*\\.png")
+      pattern = "VASTWestCoast_[Qmis].*\\.png")
     ),
-    order = c(1, 2, 3),
+    order = c(1, 2, 3, 4),
     caption = c(
       paste0(
         "Map of the area modeled by the index-standardization process for ",
@@ -32,12 +32,19 @@ add_figure_vast <- function(dir, outfile) {
       ),
       paste0("Quantile-Quantile (QQ) plot of the theoretical quantiles versus ",
         "the standardized quantiles given fits to the data for ", boilerplate, "."
+      ),
+      paste0(
+        "Map of standardized residuals from the spatiotemporal index standardization model ",
+        "by year (panels) for the ",
+        boilerplate, ". Dark blue are the lowest value, ",
+        "white are closest to the mean, and red are the highest values."
       )
     ),
     alt_caption = c(
       paste0("Blue outline of area included in the model."),
       paste0("Web of points connected to 'knots', which is an input to the model."),
-      paste0("Data largely follow the one-to-one line.")
+      paste0("Data largely follow the one-to-one line."),
+      paste0("No spatial pattern is apparent in the residuals.")
     )
   )
 
