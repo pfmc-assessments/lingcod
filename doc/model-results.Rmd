@@ -44,7 +44,7 @@ sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
 length(unique(paste(test$FltSvy, test$Yr)))
 -->
 The conditional age-at-length data (CAAL) in the north model are numerous
-(shown for \gls{s-wgbts} in Figures 
+(shown for \gls{s-wcgbt} in Figures 
 \ref{fig:comp-condAALfit-residsflt7mkt0-page1}-\ref{fig:comp-condAALfit-residsflt7mkt0-page3},
 see "A\@LComp" in the electronic appendix for others). 
 They represent over 72,000 individual fish
