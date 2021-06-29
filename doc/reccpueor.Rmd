@@ -95,7 +95,7 @@ replicated point estimates from the \gls{mle}. The advantage of
 this approach is that the calculation of the index (summing relevant model
 parameters and combining model components) can be applied to posterior draws,
 preserving the correlation structure and propagating uncertainty into the
-final index (Figure \@ref(fig:index_data_all_fleets)). As an
+final index (Figure \@ref(fig:index-data-all-fleets)). As an
 additional diagnostic, replicate datasets were generated from the posterior
 predictive distribution, and compared the \glspl{mle}
 from the model components to the median estimates from the posterior

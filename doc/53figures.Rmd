@@ -148,9 +148,7 @@ ignore <- mapply(FUN = sa4ss::add_figure,
   label = paste0("wcgbts-", c("len", "age"), "Comp")
 )
 # CAAL comps from r4ss
-add_figure_ling(csv = figurecsv, "comp_condAALdat_bubflt7mkt0_page1.png")
-add_figure_ling(csv = figurecsv, "comp_condAALdat_bubflt7mkt0_page2.png")
-add_figure_ling(csv = figurecsv, "comp_condAALdat_bubflt7mkt0_page3.png")
+add_figure_ling(csv = figurecsv, "comp_condAALdat_bubflt7mkt0")
 # triennial ages
 ignore <- mapply(FUN = sa4ss::add_figure,
   filein = file.path("..", "figures",
@@ -327,10 +325,7 @@ do.call(
 )
 ```
 ```{r, results = "asis", eval = TRUE, echo = FALSE}
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "selectivity_noncomm.csv"))
-)
+add_figure_ling(utils::read.csv(file.path(params$model, "custom_plots", "selectivity_noncomm.csv")))
 ```
 
 
@@ -344,21 +339,16 @@ add_figure_ling(utils::read.csv(file.path(params$model, "custom_plots", "index_f
 add_figure_ling(csv = figurecsv, "comp_lenfit__aggregated_across_time")
 
 # pearson resids for length comps
-add_figure_ling(csv = figurecsv, "comp_lenfit__page1_multi-fleet_comparison")
-add_figure_ling(csv = figurecsv, "comp_lenfit__page2_multi-fleet_comparison")
+add_figure_ling(csv = figurecsv, "comp_lenfit.*multi-fleet_comparison")
 
 # CAAL residuals from WCGBT only
-add_figure_ling(csv = figurecsv, "comp_condAALfit_residsflt7mkt0_page1.png")
-add_figure_ling(csv = figurecsv, "comp_condAALfit_residsflt7mkt0_page2.png")
-add_figure_ling(csv = figurecsv, "comp_condAALfit_residsflt7mkt0_page3.png")
+add_figure_ling(csv = figurecsv, "comp_condAALfit")
 
 # discard fits
-add_figure_ling(csv = figurecsv, "discard_fitcommercial trawl.png")
-add_figure_ling(csv = figurecsv, "discard_fitcommercial fixed-gear.png")
+add_figure_ling(csv = figurecsv, "discard_fit")
 
 # mean body weight figs
-add_figure_ling(csv = figurecsv, "bodywt_fit_fltcommercial trawl.png")
-add_figure_ling(csv = figurecsv, "bodywt_fit_fltcommercial fixed-gear.png")
+add_figure_ling(csv = figurecsv, "bodywt")
 ```
 
 
@@ -370,7 +360,7 @@ add_figure_ling(csv = figurecsv, "ts9_.+ls$")
 add_figure_ling(csv = figurecsv, "ts1_Total")
 add_figure_ling(csv = figurecsv, "ts9_.+ls$")
 add_figure_ling(csv = figurecsv, "ts11_.+ls$")
-add_figure_ling(csv = figurecsv, "recdevs2_withbars.png")
+add_figure_ling(csv = figurecsv, "recdevs2_withbars")
 add_figure_ling(csv = figurecsv, "SR_curve$")
 add_figure_ling(csv = figurecsv, "SPR2")
 add_figure_ling(csv = figurecsv, "SPR4")

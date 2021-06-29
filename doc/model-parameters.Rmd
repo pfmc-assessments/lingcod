@@ -79,7 +79,7 @@ convergence so they were all fixed equal to the bound.
 
 <!-- manual updates needed here if models change -->
 Selectivity was estimated as asymptotic in many cases 
-(Figure \@ref(fig:selectivity_noncomm)), including the commercial trawl prior to 
+(Figure \@ref(fig:selectivity-noncomm)), including the commercial trawl prior to 
 1993, the fixed-gear fleet (not time-varying), any many of the time-blocks 
 for the recreational fleets. In all these cases, the parameter controlling
 the descending slope of the dome-shaped selectivity was fixed at the upper bound. 
