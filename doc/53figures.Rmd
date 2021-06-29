@@ -8,8 +8,7 @@ https://stackoverflow.com/questions/29696172/how-to-hold-figure-position-with-fi
 
 Many more figures are available for the base model than what are included in this document.
 For easy viewing in your web browser please feel free to view them on the web at
-[Lingcod_2021](\url{https://iantaylor-noaa.github.io/Lingcod_2021/}).
-During the review, decisions regarding which figures are included in the final document can be discussed.
+[iantaylor-noaa.gthub.io/Lingcod\_2021](https://iantaylor-noaa.github.io/Lingcod_2021/).
 
 ## Data figures
 
