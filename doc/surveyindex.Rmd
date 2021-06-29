@@ -37,6 +37,12 @@ Spatial variation was approximated using 500 knots (Figure \@ref(fig:s-wcgbt-VAS
 and the model used the bias-correction algorithm
 [@thorson_implementing_2016] in Template Model Builder [@kristensen_tmb:_2016].
 
+The spatiotemporal model was specific to the area included in this assessment
+(Figures \@ref(fig:fig:s-wcgbt-VAST-inputgrid) and \@ref(fig:fig:s-wcgbt-VAST-mesh))
+because separate models were fit for each area rather than
+using the stratification functionality to partition the results from a single
+model to area. This was done to ensure that the correlation structure
+from one area did not influence the estimates for another area.
 The estimated index of abundance (Figure \@ref(fig:index-fits-all-fleets))
 was assumed to follow a gamma distribution
 (Figure \@ref(fig:s-wcgbt-VAST-QQ))
@@ -44,12 +50,7 @@ but both the lognormal and the gamma fit equally well.
 The quantile-quantile plot did not a significant departure from the
 theoretical quantiles (Figure \@ref(fig:s-wcgbt-VAST-QQ)) and
 the gradient was sufficiently low to suggest the model had converged.
-Furthermore, there was no clear pattern in residuals (Figure \@ref(fig:s-wcgbts-scaledresidualsmap)).
-This model was specific to the area included in this assessment because
-separate models were fit for each area rather than
-using the stratification functionality to partition the results from a single
-model to each area. This was done to ensure that the correlation structure
-from one area did not influence the estimates for another area.
+Furthermore, there was no clear pattern in the residuals (Figure \@ref(fig:s-wcgbt-VAST-scaledresidualsmap)).
 
 #### \acrlong{s-tri}
 
@@ -66,7 +67,8 @@ Finally, the 2001 and 2004 surveys were conducted from May to July.
 
 Haul depths ranged from 91-457 m during the 1977 survey with no hauls shallower than 91 m.
 Due to haul performance issues and truncated sampling with respect to depth, the data from 1977 were omitted from this analysis.
-The surveys in 1980, 1983, and 1986 covered the US West Coast south to 36.8\textdegree N latitude and a depth range of 55-366 m.
+The surveys in 1980, 1983, and 1986 covered the US West Coast south to 36.8\textdegree N latitude and a depth range of 55-366 m
+(Figures \@ref(fig:fig:s-tri-VAST-inputgrid) and \@ref(fig:fig:s-tri-VAST-mesh)).
 The surveys in 1989 and 1992 covered the same depth range but extended the southern range to 34.5\textdegree N (near Point Conception).
 From 1995 through 2004, the surveys covered the depth range 55-500 m and surveyed south to 34.5\textdegree N.
 In 2004, the final year of the \gls{s-tri} series, the \gls{nwfsc} \gls{fram} conducted the survey following similar protocols to earlier years.
@@ -80,11 +82,12 @@ The gamma distribution with random strata-year and vessel effects fit the data w
 had a low gradient.
 
 The resulting index was generally cup shaped but with a large increase in 2004,
-the terminal year (Figure \@ref(fig:index_fits_all_fleets)).
+the terminal year (Figure \@ref(fig:index-fits-all-fleets)).
 The 2004 data point increased at a rate beyond what may be anticipated given the life history of `r spp`.
 A similar spike in abundance in 2004 has been observed for other species (e.g., petrale sole, dover) sampled observed in the \gls{s-tri} which
 may be indicative of a change in the application of the survey
 rather than an increase in biomass.
+Although, there was no clear spatial pattern in the residuals (Figure \@ref(fig:s-tri-VAST-scaledresidualsmap)).
 
 ```{asis, opts.label = 'south'}
 #### NWFSC Hook and Line Survey
