@@ -26,6 +26,7 @@ separately from the sexed fish in the base model)
 sample sizes (instead of the Francis method applied in the base model)
 ```
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+- remove all fishery-dependent age data from the north model
 - use the "combM+F" option in stock synthesis to ignore sex ratios among small fish
 - remove all composition data vectors for unsexed fish (which were already represented
 separately from the sexed fish in the base model)
@@ -41,18 +42,66 @@ The index sensitivities involved removing each index from the model as well
 as removing all the fishery-dependent indices.
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
-[to do: add interpretation for north model sensitivities]
+<!-- manual updates needed here if models change -->
+<!-- values in paragraph below are from 
+get_mod('n', 22) # base
+get_mod('n', 22, 103) # sensitity
+compare <- r4ss::SSsummarize(list(mod.2021.n.022.001, mod.2021.n.022.103))
+apply(compare$Bratio[1:2], 2, min) %>% round(2)
+round(compare$Bratio[compare$Bratio$Yr == 2021,1:2], 2)
+-->
+The north model was sensitive to the to the senstivity of fixing female $M$ at 0.
+3 and $h$ at 0.7. This pushed the unfished equilibrium spawning biomass down
+slightly, but the lower productivity associated with these parameters mean that the
+catch history drove the stock down to a minimum fraction unfished of 18\%
+compared to 31\% in the base model. The fraction unfished at the start of 2021 
+in that sensitivity is 32\% compared to 63\% for the base model. 
+The negative log-likelihood for this sensitivity is 14 units worse than the base 
+model, with worse fits to all data sources with the exception of the age comps
+which have an improvement in fit of 11 units.
+
+Among the composition sensitivities, the north model was sensitive to removing the
+fishery-dependent ages, which reduced the estimate of female $M$ from 0.41 to 0.33 
+and pushed the scale upwards. Applying the Dirichlet-Multinomial likelihood 
+for the composition data (which led to higher weights for these data) 
+had the opposite effect, bringing the scale downwards.
+
+The senstivities related to removing indices from the north model had relatively little
+impact with the exception of the one in which all fishery CPUE indices
+were removed, which increased the scale from 62\% of $B_0% in 2021 to 82\%.
+
 ```
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
-Among the biology sensitvities, the south model was most senstive to  
-fixing female $M$ at 0.3 and $h$ at 0.7 which pushed the scale up to a high level
-with the final 2021 spawning biomass estimated close to $B_0$.
+<!-- manual updates needed here if models change -->
+<!-- values in paragraph below are from 
+get_mod('s', 14) # base
+get_mod('s', 14, 103) # sensitity
+compare <- r4ss::SSsummarize(list(mod.2021.s.014.001, mod.2021.s.014.103))
+apply(compare$Bratio[1:2], 2, min) %>% round(2)
+round(compare$Bratio[compare$Bratio$Yr == 2021,1:2], 2)
+-->
+Among the biology and recruitment sensitivities, the south model was most senstive to
+fixing female $M$ at 0.3 and $h$ at 0.7 which increased the productivity of the 
+stock enough to result in a 2021 spawning biomass estimate at 97\% of $B_0$.
+The negative log-likelihood for this sensitivity is 6.7 units worse than the base 
+model, with worse fits the index and length comp data and better fits to the age
+compositions which have an improvement in fit of 3.6 units.
 
 The addition of ages as CAAL or marginal in the south model likewise pushed the 
 scale upwards (with the scale of the biomass in the CAAL sensitivity so high that
 it doesn't appear within the range shown in the figure). The Dirichlet-Multinomial
 sensitivity, which led to increased weight on the length and age compositions
 likewise pushed the scale upwards.
+
+The two senstivities related to removing indices which had the most impact were
+those related to the historical indices: the \gls{s-tri} and 
+the recreational CPFV Deb Wilson-Vandenberg index. 
+Without the recreational index, the stock was estimated to have had a very large
+recruitment in 1952, driving the stock high above $B_0$ in the 1950s and 1960s.
+Removing the \gls{s-tri} caused the stock to continue to decline in the 1990s and 
+early 2000s instead of stabilitizing and then increasing to better fit the higher
+2004 \gls{s-tri} observation.
+
 ```
 

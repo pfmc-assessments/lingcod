@@ -37,6 +37,7 @@ although some modes progress through the population, such as the 2008 cohort
 as observed by the \gls{s-wcgbt} in the years 2008-2011 (the observed mode in 2012 
 is off by 1 year). 
 
+<!-- manual updates needed here if models change -->
 <!-- values in paragraph below are from 
 dat.n <- get_inputs_ling('n', 22)$dat
 sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
