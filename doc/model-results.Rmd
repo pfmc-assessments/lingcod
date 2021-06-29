@@ -57,8 +57,8 @@ shows that both the mean age in each length bin and the variability in age at le
 have a good match for most years and most fleets.
 
 The expected commercial trawl discard fractions 
-(Figures \ref{fig:discard-fitcommercial-trawl} and 
-\ref{fig:discard-fitcommercial-fixed-gear} and "Discard" in electronic appendix) 
+(Figures \ref{fig:discard-fit1-Comm-Trawl} and 
+\ref{fig:fig:discard-fit2-Comm-Fix} and "Discard" in electronic appendix) 
 are higher than observed for the period 2002-2009, where
 the large uncertainty in estimated discards allows the model to misfit these 
 to better fit the length comps, with the parameter for length at 50\% retention
@@ -71,8 +71,8 @@ are well within the uncertainty intervals for all but 2002.
 
 The fit to the mean body weight of discards are good for most years
 although the observed discards in the first two years (2002 and 2003) were lighter 
-than the expectation (Figures \ref{fig:bodywt-fit-fltcommercial-trawl} and 
-\ref{fig:bodywt-fit-fltcommercial-fixed-gear} and "Mnwt" in electronic appendix). 
+than the expectation (Figures \ref{fig:bodywt-data-flt1-Comm-Trawl} and 
+\ref{fig:bodywt-fit-flt1-Comm-Trawl} and "Mnwt" in electronic appendix). 
 There are no discard length compositions from those years
 so it's difficult to judge the reasons for the lack of fit.
 ```

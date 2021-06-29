@@ -97,6 +97,46 @@ sa4ss::add_figure(
 )
 ```
 
+
+<!-- ====================================================================== -->
+<!-- Recreational Length and Age Comps -->
+<!-- ====================================================================== -->
+```{r, echo=FALSE, results='asis'}
+get_fleet("rec") %>%
+  # Expand so each rec fleet has one row per sexes and types listed
+  tidyr::crossing(sex = c("Sexed", "Unsexed"), type = c("Length", "Age")) %>%
+  # Group lengths for a given fleet then ages
+  dplyr::arrange(desc(type), order, sex) %>%
+  # Keep only the appropriate fleets for the area
+  dplyr::filter(!!as.name(paste0("used_", substr(Sys.Date(),1,4),".", tolower(substr(params$area,1,1))))) %>%
+  # Create the caption and filename
+  dplyr::mutate(
+    alt_caption = "to do -- fill this in",
+    filein = file.path(
+      "..", "figures",
+      paste0(
+        ifelse(label_twoletter == "CA", paste(label_twoletter, params$area), label_twoletter),
+        " Recreational - ",
+        sex, "_", type,
+        "_Frequency.png"
+      )
+    ),
+    caption = paste0(stringr::str_to_title(type), "-composition data for the ", label_twoletter, " recreational fleet for ", tolower(sex), " fish."),
+    label = paste0(tolower(label_twoletter), "-", substr(tolower(type), 1, 3), "comp-", tolower(sex))
+  ) %>%
+  dplyr::filter(file.exists(filein)) %>%
+  dplyr::select(filein, caption, label, alt_caption) %>%
+  add_figure_ling
+```
+
+```{r, results = "asis"}
+do.call(
+  sa4ss::add_figure,
+  utils::read.csv(file.path("..", "figures", "rec_selectivity_illustration.csv"))
+)
+```
+
+
 <!--                                                                        -->
 <!--                                                                        -->
 
@@ -109,6 +149,35 @@ filein = file.path("..", "figures", nm),
 caption = paste0("Presence/absence of ", spp, " in the  \\glsentrylong{s-wcgbt} (\\glsentryshort{s-wcgbt}) by 25 m depth increments"),
 label = 'wcgbts-presAbs')
 ```
+
+<!-- ====================================================================== -->
+<!-- VAST -->
+<!-- ====================================================================== -->
+
+```{r figures-vast, results = "asis"}
+ignore <- mapply(
+  FUN = add_figure_vast,
+  SIMPLIFY = FALSE,
+  file.path("..", "data-raw",
+    sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), params$area)
+  )
+)
+```
+
+
+<!-- Triennial -->
+
+```{r, echo=FALSE, results='asis', opts.label = 'south'}
+nm = "Triennial_cpueXdepth.png"
+sa4ss::add_figure(
+filein = file.path("..", "figures", nm),
+caption = paste0("Raw catch per unit effort in  by depth in
+                 the triennial survey. The black verticale line indicate
+                 split in depth strata at 183m,
+                 and red vertical line shows end of depth strata at 350m"),
+label = 'tri-depthSplit')
+```
+
 <!-- Hook and line -->
 ```{r hookandlinesurveyfigures, results = "asis", eval = params$area == "South"}
 sa4ss::add_figure(
@@ -138,7 +207,7 @@ sa4ss::add_figure(
 )
 ```
 
-<!-- WCGBTS -->
+<!-- WCGBTS and Triennial -->
 
 ```{r, results = "asis"}
 ignore <- mapply(FUN = sa4ss::add_figure,
@@ -158,18 +227,6 @@ ignore <- mapply(FUN = sa4ss::add_figure,
 )
 ```
 
-<!-- Triennial -->
-
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
-nm = "Triennial_cpueXdepth.png"
-sa4ss::add_figure(
-filein = file.path("..", "figures", nm),
-caption = paste0("Raw catch per unit effort in  by depth in
-                 the triennial survey. The black verticale line indicate
-                 split in depth strata at 183m,
-                 and red vertical line shows end of depth strata at 350m"),
-label = 'tri-depthSplit')
-```
 
 <!-- Hook and Line -->
 
@@ -255,59 +312,7 @@ add_figure_ling(utils::read.csv(file.path("..", "figures", "ageing-double-reads.
 add_figure_ling(figurecsv%>%dplyr::filter(grepl("numbers10",label)))
 ```
 
-<!-- ====================================================================== -->
-<!-- Recreational Length and Age Comps -->
-<!-- ====================================================================== -->
 
-```{r, results = "asis"}
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path("..", "figures", "rec_selectivity_illustration.csv"))
-)
-```
-
-```{r, echo=FALSE, results='asis', opts.label = 'north'}
-get_fleet("rec") %>%
-  # Expand so each rec fleet has one row per sexes and types listed
-  tidyr::crossing(sex = c("Sexed", "Unsexed"), type = c("Length", "Age")) %>%
-  # Group lengths for a given fleet then ages
-  dplyr::arrange(desc(type), order, sex) %>%
-  # Keep only the appropriate fleets for the area
-  dplyr::filter(!!as.name(paste0("used_", substr(Sys.Date(),1,4),".", tolower(substr(params$area,1,1))))) %>%
-  # Create the caption and filename
-  dplyr::mutate(
-    alt_caption = "to do -- fill this in",
-    filein = file.path(
-      "..", "figures",
-      paste0(
-        ifelse(label_twoletter == "CA", paste(label_twoletter, params$area), label_twoletter),
-        " Recreational - ",
-        sex, "_", type,
-        "_Frequency.png"
-      )
-    ),
-    caption = paste0(stringr::str_to_title(type), "-composition data for the ", label_twoletter, " recreational fleet for ", tolower(sex), " fish."),
-    label = paste0(tolower(label_twoletter), "-", substr(tolower(type), 1, 3), "comp-", tolower(sex))
-  ) %>%
-  dplyr::filter(file.exists(filein)) %>%
-  dplyr::select(filein, caption, label, alt_caption) %>%
-  add_figure_ling
-```
-
-
-<!-- ====================================================================== -->
-<!-- VAST -->
-<!-- ====================================================================== -->
-
-```{r figures-vast, results = "asis"}
-ignore <- mapply(
-  FUN = add_figure_vast,
-  SIMPLIFY = FALSE,
-  file.path("..", "data-raw",
-    sprintf("%s_%s_gamma", c("WCGBTS", "Triennial"), params$area)
-  )
-)
-```
 
 
 <!-- ====================================================================== -->
