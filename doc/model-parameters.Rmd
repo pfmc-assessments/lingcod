@@ -22,7 +22,7 @@ with a mean of 0.67 and a standard deviation of 0.22.
 
 #### Estimated parameters {#sec-estimated-parameters}
 
-```{r parameters, include = FALSE, eval = TRUE, cache = TRUE}
+```{r estimated-parameters}
 # get parameter names from base model
 estimated_pars <- model$parameters %>%
   dplyr::filter(!is.na(Active_Cnt)) %>%

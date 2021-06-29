@@ -301,10 +301,7 @@ do.call(
 ### Fits to data
 
 ```{r, results = "asis"}
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path(params$model, "custom_plots", "index_fits_all_fleets.csv"))
-)
+add_figure_ling(utils::read.csv(file.path(params$model, "custom_plots", "index_fits_all_fleets.csv")))
 ```
 
 ### Time series figures
