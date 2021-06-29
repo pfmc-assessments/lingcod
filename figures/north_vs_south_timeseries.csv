@@ -1,0 +1,2 @@
+caption,alt_caption,label,filein
+Time series of spawning biomass (top) and fraction of unfished (bottom) from the 2021 and 2017 base models for north and south. Note that the 2017 models had a break at \CAOR instead of \CapeM used in the 2021 models.,,sens_timeseries_north_vs_south,../figures/compare_north_vs_south_timeseries.png

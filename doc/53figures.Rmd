@@ -355,3 +355,6 @@ add_figure_profile(params$model, "R0")
 ```{r, results = "asis", eval = TRUE}
 add_figure_ling(utils::read.csv(file.path("..", "figures", "figures_compare_north_vs_south.csv")))
 ```
+```{r, results = "asis", eval = TRUE}
+add_figure_ling(utils::read.csv(file.path("..", "figures", "north_vs_south_timeseries.csv")))
+```
