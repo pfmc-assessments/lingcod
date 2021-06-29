@@ -323,7 +323,7 @@ add_figure_ling(csv = figurecsv, "yield2")
 
 ### Sensitivity analyses and retrospectives
 
-```{r, results = "asis",eval=FALSE, opts.label = north'}
+```{r, results = "asis",eval=FALSE, opts.label = 'north'}
 do.call(
   sa4ss::add_figure,
   utils::read.csv(file.path(params$model, "custom_plots", "sens_timeseries_n_bio_rec.csv"))
