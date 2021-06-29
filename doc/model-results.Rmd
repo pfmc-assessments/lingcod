@@ -1,4 +1,6 @@
-#### Parameter estimates {#sec-model-estimates}
+<!-- running out of time!
+#### Parameter estimates {#sec-model-estimates} 
+-->
 
 #### Fits to the data {#sec-model-fits}
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
@@ -66,7 +68,7 @@ although the observed discards in the first two years (2002 and 2003) were light
 than the expectation. There are no discard length compositions from those years
 so it's difficult to judge the reasons for the lack of fit.
 ```
-```{asis, echo = TRUE, eval = ifelse(params$area == "Sout", TRUE, FALSE)}
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
 The fit to the six indices of abundance available for the south model
 are reasonably good although many of the indices are noisier than for the north
 model reflecting the smaller sample sizes associated with the smaller area
@@ -141,5 +143,6 @@ The fit to the mean body weight ("Mnwt") of discards are within the confidence
 intervals for most years although there's relatively little signal in those data.
 ```
 
+<!-- running out of time!
 #### Population trajectory {#sec-model-trajectory}
-
+-->
