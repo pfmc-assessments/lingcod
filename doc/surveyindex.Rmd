@@ -4,15 +4,17 @@ The \Gls{s-wcgbt}, which began in 2003,
 is the longest time series of fishery-independent data
 included in this assessment and the most recent.
 This survey samples the shelf and slope off the U.S. West Coast covering depths
-from 30 - 700 fathoms (55 - 1,280 meters; Figure \@ref(fig:s-wcgbt-VAST_inputgrid))
-on an annual basis (excluding 2020 due to COVID-19).
+from 30 - 700 fathoms (55 - 1,280 meters; Figure \@ref(fig:s-wcgbt-VAST-inputgrid))
+on an annual basis (excluding 2020 due to the COVID-19 pandemic).
 The survey is based on a random-grid design [@bradburn_2003_2011] that
 generally uses four industry-chartered vessels per year
 assigned to a roughly equal number of randomly selected grid cells and
- divided into two 'passes' of the coast.
+divided into two 'passes' of the coast.
 Two vessels fish from north to south during each pass between late May to early October.
 This design therefore incorporates vessel-to-vessel differences in catchability
-and variance associated with selecting a relatively small number (approximately 700) of possible cells from a very large set of possible cells spread from the Mexican to the Canadian borders.
+and variance associated with selecting a relatively small number (approximately 700)
+of possible cells from a very large set of possible cells spread from
+the Mexican to the Canadian borders.
 
 Three sources of information are produced from the \Gls{s-wcgbt}, an index of relative
 abundance, length-composition distributions, and age-composition distributions. Length-weight 
