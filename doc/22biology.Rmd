@@ -97,17 +97,17 @@ Data included lengths and weights collected between 2003 and 2019 for
 `r ifelse(params$area == "North", "4,978", "3,052")` were female and
 `r ifelse(params$area == "North", "2,805", "1,787")` were male.
 These data resulted in the following estimates of the weight-length relationiship, 
-`r sprintf("$W=%1.004e * L^{%1.004e}$", ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_F[1], lw.WCGBTS$South_NWFSC.Combo_F[1]), ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_F[2], lw.WCGBTS$South_NWFSC.Combo_F[2]))` for females and
-`r sprintf("$W=%1.004e * L^{%1.004e}$", ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_M[1], lw.WCGBTS$South_NWFSC.Combo_M[1]), ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_M[2], lw.WCGBTS$South_NWFSC.Combo_M[2]))` for males
+`r sprintf("$W=%1.9f * L^{%1.4f}$", ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_F[1], lw.WCGBTS$South_NWFSC.Combo_F[1]), ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_F[2], lw.WCGBTS$South_NWFSC.Combo_F[2]))` for females and
+`r sprintf("$W=%1.9f * L^{%1.4f}$", ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_M[1], lw.WCGBTS$South_NWFSC.Combo_M[1]), ifelse(params$area == "North", lw.WCGBTS$North_NWFSC.Combo_M[2], lw.WCGBTS$South_NWFSC.Combo_M[2]))` for males
 (Figure \ref{fig:len-weight}).
 These relationships are very similar to those used for the previous assessment [@haltuch2019lingcod].
 Additionally, Hart [-@hart1967] reported the relationship between $W$ and $L$ as
-$W = 2.824e^{-06} * L^{3.0110}$.
+$log(W) = 3.6558 * log(L) - 9.4845$.
 The length-weight relationship was estimated by
 Jagielo [-@jagielo1994assessment] using available survey data
 was fit to mean weight-at-length measured in the West Coast survey as
-$W = 1.760e^{-06} * L^{3.3978}$ for females and
-$W = 3.953e^{-06} * L^{3.2149}$ for males.
+$W = 0.000001760 * L^{3.3978}$ for females and
+$W = 0.000003953 * L^{3.2149}$ for males.
 
 ### Growth (length-at-age)
 
