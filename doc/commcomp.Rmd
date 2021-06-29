@@ -1,6 +1,5 @@
 <!-- Commercial length- and age-frequency data -->
 
-**to do: Show plots of commercial composition data?**
 Length and age compositions from commercial landings 
 for the TW and FG fleets were developed 
 from the PacFIN database using the PacFIN.Utilities R package (
@@ -25,6 +24,7 @@ Commercial TW length-composition data started in 1965 in the north and
 1977 in the south. Commercial FG length compositions 
 began in 1986 in the north with additional samples in 1971, 1980, 
 and 1982 and began in 1992 in the south with additional samples in 1988 and 1989.
+(Figure \ref{fig:comp-lendat--page1-multi-fleet-comparison})
 
 Commercial age samples covered a much wider range of years than the south, 
 with annual age samples from all 43 years starting in 1978 for TW and 35 years 
@@ -32,7 +32,8 @@ starting in 1986 for FG. In the south model, the only commercial TW ages were
 from 10 years within the range 1993 to 2004 and only 2 years of commercial FG 
 ages were available: 1993 and 1994. The commercial age data was processed as
 both marginal and conditional age-at-length data to allow explorations of either
-format in the models.
+format in the models (see "CompDat" in electronic appendix for figures showing 
+the age data from commercial fisheries")
 
 Unsexed fish were represented as separate composition vectors in addition to the 
 compositions of fish with known sex.
@@ -52,4 +53,6 @@ all unsexed and represented in the model as independent vectors to facilitate
 estimation of retention functions for the TW and FG fleets. The mean body weight
 observations were calculated from counted baskets of discarded fish and represented
 a larger number of individuals that the subsamples from which lengths were available,
-but in general they provide similar information.
+but in general they provide similar information 
+(Figures \ref{fig:discard-fitcommercial-trawl.png}-\ref{fig:bodywt-fit-fltcommercial-fixed-gear.png})
+
