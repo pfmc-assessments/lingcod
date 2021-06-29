@@ -38,7 +38,7 @@ and the model used the bias-correction algorithm
 [@thorson_implementing_2016] in Template Model Builder [@kristensen_tmb:_2016].
 
 The spatiotemporal model was specific to the area included in this assessment
-(Figures \@ref(fig:fig:s-wcgbt-VAST-inputgrid) and \@ref(fig:fig:s-wcgbt-VAST-mesh))
+(Figures \@ref(fig:s-wcgbt-VAST-inputgrid) and \@ref(fig:s-wcgbt-VAST-mesh))
 because separate models were fit for each area rather than
 using the stratification functionality to partition the results from a single
 model to area. This was done to ensure that the correlation structure
@@ -68,7 +68,7 @@ Finally, the 2001 and 2004 surveys were conducted from May to July.
 Haul depths ranged from 91-457 m during the 1977 survey with no hauls shallower than 91 m.
 Due to haul performance issues and truncated sampling with respect to depth, the data from 1977 were omitted from this analysis.
 The surveys in 1980, 1983, and 1986 covered the US West Coast south to 36.8\textdegree N latitude and a depth range of 55-366 m
-(Figures \@ref(fig:fig:s-tri-VAST-inputgrid) and \@ref(fig:fig:s-tri-VAST-mesh)).
+(Figures \@ref(fig:s-tri-VAST-inputgrid) and \@ref(fig:s-tri-VAST-mesh)).
 The surveys in 1989 and 1992 covered the same depth range but extended the southern range to 34.5\textdegree N (near Point Conception).
 From 1995 through 2004, the surveys covered the depth range 55-500 m and surveyed south to 34.5\textdegree N.
 In 2004, the final year of the \gls{s-tri} series, the \gls{nwfsc} \gls{fram} conducted the survey following similar protocols to earlier years.
@@ -99,7 +99,8 @@ bocaccio (*S. paucispinis*), cowcod (*S. levis*), greenspotted
 (*S. chlorostictus*), and vermilion (*S. miniatus* and *S. crocotulus*)
 rockfishes,
 <!-- to do - check that these species are not already listed -->
-although a wide range of groundfish species have been observed by this survey, including lingcod, and therefore provide potentially useful data for this assessment. 
+although a wide range of groundfish species have been observed by this survey, including lingcod, and therefore provide potentially useful data for this assessment
+(Tables \@ref(tab:tab-depth-nwfschl) and \@ref(tab:tab-year-nwfschl); Figure \@ref(fig:spp-sites)).
 Starting in 2014 the NWFSC Hook and Line Survey added sampling sites located
 within the \gls{cca} and currently consists of a total of 201 sites. 
 
@@ -111,11 +112,8 @@ Five drops are attempted at each site for a maximum possible catch of
 75 fish per site per year (3 anglers x 5 hooks x 5 drops).
 Further details regarding the sample frame, site selection,
 and survey methodology are described by Harms et al. [-@harms2008].
-
-
-`r Spp` is a commonly encountered species in the NWFSC hook-and-line survey (Figure \@ref(fig:spp-sites)). Sample sizes by depth and year can be found in Tables 
-\@ref(tab:tab-depth-nwfschl) and \@ref(tab:tab-year-nwfschl).
-Note that depth was used as a continuous variable in the model, and depth bins were created for data exploration only. 
+Note that depth was used as a continuous variable in the model,
+and depth bins were created for data exploration only.
 
 A number of distributions were explored to fit an appropriate error distribution to the data.
 The final model included terms for Year, Site, Drop number within a site,
