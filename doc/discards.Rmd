@@ -1,3 +1,15 @@
+```{r parameters, include = FALSE, eval = TRUE, cache = TRUE}
+# function used below to report mean rates
+meanrate <- function(f, y) {
+  model$discard %>%
+    dplyr::filter(Fleet == f, Yr %in% y) %>%
+    dplyr::select(Obs) %>%
+    apply(., MARGIN = 2, FUN = mean) %>%
+    magrittr::multiply_by(100) %>%
+    round(0) %>%
+    paste0(.,"\\%")
+}
+```
 ### Discard rates
 
 Discard rates were modeled for the commercial fisheries only (TW and FG)
@@ -29,11 +41,53 @@ calculated as the sum of the variances of the total annual discard
 for each sector under the assumption that the variances
 are independent. This variance of the total discard amount 
 was then converted to a standard error of the aggregated 
-discard rate. The precise discard rates from 2011 onward were
+discard rate. 
+
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+The resulting aggregated discard rates for the commercial trawl fishery
+show high values (`r meanrate(1, 2002:2006)`) 
+during the first five years of data: 2002-2006,
+then declining to an average of `r meanrate(1, 2011:2019)` during the 
+catch-shares period (2011-onward).
+The rates from the catch-shares period are more precise due to the 
+100\% observer coverage during this period.
+
+The commercial fixed-gear discard rates were never as high as the 
+trawl rates and did not fall as low during the catch-shares period
+(the catch-shares management only applied to a subset of the fixed-gear
+catches). After a lower initial value of `r meanrate(2, 2002)` in 2002, 
+the rates were stable over the period 2003-2010, with a mean of 
+`r meanrate(2, 2003:2010)` and then dropped to a mean of 
+`r meanrate(2, 2011:2019)` for the period 2011-onward.
+
+<!-- in hindsight we could have just applied a minimum rate
+to the rates, rather than add 0.05 to all years, but it probably wouldn't have 
+made much difference -->
+The precise trawl discard rates from 2011 onward were
 found in initial model runs to be overly influential so a
 value of 0.05 was added to the standard error of all discard 
 rates to account for unmodeled variability in the retention 
 process rather than add additional parameters representing 
 that annual variability.
+```
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+The resulting aggregated discard rates for the commercial trawl fishery
+show high values (`r meanrate(1, 2002:2005)`),
+during the first four years of data: 2002-2005,
+a low rate of `r meanrate(1, 2006)` in 2006, three years of moderate
+rates, and then a lower period with mean `r meanrate(1, 2010:2019)` 
+starting in 2010, beginning prior to the implementation of catch shares in 2011.
+The contrast before and after 2011 is smaller for the south than the north. 
+The rates from the catch-shares period are more precise due to the 
+100\% observer coverage during this period.
 
-[ADD DESCRIPTION OF RESULTING RATES]
+The commercial fixed-gear discard rates were showed little constrast over time,
+with a mean of `r meanrate(2, 2002:2019)` over the full 2002-2019 range of data.
+
+The precise trawl discard rates from 2011 onward were
+found in initial model runs to be overly influential so a
+value of 0.05 was added to the standard error of all discard 
+rates to account for unmodeled variability in the retention 
+process rather than add additional parameters representing 
+that annual variability.
+```
