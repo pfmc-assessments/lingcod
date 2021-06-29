@@ -124,7 +124,8 @@ checks of the Bayesian model fit for the binomial model and the positive model
 were all reasonable (Figures \@ref(fig:fig-posterior-mean-nwfschl)  and 
  \@ref(fig:fig-posterior-sd-nwfschl)). The model generated data sets with the 
  proportion of zeros similar to the observed data (91\%; Figure \@ref(fig:fig-propzero-nwfschl)).
-The depth effect is masked by the site effect in the marginal effects (Figures \@ref(fig:marginal-nwfschl).
+The depth effect is masked by the site effect in the marginal effects (Figure \@ref(fig:marginal-nwfschl)).
 A model without Site confirms that that depth follows the expected pattern observed in the data.
-The final index represents a similar trend to the arithmetic mean of the annual CPUE (Figure \@ref(fig:index_fits_all_fleets)).
+The final index (Figure \@ref(fig:index-fits-all-fleets)) represents
+a similar trend to the arithmetic mean of the annual CPUE.
 ```
