@@ -19,7 +19,7 @@ that they may be outlier rather than a signal about the true dynamics of
 the underlying population.
 
 The fit to the length data, when aggregated over time 
-(Figure \ref{fig:comp-lenfit--aggregated-across-time}) shows 
+(Figures \ref{fig:comp-lenfit--aggregated-across-time},) shows 
 some imbalances in the sex ratios but the modes are generally falling in the right
 places. The commercial trawl discards show modes associated with 
 the length at ages 1 and 2 the first of which is better fit than the second. 
@@ -43,8 +43,11 @@ dat.n <- get_inputs_ling('n', 22)$dat
 sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
 length(unique(paste(test$FltSvy, test$Yr)))
 -->
-The conditional age-at-length data (CAAL, "A\@LComp" in the electronic appendix)
-in the north model are numerous. They represent over 72,000 individual fish
+The conditional age-at-length data (CAAL) in the north model are numerous
+(shown for \gls{s-wgbts} in Figures 
+\ref{fig:comp-condAALfit-residsflt7mkt0-page1}-\ref{fig:comp-condAALfit-residsflt7mkt0-page3},
+see "A\@LComp" in the electronic appendix for others). 
+They represent over 72,000 individual fish
 from a total of 161 fleet/year combinations. In general, most years and most fleets 
 show no strong patterns in the Pearson residuals, but there are a few exceptions.
 For instance, the commercial trawl fit in 1980 has many fish older than expected
@@ -53,7 +56,9 @@ all fall in the middle of the expected range. The "Conditional AAL plot" diagnos
 shows that both the mean age in each length bin and the variability in age at length
 have a good match for most years and most fleets.
 
-The expected commercial trawl discard fractions ("Discard" in electronic appendix) 
+The expected commercial trawl discard fractions 
+(Figures \ref{fig:discard-fitcommercial-trawl} and 
+\ref{fig:discard-fitcommercial-fixed-gear} and "Discard" in electronic appendix) 
 are higher than observed for the period 2002-2009, where
 the large uncertainty in estimated discards allows the model to misfit these 
 to better fit the length comps, with the parameter for length at 50\% retention
@@ -64,9 +69,11 @@ the estimated mortality is limited to a 12-year period. The commercial fixed-gea
 discards show less variability over time, are more uncertain, and the fits
 are well within the uncertainty intervals for all but 2002.
 
-The fit to the mean body weight ("Mnwt") of discards are good for most years
+The fit to the mean body weight of discards are good for most years
 although the observed discards in the first two years (2002 and 2003) were lighter 
-than the expectation. There are no discard length compositions from those years
+than the expectation (Figures \ref{fig:bodywt-fit-fltcommercial-trawl} and 
+\ref{fig:bodywt-fit-fltcommercial-fixed-gear} and "Mnwt" in electronic appendix). 
+There are no discard length compositions from those years
 so it's difficult to judge the reasons for the lack of fit.
 ```
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
@@ -120,8 +127,10 @@ sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
 length(unique(paste(test$FltSvy, test$Yr)))
 -->
 The ages included in the south model are all from the \gls{s-wcgbt} survey
-and represented as conditional age-at-length data (CAAL, "A\@LComp" in 
-electronic appendix). These represent about 3,400 fish (compared to over
+and represented as conditional age-at-length data (CAAL, Figures 
+\ref{fig:comp-condAALfit-residsflt7mkt0-page1}-\ref{fig:comp-condAALfit-residsflt7mkt0-page3}, 
+see "A\@LComp" in the electronic appendix for others). 
+These represent about 3,400 fish (compared to over
 72,000 in the north model, of which about 5,000 were from the \gls{s-wcgbt}).
 The fits to these data are all reasonably good, although the expected proportion
 of males older than 10 years is greater than observed in many years.
@@ -132,8 +141,10 @@ The mean age within these data rises from about 2.5 in 2003 to almost
 5 in 2007 followed by a steep decline as the addition of new recruits brings
 down the mean observed age.
 
-The expected commercial trawl discard fractions ("Discard" in electronic appendix) 
-are lower than observed for the first four years but otherwise are relatively well fit.
+The expected commercial trawl discard fractions 
+are lower than observed for the first four years but otherwise are relatively well fit
+(Figures \ref{fig:discard-fitcommercial-trawl} and 
+\ref{fig:discard-fitcommercial-fixed-gear} and "Discard" in electronic appendix).
 The most estimates match the observed decline in discard rate over the most recent 
 7 years, which is likely driven by the shift toward larger individuals as the above
 cohorts born in the 2007-2010 period grew older. The commercial fixed-gear
@@ -141,7 +152,9 @@ discards show little variability over time and the fits
 are well within the uncertainty intervals.
 
 The fit to the mean body weight ("Mnwt") of discards are within the confidence
-intervals for most years although there's relatively little signal in those data.
+intervals for most years although there's relatively little signal in those data
+(Figures \ref{fig:bodywt-fit-fltcommercial-trawl} and 
+\ref{fig:bodywt-fit-fltcommercial-fixed-gear} and "Mnwt" in electronic appendix).
 ```
 
 <!-- running out of time!
