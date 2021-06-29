@@ -103,11 +103,10 @@ These data resulted in the following estimates of the weight-length relationishi
 These relationships are very similar to those used for the previous assessment [@haltuch2019lingcod].
 Additionally, Hart [-@hart1967] reported the relationship between $W$ and $L$ as
 $log(W) = 3.6558 * log(L) - 9.4845$.
-The length-weight relationship was estimated by
-Jagielo [-@jagielo1994assessment] using available survey data
-was fit to mean weight-at-length measured in the West Coast survey as
+Jagielo [-@jagielo1994assessment] reported
 $W = 0.000001760 * L^{3.3978}$ for females and
-$W = 0.000003953 * L^{3.2149}$ for males.
+$W = 0.000003953 * L^{3.2149}$ for males
+when fitting to mean weight-at-length as measured from data collected by the West Coast survey.
 
 ### Growth (length-at-age)
 
@@ -168,11 +167,13 @@ mid-shallow (85-110 m) depths (p-value = 0.043) and were not statistically disti
 between mid-deep (140-183 m) and deep (>183 m) depths (p-value = 0.84).
 
 Externally estimated von Bertalanffy growth parameters for `r spp` using \Gls{s-wcgbt} data
-that were used for initial parameter values were as follows:
-`r sprintf("$k = %.3f$ and $L_{infty} = %.3f$", ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_F[2], la.WCGBTS$South_NWFSC.Combo_F[2]), ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_F[1], la.WCGBTS$South_NWFSC.Combo_F[1]))` for females and
-`r sprintf("$k = %.3f$ and $L_{infty} = %.3f$", ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_M[2], la.WCGBTS$South_NWFSC.Combo_M[2]), ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_M[1], la.WCGBTS$South_NWFSC.Combo_M[1]))` for males.
-These estimates are from `r ifelse(params$area == "North", "5,145", "3,910")` age and length samples, of which
-`r ifelse(params$area == "North", "3,290", "")` are female and
+were as follows:
+`r sprintf("$k = %.3f$ and $L_{\\infty} = %.3f$", ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_F[2], la.WCGBTS$South_NWFSC.Combo_F[2]), ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_F[1], la.WCGBTS$South_NWFSC.Combo_F[1]))` for females and
+`r sprintf("$k = %.3f$ and $L_{\\infty} = %.3f$", ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_M[2], la.WCGBTS$South_NWFSC.Combo_M[2]), ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_M[1], la.WCGBTS$South_NWFSC.Combo_M[1]))` for males.
+These estimates were used as initial values within the base model for estimating growth.
+Samples used to generate these estimates estimates include
+`r ifelse(params$area == "North", "5,145", "3,910")` age and length samples, of which
+`r ifelse(params$area == "North", "3,290", "2,178")` are female and
 `r ifelse(params$area == "North", "1,795", "1,228")` are male.
 <!-- to do - internally estimated growth figure -->
 
@@ -215,5 +216,5 @@ into a single analysis to estimate variability in age estimation
 (Figure \@ref(fig:ageing-double-reads)). The best fit model,
 as chosen by both \gls{aic} and \gls{bic}, used "Curvilinear CV" (a 3-parameter Hollings-form
 relationship of CV with true age). The standard deviation in estimated age was 0.24 years
-at age-1, 0.56 years at age-5, 1.1 years at age-10, and 1.65 years at age 15 
+at age one, 0.56 years at age five, 1.1 years at age ten, and 1.65 years at age fifteen
 (Figure \@ref(fig:numbers10-ageerror-matrix-1)).
