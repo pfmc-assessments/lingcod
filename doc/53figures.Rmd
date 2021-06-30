@@ -339,6 +339,7 @@ add_figure_ling(csv = figurecsv, "comp_lenfit__aggregated_across_time")
 add_figure_ling(csv = figurecsv, "comp_lenfit.*multi-fleet_comparison")
 
 # CAAL residuals from WCGBT only
+# to do this is showing all fleets, not just WCGBT
 add_figure_ling(csv = figurecsv, "comp_condAALfit")
 
 # discard fits
@@ -355,7 +356,7 @@ add_figure_ling(csv = figurecsv, "bodywt")
 add_figure_ling(csv = figurecsv, "ts7_.+with")
 add_figure_ling(csv = figurecsv, "ts9_.+ls$")
 add_figure_ling(csv = figurecsv, "ts1_Total")
-add_figure_ling(csv = figurecsv, "ts9_.+ls$")
+# to do change to summary instead of total
 add_figure_ling(csv = figurecsv, "ts11_.+ls$")
 add_figure_ling(csv = figurecsv, "recdevs2_withbars")
 add_figure_ling(csv = figurecsv, "SR_curve$")
