@@ -24,7 +24,7 @@ Commercial TW length-composition data started in 1965 in the north and
 1977 in the south. Commercial FG length compositions 
 began in 1986 in the north with additional samples in 1971, 1980, 
 and 1982 and began in 1992 in the south with additional samples in 1988 and 1989.
-(Figure \ref{fig:comp-lendat--page1-multi-fleet-comparison})
+(Figure \ref{fig:comp-lenfit--page1-multi-fleet-comparison})
 
 Commercial age samples covered a much wider range of years than the south, 
 with annual age samples from all 43 years starting in 1978 for TW and 35 years 
