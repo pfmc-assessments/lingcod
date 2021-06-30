@@ -57,8 +57,9 @@ gg <- ggplot2::ggplot(states_map, ggplot2::aes(x = long, y = lat)) +
       ggplot2::xlim(xlim) + ggplot2::ylim(ylim)
   }
   pngname <- file.path(working_dir, "VASTWestCoast_scaledresidualsmap.png")
+  print(gg)
   ggplot2::ggsave(
-    filename = 
+    filename = pngname
   )
   dev.off()
 }
