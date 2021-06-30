@@ -13,7 +13,7 @@ lang: en
 papersize: a4
 params:
   area: north
-  model: !r dir("../models/2021.s.005.001_initial_ctl_changes", full.names=TRUE, pattern = "00mod")
+  model: !r file.path("..", "models", info_basemodels[1])
   run_data: FALSE
 ---
 
