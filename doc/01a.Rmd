@@ -15,3 +15,7 @@
 _These materials do not constitute a formal publication and are for information only. They are in a pre-review, pre-decisional state and should not be formally cited (or reproduced). They are to be considered provisional and do not represent any determination or policy of NOAA or the Department of Commerce._
 
 \pagebreak
+
+```{r text_, eval = TRUE, echo = FALSE}
+text_wcgop <- "Note that the model estimated total dead catch may not be the same as the \\gls{wcgop} estimates of total mortality [@somers2021], which are the `official' records for determining whether the \\gls{acl} has been exceeded."
+```
