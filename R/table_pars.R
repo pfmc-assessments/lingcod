@@ -45,5 +45,5 @@ table_pars <- function(output,
       caption = caption,
       label = label
     ) %>%
-    kableExtra::kable_styling(latex_options = c("repeat_header"))
+    kable_styling_sa4ss(kable_captioncontinue(caption))
 }
