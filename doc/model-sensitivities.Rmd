@@ -1,8 +1,7 @@
 The senstivity analyses were divided into three groups: biology and recruitment,
-composition, and indices (Tables \ref{tab:sens-table-s-bio-rec}, 
-\ref{tab:sens-table-s-comp}, and
-\ref{tab:sens-table-s-index}; Figures \ref{fig:sens-timeseries-s-bio-rec},
-\ref{fig:sens-timeseries-s-comp}, and \ref{fig:sens-timeseries-s-index}).
+composition, and indices
+`r sprintf("(Tables \\@ref(%s) - \\@ref(%s); Figures \\@ref(%s) - \\@ref(%s))", string_switchletter(newletter = params$area, "tab:sens-table-s-bio-rec"), string_switchletter(newletter = params$area, "tab:sens-table-s-comp"), string_switchletter(newletter = params$area, "fig:sens-timeseries-s-bio-rec"),string_switchletter(newletter = params$area, "fig:sens-timeseries-s-index")
+)`.
 
 The biology and recruitment senstivities included
 
