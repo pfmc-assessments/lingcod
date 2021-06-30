@@ -12,14 +12,6 @@ For easy viewing in your web browser please feel free to view them on the web at
 
 ## Data figures
 
-```{r, setup-plotinfotable}
-figurecsv <- utils::read.csv(
-  file.path(params$model, "plots", "plotinfotable_for_doc.csv")
-) %>%
-  dplyr::mutate(caption = gsub("\\n", "", caption))
-figurecsv[grepl("catch2", figurecsv[["label"]]), "caption"] <- "Landings (mt) by fleet (colors) used to fit the model."
-```
-
 ```{r, results = "asis"}
 do.call(
   sa4ss::add_figure,
