@@ -148,7 +148,6 @@ generated data sets with the proportion zeros similar to the
 54\%
 zeroes in the observed data (Figure \@ref(fig:fig-propzero-ORAtSea)).
 The predicted marginal effects from the negative binomial models can be
-found in (Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)). The final index
-(Table \@ref(tab:tab-index-ORAtSea)) represents a similar trend to the
-arithmetic mean of the annual CPUE (Figure \@ref(fig:fig-cpue-ORAtSea)).
+found in (Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)). The final index represents a similar trend to the
+arithmetic mean of the annual CPUE (Figure \@ref(fig:index-fits-all-fleets)).
 
