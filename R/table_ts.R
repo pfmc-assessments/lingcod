@@ -8,10 +8,11 @@
 #' \dontrun{
 #' table_pars(model)
 #' }
-table_ts <- function(output,
-                       caption = "Time series of population estimates for the base model.",
-                       label = "table-ts-base"
-                     ) {
+table_ts <- function(
+  output,
+  caption = "Time series of population estimates for the base model.",
+  label = "table-ts-base"
+) {
 
   # to do - Could format the names
   smbiomassname <- paste0("Age-", output[["summary_age"]],"+ biomass (mt)")
@@ -41,6 +42,6 @@ table_ts <- function(output,
         "F"
       )
     )  %>%
-    kableExtra::kable_styling(latex_options = c("repeat_header")) %>%
+    kable_styling_sa4ss(kable_captioncontinue(caption)) %>%
     kableExtra::add_header_above(c(" ", "Biomass (mt)" = 4, "Numbers" = 1, "Rate" = 3))
 }
