@@ -54,5 +54,5 @@ estimation of retention functions for the TW and FG fleets. The mean body weight
 observations were calculated from counted baskets of discarded fish and represented
 a larger number of individuals that the subsamples from which lengths were available,
 but in general they provide similar information 
-(Figures \ref{fig:discard-fitcommercial-trawl.png}-\ref{fig:bodywt-fit-fltcommercial-fixed-gear.png})
+(Figures \ref{fig:discard-fitcommercialtrawl}-\ref{fig:bodywt-fit-fltcommercialfixed-gear})
 
