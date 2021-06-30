@@ -51,7 +51,7 @@ table_sens <- function(file_csv,
     label = label
   )
 
-  if ("Total" %in% data[, 1]) {
+  if (any(grepl("Total", data[, 1]))) {
     tt <- tt %>%
     kableExtra::pack_rows("Diff. in likelihood from base model", 1, 6) %>%
     kableExtra::pack_rows("Estimates of key parameters", 7, 10) %>%
