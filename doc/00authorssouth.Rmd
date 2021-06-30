@@ -1,15 +1,15 @@
 ---
 author:
-  - name: Ian G. Taylor
-    code: 1
-    first: I
-    middle: G
-    family: Taylor
   - name: Kelli F. Johnson
     code: 1
     first: K
     middle: F
     family: Johnson
+  - name: Ian G. Taylor
+    code: 1
+    first: I
+    middle: G
+    family: Taylor
   - name: Brian J. Langseth
     code: 1
     first: B
