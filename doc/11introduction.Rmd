@@ -5,7 +5,7 @@
 ```{asis executive-summary-stock, echo = TRUE}
 ```
 
-```{r introfiles, results = "asis"}
+```{r intro-children, results = "asis"}
 files_intro <- dir('.', pattern = '^1[2-9][a-z]*\\.Rmd', full.names = TRUE)
 ignore <- mapply(sa4ss::read_child, files_intro)
 ```
