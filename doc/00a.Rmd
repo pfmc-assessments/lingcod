@@ -39,6 +39,14 @@ if (is.null(params$model) & file.exists("00mod.Rdata")) {
 } else {
   load(dir(params$model, pattern = "00mod.Rdata", full.names = TRUE))
 }
+# Load plotinfotable if it is available
+if (!is.null(params$model)) {
+  if (file.exists(file_figurecsv <- file.path(params$model, "plots", "plotinfotable_for_doc.csv"))) {
+    figurecsv <- utils::read.csv(file_figurecsv) %>%
+      dplyr::mutate(caption = gsub("\\n", "", caption))
+    figurecsv[grepl("catch2", figurecsv[["label"]]), "caption"] <- "Landings (mt) by fleet (colors) used to fit the model."
+  }
+}
 
 # AMAZING piece of code to allow for inline r in asis engine from
 # https://stackoverflow.com/questions/32944715/conditionally-display-block-of-markdown-text-using-knitr
