@@ -159,14 +159,14 @@ ignore <- mapply(
 
 <!-- Triennial -->
 
-```{r, echo=FALSE, results='asis', opts.label = 'south'}
+```{r, echo=FALSE, results='asis'}
 nm = "Triennial_cpueXdepth.png"
 sa4ss::add_figure(
 filein = file.path("..", "figures", nm),
 caption = paste0("Raw catch per unit effort in  by depth in
-                 the triennial survey. The black verticale line indicate
-                 split in depth strata at 183m,
-                 and red vertical line shows end of depth strata at 350m"),
+                 the triennial survey. The black vertical line indicate
+                 split in depth strata at 183 m,
+                 and red vertical line shows end of depth strata at 350 m"),
 label = 'tri-depthSplit')
 ```
 
