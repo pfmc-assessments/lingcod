@@ -1,4 +1,7 @@
 
+#### Helper objects
+text_40degrees10minutes <- "40\u00B010"
+
 #### Catch data
 # load Triennial catch data
 catch.Triennial <- nwfscSurvey::PullCatch.fn(
@@ -67,6 +70,43 @@ if(FALSE) { # run calculation of design-based index only once
                           dopng = TRUE)
 
 } # end of design-based index calcs
+
+###############################################################################
+# Create a figure of observations by depth bin
+# Code moved from lingcod_survey_depth_calculations to lingcod_survey
+#
+###############################################################################
+
+# Find 99.9% quantile and round to nearest half hundred
+maxdepth <- ceiling(quantile(
+  catch.WCGBTS %>% 
+    dplyr::filter(total_catch_wt_kg > 0) %>%
+    dplyr::pull(Depth_m),
+  probs = 0.999
+)/100/.5)*.5*100
+
+# Make figures
+png(file.path("figures", "WCGBTS_presence_absence_by_depth_bin.png"),
+    width = 7, height = 5, units = 'in', res = 300, pointsize = 10)
+par(mfrow = c(2,1), mar = c(1,1,1,.1))
+nwfscSurvey::PlotPresenceAbsence.fn(
+  catch = catch.WCGBTS,
+  lat_min = 40+10/60,
+  depth_max = maxdepth,
+  main = paste0("North of ", text_40degrees10minutes),
+  add_range_to_main = FALSE
+)
+nwfscSurvey::PlotPresenceAbsence.fn(
+  catch = catch.WCGBTS,
+  lat_max = 40+10/60,
+  depth_max = maxdepth,
+  main = paste0("South of ", text_40degrees10minutes),
+  add_range_to_main = FALSE
+)
+dev.off()
+###############################################################################
+###############################################################################
+
 
 
 #### Remove objects
