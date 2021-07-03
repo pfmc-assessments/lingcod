@@ -54,6 +54,7 @@ Suggests:
     PacFIN.Utilities,
     PEPtools
     recFIN,
+    TMB,
     VASTWestCoast
 Remotes:
     github::clauswilke/colorblindr,

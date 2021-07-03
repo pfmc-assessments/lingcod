@@ -3,7 +3,19 @@
 #' @param working_dir Where the VAST files are located.
 #' @param nrow The number of rows.
 #' @author Kelli F. Johnson
+#' @examples
+#' \dontrun {
+#' mapply(plot_VASTresiduals,
+#'  dir("data-raw", pattern = "_gamma$", full = TRUE)
+#' )
+#' }
 plot_VASTresiduals <- function(working_dir) {
+
+  # Find a way to check if VAST needs to be loaded
+  VASTversion <- gsub("\\.cpp", "", 
+    dir("data-raw", pattern = "VAST_.+\\.cpp", full.names = TRUE)
+  )
+  dyn.load(TMB::dynlib(VASTversion))
 
   load(file.path(working_dir, "Save.RData"))
   
@@ -29,8 +41,6 @@ test <- data.frame(PlotDF, Y_gt) %>%
 regions <- if (grepl("North", working_dir)) {
   c("California", "Oregon", "Washington")
 } else { c("California")}
-xlim <- c(-126, -125)
-ylim <- c(40, 49)
 
 states_map <- ggplot2::map_data("state", regions = regions)
 gg <- ggplot2::ggplot(states_map, ggplot2::aes(x = long, y = lat)) +
@@ -47,15 +57,18 @@ gg <- ggplot2::ggplot(states_map, ggplot2::aes(x = long, y = lat)) +
     ggplot2::aes(y = Lat, x = Lon, colour = Residual-mean(Residual)
     )
   ) +
+  coord_sf(
+    xlim = c(floor(min(test$Lon)) - 1, ceiling(max(test$Lon)) + 2),
+    ylim = range(test$Lat) + c(-0.5, 0.5),
+    expand = FALSE
+  ) +
   plot_theme() +
   ggplot2::facet_wrap("Year") + 
   ggplot2::scale_colour_gradient2(low = "darkblue", mid = "white", high = "red") +
   ggplot2::theme(legend.position = "none") +
-  xlab("Longitude (dd)") + ylab("Latitude (dd)")
-  if (grepl("North", working_dir)) {
-    gg <- gg + 
-      ggplot2::xlim(xlim) + ggplot2::ylim(ylim)
-  }
+  xlab("Longitude (dd)") + ylab("Latitude (dd)") +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
+
   pngname <- file.path(working_dir, "VASTWestCoast_scaledresidualsmap.png")
   print(gg)
   ggplot2::ggsave(
@@ -63,3 +76,6 @@ gg <- ggplot2::ggplot(states_map, ggplot2::aes(x = long, y = lat)) +
   )
   dev.off()
 }
+
+
+
