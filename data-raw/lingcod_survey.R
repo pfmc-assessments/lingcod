@@ -57,11 +57,12 @@ usethis::use_data(bio.WCGBTS, overwrite = TRUE)
 
 
 # make plot of age representativeness
-age_representativeness_plot(
+PacFIN.Utilities::age_representativeness_plot(
   bio.WCGBTS,
+  plot_panels = c(9,2),
   file = file.path(
   "figures",
-  "age_representativeness_WCGBTS_Lingcod_22-July-2020.png")
+  "age_representativeness_WCGBTS.png")
 )
 
 ###############################################################################
