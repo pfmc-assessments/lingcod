@@ -83,8 +83,14 @@ compile_internal <- function(dir, time = 10, wipe = FALSE, ...) {
     unlink(file.path(fullpathbasemodel, "custom_plots"), recursive = TRUE)
   }
 
-  if (!file.exists(file.path(fullpathbasemodel, "plots"))) {
-    compile_precursur(basemodelname)
+  if (
+    !file.exists(file.path(fullpathbasemodel, "plots")) |
+    !file.exists(file.path(fullpathbasemodel, "00mod.Rdata"))
+  ) {
+    compile_precursur(
+      basemodelname,
+      plot = !file.exists(file.path(fullpathbasemodel, "plots"))
+    )
   }
 
   # Set working directory back to getwd() upon exit
