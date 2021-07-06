@@ -1,4 +1,4 @@
-```{r parameters, include = FALSE, eval = TRUE, cache = TRUE}
+```{r parameters, include = FALSE, eval = TRUE}
 # function used below to report mean rates
 meanrate <- function(f, y) {
   model$discard %>%
