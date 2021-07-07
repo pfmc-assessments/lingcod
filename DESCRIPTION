@@ -55,7 +55,9 @@ Suggests:
     PEPtools
     recFIN,
     TMB,
-    VASTWestCoast
+    VASTWestCoast,
+    xaringan
+    xaringanthemer
 Remotes:
     github::clauswilke/colorblindr,
     github::r4ss/r4ss,

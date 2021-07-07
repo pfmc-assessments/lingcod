@@ -13,7 +13,7 @@ output:
       highlightStyle: tomorrow-night-bright
       highlightLines: true
       highlightLanguage: r
-    css: [xaringan-themer.css, libs/animate.css]
+    css: [xaringan-themer.css, libs/animate.css, fc]
     seal: false
 ---
 
@@ -69,8 +69,41 @@ July 12, 2021<br>
 ---
 class: top
 background-image: url("figures/NOAA_Logo_Full.jpg")
-background-size: 50%
+background-size: 20%
 background-position: 0% 100%
+
+
+### Overview of results
+
+<!-- calculations related to range of overfished years:
+range(mod.s$timeseries$Yr[mod.s$timeseries$SpawnBio < 
+                          0.25 * mod.s$timeseries$SpawnBio[1]])
+-->
+
+.pull-left-40[
+- 2021 results not directly comparable to 2017 due to boundary change
+
+- Both stocks estimated above the _B_<sub>40%</sub> reference point in 2021
+
+- North stock estimated as having never been overfished (below $B_{25\%}$)
+
+- South stock estimated as having been overfished during the period 
+1990 - 2011
+
+]
+
+.pull-right-60[![an image](../figures/compare_north_vs_south_timeseries.png)]
+
+---
+
+### Lingcod Biology
+
+
+---
+
+### Stock Structure
+
+---
 
 ### Title
 
