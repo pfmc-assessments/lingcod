@@ -1,0 +1,80 @@
+---
+title: "Lingcod"
+author: "Lingcod STAT"
+date: "July 12, 2021"
+fig.caption: FALSE
+output: 
+  xaringan::moon_reader:
+    yolo: false
+    self_contained: true
+    lib_dir: libs
+    chakra: libs/remark-latest.min.js
+    nature:
+      highlightStyle: tomorrow-night-bright
+      highlightLines: true
+      highlightLanguage: r
+    css: [xaringan-themer.css, libs/animate.css]
+    seal: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  message = FALSE,
+#   dev = "svg",
+  fig.width = 12,
+  fig.height = 12
+  # fig.retina = 3
+  )
+xaringanthemer::style_mono_accent(
+  # base_color = nmfspalette::nmfs_cols("darkblue"),
+  base_color = "#00467F",
+  header_font_google = xaringanthemer::google_font("Josefin Sans"),
+  text_font_google   = xaringanthemer::google_font("Montserrat", "300", "300i"),
+  code_font_google   = xaringanthemer::google_font("Fira Mono")
+)
+```
+
+class: title-slide, inverse
+background-image: url("figures/NOAA_Logo_Full.jpg")
+background-size: 50%
+background-position: 0% 100%
+```{css}
+<style>
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+```
+```{css}
+.code-bg-white .remark-code, .code-bg-white .remark-code * {
+ background-color:white!important;
+}
+```
+
+.bg-text[
+# Lingcod modeling and results
+<hr />
+Lingcod STAT<br><br>
+July 12, 2021<br>
+]
+
+---
+class: top
+background-image: url("figures/NOAA_Logo_Full.jpg")
+background-size: 50%
+background-position: 0% 100%
+
+### Title
+
+<img src="figures/Noaa_logo.jpg" alt="Alternative text" width="20%" align="left"/>
+
+???
+Comments that are hidden.
