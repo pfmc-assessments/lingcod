@@ -1587,7 +1587,7 @@ mt since 2000.
 
 Before splitting the commercial landings to area, all landings that
 were known to have been caught outside of the U.S. Exclusive Economic Zone
-`r paste0("(", removenonEEZcatch, " mt)")`
+`r sprintf("(%.2f mt)", removenonEEZcatch)`
 were removed.
 These were landings that occurred in
 an unknown \gls{inpfc} area noted as XX or \gls{pacfin} area 02 or 4A.
