@@ -38,8 +38,8 @@ xaringanthemer::style_mono_accent(
 ```
 
 class: title-slide, inverse
-background-image: url("figures/NOAA_Logo_Full.jpg")
-background-size: 50%
+background-image: url("../figures/NOAA_Logo_Full.jpg")
+background-size: 20%
 background-position: 0% 100%
 ```{css}
 <style>
@@ -68,13 +68,42 @@ July 12, 2021<br>
 
 ---
 class: top
-background-image: url("figures/NOAA_Logo_Full.jpg")
-background-size: 50%
+background-image: url("../figures/NOAA_Logo_Full.jpg")
+background-size: 20%
 background-position: 0% 100%
 
-### Title
+## Fleet structure
 
-<img src="figures/Noaa_logo.jpg" alt="Alternative text" width="20%" align="left"/>
+.pull-left[
+### 2017
+* North
+  * Fixed gear
+  * Trawl
+  * Recreational
+    * Washington
+    * Oregon
+* South
+  * Fixed gear
+  * Trawl
+  * Recreational
+    * Southern California
+]
+.pull-right[
+### 2019
+* North
+  * Fixed gear
+  * Trawl
+  * Recreational
+    * Washington
+    * Oregon
+    * Northern California
+
+* South
+  * Fixed gear
+  * Trawl
+  * Recreational
+    * Southern California
+]
 
 ???
 Comments that are hidden.

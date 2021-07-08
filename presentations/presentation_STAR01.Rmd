@@ -38,7 +38,7 @@ xaringanthemer::style_mono_accent(
 ```
 
 class: title-slide, inverse
-background-image: url("figures/NOAA_Logo_Full.jpg")
+background-image: url("../figures/NOAA_Logo_Full.jpg")
 background-size: 50%
 background-position: 0% 100%
 ```{css}
@@ -68,7 +68,7 @@ July 12, 2021<br>
 
 ---
 class: top
-background-image: url("figures/NOAA_Logo_Full.jpg")
+background-image: url("../figures/NOAA_Logo_Full.jpg")
 background-size: 20%
 background-position: 0% 100%
 
@@ -107,7 +107,7 @@ range(mod.s$timeseries$Yr[mod.s$timeseries$SpawnBio <
 
 ### Title
 
-<img src="figures/Noaa_logo.jpg" alt="Alternative text" width="20%" align="left"/>
+<img src="../figures/Noaa_logo.jpg" alt="Alternative text" width="20%" align="left"/>
 
 ???
 Comments that are hidden.
