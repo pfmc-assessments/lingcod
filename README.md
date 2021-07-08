@@ -222,7 +222,7 @@ Issues are searchable and a great way to document thoughts and voluntold people 
 todo: provide information on how to use github issues for this repository
 
 [Google drive]: https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr?usp=sharing
-[vertical]: crumplab.github.io/vertical/
+[vertical]: https://crumplab.github.io/vertical/
 
 ## Modeling workflow
 
