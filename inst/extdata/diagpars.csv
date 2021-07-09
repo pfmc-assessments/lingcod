@@ -3,3 +3,4 @@ n,SR_LN(R0),8.0,11,0.25,real
 s,SR_LN(R0),6.5,10,0.25,real
 ,NatM_uniform_Fem_GP_1,0.18,0.58,0.05,real
 ,SR_BH_steep,0.4,0.9,0.1,real
+,L_at_Amax_Fem,100,114,2,real
