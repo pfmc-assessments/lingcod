@@ -1,5 +1,5 @@
 ---
-title: "Lingcod"
+title: "Lingcod STAR presentation 3"
 author: "Lingcod STAT"
 date: "July 12, 2021"
 fig.caption: TRUE
@@ -90,3 +90,67 @@ Comments that are hidden.
 ---
 
 ### South
+
+---
+
+### North sensitivity to biology and recruitment
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_bio_rec.csv", caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
+### North sensitivity to composition data
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_comp.csv", caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
+### South sensitivity to biology and recruitment
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_s_bio_rec.csv", caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
+### South sensitivity to composition data
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_s_comp.csv", caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
+<!-- ### Comparison of areas: growth -->
+
+### Comparison of areas: key parameters
+
+.pull-left-40[
+- Sex-specific natural mortality $M$ estimated with separate priors in both models
+- Stock-recruit steepness $h$ estimated with informative prior for both models
+- North model estimates associated with a more productive stock:
+  - greater length-at-age (also more precisely estimated), 
+  - higher $M$, and 
+  - higher $h$
+
+]
+
+.pull-right-60[![fig](../figures/compare_north_vs_south_pars.png)]
+
+---
+
+### Comparison of areas: quantities of interest
+.pull-left-40[
+- Unfished biomass more similar than would be expected given relative area
+of the two regions
+- Rough estimate is ~2.3x larger area in the north
+- Fishing intensity in 2020 is similar in both regions
+- Fraction unfished in 2021 is greater in the north than the south and more
+precisely estimated
+- MSY significantly larger in the north than the south
+]
+.pull-right-60[
+![fig](../figures/compare_north_vs_south_quants.png)
+]
+
+---

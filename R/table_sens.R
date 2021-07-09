@@ -2,6 +2,9 @@
 #'
 #' @param file_csv A file path to the csv file.
 #' @param caption Text you want in the caption.
+#' @param dir Directory where the table should go (relative to "doc")
+#' @param format Argument passed `kableExtra::kbl()` allowing switch between
+#' "latex" and "html".
 #' @export
 #' @examples
 #' \dontrun{
@@ -10,7 +13,8 @@
 #'
 table_sens <- function(file_csv,
                        caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). Red values indicate negative log likelihoods that were lower than that for the base model.",
-                       dir = file.path("..", "tables")
+                       dir = file.path("..", "tables"),
+                       format = "latex"
   ) {
 
   # Make a new label that doesn't depend on area
@@ -45,12 +49,12 @@ table_sens <- function(file_csv,
       dplyr::mutate_if(is.numeric, round, 2) %>%
       dplyr::mutate_if(is.numeric, conditional_color),
     booktabs = TRUE, longtable = TRUE,
-    format = "latex", escape = FALSE,
+    format = format, escape = FALSE,
     digits = 2,
     caption = caption,
     label = label
   )
-
+  
   if (any(grepl("Total", data[, 1]))) {
     tt <- tt %>%
     kableExtra::pack_rows("Diff. in likelihood from base model", 1, 6) %>%
