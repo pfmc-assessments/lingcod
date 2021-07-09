@@ -2,9 +2,11 @@
 title: "Lingcod"
 author: "Lingcod STAT"
 date: "July 12, 2021"
-fig.caption: FALSE
+fig.caption: TRUE
 output: 
   xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
     yolo: false
     self_contained: true
     lib_dir: libs
@@ -13,7 +15,7 @@ output:
       highlightStyle: tomorrow-night-bright
       highlightLines: true
       highlightLanguage: r
-    css: [xaringan-themer.css, libs/animate.css]
+    css: ["ninjutsu", xaringan-themer.css, libs/animate.css]
     seal: false
 ---
 
@@ -38,9 +40,6 @@ xaringanthemer::style_mono_accent(
 ```
 
 class: title-slide, inverse
-background-image: url("../figures/NOAA_Logo_Full.jpg")
-background-size: 20%
-background-position: 0% 100%
 ```{css}
 <style>
 .center2 {
@@ -68,42 +67,111 @@ July 12, 2021<br>
 
 ---
 class: top
-background-image: url("../figures/NOAA_Logo_Full.jpg")
-background-size: 20%
-background-position: 0% 100%
 
 ## Fleet structure
 
+Change splitting of data from
+42 $^{\circ}$ 00' N to
+40 $^{\circ}$ 10' N.
+
 .pull-left[
-### 2017
+
+### 2019
+
 * North
-  * Fixed gear
-  * Trawl
+  * Commercial
+     * Fixed gear
+     * Trawl
   * Recreational
-    * Washington
-    * Oregon
+     * Washington
+     * Oregon
 * South
-  * Fixed gear
-  * Trawl
+  * Commercial
+     * Fixed gear
+     * Trawl
   * Recreational
-    * Southern California
+     * California
 ]
 .pull-right[
-### 2019
-* North
-  * Fixed gear
-  * Trawl
-  * Recreational
-    * Washington
-    * Oregon
-    * Northern California
 
-* South
-  * Fixed gear
-  * Trawl
+### 2021
+
+* North
+  * Commercial
+     * Fixed gear
+     * Trawl
   * Recreational
-    * Southern California
+     * Washington
+     * Oregon
+     * Northern California
+* South
+  * Commercial
+     * Fixed gear
+     * Trawl
+  * Recreational
+     * Southern California
 ]
 
 ???
-Comments that are hidden.
+* Kept OR and CA recreational data as separate fleets because of differences in management
+
+---
+class: split-20
+
+.column.bg-blue[
+#### .white[2021 landings]
+
+.white[
+* North
+* South
+]
+]
+
+.column.bg-white[
+```{r catch2-landings-stacked-north, results = "asis"}
+sa4ss::add_figure(
+  width = 80,
+  file.path("..", "docs", "North", "catch2 landings stacked.png"),
+  caption = ""
+)
+sa4ss::add_figure(
+  width = 80,
+  file.path("..", "docs", "South", "catch2 landings stacked.png"),
+  caption = ""
+)
+```
+]
+
+---
+```{r, results = "asis"}
+
+```
+
+
+
+
+
+
+
+
+
+
+---
+### Extra slides
+
+---
+class: split-20
+
+.column.bg-blue[
+#### .white[Commercial landings]
+]
+
+.column.bg-white[
+```{r catch-comm-state, results = "asis"}
+do.call(sa4ss::add_figure, c(width = 100, height = 90,utils::read.csv((file.path("..", "figures", "catch-comm-state.csv")))))
+```
+]
+
+???
+* Previously, a linear interpolation of reconstructed catches in California
+* Management measures in 1998 which led to decreased catches
