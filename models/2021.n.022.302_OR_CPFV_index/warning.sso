@@ -1,0 +1,10 @@
+#V3.30.17.01;_2021_06_15;_safe;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.3
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Thu Jul 08 13:58:18 2021
+
+This file contains warnings, suggestions and notes generated as files are read and processed
+
+1 NOTE:  Max data length bin: 130  < max pop len bins: 140; so will accumulate larger pop len bins
+2 Final gradient: 0.00029262 is larger than final_conv: 0.0001
+N warnings: 2

@@ -198,7 +198,6 @@ name | notes | issue | source_model | script
 2021.n.022.206_combMF                | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.207_no_unsexed            | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.208_DM            | fixed DM sensitivity | #43 | 2021.n.022.001 | run_sensitivities()
-2021.n.022.302_OR_CPFV_index         | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.303_no_fishery_indices    | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.311_no_Comm_Trawl_index   | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.312_no_Comm_Fix_index     | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
@@ -207,3 +206,5 @@ name | notes | issue | source_model | script
 2021.n.022.315_no_Rec_CA_index       | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.316_no_Surv_TRI_index     | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.317_no_Surv_WCGBTS_index  | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
+2021.n.022.302_OR_CPFV_index         | ran sensitivity on 8 July 2021          | #48 | 2021.n.022.001 | lingcod_model_alt_indices.R
+2021.s.014.301_CA_CRFSPR_index       | ran sensitivity on 8 July 2021          | #48 | 2021.s.014.001 | lingcod_model_alt_indices.R
