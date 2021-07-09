@@ -1,4 +1,4 @@
-#' Make a series of plots comparing the north and south models
+#' Make a series of plots comparing the north and south modnels
 #'
 #' Uses `r4ss::SSplotComparisons()` but applies defaults as
 #' appropriate for the lingcod stocks
@@ -16,6 +16,7 @@
 #' 
 plot_north_vs_south <- function(mod.n,
                                 mod.s,
+                                dir = "figures",
                                 subplot = 1:3) {
 
   # empty place to store info on each plot
@@ -47,7 +48,7 @@ plot_north_vs_south <- function(mod.n,
     caption <- paste("Comparison of estimated growth curves and variability",
                      "in growth for the north and south base models.")
     filename <- "compare_north_vs_south_growth.png"
-    filepath <- file.path("figures", filename)
+    filepath <- file.path(dir, filename)
     plot_info <- rbind(plot_info, 
                        data.frame(caption = caption, filename = filename)
                        )
@@ -82,7 +83,7 @@ plot_north_vs_south <- function(mod.n,
                      "each model with normal approximation to posterior based",
                      "on asymptotic standard error with priors shown in black.")
     filename <- "compare_north_vs_south_pars.png"
-    filepath <- file.path("figures", filename)
+    filepath <- file.path(dir, filename)
     plot_info <- rbind(plot_info, 
                        data.frame(caption = caption, filename = filename)
                        )
@@ -158,7 +159,7 @@ plot_north_vs_south <- function(mod.n,
                      "each model with normal approximation to posterior based",
                      "on asymptotic standard error.")
     filename <- "compare_north_vs_south_quants.png"
-    filepath <- file.path("figures", filename)
+    filepath <- file.path(dir, filename)
     plot_info <- rbind(plot_info, 
                        data.frame(caption = caption, filename = filename)
                        )
@@ -186,13 +187,13 @@ plot_north_vs_south <- function(mod.n,
   write.csv(data.frame(plot_info$caption,
                        alt_caption = "",
                        label = gsub(".png", "", plot_info$filename),
-                       filein = file.path("..", "figures", plot_info$filename)),
-            file = file.path("figures", "figures_compare_north_vs_south.csv"),
+                       filein = file.path("..", dir, plot_info$filename)),
+            file = file.path(dir, "figures_compare_north_vs_south.csv"),
             row.names = FALSE)
 
 }
 
-table_north_vs_south <- function() {
+table_north_vs_south <- function(mod.n, mod.s) {
   mod.old.n <- mod.2019.n.001.001
   mod.old.s <- mod.2019.s.001.001
   # rename some parameters so they line up in the table
@@ -215,8 +216,8 @@ table_north_vs_south <- function() {
                   "Ret_Catch_MSY", "Dead_Catch_MSY",
                   "SmryBio_unfished", "OFLCatch_2021")
 
-  compare_table <- r4ss::SSsummarize(list(mod.2021.n.022.001,
-                                          mod.2021.s.014.001,
+  compare_table <- r4ss::SSsummarize(list(mod.n,
+                                          mod.s,
                                           mod.old.n,
                                           mod.old.s)) %>%
     r4ss::SStableComparisons(modelnames = c("North base",
