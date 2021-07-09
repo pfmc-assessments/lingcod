@@ -114,4 +114,6 @@ _main*
 !/models/*_profile_*/*.png
 /models/*/custom_plots/
 /figures/compare/
+!/models/2021.n.022.302*
+!/models/2021.s.014.301*
 
