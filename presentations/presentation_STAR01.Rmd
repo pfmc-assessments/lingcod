@@ -1,10 +1,12 @@
 ---
-title: "Lingcod"
+title: "Lingcod STAR presentation 1"
 author: "Lingcod STAT"
 date: "July 12, 2021"
-fig.caption: FALSE
+fig.caption: TRUE
 output: 
   xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
     yolo: false
     self_contained: true
     lib_dir: libs
@@ -38,9 +40,6 @@ xaringanthemer::style_mono_accent(
 ```
 
 class: title-slide, inverse
-background-image: url("../figures/NOAA_Logo_Full.jpg")
-background-size: 50%
-background-position: 0% 100%
 ```{css}
 <style>
 .center2 {
@@ -72,8 +71,68 @@ background-image: url("../figures/NOAA_Logo_Full.jpg")
 background-size: 20%
 background-position: 0% 100%
 
+### Background
 
-### Overview of results
+.pull-left-60[
+- Lingcod are a value target species for commercial and recreational fisheries
+
+- Declared overfished coastwide in 1999 and rebuilt in 2005
+
+- Stocks were last assessed in 2017
+
+- Lots of data, more so for the north
+
+- Data not necessarily very informative about key quantities
+
+
+]
+
+.pull-right-40[
+
+![lingcod_pic](../figures/Lingcod3.jpg)
+
+<p style="font-size:9px;margin-top:-25px;">
+By Magnus Kjaergaard, CC BY-SA 2.5, <a href = "https://commons.wikimedia.org/w/index.php?curid=882582">https://commons.wikimedia.org/w/index.php?curid=882582</a>
+</p>
+
+![lingcod_pic2](../figures/Fish4002_-_Flickr_-_NOAA_Photo_Library.jpg)
+
+<p style="font-size:9px;margin-top:-25px;">
+By John Crofts, Public Domain,
+<br><a href = "https://commons.wikimedia.org/w/index.php?curid=17985885">
+https://commons.wikimedia.org/w/index.php?curid=17985885</a>
+</p>
+]
+---
+
+
+### Changes for 2021
+
+- Changed stock boundary (more on this later)
+
+- Re-analyzed all data inputs from the raw data (except trawl logbook index)
+
+- Added new data from 2017 - 2020
+
+- Added new ages from some earlier years
+
+- Updated biology parameters (length-weight and maturity)
+
+- Revisited selectivity and retention assumptions 
+
+- Estimated mortality and steepness with priors
+
+- Used Bayesian diagnostics helped determine problematic parameters
+
+- Developed a new workflow for the assessment as an R package: 
+https://github.com/iantaylor-NOAA/Lingcod_2021/
+
+- Posted model results to the web for easy exploration:
+https://iantaylor-noaa.github.io/Lingcod_2021/
+
+---
+
+### Overview of results: time series
 
 <!-- calculations related to range of overfished years:
 range(mod.s$timeseries$Yr[mod.s$timeseries$SpawnBio < 
@@ -83,7 +142,7 @@ range(mod.s$timeseries$Yr[mod.s$timeseries$SpawnBio <
 .pull-left-40[
 - 2021 results not directly comparable to 2017 due to boundary change
 
-- Both stocks estimated above the _B_<sub>40%</sub> reference point in 2021
+- Both stocks estimated above the $B_{40\%}$ reference point in 2021
 
 - North stock estimated as having never been overfished (below $B_{25\%}$)
 
@@ -92,22 +151,120 @@ range(mod.s$timeseries$Yr[mod.s$timeseries$SpawnBio <
 
 ]
 
-.pull-right-60[![an image](../figures/compare_north_vs_south_timeseries.png)]
+.pull-right-60[![fig](../figures/compare_north_vs_south_timeseries.png)]
 
 ---
 
 ### Lingcod Biology
 
+.pull-left[
+- Lingcod have faster dynamics than many of the groundfish on this coast:
+  - faster growth, 
+  - earlier maturing,
+  - fewer old indivuals observed
+
+- Exhibit sex-specific differences in behavior and distribution
+
+- Additional ageing for 2021 made possible new age-based maturity curves
+
+- Frequently encountered in bottom trawl survey but declines in occurrence from 200-400 m
+]
+
+.pull-right[
+<!--![maturity_fig](../figures/age_mat_forassessment.png) -->
+<img src="../figures/age_mat_forassessment.png" alt="Alternative text" width="100%"/>
+
+<p style="font-size:12px;margin-top:-25px;">
+Age- and length-based maturity functional maturity
+
+
+<img src="../figures/WCGBTS_presence_absence_by_depth_bin.png" alt="Alternative text" width="100%"/>
+<p style="font-size:12px;margin-top:-25px;">
+Presence/absence of lingcod in the NWFSC West Coast Groundfish Bottom
+Trawl Survey (WCGBTS) by 25 m depth increments.
+
+]
 
 ---
 
-### Stock Structure
+### Stock Structure 1
+
+.pull-left[
+- Longo et al. 2020 found genetic differentiation along the coast:
+  > evidence suggests that the distinct genetic cline in lingcod is most likely a product of selection driven by change (continuous and/or discontinuous) in environmental conditions
+- No clean break between areas
+- Presence of "admixed individuals" in northern California also noted
+- Additional genetic research ongoing
+]
+
+.pull-right[
+![fig](../figures/Longo_2020_fig2.png)
+<p style="font-size:12px;margin-top:-25px;">
+Figure 2 from Longo et al. 2020. <a href = "https://doi.org/10.1111/eva.13037">
+https://doi.org/10.1111/eva.13037</a>
+</p>
+]
 
 ---
 
-### Title
+### Stock Structure 2
 
-<img src="../figures/Noaa_logo.jpg" alt="Alternative text" width="20%" align="left"/>
+.pull-left[
+- Cape Mendocino (40°10' N) chosen to split north and south stocks
+- Transition zone exists rather than a clear break between north and south populations 
+- Sample sizes were low for each sampling location inhibiting clear boundaries
+- Cape Mendocino is a biogeographic break for many stocks
+- Splitting data from California at 40°10' N was more straightforward than other options
+- Areas modeled as independent populations
+- Model output aligns with Individual Fishing Quota boundaries
+]
 
-???
-Comments that are hidden.
+.pull-right[
+![fig](../figures/map_of_stock_boundaries_40-10.png)
+<p style="font-size:12px;margin-top:-25px;">
+Chosen stock boundaries for 2021 assessments.
+</p>
+]
+
+---
+
+### Stock Structure 3
+
+.pull-left[
+- Point Conception (34°27' N) was discussed as additional break due to 
+differences in biogeography in the Southern California Bight
+
+- Genetic analysis does not suggest a break at that point
+
+- Splitting the data available for the south into areas
+may lead to less reliable parameter estimates and a worse tool for management
+
+- Other options are available for spatial management of fisheries in California
+]
+
+.pull-right[
+![fig](../figures/map_of_stock_boundaries_40-10.png)
+<p style="font-size:12px;margin-top:-25px;">
+Chosen stock boundaries for 2021 assessments.
+</p>
+]
+
+---
+
+### Stock Structure 4
+
+.pull-left[
+![fig](../figures/bathymetry.png)
+<p style="font-size:12px;margin-top:-25px;">
+Bathymetry of the U.S. west coast.
+</p>
+]
+
+.pull-right[
+![fig](../figures/map_of_stock_boundaries_40-10.png)
+<p style="font-size:12px;margin-top:-25px;">
+Chosen stock boundaries for 2021 assessments.
+</p>
+]
+
+---

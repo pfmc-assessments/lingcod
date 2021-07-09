@@ -35,6 +35,11 @@ vignettes/*.pdf
 /doc/North.md
 /doc/South.tex
 /doc/South.md
+/doc/indices_for_Kelli/
+/doc/North.pdf
+/doc/South.pdf
+
+/docs/*.zip
 
 # Temporary files created by R markdown
 *.utf8.md
@@ -117,3 +122,5 @@ _main*
 !/models/2021.n.022.302*
 !/models/2021.s.014.301*
 !/models/*.R
+
+presentations/*.html
