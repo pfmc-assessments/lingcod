@@ -248,6 +248,11 @@ ggplot(out, aes(Length, fill = Data_Type, color = Data_Type)) +
 ggplot(out[out$Fleet %in% c("rec_boat_charter", "rec_boat_private", "rec_shore"),], aes(Length, fill = Fleet, color = Fleet)) + 
   facet_wrap(facets = c("Sex","State")) + 
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
+#The differences between charter and private and mostely with released fish
+temp = out[out$Data_Type=="RETAINED",]
+ggplot(temp[temp$Fleet %in% c("rec_boat_charter", "rec_boat_private", "rec_shore"),], aes(Length, fill = Fleet, color = Fleet)) + 
+  facet_wrap(facets = c("Sex","State")) + 
+  geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
 
 #Compare across non primary nodes in CA (for CA hist)
 ggplot(out[out$Source == "CA_Hist",], aes(Length, fill = Fleet, color = Fleet)) + 
