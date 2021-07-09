@@ -212,6 +212,47 @@ run_sensitivities <- function(dirbase,
                             dir = newdir, option = "Francis", niters_tuning = 1)
         # requires manual delete of Report
       }
+
+      #####################################################################
+      # selectivity sensitivities
+      if (grepl("_male_sel_offset", sens$suffix) |
+          grepl("_female_sel_offset", sens$suffix)) { #402 - 406
+        inputs <- get_inputs_ling(dir = newdir)
+        # add male offset to selectivity
+        if (grepl("_male_sel_offset", sens$suffix)) { #402
+          inputs$ctl$size_selex_types$Male <-
+            ifelse(inputs$ctl$size_selex_types$Pattern == 24, 3, 0)
+        }
+        # add femmale offset to selectivity
+        if (grepl("_female_sel_offset", sens$suffix)) { #403 - 405
+          inputs$ctl$size_selex_types$Male <-
+            ifelse(inputs$ctl$size_selex_types$Pattern == 24, 4, 0)
+        }
+        # make a table of male offset parameters to insert below 
+        # the other parameters for each fleet
+        tab <- data.frame(matrix(0, nrow = 5, ncol = 14))
+        names(tab) <- names(inputs$ctl$size_selex_parms)
+        tab$LO <- c(-30, -15, -15, -15, 0.1)
+        tab$HI <- c(30, 10, 10, 10, 5.0)
+        tab$INIT <- c(0, 0, 0, 0, 0.9)
+        tab$PHASE <- c(-5, -5, -5, -5, 3)
+        # insert table for each fleet
+        old_parms <- inputs$ctl$size_selex_parms
+        new_parms <- NULL
+        for (fleet in get_fleet()$fleet) {
+          if (any (grepl(fleet, rownames(old_parms)))) {
+            tab_fleet <- tab
+            rownames(tab_fleet) <- paste0("SizeSel_PMalOff_", 1:5, "_", fleet)
+            new_parms <- rbind(new_parms,
+                               old_parms[grep(fleet, rownames(old_parms)),],
+                               tab_fleet)
+          }
+        } # end loop over fleets
+        inputs$ctl$size_selex_parms <- new_parms
+        inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                                 "#C male or female selectivity offsets added")
+        write_inputs_ling(inputs, dir = newdir, files = "ctl")
+      } # end modification of male offset sensitivity
       
       #####################################################################
       # sensitivities that involve changing lambdas

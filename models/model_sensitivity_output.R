@@ -36,7 +36,16 @@ if (FALSE) {
   devtools::load_all()
   run_sensitivities(get_dir_ling("s", 14), type = c("sens_create", "sens_run"),
                     numbers = c(211, 212, 217))
-  
+
+  # female selectivity offsets
+  run_sensitivities(get_dir_ling("n", 22), type = c("sens_create"), numbers = c(404))
+  run_sensitivities(get_dir_ling("s", 14), type = c("sens_create"), numbers = c(404))
+  # 405 = female selex offset + M = 0.3,
+  run_sensitivities(get_dir_ling("n", 22), type = c("sens_create"), numbers = 405)
+  run_sensitivities(get_dir_ling("s", 14), type = c("sens_create"), numbers = 405)
+  # 406 = less early retention
+  run_sensitivities(get_dir_ling("n", 22), type = c("sens_create"), numbers = 406)
+  run_sensitivities(get_dir_ling("s", 14), type = c("sens_create"), numbers = 406)
 }
 
 if (FALSE) {
@@ -100,4 +109,16 @@ if (FALSE) {
                   sens_nums = c(303,311:317),
                   sens_type = "index",
                   write = TRUE)
+
+
+  # north vs south
+  plot_north_vs_south(mod.n = mod.2021.n.022.404,
+                      mod.s = mod.2021.s.014.404,
+                      dir = "figures/north_vs_south_sens404")
+  
+  plot_north_vs_south(mod.n = mod.2021.n.022.405,
+                      mod.s = mod.2021.s.014.405,
+                      dir = "figures/north_vs_south_sens405")
+  
+
 }

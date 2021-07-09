@@ -208,3 +208,13 @@ name | notes | issue | source_model | script
 2021.n.022.317_no_Surv_WCGBTS_index  | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.302_OR_CPFV_index         | ran sensitivity on 8 July 2021          | #48 | 2021.n.022.001 | lingcod_model_alt_indices.R
 2021.s.014.301_CA_CRFSPR_index       | ran sensitivity on 8 July 2021          | #48 | 2021.s.014.001 | lingcod_model_alt_indices.R
+2021.n.022.402_male_sel_offset   |   male offset sensitivity | #43 | 2021.n.022.001 | run_sensitivities(), model_sensitivity_output.R
+2021.s.014.402_male_sel_offset   |   male offset sensitivity | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
+2021.n.022.403_female_sel_offset | female offset sensitivity | #43 | 2021.n.022.001 | run_sensitivities(), model_sensitivity_output.R
+2021.s.014.403_female_sel_offset | female offset sensitivity | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
+2021.n.022.404_female_sel_offset | female offset sensitivity (2nd try) | #43 | 2021.n.022.001 | run_sensitivities(), model_sensitivity_output.R
+2021.s.014.404_female_sel_offset | female offset sensitivity (2nd try) | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
+2021.n.022.405_female_sel_offset_M0.3 | fix female M = 0.3 and add female offsets to selectivity | #43 | 2021.n.022.001 | run_sensitivities(), model_sensitivity_output.R
+2021.s.014.405_female_sel_offset_M0.3 | fix female M = 0.3 and add female offsets to selectivity | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
+2021.n.022.406_less_early_retention | make retention in the early period equal to the recent period | #43 | 2021.n.022.001 | run_sensitivities(), model_sensitivity_output.R
+2021.s.014.406_less_early_retention | make retention in the early period equal to the recent period | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
