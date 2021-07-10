@@ -155,13 +155,13 @@ range(mod.s$timeseries$Yr[mod.s$timeseries$SpawnBio <
 
 ---
 
-### Lingcod Biology
+### Lingcod biology
 
 .pull-left[
 - Lingcod have faster dynamics than many of the groundfish on this coast:
   - faster growth, 
   - earlier maturing,
-  - fewer old indivuals observed
+  - fewer old individuals observed
 
 - Exhibit sex-specific differences in behavior and distribution
 
@@ -187,7 +187,7 @@ Trawl Survey (WCGBTS) by 25 m depth increments.
 
 ---
 
-### Stock Structure 1
+### Stock structure 1
 
 .pull-left[
 - Longo et al. 2020 found genetic differentiation along the coast:
@@ -207,7 +207,7 @@ https://doi.org/10.1111/eva.13037</a>
 
 ---
 
-### Stock Structure 2
+### Stock structure 2
 
 .pull-left[
 - Cape Mendocino (40°10' N) chosen to split north and south stocks
@@ -228,7 +228,7 @@ Chosen stock boundaries for 2021 assessments.
 
 ---
 
-### Stock Structure 3
+### Stock structure 3
 
 .pull-left[
 - Point Conception (34°27' N) was discussed as additional break due to 
@@ -251,7 +251,7 @@ Chosen stock boundaries for 2021 assessments.
 
 ---
 
-### Stock Structure 4
+### Stock structure 4
 
 .pull-left[
 ![fig](../figures/bathymetry.png)
