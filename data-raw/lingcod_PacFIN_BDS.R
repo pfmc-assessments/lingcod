@@ -94,6 +94,29 @@ bds.pacfin$area[bds.pacfin$state %in% c("CA") &
 testthat::expect_true(all(!is.na(bds.pacfin$area)))
 
 
+# Create figure for presentation of year by length distribution of aged and unaged fix
+gg <- ggplot2::ggplot(bds.pacfin %>% dplyr::filter(!is.na(SEX)),
+  ggplot2::aes(
+    x = lengthcm,
+    y = year,
+    group = interaction(year,factor(!is.na(Age))),
+    fill = factor(!is.na(Age))
+    )
+  ) +
+  ggridges::geom_density_ridges2(scale = 5, alpha = 0.7) +
+  ggplot2::facet_grid(SEX ~ area + fleet, scales = "free") +
+  ggplot2::theme_bw() +
+  ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged")) +
+  ggplot2::theme(
+    text = ggplot2::element_text(size=20),
+    strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
+    legend.position = "top"
+  ) +
+  ggplot2::xlab("Length (cm)") +
+  ggplot2::ylab("Year") +
+  ggplot2::scale_fill_manual(values = c("gray", "blue"))
+ggplot2::ggsave(plot = gg, filename = file.path("figures", "PacFIN_ldist.png"))
+
 # bins are in info_bins
 # length-weight relationships are in lw.WCGBTS
 
