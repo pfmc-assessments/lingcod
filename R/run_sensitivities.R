@@ -215,6 +215,19 @@ run_sensitivities <- function(dirbase,
 
       #####################################################################
       # selectivity sensitivities
+
+      # force fixed-gear fishery to be asymptotic
+      if (grepl("_asymptotic_FG", sens$suffix)) {
+        inputs <- get_inputs_ling(dir = newdir)
+        inputs$ctl[["size_selex_parms"]] <-
+          change_pars(
+            pars = inputs$ctl[["size_selex_parms"]],
+            string = "SizeSel_P_4_2_Comm_Fix",
+            LO = -1, HI = 15, INIT = 15, PHASE = -3
+          )
+        write_inputs_ling(inputs, dir = newdir, files = "ctl")
+      }
+
       if (grepl("_male_sel_offset", sens$suffix) |
           grepl("_female_sel_offset", sens$suffix)) { #402 - 406
         inputs <- get_inputs_ling(dir = newdir)
