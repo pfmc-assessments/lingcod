@@ -2,7 +2,7 @@
 title: "Lingcod"
 author: "Lingcod STAT"
 date: "July 12, 2021"
-fig.caption: TRUE
+fig.caption: false
 output: 
   xaringan::moon_reader:
     includes:
@@ -35,7 +35,8 @@ xaringanthemer::style_mono_accent(
   base_color = "#00467F",
   header_font_google = xaringanthemer::google_font("Josefin Sans"),
   text_font_google   = xaringanthemer::google_font("Montserrat", "300", "300i"),
-  code_font_google   = xaringanthemer::google_font("Fira Mono")
+  code_font_google   = xaringanthemer::google_font("Fira Mono"),
+  colors = c(noaablue = "#00467F")
 )
 ```
 
@@ -59,76 +60,84 @@ class: title-slide, inverse
 ```
 
 .bg-text[
-# Lingcod catches and other data
+# Lingcod data
+
+## Catches, indices, length compositions, conditional age-at-length compositions, ageing error, mean body weight, discard rates
+
 <hr />
 Lingcod STAT<br><br>
 July 12, 2021<br>
 ]
 
 ---
+class: split-20
+name: data-north
+
+.column.bg-noaablue[
+#### .white[Northern data]
+]
+.column.bg-white[
+```{r figure-data-north, results = "asis"}
+sa4ss::add_figure(
+  width = 80,
+  file.path("..", "docs", "North", "data_plot.png"),
+  caption = ""
+)
+```
+]
+---
+class: split-20
+name: data-south
+
+.column.bg-noaablue[
+#### .white[Southern data]
+]
+.column.bg-white[
+```{r figure-data-south, results = "asis"}
+sa4ss::add_figure(
+  width = 80,
+  file.path("..", "docs", "South", "data_plot.png"),
+  caption = ""
+)
+```
+]
+
+---
 class: top
 
-## Fleet structure
+### General plan
 
-Change splitting of data from
-42 $^{\circ}$ 00' N to
-40 $^{\circ}$ 10' N.
+--
+- Split data at $40^{\circ}10'$ instead of $42^{\circ}00'$
 
-.pull-left[
+--
+- Add a northern California recreational fleet
 
-### 2019
+--
+- Revisit every data source used in 2017
 
-* North
-  * Commercial
-     * Fixed gear
-     * Trawl
-  * Recreational
-     * Washington
-     * Oregon
-* South
-  * Commercial
-     * Fixed gear
-     * Trawl
-  * Recreational
-     * California
-]
-.pull-right[
-
-### 2021
-
-* North
-  * Commercial
-     * Fixed gear
-     * Trawl
-  * Recreational
-     * Washington
-     * Oregon
-     * Northern California
-* South
-  * Commercial
-     * Fixed gear
-     * Trawl
-  * Recreational
-     * Southern California
-]
+--
+- Utilize sex-specific data when available
 
 ???
 * Kept OR and CA recreational data as separate fleets because of differences in management
+* Trawl logbook data was not re-analyzed just re-stratified, a re-analysis was not necessary because updates to Oregon information did not pertain to the time period under consideration
 
 ---
 class: split-20
 
-.column.bg-blue[
+.column.bg-noaablue[
 #### .white[2021 landings]
 
 .white[
 * North
+
 * South
 ]
 ]
 
 .column.bg-white[
-```{r catch2-landings-stacked-north, results = "asis"}
+```{r figure-catch2, results = "asis"}
 sa4ss::add_figure(
   width = 80,
   file.path("..", "docs", "North", "catch2 landings stacked.png"),
@@ -141,18 +150,143 @@ sa4ss::add_figure(
 )
 ```
 ]
+???
+Large percentage of landings in the southern area from the recreational fleet in comparison to a much smaller percentage in the north.
 
 ---
-```{r, results = "asis"}
+class: split-20
 
+.column.bg-noaablue[
+#### .white[Indices]
+
+.white[
+* North
+
+* South
+]
+
+**No surveys in 2020 because of Covid-19**
+]
+
+.column.bg-white[
+```{r figure-indices, results = "asis"}
+sa4ss::add_figure(
+  width = 80,
+  file.path("..", "docs", "North", "index_fits_all_fleets.png"),
+  caption = ""
+)
+sa4ss::add_figure(
+  width = 70,
+  file.path("..", "docs", "South", "index_fits_all_fleets.png"),
+  caption = ""
+)
+```
+]
+???
+* No surveys
+* Limited biological sampling
+* Difficulties getting age structures prepped and read because of issues with social distancing and lab availability
+* **to do - insert figure**
+
+---
+### Age- and length-composition data
+
+
+---
+#### West Coast Groundfish Bottom Trawl Survey
+
+```{r figure-agelength-wcgbts, fig.height = 9, fig.retina = 3, cache = TRUE}
+ggplot2::ggplot(bio.WCGBTS %>% dplyr::filter(!is.na(Sex)),
+  ggplot2::aes(
+    x = Length_cm,
+    y = Year,
+    group = interaction(Year,factor(!is.na(Age))),
+    fill = factor(!is.na(Age))
+    )
+  ) +
+  ggridges::geom_density_ridges2(scale = 5, alpha = 0.7) +
+  ggplot2::facet_grid(Sex ~ ifelse(Latitude_dd <= 40.1667, "South", "North")) +
+  ggplot2::theme_bw() +
+  ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged")) +
+  ggplot2::theme(
+    text = ggplot2::element_text(size=20),
+    strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
+    legend.position = "top"
+  ) +
+  ggplot2::xlab("Length (cm)") +
+  ggplot2::ylab("Year") +
+  ggplot2::scale_fill_manual(values = c("gray", "blue"))
 ```
 
+---
+#### Triennial Survey
 
+```{r figure-agelength-triennial, fig.height = 9, fig.retina = 3, cache = TRUE}
+ggplot2::ggplot(bio.Triennial[[2]] %>% dplyr::filter(!is.na(Sex)),
+  ggplot2::aes(
+    x = Length_cm,
+    y = Year,
+    group = interaction(Year,factor(!is.na(Age))),
+    fill = factor(!is.na(Age))
+    )
+  ) +
+  ggridges::geom_density_ridges2(scale = 5, alpha = 0.7) +
+  ggplot2::facet_grid(Sex ~ ifelse(Latitude_dd <= 40.1667, "South", "North")) +
+  ggplot2::theme_bw() +
+  ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged")) +
+  ggplot2::theme(
+    text = ggplot2::element_text(size=20),
+    strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
+    legend.position = "top"
+  ) +
+  ggplot2::xlab("Length (cm)") +
+  ggplot2::ylab("Year") +
+  ggplot2::scale_fill_manual(values = c("gray", "blue"))
+```
+???
+* Triennial does not cover the entire Southern area
+* Triennial changed spatial coverage mid-stream, which is not accounted for within the composition data
 
+---
+#### Hook and Line Survey
 
+.pull-right[
+```{r figure-agelength-lam, fig.height = 18, fig.retina = 3, cache = TRUE}
+ggplot2::ggplot(bio.HKLage.Lam %>% dplyr::filter(!is.na(sex)),
+  ggplot2::aes(
+    x = length_cm,
+    y = year,
+    group = interaction(year,factor(!is.na(age_years))),
+    fill = factor(!is.na(age_years))
+    )
+  ) +
+  ggridges::geom_density_ridges2(scale = 5, alpha = 0.7) +
+  ggplot2::facet_grid(sex ~ .) +
+  ggplot2::theme_bw() +
+  ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged")) +
+  ggplot2::theme(
+    text = ggplot2::element_text(size=50),
+    strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
+    legend.position = "top"
+  ) +
+  ggplot2::xlab("Length (cm)") +
+  ggplot2::ylab("Year") +
+  ggplot2::scale_fill_manual(values = c("blue"))
+```
+]
 
+---
+#### Commercial
 
+.center[
+<img src="../figures/PacFIN_ldist.png" style="width: 100%"/>
+]
 
+---
+#### Maximum age
+
+---
+#### Ageing error
 
 
 
@@ -162,7 +296,7 @@ sa4ss::add_figure(
 ---
 class: split-20
 
-.column.bg-blue[
+.column.bg-noaablue[
 #### .white[Commercial landings]
 ]
 
