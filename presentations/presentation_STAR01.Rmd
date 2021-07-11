@@ -175,7 +175,7 @@ range(mod.s$timeseries$Yr[mod.s$timeseries$SpawnBio <
 <img src="../figures/age_mat_forassessment.png" alt="Alternative text" width="100%"/>
 
 <p style="font-size:12px;margin-top:-25px;">
-Age- and length-based maturity functional maturity
+Age- and length-based functional maturity
 
 
 <img src="../figures/WCGBTS_presence_absence_by_depth_bin.png" alt="Alternative text" width="100%"/>
