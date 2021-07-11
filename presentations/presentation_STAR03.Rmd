@@ -95,8 +95,9 @@ Comments that are hidden.
 
 ### North sensitivity to biology and recruitment
 .pull-left-30[
-- North model was relatively insensitive to these changes
-- Largest change came from fixing M = 0.3 and h = 0.7
+- North model was not sensitive to most of these changes
+- Largest change came from fixing female M = 0.3 and h = 0.7
+- Base model estimates were M = 0.41 and h = 0.80
 ]
 
 .pull-right-70[
@@ -113,6 +114,44 @@ Comments that are hidden.
 `
 ---
 
+### South sensitivity to biology and recruitment
+
+.pull-left-30[
+- South model was not sensitive to most of these changes
+- Largest change came from fixing female M = 0.3 and h = 0.7
+- Base model estimates were M = 0.26 and h = 0.54
+]
+
+.pull-right-70[
+![fig](../docs/South/sens_timeseries_s_bio_rec.png)
+]
+
+---
+
+### South sensitivity to biology and recruitment
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_s_bio_rec.csv", caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
+### North sensitivity to composition data
+
+.pull-left-40[
+- Dirichlet-multinomial likelihood:
+  - increased weight on all comps
+  - reduced fit to survey
+  - reduced differentiation in weights among fleets
+  
+![fig](../figures/comp_weights_DM_vs_Francis_north.png)
+]
+
+.pull-right-60[
+![fig](../docs/North/sens_timeseries_n_comp.png)
+]
+
+---
+
 ### North sensitivity to composition data
 <p style="margin-top:-25px;">
 `r table_sens("../tables/sens_table_n_comp.csv", caption = "", format = "html") %>%
@@ -120,19 +159,20 @@ Comments that are hidden.
 `
 ---
 
-### North sensitivity to selectivity & retention
-<p style="margin-top:-25px;">
-`r table_sens("../tables/sens_table_s_sel.csv", caption = "", format = "html") %>%
-      kableExtra::kable_styling(font_size = 12) 
-`
----
-<!-- south sensitivities -->
+### South sensitivity to composition data
 
-### South sensitivity to biology and recruitment
-<p style="margin-top:-25px;">
-`r table_sens("../tables/sens_table_s_bio_rec.csv", caption = "", format = "html") %>%
-      kableExtra::kable_styling(font_size = 12) 
-`
+.pull-left-40[
+- South model was sensitive to most changes in comp data
+- D-M likelihood again increased comp weights
+- Adding more age data pushed scale to implausibly high levels
+  
+![fig](../figures/comp_weights_DM_vs_Francis_south.png)
+]
+
+.pull-right-60[
+![fig](../docs/South/sens_timeseries_s_comp.png)
+]
+
 ---
 
 ### South sensitivity to composition data
@@ -142,12 +182,74 @@ Comments that are hidden.
 `
 ---
 
+
+### Additional sensitivities: selectivity & retention
+
+An additional set of senstivities not included in the assessment reports:
+
+1. make commercial fixed-gear fleet have asympotic selectivity
+<br>(south only as north already had FG estimated asymptotic)
+
+2. add an offset parameter to estimate sex-specific selectivity
+
+3. sex-specific selectivity + fix female _M_ at 0.3
+
+4. model retention prior to 1998 as equal to the current era (2011-onward) rather 
+than retaining almost 100% of all fish
+
+---
+
+### North sensitivity to selectivity & retention
+
+.pull-left-30[
+- little sensitivity to retention assumption
+- sex-offset causes female selectivity << male selectivity 
+- confounded with estimates of male _M_: males died faster but were more selected
+]
+
+<!-- to do: move selelectivity and retention figs into docs and add to HTML -->
+<!-- to do: add figures showing female vs male selectivity with offset -->
+.pull-right-70[
+![fig](../models/2021.n.022.001_new_INIT/custom_plots/sens_timeseries_n_sel.png)
+]
+
+
+---
+
+### North sensitivity to selectivity & retention
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_sel.csv", caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
+
+### South sensitivity to selectivity & retention
+
+.pull-left-30[
+- retention sensitivity caused implausible shapes for early selectivity
+- sex-offset had similar effect as for north but with greater
+impact on biomass estimates
+- female selectivity << male selectivity 
+- confounded with estimates of male _M_: males died faster but were more selected
+]
+
+<!-- to do: move selelectivity and retention figs into docs and add to HTML -->
+<!-- to do: add figures showing female vs male selectivity with offset -->
+.pull-right-70[
+![fig](../models/2021.s.014.001_esth/custom_plots/sens_timeseries_s_sel.png)
+]
+
+---
+
 ### South sensitivity to selectivity & retention
 <p style="margin-top:-25px;">
 `r table_sens("../tables/sens_table_s_sel.csv", caption = "", format = "html") %>%
       kableExtra::kable_styling(font_size = 12) 
 `
+
 ---
+
 
 <!-- ### Comparison of areas: growth -->
 
@@ -182,3 +284,5 @@ precisely estimated
 ]
 
 ---
+
+### Concluding comments?

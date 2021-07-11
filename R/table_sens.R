@@ -28,14 +28,26 @@ table_sens <- function(file_csv,
     dplyr::mutate(Label = gsub("\\s+\\(.+\\)|likelihood", "", Label)) %>%
     dplyr::mutate(Label = gsub("(OTAL)", "\\L\\1", Label, perl = TRUE))
   prettynames <- function(x) {
+    if (format == "latex") {
+      x <- gsub("_", "", x)
+    }
     x <- gsub("Base\\.model", "Base", x)
     x <- gsub("shareM", "share \\$M\\$", x)
     x <- gsub("(^[Mh]|_[Mh])", "\\$\\1\\$", x)
-    x <- gsub("_", "", x)
     x <- gsub("sigmaR", "\\$\\\\sigma_R\\$", x)
     x <- gsub("([0-9\\.]+)", " = \\1", x, perl = TRUE)
     x <- gsub("([0-9])\\$", "\\1 \\$", x, perl = TRUE)
     x <- gsub("indices|index", "", x)
+    x <- gsub("female", "fem. ", x)
+    if (format == "html") {
+      x <- gsub("_", " ", x)
+      x <- gsub("\\$", "", x)
+      x <- gsub("\\`", "", x)
+      x <- gsub("\\", "", x, fixed = TRUE)
+      x <- gsub("sigma R", "sigmaR", x)
+      x <- gsub("sel offset", "sel. offset", x)
+      x <- gsub("offset M", "offset, M", x)
+    }
     return(x)
   }
   colnames(data) <- prettynames(colnames(data))

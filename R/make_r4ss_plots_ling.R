@@ -70,5 +70,24 @@ make_r4ss_plots_ling <- function(mod, plot = c(1:26, 31:50),
   if (35 %in% plot) {
     plot_sel_noncomm(mod, area = area)
   }    
+  if (36 %in% plot) {
+    plot_sel_comm(mod, sex = 2)
+  }
+  if (37 %in% plot) {
+    plot_sel_noncomm(mod, area = area, sex = 2)
+  }
+  if (38 %in% plot) {
+    r4ss::SSplotSelex(mod, subplot=1, fleets=c(1:2),
+                      fleetnames = get_fleet()$label_short,
+                      plot = FALSE, print = TRUE,
+                      plotdir = dir)
+    #file.
+  }
+  if (39 %in% plot) {
+    r4ss::SSplotSelex(mod, subplot=1, fleets=c(5:10),
+                      fleetnames = get_fleet()$label_short,
+                      plot = FALSE, print = TRUE,
+                      plotdir = dir)
+  }
   
 }

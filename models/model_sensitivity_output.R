@@ -6,36 +6,43 @@ if (FALSE) {
   # create and run sensitivities
   devtools::load_all()
   run_sensitivities(get_dir_ling("n", 22),
-                    type = c("sens_create", "sens_run"),
-                    numbers = c(101:106))
+    type = c("sens_create", "sens_run"),
+    numbers = c(101:106)
+  )
 
   devtools::load_all()
   run_sensitivities(get_dir_ling("n", 22),
-                    type = c("sens_create", "sens_run"),
-                    numbers = c(301:320))
+    type = c("sens_create", "sens_run"),
+    numbers = c(301:320)
+  )
 
   devtools::load_all()
   run_sensitivities(get_dir_ling("n", 22),
-                    type = c("sens_create"),
-                    numbers = c(401:402))
+    type = c("sens_create"),
+    numbers = c(401:402)
+  )
 
-  setwd('c:/ss/lingcod/lingcod_2021')
+  setwd("c:/ss/lingcod/lingcod_2021")
   devtools::load_all()
   run_sensitivities(get_dir_ling("n", 22), type = c("sens_create", "sens_run"), numbers = c(208))
   run_sensitivities(get_dir_ling("n", 22), type = c("sens_run"), numbers = c(208))
 
-  setwd('c:/ss/lingcod/lingcod_2021')
+  setwd("c:/ss/lingcod/lingcod_2021")
   devtools::load_all()
   run_sensitivities(get_dir_ling("s", 14), type = c("sens_create", "sens_run"), numbers = c(208))
 
-  setwd('c:/ss/lingcod/lingcod_2021')
+  setwd("c:/ss/lingcod/lingcod_2021")
   devtools::load_all()
-  run_sensitivities(get_dir_ling("n", 22), type = c("sens_create"),
-                    numbers = c(214, 217))
-  setwd('c:/ss/lingcod/lingcod_2021')
+  run_sensitivities(get_dir_ling("n", 22),
+    type = c("sens_create"),
+    numbers = c(214, 217)
+  )
+  setwd("c:/ss/lingcod/lingcod_2021")
   devtools::load_all()
-  run_sensitivities(get_dir_ling("s", 14), type = c("sens_create", "sens_run"),
-                    numbers = c(211, 212, 217))
+  run_sensitivities(get_dir_ling("s", 14),
+    type = c("sens_create", "sens_run"),
+    numbers = c(211, 212, 217)
+  )
 
   # female selectivity offsets
   run_sensitivities(get_dir_ling("n", 22), type = c("sens_create"), numbers = c(404))
@@ -46,6 +53,8 @@ if (FALSE) {
   # 406 = less early retention
   run_sensitivities(get_dir_ling("n", 22), type = c("sens_create"), numbers = 406)
   run_sensitivities(get_dir_ling("s", 14), type = c("sens_create"), numbers = 406)
+  # 401 = asymptotic selectivity for fixed-gear fleet (already estimated that way for the north)
+  run_sensitivities(get_dir_ling("s", 14), type = c("sens_create"), numbers = 401)
 }
 
 if (FALSE) {
@@ -53,72 +62,182 @@ if (FALSE) {
   devtools::load_all()
 
   # South model sensitivity tables and figs
-  area <-  "s"
+  area <- "s"
   num <- 14
 
   # make 'comp' sens table and figures for current base model
-  sens_make_table(area = area,
-                  num = num,
-                  sens_base = 1,
-                  sens_nums = c(201:202, 206:208),
-                  sens_type = "comp",
-                  ylimAdj1 = 0.008, # manual adjustment to avoid the one crazy model blowing thingsup
-                  ylimAdj2 = 0.5,
-                  uncertainty = c(TRUE, rep(FALSE, 5)), # update to match sens_nums
-                  write = TRUE)
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    sens_nums = c(201:202, 206:208),
+    sens_type = "comp",
+    ylimAdj1 = 0.008, # manual adjustment to avoid the one crazy model blowing thingsup
+    ylimAdj2 = 0.5,
+    uncertainty = c(TRUE, rep(FALSE, 5)), # update to match sens_nums
+    write = TRUE
+  )
 
   # make 'bio_rec' sens table and figures for current base model
-  sens_make_table(area = area,
-                  num = num,
-                  sens_base = 1,
-                  sens_nums = 101:105,
-                  sens_type = "bio_rec",
-                  write = TRUE)
-  
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    sens_nums = 101:105,
+    sens_type = "bio_rec",
+    write = TRUE
+  )
+
   # make 'index' sens table and figures for current base model
-  sens_make_table(area = area,
-                  num = num,
-                  sens_base = 1,
-                  sens_nums = c(303,311:320),
-                  sens_type = "index",
-                  write = TRUE)
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    sens_nums = c(303, 311:320),
+    sens_type = "index",
+    write = TRUE
+  )
+
+  # make 'sel' sens table and figures for current base model
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    sens_nums = c(401, 404:406),
+    # sens_nums = c(404:406),
+    sens_type = "sel",
+    ylimAdj1 = 1,
+    ylimAdj2 = 0.9,
+    uncertainty = 1, #c(TRUE, rep(FALSE, 4),
+    write = TRUE
+  )
 
   # North model sensitivity tables and figs
   area <- "n"
-  num  <- 22
+  num <- 22
   # make 'comp' sens table and figures for current base model
-  sens_make_table(area = area,
-                  num = num,
-                  sens_base = 1,
-                  sens_nums = c(206:208),
-                  sens_type = "comp",
-                  write = TRUE)
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    sens_nums = c(206:208),
+    sens_type = "comp",
+    write = TRUE
+  )
   # make 'bio_rec' sens table and figures for current base model
-  sens_make_table(area = area,
-                  num = num,
-                  sens_base = 1,
-                  sens_nums = 101:105,
-                  sens_type = "bio_rec",
-                  write = TRUE)
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    sens_nums = 101:105,
+    sens_type = "bio_rec",
+    write = TRUE
+  )
 
 
   # make 'index' sens table and figures for current base model
-  sens_make_table(area = area,
-                  num = num,
-                  sens_base = 1,
-                  sens_nums = c(303,311:317),
-                  sens_type = "index",
-                  write = TRUE)
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    sens_nums = c(303, 311:317),
+    sens_type = "index",
+    write = TRUE
+  )
+
+  # make 'sel' sens table and figures for current base model
+  sens_make_table(
+    area = area,
+    num = num,
+    sens_base = 1,
+    # sens_nums = c(401,404:406),
+    sens_nums = c(404:406),
+    sens_type = "sel",
+    uncertainty = 1,
+    write = TRUE
+  )
 
 
   # north vs south
-  plot_north_vs_south(mod.n = mod.2021.n.022.404,
-                      mod.s = mod.2021.s.014.404,
-                      dir = "figures/north_vs_south_sens404")
-  
-  plot_north_vs_south(mod.n = mod.2021.n.022.405,
-                      mod.s = mod.2021.s.014.405,
-                      dir = "figures/north_vs_south_sens405")
-  
+  plot_north_vs_south(
+    mod.n = mod.2021.n.022.404,
+    mod.s = mod.2021.s.014.404,
+    dir = "figures/north_vs_south_sens404"
+  )
 
+  plot_north_vs_south(
+    mod.n = mod.2021.n.022.405,
+    mod.s = mod.2021.s.014.405,
+    dir = "figures/north_vs_south_sens405"
+  )
+
+  
+  plot_sel_noncomm
+  
+  # data weights Dirichlet-multinomial vs Francis
+  log_theta.n <- mod.2021.n.022.208$parameters[
+    grep(
+      "theta",
+      rownames(mod.2021.n.022.208$parameters)
+    ),
+    "Value"
+  ]
+
+  log_theta.s <- mod.2021.s.014.208$parameters[
+    grep(
+      "theta",
+      rownames(mod.2021.s.014.208$parameters)
+    ),
+    "Value"
+  ]
+  tune.n <- r4ss::SS_tune_comps(mod.2021.n.022.001, dir = mod.2021.n.022.001$inputs$dir)
+  tune.s <- r4ss::SS_tune_comps(mod.2021.s.014.001, dir = mod.2021.s.014.001$inputs$dir)
+
+  # par(mfrow = c(2,1), mar = c(2,2,0,0), oma = c(2, 2, .5, .5))
+  for (area in c("n", "s")) {
+    if (area == "n") {
+      filename <- "figures/comp_weights_DM_vs_Francis_north.png"
+      tune <- tune.n
+      log_theta <- log_theta.n
+    } else {
+      filename <- "figures/comp_weights_DM_vs_Francis_south.png"
+      tune <- tune.s
+      log_theta <- log_theta.s
+    }
+    # get colors
+    colvec <- sapply(tune$Name,
+                     FUN = get_fleet,
+                     col = paste0("col.", area)) %>%
+      adjustcolor(alpha.f = 0.8)
+    pch <- ifelse(tune$Type == "len", 16, 17)
+    # open png file
+    png(filename,
+        res = 300, width = 4, height = 4, units = "in"
+        )
+    par(mar = c(4, 4, .5, .5))
+    # add points
+    plot(tune$Old_Var_adj, exp(log_theta) / (1 + exp(log_theta)),
+         xlim = c(0, 1.05), ylim = c(0, 1.05),
+         xaxs = "i", yaxs = "i",
+         xlab = "Francis weighting", ylab = "Dirichlet-multinomial weighting",
+         pch = pch,
+         cex = 2,
+         col = colvec,
+         las = 1
+         )
+    # legend
+    legend('bottomright',
+           legend = paste(sapply(tune$Name,
+                                 FUN = get_fleet,
+                                 col = "label_short"),
+                          tune$Type),
+           bty = "n",
+           col = colvec,
+           pt.cex = 2,
+           cex = 0.8,
+           pch = pch)
+    abline(0, 1, lty = 3)
+    dev.off()
+  } # end loop over areas
+  
 }

@@ -208,6 +208,7 @@ name | notes | issue | source_model | script
 2021.n.022.317_no_Surv_WCGBTS_index  | north sensitivities run on 27 June 2021 | #43 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.302_OR_CPFV_index         | ran sensitivity on 8 July 2021          | #48 | 2021.n.022.001 | lingcod_model_alt_indices.R
 2021.s.014.301_CA_CRFSPR_index       | ran sensitivity on 8 July 2021          | #48 | 2021.s.014.001 | lingcod_model_alt_indices.R
+2021.s.014.401_asymptotic_FG   |   fixed-gear fishery asymptotic | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
 2021.n.022.402_male_sel_offset   |   male offset sensitivity | #43 | 2021.n.022.001 | run_sensitivities(), model_sensitivity_output.R
 2021.s.014.402_male_sel_offset   |   male offset sensitivity | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
 2021.n.022.403_female_sel_offset | female offset sensitivity | #43 | 2021.n.022.001 | run_sensitivities(), model_sensitivity_output.R
