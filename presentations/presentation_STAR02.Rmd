@@ -108,16 +108,20 @@ class: top
 ### General plan
 
 --
+
+- Utilize sex-specific data when available
+
+--
+
 - Split data at $40^{\circ}10'$ instead of $42^{\circ}00'$
 
 --
-- Add a northern California recreational fleet
+
+  - Revisit every data source used in 2017
 
 --
-- Revisit every data source used in 2017
 
---
-- Utilize sex-specific data when available
+  - Add a northern California recreational fleet
 
 ???
 * Kept OR and CA recreational data as separate fleets because of differences in management
@@ -193,9 +197,8 @@ sa4ss::add_figure(
 
 
 ---
-#### West Coast Groundfish Bottom Trawl Survey
 
-```{r figure-agelength-wcgbts, fig.height = 9, fig.retina = 3, cache = TRUE}
+```{r figure-agelength-wcgbts, fig.height = 10, fig.retina = 3, cache = TRUE}
 ggplot2::ggplot(bio.WCGBTS %>% dplyr::filter(!is.na(Sex)),
   ggplot2::aes(
     x = Length_cm,
@@ -213,15 +216,14 @@ ggplot2::ggplot(bio.WCGBTS %>% dplyr::filter(!is.na(Sex)),
     strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
     legend.position = "top"
   ) +
-  ggplot2::xlab("Length (cm)") +
+  ggplot2::xlab("Length (cm) of West Coast Groundfish Bottom Trawl Survey") +
   ggplot2::ylab("Year") +
   ggplot2::scale_fill_manual(values = c("gray", "blue"))
 ```
 
 ---
-#### Triennial Survey
 
-```{r figure-agelength-triennial, fig.height = 9, fig.retina = 3, cache = TRUE}
+```{r figure-agelength-triennial, fig.height = 10, fig.retina = 3, cache = TRUE}
 ggplot2::ggplot(bio.Triennial[[2]] %>% dplyr::filter(!is.na(Sex)),
   ggplot2::aes(
     x = Length_cm,
@@ -239,7 +241,7 @@ ggplot2::ggplot(bio.Triennial[[2]] %>% dplyr::filter(!is.na(Sex)),
     strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
     legend.position = "top"
   ) +
-  ggplot2::xlab("Length (cm)") +
+  ggplot2::xlab("Length (cm) of Triennial Survey") +
   ggplot2::ylab("Year") +
   ggplot2::scale_fill_manual(values = c("gray", "blue"))
 ```
@@ -248,10 +250,9 @@ ggplot2::ggplot(bio.Triennial[[2]] %>% dplyr::filter(!is.na(Sex)),
 * Triennial changed spatial coverage mid-stream, which is not accounted for within the composition data
 
 ---
-#### Hook and Line Survey
 
 .pull-right[
-```{r figure-agelength-lam, fig.height = 18, fig.retina = 3, cache = TRUE}
+```{r figure-agelength-lam, fig.height = 20, fig.retina = 3, cache = TRUE}
 ggplot2::ggplot(bio.HKLage.Lam %>% dplyr::filter(!is.na(sex)),
   ggplot2::aes(
     x = length_cm,
@@ -265,29 +266,71 @@ ggplot2::ggplot(bio.HKLage.Lam %>% dplyr::filter(!is.na(sex)),
   ggplot2::theme_bw() +
   ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged")) +
   ggplot2::theme(
-    text = ggplot2::element_text(size=50),
+    text = ggplot2::element_text(size=40),
     strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
     legend.position = "top"
   ) +
-  ggplot2::xlab("Length (cm)") +
+  ggplot2::xlab("Length (cm) of Hook & Line Survey") +
   ggplot2::ylab("Year") +
   ggplot2::scale_fill_manual(values = c("blue"))
 ```
 ]
 
 ---
-#### Commercial
+.center[
+<img src="../figures/PacFIN_ldist.gif" style="width: 85%"/>
+]
 
+---
 .center[
 <img src="../figures/PacFIN_ldist.png" style="width: 100%"/>
 ]
 
 ---
-#### Maximum age
-
----
 #### Ageing error
 
+- Similar among age readers
+
+--
+
+- Informed using ages from fin-rays only
+
+--
+
+- Standard deviation of ageing error
+
+  - **0.24** years at age one,
+
+  - **0.56** years at age five,
+
+  - **1.10** years at age ten, and
+
+  - **1.65** years at age fifteen
+
+--
+
+- Future research
+
+  - International comparison of ages from fin rays versus otoliths
+
+    - Alaska ages with otoliths
+
+    - Difference can be upwards of five years in older fish
+
+    - Are fish in the north actually older?
+
+  - Inclusion of ageing error in sampling scheme within [ss3sim](www.github.com/ss3sim/ss3sim)
+
+---
+#### Maximum age
+
+| Female | Male | Source
+| ------ | ---- | ------
+| 21     | 21   | Haltuch et al. 2017
+| 18     | 13   | Taylor et al. 2021
+| 18     | 13   | Johnson et al. 2021
+| 20     | 14   | DFO Canada
+| 36     | 36   | [Alaska](https://mtalab.adfg.alaska.gov/ADU/analysis.aspx#/maxage)
 
 
 ---

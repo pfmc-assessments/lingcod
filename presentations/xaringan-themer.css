@@ -60,6 +60,7 @@
   --base: #00467F;
   --white: #FFFFFF;
   --black: #272822;
+  --noaablue: #00467F;
 }
 
 html {
@@ -255,5 +256,11 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 }
 .bg-black {
   background-color: var(--black);
+}
+.noaablue {
+  color: var(--noaablue);
+}
+.bg-noaablue {
+  background-color: var(--noaablue);
 }
 
