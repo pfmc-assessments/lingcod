@@ -85,6 +85,49 @@ the materials posted to https://iantaylor-noaa.github.io/Lingcod_2021/
 Comments that are hidden.
 
 ---
+class: top
+
+### 2017 STAR panel recommendations
+
+--
+
+1. Cross-validate age-readings among labs and year
+
+2. Acquire information from Canadian and Mexican authorities
+
+3. Investigate stock structure
+
+4. Concern for ages of unsexed fish being assigned equally to the sexes without regard for length
+
+3. Perform a spatially-explicit stock assessment model
+
+5. Fixed length at age 14 in North model
+
+6. Estimate other key parameters, namely $M$ and $h$
+
+7. Estimate area of habitat per area
+
+---
+class: top
+### 2017 STAR panel recommendations
+
+1. Cross-validate age-readings among labs and year
+
+2. Acquire information from Canadian and Mexican authorities
+
+3. Investigate stock structure
+
+4. Concern for ages of unsexed fish being assigned equally to the sexes without regard for length
+
+3. Perform a spatially-explicit stock assessment model
+
+5. Fixed length at age 14 in North model: .noaablue[**estimated and performed likelihood profiles**]
+
+6. Estimate other key parameters, namely $M$ and $h$: .noaablue[**estimated**]
+
+7. Estimate area of habitat per area
+
+---
 
 ### Diagnostics
 

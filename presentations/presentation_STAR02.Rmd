@@ -15,7 +15,7 @@ output:
       highlightStyle: tomorrow-night-bright
       highlightLines: true
       highlightLanguage: r
-    css: ["ninjutsu", xaringan-themer.css, libs/animate.css]
+    css: ["ninjutsu", "hygge", xaringan-themer.css, libs/animate.css]
     seal: false
 ---
 
@@ -105,23 +105,46 @@ sa4ss::add_figure(
 ---
 class: top
 
-### General plan
+### 2017 STAR panel recommendations
 
 --
 
-- Utilize sex-specific data when available
+1. Cross-validate age-readings among labs and year
 
---
+2. Acquire information from Canadian and Mexican authorities
 
-- Split data at $40^{\circ}10'$ instead of $42^{\circ}00'$
+3. Investigate stock structure
 
---
+4. Concern for ages of unsexed fish being assigned equally to the sexes without regard for length
 
-  - Revisit every data source used in 2017
+3. Perform a spatially-explicit stock assessment model
 
---
+5. Fixed length at age 14 in North model
 
-  - Add a northern California recreational fleet
+6. Estimate other key parameters, namely $M$ and $h$
+
+7. Estimate area of habitat per area
+
+---
+class: top
+name: star-wresponse
+### 2017 STAR panel recommendations
+
+1. Cross-validate age-readings among labs and year: .noaablue[[**similar across labs and years**](#ageing-error)]
+
+2. Acquire information from Canadian and Mexican authorities: .noaablue[**contacted and responses in document**]
+
+3. Investigate stock structure: .noaablue[**Split data at 40°10'N instead of 42°00'N; revisited every data source; added a northern California recreational fleet**]
+
+4. Concern for ages of unsexed fish being assigned equally to the sexes without regard for length: .noaablue[**utilized sex-specific conditional age-at-length data when available**]
+
+3. Perform a spatially-explicit stock assessment model
+
+5. Fixed length at age 14 in North model
+
+6. Estimate other key parameters, namely $M$ and $h$
+
+7. Estimate area of habitat per area
 
 ???
 * Kept OR and CA recreational data as separate fleets because of differences in management
@@ -193,8 +216,11 @@ sa4ss::add_figure(
 * **to do - insert figure**
 
 ---
-### Age- and length-composition data
+### Sex-specific age- and length-composition data
 
+.large[- Three sets of length compositions per fleet: female, male, and unsexed]
+
+.large[- Two sets of conditional age-at-length data per fleet: female and male]
 
 ---
 
@@ -287,11 +313,10 @@ ggplot2::ggplot(bio.HKLage.Lam %>% dplyr::filter(!is.na(sex)),
 ]
 
 ---
+name: ageing-error
 #### Ageing error
 
 - Similar among age readers
-
---
 
 - Informed using ages from fin-rays only
 
@@ -315,40 +340,40 @@ ggplot2::ggplot(bio.HKLage.Lam %>% dplyr::filter(!is.na(sex)),
 
     - Alaska ages with otoliths
 
-    - Difference can be upwards of five years in older fish
+    - Old fish are 5+ years older with otoliths compared to fins
 
-    - Are fish in the north actually older?
+    - Are Alaskan lingcod actually older?
 
-  - Inclusion of ageing error in sampling scheme within [ss3sim](www.github.com/ss3sim/ss3sim)
+  - Use simulation to investigate multiple sources of ageing error
 
 ---
 #### Maximum age
 
-| Female | Male | Source
-| ------ | ---- | ------
-| 21     | 21   | Haltuch et al. 2017
-| 18     | 13   | Taylor et al. 2021
-| 18     | 13   | Johnson et al. 2021
-| 20     | 14   | DFO Canada
-| 36     | 36   | [Alaska](https://mtalab.adfg.alaska.gov/ADU/analysis.aspx#/maxage)
-
-
----
-### Extra slides
+| Female | Male | Method   | Source
+| ------ | ---- | -------- | ------
+| 21     | 21   | Max seen | Haltuch et al. 2017
+| 18     | 13   | 99th %   | Taylor et al. 2021
+| 18     | 13   | 99th %   | Johnson et al. 2021
+| 20     | 14   | Max seen | DFO Canada
+| 36     | 36   | Max seen | [Alaska](https://mtalab.adfg.alaska.gov/ADU/analysis.aspx#/maxage)
 
 ---
-class: split-20
+class: top
+name: star-wresponse-repeat
+### 2017 STAR panel recommendations
 
-.column.bg-noaablue[
-#### .white[Commercial landings]
-]
+1. Cross-validate age-readings among labs and year: .noaablue[[**similar across labs and years**](#ageing-error)]
 
-.column.bg-white[
-```{r catch-comm-state, results = "asis"}
-do.call(sa4ss::add_figure, c(width = 100, height = 90,utils::read.csv((file.path("..", "figures", "catch-comm-state.csv")))))
-```
-]
+2. Acquire information from Canadian and Mexican authorities: .noaablue[**contacted and responses in document**]
 
-???
-* Previously, a linear interpolation of reconstructed catches in California
-* Management measures in 1998 which led to decreased catches
+3. Investigate stock structure: .noaablue[**Split data at 40°10'N instead of 42°00'N; revisited every data source; added a northern California recreational fleet**]
+
+4. Concern for ages of unsexed fish being assigned equally to the sexes without regard for length: .noaablue[**utilized sex-specific conditional age-at-length data when available**]
+
+3. Perform a spatially-explicit stock assessment model
+
+5. Fixed length at age 14 in North model
+
+6. Estimate other key parameters, namely $M$ and $h$
+
+7. Estimate area of habitat per area
