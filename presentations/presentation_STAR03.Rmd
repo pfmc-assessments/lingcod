@@ -68,8 +68,18 @@ July 12, 2021<br>
 ---
 class: top
 
-### Title
+### Outline
 
+This presentation will focus on three things:
+
+- key diagnostics that were instrumental in the model selection process
+
+- a subset of the sensitivities which provide useful information about the base models
+
+- comparison of results for north and south models
+
+More detailed model results and fits to data can be explored as needed using
+the materials posted to https://iantaylor-noaa.github.io/Lingcod_2021/
 
 ???
 Comments that are hidden.
