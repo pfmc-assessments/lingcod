@@ -131,10 +131,13 @@ class: top
 
 ### Diagnostics
 
-* Likelihood profiles
-* 100 jitter iterations
-* Correlation of Bayesian posteriors, particularly with respect to selectivity parameters
-* Fits to the data
+- Likelihood profiles
+
+- 100 jitter iterations
+
+- Correlation of Bayesian posteriors, particularly selectivity parameters
+
+- Fits to the data
 
 ---
 
