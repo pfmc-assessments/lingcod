@@ -313,6 +313,17 @@ ggplot2::ggplot(bio.HKLage.Lam %>% dplyr::filter(!is.na(sex)),
 ]
 
 ---
+#### Maximum age
+
+| Female | Male | Method   | Source
+| ------ | ---- | -------- | ------
+| 21     | 21   | Max seen | Haltuch et al. 2017
+| 18     | 13   | 99th %   | Taylor et al. 2021
+| 18     | 13   | 99th %   | Johnson et al. 2021
+| 20     | 14   | Max seen | DFO Canada
+| 36     | 36   | Max seen | [Alaska](https://mtalab.adfg.alaska.gov/ADU/analysis.aspx#/maxage)
+
+---
 name: ageing-error
 #### Ageing error
 
@@ -338,24 +349,41 @@ name: ageing-error
 
   - International comparison of ages from fin rays versus otoliths
 
-    - Alaska ages with otoliths
+    - Alaska == otoliths; elsewhere == fin-ray
 
     - Old fish are 5+ years older with otoliths compared to fins
 
     - Are Alaskan lingcod actually older?
 
-  - Use simulation to investigate multiple sources of ageing error
+  - Simulation tools
 
 ---
-#### Maximum age
+class: top
+name: mean-weight-at-age
+### Mean weight-at-age WCGBT Survey
 
-| Female | Male | Method   | Source
-| ------ | ---- | -------- | ------
-| 21     | 21   | Max seen | Haltuch et al. 2017
-| 18     | 13   | 99th %   | Taylor et al. 2021
-| 18     | 13   | 99th %   | Johnson et al. 2021
-| 20     | 14   | Max seen | DFO Canada
-| 36     | 36   | Max seen | [Alaska](https://mtalab.adfg.alaska.gov/ADU/analysis.aspx#/maxage)
+```{r, cache = TRUE, echo = FALSE, include = TRUE, fig.height = 9}
+ggplot2::ggplot(
+  data = bio.WCGBTS %>%
+    dplyr::mutate(area = ifelse(Latitude_dd < 40.167, "South", "North")) %>%
+    dplyr::filter(!is.na(Age) & !is.na(Weight), Age > 0, Age < 7, Sex != "U") %>%
+    dplyr::group_by(Year, Age, Sex, area, Pass) %>%
+    dplyr::summarize(mnwgt = mean(Weight), .groups = "keep") %>%
+    dplyr::ungroup(),
+  ggplot2::aes(Year, mnwgt)
+) +
+ggplot2::geom_smooth(ggplot2::aes(group = Age, col = factor(Age))) +
+ggplot2::facet_grid(Sex ~ area + Pass) +
+ggplot2::theme_bw() +
+ggplot2::labs(y = "Mean weight (kg)", col = "Age (year)") +
+ggplot2::guides(col = ggplot2::guide_legend(nrow = 1)) +
+ggplot2::theme(
+  text = ggplot2::element_text(size=18),
+  strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
+  legend.position = c(0.18, 0.95),
+  legend.background = element_rect(fill = alpha("white", 0.1)),
+)
+```
 
 ---
 class: top
@@ -377,3 +405,4 @@ name: star-wresponse-repeat
 6. Estimate other key parameters, namely $M$ and $h$
 
 7. Estimate area of habitat per area
+
