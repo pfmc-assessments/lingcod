@@ -95,7 +95,8 @@ testthat::expect_true(all(!is.na(bds.pacfin$area)))
 
 
 # Create figure for presentation of year by length distribution of aged and unaged fix
-gg <- ggplot2::ggplot(bds.pacfin %>% dplyr::filter(!is.na(SEX)),
+gg <- ggplot2::ggplot(bds.pacfin %>%
+  dplyr::filter(!is.na(SEX), year < as.numeric(format(Sys.Date(), "%Y"))),
   ggplot2::aes(
     x = lengthcm,
     y = year,
@@ -104,18 +105,50 @@ gg <- ggplot2::ggplot(bds.pacfin %>% dplyr::filter(!is.na(SEX)),
     )
   ) +
   ggridges::geom_density_ridges2(scale = 5, alpha = 0.7) +
-  ggplot2::facet_grid(SEX ~ area + fleet, scales = "free") +
+  ggplot2::facet_grid(SEX ~ fleet + area, scales = "free") +
   ggplot2::theme_bw() +
-  ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged")) +
+  ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged", nrow = 1)) +
   ggplot2::theme(
+    legend.background = element_rect(fill = alpha("white", 0.1)),
     text = ggplot2::element_text(size=20),
     strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
-    legend.position = "top"
+    legend.position = c(0.14, 0.72)
   ) +
-  ggplot2::xlab("Length (cm)") +
+  ggplot2::xlab("Length (cm) of commercial fishery samples") +
   ggplot2::ylab("Year") +
   ggplot2::scale_fill_manual(values = c("gray", "blue"))
-ggplot2::ggsave(plot = gg, filename = file.path("figures", "PacFIN_ldist.png"))
+ggplot2::ggsave(plot = gg, filename = file.path("figures", "PacFIN_ldist.png"),
+  width = 10, height = 8
+)
+
+gg <- ggplot2::ggplot(bds.pacfin %>%
+  dplyr::filter(!is.na(SEX), year >= 2003, year < as.numeric(format(Sys.Date(), "%Y")), SEX != "U"),
+  ggplot2::aes(
+    x = lengthcm,
+    y = year,
+    group = interaction(year,factor(!is.na(Age))),
+    fill = factor(!is.na(Age))
+    )
+  ) +
+  ggridges::geom_density_ridges2(scale = 5, alpha = 0.7) +
+  ggplot2::facet_grid(. ~ fleet + area) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    legend.background = element_rect(fill = alpha("white", 0.1)),
+    text = ggplot2::element_text(size = 18),
+    strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
+    legend.position = c(0.12, 0.94)
+  ) +
+  ggplot2::xlab("Length (cm) of commercial fishery samples") +
+  ggplot2::ylab("Year") +
+  ggplot2::scale_fill_manual(values = c("gray", "blue")) +
+  gganimate::transition_states(SEX, transition_length = 1, state_length = 3) +
+  ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged", nrow = 1)) +
+  ggplot2::labs(title = "Sex = {closest_state}")
+gganimate::anim_save(animation = gg, filename = file.path("figures", "PacFIN_ldist.gif"),
+  height = 10, width = 12, units = "in", res = 200
+)
+
 
 # bins are in info_bins
 # length-weight relationships are in lw.WCGBTS
