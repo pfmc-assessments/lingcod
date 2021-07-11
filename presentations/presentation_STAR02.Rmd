@@ -156,8 +156,12 @@ class: split-20
 .column.bg-noaablue[
 #### .white[2021 landings]
 
+<br><br><br><br><br><br><br>
+
 .white[
 * North
+
+<br><br><br><br><br><br>
 
 * South
 ]
@@ -186,13 +190,17 @@ class: split-20
 .column.bg-noaablue[
 #### .white[Indices]
 
+.white[No surveys in 2020 because of Covid-19]
+
+<br><br><br>
+
 .white[
 * North
+<br><br><br><br><br><br><br>
 
 * South
 ]
 
-**No surveys in 2020 because of Covid-19**
 ]
 
 .column.bg-white[
