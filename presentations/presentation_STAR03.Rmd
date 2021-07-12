@@ -311,7 +311,6 @@ Profiles before and after removing age data provided insight into what parts of 
 - fishery indices had biggest influence
 - WA rec index has the longest time series
 - OR CPFV sensitivity (not included in report) is using alternative OR Rec index 
-(onboard vs. dockside)
 - sensitivity to index removals is less than for the south model
 ]
 
@@ -335,7 +334,6 @@ Profiles before and after removing age data provided insight into what parts of 
 - "no fishery indices" accidentally included the CPFV DebWV index
 - "no fishery indices v2" (not included in report) excludes CPFV DebWV index
 - CA CRFSPR sensitivity (not included in report) is using alternative CA Rec index 
-(onboard vs. dockside)
 - Larger impact from removing the Triennial survey
 
 ]
