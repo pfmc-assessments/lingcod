@@ -170,12 +170,12 @@ class: split-20
 .column.bg-white[
 ```{r figure-catch2, results = "asis"}
 sa4ss::add_figure(
-  width = 80,
+  width = 75,
   file.path("..", "docs", "North", "catch2 landings stacked.png"),
   caption = ""
 )
 sa4ss::add_figure(
-  width = 80,
+  width = 75,
   file.path("..", "docs", "South", "catch2 landings stacked.png"),
   caption = ""
 )
@@ -370,7 +370,7 @@ class: top
 name: mean-weight-at-age
 ### Mean weight-at-age WCGBT Survey
 
-```{r, cache = TRUE, echo = FALSE, include = TRUE, fig.height = 9}
+```{r tvweightatage, out.height = "550px", warning = FALSE, message = FALSE, cache = TRUE, echo = FALSE, include = TRUE, fig.height = 9}
 ggplot2::ggplot(
   data = bio.WCGBTS %>%
     dplyr::mutate(area = ifelse(Latitude_dd < 40.167, "South", "North")) %>%
