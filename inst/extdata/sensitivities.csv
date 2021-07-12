@@ -57,6 +57,7 @@ index,316,TRUE,TRUE,,,,,,,1,6,,,_no_Surv_TRI_index,remove index for fleet 6_Surv
 index,317,TRUE,TRUE,,,,,,,1,7,,,_no_Surv_WCGBTS_index,remove index for fleet 7_Surv_WCGBTS  ,
 index,318,FALSE,TRUE,,,,,,,1,8,,,_no_Surv_HookLine_index,remove index for fleet 8_Surv_HookLine,
 index,320,FALSE,TRUE,,,,,,,1,10,,,_no_CPFV_DebWV_index,remove index for fleet 10_CPFV_DebWV  ,
+index,321,TRUE,TRUE,,,,,,,"""rep(1,6)""","""c(1:5,10)""",,,_no_fishery_indices_v2,remove all fishery-dependent indices,
 sel,401,TRUE,TRUE,SizeSel_P_4_2_Comm_Fix,15,-99,,,,,,,,_asymptotic_FG,fix the commercial FG selectivity to be asymptotic,
 sel,402,TRUE,TRUE,,,,,,,,,,,_male_sel_offset,add male offsets to selectivity (initially just Male_Scale within offset option 3),
 sel,403,TRUE,TRUE,,,,,,,,,,,_female_sel_offset,add female offsets to selectivity (Fem_Scale within offset option 4),

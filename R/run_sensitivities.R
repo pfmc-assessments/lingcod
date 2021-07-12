@@ -282,7 +282,7 @@ run_sensitivities <- function(dirbase,
         # had issue with get_fleet(1) matching fleets 1 and 10
         rownames(inputs$ctl$lambdas) <-
           paste0("#_turn_off_", ifelse(lambda_comp == 1, "index", "something"),
-                 "_for_", get_fleet()$fleet[get_fleet()$num == lambda_fleet]) 
+                 "_for_", get_fleet()$fleet[get_fleet()$num %in% lambda_fleet]) 
         write_inputs_ling(inputs, dir = newdir, files = "ctl")
       }
 

@@ -146,6 +146,7 @@ name | notes | issue | source_model | script
 2021.s.014.104_sigmaR0.8              | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.105_sigmaR0.4              | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.303_no_fishery_indices     | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
+2021.s.014.321_no_fishery_indices_v2     | same as no_fishery_indices but with DebWV index removed | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.311_no_Comm_Trawl_index    | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.312_no_Comm_Fix_index      | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.313_no_Rec_WA_index        | senstivities run on 25 June 2021 | #43 | 2021.s.014.001 | run_sensitivities()
