@@ -15,7 +15,7 @@ output:
       highlightStyle: tomorrow-night-bright
       highlightLines: true
       highlightLanguage: r
-    css: [xaringan-themer.css, libs/animate.css, fc]
+    css: [xaringan-themer.css, libs/animate.css, fc, ninjutsu]
     seal: false
 ---
 
@@ -128,19 +128,88 @@ class: top
 7. Estimate area of habitat per area
 
 ---
+layout: true
+class: shuriken-300
 
-### Diagnostics
+.blade1.bg-blue[.content.center.vmiddle[
+# .white[
+Likelihood <br> profiles
+]
+]]
+.blade2.bg-light-green[.content.vertical-rl.center[
+# .blue[100 jitter iterations]
+]]
+.blade3.bg-light-blue[.content.center[
+# .pink[Correlation of <br> Bayesian posteriors]
+]]
+.blade4.bg-green[.content.sideways-center.vmiddle[
+# .yellow[Fits to the data]
+]]
+.hole.bg-white[.content.center.vmiddle[
+{{content}}
+]]
+---
 
-- Likelihood profiles
+class: hide-blade1 hide-blade2 hide-blade3 hide-blade4
 
-- 100 jitter iterations
-
-- Correlation of Bayesian posteriors, particularly selectivity parameters
-
-- Fits to the data
+Diagnostics
 
 ---
 
+class: hide-blade2 hide-blade3 hide-blade4
+count: false
+
+Diagnostics
+
+---
+
+class: hide-blade3 hide-blade4
+count: false
+
+Diagnostics
+
+---
+
+class: hide-blade4
+count: false
+
+Diagnostics
+
+---
+
+count: false
+
+Diagnostics
+
+---
+layout: false
+
+.blue[.large[Likelihood profiles <br> steepness for southern model]]
+<br>
+.pull-left[![](../models/2021.s.009.001_simplify_profile_SR_BH_steep/piner_panel_SR_BH_steep.png)]
+.pull-right[![](../models/2021.s.014.001_esth_profile_SR_BH_steep/piner_panel_SR_BH_steep.png)]
+
+???
+Profiles before and after removing age data provided insight into what parts of the data were informative.
+
+---
+
+.large[.pink[Correlation of <br> Bayesian posteriors]]
+<br>
+- Estimate posteriors using MCMC
+
+- Autocorrelation
+  - typically removed with thinning
+  - more autocorrelation means higher uncertainty
+  - effective sample size / number of samples quantifies 'mixing'
+  - thinning will not help poorly defined models
+
+- Identify inefficient parameters
+
+???
+
+
+---
 ### North
 
 ---
@@ -306,6 +375,11 @@ impact on biomass estimates
 
 ---
 
+### Castillo-Jordán et al. (in prep): key parameters
+
+![](../figures/castillojordan_inprep_mvh.png)
+
+---
 
 <!-- ### Comparison of areas: growth -->
 
