@@ -80,14 +80,21 @@ make_r4ss_plots_ling <- function(mod, plot = c(1:26, 31:50),
     r4ss::SSplotSelex(mod, subplot=1, fleets=c(1:2),
                       fleetnames = get_fleet()$label_short,
                       plot = FALSE, print = TRUE,
-                      plotdir = dir)
-    #file.
+                      plotdir = dir,
+                      legendloc = 'topleft')
+    file.rename(file.path(dir, 'sel01_multiple_fleets_length1.png'),
+                file.path(dir, 'sel01_comm_fleets.png'))
+                
   }
   if (39 %in% plot) {
-    r4ss::SSplotSelex(mod, subplot=1, fleets=c(5:10),
+    r4ss::SSplotSelex(mod, subplot=1,
+                      fleets = which(get_fleet(col = paste0("used_2021.", area)))[-(1:2)],
                       fleetnames = get_fleet()$label_short,
                       plot = FALSE, print = TRUE,
-                      plotdir = dir)
+                      plotdir = dir,
+                      legendloc = 'topleft')
+    file.rename(file.path(dir, 'sel01_multiple_fleets_length1.png'),
+                file.path(dir, 'sel01_noncomm_fleets.png'))
   }
   
 }

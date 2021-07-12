@@ -120,7 +120,7 @@ if (FALSE) {
     area = area,
     num = num,
     sens_base = 1,
-    sens_nums = c(206:208),
+    sens_nums = c(204,206:208),
     sens_type = "comp",
     write = TRUE
   )
@@ -171,8 +171,6 @@ if (FALSE) {
     dir = "figures/north_vs_south_sens405"
   )
 
-  
-  plot_sel_noncomm
   
   # data weights Dirichlet-multinomial vs Francis
   log_theta.n <- mod.2021.n.022.208$parameters[
@@ -239,5 +237,29 @@ if (FALSE) {
     abline(0, 1, lty = 3)
     dev.off()
   } # end loop over areas
-  
+
+
+  # discard rates
+  png("figures/discard_rates_sensitivity.png",
+      res = 300, width = 6.5, height = 6.5, units = "in", pointsize = 10)
+  par(mfrow = c(2,2), mar = c(2,2,2,1), oma = c(2,2,2,0), las = 1)
+  r4ss::SSplotCatch(mod.2021.n.022.001, subplot=8,
+                    fleetnames = get_fleet()$label_short,
+                    fleetcols = get_fleet()$col.n, minyr = 1940)
+  title(main = "North base model")                 
+  r4ss::SSplotCatch(mod.2021.n.022.406, subplot=8,
+                    fleetnames = get_fleet()$label_short,
+                    fleetcols = get_fleet()$col.n, minyr = 1940)
+  title(main = "North with less early retention")  
+  r4ss::SSplotCatch(mod.2021.s.014.001, subplot=8,
+                    fleetnames = get_fleet()$label_short,
+                    fleetcols = get_fleet()$col.s, minyr = 1940)
+  title(main = "South base model")                 
+  r4ss::SSplotCatch(mod.2021.s.014.406, subplot=8,
+                    fleetnames = get_fleet()$label_short,
+                    fleetcols = get_fleet()$col.s, minyr = 1940)
+  title(main = "South with less early retention")
+  mtext(side = 1, "Year", outer = TRUE, line = 1)
+  mtext(side = 2, "Estimated discard fraction", outer = TRUE, line = 1, las = 0)
+  dev.off()
 }

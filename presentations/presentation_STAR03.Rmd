@@ -210,11 +210,8 @@ Profiles before and after removing age data provided insight into what parts of 
 
 
 ---
-### North
 
----
-
-### South
+### Sensitivity analyses
 
 ---
 
@@ -328,16 +325,14 @@ than retaining almost 100% of all fish
 
 .pull-left-30[
 - little sensitivity to retention assumption
-- sex-offset causes female selectivity << male selectivity 
-- confounded with estimates of male _M_: males died faster but were more selected
+
+- bigger impact of sex-specific selectivity (more details to follow)
 ]
 
 <!-- to do: move selelectivity and retention figs into docs and add to HTML -->
-<!-- to do: add figures showing female vs male selectivity with offset -->
 .pull-right-70[
 ![fig](../models/2021.n.022.001_new_INIT/custom_plots/sens_timeseries_n_sel.png)
 ]
-
 
 ---
 
@@ -352,15 +347,13 @@ than retaining almost 100% of all fish
 ### South sensitivity to selectivity & retention
 
 .pull-left-30[
-- retention sensitivity caused implausible shapes for early selectivity
-- sex-offset had similar effect as for north but with greater
-impact on biomass estimates
-- female selectivity << male selectivity 
-- confounded with estimates of male _M_: males died faster but were more selected
+- small impact of making one fleet asymptotic
+
+- big impact of retention assumption
+
+- big impact of sex-specific selectivity
 ]
 
-<!-- to do: move selelectivity and retention figs into docs and add to HTML -->
-<!-- to do: add figures showing female vs male selectivity with offset -->
 .pull-right-70[
 ![fig](../models/2021.s.014.001_esth/custom_plots/sens_timeseries_s_sel.png)
 ]
@@ -372,6 +365,70 @@ impact on biomass estimates
 `r table_sens("../tables/sens_table_s_sel.csv", caption = "", format = "html") %>%
       kableExtra::kable_styling(font_size = 12) 
 `
+
+---
+
+
+### North & South sensitivity to retention
+.pull-left-40[
+- Assuming early and late retention are equal has bigger impact on 
+south model where discard rates are higher
+- Estimated selectivity for the south in the early period is less plausible
+with higher retention
+![fig](../models/2021.s.014.406_less_early_retention/custom_plots/selectivity_comm.png)
+]
+
+.pull-right-60[
+![fig](../figures/discard_rates_sensitivity.png)
+]
+---
+
+### North & South sex-specific selectivity
+
+.pull-left[
+<p style="margin-top:-50px;">
+#### North
+<p style="margin-top:-25px;">
+![fig](../models/2021.n.022.404_female_sel_offset/custom_plots/sel01_comm_fleets.png)
+![fig](../models/2021.n.022.404_female_sel_offset/custom_plots/sel01_noncomm_fleets.png)
+]
+
+.pull-right[
+<p style="margin-top:-50px;">
+#### South
+<p style="margin-top:-25px;">
+![fig](../models/2021.s.014.404_female_sel_offset/custom_plots/sel01_comm_fleets.png)
+![fig](../models/2021.s.014.404_female_sel_offset/custom_plots/sel01_noncomm_fleets.png)
+]
+
+---
+
+### South sex-specific selectivity
+.pull-left[
+<p style="margin-top:-50px;">
+#### Base fit to aggregated length comps
+<p style="margin-top:-25px;">
+![fig](../docs/South/comp_lenfit__aggregated_across_time.png)
+]
+.pull-right[
+<p style="margin-top:-50px;">
+#### ... with sex-specific selectivity
+<p style="margin-top:-25px;">
+![fig](../models/2021.s.014.404_female_sel_offset/plots/comp_lenfit__aggregated_across_time.png)
+]
+
+---
+
+### Conclusions on selectivity & retention
+
+- They provide useful information about tensions within the base models
+
+- They show confounding between ratio of female to male _M_ and female to male
+selectivity
+
+- Some parameter estimates seem less plausible in each case
+
+- None of these additional models appears as reasonable as the base models
 
 ---
 
@@ -415,4 +472,21 @@ precisely estimated
 
 ---
 
-### Concluding comments?
+### Concluding comments
+
+- Both lingcod models are complex and challenging to understand individually
+and in comparison with each other
+
+- The base models resolve many of the issues raised in previous STAR panel
+but raise new questions for future research
+
+- Model scale is sensitive to a variety of assumptions
+
+- Models fit indices well, indicating that we will be able to track changes in abundance
+
+- Data suggest that the south is less productive than the north 
+
+- Assuming equal values for mortality and steepness results in less 
+plausible relative scale of the two models
+
+- On the whole, both models should provide useful tools for managing these stocks
