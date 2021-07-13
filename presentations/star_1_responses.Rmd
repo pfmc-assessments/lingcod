@@ -81,25 +81,124 @@ July 13, 2021<br>
 
 ---
 
+```{r req01fig, include = TRUE, echo = FALSE, cache = TRUE, eval = FALSE}
+basemodeloutput <- r4ss::SSgetoutput(dirvec = file.path("..", "models", info_basemodels))
+output1 <- r4ss::SSgetoutput(
+  getcovar = FALSE,
+  dirvec = file.path("..", "models", c(info_basemodels, "2021.n.022.408_female_sel_offset_flattop", "2021.s.014.407_female_sel_offset_flattop"))
+)
+outputsummarized1 <- r4ss::SSsummarize(c(basemodeloutput[1], output1[1], basemodeloutput[2], output1[4])
+labels1 <- c("North", "North flat top", "South", "South flat top")
+r4ss::SSplotComparisons(outputsummarized1, legendlabels = labels1, subplots = 1)
+```
+#### 01 North & South sex-specific selectivity
+
+(3-param above, 4-param with flat top below)
+.pull-left[
+<p style="margin-top:-50px;">
+#### North 
+<p style="margin-top:-25px;">
+![fig](../models/2021.n.022.404_female_sel_offset/custom_plots/sel01_comm_fleets.png)
+]
+
+.pull-right[
+<p style="margin-top:-50px;">
+#### South
+<p style="margin-top:-25px;">
+![fig](../models/2021.s.014.404_female_sel_offset/custom_plots/sel01_comm_fleets.png)
+]
+
+---
+#### 01 North & South sex-specific selectivity
+
+
+(3-param above, 4-param with flat top below)
+.pull-left[
+<p style="margin-top:-50px;">
+#### North 
+<p style="margin-top:-25px;">
+![fig](../models/2021.n.022.408_female_sel_offset_flattop/custom_plots/sel01_comm_fleets.png)
+]
+
+.pull-right[
+<p style="margin-top:-50px;">
+#### South
+<p style="margin-top:-25px;">
+![fig](../models/2021.s.014.407_female_sel_offset_flattop/custom_plots/sel01_comm_fleets.png)
+]
+---
+
 # 01
 
-.pull-left[![]()]
-.pull-right[![]()]
+### Profiles from flat-topped selectivity
+
+.pull-left[North<br><img style='width:100%' src='../models/2021.n.022.408_female_sel_offset_flattop_profile_NatM_uniform_Fem_GP_1/piner_panel_NatM_uniform_Fem_GP_1.png'>]
+.pull-right[South<br><img style='width:100%' src='../models/2021.s.014.407_female_sel_offset_flattop_profile_NatM_uniform_Fem_GP_1/piner_panel_NatM_uniform_Fem_GP_1.png'>]
 
 ---
 
 # 02
 
-<!-- @iantaylor-noaa @kellijohnson-noaa -->
-
 ### Request: Model run and the fit to the DWV index when that index has no influence on the model. Compare results to the fit that includes index. Provide model comparison figures. This request is only for the South model.
 
+<!-- @iantaylor-noaa @kellijohnson-noaa -->
 ```{r req01code, eval = FALSE}
 run_sensitivities(get_dir_ling("s", 14),
   type = c("sens_create", "sens_run"),
   numbers = c(803)
 )
 ```
+
+---
+
+# 02
+
+```{r req02fig, include = FALSE, echo = FALSE, eval = FALSE, cache = TRUE}
+output2 <- r4ss::SSgetoutput(
+  getcovar = FALSE,
+  dirvec = file.path("..", "models", c("2021.s.014.320_no_CPFV_DebWV_index", "2021.s.014.803_no_CPFV_DebWV_indexorlengths"))
+)
+outputsummarized2 <- r4ss::SSsummarize(c(basemodeloutput[2], output2))
+labels2 <- c("South", "No Deb WV index", "No Deb WV index or lengths")
+r4ss::SSplotComparisons(
+  outputsummarized2,
+  legendlabels = labels2,
+  plotdir = '../figures/STAR_Day1_request2',
+  print = TRUE, plot = FALSE
+)
+```
+.pull-left[<img style='width:100%' src='../figures/STAR_Day1_request2/compare1_spawnbio.png'>]
+.pull-right[<img style='width:100%' src='../figures/STAR_Day1_request2/compare3_Bratio.png'>]
+
+---
+# 02 - Commercial trawl
+
+<img style='width:90%' src='../figures/STAR_Day1_request2/compare13_indices_flt1.png'>
+
+---
+# 02 - Triennial Survey
+
+<img style='width:90%' src='../figures/STAR_Day1_request2/compare13_indices_flt5.png'>
+
+---
+# 02 - WCGBTS
+
+<img style='width:90%' src='../figures/STAR_Day1_request2/compare13_indices_flt6.png'>
+
+---
+# 02 - Hook and Line Survey
+
+<img style='width:90%' src='../figures/STAR_Day1_request2/compare13_indices_flt7.png'>
+
+---
+# 02 - Lam Research
+
+<img style='width:90%' src='../figures/STAR_Day1_request2/compare13_indices_flt8.png'>
+
+---
+# 02 - Deb WV index fits
+
+<img style='width:90%' src='../figures/STAR_Day1_request2/compare13_indices_flt10.png'>
 
 
 ---
@@ -111,8 +210,10 @@ run_sensitivities(get_dir_ling("s", 14),
 
 ### Request: Run the southern model with main recdevs starting in 1955. Produce model comparison results and dynamic $B_0$ for both models. If the early devs are still 'unusually' high (comparable to what is seen in the base model at present), turn off the early devs for a 3rd run if time allows.
 
+### Short response: Changing the start of the main year had almost no effect on the model results. Early CA recreational data are informing recruitment.
+
 ```{r req02code, eval = FALSE}
-dir1955 <- file.path("models", "2021.s.014.801_esth_changerecdevperiod")
+dir1955 <- file.path("models", "2021.s.014.802_esth_changerecdevperiod")
 r4ss::copy_SS_inputs(
   dir.old = file.path("models", info_basemodels[2]),
   dir.new = dir1955,
@@ -140,7 +241,7 @@ r4ss::SS_fitbiasramp(output, print = TRUE,
   newctl = file.path(dir1955, "control_bias.ss")
 )
 
-dirrm1975 <- file.path("models", "2021.s.014.801_esth_removecomp1975")
+dirrm1975 <- file.path("models", "2021.s.014.805_esth_removecomp1975")
 r4ss::copy_SS_inputs(
   dir.old = file.path("models", info_basemodels[2]),
   dir.new = dirrm1975,
@@ -150,6 +251,7 @@ r4ss::copy_SS_inputs(
   copy_exe = TRUE,
   verbose = FALSE
 )
+starter <- r4ss::SS_readstarter(file.path(dirrm1975, "starter.ss"))
 dat <- r4ss::SS_readdat(file.path(dirrm1975, starter$datfile))
 ctl <- r4ss::SS_readctl(
   file.path(dirrm1975, starter$ctlfile),
@@ -169,8 +271,79 @@ r4ss::SS_writectl(
   ctl, file.path(dirrm1975, starter$ctl)
 )
 r4ss::run_SS_models(dirvec = file.path(dirrm1975))
+output <- r4ss::SS_output(dirrm1975)
+r4ss::SS_fitbiasramp(output, print = TRUE,
+  oldctl = file.path(dirrm1975, starter$ctl),
+  newctl = file.path(dirrm1975, "control_bias.ss")
+)
+dirrm1975adjusted <- file.path("models", "2021.s.014.806_esth_removecomp1975adjusted")
+r4ss::copy_SS_inputs(
+  dir.old = dirrm1975,
+  dir.new = dirrm1975adjusted,
+  overwrite = TRUE,
+  recursive = FALSE,
+  use_ss_new = FALSE,
+  copy_exe = TRUE,
+  verbose = FALSE
+)
+file.copy(file.path(dirrm1975, "control_bias.ss"), file.path(dirrm1975adjusted, starter$ctl), overwrite = TRUE)
+r4ss::run_SS_models(dirvec = file.path(dirrm1975adjusted))
 ```
 
+---
+
+# 03 Time series
+
+```{r req03fig, echo = FALSE, cache = TRUE, include = FALSE, eval = TRUE}
+output3 <- r4ss::SSgetoutput(
+  getcovar = FALSE,
+  dirvec = file.path("..", "models", 
+    c(
+      "2021.s.014.802_esth_changerecdevperiod",
+      # "2021.s.014.803_no_earlyDevs",
+      "2021.s.014.804_no_earlyDevs_biasAdj",
+      # "2021.s.014.805_esth_removecomp1975",
+      "2021.s.014.806_esth_removecomp1975adjusted"
+    )
+  )
+)
+outputsummarized3 <- r4ss::SSsummarize(c(basemodeloutput[2], output3))
+labels3 <- c("South", "Rec dev main == 1955", "No early devs", "First year comp == 1975")
+r4ss::SSplotComparisons(
+  outputsummarized3,
+  legendlabels = labels3,
+  subplots = c(1,3,10),
+  plotdir = '../figures/STAR_Day1_request3',
+  print = TRUE, plot = FALSE
+)
+```
+.pull-left[<img style='width:100%' src='../figures/STAR_Day1_request3/compare1_spawnbio.png'>]
+.pull-right[<img style='width:100%' src='../figures/STAR_Day1_request3/compare3_Bratio.png'>]
+
+---
+
+# 03 Estimated recruitment
+
+<img style='width:75%' src='../figures/STAR_Day1_request3/compare10_recruits_uncertainty.png'>
+
+---
+
+# 03 - Dynamic $B_0$
+
+```{r, fig.height=8}
+bzeroinfo <- c(basemodeloutput[2], output3)
+names(bzeroinfo) <- labels3
+lapply(bzeroinfo, "[[", "Dynamic_Bzero") %>% dplyr::bind_rows(.id = "model") %>%
+ggplot2::ggplot(ggplot2::aes(Yr,SSB,group=model,col=model)) +
+ggplot2::theme_bw() + ggplot2::geom_line(size = 1.5) +
+ggplot2::geom_line(ggplot2::aes(y = SSB_nofishing), lty = 2, size = 1.5) +
+ggplot2::scale_color_manual(values = c("purple", "green", "yellow", "red")) +
+  ggplot2::theme(
+    text = ggplot2::element_text(size=20),
+    strip.background = ggplot2::element_rect(colour = "black", fill = "white"),
+    legend.position = "top"
+  )
+```
 ---
 
 # 04
@@ -178,3 +351,18 @@ r4ss::run_SS_models(dirvec = file.path(dirrm1975))
 <!-- @brianlangseth-noaa -->
 
 ### Request: Provide removals (i.e., total dead discards and total retained catch) by fleet and disposition by year for both North and South. STAT discretion on display of data - figure or table.
+
+---
+
+# 04
+
+.pull-left[North<br><img style='width:100%' src='../figures/STAR_Day1_request4/North_comm_catch_disposition_percentage.png'>]
+.pull-left[South<br><img style='width:100%' src='../figures/STAR_Day1_request4/South_comm_catch_disposition_percentage.png'>]
+
+
+---
+
+# 04
+
+.pull-left[North<br><img style='width:100%' src='../figures/STAR_Day1_request4/North_comm_catch_disposition_stacked.png'>]
+.pull-left[South<br><img style='width:100%' src='../figures/STAR_Day1_request4/South_comm_catch_disposition_stacked.png'>]
