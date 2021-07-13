@@ -67,22 +67,38 @@ July 12, 2021<br>
 
 ---
 
-### North & South sex-specific selectivity
-(3-param above, 4-param with flat top below)
+
+### STAR Day 2 Request 3
+
+.pull-left-40[
+- No fishery ages + Dirichlet-multinomial likelihood
+- New model shown in red in right-hand plots
+![fig](../figures/comp_weights_DM_vs_Francis__north_Day2_request3.png)
+]
+
+.pull-right-60[
+![fig](../models/2021.n.022.001_new_INIT/custom_plots/sens_timeseries_n_comp_STAR_day2_request3.png)]
+
+---
+
+### STAR Day 2 Request 3
+
 .pull-left[
-<p style="margin-top:-50px;">
-#### North 
-<p style="margin-top:-25px;">
-![fig](../models/2021.n.022.404_female_sel_offset/custom_plots/sel01_comm_fleets.png)
-![fig](../models/2021.n.022.408_female_sel_offset_flattop/custom_plots/sel01_comm_fleets.png)
+Recruitment
+![fig](../figures/STAR_Day2_request3/STAR_Day2_request3compare9_recruits.png)
 ]
 
 .pull-right[
-<p style="margin-top:-50px;">
-#### South
-<p style="margin-top:-25px;">
-![fig](../models/2021.s.014.404_female_sel_offset/custom_plots/sel01_comm_fleets.png)
-![fig](../models/2021.s.014.407_female_sel_offset_flattop/custom_plots/sel01_comm_fleets.png)
+Recruitment deviations
+![fig](../figures/STAR_Day2_request3/STAR_Day2_request3compare11_recdevs.png)
 ]
-
 ---
+
+### STAR Day 2 Request 3
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_comp_STAR_day2_request3.csv", 
+              caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
