@@ -1,0 +1,180 @@
+---
+title: "Responses to Day 01 STAR requests"
+author: "Lingcod STAT"
+date: "July 13, 2021"
+fig.caption: TRUE
+output: 
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    yolo: false
+    self_contained: true
+    lib_dir: libs
+    chakra: libs/remark-latest.min.js
+    nature:
+      highlightStyle: tomorrow-night-bright
+      highlightLines: true
+      highlightLanguage: r
+    css: [xaringan-themer.css, libs/animate.css, "ninjutsu"]
+    seal: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  message = FALSE,
+#   dev = "svg",
+  fig.width = 12,
+  fig.height = 12
+  # fig.retina = 3
+  )
+xaringanthemer::style_mono_accent(
+  # base_color = nmfspalette::nmfs_cols("darkblue"),
+  base_color = "#00467F",
+  header_font_google = xaringanthemer::google_font("Josefin Sans"),
+  text_font_google   = xaringanthemer::google_font("Montserrat", "300", "300i"),
+  code_font_google   = xaringanthemer::google_font("Fira Mono"),
+  colors = c(noaablue = "#00467F")
+)
+```
+
+class: title-slide, inverse
+```{css}
+<style>
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+```
+```{css}
+.code-bg-white .remark-code, .code-bg-white .remark-code * {
+ background-color:white!important;
+}
+```
+
+.bg-text[
+# Responses to STAR requests from day 1
+
+## Sex-specific selectivity, Deb WV index, recruitment, discards
+
+<hr />
+Lingcod STAT<br><br>
+July 13, 2021<br>
+]
+
+---
+
+# 01
+
+<!-- @iantaylor-noaa @kellijohnson-noaa -->
+
+### Request: Explore freeing up the width parameter on sex specific selectivity curves, including offsets, for trawl North, trawl South, and fixed gear South. Do not have this parameter time varying. This exploration will be for North and South. Provide likelihood profiles for M on the age and length data. The range of M are to be for female 0.18 to 0.58 in steps of 0.05.
+
+### Short response: Estimating the width parameter for sex-specific selectivity curves had little to no effect on the model results.
+
+---
+
+# 01
+
+.pull-left[![]()]
+.pull-right[![]()]
+
+---
+
+# 02
+
+<!-- @iantaylor-noaa @kellijohnson-noaa -->
+
+### Request: Model run and the fit to the DWV index when that index has no influence on the model. Compare results to the fit that includes index. Provide model comparison figures. This request is only for the South model.
+
+```{r req01code, eval = FALSE}
+run_sensitivities(get_dir_ling("s", 14),
+  type = c("sens_create", "sens_run"),
+  numbers = c(803)
+)
+```
+
+
+---
+
+# 03
+
+<!-- issue #139 -->
+<!-- @brianlangseth-noaa @kellijohnson-noaa -->
+
+### Request: Run the southern model with main recdevs starting in 1955. Produce model comparison results and dynamic $B_0$ for both models. If the early devs are still 'unusually' high (comparable to what is seen in the base model at present), turn off the early devs for a 3rd run if time allows.
+
+```{r req02code, eval = FALSE}
+dir1955 <- file.path("models", "2021.s.014.801_esth_changerecdevperiod")
+r4ss::copy_SS_inputs(
+  dir.old = file.path("models", info_basemodels[2]),
+  dir.new = dir1955,
+  overwrite = TRUE,
+  recursive = FALSE,
+  use_ss_new = FALSE,
+  copy_exe = TRUE,
+  verbose = FALSE
+)
+
+starter <- r4ss::SS_readstarter(file.path(dir1955, "starter.ss"))
+dat <- r4ss::SS_readdat(file.path(dir1955, starter$datfile))
+ctl <- r4ss::SS_readctl(
+  file.path(dir1955, starter$ctlfile),
+  use_datlist = TRUE, datlist = dat
+)
+ctl[["MainRdevYrFirst"]] <- 1955
+r4ss::SS_writectl(ctl, file.path(dir1955, starter$ctlfile), overwrite = TRUE)
+r4ss::run_SS_models(dirvec = file.path(dir1955))
+
+output <- r4ss::SS_output(file.path(dir1955))
+r4ss::SS_plots(output)
+r4ss::SS_fitbiasramp(output, print = TRUE,
+  oldctl = file.path(dir1955, starter$ctl),
+  newctl = file.path(dir1955, "control_bias.ss")
+)
+
+dirrm1975 <- file.path("models", "2021.s.014.801_esth_removecomp1975")
+r4ss::copy_SS_inputs(
+  dir.old = file.path("models", info_basemodels[2]),
+  dir.new = dirrm1975,
+  overwrite = TRUE,
+  recursive = FALSE,
+  use_ss_new = FALSE,
+  copy_exe = TRUE,
+  verbose = FALSE
+)
+dat <- r4ss::SS_readdat(file.path(dirrm1975, starter$datfile))
+ctl <- r4ss::SS_readctl(
+  file.path(dirrm1975, starter$ctlfile),
+  use_datlist = TRUE, datlist = dat
+)
+removedcomp <- dat$lencomp %>%
+  dplyr::filter(Yr < 1975)
+dat$lencomp <- dat$lencomp %>%
+  dplyr::filter(Yr >= 1975)
+ctl[["MainRdevYrFirst"]] <- ctl[["MainRdevYrFirst"]] + 15
+r4ss::SS_writedat(
+  overwrite = TRUE,
+  dat, file.path(dirrm1975, starter$dat)
+)
+r4ss::SS_writectl(
+  overwrite = TRUE,
+  ctl, file.path(dirrm1975, starter$ctl)
+)
+r4ss::run_SS_models(dirvec = file.path(dirrm1975))
+```
+
+---
+
+# 04
+
+<!-- @brianlangseth-noaa -->
+
+### Request: Provide removals (i.e., total dead discards and total retained catch) by fleet and disposition by year for both North and South. STAT discretion on display of data - figure or table.
