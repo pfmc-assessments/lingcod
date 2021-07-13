@@ -242,7 +242,7 @@ or whatever approach you like
 thanks to `.gitignore`)
 
 ### Tools for looking at model results
-* Read model output and assign to workspace using a command like `get_mod(area = "n", num = 22, sens = 1)`
+* Read model output and assign to workspace using a command like `get_mod(area = "n", num = 22, sens = 1)` **Note:** `get_mod()` is a wrapper for `r4ss::SS_output()` which saves you having to figure out the full path for the model, but also adds an `$area` element to the resulting list: "n" or "s" which is used in the next steps)
 * Make standard r4ss plots with custom colors: `make_r4ss_plots_ling(mod.2021.n.022.001, plot = 1:26)`
 * Make custom plots `make_r4ss_plots_ling(mod.2021.n.022.001, plot = 31:50)`
 * Two panel plot comparing two models `plot_twopanel_comparison(list(mod.2021.n.022.001, mod.2021.n.022.405), print = FALSE)`, just a wrapper for SSsummarize() %>% SSplotComparisons() with a few extra defaults. Use argument `legendlabels = c("north base", "sensitivity blah blah blah")` if you want more in the key than the model ids.
