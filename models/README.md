@@ -222,3 +222,5 @@ name | notes | issue | source_model | script
 2021.s.014.406_less_early_retention | make retention in the early period equal to the recent period | #43 | 2021.s.014.001 | run_sensitivities(), model_sensitivity_output.R
 2021.s.014.803_no_earlyDevs | remove early recdevs after starting main recdevs in 1955 | #139 | 2021.s.014.001 | lingcod_model_STAR_D1R3_recdevs.R
 2021.s.014.804_no_earlyDevs_biasAdj | update bias adjust values | #139 | 2021.s.014.803 | lingcod_model_STAR_D1R3_recdevs.R
+2021.s.014.407_female_sel_offset_flattop | STAR request 1 for south: female offsets with flat top for some fleets | #137 | 2021.n.022.001 | run_sensitivities()
+2021.n.022.408_female_sel_offset_flattop | STAR request 1 for north: female offsets with flat top for some fleets | #137 | 2021.s.014.001 | run_sensitivities()

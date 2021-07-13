@@ -64,3 +64,6 @@ sel,403,TRUE,TRUE,,,,,,,,,,,_female_sel_offset,add female offsets to selectivity
 sel,404,TRUE,TRUE,,,,,,,,,,,_female_sel_offset,2nd try add female offsets to selectivity (Fem_Scale within offset option 4),
 sel,405,TRUE,TRUE,NatM_p_1_Fem,0.3,-99,,,,,,,,_female_sel_offset_M0.3,fix female M = 0.3 and add female offsets to selectivity (Fem_Scale within offset option 4),
 sel,406,TRUE,TRUE,,,,,,,,,,TRUE,_less_early_retention,make retention in the early period (before 1998) be equal to the recent period (2011-onward),
+sel,407,TRUE,TRUE,"""c('SizeSel_P_2_1_Comm_Trawl', 'SizeSel_P_2_2_Comm_Fix')""","""c(-1, -1)""","""c(3, 3)""",,,,,,,,_female_sel_offset_flattop,STAR request 1 for south: female offsets with flat top for some fleets,
+sel,408,TRUE,TRUE,SizeSel_P_2_1_Comm_Trawl,-1,3,,,,,,,,_female_sel_offset_flattop,STAR request 1 for north: female offsets with flat top for some fleets,
+sel,409,TRUE,TRUE,"""c('SizeSel_P_6_1_Comm_Trawl', 'SizeSel_P_6_2_Comm_Fix')""","""c(-1, -1)""","""c(3, 3)""",,,,,,,,_female_sel_offset,STAR request 1 for south: female offsets with flat top for some fleets,
