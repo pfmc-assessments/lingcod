@@ -41,9 +41,9 @@ plot_twopanel_comparison <- function(mods,
                                      endyrvec = 2021,
                                      ylimAdj1 = 1.05,
                                      ylimAdj2 = 1.05,
-                                     verbose = FALSE,
+                                     verbose = TRUE,
                                      ...) {
-  summary <- r4ss::SSsummarize(mods)
+  summary <- r4ss::SSsummarize(mods, verbose = FALSE)
 
   # get model id (could use lapply or the like, I'm sure)
   ids <- rep(NA, summary$n)
@@ -62,6 +62,9 @@ plot_twopanel_comparison <- function(mods,
   }
 
   if (print) {
+    if (verbose) {
+      message("printing figure to ", file.path(dir, filename))
+    }
     png(file.path(dir, filename),
         width = 6.5, height = 6.5, units = "in", pointsize = 10, res = 300)
   }
@@ -72,6 +75,7 @@ plot_twopanel_comparison <- function(mods,
                           legendlabels = legendlabels,
                           new = FALSE,
                           ylimAdj = ylimAdj1,
+                          verbose = FALSE,
                           ...)
   r4ss::SSplotComparisons(summary,
                           endyrvec = endyrvec,
@@ -79,6 +83,7 @@ plot_twopanel_comparison <- function(mods,
                           legend = FALSE,
                           new = FALSE,
                           ylimAdj = ylimAdj2,
+                          verbose = FALSE,
                           ...)
   mtext("Year", side = 1, line = 1, outer = TRUE)
   
