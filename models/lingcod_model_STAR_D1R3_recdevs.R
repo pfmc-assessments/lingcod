@@ -44,20 +44,62 @@ write_inputs_ling(inputs,
 r4ss::run_SS_models(dirvec = newdir,
                     skipfinished = FALSE)
 
-# look at model output and update bias adj
+# look at model output and check bias adj
 output <- get_mod(area = "s", num = 14, sens = 803, plot = TRUE)
-SS_fitbiasramp(output, verbose = TRUE)
-
-##Update bias adj
-SS_fitbiasramp(output, oldctl = "ling_control", newctl = "ling_control", verbose = TRUE)
+biasadj <- r4ss::SS_fitbiasramp(output, verbose = TRUE)
 
 
+##
+#Update bias adj
+##
+r4ss::copy_SS_inputs(dir.old = newdir,
+                     dir.new = file.path("models", 
+                       "2021.s.014.804_no_earlyDevs_biasAdj"),
+                     use_ss_new = FALSE,
+                     copy_par = FALSE,
+                     copy_exe = TRUE, 
+                     dir.exe = get_dir_exe(),
+                     overwrite = FALSE,
+                     verbose = TRUE)
+
+inputs <- get_inputs_ling(id = get_id_ling(
+  file.path("models", "2021.s.014.804_no_earlyDevs_biasAdj"))) 
+
+#Update bias adj
+inputs$ctl[c("last_early_yr_nobias_adj", "first_yr_fullbias_adj", 
+            "last_yr_fullbias_adj","first_recent_yr_nobias_adj", 
+            "max_bias_adj")] <- biasadj$newbias$par
+
+#add general comment
+inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                         "#C STAR Panel request, Day 1, Request 3b: Update bias adj")
+# write new input files
+write_inputs_ling(inputs,
+                  # directory is same as source directory for inputs in this case
+                  dir = inputs$dir,
+                  verbose = FALSE,
+                  overwrite = TRUE)
+
+#Run model, include hessian
+r4ss::run_SS_models(dirvec = inputs$dir,
+                    skipfinished = FALSE)
+
+# look at model output and update bias adj
+output <- get_mod(area = "s", num = 14, sens = 804, plot = TRUE)
+
+
+###
 #Compare results with base
+###
 outs <- mapply(SIMPLIFY = FALSE, r4ss::SS_output,
-               dir=file.path("models", c("2021.s.014.803_no_earlyDevs", "2021.s.014.001_esth")))
+               dir=file.path("models", 
+                             c("2021.s.014.804_no_earlyDevs_biasAdj",
+                               "2021.s.014.803_no_earlyDevs", 
+                               "2021.s.014.001_esth")))
 mid <- r4ss::SSsummarize(outs)
-r4ss::SSplotComparisons(mid, subplot=c(1,3), 
-                        legendlabels = basename(names(outs)), print = TRUE, 
-                        plotdir = file.path("models", "2021.s.014.803_no_earlyDevs", "baseCompare"))
+r4ss::SSplotComparisons(mid, print = TRUE, 
+                        legendlabels = c("No early devs w/ bias adj", 
+                                         "No early devs", "Base model"), 
+                        plotdir = file.path("figures", "STAR_Day1_request3"))
 
 
