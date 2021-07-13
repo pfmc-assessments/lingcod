@@ -241,11 +241,17 @@ or whatever approach you like
 * Commit the model results to the repo (most files will be ignored 
 thanks to `.gitignore`)
 
+### Tools for looking at model results
+* Read model output and assign to workspace using a command like `get_mod(area = "n", num = 22, sens = 1)`
+* Make standard r4ss plots with custom colors: `make_r4ss_plots_ling(mod.2021.n.022.001, plot = 1:26)`
+* Make custom plots `make_r4ss_plots_ling(mod.2021.n.022.001, plot = 31:50)`
+* Two panel plot comparing two models `plot_twopanel_comparison(list(mod.2021.n.022.001, mod.2021.n.022.405), print = FALSE)`, just a wrapper for SSsummarize() %>% SSplotComparisons() with a few extra defaults. Use argument `legendlabels = c("north base", "sensitivity blah blah blah")` if you want more in the key than the model ids.
+
 ### Future workflow steps:
-* For models with results that will be referenced in the table, we should run
-`r4ss::SS_output()` and save the results as an .rda file
+* We could run save the results of `SS_output()` (or `get_mod()`) as an .rda file for sensitivities and not just the base model when building the report
 * If the repo is getting too big we can delete most of the .sso files from the repo
-and rely on Google Drive to pass these back and forth
+and rely on Google Drive to pass these back and forth, perhaps in concert with the R package
+to load those files.
 
 ### Compiled pdf
 
