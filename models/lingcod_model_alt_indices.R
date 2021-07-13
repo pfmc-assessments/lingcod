@@ -79,6 +79,14 @@ r4ss::SS_tune_comps(mod.2021.n.022.302, dir = mod.2021.n.022.302$inputs$dir)
 # mid <- r4ss::SSsummarize(outs)
 # r4ss::SSplotComparisons(mid, subplot=1, legendlabels = basename(names(outs)))
 
+#Compare results with base
+outs <- mapply(SIMPLIFY = FALSE, r4ss::SS_output,
+               dir=file.path("models", c("2021.n.022.302_OR_CPFV_index", "2021.n.022.001_new_INIT")))
+mid <- r4ss::SSsummarize(outs)
+r4ss::SSplotComparisons(mid, subplot=1:20, 
+                        legendlabels = basename(names(outs)), print = TRUE, 
+                        plotdir = file.path("models", "2021.n.022.302_OR_CPFV_index", "baseCompare"))
+
 
 ####################
 #For CA rec index - South only. 
@@ -126,3 +134,14 @@ r4ss::run_SS_models(dirvec = newdir,
 # look at model output
 output <- get_mod(area = "s", num = 14, sens = 301, plot = TRUE)
 r4ss::SS_tune_comps(mod.2021.s.014.301, dir = mod.2021.s.014.301$inputs$dir)
+
+
+#Compare results with base
+outs <- mapply(SIMPLIFY = FALSE, r4ss::SS_output,
+               dir=file.path("models", c("2021.s.014.301_CA_CRFSPR_index", "2021.s.014.001_esth")))
+mid <- r4ss::SSsummarize(outs)
+r4ss::SSplotComparisons(mid, subplot=1:20, 
+                        legendlabels = basename(names(outs)), print = TRUE, 
+                        plotdir = file.path("models", "2021.s.014.301_CA_CRFSPR_index", "baseCompare"))
+
+
