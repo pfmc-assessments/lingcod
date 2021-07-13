@@ -19,13 +19,14 @@
 output <- get_mod(area = "s", num = 14, sens = 806)
 biasadj <- r4ss::SS_fitbiasramp(output, verbose = TRUE) #keep same
 
-get_mod(area = "s", num = 1)
+get_mod(area = "s", num = 14)
 
 
 #Do outputs
 make_r4ss_plots_ling(mod.2021.s.014.806, plot = 1:26)
 make_r4ss_plots_ling(mod.2021.s.014.806, plot = 31:50)
-plot_twopanel_comparison(list(mod.2021.s.014.806, mod.2021.s.014.001), print = FALSE)
+plot_twopanel_comparison(list(mod.2021.s.014.806, mod.2021.s.014.001), 
+                         legendlabels = c("block CA rec 1972", "south base"), print = TRUE)
 
 
 
@@ -34,13 +35,33 @@ plot_twopanel_comparison(list(mod.2021.s.014.806, mod.2021.s.014.001), print = F
 ###
 outs <- mapply(SIMPLIFY = FALSE, r4ss::SS_output,
                dir=file.path("models", 
-                             c("2021.s.014.804_no_earlyDevs_biasAdj",
-                               "2021.s.014.803_no_earlyDevs", 
+                             c("2021.s.014.806_recBlock_1972",
                                "2021.s.014.001_esth")))
 mid <- r4ss::SSsummarize(outs)
 r4ss::SSplotComparisons(mid, print = TRUE, 
-                        legendlabels = c("No early devs w/ bias adj", 
-                                         "No early devs", "Base model"), 
-                        plotdir = file.path("figures", "STAR_Day1_request3"))
+                        legendlabels = c("CA rec block 1972", 
+                                         "Base model"), 
+                        plotdir = file.path("figures", "STAR_Day2_request2"))
 
+
+
+tab <- mod.2021.s.014.001$likelihoods_used[c("TOTAL", "Survey", "Length_comp", 
+                                      "Age_comp", "Discard", "Parm_priors"),] -
+  mod.2021.s.014.806$likelihoods_used[c("TOTAL", "Survey", "Length_comp", 
+                                        "Age_comp", "Discard", "Parm_priors"),]
+tab$lambdas <- 0
+
+colnames <- c("base", "Block CA rec 1972")
+
+t = sa4ss::table_format(x = tab[,c(2,1)],
+                 caption = 'South sensitivity to adding block prior to 1973 to CA rec',
+                 label = 's.014.806',
+                 longtable = TRUE,
+                 font_size = 9,
+                 digits = 2,
+                 landscape = FALSE,
+                 col_names = colnames,
+                 row.names = TRUE)
+
+kableExtra::save_kable(t, file = file.path(getwd(),"figures","STAR_Day2_request2","like_table.tex"))
 
