@@ -138,25 +138,55 @@ get_mod(area = "s", num = 15)
 get_mod(area = "s", num = 16)
 get_mod(area = "s", num = 17)
 
-outto17 <- list(mod.2021.s.014.001, mod.2021.s.014.806, mod.2021.s.017.001)
+outto17 <- list(
+  mod.2021.s.014.001,
+  mod.2021.s.014.806,
+  mod.2021.s.017.001
+)
 modsto17 <- r4ss::SSsummarize(outto17)
-labsto17 <- c("All lengths", "No pre-1975 lengths", "Added sd Triennial tuned")
-plot_twopanel_comparison(outto17, print = FALSE, legendlabels = labsto17)
-plot_twopanel_comparison(list(mod.2021.n.023.001,mod.2021.s.017.001),
- print = FALSE, legendlabels = c("North", "South"))
-
-plot_north_vs_south(
-  mod.n = mod.2021.n.023.001,
-  mod.s = mod.2021.s.017.001,
+labsto17 <- c(
+  "All lengths",
+  "No early lengths",
+  "Extra sd Triennial"
+)
+plot_twopanel_comparison(
+  outto17,
+  print = TRUE,
+  legendlabels = labsto17,
   dir = file.path("figures", "STAR_request9")
 )
+# plot_twopanel_comparison(
+#   list(mod.2021.n.023.001, mod.2021.s.017.001),
+#   print = FALSE, legendlabels = c("North", "South")
+# )
+# plot_north_vs_south(
+#   mod.n = mod.2021.n.023.001,
+#   mod.s = mod.2021.s.017.001,
+#   dir = file.path("figures", "STAR_request9")
+# )
 
 r4ss::SSplotComparisons(modsto17,
   plotdir = file.path("figures", "STAR_request9"),
   print = TRUE, plot = FALSE,
-  legendlabels = labsto17[-4],
+  legendlabels = labsto17,
   densitynames = c("NatM")
 )
+
+compare_table <- sens_make_table(
+  area = "s",
+  # num,
+  # sens_base = 1,
+  # yr = 2021,
+  # sens_nums,
+  sens_mods = setNames(outto17, gsub("\\s", "_", labsto17)),
+  sens_type = "star",
+  plot = FALSE,
+  plot_dir = file.path("figures", "STAR_request9"),
+  table_dir = file.path("figures", "STAR_request9"),
+  write = FALSE)
+colnames(compare_table) <- c("Label", labsto17)
+utils::write.csv(compare_table, file.path("figures", "STAR_request9", "sens_table_s_star.csv"))
+
 
 
 

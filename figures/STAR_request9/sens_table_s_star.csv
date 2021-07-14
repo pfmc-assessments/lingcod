@@ -1,0 +1,19 @@
+"","Label","All lengths","No early lengths","Extra sd Triennial"
+"1","TOTAL likelihood (diff from base)",0,-110.16,-15.9699999999998
+"2","Survey likelihood (diff from base)",0,0.55893,-9.39914
+"3","Length comp likelihood (diff from base)",0,-112.79,-80.8799999999997
+"4","Age comp likelihood (diff from base)",0,11.3330000000001,81.784
+"5","Discard likelihood (diff from base)",0,-0.301000000000002,0.304600000000001
+"6","Parm priors likelihood (diff from base)",0,0.7341,1.44046
+"7","Recr Virgin millions",2.94882,2.2736,2.24869
+"8","log(R0)",7.98916,7.72912,7.7181
+"9","M Female ",0.231156,0.172787,0.169652
+"10","M Male ",0.253881,0.229902,0.222921
+"11","SSB Virgin 1000 mt",15.488,26.708,26.66
+"12","SSB 2021 1000 mt",8.202,16.318,10.879
+"13","Fraction unfished 2021",0.529579,0.610975,0.40806
+"14","Fishing intensity 2020",0.281344,0.2458,0.340545
+"15","Retained Catch MSY mt",942.698,910.439,843.962
+"16","Dead Catch MSY mt",948.648,916.326,849.07
+"17","Virgin age 3+ bio 1000 mt",21.8798,32.5644,32.7968
+"18","OFL mt 2021",278.463,275.36,277.619
