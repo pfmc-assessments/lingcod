@@ -31,11 +31,13 @@ table_sens <- function(file_csv,
     if (format == "latex") {
       x <- gsub("_", "", x)
     }
+    x <- gsub("fixed[\\s.=]gear", "FG", x)
     x <- gsub("Base\\.model", "Base", x)
     x <- gsub("shareM", "share \\$M\\$", x)
     x <- gsub("(^[Mh]|_[Mh])", "\\$\\1\\$", x)
     x <- gsub("sigmaR", "\\$\\\\sigma_R\\$", x)
-    x <- gsub("([0-9\\.]+)", " = \\1", x, perl = TRUE)
+    x <- gsub("([0-9]{4})[.-]+([0-9]{4})", "(\\1-\\2)", x)
+    x <- gsub("([0-9\\.]+$)", " = \\1", x, perl = TRUE)
     x <- gsub("([0-9])\\$", "\\1 \\$", x, perl = TRUE)
     x <- gsub("indices|index", "", x)
     x <- gsub("female", "fem. ", x)
