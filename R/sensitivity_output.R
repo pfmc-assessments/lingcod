@@ -102,7 +102,7 @@ sens_make_table <- function(area,
                             ...) {
 
   # which things to read from the model output
-  thingnames <- c("Recr_Virgin", "R0", "NatM", "Linf",
+  thingnames <- c("Recr_Virgin", "steep", "NatM", "Linf",
                   "LnQ_base_WCGBTS",
                   "SSB_Virg", "SSB_2021",
                   "Bratio_2021", "SPRratio_2020", "Ret_Catch_MSY", "Dead_Catch_MSY",
