@@ -26,3 +26,25 @@ run_sensitivities(get_dir_ling("n", 23),
                   type = c("sens_run"),
                   numbers = c(221:224,404)
                   )
+
+dir.create('figures/STAR_request8')
+mod.sum <- r4ss::SSsummarize(list(mod.2021.n.023.001,
+                                               mod.2021.n.023.221,
+                                               mod.2021.n.023.222,
+                                               mod.2021.n.023.223,
+                                               mod.2021.n.023.224,
+                                               mod.2021.n.023.404
+                                               ))
+r4ss::SSplotComparisons(mod.sum,
+                        indexUncertainty=TRUE,
+                        plotdir = 'figures/STAR_request8',
+                        print = TRUE,
+                        plot = FALSE,
+                        legendloc = "topleft"
+                        legendlabels = c("North new base",
+                                         "no FG ages",
+                                         "no FG ages 1999-2011",
+                                         "no FG ages + sex-selex-offset",
+                                         "no FG ages 1999-2011 + sex-selex-offset",
+                                         "sex-selex-offset")
+                        )

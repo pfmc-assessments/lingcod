@@ -67,36 +67,39 @@ July 12, 2021<br>
 
 ---
 
+# STAR Request 8
 
-### STAR Day 2 Request 3
-
-.pull-left-40[
-- No fishery ages + Dirichlet-multinomial likelihood
-- New model shown in red in right-hand plots
-![fig](../figures/comp_weights_DM_vs_Francis__north_Day2_request3.png)
-]
-
-.pull-right-60[
-![fig](../models/2021.n.022.001_new_INIT/custom_plots/sens_timeseries_n_comp_STAR_day2_request3.png)]
+### A) Remove all fixed gear age composition data. B) Remove fixed gear age composition data for the years 1999-2011. C) Do A and B with and without offsets for sex-based selectivity for all fleets. Requests are for North only model. Provide the model comparisons slides and table(s) with likelihoods and key parameter outputs, selectivity outputs, etc. The STAT will include the updated results from Day 2, Request 5.
 
 ---
 
-### STAR Day 2 Request 3
+### STAR Request 8
 
 .pull-left[
-Recruitment
-![fig](../figures/STAR_Day2_request3/STAR_Day2_request3compare9_recruits.png)
+<img style="width80%" src="../figures/STAR_request8/compare2_spawnbio_uncertainty.png">
 ]
 
 .pull-right[
-Recruitment deviations
-![fig](../figures/STAR_Day2_request3/STAR_Day2_request3compare11_recdevs.png)
+<img style="width80%" src="../figures/STAR_request8/compare4_Bratio_uncertainty.png">
 ]
+
 ---
 
-### STAR Day 2 Request 3
+### STAR Request 8
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request8/compare9_recruits.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request8/compare11_recdevs.png">
+]
+
+---
+
+### STAR Request 8
 <p style="margin-top:-25px;">
-`r table_sens("../tables/sens_table_n_comp_STAR_day2_request3.csv", 
+`r table_sens("../tables/sens_table_n_star08.csv", 
               caption = "", format = "html") %>%
       kableExtra::kable_styling(font_size = 12) 
 `
