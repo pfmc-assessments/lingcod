@@ -227,3 +227,8 @@ name | notes | issue | source_model | script
 2021.s.014.806_recBlock_1972        | block early CA rec ending in 1972 | #143 | 2021.s.014.001 | manual edits
 2021.n.023.001_fixWAreccatchhistory        | Fix WA rec discard in catch | #142 | 2021.n.022.001_new_INIT | model_fixWAreccatchhistory.R
 2021.s.014.806_esth_removecomp1975adjusted | Remove comps prior to 1975 | #143 | 2021.s.014.001_esth | manual edits
+2021.n.023.221_no_fixed-gear_ages|STAR request 8: remove fixed-gear ages | #145 | 2021.n.023.001 | run_sensitivites(), model_STAR_requests.R
+2021.n.023.222_no_fixed-gear_ages_1999-2011|STAR request 8: remove fixed-gear ages from 1999-2011 | #145 | 2021.n.023.001 | run_sensitivites(), model_STAR_requests.R
+2021.n.023.223_female_sel_offset_no_fixed-gear_ages|STAR request 8: sex-specific selectivity and remove fixed-gear ages | #145 | 2021.n.023.001 | run_sensitivites(), model_STAR_requests.R
+2021.n.023.224_female_sel_offset_no_fixed-gear_ages_1999-2011|STAR request 8: sex-specific selectivity and remove fixed-gear ages from 1999-2011 | #145 | 2021.n.023.001 | run_sensitivites(), model_STAR_requests.R
+2021.n.023.404_female_sel_offset | female offset sensitivity | #118 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R

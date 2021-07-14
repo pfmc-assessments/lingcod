@@ -165,6 +165,22 @@ run_sensitivities <- function(dirbase,
                   to = file.path(newdir, "ling_data.ss"),
                   overwrite = TRUE)
       }
+
+      # STAR request 8
+      if (grepl("no_fixed-gear_ages", sens$suffix)) {
+        inputs <- get_inputs_ling(dir = newdir)
+        if (grepl("no_fixed-gear_ages$", sens$suffix)) {
+          inputs$dat$agecomp$Yr[inputs$dat$agecomp$FltSvy == 2] <-
+            -1 * inputs$dat$agecomp$Yr[inputs$dat$agecomp$FltSvy == 2]
+        }
+        if (grepl("no_fixed-gear_ages_1999-2011", sens$suffix)) {
+          inputs$dat$agecomp$Yr[inputs$dat$agecomp$FltSvy == 2 &
+                                inputs$dat$agecomp$Yr %in% 1999:2011] <-
+            -1 * inputs$dat$agecomp$Yr[inputs$dat$agecomp$FltSvy == 2 &
+                                inputs$dat$agecomp$Yr %in% 1999:2011]
+        }
+        write_inputs_ling(inputs, dir = newdir, files = "dat")
+      }
       
       #####################################################################
       # other sensitivities
@@ -236,7 +252,7 @@ run_sensitivities <- function(dirbase,
           inputs$ctl$size_selex_types$Male <-
             ifelse(inputs$ctl$size_selex_types$Pattern == 24, 3, 0)
         }
-        # add femmale offset to selectivity
+        # add female offset to selectivity
         if (grepl("_female_sel_offset", sens$suffix)) { #403 - 405
           inputs$ctl$size_selex_types$Male <-
             ifelse(inputs$ctl$size_selex_types$Pattern == 24, 4, 0)
