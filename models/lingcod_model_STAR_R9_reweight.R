@@ -104,5 +104,68 @@ r4ss::SSplotComparisons(mid, print = TRUE,
                                          "Base model"), 
                         plotdir = file.path("figures", "STAR_request9"))
 
+###
+# Manually add extra SD to Triennial KFJ
+###
+r4ss::copy_SS_inputs(
+  dir.old = file.path("models", "2021.s.015.001_reweight"),
+  dir.new = file.path("models", "2021.s.016.001_triextrasd"),
+  use_ss_new = FALSE, copy_par = FALSE,
+  copy_exe = TRUE, dir.exe = get_dir_exe(),
+  overwrite = FALSE, verbose = FALSE
+)
+
+###
+# Retune composition data
+###
+
+newdir <- file.path("models", "2021.s.017.001_triextrasdreweight")
+r4ss::copy_SS_inputs(
+  dir.old = file.path("models", "2021.s.016.001_triextrasd"),
+  dir.new = newdir,
+  use_ss_new = FALSE, copy_par = FALSE,
+  copy_exe = TRUE, dir.exe = get_dir_exe(),
+  overwrite = FALSE, verbose = FALSE
+)
+iter2 <- r4ss::SS_tune_comps(
+  dir = newdir,
+  write = TRUE, option = "Francis", niters_tuning = 2
+)
+get_mod(dir=file.path("models", "2021.s.014.806_esth_removecomp1975adjusted"))
+get_mod(area = "n", num = 23)
+get_mod(area = "s", num = 14)
+get_mod(area = "s", num = 15)
+get_mod(area = "s", num = 16)
+get_mod(area = "s", num = 17)
+
+outto17 <- list(mod.2021.s.014.001, mod.2021.s.014.806, mod.2021.s.017.001)
+modsto17 <- r4ss::SSsummarize(outto17)
+labsto17 <- c("All lengths", "No pre-1975 lengths", "Added sd Triennial tuned")
+plot_twopanel_comparison(outto17, print = FALSE, legendlabels = labsto17)
+plot_twopanel_comparison(list(mod.2021.n.023.001,mod.2021.s.017.001),
+ print = FALSE, legendlabels = c("North", "South"))
+
+plot_north_vs_south(
+  mod.n = mod.2021.n.023.001,
+  mod.s = mod.2021.s.017.001,
+  dir = file.path("figures", "STAR_request9")
+)
+
+r4ss::SSplotComparisons(modsto17,
+  plotdir = file.path("figures", "STAR_request9"),
+  print = TRUE, plot = FALSE,
+  legendlabels = labsto17[-4],
+  densitynames = c("NatM")
+)
 
 
+
+format_lbyfleet <- function(lbyfleet) {
+  lbyfleet %>%
+    dplyr::filter(!is.na(ALL)) %>%
+    dplyr::rename_with(~ gsub("X[0-9]+_", "", .x)) %>%
+    dplyr::mutate(
+      Label = gsub("_like$", "", Label),
+      model = match(model)
+    )
+}
