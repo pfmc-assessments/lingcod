@@ -185,17 +185,13 @@ compare_table <- sens_make_table(
   table_dir = file.path("figures", "STAR_request9"),
   write = FALSE)
 colnames(compare_table) <- c("Label", labsto17)
-utils::write.csv(compare_table, file.path("figures", "STAR_request9", "sens_table_s_star.csv"))
+utils::write.csv(compare_table,
+  row.names = FALSE,
+  file.path("figures", "STAR_request9", "sens_table_s_star.csv")
+  )
 
-
-
-
-format_lbyfleet <- function(lbyfleet) {
-  lbyfleet %>%
-    dplyr::filter(!is.na(ALL)) %>%
-    dplyr::rename_with(~ gsub("X[0-9]+_", "", .x)) %>%
-    dplyr::mutate(
-      Label = gsub("_like$", "", Label),
-      model = match(model)
-    )
-}
+# Run with sigma R of 0.4 and 0.8
+run_sensitivities(get_dir_ling("s", 17),
+  type = c("sens_run", "sens_create"),
+  numbers = c(104:105)
+)
