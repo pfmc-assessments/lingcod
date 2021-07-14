@@ -225,3 +225,5 @@ name | notes | issue | source_model | script
 2021.s.014.407_female_sel_offset_flattop | STAR request 1 for south: female offsets with flat top for some fleets | #137 | 2021.n.022.001 | run_sensitivities()
 2021.n.022.408_female_sel_offset_flattop | STAR request 1 for north: female offsets with flat top for some fleets | #137 | 2021.s.014.001 | run_sensitivities()
 2021.s.014.806_recBlock_1972        | block early CA rec ending in 1972 | #143 | 2021.s.014.001 | manual edits
+2021.n.023.001_fixWAreccatchhistory        | Fix WA rec discard in catch | #142 | 2021.n.022.001_new_INIT | model_fixWAreccatchhistory.R
+2021.s.014.806_esth_removecomp1975adjusted | Remove comps prior to 1975 | #143 | 2021.s.014.001_esth | manual edits

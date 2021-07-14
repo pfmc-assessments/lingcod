@@ -697,7 +697,9 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
   dplyr::filter(!is.na(Year)) %>%
   dplyr::group_by(Year) %>%
   dplyr::summarize(.groups = "keep",
-    num = sum(LINGCOD +ifelse(is.na(RELEASED), 0, RELEASED))
+    num = sum(LINGCOD + ifelse(is.na(RELEASED), 0, RELEASED) * 0.07),
+    numdeaddiscard = sum(ifelse(is.na(RELEASED), 0, RELEASED) * 0.07),
+    numretained = sum(LINGCOD)
   ) %>%
   dplyr::ungroup() %>%
   dplyr::mutate(interpolate = 0) %>%
@@ -711,8 +713,20 @@ catch_rec_WA <- suppressWarnings(suppressMessages(
     mean_length = bio_rec_recfin_meanlength %>% dplyr::filter(STATE_NAME == "WASHINGTON") %>% dplyr::pull(mean_length),
     mean_weight = lw.WCGBTS[["all"]][["a"]] * (mean_length / 10)^(lw.WCGBTS[["all"]][["b"]]),
     mt = mean_weight / 1000 * num,
-    state = "WA"
+    state = "WA",
+    mtdeaddiscard = mean_weight / 1000 * numdeaddiscard,
+    mtretained = mean_weight / 1000 * numretained,
   )
+
+gg <- ggplot2::ggplot(catch_rec_WA, ggplot2::aes(Year, mtretained)) +
+ggplot2::geom_line() +
+ggplot2::geom_line(ggplot2::aes(y = mtdeaddiscard), col = "red") +
+ggplot2::geom_line(ggplot2::aes(y = mt), col = "green") +
+ggplot2::labs(ylab = "mt") +
+ggplot2::theme_bw() + 
+ggplot2::xlim(c(2000, 2020)) +
+ggplot2::ylab("mt")
+ggplot2::ggsave(gg, filename = file.path("..", "figures", "catch_rec_WA_retainedvdead.png"))
 
 # Oregon recreational data
 catch_rec_OR <- dplyr::full_join(by = c("Year", "mt"), .id = "dataset",
@@ -850,7 +864,7 @@ catch_rec_CA <- catch_rec_1980 %>%
 catch_rec <- dplyr::full_join(
   by = c("Year", "mt", "state"),
   catch_rec_WA,
-  catch_rec_OR
+  catch_rec_OR,
 ) %>%
   dplyr::select(Year, mt, state) %>%
   dplyr::mutate(area = "North") %>%
@@ -864,6 +878,16 @@ data_catch <- dplyr::full_join(
   x = catch_comm,
   y = catch_rec %>% dplyr::select(-source)
 )
+
+# 2021-07-13 Day 2 STAR requests to fix a mistake in WA rec landings
+# gg <- catch_rec %>%
+#   dplyr::filter(area=="North") %>%
+#   ggplot2::ggplot(ggplot2::aes(Year, mt,group=state,col=state)) +
+#   ggplot2::geom_line(size = 1.1) +
+#   ggplot2::theme_bw() +
+#   ggplot2::theme(legend.position = c(0.1, 0.87)) +
+#   ggplot2::scale_color_manual(values = c(rev(get_fleet("Rec", col = "col.n")), "black"))
+# ggplot2::ggsave(plot = gg, filename = file.path("..", "figures", "catch_rec_WA_correcttotallandings.png"))
 
 #### # 2
 catch_fordoc <- dplyr::full_join(

@@ -1,0 +1,184 @@
+---
+title: "Responses to Day 02 STAR requests"
+author: "Lingcod STAT"
+date: "July 13, 2021"
+fig.caption: TRUE
+output: 
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    yolo: false
+    self_contained: true
+    lib_dir: libs
+    chakra: libs/remark-latest.min.js
+    nature:
+      highlightStyle: tomorrow-night-bright
+      highlightLines: true
+      highlightLanguage: r
+    css: [xaringan-themer.css, libs/animate.css, "ninjutsu", "fc"]
+    seal: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  message = FALSE,
+#   dev = "svg",
+  fig.width = 12,
+  fig.height = 12
+  # fig.retina = 3
+  )
+xaringanthemer::style_mono_accent(
+  # base_color = nmfspalette::nmfs_cols("darkblue"),
+  base_color = "#00467F",
+  header_font_google = xaringanthemer::google_font("Josefin Sans"),
+  text_font_google   = xaringanthemer::google_font("Montserrat", "300", "300i"),
+  code_font_google   = xaringanthemer::google_font("Fira Mono"),
+  colors = c(noaablue = "#00467F")
+)
+```
+
+class: title-slide, inverse
+```{css}
+<style>
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+```
+```{css}
+.code-bg-white .remark-code, .code-bg-white .remark-code * {
+ background-color:white!important;
+}
+```
+
+.bg-text[
+# Responses to STAR requests from day 2
+
+## WA recreational catch time series, time-varying selectivity, DM
+
+<hr />
+Lingcod STAT<br><br>
+July 13, 2021<br>
+]
+
+---
+
+# STAR Day 2 Request 01
+
+### Request: Update the northern model to reflect the error in the WA recreational mortality estimates. Provide a figure of WA dead discard catch and retained recreational catch.
+
+### Short response: Model is still running. Thank you to Theresa at WDFW for checking this and requesting we look into it.
+
+---
+# 01 Corrected landings
+
+.center[<img style="width:70%" src='../figures/catch_rec_WA_correcttotallandings.png'>]
+
+---
+# 01 Landed (black), dead discard (red), total (green)
+
+.center[<img style="width:50%" src='../figures/catch_rec_WA_retainedvdead.png'>]
+
+---
+
+# 01 Model comparison
+
+.center[<img style="width:85%" src='../figures/STAR_Day2_request1/compare1_spawnbio.png'>]
+
+---
+
+# 01 Model comparison
+
+.center[<img style="width:85%" src='../figures/STAR_Day2_request1/compare3_Bratio.png'>]
+---
+
+
+# STAR Day 2 Request 02
+
+### Request: Add time varying selectivity for the CA rec fishery in the South model. Add a block that would encompass from 1959 to 1972. Provide the model results (biomass, recruitments, and recdevs) and the estimated selectivity curves. Provide information on how the fit to the data improved.
+
+---
+
+# 02 Time series
+
+.center[<img style="width:70%" src='../figures/STAR_Day2_request2/compare_2021.s.014.806_2021.s.014.001.png'>]
+
+---
+
+# 02 Recruitment
+
+.center[<img style="width:90%" src='../figures/STAR_Day2_request2/compare10_recruits_uncertainty.png'>]
+---
+
+# 02 Recruitment deviations
+
+.center[<img style="width:90%" src='../figures/STAR_Day2_request2/compare11_recdevs.png'>]
+
+---
+
+# 02 Selectivity
+
+.center[<img style="width:90%" src='../figures/STAR_Day2_request2/selectivity_noncomm_males_2021.s.014.806.png'>]
+
+---
+
+# 02 Change in likelihoods
+
+Likelihood | Base | Block CA rec 1972
+---------- | ---- | -----------------
+TOTAL | 0 | -0.12
+Survey | 0 | -0.56
+Length_comp | 0 | -0.81
+Age_comp | 0 | 0.06
+Discard | 0 | 0.07
+Parm_priors | 0 | -0.13
+
+---
+
+# STAR Day 2 Request 3
+
+### Request: Perform a model run, for the status quo Base model only, for the North without the fishery age data and rerun with Dirichlet weighting. Provide initial results and comparison of Francis vs Dirichlet weights.
+
+---
+
+# STAR Day 2 Request 3
+
+.pull-left-40[
+- No fishery ages + Dirichlet-multinomial likelihood
+- New model shown in red in right-hand plots
+<img style="width:100%" src="../figures/comp_weights_DM_vs_Francis__north_Day2_request3.png">
+]
+
+.pull-right-60[
+<img style="width:100%" src="../models/2021.n.022.001_new_INIT/custom_plots/sens_timeseries_n_comp_STAR_day2_request3.png">
+]
+
+---
+
+# STAR Day 2 Request 3
+
+.pull-left[
+Recruitment
+<img style="width80%" src="../figures/STAR_Day2_request3/STAR_Day2_request3compare9_recruits.png">
+]
+
+.pull-right[
+Recruitment deviations
+<img style="width80%" src="../figures/STAR_Day2_request3/STAR_Day2_request3compare11_recdevs.png">
+]
+---
+
+### STAR Day 2 Request 3
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_comp_STAR_day2_request3.csv", 
+              caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
