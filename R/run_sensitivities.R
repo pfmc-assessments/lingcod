@@ -181,6 +181,24 @@ run_sensitivities <- function(dirbase,
         }
         write_inputs_ling(inputs, dir = newdir, files = "dat")
       }
+
+      # Reverse retrospective on early fishery-dependent ages
+      if (grepl("_remove_fishery_ages_before", sens$suffix)) {
+        inputs <- get_inputs_ling(dir = newdir)
+        first_age_yr <- sens$suffix %>%
+          stringr::str_sub(start = nchar("_remove_fishery_ages_before_") + 1,
+                           end = nchar("_remove_fishery_ages_before_") + 5) %>%
+          as.numeric()
+        inputs$dat$agecomp$Yr[inputs$dat$agecomp$FltSvy %in% 1:5 &
+                              inputs$dat$agecomp$Yr < first_age_yr] <-
+          -1 * inputs$dat$agecomp$Yr[inputs$dat$agecomp$FltSvy %in% 1:5 &
+                                     inputs$dat$agecomp$Yr < first_age_yr]
+        inputs$dat$Comments <- c(inputs$dat$Comments,
+                                 paste("#C fishery-dependent ages removed prior to", first_age_yr))
+        write_inputs_ling(inputs, dir = newdir, files = "dat")
+      }
+      
+
       
       #####################################################################
       # other sensitivities

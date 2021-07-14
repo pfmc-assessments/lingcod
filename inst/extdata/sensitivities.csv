@@ -50,6 +50,8 @@ star08,221,TRUE,FALSE,,,,,,,,,,,_no_fixed-gear_ages,STAR request 8: remove fixed
 star08,222,TRUE,FALSE,,,,,,,,,,,_no_fixed-gear_ages_1999-2011,STAR request 8: remove fixed-gear ages from 1999-2011
 star08,223,TRUE,FALSE,,,,,,,,,,,_female_sel_offset_no_fixed-gear_ages,STAR request 8: sex-specific selectivity and remove fixed-gear ages
 star08,224,TRUE,FALSE,,,,,,,,,,,_female_sel_offset_no_fixed-gear_ages_1999-2011,STAR request 8: sex-specific selectivity and remove fixed-gear ages from 1999-2011
+star08,225,TRUE,FALSE,,,,,,,,,,,_remove_fishery_ages_before_1990,reverse retrospective on commercial ages
+star08,226,TRUE,FALSE,,,,,,,,,,,_remove_fishery_ages_before_2000,reverse retrospective on commercial ages
 index,301,FALSE,TRUE,,,,,,,,,,TRUE,_CA_CRFSPR_index,Change CA Rec index in recent years from onboardCPFV to CRFSPR,
 index,302,TRUE,FALSE,,,,,,,,,,TRUE,_OR_CPFV_index,Change OR Rec index to onboard (CPFV ride along) index,
 index,303,TRUE,TRUE,,,,,,,"""rep(1,5)""","""1:5""",,,_no_fishery_indices,remove all fishery-dependent indices,

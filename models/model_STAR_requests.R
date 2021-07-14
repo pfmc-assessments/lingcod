@@ -27,6 +27,14 @@ run_sensitivities(get_dir_ling("n", 23),
                   numbers = c(221:224,404)
                   )
 
+# reverse retro on fishery ages
+setwd("c:/ss/lingcod/lingcod_2021")
+devtools::load_all()
+run_sensitivities(get_dir_ling("n", 23),
+                  type = c("sens_create", "sens_run"),
+                  numbers = c(225:226)
+                  )
+
 dir.create('figures/STAR_request8')
 mod.sum <- r4ss::SSsummarize(list(mod.2021.n.023.001,
                                                mod.2021.n.023.221,
@@ -40,7 +48,7 @@ r4ss::SSplotComparisons(mod.sum,
                         plotdir = 'figures/STAR_request8',
                         print = TRUE,
                         plot = FALSE,
-                        legendloc = "topleft"
+                        legendloc = "topleft",
                         legendlabels = c("North new base",
                                          "no FG ages",
                                          "no FG ages 1999-2011",
