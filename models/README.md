@@ -233,5 +233,7 @@ name | notes | issue | source_model | script
 2021.s.015.001_reweight | Reweight Francis weights | #146 | 2021.s.014.806_esth_removecomp1975adjusted | lingcod_model_STAR_R9_reweight.R
 2021.s.016.001_triextrasd | Add extra sd to Triennial | #146 | 2021.s.015.001_reweight | manual
 2021.s.017.001_triextrasdreweight | Tune comps | #146 | 2021.s.016.001_triextrasd | lingcod_model_STAR_R9_reweight.R
-2021.n.023.800_lorenzenm | Lorenzen M | 10 | 2021.n.023.001_fixWAreccatchhistory | manual
-2021.s.017.800_lorenzenm | Lorenzen M | 10 | 2021.s.017.001_triextrasdreweight | manual
+2021.n.023.800_lorenzenm | Lorenzen M Age 7 | #150 | 2021.n.023.001_fixWAreccatchhistory | manual
+2021.s.017.800_lorenzenm | Lorenzen M Age 7 | #150 | 2021.s.017.001_triextrasdreweight | manual
+2021.n.023.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.n.023.001_fixWAreccatchhistory | manual
+2021.s.017.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.s.017.001_triextrasdreweight | manual
