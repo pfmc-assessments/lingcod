@@ -241,3 +241,7 @@ name | notes | issue | source_model | script
 2021.s.017.800_lorenzenm | Lorenzen M Age 7 | #150 | 2021.s.017.001_triextrasdreweight | manual
 2021.n.023.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.n.023.001_fixWAreccatchhistory | manual
 2021.s.017.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.s.017.001_triextrasdreweight | manual
+2021.s.017.802_lorenzenm | Lorenzen M Age 8 free up Tri selectivity | #150 | 2021.s.017.801_lorenzenm | manual
+2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | Tri Slx Offset | #150 | 2021.s.017.411_female_sel_offset_fisheries | manual
+2021.s.017.803_lorenzenm | Lorenzen M Free Tri Slx Offset | #150 | 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | manual
+2021.n.023.802_offsetLM | female offset sensitivity | #150 #151 | 2021.n.023.411_female_sel_offset_fisheries | run_sensitivities(), model_STAR_requests.R
