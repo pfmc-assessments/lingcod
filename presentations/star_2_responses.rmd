@@ -60,96 +60,100 @@ class: title-slide, inverse
 ```
 
 .bg-text[
-# Responses to STAR requests from day 2
+# STAR requests 05-09
 
-## WA recreational catch time series, time-varying selectivity, DM
+- WA recreational catch time series
+- time-varying selectivity
+- DM
+- Fixed gear ages in North
+- Tune South without early lengths
 
 <hr />
 Lingcod STAT<br><br>
-July 13, 2021<br>
+July 13-14, 2021<br>
 ]
 
 ---
 
-# STAR Day 2 Request 01
+# 05 Request
 
 ### Request: Update the northern model to reflect the error in the WA recreational mortality estimates. Provide a figure of WA dead discard catch and retained recreational catch.
 
-### Short response: Model is still running. Thank you to Theresa at WDFW for checking this and requesting we look into it.
+### Short response: Small changes in base model. Thank you to Theresa at WDFW for checking this and requesting that we look into it.
 
 ---
-# 01 Corrected landings
+### 05 Corrected landings
 
 .center[<img style="width:70%" src='../figures/catch_rec_WA_correcttotallandings.png'>]
 
 ---
-# 01 Landed (black), dead discard (red), total (green)
+### 05 Landed (black), dead discard (red), total (green)
 
 .center[<img style="width:50%" src='../figures/catch_rec_WA_retainedvdead.png'>]
 
 ---
 
-# 01 Model comparison
+### 05 Compare SSB
 
 .center[<img style="width:85%" src='../figures/STAR_Day2_request1/compare1_spawnbio.png'>]
 
 ---
 
-# 01 Model comparison
+### 05 Compare unfished
 
 .center[<img style="width:85%" src='../figures/STAR_Day2_request1/compare3_Bratio.png'>]
 ---
 
 
-# STAR Day 2 Request 02
+# 06 Request
 
 ### Request: Add time varying selectivity for the CA rec fishery in the South model. Add a block that would encompass from 1959 to 1972. Provide the model results (biomass, recruitments, and recdevs) and the estimated selectivity curves. Provide information on how the fit to the data improved.
 
 ---
 
-# 02 Time series
+### 06 Compare time series
 
 .center[<img style="width:70%" src='../figures/STAR_Day2_request2/compare_2021.s.014.806_2021.s.014.001.png'>]
 
 ---
 
-# 02 Recruitment
+### 06 Compare recruitment
 
 .center[<img style="width:90%" src='../figures/STAR_Day2_request2/compare10_recruits_uncertainty.png'>]
 ---
 
-# 02 Recruitment deviations
+### 06 Compare recruitment devs
 
 .center[<img style="width:90%" src='../figures/STAR_Day2_request2/compare11_recdevs.png'>]
 
 ---
 
-# 02 Selectivity
+### 06 Compare selectivity
 
 .center[<img style="width:90%" src='../figures/STAR_Day2_request2/selectivity_noncomm_males_2021.s.014.806.png'>]
 
 ---
 
-# 02 Change in likelihoods
+### 06 Change in likelihoods
 
 Likelihood | Base | Block CA rec 1972
 ---------- | ---- | -----------------
-TOTAL | 0 | -0.12
-Survey | 0 | -0.56
-Length_comp | 0 | -0.81
-Age_comp | 0 | 0.06
-Discard | 0 | 0.07
-Parm_priors | 0 | -0.13
+TOTAL | 0 | 0.12
+Survey | 0 | 0.56
+Length_comp | 0 | 0.81
+Age_comp | 0 | -0.06
+Discard | 0 | -0.07
+Parm_priors | 0 | 0.13
 
 ---
 
-# STAR Day 2 Request 3
+# 07 Request
 
 ### Request: Perform a model run, for the status quo Base model only, for the North without the fishery age data and rerun with Dirichlet weighting. Provide initial results and comparison of Francis vs Dirichlet weights.
 
 ---
 
-# STAR Day 2 Request 3
+### 07 Compare time series
 
 .pull-left-40[
 - No fishery ages + Dirichlet-multinomial likelihood
@@ -163,7 +167,7 @@ Parm_priors | 0 | -0.13
 
 ---
 
-# STAR Day 2 Request 3
+### 07 Compare recruitment
 
 .pull-left[
 Recruitment
@@ -176,9 +180,151 @@ Recruitment deviations
 ]
 ---
 
-### STAR Day 2 Request 3
+### 07 Likelihoods
 <p style="margin-top:-25px;">
 `r table_sens("../tables/sens_table_n_comp_STAR_day2_request3.csv", 
               caption = "", format = "html") %>%
       kableExtra::kable_styling(font_size = 12) 
 `
+
+---
+
+# 08 Request
+
+### A) Remove all fixed gear age composition data. B) Remove fixed gear age composition data for the years 1999-2011. C) Do A and B with and without offsets for sex-based selectivity for all fleets. Requests are for North only model. Provide the model comparisons slides and table(s) with likelihoods and key parameter outputs, selectivity outputs, etc. The STAT will include the updated results from Day 2, Request 5.
+
+---
+
+### 08 Compare time series
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request8/compare2_spawnbio_uncertainty.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request8/compare4_Bratio_uncertainty.png">
+]
+
+---
+
+### 08 Compare recruitment
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request8/compare9_recruits.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request8/compare11_recdevs.png">
+]
+
+---
+
+### 08 Compare likelihoods
+
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_star08.csv", 
+              caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+### STAR Request 8 extras
+.pull-left-40[
+Request 8 showed little impact of removing the fixed-gear ages from 1999-2011 
+but large impact from removing all fixed-gear ages.
+
+This suggests that there may be some conflict in the model related to either
+the recent ages from 2012-onward or prior to 1999.
+
+We tested the impact of removing early ages from all fisheries 
+either prior to 1990 or prior to 2000.
+]
+.pull-right-60[
+<img style="width100%" src="../docs/North/data_plot.png">
+]
+
+---
+
+### STAR Request 8 extras
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request8_extras/compare2_spawnbio_uncertainty.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request8_extras/compare4_Bratio_uncertainty.png">
+]
+
+---
+
+### STAR Request 8
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request8_extras/compare9_recruits.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request8_extras/compare11_recdevs.png">
+]
+
+---
+
+### STAR Request 8 extras
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_star08_extras.csv", 
+              caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
+
+
+
+# 09 Request
+
+### Conduct additional tuning and exploration of the southern model without the 1959- 1972 length composition data to see if a reasonable new base model can be developed. Provide the model comparisons slides and table(s) with likelihoods and key parameter outputs, selectivity outputs, etc.
+
+---
+
+### 09 Compare time series
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request9/compare2_spawnbio_uncertainty.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request9/compare4_Bratio_uncertainty.png">
+]
+
+---
+
+### 09 Compare recruitment
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request9/compare9_recruits.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request9/compare11_recdevs.png">
+]
+
+---
+
+### 09 Compare Triennial & WCGBTS
+
+.pull-left[
+<img style="width80%" src="../figures/STAR_request9/compare13_indices_flt6.png">
+]
+
+.pull-right[
+<img style="width80%" src="../figures/STAR_request9/compare14_indices_log_flt7.png">
+]
+
+---
+
+### 08 Compare likelihoods
+
+<p style="margin-top:-25px;">
+`r table_sens("../figures/STAR_request9/sens_table_s_star.csv", 
+              caption = "", format = "html") %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+---
