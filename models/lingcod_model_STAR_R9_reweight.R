@@ -81,7 +81,7 @@ r4ss::SS_fitbiasramp(mod.2021.s.015.001, verbose = TRUE) #Good
 r4ss::SS_tune_comps(dir = newdir, write = FALSE, option = "Francis") #Probably need to update
 
 
-#Make plots and compare to base - This overwrites previous plots folder
+#Make plots and compare to base
 make_r4ss_plots_ling(mod.2021.s.015.001, plot = 1:26)
 graphics.off()
 make_r4ss_plots_ling(mod.2021.s.015.001, plot = 31:50)
@@ -89,7 +89,20 @@ get_mod(area = "s", num = 14)
 plot_twopanel_comparison(list(mod.2021.s.015.001, mod.2021.s.014.001), 
                          legendlabels = c("no early CA rec - tuned", "south base"), print = TRUE)
 
-
+###
+#Compare results with base
+###
+outs <- mapply(SIMPLIFY = FALSE, r4ss::SS_output,
+               dir=file.path("models", 
+                             c("2021.s.015.001_reweight",
+                               "2021.s.014.806_esth_removecomp1975adjusted",
+                               "2021.s.014.001_esth")))
+mid <- r4ss::SSsummarize(outs)
+r4ss::SSplotComparisons(mid, print = TRUE, 
+                        legendlabels = c("no early CA rec - tuned",
+                                         "no early CA rec",
+                                         "Base model"), 
+                        plotdir = file.path("figures", "STAR_request9"))
 
 
 
