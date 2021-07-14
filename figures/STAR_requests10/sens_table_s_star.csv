@@ -1,0 +1,21 @@
+"Label","South","South Lorenzen M","South Lorenzen M free Triennial slx","South Lorenzen M free + offset"
+"TOTAL likelihood (diff from base)",0,4.84999999999991,-2.42999999999984,338.78
+"Survey likelihood (diff from base)",0,-3.65965,-3.09085,12.13634
+"Length comp likelihood (diff from base)",0,10.0599999999999,4.00999999999976,-34.7400000000002
+"Age comp likelihood (diff from base)",0,-7.024,-8.72199999999998,348.303
+"Discard likelihood (diff from base)",0,0.565999999999995,-0.0456000000000003,1.5091
+"Parm priors likelihood (diff from base)",0,-0.75246,-0.77014,-0.29882
+"Recr Virgin millions",2.24869,4.35938,4.33598,3.64513
+"SR BH steep",0.507665,0.581246,0.583637,0.564597
+"M Female ",0.169652,NA,NA,NA
+"M Male ",0.222921,NA,NA,NA
+"NatM Lorenzen Female ",NA,0.170574,0.170559,0.136707
+"NatM Lorenzen Male ",NA,0.211353,0.210909,0.249166
+"SSB Virgin 1000 mt",26.66,14.946,14.848,39.749
+"SSB 2021 1000 mt",10.879,1.884,1.8,8.77
+"Fraction unfished 2021",0.40806,0.126041,0.121223,0.220633
+"Fishing intensity 2020",0.340545,0.886207,0.908359,0.556687
+"Retained Catch MSY mt",843.962,901.898,902.735,762.473
+"Dead Catch MSY mt",849.07,905.868,906.628,766.671
+"Virgin age 3+ bio 1000 mt",32.7968,21.9101,21.8084,43.3794
+"OFL mt 2021",277.619,290.022,290.417,278.316
