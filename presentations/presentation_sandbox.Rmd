@@ -67,90 +67,69 @@ July 12, 2021<br>
 
 ---
 
-# STAR Request 8
+# STAR Request 11
 
-### A) Remove all fixed gear age composition data. B) Remove fixed gear age composition data for the years 1999-2011. C) Do A and B with and without offsets for sex-based selectivity for all fleets. Requests are for North only model. Provide the model comparisons slides and table(s) with likelihoods and key parameter outputs, selectivity outputs, etc. The STAT will include the updated results from Day 2, Request 5.
+### Request:
+Perform runs for both the north and south base models in which sex-specific
+selectivity offsets are implemented for fisheries but not surveys. Explore other
+parameterizations of the selectivity offset as time might allow. Provide the model
+comparisons slides and tables/figures with likelihoods and key parameter outputs,
+selectivity outputs, etc. for panel review
+
+### Rationale:
+The STAT has observed that the selectivity differences appear to be greater for the fisheries
+data relative to the survey data, and has been considering alternative forms of implementing
+the selectivity offsets.
 
 ---
 
-### STAR Request 8
+### STAR Request 11
 
 .pull-left[
-<img style="width80%" src="../figures/STAR_request8/compare2_spawnbio_uncertainty.png">
+<img style="width80%" src="../figures/STAR_request11/compare2_spawnbio_uncertainty.png">
 ]
 
 .pull-right[
-<img style="width80%" src="../figures/STAR_request8/compare4_Bratio_uncertainty.png">
+<img style="width80%" src="../figures/STAR_request11/compare4_Bratio_uncertainty.png">
 ]
 
 ---
 
-### STAR Request 8
-
+### STAR Request 11
 .pull-left[
-<img style="width80%" src="../figures/STAR_request8/compare9_recruits.png">
-]
-
-.pull-right[
-<img style="width80%" src="../figures/STAR_request8/compare11_recdevs.png">
-]
-
----
-
-### STAR Request 8
 <p style="margin-top:-25px;">
-`r table_sens("../tables/sens_table_n_star08.csv", 
+North selectivity
+<img style="width80%" src="../models/2021.n.023.411_female_sel_offset_fisheries/custom_plots/sel01_comm_fleets.png">
+<img style="width80%" src="../models/2021.n.023.411_female_sel_offset_fisheries/custom_plots/sel01_noncomm_fleets.png">
+]
+
+.pull-right[
+<p style="margin-top:-25px;">
+South selectivity
+<img style="width80%" src="../models/2021.s.017.411_female_sel_offset_fisheries/custom_plots/sel01_comm_fleets.png">
+<img style="width80%" src="../models/2021.s.017.411_female_sel_offset_fisheries/custom_plots/sel01_noncomm_fleets.png">
+]
+
+---
+
+### STAR Request 11
+.pull-left[
+<p style="margin-top:-25px;">
+`r table_sens("../tables/sens_table_n_star11.csv", 
               caption = "", format = "html") %>%
       kableExtra::kable_styling(font_size = 12) 
 `
----
-
-### STAR Request 8 extras
-.pull-left-40[
-Request 8 showed little impact of removing the fixed-gear ages from 1999-2011 
-but large impact from removing all fixed-gear ages.
-
-This suggests that there may be some conflict in the model related to either
-the recent ages from 2012-onward or prior to 1999.
-
-We tested the impact of removing early ages from all fisheries 
-either prior to 1990 or prior to 2000.
-
-.pull-right-60[
-<img style="width100%" src="../docs/North/data_plot.png">
-]
-
----
-
-### STAR Request 8 extras
-
-.pull-left[
-<img style="width80%" src="../figures/STAR_request8_extras/compare2_spawnbio_uncertainty.png">
 ]
 
 .pull-right[
-<img style="width80%" src="../figures/STAR_request8_extras/compare4_Bratio_uncertainty.png">
-]
-
----
-
-### STAR Request 8
-
-.pull-left[
-<img style="width80%" src="../figures/STAR_request8_extras/compare9_recruits.png">
-]
-
-.pull-right[
-<img style="width80%" src="../figures/STAR_request8_extras/compare11_recdevs.png">
-]
-
----
-
-### STAR Request 8 extras
 <p style="margin-top:-25px;">
-`r table_sens("../tables/sens_table_n_star08_extras.csv", 
+`r table_sens("../tables/sens_table_s_star11.csv", 
               caption = "", format = "html") %>%
       kableExtra::kable_styling(font_size = 12) 
 `
+]
+
+
 ---
+
 
