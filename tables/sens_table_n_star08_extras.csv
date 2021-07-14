@@ -1,0 +1,19 @@
+"Label","Base model","no_fixed-gear_ages","remove_fishery_ages_before_1990","remove_fishery_ages_before_2000"
+"TOTAL likelihood (diff from base)",0,-770.440000000001,-514.320000000001,-1217.44
+"Survey likelihood (diff from base)",0,-0.733000000000004,-0.0459999999999923,1.94900000000001
+"Length comp likelihood (diff from base)",0,-29.8600000000001,-33.5700000000002,-71.9300000000001
+"Age comp likelihood (diff from base)",0,-739.85,-482.01,-1150.27
+"Discard likelihood (diff from base)",0,-0.846199999999996,0.172899999999998,-0.444000000000003
+"Parm priors likelihood (diff from base)",0,0.076395,0.185998,0.136041
+"Recr Virgin millions",16.7346,23.843,20.3563,26.5444
+"log(R0)",9.72523,10.0792,9.92115,10.1866
+"M Female ",0.417839,0.436756,0.419079,0.424389
+"M Male ",0.413968,0.428801,0.41278,0.414287
+"SSB Virgin 1000 mt",17.16,21.395,20.651,25.92
+"SSB 2021 1000 mt",11.01,15.387,13.281,18.541
+"Fraction unfished 2021",0.641626,0.719187,0.643104,0.715307
+"Fishing intensity 2020",0.26195,0.184954,0.219864,0.16021
+"Retained Catch MSY mt",3937.89,5296.95,4428.05,5808.94
+"Dead Catch MSY mt",4222.53,5706.5,4708.02,6203.5
+"Virgin age 3+ bio 1000 mt",32.693,41.5569,39.577,50.1395
+"OFL mt 2021",5084.77,7586.91,6200.34,8786.1
