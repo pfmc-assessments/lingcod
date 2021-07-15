@@ -202,11 +202,37 @@ get_mod(area = "n", num = 23, sens = 904, plot = TRUE)
 
 
 
-<------------continue here
+###
+#Extra base model runs - done manually
+###
+
+#902b - Fix the parameters on width for block 1998-2010 to upper bound to see if 
+#this resolves the gradient issues from model 902
+#902c - Estimate (unfix) the parameter on inflection for block 1998-2010 to
+#see if this also resolves the gradient issue from model 902 as well as
+#if it resolves the parameter for width of retention hitting the upper bound
+graphics.off()
+mod.902b <- r4ss::SS_output(dir = file.path(getwd(),"models","2021.n.023.902_discard_se_fixRetBound"))
+r4ss::SS_plots(mod.902b)
+graphics.off()
+mod.902c <- r4ss::SS_output(dir = file.path(getwd(),"models","2021.n.023.902_discard_se_unfixRetBound"))
+r4ss::SS_plots(mod.902c)
+
+#904b - Sample size only for 2004-2010
+mod.904b <- r4ss::SS_output(dir = file.path(getwd(),"models","2021.n.023.904_sample_size_04_10"))
+r4ss::SS_plots(mod.904b)
+
+
+
+
+
+
+
 
 
 ##
-#Brian Comparison
+#Can repeat the below scripts with comments removed (902 b and c)
+#if put results in STAR_request14b
 ###
 
 get_mod(area = "n", num = 23, sens = 902)
@@ -218,15 +244,19 @@ outs <- mapply(SIMPLIFY = FALSE, r4ss::SS_output,
                dir=file.path("models", 
                              c("2021.n.023.001_fixWAreccatchhistory",
                                "2021.n.023.902_discard_se",
+                               #"2021.n.023.902_discard_se_fixRetBound",
+                               #"2021.n.023.902_discard_se_unfixRetBound",
                                "2021.n.023.903_trawl_rates_discard_se",
-                               "2021.n.023.904_sample_size")))#,
-#                               "2021.n.023.901_trawl_discard_rates")))
+                               "2021.n.023.904_sample_size",
+                               "2021.n.023.901_trawl_discard_rates")))
 
 labmod <- c("north new base",
              "1-Very low discard rate se",
+             #"1b-Low discard rate se: fix_width98",
+             #"1c-Low discard rate se: relax_infl98",
              "2-Low discard rate se",
-             "3-Reduce sample size of discard lengths")#,
-#             "4-Combine 1 and 3")
+             "3-Reduce sample size of discard lengths",
+             "4-Combine 1 and 3")
 
 mid <- r4ss::SSsummarize(outs)
 r4ss::SSplotComparisons(
@@ -237,9 +267,11 @@ r4ss::SSplotComparisons(
 outmod <- list(
   mod.2021.n.023.001,
   mod.2021.n.023.902,
+  #mod.902b,
+  #mod.902c,
   mod.2021.n.023.903,
-  mod.2021.n.023.904#,
-#  mod.2021.n.023.901,
+  mod.2021.n.023.904,
+  mod.2021.n.023.901
 )
 
 plot_twopanel_comparison(
@@ -267,6 +299,47 @@ utils::write.csv(compare_table,
   row.names = FALSE,
   file.path("figures", "STAR_request14", "sens_table_n_star14.csv")
   )
+
+
+
+
+# Discard values by scenario and with the GEMM
+# GEMM values taken from email from Chantel Wetzel (Jul 14, 2021)
+
+discard_table <- cbind(1998:2010,c(NA,
+                         NA,
+                         NA,
+                         NA,
+                         100.626771,
+                         66.69182598,
+                         58.74980871,
+                         206.0483877,
+                         166.9257594,
+                         68.22790215,
+                         34.46452387,
+                         51.51749361,
+                         2.726629955),
+      mod.2021.n.023.001$timeseries[112:124,c("dead(B):_1")]-
+        mod.2021.n.023.001$timeseries[112:124,c("retain(B):_1")],
+      mod.2021.n.023.902$timeseries[112:124,c("dead(B):_1")] -
+        mod.2021.n.023.902$timeseries[112:124,c("retain(B):_1")],
+#      mod.902b$timeseries[112:124,c("dead(B):_1")] -
+#        mod.902b$timeseries[112:124,c("retain(B):_1")],
+#      mod.902c$timeseries[112:124,c("dead(B):_1")] -
+#        mod.902c$timeseries[112:124,c("retain(B):_1")],
+      mod.2021.n.023.903$timeseries[112:124,c("dead(B):_1")] - 
+        mod.2021.n.023.903$timeseries[112:124,c("retain(B):_1")],
+      mod.2021.n.023.904$timeseries[112:124,c("dead(B):_1")] -
+        mod.2021.n.023.904$timeseries[112:124,c("retain(B):_1")],
+      mod.2021.n.023.901$timeseries[112:124,c("dead(B):_1")] -
+        mod.2021.n.023.901$timeseries[112:124,c("retain(B):_1")])
+
+
+colnames(discard_table) <- c("Year", "GEMM", labmod)
+utils::write.csv(round(discard_table,0),
+                 row.names = FALSE,
+                 file.path("figures", "STAR_request14", "discard_table_n_star14.csv")
+)
 
 
 

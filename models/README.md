@@ -245,9 +245,9 @@ name | notes | issue | source_model | script
 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | Tri Slx Offset | #150 | 2021.s.017.411_female_sel_offset_fisheries | manual
 2021.s.017.803_lorenzenm | Lorenzen M Free Tri Slx Offset | #150 | 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | model_STAR_request_10.R
 2021.n.023.802_offsetLM | female offset sensitivity | #150 #151 | 2021.n.023.411_female_sel_offset_fisheries | run_sensitivities(), model_STAR_requests.R
-2021.n.023.901_trawl_discard_rates             | replace discard rates for fleet1 with Bottomtrawl rates only  | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
+2021.n.023.901_trawl_discard_rates             | actually a combinationof 902 and 904  | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
 2021.n.023.902_discard_se                      | reduced standard error of discard rates for fleet1            | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
-2021.n.023.903_trawl_rates_discard_se          | combination of 901 and 902                                    | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
+2021.n.023.903_trawl_rates_discard_se          | less reduced se of discard rates for fleet2 than sens 901     | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
 2021.n.023.904_sample_size                     | downweight sample sizes of discard lengths for fleet1         | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
 2021.s.017.810_cutnuseDM | Tune comps with smaller input | intuition | 2021.s.017.001_triextrasdreweight | lingcod_model_STAR_R9_reweight.R
 2021.n.023.413_asymptotic_TW | fix the commercial trawl selectivity to be asymptotic for all blocks | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
