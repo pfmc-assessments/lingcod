@@ -237,16 +237,16 @@ name | notes | issue | source_model | script
 2021.s.016.001_triextrasd | Add extra sd to Triennial | #146 | 2021.s.015.001_reweight | manual
 2021.s.017.001_triextrasdreweight | Tune comps | #146 | 2021.s.016.001_triextrasd | lingcod_model_STAR_R9_reweight.R
 2021.s.017.411_female_sel_offset_fisheries | female offset sensitivity | #118 #151 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R
-2021.n.023.800_lorenzenm | Lorenzen M Age 7 | #150 | 2021.n.023.001_fixWAreccatchhistory | manual
-2021.s.017.800_lorenzenm | Lorenzen M Age 7 | #150 | 2021.s.017.001_triextrasdreweight | manual
-2021.n.023.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.n.023.001_fixWAreccatchhistory | manual
-2021.s.017.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.s.017.001_triextrasdreweight | manual
+2021.n.023.800_lorenzenm | Lorenzen M Age 7 | #150 | 2021.n.023.001_fixWAreccatchhistory | model_STAR_request_10.R
+2021.s.017.800_lorenzenm | Lorenzen M Age 7 | #150 | 2021.s.017.001_triextrasdreweight | model_STAR_request_10.R
+2021.n.023.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.n.023.001_fixWAreccatchhistory | model_STAR_request_10.R
+2021.s.017.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.s.017.001_triextrasdreweight | model_STAR_request_10.R
 2021.s.017.802_lorenzenm | Lorenzen M Age 8 free up Tri selectivity | #150 | 2021.s.017.801_lorenzenm | manual
 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | Tri Slx Offset | #150 | 2021.s.017.411_female_sel_offset_fisheries | manual
-2021.s.017.803_lorenzenm | Lorenzen M Free Tri Slx Offset | #150 | 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | manual
+2021.s.017.803_lorenzenm | Lorenzen M Free Tri Slx Offset | #150 | 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | model_STAR_request_10.R
 2021.n.023.802_offsetLM | female offset sensitivity | #150 #151 | 2021.n.023.411_female_sel_offset_fisheries | run_sensitivities(), model_STAR_requests.R
-2021.n.023.901_trawl_discard_rates             | reduce standard error of discard rates and downweight sample sizes  | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
-2021.n.023.902_discard_se                      | reduce standard error of discard rates for fleet1                   | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
-2021.n.023.903_trawl_rates_discard_se          | combination of 901 and 902                                          | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
-2021.n.023.904_sample_size                     | downweight sample sizes of discard lengths for fleet1               | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
-
+2021.n.023.901_trawl_discard_rates             | replace discard rates for fleet1 with Bottomtrawl rates only  | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
+2021.n.023.902_discard_se                      | reduced standard error of discard rates for fleet1            | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
+2021.n.023.903_trawl_rates_discard_se          | combination of 901 and 902                                    | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
+2021.n.023.904_sample_size                     | downweight sample sizes of discard lengths for fleet1         | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
+2021.s.017.810_cutnuseDM | Tune comps with smaller input | intuition | 2021.s.017.001_triextrasdreweight | lingcod_model_STAR_R9_reweight.R

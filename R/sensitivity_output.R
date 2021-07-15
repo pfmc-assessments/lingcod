@@ -113,11 +113,13 @@ sens_make_table <- function(area,
 
   # read models (if needed)
   if (!is.null(sens_mods)) {
-    # get vectory of directory associated with each model
-    sens_dirs <- NULL
-    for (i in 1:length(sens_mods)) {
-      sens_dirs <- c(sens_dirs, sens_mods$inputs$dir)
-    }
+    # get names for list elements beyond first entry, which is the base
+    sens_dirs <- purrr::modify_depth(
+      sens_mods[-1],
+      1,
+      ~ .[["inputs"]][["dir"]]
+    ) %>%
+      purrr::as_vector()
     basedir <- ""
   } else {
     # get base model directory (may not always match info_basemodels)
