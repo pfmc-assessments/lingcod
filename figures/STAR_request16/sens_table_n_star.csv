@@ -1,0 +1,19 @@
+"Label","Base model","tighterM","fixM"
+"TOTAL likelihood (diff from base)",0,0.839999999999236,16.9699999999993
+"Survey likelihood (diff from base)",0,0.0260000000000105,7.96600000000001
+"Length comp likelihood (diff from base)",0,0.0499999999997272,17.6999999999998
+"Age comp likelihood (diff from base)",0,-0.109999999999673,-12.0499999999997
+"Discard likelihood (diff from base)",0,0.143100000000004,2.7132
+"Parm priors likelihood (diff from base)",0,0.798473,0.079411
+"Recr Virgin millions",16.7346,16.016,5.40313
+"SR BH steep",0.80139,0.801292,0.763173
+"M Female ",0.417839,0.414095,0.3
+"M Male ",0.413968,0.410566,0.302506
+"SSB Virgin 1000 mt",17.16,16.888,14.494
+"SSB 2021 1000 mt",11.01,10.705,4.949
+"Fraction unfished 2021",0.641626,0.633897,0.341427
+"Fishing intensity 2020",0.26195,0.271257,0.678056
+"Retained Catch MSY mt",3937.89,3823.47,2001.74
+"Dead Catch MSY mt",4222.53,4096.3,2087.64
+"Virgin age 3+ bio 1000 mt",32.693,32.0585,24.7773
+"OFL mt 2021",5084.77,4876.64,1512.32
