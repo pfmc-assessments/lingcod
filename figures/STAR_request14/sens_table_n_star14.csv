@@ -1,0 +1,19 @@
+"Label","north new base","1-Very low discard rate se","2-Low discard rate se","3-Reduce sample size of discard lengths"
+"TOTAL likelihood (diff from base)",0,7.45999999999913,1.70999999999913,-195.5
+"Survey likelihood (diff from base)",0,0.73599999999999,0.681000000000012,-1.376
+"Length comp likelihood (diff from base)",0,4.65999999999985,-0.0599999999999454,-176.67
+"Age comp likelihood (diff from base)",0,5.35000000000036,3.84000000000015,-18.3199999999997
+"Discard likelihood (diff from base)",0,-6.9705,-4.42610000000001,3.0315
+"Parm priors likelihood (diff from base)",0,0.116757,0.075149,-0.080875
+"Recr Virgin millions",16.7346,23.1078,20.3321,14.8487
+"SR BH steep",0.80139,0.799093,0.798055,0.821618
+"M Female ",0.417839,0.442119,0.433324,0.402667
+"M Male ",0.413968,0.43697,0.428825,0.398532
+"SSB Virgin 1000 mt",17.16,19.835,18.603,17.067
+"SSB 2021 1000 mt",11.01,13.997,12.679,10.406
+"Fraction unfished 2021",0.641626,0.705669,0.681548,0.609697
+"Fishing intensity 2020",0.26195,0.197742,0.221546,0.285378
+"Retained Catch MSY mt",3937.89,4935.19,4482.75,3873.06
+"Dead Catch MSY mt",4222.53,5320.12,4821.65,4117.66
+"Virgin age 3+ bio 1000 mt",32.693,38.6103,35.914,32.0862
+"OFL mt 2021",5084.77,7030.32,6172.7,4549.1

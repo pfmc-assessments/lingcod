@@ -174,10 +174,6 @@ r4ss::SSplotComparisons(modsto17,
 
 compare_table <- sens_make_table(
   area = "s",
-  # num,
-  # sens_base = 1,
-  # yr = 2021,
-  # sens_nums,
   sens_mods = setNames(outto17, gsub("\\s", "_", labsto17)),
   sens_type = "star",
   plot = FALSE,
@@ -188,10 +184,70 @@ colnames(compare_table) <- c("Label", labsto17)
 utils::write.csv(compare_table,
   row.names = FALSE,
   file.path("figures", "STAR_request9", "sens_table_s_star.csv")
-  )
+)
 
 # Run with sigma R of 0.4 and 0.8
 run_sensitivities(get_dir_ling("s", 17),
   type = c("sens_run", "sens_create"),
   numbers = c(104:105)
+)
+
+###
+# Exploratory run with DM
+# Tried initial run with only cutting lengths,
+# ages swamped the model leading to two large recruitment events
+# ironically one of those events lined up with the large event in the North
+# Scaling ages also didn't change anything.
+# Time series goes above 1.0 unfished > 1x :(
+###
+
+newdir <- file.path("models", "2021.s.017.810_cutnuseDM")
+r4ss::copy_SS_inputs(
+  dir.old = file.path("models", "2021.s.017.001_triextrasdreweight"),
+  dir.new = newdir,
+  use_ss_new = FALSE, copy_par = FALSE,
+  copy_exe = TRUE, dir.exe = get_dir_exe(),
+  overwrite = TRUE, verbose = FALSE
+)
+inputs <- get_inputs_ling(id = get_id_ling(newdir))
+inputs[["dat"]][["lencomp"]] %>%
+  dplyr::mutate(lsamp = log(Nsamp)) %>%
+  ggplot2::ggplot(ggplot2::aes(
+    x = factor(FltSvy),
+    fill = factor(FltSvy), pch = factor(Part),
+    y = lsamp
+  )) +
+  ggplot2::geom_point(alpha = 0.5) +
+  # ggplot2::geom_point(ggplot2::aes(y = Nsamp), pch = 1) +
+  ggplot2::scale_fill_manual(values = get_fleet(col = "col.n"))
+
+inputs[["dat"]][["lencomp"]][["Nsamp"]] <- log(
+  inputs[["dat"]][["lencomp"]][["Nsamp"]]
+  ) + 0.1
+inputs[["dat"]][["agecomp"]][["Nsamp"]] <- log(
+  inputs[["dat"]][["agecomp"]][["Nsamp"]]
+  ) + 0.1
+write_inputs_ling(
+  inputs,
+  dir = newdir,
+  verbose = FALSE,
+  overwrite = TRUE
+)
+r4ss::SS_tune_comps(
+  dir = newdir,
+  write = FALSE,
+  option = "DM",
+  init_run = TRUE,
+  niters_tuning = 1
+)
+get_mod("s", 17)
+get_mod(dir = newdir)
+compare_table <- sens_make_table(
+  area = "s",
+  sens_mods = list(mod.2021.s.017.001, mod.2021.s.017.810),
+  sens_type = "random",
+  plot = TRUE,
+  plot_dir = newdir,
+  table_dir = newdir,
+  write = TRUE
 )

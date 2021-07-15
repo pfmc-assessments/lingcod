@@ -1,0 +1,21 @@
+"Label","North","North Lorenzen M","North Lorenzen M + slx offset"
+"TOTAL likelihood (diff from base)",0,-105.8,-421.690000000001
+"Survey likelihood (diff from base)",0,1.542,24.624
+"Length comp likelihood (diff from base)",0,-66.8400000000001,-312.37
+"Age comp likelihood (diff from base)",0,-39.5899999999997,-141.21
+"Discard likelihood (diff from base)",0,-1.3751,-2.5403
+"Parm priors likelihood (diff from base)",0,-0.1708936,1.392403
+"Recr Virgin millions",16.7346,251.831,6.27724
+"SR BH steep",0.80139,0.825713,0.802311
+"M Female ",0.417839,NA,NA
+"M Male ",0.413968,NA,NA
+"NatM Lorenzen Female ",NA,0.347772,0.161586
+"NatM Lorenzen Male ",NA,0.497865,0.249021
+"SSB Virgin 1000 mt",17.16,17.429,27.064
+"SSB 2021 1000 mt",11.01,11.593,3.119
+"Fraction unfished 2021",0.641626,0.665157,0.115233
+"Fishing intensity 2020",0.26195,0.296345,1.30595
+"Retained Catch MSY mt",3937.89,4359.94,1647.47
+"Dead Catch MSY mt",4222.53,4690.44,1686.96
+"Virgin age 3+ bio 1000 mt",32.693,35.105,33.7618
+"OFL mt 2021",5084.77,4597.37,444.691
