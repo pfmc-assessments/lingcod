@@ -250,3 +250,21 @@ name | notes | issue | source_model | script
 2021.n.023.903_trawl_rates_discard_se          | combination of 901 and 902                                    | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
 2021.n.023.904_sample_size                     | downweight sample sizes of discard lengths for fleet1         | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
 2021.s.017.810_cutnuseDM | Tune comps with smaller input | intuition | 2021.s.017.001_triextrasdreweight | lingcod_model_STAR_R9_reweight.R
+2021.n.023.413_asymptotic_TW | fix the commercial trawl selectivity to be asymptotic for all blocks | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.413_asymptotic_TW | fix the commercial trawl selectivity to be asymptotic for all blocks | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R
+2021.n.023.414_descend_shared_across_blocks | make the descending slope of the selectivity function equal for all blocks | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.414_descend_shared_across_blocks | make the descending slope of the selectivity function equal for all blocks | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R
+2021.n.023.415_sex_sel_descend_shared | make the descending slope of the selectivity function sex-specific and equal for all blocks | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.415_sex_sel_descend_shared | make the descending slope of the selectivity function sex-specific and equal for all blocks | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R
+2021.n.023.416_descend_shared_rec | make the descending slope of the selectivity function equal for all blocks within the rec fleets | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.416_descend_shared_rec | make the descending slope of the selectivity function equal for all blocks within the rec fleets | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R
+2021.n.023.417_sex_sel_descend_shared_rec | make the descending slope of the selectivity function sex-specific and equal for all blocks within the rec fleets | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.417_sex_sel_descend_shared_rec | make the descending slope of the selectivity function sex-specific and equal for all blocks within the rec fleets | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R 
+2021.n.023.418_flexible_retention | estimate the retention slope for each block | #156 | 2021.n.023.001 | manual 
+2021.n.023.419_sex_sel_descend | make the descending slope of the selectivity function sex-specific | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.419_sex_sel_descend | make the descending slope of the selectivity function sex-specific | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R 
+2021.n.023.420_sex_sel_scale_descend_fisheries | make the scale and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.420_sex_sel_scale_descend_fisheries | make the scale and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R 
+2021.n.023.421_sex_sel_peak_descend_fisheries | make the peak and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.s.017.421_sex_sel_peak_descend_fisheries | make the peak and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R 
+2021.s.017.422_init_values | test south model sensitivity to initial values | #156 | 2021.s.017.419 | model_STAR_requests.R 
