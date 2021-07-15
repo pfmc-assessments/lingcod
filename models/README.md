@@ -268,3 +268,8 @@ name | notes | issue | source_model | script
 2021.n.023.421_sex_sel_peak_descend_fisheries | make the peak and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
 2021.s.017.421_sex_sel_peak_descend_fisheries | make the peak and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R 
 2021.s.017.422_init_values | test south model sensitivity to initial values | #156 | 2021.s.017.419 | model_STAR_requests.R 
+2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | Tri Slx Offset | #150 | 2021.s.017.411_female_sel_offset_fisheries | manual
+2021.s.017.803_lorenzenm | Lorenzen M Free Tri Slx Offset | #150 | 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | manual
+2021.n.023.002_tighterM | divide sd of M in half |  | 2021.n.023.001_fixWAreccatchhistory | 
+2021.n.913_discard_trawl_rates_se_tighterM | divide sd of M in half |  | 2021.n.023.903_trawl_rates_discard_se | 
+2021.n.023.423_sex_sel_descend_shared_recTighterM | divide sd of M in half |  | 2021.n.023.417_sex_sel_descend_shared_rec | 
