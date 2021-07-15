@@ -273,3 +273,4 @@ name | notes | issue | source_model | script
 2021.n.023.002_tighterM | divide sd of M in half |  | 2021.n.023.001_fixWAreccatchhistory | 
 2021.n.913_discard_trawl_rates_se_tighterM | divide sd of M in half |  | 2021.n.023.903_trawl_rates_discard_se | 
 2021.n.023.423_sex_sel_descend_shared_recTighterM | divide sd of M in half |  | 2021.n.023.417_sex_sel_descend_shared_rec | 
+2021.n.023.003_fixM | fix M at the median of the prior | req 16 | 2021.n.023.001_fixWAreccatchhistory | 
