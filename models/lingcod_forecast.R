@@ -3,12 +3,12 @@
 # loop over areas to modify filenames and starter file
 for (area in c("n", "s")){
   if (area == "n") {
-    olddir <- get_dir_ling(area = area, num = 20, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 20, sens = 10)
+    olddir <- get_dir_ling(area = area, num = 23, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 23, sens = 10)
   }
   if (area == "s") {
-    olddir <- get_dir_ling(area = area, num = 14, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 14, sens = 10)
+    olddir <- get_dir_ling(area = area, num = 18, sens = 1)
+    newdir <- get_dir_ling(area = area, num = 18, sens = 10)
   }
   
   r4ss::copy_SS_inputs(
@@ -44,7 +44,8 @@ for (area in c("n", "s")){
   # get time-varying buffer from PEPtools function thanks to Chantel Wetzel
   fore$Flimitfraction <- -1
   fore$Flimitfraction_m <- PEPtools::get_buffer(years = 2021:2032,
-                                                sigma = 0.50,
+                                                #sigma = 0.50, # cat 1 sigma
+                                                sigma = 1.0,
                                                 pstar = 0.45) %>% data.frame()
   
   fore$FirstYear_for_caps_and_allocations <- 2040 # ignore far into future

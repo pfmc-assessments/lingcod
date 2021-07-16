@@ -274,3 +274,7 @@ name | notes | issue | source_model | script
 2021.n.913_discard_trawl_rates_se_tighterM | divide sd of M in half |  | 2021.n.023.903_trawl_rates_discard_se | 
 2021.n.023.423_sex_sel_descend_shared_recTighterM | divide sd of M in half |  | 2021.n.023.417_sex_sel_descend_shared_rec | 
 2021.n.023.003_fixM | fix M at the median of the prior | req 16 | 2021.n.023.001_fixWAreccatchhistory | 
+2021.n.023.204_no_fishery_ages | remove fishery-dependent ages, all others as CAAL | req 20 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
+2021.n.023.010_forecast | adds a forecast | #99 | 2021.n.023.001 | lingcod_forecast.R
+2021.s.018.001_fixTri3 |  |  |  | 
+2021.s.018.010_forecast | adds a forecast | #99 | 2021.s.018.001 | lingcod_forecast.R
