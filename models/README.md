@@ -284,4 +284,4 @@ name | notes | issue | source_model | script
 2021.s.018.901_phase1rec | Change rec dev phase to 1 to match North |  | 2021.s.018.001_fixTri3 | 
 2021.s.018.902_phase1recdiffinit | Try a lower INIT for M |  | 2021.s.018.901_phase1rec | 
 2021.n.023.032_high_state_1200 | high state with constant catch of 1200 from GMT. Forecast copied from 2021.n.023.012_forecast_1200 |  | 2021.n.023.031
-2021.n.023.023_low_state_1200 | low state 1 with constant catch of 1200 from GMT. Forecast copied from 2021.n.023.012_forecast_1200 |  | 2021.n.023.021
+2021.n.023.023_low_state1_1200 | low state 1 with constant catch of 1200 from GMT. Forecast copied from 2021.n.023.012_forecast_1200 |  | 2021.n.023.021
