@@ -30,7 +30,9 @@ table_sens <- function(file_csv,
 
   data <- utils::read.csv(file_csv, check.names = pretty) %>%
     dplyr::mutate(Label = gsub("\\s+\\(.+\\)|likelihood", "", Label)) %>%
-    dplyr::mutate(Label = gsub("(OTAL)", "\\L\\1", Label, perl = TRUE))
+    dplyr::mutate(Label = gsub("(OTAL)", "\\L\\1", Label, perl = TRUE)) %>%
+    dplyr::mutate(Label = gsub("Survey", "Indices", Label))
+  
   prettynames <- function(x) {
     if (format == "latex") {
       x <- gsub("_", "", x)
