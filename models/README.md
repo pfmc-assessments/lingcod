@@ -281,3 +281,5 @@ name | notes | issue | source_model | script
 2021.n.023.021_low_state1_ACL | low state 1 with ACL catch from base model | #154 | 2021.n.023.420 | 
 2021.n.023.022_low_state2_ACL | low state 2 with ACL catch from base model | #154 | 2021.n.023.003 | 
 2021.n.023.031_high_state_ACL | high state with ACL catch from base model | #154 | 2021.n.023.204 | 
+2021.s.018.901_phase1rec | Change rec dev phase to 1 to match North |  | 2021.s.018.001_fixTri3 | 
+2021.s.018.902_phase1recdiffinit | Try a lower INIT for M |  | 2021.s.018.901_phase1rec | 
