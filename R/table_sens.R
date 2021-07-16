@@ -5,6 +5,9 @@
 #' @param dir Directory where the table should go (relative to "doc")
 #' @param format Argument passed `kableExtra::kbl()` allowing switch between
 #' "latex" and "html".
+#' @param pretty Logical controlling whether names get cleaned up using
+#' internal `prettynames()` function or not. Setting `pretty = FALSE`
+#' will use `utils::read.csv(..., check.names = FALSE)`.
 #' @export
 #' @examples
 #' \dontrun{
@@ -14,7 +17,8 @@
 table_sens <- function(file_csv,
                        caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). Red values indicate negative log likelihoods that were lower than that for the base model.",
                        dir = file.path("..", "tables"),
-                       format = "latex"
+                       format = "latex",
+                       pretty = TRUE
   ) {
 
   # Make a new label that doesn't depend on area
@@ -24,7 +28,7 @@ table_sens <- function(file_csv,
            gsub("\\.[a-z]{3}$", "", basename(file_csv)
          )))
 
-  data <- utils::read.csv(file_csv) %>%
+  data <- utils::read.csv(file_csv, check.names = pretty) %>%
     dplyr::mutate(Label = gsub("\\s+\\(.+\\)|likelihood", "", Label)) %>%
     dplyr::mutate(Label = gsub("(OTAL)", "\\L\\1", Label, perl = TRUE))
   prettynames <- function(x) {
@@ -52,7 +56,10 @@ table_sens <- function(file_csv,
     }
     return(x)
   }
-  colnames(data) <- prettynames(colnames(data))
+  # clean up column names if requested
+  if (pretty) {
+    colnames(data) <- prettynames(colnames(data))
+  }
   conditional_color <- function(x, n, nmax) {
     kableExtra::cell_spec(x,
       color = ifelse(x >= 0, "black", "red")

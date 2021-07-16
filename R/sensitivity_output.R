@@ -76,6 +76,8 @@ sens_convert_offsets <- function(tab){
 #' @param sens_nums A vector of values from /inst/extdata/sensitivities.csv
 #' @param sens_mods Optional list containing output from multiple models. If present
 #' this will skip the reading of the models specified by the inputs above.
+#' @param sens_names Optional vector of names for each model to use as headers in the table
+#' and legend in the figure (needs to also include the base model)
 #' @param sens_type A string indicating the type which is appended to the csv
 #' file containing the sensitivity results
 #' @param plot Logical for whether to make a two-panel time series plot
@@ -94,6 +96,7 @@ sens_make_table <- function(area,
                             yr = 2021,
                             sens_nums,
                             sens_mods = NULL,
+                            sens_names = NULL,
                             sens_type = NULL,
                             plot = TRUE,
                             plot_dir = NULL,
@@ -150,13 +153,16 @@ sens_make_table <- function(area,
 
   
   # names for the columns in the table
-  sens_names <- c("Base model",
-                  stringr::str_sub(sens_dirs,
-                                   start = 1 + nchar("models/2021.s.001.001_")
-                                   )
-                  )
+  if (is.null(sens_names)) {
+    sens_names <- c("Base model",
+                    stringr::str_sub(sens_dirs,
+                                     start = 1 + nchar("models/2021.s.001.001_")
+                                     )
+                    )
+  }
+  
   # TODO: convert short sens_names to long names by adding a long name
-  #       column to selectivities.csv
+  #       column to sensitivities.csv
 
   # make plot
   if (plot) {

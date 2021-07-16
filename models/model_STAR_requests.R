@@ -241,13 +241,15 @@ newdir <- 'figures/STAR_request20'
 dir.create(newdir)
 compare_table <- sens_make_table(
   area = "n",
-  sens_mods = list(mod.2021.n.023.001,
-                   mod.2021.n.023.204,
-                   mod.2021.n.023.420,
-                   mod.2021.n.023.003),
+  num = 23,
+  sens_nums = c(204, 420, 3),
+  sens_names = c("North base model",
+                 "High state (no fishery ages)",
+                 "Low state A (sex-sel)",
+                 "Low state B (M = 0.3)"),
   sens_type = "random",
   plot = TRUE,
   plot_dir = newdir,
   table_dir = newdir,
-  write = TRUE
-)
+  write = TRUE,
+  )

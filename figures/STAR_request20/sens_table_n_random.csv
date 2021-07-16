@@ -1,4 +1,4 @@
-"Label","Base model","NA","NA","NA"
+"Label","North base model","High state (no fishery ages)","Low state A (sex-sel)","Low state B (M = 0.3)"
 "TOTAL likelihood (diff from base)",0,-2828.04,-427.52,16.9699999999993
 "Survey likelihood (diff from base)",0,-1.44,10.774,7.96600000000001
 "Length comp likelihood (diff from base)",0,-213.09,-374.52,17.6999999999998
