@@ -33,6 +33,7 @@ Imports:
     nwfscSurvey,
     devtools,
     bibtex,
+    kableExtra,
     knitr,
     knitcitations,
     markdown,

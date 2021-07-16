@@ -3,8 +3,7 @@
 #' @param file_csv A file path to the csv file.
 #' @param caption Text you want in the caption.
 #' @param dir Directory where the table should go (relative to "doc")
-#' @param format Argument passed `kableExtra::kbl()` allowing switch between
-#' "latex" and "html".
+#' @template format
 #' @param pretty Logical controlling whether names get cleaned up using
 #' internal `prettynames()` function or not. Setting `pretty = FALSE`
 #' will use `utils::read.csv(..., check.names = FALSE)`.
