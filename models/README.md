@@ -276,8 +276,11 @@ name | notes | issue | source_model | script
 2021.n.023.003_fixM | fix M at the median of the prior | req 16 | 2021.n.023.001_fixWAreccatchhistory | 
 2021.n.023.204_no_fishery_ages | remove fishery-dependent ages, all others as CAAL | req 20 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
 2021.n.023.010_forecast | adds a forecast | #99 | 2021.n.023.001 | lingcod_forecast.R
+2021.n.023.011_forecast_GMT | adds a forecast based on GMT input | #99 | 2021.n.023.001 | lingcod_forecast.R
+2021.n.023.012_forecast_1200 | adds a forecast with catches fixed at 1200 mt based on GMT input | #99 | 2021.n.023.001 | lingcod_forecast.R
 2021.s.018.001_fixTri3 |  |  |  | 
 2021.s.018.010_forecast | adds a forecast | #99 | 2021.s.018.001 | lingcod_forecast.R
+2021.s.018.011_forecast_GMT | adds a forecast based on GMT input | #99 | 2021.s.018.001 | lingcod_forecast.R
 2021.n.023.021_low_state1_ACL | low state 1 with ACL catch from base model | #154 | 2021.n.023.420 | 
 2021.n.023.022_low_state2_ACL | low state 2 with ACL catch from base model | #154 | 2021.n.023.003 | 
 2021.n.023.031_high_state_ACL | high state with ACL catch from base model | #154 | 2021.n.023.204 | 

@@ -1,14 +1,16 @@
 # setup forecast for 2021 lingcod model
 
 # loop over areas to modify filenames and starter file
-for (area in c("n", "s")){
-  if (area == "n") {
+#for (area in c("n", "s")){
+for (area in c("n")){
+   if (area == "n") {
     olddir <- get_dir_ling(area = area, num = 23, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 23, sens = 10)
+    #newdir <- get_dir_ling(area = area, num = 23, sens = 11)
+    newdir <- get_dir_ling(area = area, num = 23, sens = 12)
   }
   if (area == "s") {
     olddir <- get_dir_ling(area = area, num = 18, sens = 1)
-    newdir <- get_dir_ling(area = area, num = 18, sens = 10)
+    newdir <- get_dir_ling(area = area, num = 18, sens = 11)
   }
   
   r4ss::copy_SS_inputs(
@@ -18,7 +20,7 @@ for (area in c("n", "s")){
     copy_par = FALSE,
     copy_exe = TRUE,
     dir.exe = get_dir_exe(),
-    overwrite = FALSE,
+    overwrite = TRUE,
     verbose = TRUE
   )
 
@@ -55,11 +57,15 @@ for (area in c("n", "s")){
 
   # TODO: add fixed forecast catch for 2021 and 2022
   fore$ForeCatch <- r4ss::SS_ForeCatch(mod.old,
-                                       yrs = 2021:2022,
+                                       #yrs = 2021:2022,
+                                       yrs = 2021:2032,
                                        average = TRUE,
-                                       avg.yrs = 2016:2020)
-  fore$ForeCatch[["dead(B)"]][fore$ForeCatch$Fleet %in% 1:2] <-
-    round(c(0.4, 0.6) * sum(fore$ForeCatch[["dead(B)"]][fore$ForeCatch$Fleet %in% 1:2]), 2)
+                                       total = 1200,
+                                       avg.yrs = 2011:2020)
+  if (area == "s") {
+    fore$ForeCatch[["dead(B)"]][fore$ForeCatch$Fleet %in% 1:2] <-
+      round(c(0.4, 0.6) * sum(fore$ForeCatch[["dead(B)"]][fore$ForeCatch$Fleet %in% 1:2]), 2)
+  }
   # assign modified forecast to new model files
   inputs$fore <- fore
   write_inputs_ling(inputs = inputs, dir = newdir, files = "fore", overwrite = TRUE)
