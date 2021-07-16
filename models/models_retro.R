@@ -1,12 +1,13 @@
-mydir <- "models/2021.n.023.001_fixWAreccatchhistory_retro"
+mydir <- "models/2021.s.018.001_fixTri3_retro"
 retroModels <- r4ss::SSgetoutput(
-  dirvec = file.path(mydir, "retro", paste("retro", -1:-3, sep = ""))
+  dirvec = file.path(mydir, "retro", paste("retro", -1:-5, sep = ""))
 )
 model_settings <- list()
-model_settings$retro_yrs <- -1:-3
+model_settings$retro_yrs <- -1:-5
 get_mod("n",23)
+get_mod("s",18)
 retroSummary <- r4ss::SSsummarize(c(list(mod.2021.n.023.001), retroModels))
-endyrvec <- retroSummary[["endyrs"]] + 0:-3
+endyrvec <- retroSummary[["endyrs"]] + 0:-5
 
 rhos <- r4ss::SSmohnsrho(retroSummary,
            endyrvec = endyrvec,
