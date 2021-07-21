@@ -212,11 +212,12 @@ if (FALSE) {
   )
 
   # make sens table for STAR request 8 (no fishery ages + DM)
+  dir.create('models/2021.n.023.001_fixWAreccatchhistory/custom_plots/')
   sens_make_table(
     area = "n",
     num = 23,
     sens_base = 1,
-    sens_nums = c(404,221:224),
+    sens_nums = c(221:224, 404),
     sens_type = "star08",
     write = TRUE
   )

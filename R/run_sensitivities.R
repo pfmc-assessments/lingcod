@@ -262,38 +262,170 @@ run_sensitivities <- function(dirbase,
         write_inputs_ling(inputs, dir = newdir, files = "ctl")
       }
 
+      # free up fixed selectivity parameters for a few selectivities
+      if (isens %in% 413:430) {
+        inputs <- get_inputs_ling(dir = newdir)
+        # first free up all fixed descending slope parameters
+        inputs$ctl[["size_selex_parms"]] <-
+          change_pars(
+            pars = inputs$ctl[["size_selex_parms"]],
+            string = "SizeSel_P_4",
+            LO = -1, HI = 15, INIT = 7, PHASE = 3
+          )
+        inputs$ctl[["size_selex_parms_tv"]] <-
+          change_pars(
+            pars = inputs$ctl[["size_selex_parms_tv"]],
+            string = "SizeSel_P_4",
+            LO = -1, HI = 15, INIT = 7, PHASE = 3
+          )
+        # free up retention parameter previously fixed at bounds
+        inputs$ctl[["size_selex_parms_tv"]] <-
+          change_pars(
+            pars = inputs$ctl[["size_selex_parms_tv"]],
+            string = "SizeSel_PRet_1",
+            INIT = 70, PHASE = 4
+          )
+        inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                                 "#C trawl selectivity fixed asymptotic in all years")
+        write_inputs_ling(inputs, dir = newdir, files = "ctl")
+      }
+
+      if (grepl("_descend_shared", sens$suffix)) {
+        inputs <- get_inputs_ling(dir = newdir)
+        string <- "SizeSel_P_4"
+        if (grepl("_descend_shared_rec", sens$suffix)) {
+          string <- "SizeSel_P_4_[3-9]"
+          inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                                   "#C descending selectivity shared across blocks for rec fleets")
+        }else{
+          inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                                   "#C descending selectivity shared across blocks")
+        }
+        # remove blocks for descending slope
+        inputs$ctl[["size_selex_parms"]] <-
+          change_pars(
+            pars = inputs$ctl[["size_selex_parms"]],
+            string = string,
+            Block = 0, Block_Fxn = 0
+          )
+        # remove associated block parameters
+        inputs$ctl[["size_selex_parms_tv"]] <-
+          inputs$ctl[["size_selex_parms_tv"]][!grepl(string,
+                                                     rownames(inputs$ctl[["size_selex_parms_tv"]])),]
+        write_inputs_ling(inputs, dir = newdir, files = "ctl")
+      }
+
+      # force trawl fishery to be asymptotic
+      if (grepl("_asymptotic_TW", sens$suffix)) {
+        inputs <- get_inputs_ling(dir = newdir)
+        # fix just bottom trawl to be asymptotic
+        inputs$ctl[["size_selex_parms"]] <-
+          change_pars(
+            pars = inputs$ctl[["size_selex_parms"]],
+            string = "SizeSel_P_4_1_Comm_Trawl",
+            LO = -1, HI = 15, INIT = 15, PHASE = -3
+          )
+        inputs$ctl[["size_selex_parms_tv"]] <-
+          change_pars(
+            pars = inputs$ctl[["size_selex_parms_tv"]],
+            string = "SizeSel_P_4_1_Comm_Trawl",
+            LO = -1, HI = 15, INIT = 15, PHASE = -3
+          )
+        inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                                 "#C trawl selectivity fixed asymptotic in all years")
+        write_inputs_ling(inputs, dir = newdir, files = "ctl")
+      }
+
+      
       # add female or male selectivity offset using Male selectivity type 3 or 4
       if (grepl("_male_sel_offset", sens$suffix) |
-          grepl("_female_sel_offset", sens$suffix)) { #402 - 406
+          grepl("_female_sel_offset", sens$suffix) |
+          grepl("_sex_sel_descend", sens$suffix) |
+          grepl("_sex_sel_scale_descend", sens$suffix) |
+          grepl("_sex_sel_peak_descend", sens$suffix)) { #402 - 406, 415, 419, 420, 421
         inputs <- get_inputs_ling(dir = newdir)
+
+        # all fleets
+        offset_fleets <- get_fleet()$fleet
+        # just fisheries
+        if (grepl("_female_sel_offset_fisheries", sens$suffix) |
+            grepl("_sex_sel_scale_descend", sens$suffix) |
+            grepl("_sex_sel_peak_descend", sens$suffix)
+            ) { #411, 420, 421
+          offset_fleets <- offset_fleets[c(1:5, 10)]
+        }
+
         # add male offset to selectivity
         if (grepl("_male_sel_offset", sens$suffix)) { #402
           inputs$ctl$size_selex_types$Male <-
             ifelse(inputs$ctl$size_selex_types$Pattern == 24, 3, 0)
         }
         # add female offset to selectivity
-        if (grepl("_female_sel_offset", sens$suffix)) { #403 - 405
-          inputs$ctl$size_selex_types$Male <-
-            ifelse(inputs$ctl$size_selex_types$Pattern == 24, 4, 0)
+        if (grepl("_female_sel_offset", sens$suffix) |
+            grepl("_sex_sel_descend", sens$suffix) |
+            grepl("_sex_sel_scale_descend", sens$suffix) |
+            grepl("_sex_sel_peak_descend", sens$suffix)
+            ) { #403 - 405, 415, 419, 420, 421
+          # set to zero by default
+          inputs$ctl$size_selex_types$Male <- 0 
+          # change to 4 for the chosen fleets
+          inputs$ctl$size_selex_types$Male[inputs$ctl$size_selex_types$Pattern == 24 &
+                                           rownames(inputs$ctl$size_selex_types) %in%
+                                         offset_fleets] <- 4
         }
         # make a table of female (or male) offset parameters to insert below 
         # the other parameters for each fleet
         tab <- data.frame(matrix(0, nrow = 5, ncol = 14))
         names(tab) <- names(inputs$ctl$size_selex_parms)
-        tab$LO <- c(-30, -15, -15, -15, 0.1)
-        tab$HI <- c(30, 10, 10, 10, 5.0)
-        tab$INIT <- c(0, 0, 0, 0, 0.9)
-        tab$PHASE <- c(-5, -5, -5, -5, 3)
+        
+        if (grepl("_female_sel_offset", sens$suffix)) {
+          tab$LO <- c(-30, -15, -15, -15, 0.1)
+          tab$HI <- c(30, 10, 10, 10, 5.0)
+          tab$INIT <- c(0, 0, 0, 0, 0.9)
+          tab$PHASE <- c(-5, -5, -5, -5, 3)
+        }
+        if (grepl("_sex_sel_descend", sens$suffix)) { #415
+          tab$LO <- c(-30, -15, -15, -15, 0.1)
+          tab$HI <- c(30, 10, 10, 10, 5.0)
+          tab$INIT <- c(0, 0, 0, 0, 1.0)
+          tab$PHASE <- c(-5, -5, 3, -5, -5)
+        }
+        if (grepl("_sex_sel_scale_descend", sens$suffix)) { #420
+          tab$LO <- c(-30, -15, -15, -15, 0.1)
+          tab$HI <- c(30, 10, 10, 10, 5.0)
+          tab$INIT <- c(0, 0, 0, 0, 1.0)
+          tab$PHASE <- c(-5, -5, 3, -5, 3)
+          tab$PRIOR  <- c(0,0,0,0,1.0)
+          tab$PR_SD  <- c(0,0,0,0,0.1)
+          tab$PR_type  <- c(0,0,0,0,6)
+          inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                                   "#C male or female selectivity offsets are in scale and descending slope")
+        }
+        if (grepl("_sex_sel_peak_descend", sens$suffix)) { #415
+          tab$LO <- c(-30, -15, -15, -15, 0.1)
+          tab$HI <- c(30, 10, 10, 10, 5.0)
+          tab$INIT <- c(0, 0, 0, 0, 1.0)
+          tab$PHASE <- c(3, -5, 3, -5, -5)
+          inputs$ctl$Comments <- c(inputs$ctl$Comments,
+                                   "#C male or female selectivity offsets are in peak and descending slope")
+        }
+        
         # insert table for each fleet
         old_parms <- inputs$ctl$size_selex_parms
         new_parms <- NULL
-        for (fleet in get_fleet()$fleet) {
+        for (ifleet in get_fleet(col = "num")) {
+          fleet <- get_fleet(ifleet, col = "fleet")
           if (any (grepl(fleet, rownames(old_parms)))) {
             tab_fleet <- tab
             rownames(tab_fleet) <- paste0("SizeSel_PFemOff_", 1:5, "_", fleet)
-            new_parms <- rbind(new_parms,
-                               old_parms[grep(fleet, rownames(old_parms)),],
-                               tab_fleet)
+            if (fleet %in% offset_fleets) {
+              new_parms <- rbind(new_parms,
+                                 old_parms[grep(fleet, rownames(old_parms)),],
+                                 tab_fleet)
+            } else {
+              new_parms <- rbind(new_parms,
+                                 old_parms[grep(fleet, rownames(old_parms)),])
+            }              
           }
         } # end loop over fleets
         inputs$ctl$size_selex_parms <- new_parms
