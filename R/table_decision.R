@@ -49,7 +49,6 @@ table_decision <- function(
   dplyr::bind_rows(.id = "Management") %>%
   dplyr::mutate(Management = rowgroup[as.numeric(Management)]) %>%
   dplyr::rename(Year = "yr...1", Catch = "catch...2") %>%
-  dplyr::mutate(Year = rnorm(length(Year))) %>%
   dplyr::select_if(!grepl("yr\\.+|catch\\.+", colnames(.)))
   rownames(results) <- NULL
   colnames(results) <- gsub("Spawn.+", "SSB   (metric tons)", colnames(results))
@@ -64,6 +63,33 @@ table_decision <- function(
   ) %>%
   kableExtra::column_spec(c(1), bold = TRUE) %>%
   kableExtra::column_spec(c(1, 3, 3+2*seq(1,length(colgroup)-2)), border_right = TRUE) %>%
+  kableExtra::column_spec(3, color = "white",
+                          background = kableExtra::spec_color(results[,3],
+                                                              begin = 0.3,
+                                                              end = 0.7,
+                                                              option = "E",
+                                                              direction = -1)) %>%
+  kableExtra::column_spec(5, color = "white",
+                          background = kableExtra::spec_color(results[,5],
+                                                              begin = 0,
+                                                              end = 1,
+                                                              direction = -1,
+                                                              option = "D",
+                                                              scale_from = c(0,1))) %>%
+  kableExtra::column_spec(7, color = "white",
+                          background = kableExtra::spec_color(results[,7],
+                                                              begin = 0,
+                                                              end = 1,
+                                                              direction = -1,
+                                                              option = "D",
+                                                              scale_from = c(0,1))) %>%
+  kableExtra::column_spec(9, color = "white",
+                          background = kableExtra::spec_color(results[,9],
+                                                              begin = 0,
+                                                              end = 1,
+                                                              direction = -1,
+                                                              option = "D",
+                                                              scale_from = c(0,1))) %>%
   kableExtra::kable_classic(full_width = FALSE) %>%
   kableExtra::add_header_above(nm) %>%
   kableExtra::collapse_rows(columns = 1:2, latex_hline = "major")
