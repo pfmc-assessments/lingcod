@@ -47,17 +47,47 @@ table_decision <- function(
   results <- purrr::modify_depth(mods, 2, r4ss:::SS_decision_table_stuff) %>%
   purrr::modify_depth(1, dplyr::bind_cols) %>%
   dplyr::bind_rows(.id = "Management") %>%
-  dplyr::mutate(Management = rowgroup[as.numeric(Management)]) %>%
-  dplyr::rename(Year = "yr...1", Catch = "catch...2") %>%
-  dplyr::select_if(!grepl("yr\\.+|catch\\.+", colnames(.)))
+  dplyr::mutate(
+    Management = rowgroup[as.numeric(Management)],
+    Catch = pmax(na.rm = TRUE, !!!rlang::syms(grep(value = TRUE, "catch", names(.))))
+  ) %>%
+  dplyr::rename(Year = "yr...1") %>%
+  dplyr::select_if(!grepl("yr\\.+", colnames(.))) %>%
+  tidyr::pivot_longer(
+    cols = grep("catch", colnames(.)),
+    names_to = "group",
+    values_to = "catch"
+  ) %>%
+  dplyr::mutate_at(
+    .vars = dplyr::vars(grep(value = TRUE, "^SpawnBio", colnames(.))),
+     ~ kableExtra::cell_spec(
+      x = ., italic = .data$catch != .data$Catch
+    )
+  ) %>%
+  dplyr::mutate_at(
+    .vars = dplyr::vars(grep(value = TRUE, "^dep", colnames(.))),
+     ~ kableExtra::cell_spec(
+      x = ., italic = .data$catch != .data$Catch,
+      color = "white",
+      background = kableExtra::spec_color(
+        .,
+        begin = 0, end = 1,
+        option = "D",
+        scale_from = c(0,1)
+        )
+    )
+  ) %>%
+  dplyr::select_if(!grepl("catch|group", ignore.case = FALSE, colnames(.))) %>%
+  dplyr::relocate(Catch, .after = Year)
   rownames(results) <- NULL
   colnames(results) <- gsub("Spawn.+", "SSB   (metric tons)", colnames(results))
   colnames(results) <- gsub("dep.+", "Frac. unfished", colnames(results))
 
   results %>%
   kableExtra::kbl(
-    format = format,
-    # digits = c(2,0,2,rep(2,2*length(colgroup))),
+    # format = format,
+    escape = FALSE,
+    format = "html",
     booktabs = TRUE,
     align = c("l", "l", "r", rep(c("r", "r"), length(colgroup)))
   ) %>%
@@ -69,29 +99,7 @@ table_decision <- function(
                                                               end = 0.7,
                                                               option = "E",
                                                               direction = -1)) %>%
-  kableExtra::column_spec(5, color = "white",
-                          background = kableExtra::spec_color(results[,5],
-                                                              begin = 0,
-                                                              end = 1,
-                                                              direction = -1,
-                                                              option = "D",
-                                                              scale_from = c(0,1))) %>%
-  kableExtra::column_spec(7, color = "white",
-                          background = kableExtra::spec_color(results[,7],
-                                                              begin = 0,
-                                                              end = 1,
-                                                              direction = -1,
-                                                              option = "D",
-                                                              scale_from = c(0,1))) %>%
-  kableExtra::column_spec(9, color = "white",
-                          background = kableExtra::spec_color(results[,9],
-                                                              begin = 0,
-                                                              end = 1,
-                                                              direction = -1,
-                                                              option = "D",
-                                                              scale_from = c(0,1))) %>%
   kableExtra::kable_classic(full_width = FALSE) %>%
   kableExtra::add_header_above(nm) %>%
   kableExtra::collapse_rows(columns = 1:2, latex_hline = "major")
-
 }
