@@ -278,13 +278,36 @@ name | notes | issue | source_model | script
 2021.n.023.010_forecast | adds a forecast | #99 | 2021.n.023.001 | lingcod_forecast.R
 2021.n.023.011_forecast_GMT | adds a forecast based on GMT input | #99 | 2021.n.023.001 | lingcod_forecast.R
 2021.n.023.012_forecast_1200 | adds a forecast with catches fixed at 1200 mt based on GMT input | #99 | 2021.n.023.001 | lingcod_forecast.R
+2021.n.023.013_forecast_Pstar40 | adds a forecast based on a Pstar = 0.40 value | #99 | 2021.n.023.001 | lingcod_forecast.R
 2021.s.018.001_fixTri3 |  |  |  | 
 2021.s.018.010_forecast | adds a forecast | #99 | 2021.s.018.001 | lingcod_forecast.R
 2021.s.018.011_forecast_GMT | adds a forecast based on GMT input | #99 | 2021.s.018.001 | lingcod_forecast.R
+2021.s.018.026_low | low state of nature |  | 2021.s.018.001 | 
+2021.s.018.036_high | high state of nature |  | 2021.s.018.001 | 
 2021.n.023.021_low_state1_ACL | low state 1 with ACL catch from base model | #154 | 2021.n.023.420 | 
 2021.n.023.022_low_state2_ACL | low state 2 with ACL catch from base model | #154 | 2021.n.023.003 | 
+2021.n.023.024_low_state_GMT_ACL | low state with ACL catch from base model with GMT input | #154 | 2021.n.023.420 | 
 2021.n.023.031_high_state_ACL | high state with ACL catch from base model | #154 | 2021.n.023.204 | 
+2021.n.023.033_high_state_GMT_ACL | high state with ACL catch from base model with GMT input | #154 | 2021.n.023.204 | 
 2021.s.018.901_phase1rec | Change rec dev phase to 1 to match North |  | 2021.s.018.001_fixTri3 | 
 2021.s.018.902_phase1recdiffinit | Try a lower INIT for M |  | 2021.s.018.901_phase1rec | 
 2021.n.023.032_high_state_1200 | high state with constant catch of 1200 from GMT. Forecast copied from 2021.n.023.012_forecast_1200 |  | 2021.n.023.031 |
 2021.n.023.023_low_state1_1200 | low state 1 with constant catch of 1200 from GMT. Forecast copied from 2021.n.023.012_forecast_1200 |  | 2021.n.023.021 |
+2021.n.023.611_low_stream_1  | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.621_base_stream_1 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.631_high_stream_1 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.612_low_stream_2	 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.622_base_stream_2 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.632_high_stream_2 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.613_low_stream_3	 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.623_base_stream_3 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.633_high_stream_3 | forecasts on July 21 | #154 | 2021.n.023.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.611_low_stream_1  | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.621_base_stream_1 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.631_high_stream_1 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.612_low_stream_2	 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.622_base_stream_2 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.632_high_stream_2 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.613_low_stream_3	 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.623_base_stream_3 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.s.018.633_high_stream_3 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
