@@ -31,6 +31,12 @@
 #'   list(mod.2021.n.022.001, mod.2021.n.022.001),
 #'   years = 2021:2032
 #' )
+#' table_decision(
+#'   list(mod.2021.n.023.611,mod.2021.n.023.612,mod.2021.n.023.613),
+#'   list(mod.2021.n.023.621,mod.2021.n.023.622,mod.2021.n.023.623),
+#'   list(mod.2021.n.023.631,mod.2021.n.023.632,mod.2021.n.023.633),
+#'   years = 2021:2032
+#' )
 table_decision <- function(
   ...,
   years,
@@ -78,9 +84,10 @@ table_decision <- function(
     )
   ) %>%
   dplyr::select_if(!grepl("catch|group", ignore.case = FALSE, colnames(.))) %>%
-  dplyr::relocate(Catch, .after = Year)
+  dplyr::relocate(Catch, .after = Year) %>%
+  dplyr::distinct(Management, Year, Catch, .keep_all = TRUE)
   rownames(results) <- NULL
-  colnames(results) <- gsub("Spawn.+", "SSB   (metric tons)", colnames(results))
+  colnames(results) <- gsub("Spawn.+", "SSB   (mt)", colnames(results))
   colnames(results) <- gsub("dep.+", "Frac. unfished", colnames(results))
 
   results %>%
@@ -94,7 +101,7 @@ table_decision <- function(
   kableExtra::column_spec(c(1), bold = TRUE) %>%
   kableExtra::column_spec(c(1, 3, 3+2*seq(1,length(colgroup)-2)), border_right = TRUE) %>%
   kableExtra::column_spec(3, color = "white",
-                          background = kableExtra::spec_color(results[,3],
+                          background = kableExtra::spec_color(results[["Catch"]],
                                                               begin = 0.3,
                                                               end = 0.7,
                                                               option = "E",
