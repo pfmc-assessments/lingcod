@@ -28,7 +28,7 @@ limited entry fixed gear fishery increased to 26 inches.
 Currently, the minimum size limits for the limited entry fixed gear
 and open access commercial fisheries
 are 22 and 24 inches north and south of 42$\circ$ N. latitude, respectively.
-This corresponds to fish 18 and 19.5 inches after the the head has been removed.
+This corresponds to fish 18 and 19.5 inches after the head has been removed.
 
 Trip limits on commercial `r spp` catch were first instituted in 1995,
 when a 20,000 lbs/month limit was imposed.

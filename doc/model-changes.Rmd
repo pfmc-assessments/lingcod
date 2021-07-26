@@ -40,7 +40,7 @@ fixing the parameter controlling the length at age 14
 
 **Recruitment**
 
-- Fix $\sigma_R$ = 0.6 for both models (in 2017 had been iteratively 
+- Fix $\sigma_R$ = 0.6 for both models (in the 2017 assessment, $\sigma_R$ had been iteratively 
 tuned to 0.55 for the north model and 0.75 for the south)
 - Estimate the stock-recruit steepness parameter with a prior instead of 
 fixing it at 0.7

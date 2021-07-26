@@ -1,5 +1,5 @@
 
-#### MRFSS Dockside CPFV Index
+#### California MRFSS Dockside CPFV Index
 
 In short,
 From 1980 to 2003 the \gls{mrfss} program conducted dockside intercept surveys of 
@@ -96,7 +96,7 @@ was fit for the binomial model and a main
 effects model including 
 YEAR and SubRegion and WAVE and AREA X 
 was fit for the lognormal model.
-The final index if plotted in Figure \@ref(fig:index-fits-all-fleets).
+The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
 Figures and Tables for this analysis can be seen in
 lingcod_MRFSS_dockside_writeup_NCA.pdf.
 
@@ -110,7 +110,7 @@ the protocols established in Reilly et al. [-@Reilly1998].
 During an onboard observer trip the sampler rides along on the \gls{cpfv} and records 
 location-specific catch and discard information to the species level for a subset 
 of anglers onboard the vessel. The subset of observed anglers is usually a 
-maximum of 15 people the observed anglers change during each fishing stop.  
+maximum of 15 people the observed anglers change during each fishing stop. 
 The catch cannot be linked to an individual, but rather 
 to a specific fishing location.  The sampler also records the starting and 
 ending time, number of anglers observed, starting and ending depth, and measures 
@@ -118,7 +118,7 @@ discarded fish. The fine-scale catch and effort data allow us to better filter
 the data for indices to fishing stops within suitable habitat for lingcod. 
 \gls{calpoly} has modified protocols  reflect sampling changes that \gls{cdfw} 
 has also adopted, e.g., observing fish as they are encountered instead of at 
-the level of a fisher’s bag. Therefore, the \gls{calpoly} data area incorporated in 
+the level of a fisher’s bag. Therefore, the \gls{calpoly} data are incorporated in 
 the same index as the \gls{cdfw} data from 1999-2019.  The only difference is that 
 \gls{calpoly} measures the length of both retained and discarded fish.  
 Due to the COVID-19 pandemic, there are no onboard observer samples from either 
@@ -168,6 +168,7 @@ More information is available about this survey in
 lingcod_CA_CPFV_onboard_writeup_SCA.pdf
 
 
+```{asis, eval = params$area == "South", echo = TRUE, results = "asis"}
 #### Deb Wilson-Vandenberg Index
 
 The Deb Wilson-Vanedenberg data set is an onboard observer survey data conducted 
@@ -214,3 +215,4 @@ mean of CPUE by year was higher also higher in this area.
 The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
 More information is available about this survey in
 lingcod_DebWV_onboard_writeup_NCA.pdf
+```

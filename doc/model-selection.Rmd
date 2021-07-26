@@ -33,8 +33,8 @@ commercial trawl fleet during the period 1998-2006, which hit the upper bound of
 Alternative time-blocks were explored, but did not solve the problem. Increasing the
 bound provided a better fit to the discard and retained length compositions for 
 this fleet, but a much worse fit to the discard ratios for 2002-2006.
-There is no estimablished data-weighting method to balance the tune the 
-undertainty in discard ratios so the bound on the retention parameter
+There is no established data-weighting method to tune the 
+uncertainty in discard ratios so the bound on the retention parameter
 was retained to keep the fit to the discards within a reasonable range.
 
 ```

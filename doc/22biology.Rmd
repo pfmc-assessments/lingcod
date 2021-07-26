@@ -6,7 +6,7 @@ Natural mortality was modeled as a single value for each sex applied across
 all ages within that sex with a Hamel-Then prior applied as in the previous assessments.
 However, whereas the 2017 assessment used a maximum age of 21 for in calculating the prior
 for both females and males, here the maximum age has been updated to match the 
-99.9 percentile of the 9,000 ages for males and 30,000 ages for females in the 
+99.9 percentile of the approximately 9,000 ages for males and 30,000 ages for females in the 
 \gls{pacfin} database to develop separate priors for males and females. 
 Those percentiles are 18 years for females and 13 years for males. 
 The number of ages available in the south model were
@@ -171,7 +171,7 @@ were as follows:
 `r sprintf("$k = %.3f$ and $L_{\\infty} = %.3f$", ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_F[2], la.WCGBTS$South_NWFSC.Combo_F[2]), ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_F[1], la.WCGBTS$South_NWFSC.Combo_F[1]))` for females and
 `r sprintf("$k = %.3f$ and $L_{\\infty} = %.3f$", ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_M[2], la.WCGBTS$South_NWFSC.Combo_M[2]), ifelse(params$area == "North", la.WCGBTS$North_NWFSC.Combo_M[1], la.WCGBTS$South_NWFSC.Combo_M[1]))` for males.
 These estimates were used as initial values within the base model for estimating growth.
-Samples used to generate these estimates estimates include
+Samples used to generate these estimates include
 `r ifelse(params$area == "North", "5,145", "3,910")` age and length samples, of which
 `r ifelse(params$area == "North", "3,290", "2,178")` are female and
 `r ifelse(params$area == "North", "1,795", "1,228")` are male.

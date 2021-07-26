@@ -78,7 +78,7 @@ female and male compositions.
 based on the create_caal_nonsurvey.R script. May wish to state here the amount of unsexed 
 aged fish - and whether it was high or not. Regardless, sexed fish is a good start -->
 
-Unresolved problem 2 was address by conducting additional analysis
+Unresolved problem 2 was addressed by conducting additional analysis
 on ageing error among readers. This is described in the
 [Ageing Error](ageing-precision-and-bias) section of this report. The ages
 available for the north model were fit reasonably well while those available

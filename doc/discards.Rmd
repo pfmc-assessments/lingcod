@@ -10,7 +10,7 @@ meanrate <- function(f, y) {
     paste0(.,"\\%")
 }
 ```
-### Discard rates
+#### Discard rates
 
 Discard rates were modeled for the commercial fisheries only (TW and FG)
 using data from the West Coast Groundfish Observer Program (WCGOP).

@@ -633,7 +633,7 @@ data were not explored with respect to Washington recreational \gls{cpue}.
 The dockside data were filtered prior to being fit to models to
 identify the best subset of the available data that are likely to be
 consistent over the time series and provide a reliable index of abundance
-once standardized (Table \@ref(tab:reccpuewa_filtersummary)).
+once standardized (Table \@ref(tab:reccpuewa-filtersummary)).
 Depth was not recorded for the entire time period, and thus was not included
 as a filter or a subsequent covariate.
 The filtering procedure led to a final positive rate of

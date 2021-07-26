@@ -10,7 +10,7 @@ are provided below.
 sa4ss::read_child(file.path("catch.Rmd"))
 ```
 
-### \Glsentrylong{cpue}
+### Catch per unit effort
 
 ```{r render-cpue-pacfin, results = "asis"}
 sa4ss::read_child(file.path("commcpuepacfin.Rmd"))

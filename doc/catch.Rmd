@@ -1843,7 +1843,7 @@ that was used to partition landings to area.
 Redwood was assigned to the northern area for all years since 2005,
 even though Redwood in 2005 through 2007 also contained landings from
 Shelter Cove.
-This time series also includes landings from from Mexico and Canada
+This time series also includes landings from Mexico and Canada
 that were excluded from this analysis.
 
 ### Comparison of current catch stream to previous model
