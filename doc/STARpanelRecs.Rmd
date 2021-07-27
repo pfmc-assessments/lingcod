@@ -1,72 +1,17 @@
 <!-- Most recent STAR panel and SSC recommendations -->
 <!-- cite star report -->
-The 2017 STAR report noted four Unresolved Problems, 
-three Major Uncertainties, and provided three specific recommendations for future 
-research from the most recent full stock assessment on `r spp` [@haltuch2019lingcod]. 
-In addition, the Panel made four recommendations for stock assessments in general. 
+The 2017 STAR report noted four unresolved problems and
+three major sources of uncertainty
+as well as provided three specific recommendations for future research
+with respect to `r spp` [@haltuch2019lingcod].
+In addition, the Panel made four recommendations for stock assessments in general.
 
-The three **specific recommendations** from the 2017 STAR panel were as follows:
+All four **unresolved problems** were addressed during this assessment.
 
-1. There should be a study to cross-validate age-readings of lingcod 
-  among the different laboratories contributing age data to the assessment. 
-  It may be necessary to develop laboratory-specific (and possibly year-specific) 
-  ageing-error vectors.
-  
-2. Available information on lingcod catches, abundance trends, and 
-  age-compositions should be acquired from Canadian and Mexican authorities 
-  to take an initial step towards a more spatially-comprehensive view of lingcod 
-  population trends and dynamics.
-  
-3. The next iteration of this assessment could be an update assessment. 
-  If a full assessment is done it should explore developing a spatial model 
-  that encompasses the northern and southern areas rather than again treating 
-  them as independent stocks, as in the current and previous assessments.
-  
-Two of the three recommendations were addressed.
-
-Additional ageing comparisons were conducted and the ageing uncertainty was
-re-estimated as described in the 
-[Ageing Error](ageing-precision-and-bias) section of this report. 
-However the new estimates showed similar uncertaity in ageing 
-to the previous assessment. The differences among age distributions within
-the same length bins among sources available for the southern model are
-large enough that they are unlikely due to ageing uncertainty alone. 
-Removing all ages other than those from the \gls{s-wcgbt} from the south 
-model resolved this issue.
-
-Additional information on lingcod in Mexico, Canada, and Alaska are provided in
-the [Foreign Fisheries](foreign-fisheries) section of this report. 
-
-In regards to spatial modeling new information on genetic differences between
-north and south support the treatment of these areas as independent models.
-
-
-The four **Unresolved Problems** were as follows:
-
-1. The models did not use the available age data sampled from the 
+1. **The models did not use the available age data sampled from the 
   fishing fleets due to concerns that unsexed fish had been assigned equally 
   to the sexes without regard to length and because of evidence there had 
-  been non-random subsampling of fish for age-reading.
-  
-2. The available age-readings had been done by at least two laboratories. 
-  It was unclear that age-reading protocols had been employed consistently
-  
-3. In the northern model the STAT fixed the parameter for female length 
-  at age 14 years because when this parameter was freely estimated the model 
-  estimated asymptotic selection for the trawl fishery and greatly altered 
-  the estimates of spawning biomass. It was unclear what data sources were 
-  responsible for this result.
-  
-4. Sensitivity analyses for draft versions of both models indicated 
-  they were sensitive to underlying structural assumptions such as the starting 
-  year for recruitment deviations and which indices were included. Although 
-  the revisions to the models developed during the STAR may have lessened the 
-  sensitivity of the models by removing sources of tension and keeping the more 
-  reliable data, there was not sufficient time during the review to explore the 
-  sensitivity of the final base models.
-  
-
-All Unresolved Problems were addressed during this assessment.
+  been non-random subsampling of fish for age-reading.**
 
 Unresolved problem 1 was addressed for the north model by representing the 
 age data as conditioned on length for sexed `r spp`. Unsexed age samples
@@ -74,56 +19,65 @@ were not included in either model. Length distributions of unsexed fish were
 represented as independent vectors in addition to the vectors of
 female and male compositions.
 
-<!-- currently nwfscSurvey methodology does not include unsexed fish. This could be overcome
+<!-- nwfscSurvey methodology does not include unsexed fish. This could be overcome
 based on the create_caal_nonsurvey.R script. May wish to state here the amount of unsexed 
-aged fish - and whether it was high or not. Regardless, sexed fish is a good start -->
+aged fish - and whether it was high or not.-->
+
+2. **The available age-readings had been done by at least two laboratories. 
+  It was unclear that age-reading protocols had been employed consistently.**
 
 Unresolved problem 2 was addressed by conducting additional analysis
-on ageing error among readers. This is described in the
-[Ageing Error](ageing-precision-and-bias) section of this report. The ages
-available for the north model were fit reasonably well while those available
+on ageing error among readers (see Section \@ref(ageing-precision-and-bias).
+The ages available for the north model were fit reasonably well while those available
 in the south model from sources other that \gls{s-wcgbt} showed a lack 
 of fit that was unlikely to be attributable to ageing uncertainty.
 
-Unresolved problem 3. The addition of more years of age data from
+3. **In the northern model the STAT fixed the parameter for female length 
+  at age 14 years because when this parameter was freely estimated the model 
+  estimated asymptotic selection for the trawl fishery and greatly altered 
+  the estimates of spawning biomass. It was unclear what data sources were 
+  responsible for this result.**
+
+The addition of more years of age data from
 the \gls{s-wcgbt} along with the inclusion of ages from the fisheries
 resulted in a total of 72,121 age samples represented in the north model
 which were more than adequate to provide reasonable estimates of growth.
 
-Unresolved problem 4 is a general issue of stock assessment modeling, 
+4. **Sensitivity analyses for draft versions of both models indicated 
+  they were sensitive to underlying structural assumptions such as the starting 
+  year for recruitment deviations and which indices were included. Although 
+  the revisions to the models developed during the STAR may have lessened the 
+  sensitivity of the models by removing sources of tension and keeping the more 
+  reliable data, there was not sufficient time during the review to explore the 
+  sensitivity of the final base models.**
+
+Unresolved problem 4 is a general issue of stock assessment modeling
 and not unique to `r spp`. We explored a number of sensitivities 
-excluding data sources and reconciling data conflicts. 
+excluding data sources and reconciling data conflicts.
+Additional explorations made during the STAR panel review for the southern model led to
+changing the timing of the main recruitment period because of the removal of early length data
+that led to less information to estimate these early recruitment deviations.
 
-<!--to do add more based on model exploration -->
+All three **Major Uncertainties** were explored during this assessment.
 
-The three **Major Uncertainties** were as follows:
-
-1. Stock structure: Aspects of the length- and age-compositions evident 
+1. **Stock structure: Aspects of the length- and age-compositions evident 
   in the NWFSC survey data strongly indicate spatial patterns that probably 
-  cannot be well mimicked with separate, independent models for the north and the south
-  
-2. Key productivity parameters: Neither the northern model nor the 
+  cannot be well mimicked with separate, independent models for the north and the south.**
+
+Research on `r spp` stock structure that was completed since the last stock assessment
+provided evidence of a stock break in central California [@longo2020strong]. Details were 
+described in the [Stock delineation](stock-delineation) section. Although this may
+not resolve evidence of wide scale spatial patters, major Uncertainty 1 
+can now be rexamined under additional information on stock structure. The 
+data from the \gls{s-wcgbt} was, in general, well fit by both models.
+
+2. **Key productivity parameters: Neither the northern model nor the 
   southern model were able to estimate the steepness or the female natural 
   mortality parameters given the available data. Values for these key parameters 
   had to be fixed but there is very little knowledge to inform the choice of those 
   values. As such this is a source of considerable uncertainty. During review of 
   this report the STAT suggested that including the age-composition data in the 
-  northern base model (data had been removed during the STAR) would allow estimation of M and h.
-  
-3. Habitat area, north versus south: The northern and southern base 
-  models estimate appreciable differences in the unfished spawning biomass 
-  of lingcod (37,974 mt in the north versus 20,462 mt in the south). It is 
-  unknown whether such a difference is consistent with the habitat areas 
-  suitable to support lingcod in the north versus the south.
-  
-All Major Uncertainties were explored during this assessment.
-
-Research on `r spp` stock structure has been done since the last stock assessment
-and provides evidence of a stock break in central California [@longo2020strong]. Details were 
-described in the [Stock delineation](stock-delineation) section. Although this may
-not resolve evidence of wide scale spatial patters, major Uncertainty 1 
-can now be rexamined under additional information on stock structure. The 
-data from the \gls{s-wcgbt} was, in general, well fit by both models.
+  northern base model (data had been removed during the STAR) would allow estimation of M and h.**
 
 Major Uncertainty 2 remains a source of uncertainty in the model. Stock-recruit 
 steepness and natural mortality (for both females and males) were estimated
@@ -131,11 +85,65 @@ in both north and south models and provided plausible estimates. The representat
 of the uncertainty in these estimates provides a better treatment of the 
 uncertainty in quantities of interest, such as the management reference points.
 
+3. **Habitat area, north versus south: The northern and southern base 
+  models estimate appreciable differences in the unfished spawning biomass 
+  of lingcod (37,974 mt in the north versus 20,462 mt in the south). It is 
+  unknown whether such a difference is consistent with the habitat areas 
+  suitable to support lingcod in the north versus the south.**
+
 Major Uncertainty 3 was addressed using simple assumptions on available habitat 
 by assuming the relative difference in the amount of area in depths between 55m and 300m 
 roughly approximates the relative difference in habitat area between modeled regions. 
 <!-- TO DO: This is discussed in the context of our results. -->
 
+Next, we provide responses to each of the
+three **specific recommendations** from the 2017 STAR panel.
+
+1. **There should be a study to cross-validate age-readings of `r spp`
+  among the different laboratories contributing age data to the assessment.
+  It may be necessary to develop laboratory-specific (and possibly year-specific)
+  ageing-error vectors.**
+
+Additional ageing comparisons were conducted and the ageing uncertainty was
+re-estimated as described in the
+[Ageing Error](ageing-precision-and-bias) section of this report.
+However, the new estimates showed similar uncertainty in ageing to the previous assessment.
+The differences among age distributions within the same length bins among sources available for the southern model
+are large enough that they are unlikely due to uncertainty in ageing alone.
+Removing all ages in the southern model other than those from the \gls{s-wcgbt} resolved this issue.
+
+2. **Available information on `r spp` catches, abundance trends, and
+  age-compositions should be acquired from Canadian and Mexican authorities
+  to take an initial step towards a more spatially-comprehensive view of `r spp`
+  population trends and dynamics.**
+
+Additional information on `r spp` in Mexico, Canada, and Alaska is provided in the
+[Foreign Fisheries](foreign-fisheries) section of this report.
+
+3. **The next iteration of this assessment could be an update assessment.
+  If a full assessment is done it should explore developing a spatial model
+  that encompasses the northern and southern areas rather than again treating
+  them as independent stocks, as in the current and previous assessments.**
+
+New information on genetic differences between the modeled areas
+supports the treatment of these areas as independent models
+(see Section \@ref(stock-delineation)).
+A spatially-explicit model encompassing data from both stocks was not investigated for this assessment because
+the widespread use of such approaches are not yet standard and remain operational for only a few select data-rich stocks,
+largely in a simulation context.
+Limitations still exist because of the model complexity associated with increasing spatiotemporal dimensions,
+including underlying data limitations,
+confronting the expanding number of decisions or assumptions that need to be made, and
+the amount of analyst time required to develop, test, and vet spatial procedures given production stock assessment timelines
+[@10.1093/icesjms/fsaa203; @10.1016/j.fishres.2019.01.014].
+Scientifically, there is growing appreciation and application of spatial stock assessment methods using simulations and
+the results of this research underlines the importance of acknowledging spatial processes
+(e.g., connectivity dynamics between unique segments of a stock;
+biological characteristics that change across environmental gradients; and
+regulations that impose local changes in fishing patterns)
+across the management domain
+[@10.1016/j.fishres.2020.105608; @10.1093/icesjms/fsaa203].
+But, a production-level spatially-explicit stock assessment framework was not available for this assessment.
 
 The four general recommendations on stock assessments were as follows:
 
@@ -151,5 +159,3 @@ Ongoing work by the NWFSC staff has addressed recommendations 1, 2, 3, and explo
 by the `r spp` STAT can inform recommendation 4, though not comprehensively.
 The `r spp` STAT chose to represent ages as conditioned on length rather than
 apply an expansion to reverse the effect of non-random sampling.
-
-
