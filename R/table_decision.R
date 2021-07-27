@@ -67,19 +67,20 @@ table_decision <- function(
   dplyr::mutate_at(
     .vars = dplyr::vars(grep(value = TRUE, "^SpawnBio", colnames(.))),
      ~ kableExtra::cell_spec(
-      x = ., italic = .data$catch != .data$Catch
+      x = ., italic = abs(.data$catch / .data$Catch - 1) > 0.01 # catch differs by > 1%
     )
   ) %>%
   dplyr::mutate_at(
     .vars = dplyr::vars(grep(value = TRUE, "^dep", colnames(.))),
      ~ kableExtra::cell_spec(
-      x = ., italic = .data$catch != .data$Catch,
+      x = ., italic = abs(.data$catch / .data$Catch - 1) > 0.01, # catch differs by > 1%
       color = "white",
       background = kableExtra::spec_color(
         .,
         begin = 0, end = 1,
         option = "D",
-        scale_from = c(0,1)
+        scale_from = c(0,1),
+        direction = -1
         )
     )
   ) %>%
@@ -92,9 +93,9 @@ table_decision <- function(
 
   results %>%
   kableExtra::kbl(
-    # format = format,
+    format = format,
     escape = FALSE,
-    format = "html",
+    # format = "html",
     booktabs = TRUE,
     align = c("l", "l", "r", rep(c("r", "r"), length(colgroup)))
   ) %>%

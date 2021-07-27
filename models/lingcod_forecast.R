@@ -58,17 +58,26 @@ for (area in c("n", "s")){
     # benchmarks based on final year
     fore$Fcast_years <- rep(0, length(fore$Fcast_years))
 
+    # control rule method 3 has 40-10 ramp linear in catch and buffer on catch
+    fore$ControlRuleMethod <- 3
+    
     # get time-varying buffer from PEPtools function thanks to Chantel Wetzel
     fore$Flimitfraction <- -1
-    if (stream != 2) {
+    if (stream == 1) {
+      # buffer is 1.0 for all years for stream with fixed catch
       fore$Flimitfraction_m <- PEPtools::get_buffer(years = fore_years,
-                                                    sigma = 1.0, # cat 2 default sigma 
-                                                    pstar = 0.45) %>% data.frame()
+                                                    sigma = 1.0,
+                                                    pstar = 0.50) %>% data.frame()
     }
     if (stream == 2) {
       fore$Flimitfraction_m <- PEPtools::get_buffer(years = fore_years,
                                                     sigma = 1.0, # cat 2 default sigma 
                                                     pstar = 0.40) %>% data.frame()
+    }
+    if (stream == 3) {
+      fore$Flimitfraction_m <- PEPtools::get_buffer(years = fore_years,
+                                                    sigma = 1.0, # cat 2 default sigma 
+                                                    pstar = 0.45) %>% data.frame()
     }
     fore$FirstYear_for_caps_and_allocations <- 2040 # ignore far into future
 

@@ -13,8 +13,7 @@
 
 fore_years <- 2021:2032
 
-#for (area in c("n", "s")){
-for (area in c("s")){
+for (area in c("n", "s")){
   if (area == "n") {
     basenum <- 23
     # vector of sens numbers for low, base, high
@@ -84,61 +83,89 @@ for (area in c("s")){
   } # end loop over streams
 } # end loop over areas
 
-# read all models
-for (area in c("n", "s")){
-  if (area == "n") {
-    basenum <- 23
-  }
-  if (area == "s") {
-    basenum <- 18
-  }
-  for (stream in 1:3) {
-    for (state in 1:3) {
-      newdir <- get_dir_ling(area = area, num = basenum, sens = 600 + state*10 + stream)
-      get_mod(dir = newdir)
+
+# make decision tables for north and south 
+if(FALSE) {
+
+  # read all models
+  for (area in c("n", "s")){
+    if (area == "n") {
+      basenum <- 23
     }
-  }
-}  
+    if (area == "s") {
+      basenum <- 18
+    }
+    for (stream in 1:3) {
+      for (state in 1:3) {
+        newdir <- get_dir_ling(area = area, num = basenum, sens = 600 + state*10 + stream)
+        get_mod(dir = newdir)
+      }
+    }
+  }  
 
+  tab_north <- table_decision(
+    list(mod.2021.n.023.611, mod.2021.n.023.621, mod.2021.n.023.631),
+    list(mod.2021.n.023.612, mod.2021.n.023.622, mod.2021.n.023.632),
+    list(mod.2021.n.023.613, mod.2021.n.023.623, mod.2021.n.023.633),
+    years = 2021:2032,
+    rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
+    colgroup = c("Low (sex-selectivity)", "Base", "High (no fishery ages)"),
+    format = "html"
+  )
+  tab_north
+  tab_north %>% kableExtra::save_kable("figures/decision_table_north_26July2021b.png")
 
-# make decision tables for north and south using old code
+  tab_south <- table_decision(
+    list(mod.2021.s.018.611, mod.2021.s.018.621, mod.2021.s.018.631),
+    list(mod.2021.s.018.612, mod.2021.s.018.622, mod.2021.s.018.632),
+    list(mod.2021.s.018.613, mod.2021.s.018.623, mod.2021.s.018.633),
+    years = 2021:2032,
+    rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
+    colgroup = c("Low M (0.11)", "Base (M ~ 0.17)", "High M (0.22)"),
+    format = "html"
+  )
+  tab_south
+  tab_south %>% kableExtra::save_kable("figures/decision_table_south_26July2021b.png")
 
-source('c:/SS/Lingcod/Lingcod_2021/R/table_decision_old.R')
-tab_north <- table_decision_old(
-  list(mod.2021.n.023.611, mod.2021.n.023.621, mod.2021.n.023.631),
-  list(mod.2021.n.023.612, mod.2021.n.023.622, mod.2021.n.023.632),
-  list(mod.2021.n.023.613, mod.2021.n.023.623, mod.2021.n.023.633),
-  years = 2021:2032,
-  rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
-  colgroup = c("Low (sex-selectivity)", "Base", "High (no fishery ages)"),
-  format = "html"
-)
-tab_north
-tab_north %>% kableExtra::save_kable("figures/decision_table_north_23July2021.png")
+# latex version
+  tab_north <- table_decision(
+    list(mod.2021.n.023.611, mod.2021.n.023.621, mod.2021.n.023.631),
+    list(mod.2021.n.023.612, mod.2021.n.023.622, mod.2021.n.023.632),
+    list(mod.2021.n.023.613, mod.2021.n.023.623, mod.2021.n.023.633),
+    years = 2021:2032,
+    rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
+    colgroup = c("Low (sex-selectivity)", "Base", "High (no fishery ages)"),
+    format = "latex"
+  )
+  tab_north %>%
+    kableExtra::save_kable(file = file.path(get_dir_ling("n", 23), "decision_table.tex"))
 
-tab_south <- table_decision_old(
-  list(mod.2021.s.018.611, mod.2021.s.018.621, mod.2021.s.018.631),
-  list(mod.2021.s.018.612, mod.2021.s.018.622, mod.2021.s.018.632),
-  list(mod.2021.s.018.613, mod.2021.s.018.623, mod.2021.s.018.633),
-  years = 2021:2032,
-  rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
-  colgroup = c("Low M (0.11)", "Base (M ~ 0.17)", "High M (0.22)"),
-  format = "html"
-)
-tab_south
-tab_south %>% kableExtra::save_kable("figures/decision_table_south_23July2021.png")
+  tab_south <- table_decision(
+    list(mod.2021.s.018.611, mod.2021.s.018.621, mod.2021.s.018.631),
+    list(mod.2021.s.018.612, mod.2021.s.018.622, mod.2021.s.018.632),
+    list(mod.2021.s.018.613, mod.2021.s.018.623, mod.2021.s.018.633),
+    years = 2021:2032,
+    rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
+    colgroup = c("Low M (0.11)", "Base (M ~ 0.17)", "High M (0.22)"),
+    format = "latex"
+  )
+  tab_south %>% 
+    kableExtra::save_kable(file = file.path(get_dir_ling("s", 18), "decision_table.tex"))
+}
 
-## # figure showing forecast period
-## list(mod.2021.n.023.621,
-##      mod.2021.n.023.611,
-##      mod.2021.n.023.631
-##      ) %>%
-##   r4ss::SSsummarize() %>%
-##   r4ss::SSplotComparisons(subplot = 3,
-##                           pch = NA,
-##                           endyrvec = 2032,
-##                           legendloc = 'topleft',
-##                           legendlabels = c("Base", "Low (sex-selectivity)", "High (no fishery ages)"),
-##                           legendorder = c(3,2,1),
-##                           print = FALSE,
-##                           plotdir = "figures/STAR_request20")
+if (FALSE) {
+# figure showing forecast period
+list(mod.2021.n.023.622,
+     mod.2021.n.023.612,
+     mod.2021.n.023.632
+     ) %>%
+  r4ss::SSsummarize() %>%
+  r4ss::SSplotComparisons(subplot = 3,
+                          pch = NA,
+                          endyrvec = 2032,
+                          legendloc = 'topleft',
+                          legendlabels = c("Base", "Low (sex-selectivity)", "High (no fishery ages)"),
+                          legendorder = c(3,1,2),
+                          print = FALSE,
+                          plotdir = "figures/STAR_request20")
+}
