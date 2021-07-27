@@ -13,11 +13,10 @@ All four **unresolved problems** were addressed during this assessment.
   to the sexes without regard to length and because of evidence there had 
   been non-random subsampling of fish for age-reading.**
 
-Unresolved problem 1 was addressed for the north model by representing the 
-age data as conditioned on length for sexed `r spp`. Unsexed age samples
-were not included in either model. Length distributions of unsexed fish were
-represented as independent vectors in addition to the vectors of
-female and male compositions.
+Age data included in the northern model were conditioned on length for sexed `r spp`.
+Unsexed age samples were not included in either model.
+Length distributions of unsexed fish were represented as independent vectors
+in addition to the vectors of female and male compositions.
 
 <!-- nwfscSurvey methodology does not include unsexed fish. This could be overcome
 based on the create_caal_nonsurvey.R script. May wish to state here the amount of unsexed 
@@ -26,11 +25,10 @@ aged fish - and whether it was high or not.-->
 2. **The available age-readings had been done by at least two laboratories. 
   It was unclear that age-reading protocols had been employed consistently.**
 
-Unresolved problem 2 was addressed by conducting additional analysis
-on ageing error among readers (see Section \@ref(ageing-precision-and-bias).
+Analyses on ageing error did not show differences between readers, labs, or cohorts (see Section \@ref(ageing-precision-and-bias)).
 The ages available for the north model were fit reasonably well while those available
-in the south model from sources other that \gls{s-wcgbt} showed a lack 
-of fit that was unlikely to be attributable to ageing uncertainty.
+in the south from sources other than \gls{s-wcgbt} showed a lack 
+of fit that was unlikely attributable to ageing uncertainty alone.
 
 3. **In the northern model the STAT fixed the parameter for female length 
   at age 14 years because when this parameter was freely estimated the model 
@@ -41,7 +39,7 @@ of fit that was unlikely to be attributable to ageing uncertainty.
 The addition of more years of age data from
 the \gls{s-wcgbt} along with the inclusion of ages from the fisheries
 resulted in a total of 72,121 age samples represented in the north model
-which were more than adequate to provide reasonable estimates of growth.
+which was more than adequate to provide reasonable estimates of growth.
 
 4. **Sensitivity analyses for draft versions of both models indicated 
   they were sensitive to underlying structural assumptions such as the starting 
@@ -51,14 +49,16 @@ which were more than adequate to provide reasonable estimates of growth.
   reliable data, there was not sufficient time during the review to explore the 
   sensitivity of the final base models.**
 
-Unresolved problem 4 is a general issue of stock assessment modeling
-and not unique to `r spp`. We explored a number of sensitivities 
-excluding data sources and reconciling data conflicts.
-Additional explorations made during the STAR panel review for the southern model led to
-changing the timing of the main recruitment period because of the removal of early length data
-that led to less information to estimate these early recruitment deviations.
+A number of sensitivities were explored that
+excluded data sources and attempted to reconcile data conflicts.
+Additional explorations made during the STAR panel review led to
+changing the timing of the main recruitment period in the southern model
+given removal of the early length data that had small sample sizes and
+were only representative of a small portion of the coast.
+Sensitivity to underlying structural assumptions is a general issue of stock assessment modeling
+and not unique to `r spp`. 
 
-All three **Major Uncertainties** were explored during this assessment.
+All three **major uncertainties** were explored during this assessment.
 
 1. **Stock structure: Aspects of the length- and age-compositions evident 
   in the NWFSC survey data strongly indicate spatial patterns that probably 
@@ -79,20 +79,19 @@ data from the \gls{s-wcgbt} was, in general, well fit by both models.
   this report the STAT suggested that including the age-composition data in the 
   northern base model (data had been removed during the STAR) would allow estimation of M and h.**
 
-Major Uncertainty 2 remains a source of uncertainty in the model. Stock-recruit 
-steepness and natural mortality (for both females and males) were estimated
+Stock-recruit steepness and natural mortality (for both females and males) were estimated
 in both north and south models and provided plausible estimates. The representation
 of the uncertainty in these estimates provides a better treatment of the 
 uncertainty in quantities of interest, such as the management reference points.
 
 3. **Habitat area, north versus south: The northern and southern base 
   models estimate appreciable differences in the unfished spawning biomass 
-  of lingcod (37,974 mt in the north versus 20,462 mt in the south). It is 
+  of `r spp` (37,974 mt in the north versus 20,462 mt in the south). It is 
   unknown whether such a difference is consistent with the habitat areas 
-  suitable to support lingcod in the north versus the south.**
+  suitable to support `r spp` in the north versus the south.**
 
-Major Uncertainty 3 was addressed using simple assumptions on available habitat 
-by assuming the relative difference in the amount of area in depths between 55m and 300m 
+Using simple assumptions on available habitat,
+by assuming the relative difference in the amount of area in depths between 55m and 300m,
 roughly approximates the relative difference in habitat area between modeled regions. 
 <!-- TO DO: This is discussed in the context of our results. -->
 
@@ -153,7 +152,7 @@ The four general recommendations on stock assessments were as follows:
   
 3. A standard approach for combining conditional age-at-length sample data into annual CAAL compositions should be developed and reviewed. If age data are not selected in proportion to the available lengths, simple aggregation of the ages by length-bin may provide biased views of the overall age-composition and year-class strength.
   
-4. Comprehensively evaluate whether the Triennial survey should be split into early and late segments and the basis for making the decision. The lingcod assessment split the Triennial survey into separate early and late surveys, whereas there was a single Triennial survey in the draft assessment for Pacific ocean perch brought to this STAR.
+4. Comprehensively evaluate whether the Triennial survey should be split into early and late segments and the basis for making the decision. The `r spp` assessment split the Triennial survey into separate early and late surveys, whereas there was a single Triennial survey in the draft assessment for Pacific ocean perch brought to this STAR.
   
 Ongoing work by the NWFSC staff has addressed recommendations 1, 2, 3, and explorations 
 by the `r spp` STAT can inform recommendation 4, though not comprehensively.
