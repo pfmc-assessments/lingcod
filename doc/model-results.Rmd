@@ -38,10 +38,12 @@ as observed by the \gls{s-wcgbt} in the years 2008-2011 (the observed mode in 20
 is off by 1 year). 
 
 <!-- manual updates needed here if models change -->
-<!-- values in paragraph below are from 
-dat.n <- get_inputs_ling('n', 22)$dat
+<!-- values in paragraph below (and comparable for south model) are from 
+dat.n <- get_inputs_ling('n', 23)$dat
 sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
-length(unique(paste(test$FltSvy, test$Yr)))
+sum(dat.n$agecomp$Nsamp[dat.n$agecomp$FltSvy == 7 & dat.n$agecomp$Lbin_lo > 0])
+dat.s <- get_inputs_ling('s', 18)$dat
+sum(dat.s$agecomp$Nsamp[dat.s$agecomp$Lbin_lo > 0])
 -->
 The conditional age-at-length data (CAAL) in the north model are numerous
 (shown for \gls{s-wcgbt} in
@@ -119,11 +121,6 @@ show expected modes at younger ages than observed as discussed in
 Section \ref{sec-model-selection}. The implied fits to the \gls{s-tri} is good
 even though these data are not included in the model likelihood.
 
-<!-- values in paragraph below are from 
-dat.n <- get_inputs_ling('n', 22)$dat
-sum(dat.n$agecomp$Nsamp[dat.n$agecomp$Lbin_lo > 0])
-length(unique(paste(test$FltSvy, test$Yr)))
--->
 The ages included in the south model are all from the \gls{s-wcgbt} survey
 and are represented as \gls{caal} data
 (shown for \gls{s-wcgbt} in

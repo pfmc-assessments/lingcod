@@ -56,7 +56,7 @@ for indices
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
 - 2 parameters representing the catchability in the two periods of the
 index for the recreational California fleet (all other catchability values were 
-derived analytical)
+derived analytically)
 ```
 - `r sum(grepl("Size_DblN", estimated_pars))` selectivity parameters, of which
 `r sum(grepl("Size_DblN.*BLK", estimated_pars))` represented changes over time
@@ -67,7 +67,8 @@ high for all selected fish.
 #### Fixed parameters {#sec-fixed-parameters}
 
 Commercial fishery retention parameters for the period prior to 1998 were
-fixed at values that led to almost 100\% retention.
+fixed at values that led to almost 100\% retention as discussed in Section 
+\@ref{sec-model-selectivity}.
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 The extra standard deviation parameters for two Oregon CPUE indices were fixed

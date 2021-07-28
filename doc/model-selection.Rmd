@@ -6,19 +6,26 @@ diverged once the fits to the data and model performance were examined.
 
 Following the previous assessment,
 all fishery-dependent indices initially an estimated extra standard deviation parameter
-estimated and fishery-independent indices did not. However, the 2004 observation in 
+estimated and fishery-independent indices did not. 
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+However, the 2004 observation in 
 the \gls{s-tri} had a poor fit (while the other points were reasonable, including
 those around the transition between early and late periods). Furthermore, likelihood 
 profiles over $log(R_0)$ indicated a strong influence of this index on the scale 
 of the north model far above the model expectation (as has been the case for this
 survey year in many other species), so an extra SD parameter was added to the 
 north model for that index.
-```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 Conversely, the extra standard deviation parameter for the Oregon nearshore 
 logbook index and the Oregon Recreational Boat Survey index hit the lower bound 
 of 0 indicating that the input uncertainty was appropriate for the degree 
 of fit within the model.
 That parameter was fixed at 0 both both indices.
+```
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+However, the \gls{s-tri} showed high variability among observations indiciating that
+the incomplete spatial coverage of this survey within California waters
+was leading to high variability not captured in the estimated uncertainty for the index.
+Therefore an extra SD parameter was added to the south model for that index.
 ```
 
 Initial selectivity assumptions had fewer blocks in some cases, but examination of
