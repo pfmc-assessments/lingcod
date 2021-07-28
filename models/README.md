@@ -311,3 +311,5 @@ name | notes | issue | source_model | script
 2021.s.018.613_low_stream_3	 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
 2021.s.018.623_base_stream_3 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
 2021.s.018.633_high_stream_3 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
+2021.n.023.103_M0.3_h0.7 | | | |
+2021.s.018.103_M0.3_h0.7 | | | |

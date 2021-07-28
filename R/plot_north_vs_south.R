@@ -184,12 +184,13 @@ plot_north_vs_south <- function(mod.n,
   }
 
   
-  write.csv(data.frame(plot_info$caption,
+  write.csv(data.frame(caption = plot_info$caption,
                        alt_caption = "",
                        label = gsub(".png", "", plot_info$filename),
                        filein = file.path("..", dir, plot_info$filename)),
             file = file.path(dir, "figures_compare_north_vs_south.csv"),
-            row.names = FALSE)
+            row.names = FALSE,
+            quote = FALSE)
 
 }
 
@@ -239,5 +240,5 @@ table_north_vs_south <- function(mod.n, mod.s) {
   csvfile <- file.path("tables",
                        paste0("table_compare_north_vs_south.csv"))
   message("writing ", csvfile)
-  write.csv(compare_table, file = csvfile, row.names = FALSE)
+  write.csv(compare_table, file = csvfile, row.names = FALSE, quote = FALSE)
 }

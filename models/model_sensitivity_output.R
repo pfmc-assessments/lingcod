@@ -224,18 +224,40 @@ if (FALSE) {
 
 
   # north vs south
+
+  # pre-STAR
+  dir.create('figures/north_vs_south_pre-STAR')
   plot_north_vs_south(
-    mod.n = mod.2021.n.022.404,
-    mod.s = mod.2021.s.014.404,
-    dir = "figures/north_vs_south_sens404"
+    mod.n = mod.2021.n.022.001,
+    mod.s = mod.2021.s.014.001,
+    dir = "figures/north_vs_south_pre-STAR"
   )
 
+  # post-STAR
   plot_north_vs_south(
-    mod.n = mod.2021.n.022.405,
-    mod.s = mod.2021.s.014.405,
-    dir = "figures/north_vs_south_sens405"
+    mod.n = mod.2021.n.023.001,
+    mod.s = mod.2021.s.018.001,
+    dir = "figures"
   )
 
+  table_north_vs_south(list(mod.2021.n.023.001,
+                            mod.2021.s.018.001
+                            mod.2017.n.001.001,
+                            mod.2017.s.001.001)
+    
+  # north vs south time series
+  plot_twopanel_comparison(mods = list(mod.2021.n.023.001,
+                                       mod.2017.n.001.001,
+                                       mod.2021.s.018.001,
+                                       mod.2017.s.001.001),
+                           legendlabels = c("North 2021",
+                                            "North 2017",
+                                            "South 2021",
+                                            "South 2017"),
+                           endyrvec = c(2021,2017,2021,2017))
+  file.copy('figures/compare/compare_2021.n.023.001_2017.n.001.001_2021.s.018.001_2017.s.001.001.png',
+            'figures/compare_north_vs_south_timeseries.png',
+            overwrite = TRUE)
 
   plot_Francis_vs_DM <- function(mod.Francis,
                                  mod.DM,

@@ -51,24 +51,32 @@ share information across stocks [@punt101093/icesjms/fsr039].
 The following section is intended to provide information regarding
 the evaluation of the plausibility of the estimates for the two areas.
 
-Estimates of growth in the two areas match prior expectations
-with faster growth in the north for both females and males relative to
-the south (Figure \@ref(fig:compare-north-vs-south-growth)).
+Estimates of growth in the two areas match prior expectations for males
+with faster growth in the north relative to
+the south (Figure \@ref(fig:compare-north-vs-south-growth)), but females
+are estimated to growth to a slightly larger size in the south.
 The estimated variability in growth is smaller in the north compared to the south,
 which may reflect differences in biology or a greater spatial
 heterogeneity in growth in the south. Estimated growth in both areas use
 a reference age of 14 for mean length at age,
-but the corresponding $L_\infty$ values are 118.8 
-and 77.5 
-<!-- Linf not available in SS_summary.sso
+<!-- manual update: Linf not available in SS_summary.sso
 `r model$Growth_Parameters$Linf %>% round(1) %>% 
-paste(collapse = " and ")` -->
+paste(collapse = " and ")` 
+
+mod.2021.n.023.001$Growth_Parameters$Linf %>% round(1)
+[1] 118.7  77.5
+mod.2021.s.018.001$Growth_Parameters$Linf %>% round(1)
+[1] 122.6  65.2
+-->
+but the corresponding $L_\infty$ values are 118.7 
+and 77.5 
 for females and males respectively in the north
-and 115.1 and 66.4
+and 122.6 and 65.2
 in the south. The estimated length at age 14 in the north is more precise 
 than in the south (Figure \@ref(fig:compare-north-vs-south-pars)), 
 reflecting the larger volume of conditional age-at-length data include in 
-the north model.
+the north model. Thus, the estimate of larger $L_\infty$ in the south 
+is unlikely to be statistically significant.
 
 Estimates of key productivity parameters (i.e., $M$ and $h$)
 differ significantly among the 
@@ -80,11 +88,12 @@ whereas the south model has a lower estimate of female $M$ than
 male $M$ (`r M.f.s` and `r M.m.s`). The $M$ estimates 
 are uncertain in both models, although more so in the south than the north.
 
-Estimates of unfished spawning biomass in the two areas are similar 
+Estimates of unfished spawning biomass in the two areas are higher in the south
+than the north
 (`r SSB.n` mt and `r SSB.s` mt for north and south), but this comparison
 is misleading due to the differences in $M$ between areas resulting in
 a smaller fraction of recruits reaching spawning ages in the north than
-the south. The estimates of unfished age-3+ biomass are `r smry.n` mt 
+the south. The estimates of unfished age-3+ biomass are similar: `r smry.n` mt 
 and `r smry.s` mt for the north and south 
 (Figure \@ref(fig:compare-north-vs-south-quants)).
 The differences in estimated \glspl{msy} are larger than those for biomass
@@ -100,24 +109,31 @@ By this measure, the ratio of north to south areas is about 2.3:1.
 Thus, the biomass estimates are more closer to each other than would be expected had the
 densities been equal in the two areas. However, the estimated
 catchability of the \gls{s-wcgbt} is similar among areas: 
-<!-- values not dynamic --> 
-0.88 in the north and 0.73 in the south, although, differences in estimated selectivity
+<!-- manual updates: values not dynamic
+mod.2021.n.023.001$cpue$Calc_Q[mod.2021.n.023.001$cpue$Fleet == 7][1]
+[1] 0.811244
+mod.2021.s.018.001$cpue$Calc_Q[mod.2021.s.018.001$cpue$Fleet == 7][1]
+[1] 0.95467
+-->
+0.81 in the north and 0.95 in the south, although differences in estimated selectivity
 of this survey between areas make interpretation of catchability more complex.
 
-<!-- values not dynamic in text below
-plot_twopanel_comparison(list(mod.2021.n.022.103, mod.2021.s.014.103))
-mod.2021.n.022.103$cpue$Calc_Q[mod.2021.n.022.103$cpue$Fleet == 7][1]
-#[1] 2.00112
-mod.2021.s.014.103$cpue$Calc_Q[mod.2021.s.014.103$cpue$Fleet == 7][1]
-[1] 0.340221
+<!-- manual updates: values not dynamic
+plot_twopanel_comparison(list(mod.2021.n.023.103, mod.2021.s.018.103))
+mod.2021.n.023.001$cpue$Calc_Q[mod.2021.n.023.001$cpue$Fleet == 7][1]
+[1] 2.05056
+mod.2021.s.018.001$cpue$Calc_Q[mod.2021.s.018.001$cpue$Fleet == 7][1]
+[1] 0.315127
+mod.2021.s.018.103$derived_quants["Bratio_2021","Value"]
+[1] 0.905011
 -->
 The differences in scale among the two areas are less plausible when matching 
 values are used for the productivity parameters 
 (fixing female $M$ = 0.3 and $h$ = 0.7). In those sensititivity analyses, the 
 estimated spawning biomass in the south model is greater than that of the north 
-for almost all years from the 1940s onward in spite of the much smaller area 
-covered. The catchability of the \gls{s-wcgbt} in those scenarios is likewise
-implausibly different: 2.00 in the north and 0.34 in the south
+for almost all years from the 1940s onward and never falls below $B_{40\%}$.
+The catchability of the \gls{s-wcgbt} in those scenarios is likewise
+implausibly different: 2.05 in the north and 0.32 in the south
 Thus, the different parameter estimates for the north and south play an 
 important role in providing values for quantities of interest that are balanced
 among the two model, and likely provide better advice for managing the `r spp`
