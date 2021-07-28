@@ -1137,11 +1137,11 @@ ggsave2(
   gg,
   filename = file.path("..", "figures", "catch-rec-tsrecfinmeanlength.png"),
   caption = paste0(
-    "Mean length (mm) of released (top) and retained (bottom) fish from the ",
-    "recreational fishery for Washington (squares and dashed line), ",
-    "Oregon (triangles and dash-dot line), and California (circles and solid line) ",
+    "Mean length (mm) of released (top panel) and retained (bottom panel) fish from the ",
+    "recreational fishery for Washington (long dashes), ",
+    "Oregon (short dashes), and California (solid line) ",
     " by sex (columns). ",
-    "The average of retained fish across all years was used to translate ",
+    "The average length of retained fish across all years was used to translate ",
     "numbers to weight for Washington."
   ),
   alttext = paste(
