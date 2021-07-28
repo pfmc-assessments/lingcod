@@ -48,4 +48,6 @@ Replace text.
 Replace text.
 
 ## Research and data needs{-}
-Replace text.
+```{r results = "asis"}
+sa4ss::read_child("research-and-data-needs.Rmd")
+```

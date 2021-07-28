@@ -1,0 +1,21 @@
+Investigating and or addressing the following items could improve future assessments of `r spp`: 
+
+- Explore fine-scale spatial distribution of `r spp` of different ages and sexes relative to
+the distribution of fishing effort and survey sampling locations to inform modeling
+assumptions related to dome-shaped and sex-specific selectivity.
+- Explore ways to model sex-specific selectivity that provide additional flexibility
+in the models to account for such patterns without overparameterizing the model
+or creating implausibly different estimates of selectivity and natural mortality.
+- Provide comparisons of model results with `r spp` density or trends in abundance
+estimated from sources such as video landers and ROVs.
+- Continue to explore age-dependent natural mortality either through the Lorenzen
+function or other approaches.
+- Improve data-weighting approaches to facilitate separate tuning of 
+sample sizes for discard and retained fish from the same fleet and appropriately
+weight data on discard rates and mean body weight. These changes will hopefully 
+bring the estimates of total mortality for years with high discard rates closer to
+the values reported by the WCGOP program's GEMM report.
+- Improve understanding of the source of conflict between age and length data for lingcod
+- Explore the costs and benefits of including both length- and age-composition data 
+for multiple fleets in general for data-rich (but possibly information-poor) species
+like `r spp`.
