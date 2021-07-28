@@ -16,8 +16,18 @@ The estimated parameters controlled the length at peak selectivity, the slope of
 ascending limb and the slope of the descending limb (parameters 1, 3, and 4 in SS). 
 The parameter controlling the width of the top was fixed at a small value (-15)
 to make a smooth transition from ascending to descending with no flat top. 
+```{asis, opts.label = 'north', echo = TRUE}
 Parameters 5 and 6 which control additional scaling of initial and final values
 were not used (via the -999 code in SS).
+```
+```{asis, opts.label = 'south', echo = TRUE}
+Parameters 5 and 6 which control additional scaling of initial and final values
+were not used (via the -999 code in SS) with the exception of the \gls{s-tri}
+selectivity. In that one case, the estimation of parameter 5 controlling the
+initial selectivity at for the smallest size bins provided a better fit to the 
+length comps for the smallest individuals and resolved a problem of the ascending
+slope parameter hitting the lower bound.
+```
 
 Retention was modeled for the commercial trawl and commercial fixed-gear fleets
 using a logistic function of length with 2 of the possible 4 parameters estimated.
