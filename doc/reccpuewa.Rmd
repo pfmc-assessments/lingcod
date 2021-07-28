@@ -236,13 +236,13 @@ pretot <- reccpuewa_data %>%
      )
   ) %>%
   dplyr::mutate(
-    `annrockfish area` = sum(Lingcod > 0, na.rm = TRUE),
-    `bfnrockfish area` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
-  # Not enough records in area 52
-  dplyr::mutate(
-    `annremove area 52` = sum(Lingcod > 0, na.rm = TRUE),
-    `bfnremove area 52` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
-  dplyr::filter(Area != 52) %>%
+    `anncoastal areas` = sum(Lingcod > 0, na.rm = TRUE),
+    `bfncoastal areas` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
+  # # Not enough records in area 52
+  # dplyr::mutate(
+  #   `annremove area 52` = sum(Lingcod > 0, na.rm = TRUE),
+  #   `bfnremove area 52` = sum(Lingcod > 0, na.rm = TRUE)/NROW(.)) %>%
+  # dplyr::filter(Area != 52) %>%
   # Remove colresponse with zero positive trips
   dplyr::select_if(colSums(., na.rm = TRUE) != 0)
 reccpuewa_filtersummary <- dplyr::select(pretot, dplyr::matches("^ann|^bfn")) %>%
@@ -258,8 +258,8 @@ reccpuewa_filtersummary <- dplyr::select(pretot, dplyr::matches("^ann|^bfn")) %>
     "Keep April-August",
     "Remove all trips not targeting groundfish",
     "Remove shore-based fishing",
-    "Remove area 52 because few samples",
-    "Remove non-rockfish areas"
+    # "Remove area 52 because few samples",
+    "Remove coastal estuaries and rivers"
   )) %>%
   dplyr::relocate(Description, .after = Filter)
 tot <- pretot %>%
