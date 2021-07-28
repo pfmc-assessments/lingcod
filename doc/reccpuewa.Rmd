@@ -626,9 +626,10 @@ Recent data also included information on discarded fish,
 but this information was not used for this analysis because
 (1) it was not available for the entire time series and
 (2) the composition data that are associated with this index only include retained fish.
-Information from dockside interviews are thought to be more reliable than
+Information from dockside interviews were previously thought to be more reliable than
 information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
 data were not explored with respect to Washington recreational \gls{cpue}.
+Though, \gls{wdfw} noted during the review of this assessment that future work could use data from \gls{mrfss}.
 
 The dockside data were filtered prior to being fit to models to
 identify the best subset of the available data that are likely to be
