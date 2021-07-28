@@ -957,11 +957,12 @@ ggsave2(
   gg,
   filename = file.path("..", "figures", "catch-comm-state.png"),
   caption = paste0(
-    "Comparison of commercial catch time series from this model ",
-    "(dashed line) and the previous assessment model (solid line). ",
-    "Fixed gear (FG; dark blue) and trawl (TW; light blue) ",
-    "are shown for both the northern (top panel; Oregon and Washington) and ",
-    "southern (bottom panel; California) as defined in the previous assessment model."
+    "Comparison of current landings (dashed line) and ",
+    "those used in the previous assessment model (solid line) by state (panel). ",
+    "Fixed gear (FG; dark blue) and trawl (TW; light blue) landings ",
+    "are shown for Washington and Oregon (top panel) combined and ",
+    "California (bottom panel) because ",
+    "the previous assessment model used the Oregon-California border to define the stocks."
   ),
   alttext = paste(
     "Time series of commercial catches are less in the early years for the new southern model than the previous assessment."
@@ -1586,10 +1587,11 @@ for a given area and fleet combination.
 #### \glsentrylong{pacfin} (\glsentryshort{pacfin})
 
 Commercial data were downloaded from the PacFIN database and provided
-landings for Washington, Oregon, and California since
-`r min(catch.pacfin[["Year"]])` (Figure \@ref(fig:catch-comm-ts-pacfin)).
+landings for Washington, Oregon, and California
+(Figure \@ref(fig:catch-comm-ts-pacfin)).
 These landings were treated as the best available information for
-California and for Washington and Oregon since the beginning of
+California since `r min(catch.pacfin[["Year"]])` and
+for Washington and Oregon since the beginning of
 `r sprintf("%s and %s,", 1 + max(catch_comm_WA[["Year"]]), 1 + max(catch_comm_OR[["Year"]]))`
 respectively.
 
