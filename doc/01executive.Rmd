@@ -2,26 +2,27 @@
 assessmentyear <- as.numeric(format(Sys.Date(), "%Y")) - 1
 area_long <- paste0(tolower(params$area), "ern ")
 n_stocks <- xfun::numbers_to_words( length(get_groups(info_groups)))
-executive <- list()
-executive[["stock"]] <- paste0("This assessment reports the status of ",
-  spp, " (_", spp.sci, "_) off the ", tolower(params$area), "ern ", coast,
-  " coast using data through ", assessmentyear, ".")
 ```
 # Executive summary{-}
 
 ## Stock{-}
 
 ```{asis executive-summary-stock, echo = TRUE}
-`r executive[["stock"]]`
-As per previous assessments, `r spp` were separated into `r n_stocks` stocks and
-this document contains information summarizing both stocks as well as
+This assessment reports the status of `r spp` (_`r spp.sci`_)
+off the `r area_long` `r coast` coast
+using data through `r assessmentyear`.
+`r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")` and
+this document contains summary information on the species and
 detailed information for the `r area_long` stock.
-It does not include Alaskan, Canadian, or Mexican populations and
+It does not include catches from the Alaskan, Canadian, or Mexican populations and
 assumes that these flanking populations do not contribute to the stock being assessed here.
 ```
 
 ## Landings{-}
-Replace text.
+
+The first known records of `r spp` landings date back to the early
+```{asis catch-text-commfleetstructure, echo = TRUE}
+```
 
 ## Data and assessment{-}
 Replace text.
