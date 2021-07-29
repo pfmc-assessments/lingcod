@@ -1,0 +1,157 @@
+---
+title: "Responses to Day 04 STAR requests"
+author: "Lingcod STAT"
+date: "July 15, 2021"
+fig.caption: TRUE
+output: 
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    yolo: false
+    self_contained: true
+    lib_dir: libs
+    chakra: libs/remark-latest.min.js
+    nature:
+      highlightStyle: tomorrow-night-bright
+      highlightLines: true
+      highlightLanguage: r
+    css: [xaringan-themer.css, libs/animate.css, "ninjutsu", "fc"]
+    seal: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  message = FALSE,
+#   dev = "svg",
+  fig.width = 12,
+  fig.height = 12
+  # fig.retina = 3
+  )
+xaringanthemer::style_mono_accent(
+  # base_color = nmfspalette::nmfs_cols("darkblue"),
+  base_color = "#00467F",
+  header_font_google = xaringanthemer::google_font("Josefin Sans"),
+  text_font_google   = xaringanthemer::google_font("Montserrat", "300", "300i"),
+  code_font_google   = xaringanthemer::google_font("Fira Mono"),
+  colors = c(noaablue = "#00467F")
+)
+```
+
+class: title-slide, inverse
+```{css}
+<style>
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+```
+```{css}
+.code-bg-white .remark-code, .code-bg-white .remark-code * {
+ background-color:white!important;
+}
+```
+
+.bg-text[
+# STAR requests 17-20
+
+
+<hr />
+Lingcod STAT<br><br>
+July 16, 2021<br>
+]
+
+---
+
+# Request 17
+
+### Provide a retrospective analysis that goes back 5 years for the northern and southern models. Report the Mohn's rho values –(Woods Hole and Alaskan/Hurtado-Ferro).
+
+---
+### 17 Compare northern time series
+
+.pull-left[
+<img style="width80%" src="../models/2021.n.023.001_fixWAreccatchhistory_retro/compare2_spawnbio_uncertainty.png">
+]
+
+.pull-right[
+<img style="width80%" src="../models/2021.n.023.001_fixWAreccatchhistory_retro/compare4_Bratio_uncertainty.png">
+]
+
+---
+### 17 Compare northern recruitment
+
+.pull-left[
+<img style="width80%" src="../models/2021.n.023.001_fixWAreccatchhistory_retro/compare10_recruits_uncertainty.png">
+]
+
+---
+
+### 17 Compare southern time series
+
+.pull-left[
+<img style="width80%" src="../models/2021.s.018.001_fixTri3_retro/compare2_spawnbio_uncertainty.png">
+]
+
+.pull-right[
+<img style="width80%" src="../models/2021.s.018.001_fixTri3_retro/compare4_Bratio_uncertainty.png">
+]
+
+---
+### 17 Compare southern recruitment
+
+.pull-left[
+<img style="width80%" src="../models/2021.s.018.001_fixTri3_retro/compare10_recruits_uncertainty.png">
+]
+
+---
+
+# Request 18
+
+### Provide the r4ss files for the revised base models.
+
+
+---
+
+# Request 19
+
+### For the southern model, develop the runs that would fill in a decision table based on the high and low quantiles of _M_ as inferred by the likelihood profile. Provide diagnostic outputs as appropriate.
+
+---
+
+<p style="margin-top:-30px;">
+<img style="width70%" src="response19_image.png">
+
+---
+
+# Request 20
+
+### For the northern model, develop model runs that might encompass the different types of both observational and structural uncertainty by 1) excluding fishery dependent age data from a model and, 2) running a model with sex-specific selectivity (as in model 420) to capture the 'process' uncertainty. Include in the comparison plots and tables the model run in which _M_ is fixed at 0.3 for females.
+
+---
+
+### 20 Timeseries
+
+.pull-left-30[
+]
+
+.pull-right-70[
+<img style="width80%" src="../figures/STAR_request20/sens_timeseries_n_random.png">
+]
+
+---
+
+### 20 Likelihoods
+
+<p style="margin-top:-30px;">
+`r table_sens("../figures/STAR_request20/sens_table_n_random.csv", 
+              caption = "", format = "html", pretty = FALSE) %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
