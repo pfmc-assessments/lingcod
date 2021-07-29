@@ -112,7 +112,7 @@ table3_exp_discard = function(comp, region){
   unsex <- comp[,c("year","fleet", "sex")]
   
   unsex$Gender <- "Unsexed"
-  unsex$Units <- "Ntows"
+  unsex$Units <- "Nhauls"
   unsex$Ntows <- comp$nsamp
   unsex$Nmale <- ""
   unsex$Nfemale <- ""
@@ -132,7 +132,7 @@ table3_exp_comm = function(comp){
   sex$Nmale <- ""
   sex$Nfemale <- ""
   sex$Gender <- "Sexed"
-  sex$Units <- "Ntows"
+  sex$Units <- "Ntrips"
   sex$Nfish <- comp$FthenM$Nsamps
   sex$Nsamp <- ""
   sex$fleet = NA
@@ -148,7 +148,7 @@ table3_exp_comm = function(comp){
   unsex$Nmale <- ""
   unsex$Nfemale <- ""
   unsex$Gender <- "Unsexed"
-  unsex$Units <- "Ntows"
+  unsex$Units <- "Ntrips"
   unsex$Nfish <- comp$Uout$Nsamps
   unsex$Nsamp <- ""
   unsex$fleet = NA
@@ -185,42 +185,6 @@ table4_fromCAAL = function(comp){
   return(comb)
 }
 
-#Function to pull commercial samples sizes by state
-#Gear is entered as "FG" or "TW"
-#Region is "North" or "South"
-#Type is "length" or "age"
-table3_commState = function(region, type){
-  
-  samps_raw = read.csv(file.path(getwd(), "data-raw", 
-                   paste0("pacfin_", type, "_state_gear_sample_size_", region, ".csv")),
-                   header=T)
-  samps_raw[samps_raw$sex %in% c("F","M"),"Sex"] = 3
-  samps_raw[samps_raw$sex %in% c("U"),"Sex"] = 0
-  
-  samps = aggregate(samps_raw$nfish, 
-                        by = list("year" = samps_raw$yr, "fleet" = samps_raw$fleet, "sex" = samps_raw$Sex, 
-                                  "state" = samps_raw$state), 
-                        FUN = sum)
-  names(samps)[ncol(samps)] = "Nfish"
-  
-  samps$fleet_name = samps$fleet
-  samps[samps$fleet == "FG","fleet"] = 2
-  samps[samps$fleet == "TW","fleet"] = 1
-  samps$Fleet = NULL
-  samps$Fleet = paste(get_fleet(as.numeric(samps$fleet))$label_short, samps$state)
-  samps$Gender <- NULL
-  samps[samps$sex == 3, "Gender"] <- "Sexed"
-  samps[samps$sex == 0, "Gender"] <- "Unsexed"
-  
-  samps$Nmale <- ""
-  samps$Nfemale <- ""
-  samps$Units <- "Ntows"
-  samps$Nsamp <- ""
-  samps$Ntows <- ""
-  
-  return(samps[,c("year","fleet","sex","Nfish","Fleet","Gender", "Nmale","Nfemale","Units","Ntows","Nsamp")])
-}
-
 ##################################End of functions##################################
 
 ####################
@@ -237,21 +201,19 @@ t3_tri <- table3_exp(lenCompN_sex3_Triennial, region = "north", type = "length")
 
 t3_discards <-table3_exp_discard(lenCompN_comm_discards, region = "North")
 t3_com <-table3_exp_comm(lenCompN_comm)
-t3_comState <- table3_commState(region = "North", type = "length")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t3_samples <- data.frame(rbind
                          (t3_ca_rec, t3_or_rec, t3_wa_rec, 
                            t3_lam,
                            t3_wcgbts, t3_tri,
-                           #t3_comState,
                            t3_discards, t3_com))[,colnames_ordered]
 t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$Gender, t3_samples$year),]
 
 #Can output csv's to test
 #write.csv(t3_samples, file.path(getwd(), "data-raw", "t3_north_length.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows/hauls/trips","Nfish") #,"Nmale","Nfemale")
 
 t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of length composition data for the north model.',
@@ -261,7 +223,10 @@ t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale
                  digits = 2,
                  landscape = FALSE,
                  col_names = colnames,
-                 row.names = FALSE)
+                 row.names = FALSE,
+                 custom_width = TRUE,
+                 col_to_adjust = 2,
+                 width = '3cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_North.tex"))
 
@@ -280,14 +245,12 @@ t3_tri <- table3_exp(lenCompS_sex3_Triennial, region = "south", type = "length")
 
 t3_discards <-table3_exp_discard(lenCompS_comm_discards, region = "south")
 t3_com <-table3_exp_comm(lenCompS_comm)
-t3_comState <- table3_commState(region = "South", type = "length")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t3_samples <- data.frame(rbind
                          (t3_ca_rec, 
                            t3_lam, t3_deb,
                            t3_hkl, t3_wcgbts, t3_tri,
-                           #t3_comState,
                            t3_discards, t3_com))[,colnames_ordered]
 t3_samples = t3_samples[order(t3_samples$fleet, t3_samples$Fleet, t3_samples$Gender, t3_samples$year),] #Order by fleet and then year
 
@@ -295,7 +258,7 @@ t3_samples[which(t3_samples$Fleet=="H&L Survey"),"Fleet"] = "HKL Survey"
 #Can output csv's to test
 #write.csv(t3_samples, file.path(getwd(), "data-raw", "t3_south_length.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows/hauls/trips","Nfish") #,"Nmale","Nfemale")
 
 t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of length composition data for the south model.',
@@ -305,7 +268,10 @@ t = table_format(x = t3_samples[,-which(names(t3_samples) %in% c("fleet", "Nmale
                  digits = 2,
                  landscape = FALSE,
                  col_names = colnames,
-                 row.names = FALSE)
+                 row.names = FALSE,
+                 custom_width = TRUE,
+                 col_to_adjust = 2,
+                 width = '3cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_South.tex"))
 
@@ -322,21 +288,19 @@ t4_wcgbts <- table3_exp(ageCompN_sex3_WCGBTS, region = "north", type = "age")
 t4_tri <- table3_exp(ageCompN_sex3_Triennial, region = "north", type = "age")
 
 t4_com <-table3_exp_comm(ageCompN_comm)
-t4_comState <- table3_commState(region = "North", type = "age")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t4_samples <- data.frame(rbind
                          (t4_or_rec, t4_wa_rec, 
                            t4_lam,
                            t4_wcgbts, t4_tri,
-                           #t4_comState,
                            t4_com))[,colnames_ordered]
 t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$Gender, t4_samples$year),]
 
 #Can output csv's to test
 #write.csv(t4_samples, file.path(getwd(), "data-raw", "t4_north_age.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows/trips","Nfish") #,"Nmale","Nfemale")
 
 t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of age composition data for the north model. 
@@ -348,7 +312,10 @@ t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale
                  digits = 2,
                  landscape = FALSE,
                  col_names = colnames,
-                 row.names = FALSE)
+                 row.names = FALSE,
+                 custom_width = TRUE,
+                 col_to_adjust = 2,
+                 width = '3cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_North.tex"))
 
@@ -364,13 +331,11 @@ t4_wcgbts <- table3_exp(ageCompS_sex3_WCGBTS, region = "south", type = "age")
 t4_tri <- table3_exp(ageCompS_sex3_Triennial, region = "south", type = "age")
 
 t4_com <-table3_exp_comm(ageCompS_comm)
-t4_comState <- table3_commState(region = "South", type = "age")
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t4_samples <- data.frame(rbind
                          (t4_lam,
                            t4_hkl, t4_wcgbts, t4_tri,
-                           #t4_comState,
                            t4_com))[,colnames_ordered]
 t4_samples = t4_samples[order(t4_samples$fleet, t4_samples$Fleet, t4_samples$Gender, t4_samples$year),]
 
@@ -378,7 +343,7 @@ t4_samples[which(t4_samples$Fleet=="H&L Survey"),"Fleet"] = "HKL Survey"
 #Can output csv's to test
 #write.csv(t4_samples, file.path(getwd(), "data-raw", "t4_south_age.csv"))
 
-colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows","Nfish") #,"Nmale","Nfemale")
+colnames <- c("Year","Fleet","Gender","Units","Nsamp","Ntows/trips","Nfish") #,"Nmale","Nfemale")
 
 t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale", "Nfemale"))],
                  caption = 'Sample sizes of age composition data for the south model. Not all
@@ -390,7 +355,10 @@ t = table_format(x = t4_samples[,-which(names(t4_samples) %in% c("fleet", "Nmale
                  digits = 2,
                  landscape = FALSE,
                  col_names = colnames,
-                 row.names = FALSE)
+                 row.names = FALSE,
+                 custom_width = TRUE,
+                 col_to_adjust = 2,
+                 width = '3cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_South.tex"))
   

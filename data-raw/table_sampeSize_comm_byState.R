@@ -66,7 +66,7 @@ t3_comState = t3_comState[order(t3_comState$fleet, t3_comState$Fleet, t3_comStat
 
 aggregate(Nfish~year + fleet, t3_comState, FUN=sum)
 
-colnames <- c("Year","Fleet","Ntows","Nfish")
+colnames <- c("Year","Fleet","Ntrips","Nfish")
 
 t = table_format(x = t3_comState[,-which(names(t3_comState) %in% c("fleet"))],
                  caption = 'Sample sizes of commercial length composition data by state for the north model
@@ -77,7 +77,10 @@ t = table_format(x = t3_comState[,-which(names(t3_comState) %in% c("fleet"))],
                  digits = 2,
                  landscape = FALSE,
                  col_names = colnames,
-                 row.names = FALSE)
+                 row.names = FALSE,
+                 custom_width = TRUE,
+                 col_to_adjust = 2,
+                 width = '4cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_comm_byState_North.tex"))
 
@@ -93,7 +96,7 @@ t4_comState = t4_comState[order(t4_comState$fleet, t4_comState$Fleet, t4_comStat
 #Can output csv's to test
 #write.csv(t4_comState, file.path(getwd(), "data-raw", "t4_north_comm_age_byState.csv"))
 
-colnames <- c("Year","Fleet","Ntows","Nfish")
+colnames <- c("Year","Fleet","Ntrips","Nfish")
 
 t = table_format(x = t4_comState[,-which(names(t4_comState) %in% c("fleet"))],
                  caption = 'Sample sizes of commercial age composition data by state for the north model
@@ -104,6 +107,9 @@ t = table_format(x = t4_comState[,-which(names(t4_comState) %in% c("fleet"))],
                  digits = 2,
                  landscape = FALSE,
                  col_names = colnames,
-                 row.names = FALSE)
+                 row.names = FALSE,
+                 custom_width = TRUE,
+                 col_to_adjust = 2,
+                 width = '4cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_comm_byState_North.tex"))

@@ -3,12 +3,14 @@
 #Ultimately not done because of cannot reproduce Ntows 
 #across states, and therefore values by states would be inaccurate. 
 
+#<<<<<<<<<<<<<<<Replaced with table_sampeSize_comm_byState.R>>>>>>>>>>>>>>>#
+
 
 #To start at line 198 in lingcod_PacFIN_BDS.R
 
 ###################################################################################
 #Script to provide sample sizes (nfish) by state and gear. Used to generate table
-#of sample sizes (table_3.R). Only needed for north
+#of sample sizes (table_sampleSize.R). Only needed for north
 ###Lengths
 temp_dat.n = bds.pacfin.n[!is.na(bds.pacfin.n$lengthcm),]
 nlen_state.n <- aggregate(temp_dat.n$lengthcm,
@@ -63,7 +65,7 @@ write.csv(nage_state.n,
 
 
 ##Script to provide sample sizes (ntows) by state and gear. Used to generate table
-#of sample sizes (table_3.R)
+#of sample sizes (table_sampleSize.R)
 
 #Get ntows by state. 
 #Issue 1: Doing by SEX did not work. It does not produce comparable 
