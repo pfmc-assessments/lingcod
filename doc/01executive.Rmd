@@ -47,6 +47,11 @@ Replace text.
 ## Decision table{-}
 Replace text.
 
+## Regional management considerations{-}
+```{r results = "asis"}
+sa4ss::read_child("regional-management-considerations.Rmd")
+```
+
 ## Research and data needs{-}
 ```{r results = "asis"}
 sa4ss::read_child("research-and-data-needs.Rmd")

@@ -1,0 +1,60 @@
+```{r regional-management}
+# get average catch using command from models\lingcod_forecast.R
+avg_catch <- r4ss::SS_ForeCatch(model,
+                                yrs = 2021,
+                                average = TRUE,
+                                total = ifelse(params$area=="North", 1200, 700),
+                                avg.yrs = 2011:2020)
+proportions <- avg_catch %>%
+  dplyr::rename(avg = "dead(B)") %>%
+  dplyr::mutate(prop = avg/sum(avg)) %>%
+  dplyr::pull(prop) %>%
+  round(3)
+
+prop_text <- proportions %>% 
+  paste0("\n - ", 
+         get_fleet(ifelse(params$area=="North", 1:5, c(1,2,5)), col = "label_long"), 
+		 ": ", .) %>%
+  paste(collapse = ",")
+
+proportions[1:2] <- c(0.4, 0.6) * sum(proportions[1:2])
+prop_text2 <- proportions %>% 
+  paste0("\n - ", 
+         get_fleet(ifelse(params$area=="North", 1:5, c(1,2,5)), col = "label_long"), 
+		 ": ", .) %>%
+  paste(collapse = ",")
+
+```
+Separate commercial quotas for `r spp` are set for the areas north and south 
+of \CapeM which aligns with the division between areas used in these 
+assessments.
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+Management of recreational fisheries is conducted at the 
+state level, which aligns with the fleet structure used in this model,
+where the catch associated with the recreational California fishery
+in any projection would be combined with the recreational catch in the 
+south model.
+```
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+Management of recreational fisheries is conducted at the 
+state level, which aligns with the fleet structure used in this model,
+where the catch associated with the recreational California fishery
+in any projection would be combined with the recreational California catch 
+in the north model.
+```
+The average proportions of the total dead catch, including estimated dead 
+discards, associated with each fleet over the period 2011-2020 are:
+`r prop_text`.
+
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+However, for purposes of the projections, the split between commercial 
+trawl and fixed-gear in the south was assumed to be 40:60, 
+based on input from the GMT, leading to the following proportions among fleets:
+`r prop_text2`.
+
+Estimation of finer-scale differences in Lingcod abundance or status within 
+California, such as north and south of Point Conception (\PtC), was not possible
+within this assessment. However, the state of California could apply finer-scale
+spatial management to account for any regional management considerations indicated
+by other sources of information about the `r spp` in those waters.
+```
