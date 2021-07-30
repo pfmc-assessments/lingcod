@@ -20,40 +20,305 @@ assumes that these flanking populations do not contribute to the stock being ass
 
 ## Landings{-}
 
-The first known records of `r spp` landings date back to the early
-```{asis catch-text-commfleetstructure, echo = TRUE}
+The first known records of `r spp` landings date back to the late 1800s
+(Figure \@ref(fig:es-catch)).
+Catch reconstructions for these early landings were informed by state resources and
+recent landings (Table \@ref(tab:removalsES)) were available available from PacFIN and RecFIN.
+Commercial discards were modeled using discard rate and length compositions to estimate retention curves.
+Recreational catches included estimates of dead discards in the landings data
+(Table \@ref(tab:removalsES)).
+
+```{r, exsum-text-commfleetstructure, echo = FALSE, results = "asis"}
+sa4ss::read_child("catch-comm-fleetstructure.Rmd")
 ```
 
+```{r es-landings-table, results = "asis"}
+table_labels <- utils::read.csv(
+  file.path("..", mod_loc, "tables", "table_labels.csv")
+)
+eslandingsinfo <- utils::read.csv(
+  file.path("..", mod_loc, "tables", "a_Catches_ES.csv")
+)
+colnames(eslandingsinfo) <- gsub("^X", "", colnames(eslandingsinfo))
+matches <- match(colnames(eslandingsinfo), get_fleet(col = "fleet"))
+colnames(eslandingsinfo) <- ifelse(is.na(matches),
+  gsub("([a-zA-Z])\\.([a-zA-Z])", "\\1 \\L\\2", perl = TRUE, colnames(eslandingsinfo)),
+  gsub("^([a-z])", "\\U\\1", perl = TRUE, get_fleet(col = "label_short")[matches])
+)
+sa4ss::table_format(
+  eslandingsinfo,
+  caption = table_labels[table_labels[["label"]] == "removalsES", "caption"],
+  label = table_labels[table_labels[["label"]] == "removalsES", "label"],
+)
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "catch2 landings stacked.png"), 
+caption = "Landings (mt) by fleet used in the base model",
+label = 'es-catch')
+```
+\clearpage
+
 ## Data and assessment{-}
-Replace text.
+
+This assessment uses the Stock Synthesis fisheries stock assessment model
+version `r strsplit(model$SS_version,";")[[1]][1]`.
+`r Spp` has been modeled using various age-structured forward-projection models since the mid 1990s and
+was most recently assessed in 2017 [@haltuch2019lingcod].
+Data included in the base model provided information on
+landings for each commercial and recreational fleet,
+commercial discards, available from the West Coast Groundfish Observer Program;
+relative abundance as informed by the
+Triennial Survey,
+West Coast Groundfish Bottom Trawl Survey,
+commercial trawl fishery, and
+each recreational fishery;
+length and age compositions, available from the previous sources as well as
+research done by L. Lam.
+```{asis, opts.label = "north"}
+For this northern area,
+information on relative abundance was also available from the Oregon fixed gear fleet.
+```
+```{asis, opts.label = "south"}
+For this southern area,
+information on abundance, length, and age was also available from the Hook and Line Survey.
+The final model included ages from just the West Coast Groundfish Bottom Trawl Survey because of conflicts between age- and length-composition data.
+```
+Age data were explored using conditional-age-at-length rather than marginal ages and
+all length data were modeled as sex-specific compositions for fish that were sexed and as combined sex for fish that were measured but not sexed.
+Unsexed fish that were aged were not included in this assessment.
+
+Key parameters related to productivity were estimated and
+parameters related to growth and mortality were sex specific and time invariant.
+Annual recruitment deviations started in
+`r model$recruitpars%>%dplyr::filter(type == "Main_RecrDev")%>%dplyr::pull(Yr) %>% min`,
+just prior to the availability of reliable length- and age-composition data.
+Selectivity for each fleet was modeled using a double-normal function of length that allowed for dome or asymptotic shapes that were supported by the data.
+Time blocks were used for selectivity and retention to account for management changes.
+
+A wide range of sensitivity runs were conducted to explore various
+model structures related to biology and recruitment,
+changes the data that were included in the model,
+ways in which selectivity was parameterized,
+etc.
+Results were sensitive to the addition and subtraction of age data,
+which typically changed the scale of the population and estimates of key productivity parameters.
 
 ## Stock biomass{-}
-Replace text.
+
+```{r, results = "asis"}
+tabb <- utils::read.csv(
+  file.path("..", mod_loc, "tables", "b_SSB_ES.csv")
+)
+tabb[, grep("Interval", colnames(tabb))] <- 
+round(tabb[, grep("Interval", colnames(tabb))], 3)
+colnames(tabb) <- gsub(
+  "\\.[1-9]$", "",
+  gsub(
+  "\\.\\.mt\\.", " (mt)",
+  gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabb))
+))
+sa4ss::table_format(
+  tabb,
+  caption = table_labels[table_labels[["label"]] == "ssbES", "caption"],
+  label = table_labels[table_labels[["label"]] == "ssbES", "label"],
+)
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots",
+"ts7_Spawning_biomass_(mt)_with_95_asymptotic_intervals_intervals.png"), 
+caption = "Estimated time series of spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+label = 'es-ssb')
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = dir(file.path("..", mod_loc, "plots"), pattern = "ts9_.+_intervals", full.names = TRUE), 
+caption = "Estimated time series of fraction of unfished spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+label = 'es-depl')
+```
+\clearpage
 
 ## Recruitment{-}
-Replace text.
+
+```{r, results = "asis"}
+tabc <- utils::read.csv(
+  file.path("..", mod_loc, "tables", "c_Recr_ES.csv")
+)
+tabc[, "Lower.Interval"] <- round(tabc[, "Lower.Interval"], 2)
+tabc[, 5:NCOL(tabc)] <- round(tabc[, 5:NCOL(tabc)], 4)
+colnames(tabc) <- gsub(
+  "\\.[1-9]$", "",
+  gsub(
+  "\\.\\.mt\\.", " (mt)",
+  gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabc))
+))
+sa4ss::table_format(
+  tabc,
+  caption = table_labels[table_labels[["label"]] == "recrES", "caption"],
+  label = table_labels[table_labels[["label"]] == "recrES", "label"],
+)
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"), 
+caption = "Estimated time series of age-0 recruits (1000s) for the base model with 95 percent intervals",
+label = 'es-recruits')
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "recdevs2_withbars.png"), 
+caption = "Estimated time series of recruitment deviations",
+label = 'es-rec-devs')
+```
+\clearpage
 
 ## Exploitation status{-}
-Replace text.
+
+```{r, results = "asis"}
+tabd <- utils::read.csv(
+  file.path("..", mod_loc, "tables", "d_SPR_ES.csv")
+)
+tabd[, -1] <- round(tabd[, -1], 4)
+colnames(tabd)[2] <- "SPR"
+colnames(tabd) <- gsub(
+  "\\.[1-9]$", "",
+  gsub(
+  "\\.\\.mt\\.", " (mt)",
+  gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabd))
+))
+sa4ss::table_format(
+  tabd,
+  caption = table_labels[table_labels[["label"]] == "exploitES", "caption"],
+  label = table_labels[table_labels[["label"]] == "exploitES", "label"],
+)
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "SPR2_minusSPRseries.png"), 
+caption = "Estimated 1 - relative spawning ratio (SPR) by year for the base model. The management target is plotted as a red horizontal line and values above this reflect harvest in excess of the proxy harvest rate",
+label = 'es-1-spr')
+```
+\clearpage
 
 ## Reference points{-}
-Replace text.
+
+```{r, results = "asis"}
+tabe <- utils::read.csv(
+  file.path("..", mod_loc, "tables", "e_ReferencePoints_ES.csv")
+)
+tabe[, -1] <- round(tabe[, -1], 4)
+colnames(tabe)[1] <- "Reference Point"
+colnames(tabe) <- gsub(
+  "\\.[1-9]$", "",
+  gsub(
+  "\\.\\.mt\\.", " (mt)",
+  gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabe))
+))
+sa4ss::table_format(
+  tabe,
+  caption = table_labels[table_labels[["filename"]] == "e_ReferencePoints_ES.csv", "caption"],
+  label = table_labels[table_labels[["filename"]] == "e_ReferencePoints_ES.csv", "label"],
+)
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "SPR4_phase.png"), 
+caption = "Phase plot of estimated 1-SPR versus fraction unfished for the base model",
+label = 'es-phase')
+```
+
+```{r, results = 'asis'}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "yield2_yield_curve_with_refpoints.png"), 
+caption = "Equilibrium yield curve for the base case model. Values are based on the 2020
+fishery selectivities",
+label = 'es-yield')
+```
+\clearpage
 
 ## Management performance{-}
-Replace text.
+
+```{r, results = "asis"}
+tabf <- utils::read.csv(
+  file.path("..", mod_loc, "tables", "f_Manage_ES.csv")
+)
+# tabf[, -1] <- round(tabf[, -1], 4)
+colnames(tabf) <- gsub(
+  "\\.[1-9]$", "",
+  gsub(
+  "\\.\\.mt\\.", " (mt)",
+  gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabf))
+))
+sa4ss::table_format(
+  tabf,
+  caption = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "caption"],
+  label = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "label"],
+)
+```
+\clearpage
 
 ## Unresolved problems and major uncertainties{-}
+
 Replace text.
 
 ## Decision table{-}
-Replace text.
+
+```{r, results = 'asis'}
+tab = read.csv(file.path("..", mod_loc, 'tables', 'g_Projections_ES.csv'))
+# spex_removal = c(model$derived_quants[model$derived_quants$Label == "ForeCatch_2021", "Value"], 
+#                  model$derived_quants[model$derived_quants$Label == "ForeCatch_2022", "Value"])
+# out = cbind(tab$Year,
+#             c(93547, 87540, rep("-",10)),
+#             c(84192, 78436, rep("-",10)),
+#             c(50000, 50000, rep("-", 10)),
+#             c(round(spex_removal,0), rep("-", 10)),
+#             c(rep("-",2), round(tab[3:12,2], 0)),
+#             c(rep("-",2), round(tab[3:12,3], 0)),
+#             c(rep("-",2), round(tab[3:12,3]/tab[3:12,2], 3)),
+#             round(tab[ ,5:ncol(tab)], 2))
+col_names = c('Year',
+              # 'Adopted OFL (mt)',
+              # 'Adopted ABC (mt)',
+              # "Adopted ACL (mt)",
+              # "Assumed Removal (mt)", 
+              "OFL (mt)", 
+              "ABC (mt)", 
+              # "Buffer",
+              "Age 3 plus (mt)",
+              "Spawning Biomass (mt)",
+              "Fraction Unfished")
+sa4ss::table_format(x = tab,
+             caption = "Projections of potential OFLs (mt), ABCs (mt), the buffer (ABC = buffer x OFL), estimated spawning biomass, and fraction unfished. The adopted OFL, ABC, and ACL for 2021 and 2022 reflect adopted management limits and the assumed removal is the removal assumptions applied for 2021 and 2022. The full ABC was assumed to be removed for 2023 - 2032",
+             label = "es-project",
+             align = 'l',
+             landscape = TRUE,
+             custom_width = TRUE,
+             col_to_adjust = 1:10, 
+             width = rep("2cm", 10),
+             col_names = col_names)
+```
+
+```{r, results = "asis"}
+sa4ss::read_child(file.path("..", mod_loc, "decision_table.tex"))
+```
+\clearpage
 
 ## Regional management considerations{-}
+
 ```{r results = "asis"}
 sa4ss::read_child("regional-management-considerations.Rmd")
 ```
 
 ## Research and data needs{-}
+
 ```{r results = "asis"}
 sa4ss::read_child("research-and-data-needs.Rmd")
 ```

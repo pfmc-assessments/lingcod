@@ -1,0 +1,8 @@
+The fleet structure for commercial landings included two fleets,
+trawl (TW) and fixed gear (FG).
+Trawl landings included information from
+bottom trawls, shrimp trawls, net gear, and dredging activities.
+Landings from all other gear types, mainly hook and line,
+were assigned to FG.
+This fleet structure matches the fleet structure used in the
+previous assessment.

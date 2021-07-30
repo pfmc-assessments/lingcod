@@ -1,10 +1,17 @@
-add_figure_profile <- function(pathtobase, par) {
+add_figure_profile <- function(pathtobase, par, prior = 1) {
   
   path <- file.path(dirname(pathtobase),
     dir(dirname(pathtobase), pattern = paste0(basename(pathtobase), "_profile.*", par))
   )
-  stopifnot(length(path) == 1)
-  parname <- gsub(".+profile_", "", basename(path))
+  if (length(path) == 0) {
+    message("Figure profile for ", par, " was not found.")
+    return()
+  }
+  stopifnot(length(path) <= 1)
+  if (length(path) > 1) {
+    path <- path[grepl(paste0(prior, "$"), path)]
+  }
+  parname <- gsub(".+profile_|_prior_like.+$", "", basename(path))
   parpretty <- 
     gsub("LN(\\(R0\\))", "$log\\1$",
     gsub(" M$", " $M$",
