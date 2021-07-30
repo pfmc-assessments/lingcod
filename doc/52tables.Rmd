@@ -257,3 +257,7 @@ caption = "Differences in likelihood, estimates of key parameters, and estimates
 table_sens("../tables/table_compare_north_vs_south.csv")
 ```
 \end{landscape}
+
+```{r, table-decision-table, results = "asis"}
+sa4ss::read_child(filein = file.path("..", mod_loc, "decision_table.tex"))
+```
