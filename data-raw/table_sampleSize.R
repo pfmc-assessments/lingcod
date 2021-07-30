@@ -196,6 +196,22 @@ t3_or_rec <- table3_noexp(lenCompN_OR_Rec)
 t3_wa_rec <- table3_noexp(lenCompN_WA_Rec)
 t3_lam <- table3_noexp(lenCompN_LamThesis)
 
+##
+#Add number of trips for Lam (based on lingcod_LamThesis_comps.R)
+lam <- read.csv(file.path("data-raw", "SA_Lam_MergedAges.csv"), header = TRUE)
+lam$Year <- as.numeric(substr(lam$Date..yymmdd.,1,4))
+lam <- subset(lam,lam$Year > 2015) 
+lam[which(lam$Lat > (40+10/60)), "region"] <- "north"
+lam[which(lam$Lat <= (40+10/60)), "region"] <- "south"
+lam_len <- stats::aggregate(Date..yymmdd. ~ Year + region, 
+                                 data = lam[!is.na(lam$TL.cm),], 
+                                 FUN=function(x) length(unique(x)))
+lam_age <- stats::aggregate(Date..yymmdd. ~ Year + region, 
+                                 data = lam[!is.na(lam$Ages) & !is.na(lam$TL.cm),], 
+                                 FUN=function(x) length(unique(x)))
+t3_lam$Ntows <- lam_len[lam_len$region=="north","Date..yymmdd."] #number of trips (days)
+##
+
 t3_wcgbts <- table3_exp(lenCompN_sex3_WCGBTS, region = "north", type = "length")
 t3_tri <- table3_exp(lenCompN_sex3_Triennial, region = "north", type = "length")
 
@@ -239,12 +255,25 @@ t3_ca_rec <- table3_noexp(lenCompS_CA_Rec)
 t3_lam <- table3_noexp(lenCompS_LamThesis)
 t3_hkl <- table3_noexp(lenCompS_HKL)
 t3_deb <- table3_deb(lenCompS_debHist)
-  
+
 t3_wcgbts <- table3_exp(lenCompS_sex3_WCGBTS, region = "south", type = "length")
 t3_tri <- table3_exp(lenCompS_sex3_Triennial, region = "south", type = "length")
 
 t3_discards <-table3_exp_discard(lenCompS_comm_discards, region = "south")
 t3_com <-table3_exp_comm(lenCompS_comm)
+
+##
+#Add number of sites for HKL
+bio.HKL$Sex <- 0
+bio.HKL[bio.HKL$sex %in% c("F","M"),"Sex"] <- 3
+hklsites <- stats::aggregate(site_number ~ year + Sex, 
+                      data = bio.HKL[!is.na(bio.HKL$length_cm),], 
+                      FUN=function(x) length(unique(x)))
+t3_hkl$Ntows <- hklsites[order(hklsites$Sex,decreasing = TRUE),"site_number"]
+
+#Add number of trips for Lam
+t3_lam$Ntows <- lam_len[lam_len$region=="south","Date..yymmdd."] #number of trips (days)
+##
 
 colnames_ordered <- c("year","fleet","Fleet","Gender","Units","Nsamp","Ntows","Nfish","Nmale","Nfemale")
 t3_samples <- data.frame(rbind
@@ -283,6 +312,11 @@ kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_South.
 t4_or_rec <- table3_noexp(ageCompN_OR_Rec)
 t4_wa_rec <- table3_noexp(ageCompN_WA_Rec)
 t4_lam <- table4_fromCAAL(ageCAAL_N_LamThesis) #<- calculate from CAAL
+
+##
+#Add number of trips for Lam
+t4_lam$Ntows <- lam_age[lam_len$region=="north","Date..yymmdd."] #number of trips (days)
+##
 
 t4_wcgbts <- table3_exp(ageCompN_sex3_WCGBTS, region = "north", type = "age")
 t4_tri <- table3_exp(ageCompN_sex3_Triennial, region = "north", type = "age")
@@ -325,7 +359,12 @@ kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_North.tex
 ###################
 
 t4_lam <- table4_fromCAAL(ageCAAL_S_LamThesis) #<- calculate from CAAL
-t4_hkl <- table3_noexp(ageCompS_HKL)
+t4_hkl <- table3_noexp(ageCompS_HKL) #<- not able to link to full HKL dataset so cant calculate sites
+
+##
+#Add number of trips for Lam
+t4_lam$Ntows <- lam_age[lam_len$region=="south","Date..yymmdd."] #number of trips (days)
+##
 
 t4_wcgbts <- table3_exp(ageCompS_sex3_WCGBTS, region = "south", type = "age")
 t4_tri <- table3_exp(ageCompS_sex3_Triennial, region = "south", type = "age")
