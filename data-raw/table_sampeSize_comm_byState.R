@@ -31,7 +31,7 @@ table3_commState = function(type){
   samps[samps$fleet == "FG","fleet"] = 2
   samps[samps$fleet == "TW","fleet"] = 1
   samps$Fleet = NULL
-  samps$Fleet = paste(get_fleet(as.numeric(samps$fleet))$label_short, samps$state)
+  samps$Fleet = paste(get_fleet(as.numeric(samps$fleet))$label_short)#, samps$state)
   
   #Read in tows
   ntows <- read.csv(file.path(getwd(), "data-raw", 
@@ -48,7 +48,32 @@ table3_commState = function(type){
     names(out)[ncol(out)] <- "ntows"
   }
 
-  return(out[,c("year","fleet","Fleet","ntows","Nfish")])
+  return(out[,c("year","fleet","Fleet", "state", "ntows","Nfish")])
+}
+
+#Function to pull commercial discard samples sizes by state
+#Only available for lengths
+#Only used for "North"
+table3_discardState = function(){
+  
+  samps = read.csv(file.path(getwd(),"data-raw",
+                             "Lingcod_OBSVR_Sample_Sizes_By_STATE.csv"),
+                   header = T)
+  
+  #remove south data, which we dont use (because its all california anyway)
+  samps <- samps[samps$Fishery == "North",]
+  
+  samps$fleet <- 2
+  samps[samps$Gear == "TRAWL","fleet"] <- 1
+  samps$Fleet = paste(get_fleet(as.numeric(samps$fleet))$label_short,"discards")
+  
+  #rename for consistency with table3_commState output
+  samps$year <- samps$Year
+  samps$state <- samps$State
+  samps$ntows <- samps$N_unique_Hauls
+  samps$Nfish <- samps$N_Fish
+  
+  return(samps[,c("year","fleet","Fleet", "state", "ntows","Nfish")])
 }
 
 ##################################End of functions##################################
@@ -58,19 +83,25 @@ table3_commState = function(type){
 ###################
 
 t3_comState <- table3_commState(type = "length")
+t3_discardState <-table3_discardState()
 
-t3_comState = t3_comState[order(t3_comState$fleet, t3_comState$Fleet, t3_comState$year),]
+aggregate(Nfish~year + fleet + state, t3_comState, FUN=sum)
+
+t3_comState <- rbind(t3_comState,t3_discardState)
+
+#Widen the table to save space
+t3_comState_wide <- data.frame(tidyr::pivot_wider(data = t3_comState, names_from = state, values_from = c("ntows","Nfish")))
+t3_comState_wide = t3_comState_wide[order(t3_comState_wide$fleet, t3_comState_wide$Fleet, t3_comState_wide$year),c(1,2,3,4,7,6,9,5,8)]
+t3_comState_wide[is.na(t3_comState_wide)] <- 0
 
 #Can output csv's to test
-#write.csv(t3_comState, file.path(getwd(), "data-raw", "t3_north_comm_length_byState.csv"))
+#write.csv(t3_comState_wide, file.path(getwd(), "data-raw", "t3_north_comm_length_byState.csv"))
 
-aggregate(Nfish~year + fleet, t3_comState, FUN=sum)
+colnames <- c("Year","Fleet","WA Trips","WA Fish","OR Trips","OR Fish","CA Trips","CA Fish")
 
-colnames <- c("Year","Fleet","Ntrips","Nfish")
-
-t = table_format(x = t3_comState[,-which(names(t3_comState) %in% c("fleet"))],
-                 caption = 'Sample sizes of commercial length composition data by state for the north model
-                 combined across sexes.',
+t = table_format(x = t3_comState_wide[,-which(names(t3_comState_wide) %in% c("fleet"))],
+                 caption = 'Sample sizes of commercial and commercial discard length composition 
+                 data by fleet and state for the north model combined across sexes.',
                  label = 'sample-size-length-byState',
                  longtable = TRUE,
                  font_size = 9,
@@ -80,7 +111,7 @@ t = table_format(x = t3_comState[,-which(names(t3_comState) %in% c("fleet"))],
                  row.names = FALSE,
                  custom_width = TRUE,
                  col_to_adjust = 2,
-                 width = '4cm')
+                 width = '3cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_comm_byState_North.tex"))
 
@@ -91,15 +122,18 @@ kableExtra::save_kable(t, file = file.path(getwd(),"tables","length_samps_comm_b
 
 t4_comState <- table3_commState(type = "age")
 
-t4_comState = t4_comState[order(t4_comState$fleet, t4_comState$Fleet, t4_comState$year),]
+#Widen the table to save sapce
+t4_comState_wide <- data.frame(tidyr::pivot_wider(data = t4_comState, names_from = state, values_from = c("ntows","Nfish")))
+t4_comState_wide = t4_comState_wide[order(t4_comState_wide$fleet, t4_comState_wide$year),c(1,2,3,4,7,5,8,6,9)]
+t4_comState_wide[is.na(t4_comState_wide)] <- 0
 
 #Can output csv's to test
-#write.csv(t4_comState, file.path(getwd(), "data-raw", "t4_north_comm_age_byState.csv"))
+#write.csv(t4_comState_wide, file.path(getwd(), "data-raw", "t4_north_comm_age_byState.csv"))
 
-colnames <- c("Year","Fleet","Ntrips","Nfish")
+colnames <- c("Year","Fleet","CA Trips","CA Fish","OR Trips","OR Fish","WA Trips","WA Fish")
 
-t = table_format(x = t4_comState[,-which(names(t4_comState) %in% c("fleet"))],
-                 caption = 'Sample sizes of commercial age composition data by state for the north model
+t = table_format(x = t4_comState_wide[,-which(names(t4_comState_wide) %in% c("fleet"))],
+                 caption = 'Sample sizes of commercial age composition data by fleet and state for the north model
                  combined across sexes.',
                  label = 'sample-size-age-byState',
                  longtable = TRUE,
@@ -110,6 +144,6 @@ t = table_format(x = t4_comState[,-which(names(t4_comState) %in% c("fleet"))],
                  row.names = FALSE,
                  custom_width = TRUE,
                  col_to_adjust = 2,
-                 width = '4cm')
+                 width = '2cm')
 
 kableExtra::save_kable(t, file = file.path(getwd(),"tables","age_samps_comm_byState_North.tex"))
