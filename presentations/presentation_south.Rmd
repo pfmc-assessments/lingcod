@@ -1,0 +1,112 @@
+---
+title: "Lingcod STAR sandbox"
+author: "Lingcod STAT"
+date: "July 12, 2021"
+fig.caption: TRUE
+output: 
+  xaringan::moon_reader:
+    includes:
+      after_body: insert-logo.html
+    yolo: false
+    self_contained: true
+    lib_dir: libs
+    chakra: libs/remark-latest.min.js
+    nature:
+      highlightStyle: tomorrow-night-bright
+      highlightLines: true
+      highlightLanguage: r
+    css: [xaringan-themer.css, libs/animate.css, fc, ninjutsu]
+    seal: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  message = FALSE,
+#   dev = "svg",
+  fig.width = 12,
+  fig.height = 12
+  # fig.retina = 3
+  )
+xaringanthemer::style_mono_accent(
+  # base_color = nmfspalette::nmfs_cols("darkblue"),
+  base_color = "#00467F",
+  header_font_google = xaringanthemer::google_font("Josefin Sans"),
+  text_font_google   = xaringanthemer::google_font("Montserrat", "300", "300i"),
+  code_font_google   = xaringanthemer::google_font("Fira Mono")
+)
+```
+
+class: title-slide, inverse
+```{css}
+<style>
+.center2 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+```
+```{css}
+.code-bg-white .remark-code, .code-bg-white .remark-code * {
+ background-color:white!important;
+}
+```
+
+.bg-text[
+# Lingcod south axes of uncertainty
+<hr />
+Lingcod STAT<br><br>
+July 12, 2021<br>
+]
+
+---
+
+### 20 South high and low states of nature
+
+.pull-left-30[
+]
+
+.pull-right-70[
+<img style="width80%" src="../figures/STAR_request20/sens_timeseries_s_random.png">
+]
+
+---
+
+### 20 South high and low states of nature
+
+.pull-left-30[
+]
+
+.pull-right-70[
+<img style="width80%" src="../figures/STAR_request20/toosmall.png">
+]
+
+---
+
+### 20 Alternative south high and low
+
+.pull-left-30[
+]
+
+.pull-right-70[
+<img style="width80%" src="../figures/STAR_request20/sens_timeseries_s_R0.png">
+]
+
+---
+
+### 20 South likelihoods
+
+<p style="margin-top:-30px;">
+`r table_sens("../figures/STAR_request20/sens_table_s_random.csv", 
+              caption = "", format = "html", pretty = FALSE) %>%
+      kableExtra::kable_styling(font_size = 12) 
+`
+
+---
+
