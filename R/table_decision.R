@@ -67,13 +67,17 @@ table_decision <- function(
   dplyr::mutate_at(
     .vars = dplyr::vars(grep(value = TRUE, "^SpawnBio", colnames(.))),
      ~ kableExtra::cell_spec(
-      x = ., italic = abs(.data$catch / .data$Catch - 1) > 0.01 # catch differs by > 1%
+       format = format,
+      x = sprintf("%.1f", .),
+      italic = abs(.data$catch / .data$Catch - 1) > 0.01 # catch differs by > 1%
     )
   ) %>%
   dplyr::mutate_at(
     .vars = dplyr::vars(grep(value = TRUE, "^dep", colnames(.))),
      ~ kableExtra::cell_spec(
-      x = ., italic = abs(.data$catch / .data$Catch - 1) > 0.01, # catch differs by > 1%
+       format = format,
+      x = sprintf("%1.3f", .),
+      italic = abs(.data$catch / .data$Catch - 1) > 0.01, # catch differs by > 1%
       color = "white",
       background = kableExtra::spec_color(
         .,
@@ -88,8 +92,16 @@ table_decision <- function(
   dplyr::relocate(Catch, .after = Year) %>%
   dplyr::distinct(Management, Year, Catch, .keep_all = TRUE)
   rownames(results) <- NULL
-  colnames(results) <- gsub("Spawn.+", "SSB   (mt)", colnames(results))
-  colnames(results) <- gsub("dep.+", "Frac. unfished", colnames(results))
+  colnames(results) <- gsub(
+    "Spawn.+",
+    "\\\\makecell{SSB\\\\\\\\(mt)}",
+    colnames(results)
+  )
+  colnames(results) <- gsub(
+    "dep.+",
+    "\\\\makecell{Frac.\\\\\\\\unfished}",
+    colnames(results)
+  )
 
   results %>%
   kableExtra::kbl(
