@@ -10,9 +10,11 @@
 #' }
 table_projections <-
   function(output,
-           caption = paste("Projections of potential OFLs (mt), ABCs (mt),",
-                           "estimated spawning biomass and fraction unfished.",
-                           "Assumed removal for 2021 and 2022 are average",
+           caption = paste("Projections of potential overfishing limits (OFLs; mt),",
+                           "allowable biological catches (ABCs; mt),",
+                           "estimated summary biomass (mt), spawning biomass (mt), and fraction unfished",
+                           "based on assumed removals for the most recent two years."
+                           "Assumed removals for 2021 and 2022 are average",
                            "catch from the period 2016-2020 with a 40:60",
                            "split of trawl:fixed-gear."),
            label = "table-projections-base"
@@ -23,7 +25,11 @@ table_projections <-
     stringr::str_sub(end = nchar("models/2021.n.001.")) %>%
     paste0("010_forecast")
   if (!dir.exists(forecast_dir)) {
-    forecast_dir <- output$inputs$dir
+    if (dir.exists(file.path("..", forecast_dir))) {
+      forecast_dir <- file.path("..", forecast_dir)
+    } else {
+        forecast_dir <- output$inputs$dir
+      }
   }
   
   # file created by r4ss::SS_executivesummary()
@@ -49,6 +55,7 @@ table_projections <-
   tab[tab$Year <= output$endyr + 2, c("Predicted OFL (mt)", "ABC Catch (mt)")] <- "-"
   tab <- cbind(tab$Year, assumed, tab[,-1])
   names(tab)[names(tab) == "assumed"] <- "Assumed Removal (mt)"
+  colnames(tab)[1] <- "Year"
 
   tab %>% kableExtra::kbl(
                         row.names = FALSE,
@@ -56,6 +63,7 @@ table_projections <-
                         format = "latex",
                         caption = caption,
                         label = label,
-                        align = "lr"
-                      )
+                        align = "r"
+                      ) %>%
+  kableExtra::column_spec(2:7, width = "5em")
 }
