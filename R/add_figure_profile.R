@@ -7,7 +7,6 @@ add_figure_profile <- function(pathtobase, par, prior = 1) {
     message("Figure profile for ", par, " was not found.")
     return()
   }
-  stopifnot(length(path) <= 1)
   if (length(path) > 1) {
     path <- path[grepl(paste0(prior, "$"), path)]
   }
@@ -61,7 +60,7 @@ add_figure_retro <- function(pathtobase, n) {
     label = paste0("retro-", c("ssb-", "depl-")),
     filein = file.path(path,
       mapply(FUN = dir, MoreArgs = list(path = path),
-        pattern = c("compare1_", "compare3")
+        pattern = c("compare2_", "compare4")
       )
     )
   )
