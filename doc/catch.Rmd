@@ -1189,7 +1189,8 @@ ggsave2(
   filename = file.path("..", "figures", "catch-rec-ca-oldts.png"),
   caption = paste0(
     "Comparison of recreational landings from this assessment (dashed line) versus ",
-    "the previous assessment (solid line) for each state (colors)."
+    "the previous assessment (solid line) for each state (colors). ",
+    "The previous assessment used numbers for WA recreational landings, whereas this assessment used weight."
   ),
   alttext = paste(
     ""
@@ -1669,10 +1670,9 @@ and sexes.
 Next, we used this mean length and the weight-length relationship
 as calculated from the most recent survey data to determine the mean weight.
 Finally, weight (mt) was determined from mean weight and numbers.
-
-The scale of the catches is smaller than what was used in the previous
-assessment because this assessment only includes information on retained fish
-rather than retained and discarded (Figure \@ref(fig:catch-rec-ca-oldts)).
+Final landings include retained and 7\% of discarded fish to account for those that died.
+The previous assessment modeled Washington landings in terms of numbers of fish rather than weight
+(Figure \@ref(fig:catch-rec-ca-oldts)).
 ```
 
 ```{asis, catch-rec-OR-text, opts.label = 'north', echo = TRUE}
