@@ -91,7 +91,7 @@ uncertainty in quantities of interest, such as the management reference points.
   suitable to support `r spp` in the north versus the south.**
 
 Using simple assumptions on available habitat,
-by assuming the relative difference in the amount of area in depths between 55m and 300m,
+by assuming the relative difference in the amount of area in depths between 55 m and 300 m,
 roughly approximates the relative difference in habitat area between modeled regions. 
 <!-- TO DO: This is discussed in the context of our results. -->
 

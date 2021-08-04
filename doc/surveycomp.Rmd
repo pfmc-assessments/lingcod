@@ -5,7 +5,7 @@ The length compositions of survey catches in each year was summarized using leng
 The first bin includes all observations less than 10 cm, 
 and the last bin includes all fish larger than 130 cm. The observed length compositions were 
 expanded to account for subsampling of tows, and the expansion was stratified by depth. Depth 
-strata of 55 - 183 m and 183 - 400m were selected,
+strata of 55 - 183 m and 183 - 400 m were selected,
 based on the sampling design of the survey (@keller2017).
 Depth strata were capped at 400 m because catches of `r spp` in 
 the \Gls{s-wcgbt} occur infrequently beyond 400 m (Figure \ref{fig:wcgbts-presAbs}). Samples were

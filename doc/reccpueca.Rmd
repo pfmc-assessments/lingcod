@@ -11,7 +11,7 @@ onboard observer program (i.e., the same observer samples the catch while
 onboard the vessel and also conducts the dockside intercept survey for 
 the same vessel). 
 
-\Gls{mrfss} data were dowloaded from the \gls{recfin} Type 3 database, where
+\Gls{mrfss} data were downloaded from the \gls{recfin} Type 3 database, where
 each entry corresponds to a 
 single fish examined by a sampler at a particular survey site. Since only a 
 subset of the catch may be sampled, each record also 
@@ -79,7 +79,7 @@ and geographic (region and primary area fished (inshore <3 nm, offshore >3 nm)
 factors were evaluated. Two regions were defined based on counties, 1) Del Norte 
 to Santa Cruz ("N") and 2) Monterey to San Luis Obispo ("C") north of Pt. Conception. 
 For models that span counties north and south of Pt. Conception, Santa Barbara to 
-San Diego counties compose a third region ("S"). For models tha exclusively south 
+San Diego counties compose a third region ("S"). For models that are exclusively south 
 of Pt. Conception, the region represent individual counties. Indices with a year 
 and area interaction were not considered in model selection; trends in the average 
 CPUE by region were similar in the filtered data set.
@@ -100,7 +100,7 @@ The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
 Figures and Tables for this analysis can be seen in
 lingcod_MRFSS_dockside_writeup_NCA.pdf.
 
-#### Califronia Onboard Observer Survey, 1999-2019
+#### California Onboard Observer Survey, 1999-2019
 
 The state of California implemented a statewide onboard observer sampling 
 program in 1999 [@Monk2014]. 
@@ -147,7 +147,7 @@ developed based on a number of factors described in the supplemental material
 ("Reef Delineation"). Depth restrictions in the recreational fishery were fairly 
 consistent from 2004-2016. Starting in 2017, depth restrictions eased in districts 
 north of Pt. Conception and the recreational fleet targeted these depths. The deeper waters (40-50 fm) are 
-outside of the mapped hard bottom habitat, but could be assigend to the larger 
+outside of the mapped hard bottom habitat, but could be assigned to the larger 
 areas considered as a factor in the index.
 
 We modeled retained catch per angler hour (CPUE; number of fish per angler hour) 

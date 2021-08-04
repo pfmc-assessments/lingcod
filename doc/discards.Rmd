@@ -81,7 +81,7 @@ The contrast before and after 2011 is smaller for the south than the north.
 The rates from the catch-shares period are more precise due to the 
 100\% observer coverage during this period.
 
-The commercial fixed-gear discard rates were showed little constrast over time,
+The commercial fixed-gear discard rates were showed little contrast over time,
 with a mean of `r meanrate(2, 2002:2019)` over the full 2002-2019 range of data.
 
 The precise trawl discard rates from 2011 onward were

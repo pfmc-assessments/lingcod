@@ -1,9 +1,9 @@
-The senstivity analyses were divided into three groups: biology and recruitment,
+The sensitivity analyses were divided into three groups: biology and recruitment,
 composition, and indices
 `r sprintf("(Tables \\@ref(%s) - \\@ref(%s); Figures \\@ref(%s) - \\@ref(%s))", string_switchletter(newletter = params$area, "tab:sens-table-s-bio-rec"), string_switchletter(newletter = params$area, "tab:sens-table-s-comp"), string_switchletter(newletter = params$area, "fig:sens-timeseries-s-bio-rec"),string_switchletter(newletter = params$area, "fig:sens-timeseries-s-index")
 )`.
 
-The biology and recruitment senstivities included
+The biology and recruitment sensitivities included
 
 - estimate a single $M$ for both sexes with a prior which is a mixture distribution 
 of the two priors sex-specific priors in the base model 
@@ -13,7 +13,7 @@ of the two priors sex-specific priors in the base model
 - increase $\sigma_R$ from 0.6 to 0.8
 - decrease $\sigma_R$ from 0.6 to 0.4
 
-The composition senstivities included
+The composition sensitivities included
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 - add all additional ages as CAAL to the south model
@@ -44,12 +44,12 @@ as removing all the fishery-dependent indices.
 <!-- manual updates needed here if models change -->
 <!-- values in paragraph below are from 
 get_mod('n', 22) # base
-get_mod('n', 22, 103) # sensitity
+get_mod('n', 22, 103) # sensitivity
 compare <- r4ss::SSsummarize(list(mod.2021.n.022.001, mod.2021.n.022.103))
 apply(compare$Bratio[1:2], 2, min) %>% round(2)
 round(compare$Bratio[compare$Bratio$Yr == 2021,1:2], 2)
 -->
-The north model was sensitive to the to the senstivity of fixing female $M$ at 0.
+The north model was sensitive to the to the sensitivity of fixing female $M$ at 0.
 3 and $h$ at 0.7. This pushed the unfished equilibrium spawning biomass down
 slightly, but the lower productivity associated with these parameters mean that the
 catch history drove the stock down to a minimum fraction unfished of 18\%
@@ -65,7 +65,7 @@ and pushed the scale upwards. Applying the Dirichlet-Multinomial likelihood
 for the composition data (which led to higher weights for these data) 
 had the opposite effect, bringing the scale downwards.
 
-The senstivities related to removing indices from the north model had relatively little
+The sensitivities related to removing indices from the north model had relatively little
 impact with the exception of the one in which all fishery CPUE indices
 were removed, which increased the scale from 62\% of $B_0% in 2021 to 82\%.
 
@@ -80,7 +80,7 @@ compare <- r4ss::SSsummarize(list(mod.2021.s.014.001, mod.2021.s.014.103))
 apply(compare$Bratio[1:2], 2, min) %>% round(2)
 round(compare$Bratio[compare$Bratio$Yr == 2021,1:2], 2)
 -->
-Among the biology and recruitment sensitivities, the south model was most senstive to
+Among the biology and recruitment sensitivities, the south model was most sensitive to
 fixing female $M$ at 0.3 and $h$ at 0.7 which increased the productivity of the 
 stock enough to result in a 2021 spawning biomass estimate at 97\% of $B_0$.
 The negative log-likelihood for this sensitivity is 6.7 units worse than the base 
@@ -93,13 +93,13 @@ it doesn't appear within the range shown in the figure). The Dirichlet-Multinomi
 sensitivity, which led to increased weight on the length and age compositions
 likewise pushed the scale upwards.
 
-The two senstivities related to removing indices which had the most impact were
+The two sensitivities related to removing indices which had the most impact were
 those related to the historical indices: the \gls{s-tri} and 
 the recreational CPFV Deb Wilson-Vandenberg index. 
 Without the recreational index, the stock was estimated to have had a very large
 recruitment in 1952, driving the stock high above $B_0$ in the 1950s and 1960s.
 Removing the \gls{s-tri} caused the stock to continue to decline in the 1990s and 
-early 2000s instead of stabilitizing and then increasing to better fit the higher
+early 2000s instead of stabilizing and then increasing to better fit the higher
 2004 \gls{s-tri} observation.
 
 ```

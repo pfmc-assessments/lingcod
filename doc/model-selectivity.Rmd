@@ -6,7 +6,7 @@ usethis::use_data(block_breaks_north, overwrite = TRUE)
 usethis::use_data(block_breaks_south, overwrite = TRUE)
 ```
 
-#### Selectivity and retention {#sec-model-selectivitiy}
+#### Selectivity and retention {#sec-model-selectivity}
 
 Selectivity was modeled using the double-normal function of length
 (option 24 in Stock Synthesis) with three of the six possible parameters estimated 
