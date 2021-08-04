@@ -392,7 +392,7 @@ add_figure_retro(params$model, 5)
 ### Likelihood profiles
 
 ```{r, figures-profile, echo = FALSE, results = "asis"}
-add_figure_profile(params$model, "NatM")
+add_figure_profile(params$model, "NatM", "like_1")
 add_figure_profile(params$model, "steep")
 add_figure_profile(params$model, "R0")
 ```
