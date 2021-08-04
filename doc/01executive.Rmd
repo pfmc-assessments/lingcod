@@ -52,12 +52,8 @@ sa4ss::table_format(
 )
 ```
 
-```{r, results = 'asis'}
-sa4ss::add_figure(
-filein = file.path("..", mod_loc, "plots", "catch2 landings stacked.png"), 
-caption = "Landings (mt) by fleet used in the base model",
-label = 'es-catch')
-```
+![Landings (mt) by fleet used in the base model.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch2 landings stacked.png"), '"')`){width=100% height=100% alt="."}
+
 \clearpage
 
 ## Data and assessment{-}
@@ -76,6 +72,7 @@ commercial trawl fishery, and
 each recreational fishery;
 length and age compositions, available from the previous sources as well as
 research done by L. Lam.
+
 ```{asis, opts.label = "north"}
 For this northern area,
 information on relative abundance was also available from the Oregon fixed gear fleet.
@@ -85,6 +82,7 @@ For this southern area,
 information on abundance, length, and age was also available from the Hook and Line Survey.
 The final model included ages from just the West Coast Groundfish Bottom Trawl Survey because of conflicts between age- and length-composition data.
 ```
+
 Age data were explored using conditional-age-at-length rather than marginal ages and
 all length data were modeled as sex-specific compositions for fish that were sexed and as combined sex for fish that were measured but not sexed.
 Unsexed fish that were aged were not included in this assessment.
@@ -107,6 +105,23 @@ which typically changed the scale of the population and estimates of key product
 
 ## Stock biomass{-}
 
+```{asis, opts.label = "north"}
+The stock biomass is currently trending downwards, though the rate of the decline is highly uncertain
+(Figure \@ref(fig:es-ssb).
+And, although it is currently declining, it estimated to have been above the management target since
+the late 1990s and never to have been below the minimum stock size threshold
+(Figure \@ref(fig:es-depl)).
+```
+```{asis, opts.label = "south"}
+The stock biomass is currently trending upwards, though the rate of the increase is highly uncertain
+(Figure \@ref(fig:es-ssb)).
+Uncertainty in the initial stock size is vast and this uncertainty is carried forward until approximately the
+early 1980s when more informative data are available.
+The current estimated biomass is below, but close to, the management target with the uncertainty in this estimate
+spanning well above and below the management target and the minimum stock size threshold
+(Figure \@ref(fig:es-depl)).
+```
+
 ```{r, results = "asis"}
 tabb <- utils::read.csv(
   file.path("..", mod_loc, "tables", "b_SSB_ES.csv")
@@ -121,6 +136,7 @@ colnames(tabb) <- gsub(
 ))
 sa4ss::table_format(
   tabb,
+  longtable = FALSE,
   caption = table_labels[table_labels[["label"]] == "ssbES", "caption"],
   label = table_labels[table_labels[["label"]] == "ssbES", "label"],
 )
@@ -140,9 +156,25 @@ filein = dir(file.path("..", mod_loc, "plots"), pattern = "ts9_.+_intervals", fu
 caption = "Estimated time series of fraction of unfished spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
 label = 'es-depl')
 ```
+
 \clearpage
 
 ## Recruitment{-}
+
+`r Spp` appear to have moderate variability in estimates of recruitment with
+recruitment variability ($\sigma_R$) fixed at
+`r model$parameters[model$parameters$Label=="SR_sigmaR","Value"]`
+(Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)).
+Given the pandemic and the lack of recent survey information,
+recruitment was not estimable for the next to last year of the model
+(Table \@ref(tab:recrES)).
+If the survey in 2019 would have been conducted,
+then 2019 recruitment would have been different from that predicted from the stock-recruitment curve and
+perhaps less uncertain.
+Though, `r spp` are not seen as age-0 fish in any data set in appreciable quantities, and thus,
+the terminal year of recruitment is never estimated.
+The last large recruitment event for this stock occurred in 2013 and
+a smaller event may have also occurred within the last half-decade though its magnitude is more uncertain.
 
 ```{r, results = "asis"}
 tabc <- utils::read.csv(
@@ -176,9 +208,23 @@ filein = file.path("..", mod_loc, "plots", "recdevs2_withbars.png"),
 caption = "Estimated time series of recruitment deviations",
 label = 'es-rec-devs')
 ```
+
 \clearpage
 
 ## Exploitation status{-}
+
+```{asis, opts.label = "north"}
+The harvest rate was estimated to have never been above the target proxy harvest rate
+(Table \@ref(tab:exploitES); Figure \@ref(fig:es-1-spr)).
+Recent estimates of fishing intensity indicate stability within the fishery and are close to pre-1950 estimates.
+```
+```{asis, opts.label = "south"}
+The stock was estimated to have been harvested above the target proxy harvest rate from the 1970s to approximately the late 1990s and again in the early 2000s
+(Figure \@ref(fig:es-1-spr)).
+Recent estimates of harvest have all been below the target proxy harvest rate and
+the estimate of fishing intensity for the terminal year was the lowest estimated since 2011
+(Table \@ref(tab:exploitES)).
+```
 
 ```{r, results = "asis"}
 tabd <- utils::read.csv(
@@ -205,24 +251,39 @@ filein = file.path("..", mod_loc, "plots", "SPR2_minusSPRseries.png"),
 caption = "Estimated 1 - relative spawning ratio (SPR) by year for the base model. The management target is plotted as a red horizontal line and values above this reflect harvest in excess of the proxy harvest rate",
 label = 'es-1-spr')
 ```
+
 \clearpage
 
 ## Reference points{-}
 
+```{asis, opts.label = "north"}
+The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be well above the management target, even the lower interval was estimated to be above the target
+(Table \@ref(tab:referenceES); Figures \@ref(fig:es-phase) and \@ref(fig:es-yield)).
+```
+```{asis, opts.label = "south"}
+The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be close to the management target
+(Table \@ref(tab:referenceES); Figures \@ref(fig:es-phase) and \@ref(fig:es-yield)).
+The uncertainty in this estimate spans well below any estimated value and nearly reaches 1.0, which would indicate the stock is at unfished levels
+(Figure \@ref(fig:es-phase)).
+```
 ```{r, results = "asis"}
 tabe <- utils::read.csv(
   file.path("..", mod_loc, "tables", "e_ReferencePoints_ES.csv")
 )
 tabe[, -1] <- round(tabe[, -1], 4)
-colnames(tabe)[1] <- "Reference Point"
+colnames(tabe)[1] <- "Reference point"
 colnames(tabe) <- gsub(
   "\\.[1-9]$", "",
   gsub(
   "\\.\\.mt\\.", " (mt)",
   gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabe))
 ))
+tabe[which(is.na(tabe[, 2])), -1] <- "-"
 sa4ss::table_format(
   tabe,
+  escape = FALSE,
+  longtable = FALSE,
+  align = c("l", rep("r", 3)),
   caption = table_labels[table_labels[["filename"]] == "e_ReferencePoints_ES.csv", "caption"],
   label = table_labels[table_labels[["filename"]] == "e_ReferencePoints_ES.csv", "label"],
 )
@@ -242,15 +303,24 @@ caption = "Equilibrium yield curve for the base case model. Values are based on 
 fishery selectivities",
 label = 'es-yield')
 ```
+
 \clearpage
 
 ## Management performance{-}
 
+In the last ten years, the annual catch limit has been below the overfishing limit and acceptable biological catch
+(Table \@ref(tab:referenceES)).
+Furthermore, landings and catches (i.e., total mortality) have been well below the annual catch limit.
+
 ```{r, results = "asis"}
+management_oflabcacl <- utils::read.csv(file.path("..", "tables", "management-oflabcacl.csv"))
 tabf <- utils::read.csv(
   file.path("..", mod_loc, "tables", "f_Manage_ES.csv")
 )
-# tabf[, -1] <- round(tabf[, -1], 4)
+tabf[, 2:4] <- management_oflabcacl %>%
+  dplyr::filter(area == params$area) %>%
+  dplyr::filter(Year %in% tabf[, 1]) %>%
+  dplyr::select(-area, -Year)
 colnames(tabf) <- gsub(
   "\\.[1-9]$", "",
   gsub(
@@ -259,56 +329,68 @@ colnames(tabf) <- gsub(
 ))
 sa4ss::table_format(
   tabf,
+  digits = 2,
+  align = "r",
   caption = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "caption"],
   label = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "label"],
 )
 ```
+
 \clearpage
 
 ## Unresolved problems and major uncertainties{-}
 
-Replace text.
+The base-model configuration was developed with the goal of balancing parsimony with realism and fitting the data.
+To achieve parsimony, some simplification of the model structure was assumed relative to known processes,
+which may impact the interpretation and fit to specific data sets.
+For example, a clear break between the northern and southern stock at Cape Mendocino is unrealistic but
+we do not currently have the resources necessary to add spatial dynamics to the stock assessment or
+estimate the level of overlap between the stocks.
+
+Patterns of sex-specific selectivity were apparent in the data, particularly for the fishing fleets.
+Unfortunately, we were unable to configure the model in such a way that the model fit all data sources equally as well
+as the base-model configuration when attempting to account for these patterns.
+
+Uncertainty in parameter estimates are quite large relative to recent assessments because of the choice to estimate
+both natural mortality and steepness.
+Recent work has shown the utility of estimating both parameters with respect to management reference points, and although estimates provided in this document are imprecise,
+we predict that they are less biased than if the model would have been configured with one or more of these parameters as fixed inputs rather than estimated.
+Estimating both parameters led to counter-intuitive differences in estimates of natural mortality between the two areas.
+Hopefully, future work on parameterizing selectivity will lead to more precise estimates of male and female
+natural mortality given the life history of this species, specifically the nest-guarding behavior of males.
 
 ## Decision table{-}
 
+The forecast of stock abundance and yield was developed using the base model
+(Table \@ref(tab:es-forecastprojections)).
+The total catches for the first two years of the forecast period were based on values provided by the \glsentrylong{gmt} and
+a 40:60 split between the two commercial fleets.
+These assumed removals are likely higher than what the true removals will be for this year and next year but
+their influence on the assessment of stock status and future removals are limited.
+
+The axes of uncertainty in the decision table (Table \@ref(tab:es-decision)) are based on
+the uncertainty in `r ifelse(params$area == "north", "sex-specific selectivity and the removal of fishery ages", "female natural mortality")`.
+Three alternative catch streams were created for the decision table (Table \@ref(tab:es-decision)).
+The first option uses recent average catch,
+the second option uses a $P^*$ of 0.40, and
+the third option uses a $P^*$ of 0.45.
+
+\clearpage
+
 ```{r, results = 'asis'}
-tab = read.csv(file.path("..", mod_loc, 'tables', 'g_Projections_ES.csv'))
-# spex_removal = c(model$derived_quants[model$derived_quants$Label == "ForeCatch_2021", "Value"], 
-#                  model$derived_quants[model$derived_quants$Label == "ForeCatch_2022", "Value"])
-# out = cbind(tab$Year,
-#             c(93547, 87540, rep("-",10)),
-#             c(84192, 78436, rep("-",10)),
-#             c(50000, 50000, rep("-", 10)),
-#             c(round(spex_removal,0), rep("-", 10)),
-#             c(rep("-",2), round(tab[3:12,2], 0)),
-#             c(rep("-",2), round(tab[3:12,3], 0)),
-#             c(rep("-",2), round(tab[3:12,3]/tab[3:12,2], 3)),
-#             round(tab[ ,5:ncol(tab)], 2))
-col_names = c('Year',
-              # 'Adopted OFL (mt)',
-              # 'Adopted ABC (mt)',
-              # "Adopted ACL (mt)",
-              # "Assumed Removal (mt)", 
-              "OFL (mt)", 
-              "ABC (mt)", 
-              # "Buffer",
-              "Age 3 plus (mt)",
-              "Spawning Biomass (mt)",
-              "Fraction Unfished")
-sa4ss::table_format(x = tab,
-             caption = "Projections of potential OFLs (mt), ABCs (mt), the buffer (ABC = buffer x OFL), estimated spawning biomass, and fraction unfished. The adopted OFL, ABC, and ACL for 2021 and 2022 reflect adopted management limits and the assumed removal is the removal assumptions applied for 2021 and 2022. The full ABC was assumed to be removed for 2023 - 2032",
-             label = "es-project",
-             align = 'l',
-             landscape = TRUE,
-             custom_width = TRUE,
-             col_to_adjust = 1:10, 
-             width = rep("2cm", 10),
-             col_names = col_names)
+ignore <- table_projections(model, label = "es-forecastprojections")
+cat(ignore)
 ```
 
 ```{r, results = "asis"}
-sa4ss::read_child(file.path("..", mod_loc, "decision_table.tex"))
+decisiontable <- append(
+  x = readLines(file.path("..", mod_loc, "decision_table.tex")),
+  values = c("\\caption{\\label{tab:es-decision}Decision table summary of 10-year projections based on recent average catch for the first two years of the projection, alternative states of nature (columns), and management assumptions (asm.; rows) based on recent average catch and annual catch limits (ACLs) defined using an estimate of uncertainty (i.e., $P^*$) of 0.40 and 0.45. Catch and resulting fraction unfished are colored relatively with lighter colors representing lower values.}"),
+  after = 1
+)
+cat(decisiontable)
 ```
+
 \clearpage
 
 ## Regional management considerations{-}
