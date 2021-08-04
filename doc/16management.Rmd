@@ -22,8 +22,8 @@ for the first time that restricted landed `r spp` to be at least 22 inches.
 This size restriction matched the restriction within the recreational fishery
 and trawl-caught `r spp`, with a 100 lb exception for the latter.
 The minimum size was increased to 24 inches in 1998.
-Minimum size across areas diverged in 2000, when the minimum size of
-`r spp` landed south of \CapeM [@jagielo2000assessment]. latitude in the
+Minimum size across areas diverged in 2000 [@jagielo2000assessment], when the minimum size of
+`r spp` landed south of \CapeM latitude in the
 limited entry fixed gear fishery increased to 26 inches.
 Currently, the minimum size limits for the limited entry fixed gear
 and open access commercial fisheries are
