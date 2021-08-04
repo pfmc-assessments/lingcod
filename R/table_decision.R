@@ -15,14 +15,22 @@
 #' @param rowgroup A vector of character strings to label the group names in
 #' the first column that define the groups across rows.
 #' Typically, this information is the catch-stream groups.
+#' You can wrap lines if you include the makecell package in your sty file and
+#' use [kableExtra::linebreak()] on this vector,
+#' which translates the characters `\n` into something that LaTeX can use.
 #' @param colgroup A vector of character strings to label the states of nature.
 #' @template format
+#' @param caption A character string that
+#' will be passed to the `caption` parameter of [kableExtra::kbl].
+#' The default value is `NULL`.
+#' @param label A character string without underscores that
+#' will be passed to the `label` parameter of [kableExtra::kbl].
+#' The default value is `NULL`.
 #' @export
 #' @details todo:
 #' * get lines below rowgroups, but I think this might be working in LaTeX only.
 #' * write checks
 #' * get vertical lines
-#' * change year back to actual value
 #' @author Ian G. Taylor, Chantel R. Wetzel, Kelli F. Johnson
 #' @examples
 #' table_decision(
@@ -42,7 +50,9 @@ table_decision <- function(
   years,
   rowgroup = c("Constant", "ACL", "ACL2"),
   colgroup = c("Low", "Base", "High"),
-  format = c("latex", "html")
+  format = c("latex", "html"),
+  caption = formals(kableExtra::kbl)$caption,
+  label = formals(kableExtra::kbl)$label
 ) {
 
   mods <- list(...)
@@ -110,7 +120,9 @@ table_decision <- function(
     escape = FALSE,
     # format = "html",
     booktabs = TRUE,
-    align = c("l", "l", "r", rep(c("r", "r"), length(colgroup)))
+    align = c("l", "l", "r", rep(c("r", "r"), length(colgroup))),
+    caption = caption,
+    label = label
   ) %>%
   kableExtra::column_spec(c(1), bold = TRUE) %>%
   kableExtra::column_spec(c(1, 3, 3+2*seq(1,length(colgroup)-2)), border_right = TRUE) %>%
