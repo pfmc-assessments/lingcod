@@ -13,7 +13,7 @@ table_projections <-
            caption = paste("Projections of potential overfishing limits (OFLs; mt),",
                            "allowable biological catches (ABCs; mt),",
                            "estimated summary biomass (mt), spawning biomass (mt), and fraction unfished",
-                           "based on assumed removals for the most recent two years."
+                           "based on assumed removals for the most recent two years.",
                            "Assumed removals for 2021 and 2022 are average",
                            "catch from the period 2016-2020 with a 40:60",
                            "split of trawl:fixed-gear."),
