@@ -266,7 +266,7 @@ cat(ignore)
 ```{r, results = "asis"}
 decisiontable <- append(
   x = readLines(file.path("..", mod_loc, "decision_table.tex")),
-  values = c("\\caption{\\label{tab:decision}Decision table summary of 10-year projections based on recent average catch for the first two years of the projection, alternative states of nature (columns), and management (rows) based on recent average catch and annual catch limits (ACLs) defined using an estimate of uncertainty (i.e., $P^*$) of 0.40 and 0.45. Catch and resulting fraction unfished are colored relatively with lighter colors representing lower values.}"),
+  values = c("\\caption{\\label{tab:decision}Decision table summary of 10-year projections based on recent average catch for the first two years of the projection, alternative states of nature (columns), and management assumptions (asm.; rows) based on recent average catch and annual catch limits (ACLs) defined using an estimate of uncertainty (i.e., $P^*$) of 0.40 and 0.45. Catch and resulting fraction unfished are colored relatively with lighter colors representing lower values.}"),
   after = 1
 )
 cat(decisiontable)

@@ -90,7 +90,8 @@ table_decision <- function(
   ) %>%
   dplyr::select_if(!grepl("catch|group", ignore.case = FALSE, colnames(.))) %>%
   dplyr::relocate(Catch, .after = Year) %>%
-  dplyr::distinct(Management, Year, Catch, .keep_all = TRUE)
+  dplyr::distinct(Management, Year, Catch, .keep_all = TRUE) %>%
+  dplyr::rename("Asm." = "Management")
   rownames(results) <- NULL
   colnames(results) <- gsub(
     "Spawn.+",

@@ -128,29 +128,36 @@ if(FALSE) {
   tab_south %>% kableExtra::save_kable("figures/decision_table_south_26July2021b.png")
 
 # latex version
-  tab_north <- table_decision(
+  # Row-group names for first column; kableExtra::linebreak allows for hard returns
+  rowgroupnames <- kableExtra::linebreak(
+    x = c(
+      "Recent\n avg.\n catch",
+      "ACL\n$P^*$=0.40",
+      "ACL\n$P^*$=0.45"
+    ),
+    align = "l"
+  )
+  table_decision(
     list(mod.2021.n.023.611, mod.2021.n.023.621, mod.2021.n.023.631),
     list(mod.2021.n.023.612, mod.2021.n.023.622, mod.2021.n.023.632),
     list(mod.2021.n.023.613, mod.2021.n.023.623, mod.2021.n.023.633),
     years = 2021:2032,
-    rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
+    rowgroup = rowgroupnames,
     colgroup = c("Low (sex-selectivity)", "Base", "High (no fishery ages)"),
     format = "latex"
-  )
-  tab_north %>%
-    kableExtra::save_kable(file = file.path(get_dir_ling("n", 23), "decision_table.tex"))
+  ) %>%
+  kableExtra::save_kable(file = file.path(get_dir_ling("n", 23), "decision_table.tex"))
 
-  tab_south <- table_decision(
+  table_decision(
     list(mod.2021.s.018.611, mod.2021.s.018.621, mod.2021.s.018.631),
     list(mod.2021.s.018.612, mod.2021.s.018.622, mod.2021.s.018.632),
     list(mod.2021.s.018.613, mod.2021.s.018.623, mod.2021.s.018.633),
     years = 2021:2032,
-    rowgroup = c("Recent avg. catch", "ACL Pstar = 0.40", "ACL Pstar = 0.45"),
+    rowgroup = rowgroupnames,
     colgroup = c("Low M (0.11)", "Base (M ~ 0.17)", "High M (0.22)"),
     format = "latex"
-  )
-  tab_south %>% 
-    kableExtra::save_kable(file = file.path(get_dir_ling("s", 18), "decision_table.tex"))
+  ) %>%
+  kableExtra::save_kable(file = file.path(get_dir_ling("s", 18), "decision_table.tex"))
 }
 
 if (FALSE) {
