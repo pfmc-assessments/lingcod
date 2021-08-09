@@ -60,7 +60,7 @@ table_decision <- function(
 
   nm <- setNames(c(1, 1, 1,rep(2, length(colgroup))), c(" ", " ", " ", colgroup))
 
-  results <- purrr::modify_depth(mods, 2, r4ss:::SS_decision_table_stuff) %>%
+  results <- purrr::modify_depth(mods, 2, r4ss::SS_decision_table_stuff) %>%
   purrr::modify_depth(1, dplyr::bind_cols) %>%
   dplyr::bind_rows(.id = "Management") %>%
   dplyr::mutate(
@@ -78,7 +78,7 @@ table_decision <- function(
     .vars = dplyr::vars(grep(value = TRUE, "^SpawnBio", colnames(.))),
      ~ kableExtra::cell_spec(
        format = format,
-      x = sprintf("%.1f", .),
+      x = sprintf("%1.0f", .),
       italic = abs(.data$catch / .data$Catch - 1) > 0.01 # catch differs by > 1%
     )
   ) %>%

@@ -143,7 +143,7 @@ if(FALSE) {
     list(mod.2021.n.023.613, mod.2021.n.023.623, mod.2021.n.023.633),
     years = 2021:2032,
     rowgroup = rowgroupnames,
-    colgroup = c("Low (sex-selectivity)", "Base", "High (no fishery ages)"),
+    colgroup = c("Low\n(sex-selectivity)", "Base\n ", "High\n(no fishery ages)"),
     format = "latex"
   ) %>%
   kableExtra::save_kable(file = file.path(get_dir_ling("n", 23), "decision_table.tex"))
@@ -154,25 +154,26 @@ if(FALSE) {
     list(mod.2021.s.018.613, mod.2021.s.018.623, mod.2021.s.018.633),
     years = 2021:2032,
     rowgroup = rowgroupnames,
-    colgroup = c("Low M (0.11)", "Base (M ~ 0.17)", "High M (0.22)"),
+    colgroup = c("Low M\n(M = 0.11)", "Base\n(M ~ 0.17)", "High M\n(M = 0.22)"),
     format = "latex"
   ) %>%
   kableExtra::save_kable(file = file.path(get_dir_ling("s", 18), "decision_table.tex"))
-}
+
+} # end if(FALSE)
 
 if (FALSE) {
-# figure showing forecast period
-list(mod.2021.n.023.622,
-     mod.2021.n.023.612,
-     mod.2021.n.023.632
-     ) %>%
-  r4ss::SSsummarize() %>%
-  r4ss::SSplotComparisons(subplot = 3,
-                          pch = NA,
-                          endyrvec = 2032,
-                          legendloc = 'topleft',
-                          legendlabels = c("Base", "Low (sex-selectivity)", "High (no fishery ages)"),
-                          legendorder = c(3,1,2),
-                          print = FALSE,
-                          plotdir = "figures/STAR_request20")
+  # figure showing forecast period
+  list(mod.2021.n.023.622,
+       mod.2021.n.023.612,
+       mod.2021.n.023.632
+       ) %>%
+    r4ss::SSsummarize() %>%
+    r4ss::SSplotComparisons(subplot = 3,
+                            pch = NA,
+                            endyrvec = 2032,
+                            legendloc = 'topleft',
+                            legendlabels = c("Base", "Low (sex-selectivity)", "High (no fishery ages)"),
+                            legendorder = c(3,1,2),
+                            print = FALSE,
+                            plotdir = "figures/STAR_request20")
 }
