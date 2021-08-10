@@ -107,7 +107,7 @@ which typically changed the scale of the population and estimates of key product
 
 ```{asis, opts.label = "north"}
 The stock biomass is currently trending downwards, though the rate of the decline is highly uncertain
-(Figure \@ref(fig:es-ssb).
+(Figure \@ref(fig:es-ssb)).
 And, although it is currently declining, it estimated to have been above the management target since
 the late 1990s and never to have been below the minimum stock size threshold
 (Figure \@ref(fig:es-depl)).

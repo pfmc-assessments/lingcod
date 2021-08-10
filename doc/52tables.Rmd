@@ -248,6 +248,9 @@ table_compweight(model)
 <!-- ====================================================================== -->
 <!-- 30model sensitivity tables -->
 <!-- ====================================================================== -->
+```{r tableretro, results = "asis"}
+sa4ss::read_child(file.path(paste0(params$model, "_retro"), "mohnsrho.tex"))
+```
 \begin{landscape}
 ```{r tables-model-sens, results = "asis"}
 table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area))
