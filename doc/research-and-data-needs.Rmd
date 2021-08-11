@@ -1,21 +1,29 @@
 Investigating and or addressing the following items could improve future assessments of `r spp`: 
 
-- Explore fine-scale spatial distribution of `r spp` of different ages and sexes relative to
-the distribution of fishing effort and survey sampling locations to inform modeling
-assumptions related to dome-shaped and sex-specific selectivity.
-- Explore ways to model sex-specific selectivity that provide additional flexibility
-in the models to account for such patterns without overparameterizing the model
-or creating implausibly different estimates of selectivity and natural mortality.
-- Provide comparisons of model results with `r spp` density or trends in abundance
-estimated from sources such as video landers and ROVs.
-- Continue to explore age-dependent natural mortality either through the Lorenzen
-function or other approaches.
-- Improve data-weighting approaches to facilitate separate tuning of 
-sample sizes for discard and retained fish from the same fleet and appropriately
-weight data on discard rates and mean body weight. These changes will hopefully 
+- Sex-specific selectivity is likely given the life history of `r spp`,
+but knowledge of the fine-scale spatial distribution of ages and sexes relative to
+the distribution of fishing effort and survey sampling locations is lacking to inform these patterns.
+Some relationships may be dome-shaped while others may be asympototic and
+these relationships could depend on whether the process is governed by length or age.
+Care should be taken during explorations of selectivity to ensure that the model
+does not become overparameterized given that selectivity and mortality are correlated.
+- Some data sources that were provided by state representatives were not fully explored,
+e.g., information from video landers and \glsplural{rov}.
+Currently, there is not a method to include multiple indices for a given fishery, and thus,
+the best-case scenario would be to provide comparisons of model results given fits to these alternative data sources rather than those that were used to fit the model.
+Additional work would be needed to formulate a method to combine them or
+allow for the inclusion of multiple \gls{cpue} indices for a given fleet.
+- It is likely that natural mortality is not constant across age as it was parameterized.
+Exploration of the Lorenzen natural mortality function
+prior to the review of this assessment
+suggested that information on natural mortality at age was lacking for the southern stock.
+Additional approaches are available to model age-specific natural mortality
+that could also be explored.
+- Data-weighting approaches that separate tuning of
+sample sizes for discarded and retained fish from the same fleet
+should be explored such that
+data on discard rates and mean body weight can be weighted appropriately.
+These changes will hopefully 
 bring the estimates of total mortality for years with high discard rates closer to
-the values reported by the WCGOP program's GEMM report.
-- Improve understanding of the source of conflict between age and length data for lingcod
-- Explore the costs and benefits of including both length- and age-composition data 
-for multiple fleets in general for data-rich (but possibly information-poor) species
-like `r spp`.
+the values reported in the \gls{gemm} data product based on data collected by \gls{wcgop}.
+- Conflicts were present in the information provided by the age and length data.
