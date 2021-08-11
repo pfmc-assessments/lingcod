@@ -23,7 +23,7 @@ table_projections <-
   # currently the south model forecast is in a parellel directory to the base
   forecast_dir <- output$inputs$dir %>%
     stringr::str_sub(end = nchar("models/2021.n.001.")) %>%
-    paste0("010_forecast")
+    paste0("623_base_stream_3")
   if (!dir.exists(forecast_dir)) {
     if (dir.exists(file.path("..", forecast_dir))) {
       forecast_dir <- file.path("..", forecast_dir)
