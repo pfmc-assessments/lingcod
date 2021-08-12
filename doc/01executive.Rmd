@@ -408,6 +408,8 @@ Three alternative catch streams were created for the decision table (Table \@ref
 The first option uses recent average catch as provided by the \glsentrylong{gmt},
 the second option uses a $P^*$ of 0.40, and
 the third option uses a $P^*$ of 0.45.
+These $P^*$ values are combined with the category 2 default $\sigma$ = 1.0
+in calculating the buffer between OFL and ABC.
 
 \clearpage
 
@@ -430,6 +432,23 @@ cat(decisiontable)
 ```
 
 \clearpage
+
+## Scientific uncertainty{-}
+<!-- text below adapted from https://github.com/chantelwetzel-noaa/dover_sole_2021/blob/master/write_up/shared_text/scientific_uncertainty.Rmd -->
+The model estimated uncertainty around the `r endyr+1` spawning biomass was 
+$\sigma$ = `r round(model$Pstar_sigma,2)` and the uncertainty around the OFL 
+was $\sigma$ = `r round(model$OFL_sigm, 2)`. 
+```{asis, opts.label = "north"}
+This is likely an underestimate of overall uncertainty because there is no 
+explicit incorporation of model structural uncertainty (although see the 
+decision table for alternative states of nature).
+```
+```{asis, opts.label = "south"}
+This is likely an underestimate of overall uncertainty because there is no 
+explicit incorporation of model structural uncertainty.
+```
+The category 2 default $\sigma$ = 1.0 is used to apply scientific uncertainty
+in the projections.
 
 ## Regional management considerations{-}
 
