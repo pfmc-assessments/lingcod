@@ -11,48 +11,65 @@ proportions <- avg_catch %>%
   dplyr::pull(prop) %>%
   round(3)
 
-prop_text <- proportions %>% 
-  paste0("\n - ", 
-         get_fleet(ifelse(params$area=="North", 1:5, c(1,2,5)), col = "label_long"), 
-		 ": ", .) %>%
-  paste(collapse = ",")
+paste_fleetnames <- function(
+  vector
+) {
+  prop_textfleetnames <- get_fleet(
+    which(grepl("Comm|Rec", get_fleet(col="fleet")) & 
+      if(params$area=="North"){
+        get_fleet(col="used_2021.n")
+      }else{
+        get_fleet(col="used_2021.s")
+      }
+    ),
+    col = "label_long"
+  )
+  paste0(
+    "\n - ",
+    prop_textfleetnames,
+    ": ",
+    vector
+  ) %>%
+  knitr::combine_words()
+}
+prop_text <- proportions %>% paste_fleetnames()
 
-proportions[1:2] <- c(0.4, 0.6) * sum(proportions[1:2])
-prop_text2 <- proportions %>% 
-  paste0("\n - ", 
-         get_fleet(ifelse(params$area=="North", 1:5, c(1,2,5)), col = "label_long"), 
-		 ": ", .) %>%
-  paste(collapse = ",")
+prop_text2 <-  c(
+  c(0.4, 0.6) * sum(proportions[1:2]),
+  proportions[3:length(proportions)]
+  ) %>%
+  paste_fleetnames()
 
+otherareaname <- function(
+  x
+) {
+  areanames <- info_areacolors %>% names
+  tolower(knitr::combine_words(areanames[!areanames %in% x]))
+}
 ```
-Separate commercial quotas for `r spp` are set for the areas north and south 
-of \CapeM which aligns with the division between areas used in these 
-assessments.
-```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
-Management of recreational fisheries is conducted at the 
-state level, which aligns with the fleet structure used in this model,
-where the catch associated with the recreational California fishery
-in any projection would be combined with the recreational catch in the 
-south model.
-```
-```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
-Management of recreational fisheries is conducted at the 
-state level, which aligns with the fleet structure used in this model,
-where the catch associated with the recreational California fishery
-in any projection would be combined with the recreational California catch 
-in the north model.
-```
-The average proportions of the total dead catch, including estimated dead 
+Commercial quotas for `r spp` are set separately for the areas north and south of \CapeM.
+This management boundary, which is based on the boundary between \gls{inpfc} areas,
+happens to align with the stock boundary used for this assessment.
+
+Recreational quotas for `r spp` are set separately for each state,
+which aligns with the fleet structure used in this model.
+The catch associated with the California recreational fleet was split
+at \CapeM based on location of landing, and thus,
+at least some California recreational catches are assigned to each stock.
+Projections for this fleet should be a combination of those given in this report
+as well as those reported in the output for the `r otherareaname(params$area)` model.
+
+The average proportions of the total dead catch, including estimated dead
 discards, associated with each fleet over the period 2011-2020 are:
 `r prop_text`.
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
 However, for purposes of the projections, the split between commercial 
 trawl and fixed-gear in the south was assumed to be 40:60, 
-based on input from the GMT, leading to the following proportions among fleets:
+based on input from the \gls{gmt}, leading to the following proportions among fleets:
 `r prop_text2`.
 
-Estimation of finer-scale differences in Lingcod abundance or status within 
+Estimation of finer-scale differences in `r spp` abundance or status within 
 California, such as north and south of Point Conception (\PtC), was not possible
 within this assessment. However, the state of California could apply finer-scale
 spatial management to account for any regional management considerations indicated
