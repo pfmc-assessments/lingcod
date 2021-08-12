@@ -18,7 +18,9 @@ using data through `r assessmentyear`.
 `r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")` and
 this document contains summary information on the species and
 detailed information for the `r area_long` stock.
-Models for both stocks do not include catches from the Alaskan, Canadian, or Mexican populations and
+Stocks were split at \CapeM based on genetic information.
+This boundary also happens to be the boundary used for the management of commercial catches.
+Models for `r spp` do not include catches from the Alaskan, Canadian, or Mexican populations and
 assume that these flanking populations do not contribute to the stocks being assessed here.
 ```
 
