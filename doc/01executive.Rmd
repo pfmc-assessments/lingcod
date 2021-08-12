@@ -95,7 +95,7 @@ Unsexed fish that were aged were not included in this assessment.
 
 Key parameters related to productivity were estimated and
 parameters related to growth and mortality were sex specific and time invariant.
-Annual recruitment deviations started in
+Main annual recruitment deviations started in
 `r model$recruitpars%>%dplyr::filter(type == "Main_RecrDev")%>%dplyr::pull(Yr) %>% min`,
 just prior to the availability of reliable length- and age-composition data.
 Selectivity for each fleet was modeled using a double-normal function of length that allowed for dome or asymptotic shapes that were supported by the data.
@@ -103,7 +103,7 @@ Time blocks were used for selectivity and retention to account for management ch
 
 A wide range of sensitivity runs were conducted to explore various
 model structures related to biology and recruitment,
-changes the data that were included in the model,
+changes to the data that were included in the model,
 ways in which selectivity was parameterized,
 etc.
 Results were sensitive to the addition and subtraction of age data,
@@ -368,7 +368,7 @@ management reference points, and although estimates provided in this document ar
 we predict that they are less biased than if the model would have been configured 
 with one or more of these parameters as fixed inputs rather than estimated.
 Estimating both parameters led to counter-intuitive differences in estimates of 
-natural mortality between the two areas.
+natural mortality between the southern and northern areas.
 Hopefully, future work on parameterizing selectivity will lead to more precise 
 estimates of male and female natural mortality given the life history of this 
 species, specifically the nest-guarding behavior of males.
