@@ -8,7 +8,7 @@ these relationships could depend on whether the process is governed by length or
 Care should be taken during explorations of selectivity to ensure that the model
 does not become overparameterized given that selectivity and mortality are correlated.
 - Some data sources that were provided by state representatives were not fully explored,
-e.g., information from video landers and \glsplural{rov}.
+e.g., information from video landers and \glspl{rov}.
 Currently, there is not a method to include multiple indices for a given fishery, and thus,
 the best-case scenario would be to provide comparisons of model results given fits to these alternative data sources rather than those that were used to fit the model.
 Additional work would be needed to formulate a method to combine them or
