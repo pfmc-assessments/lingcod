@@ -57,7 +57,7 @@ add_figure_retro <- function(pathtobase, n) {
       paste0("to do"),
       paste0("to do")
     ),
-    label = paste0("retro-", c("ssb-", "depl-")),
+    label = c("RetroSsb", "RetroFractionunfished"),
     filein = file.path(path,
       mapply(FUN = dir, MoreArgs = list(path = path),
         pattern = c("compare2_", "compare4")

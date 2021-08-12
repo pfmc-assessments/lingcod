@@ -157,7 +157,7 @@ A five-year retrospective analysis was conducted by successively removing years 
 starting with the most recent year.
 For the removal of the most recent year of data there were no changes to the model
 trajectory or estimates of fraction unfished
-(Figures \@ref(fig:retro-ssb-) and \@ref(fig:retro-depl-)).
+(Figures \@ref(fig:RetroSsb) and \@ref(fig:RetroFractionunfished)).
 ```{asis, opts.label = "north"}
 Peeling off more than one year of data led to a retrospective pattern with respect
 to the estimated scale of the population but not current status.
