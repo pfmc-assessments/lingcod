@@ -17,9 +17,8 @@ off the `r area_long` `r coast` coast
 using data through `r assessmentyear`.
 `r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")` and
 this document contains summary information on the species and
-detailed information for the `r area_long` stock.
-It does not include catches from the Alaskan, Canadian, or Mexican populations and
-assumes that these flanking populations do not contribute to the stock being assessed here.
+detailed information for the `r area_long` stock. Models for both stocks do not include catches from the Alaskan, Canadian, or Mexican populations and
+assume that these flanking populations do not contribute to the stocks being assessed here.
 ```
 
 ## Catches{-}
@@ -27,7 +26,7 @@ assumes that these flanking populations do not contribute to the stock being ass
 The first known records of `r spp` landings date back to the late 1800s
 (Figure \@ref(fig:es-catch)).
 Catch reconstructions for these early landings were informed by state resources and
-recent landings (Table \@ref(tab:removalsES)) were available available from PacFIN and RecFIN.
+recent landings (Table \@ref(tab:removalsES)) were available from PacFIN and RecFIN.
 Commercial discards were modeled using discard rate and length compositions to estimate retention curves.
 Recreational catches included estimates of dead discards in the landings data
 (Table \@ref(tab:removalsES)). Discard mortality was assumed to be 50\% 
@@ -91,7 +90,7 @@ The final model included ages from just the West Coast Groundfish Bottom Trawl S
 ```
 
 Age data were explored using conditional-age-at-length rather than marginal ages and
-all length data were modeled as sex-specific compositions for fish that were sexed and as combined sex for fish that were measured but not sexed.
+length data were modeled as sex-specific compositions for fish that were sexed and as combined sex for fish that were measured but not sexed.
 Unsexed fish that were aged were not included in this assessment.
 
 Key parameters related to productivity were estimated and
