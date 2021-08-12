@@ -262,11 +262,16 @@ label = 'lam-ageComp')
 add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-ormarres.csv")))
 ```
 
-<!-- comp_lendat_aggregated_across_time--->
-<!-- comp_lenddat_page[12]_multi-fleet_comparison--->
-<!-- don't show any CAAL in the report as raw data -->
+<!-- s-ccfrp figures -->
+```{asis, opts.label = 'south', echo = TRUE}
+![(\#fig:fig-areacpue-ccfrp)Arithmetic mean of \glsfirst{cpue} by region for `r spp` from the filtered \glsfirst{s-ccfrp} data.](Indices_for_Kelli/lingcod_CCFRP_writeup_NCA_files/figure-latex/fig-areacpue-ccfrp-1.pdf) 
 
+![(\#fig:fig-sitecpue-ccfrp)Arithmetic mean of \glsfirst{cpue} inside (green) and outside (orange) \glsfirst{mpa} sample sites for `r spp` from the filtered \glsfirst{s-ccfrp} data.](Indices_for_Kelli/lingcod_CCFRP_writeup_NCA_files/figure-latex/fig-sitecpue-ccfrp-1.pdf) 
 
+![(\#fig:fig-cpue-ccfrp)Standardized index and arithmetic mean of the \glsfirst{cpue} from the filtered \glsfirst{s-ccfrp} data. Each timeseries is scaled to its respective mean.](Indices_for_Kelli/lingcod_CCFRP_writeup_NCA_files/figure-latex/fig-cpue-ccfrp-1.pdf)
+
+![(\#fig:fig-dist-fits-ccfrp)A comparison of the observed to theoretical quantiles (Q-Q plot; top panel) suggesting the Lognormal distribution (orange) provides a better fit to the positive observations than a Gamma distribution (green). Residuals versus observations for the final, Lognormal, model (bottom panel) exhibit some trends in the extremes of the distribution (blue line is a smoother).](Indices_for_Kelli/lingcod_CCFRP_writeup_NCA_files/figure-latex/fig-dist-fits-ccfrp-1.pdf) 
+```
 
 <!-- ====================================================================== -->
 <!-- Biology Figures -->

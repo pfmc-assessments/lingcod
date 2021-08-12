@@ -230,6 +230,121 @@ sa4ss::read_child(filein = file.path("..", "tables", paste0("length_samps_comm_b
 sa4ss::read_child(filein = file.path("..", "tables", paste0("age_samps_comm_byState_", params$area, ".tex")))
 ```
 
+<!-- s-ccfrp tables -->
+\begin{table}
+\caption{(\#tab:tab-region-ccfrp)\glsfirst{s-ccfrp} samples of `r spp` by subregion used to generate an index of abundance.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+Year & Samples & Positive Samples & \% Positive\\
+\midrule
+\cellcolor{gray!6}{South Cape Mendocino} & \cellcolor{gray!6}{131} & \cellcolor{gray!6}{289} & \cellcolor{gray!6}{45\%}\\
+Ten Mile & 139 & 297 & 47\%\\
+\cellcolor{gray!6}{Stewarts Point} & \cellcolor{gray!6}{127} & \cellcolor{gray!6}{293} & \cellcolor{gray!6}{43\%}\\
+Bodega Head & 139 & 275 & 51\%\\
+\cellcolor{gray!6}{Ano Nuevo} & \cellcolor{gray!6}{701} & \cellcolor{gray!6}{1879} & \cellcolor{gray!6}{37\%}\\
+\addlinespace
+Point Lobos & 553 & 1369 & 40\%\\
+\cellcolor{gray!6}{Piedras Blancas} & \cellcolor{gray!6}{384} & \cellcolor{gray!6}{953} & \cellcolor{gray!6}{40\%}\\
+Point Buchon & 535 & 1324 & 40\%\\
+\cellcolor{gray!6}{Anacapa Island} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{52} & \cellcolor{gray!6}{6\%}\\
+Carrington Point & 93 & 182 & 51\%\\
+\addlinespace
+\cellcolor{gray!6}{South La Jolla} & \cellcolor{gray!6}{9} & \cellcolor{gray!6}{50} & \cellcolor{gray!6}{18\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+```{asis, opts.label = 'south', echo = TRUE}
+\begin{table}
+\caption{(\#tab:tab-year-ccfrp)Samples of `r spp` in the \glsfirst{s-ccfrp} data by year.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+Year & Samples & Positive Samples & \% Positive\\
+\midrule
+\cellcolor{gray!6}{2007} & \cellcolor{gray!6}{87} & \cellcolor{gray!6}{552} & \cellcolor{gray!6}{16\%}\\
+2008 & 134 & 564 & 24\%\\
+\cellcolor{gray!6}{2009} & \cellcolor{gray!6}{94} & \cellcolor{gray!6}{370} & \cellcolor{gray!6}{25\%}\\
+2010 & 142 & 420 & 34\%\\
+\cellcolor{gray!6}{2011} & \cellcolor{gray!6}{170} & \cellcolor{gray!6}{374} & \cellcolor{gray!6}{45\%}\\
+\addlinespace
+2012 & 237 & 397 & 60\%\\
+\cellcolor{gray!6}{2013} & \cellcolor{gray!6}{201} & \cellcolor{gray!6}{428} & \cellcolor{gray!6}{47\%}\\
+2014 & 262 & 449 & 58\%\\
+\cellcolor{gray!6}{2015} & \cellcolor{gray!6}{135} & \cellcolor{gray!6}{224} & \cellcolor{gray!6}{60\%}\\
+2016 & 240 & 429 & 56\%\\
+\addlinespace
+\cellcolor{gray!6}{2017} & \cellcolor{gray!6}{304} & \cellcolor{gray!6}{590} & \cellcolor{gray!6}{52\%}\\
+2018 & 332 & 700 & 47\%\\
+\cellcolor{gray!6}{2019} & \cellcolor{gray!6}{279} & \cellcolor{gray!6}{740} & \cellcolor{gray!6}{38\%}\\
+2020 & 197 & 726 & 27\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{(\#tab:tab-depth-ccfrp)Positive samples of `r spp` in the \glsfirst{s-ccfrp} data by depth (fm) bin.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+Year & Samples & Positive Samples & \% Positive\\
+\midrule
+\cellcolor{gray!6}{(0,10]} & \cellcolor{gray!6}{589} & \cellcolor{gray!6}{1809} & \cellcolor{gray!6}{33\%}\\
+(10,15] & 1215 & 2942 & 41\%\\
+\cellcolor{gray!6}{(15,20]} & \cellcolor{gray!6}{834} & \cellcolor{gray!6}{1827} & \cellcolor{gray!6}{46\%}\\
+(20,30] & 176 & 385 & 46\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{(\#tab:tab-model-select-ccfrp)Model selection for the \glsfirst{s-ccfrp} index was performed using \glsfirst{aic} to select factors that explained the data in the most parsimonious manner.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+Model & Binomial $\Delta$AIC & Lognormal $\Delta$AIC\\
+\midrule
+\cellcolor{gray!6}{1} & \cellcolor{gray!6}{873.41} & \cellcolor{gray!6}{775.69}\\
+YEAR + AREA & 237.89 & 160.63\\
+\cellcolor{gray!6}{YEAR + AREA + SITE} & \cellcolor{gray!6}{55.57} & \cellcolor{gray!6}{46.76}\\
+YEAR + AREA + SITE + DEPTH bin & 0.00 & 0.00\\
+\cellcolor{gray!6}{YEAR + SITE + DEPTH bin} & \cellcolor{gray!6}{83.23} & \cellcolor{gray!6}{403.90}\\
+\addlinespace
+YEAR + DEPTH bin & 241.15 & 497.94\\
+\cellcolor{gray!6}{YEAR + AREA + DEPTH bin} & \cellcolor{gray!6}{151.37} & \cellcolor{gray!6}{97.41}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{(\#tab:tab-index-ccfrp)Standardized index for the \glsfirst{s-ccfrp} survey index with log-scale standard errors (SE) and 95\% highest posterior density (HPD) intervals for `r spp`.}
+\centering
+\begin{tabular}[t]{rrrrr}
+\toprule
+Year & Mean & log SE & lower HPD & upper HPD\\
+\midrule
+\cellcolor{gray!6}{2007} & \cellcolor{gray!6}{0.24} & \cellcolor{gray!6}{0.19} & \cellcolor{gray!6}{0.16} & \cellcolor{gray!6}{0.33}\\
+2008 & 0.30 & 0.16 & 0.21 & 0.40\\
+\cellcolor{gray!6}{2009} & \cellcolor{gray!6}{0.35} & \cellcolor{gray!6}{0.17} & \cellcolor{gray!6}{0.25} & \cellcolor{gray!6}{0.49}\\
+2010 & 0.45 & 0.14 & 0.33 & 0.58\\
+\cellcolor{gray!6}{2011} & \cellcolor{gray!6}{0.63} & \cellcolor{gray!6}{0.13} & \cellcolor{gray!6}{0.49} & \cellcolor{gray!6}{0.79}\\
+\addlinespace
+2012 & 0.85 & 0.10 & 0.69 & 1.03\\
+\cellcolor{gray!6}{2013} & \cellcolor{gray!6}{0.77} & \cellcolor{gray!6}{0.12} & \cellcolor{gray!6}{0.60} & \cellcolor{gray!6}{0.97}\\
+2014 & 1.08 & 0.10 & 0.87 & 1.30\\
+\cellcolor{gray!6}{2015} & \cellcolor{gray!6}{1.19} & \cellcolor{gray!6}{0.11} & \cellcolor{gray!6}{0.94} & \cellcolor{gray!6}{1.46}\\
+2016 & 0.92 & 0.11 & 0.74 & 1.13\\
+\addlinespace
+\cellcolor{gray!6}{2017} & \cellcolor{gray!6}{0.78} & \cellcolor{gray!6}{0.10} & \cellcolor{gray!6}{0.63} & \cellcolor{gray!6}{0.95}\\
+2018 & 0.56 & 0.11 & 0.44 & 0.68\\
+\cellcolor{gray!6}{2019} & \cellcolor{gray!6}{0.38} & \cellcolor{gray!6}{0.13} & \cellcolor{gray!6}{0.29} & \cellcolor{gray!6}{0.49}\\
+2020 & 0.43 & 0.15 & 0.31 & 0.56\\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
 
 <!-- ====================================================================== -->
 <!-- 30model tables -->

@@ -159,15 +159,67 @@ Unfortunately, the methods have changed over time and the data were not
 ready for their inclusion in this assessment.
 ```
 
+#### \glsentrylong{s-ccfrp}
+
+The \gls{s-ccfrp} is a fishery-independent
+hook-and-line survey designed to monitor nearshore fish populations at a series of sampling 
+locations both inside and adjacent to \glspl{mpa} along the central California coast
+[@Wendt2009; @Starr2015].
+The \gls{s-ccfrp} surveys began in 2007 and were originally
+designed as a statewide program in collaboration with scientists from \gls{nmfs} and fishermen.
+Between 2007-2016 the \gls{s-ccfrp} surveys were focused on the central California coast,
+consistently monitoring four \glspl{mpa}.
+In 2017, the program was expanded to the coast of California.
+
+The survey design for \gls{s-ccfrp} consists of a number 500 x 500 m cells both within and outside each \gls{mpa}.
+On any given survey day, cells are randomly selected within a stratum (inside or outside an \gls{mpa}).
+\Glspl{cpfv} are chartered for the survey and the fishing captain is allowed to search within the cell for a fishing location.
+During a sampling event, each cell is fished for a total of 30-45 minutes by volunteer anglers.
+Each fish encountered is recorded, measured, is linked back to a particular angler, and released (or descended to depth).
+Fishing is restricted to shallow depths to avoid barotrauma-induced mortality.
+Starting in 2017, a subset of fish have been retained to collect otoliths and fin clips that provide needed biological information for nearshore species.
+
+The index of abundance developed for `r spp` focused drift-level information from the four consistently-sampled \glspl{mpa},
+A&ntilde;o Nuevo and Point Lobos, sampled by Moss Landing Marine Labs, and
+Point Buchon and Piedras Blancas, sampled by \gls{calpoly}
+(Table \@ref(tab:tab-region-ccfrp)).
+Therefore, the index, as constructed,
+pertains to just the southern stock because the data was collected off of central California
+but future work could investigate the utility of generating two indices given
+the expansion of the sampling program in 2017.
+
+```{asis, opts.label = 'south', echo = TRUE}
+Little filtering of this data set was needed to reduce the number of zeros present in the data set.
+Cells not consistently sampled over time were excluded as well as cells that never encountered lingcod.
+This filtering led to 6963 retained drifts, with 2814 drifts encountering `r spp`.
+Number of retained `r spp` per angler hour was used as the response variable in a Bayesian delta-\gls{glm}
+(Tables \@ref(tab:tab-region-ccfrp) and \@ref(tab:tab-year-ccfrp)).
+Models with a year and area interaction were not considered in the model selection process.
+Trends in the average \gls{cpue} by region were similar (Figure \@ref(fig:fig-areacpue-ccfrp)),
+as well as arithmetic mean \gls{cpue} inside and outside \glspl{mpa} over time (Figure \@ref(fig:fig-sitecpue-ccfrp)).
+
+Model selection via differences in \gls{aic} provided support for
+year (Table \@ref(tab:tab-year-ccfrp)), site location (Table \@ref(tab:tab-region-ccfrp)), and depth bin (Table \@ref(tab:tab-depth-ccfrp)) as linear predictors for both the
+binomial and positive models even though the predictors were not constrained to be the same between the models
+(Table \@ref(tab:tab-model-select-ccfrp)).
+The binomial model generated data sets with a proportion of zeros similar to the observed 60\%
+suggesting the model structure was appropriate for the data.
+A Lognormal distribution was supported over a Gamma distribution for the positive model
+($\Delta$ \gls{aic} of 322.77; Figure \@ref(fig:fig-dist-fits-ccfrp)).
+The estimated index of abundance (Table \@ref(tab:tab-index-ccfrp))
+exhibited a trend similar to that of the arithmetic mean of the annual \gls{cpue}
+(Figure \@ref(fig:fig-cpue-ccfrp)).
+```
+
 #### Rockfish Recruitment and Ecosystem Assessment Survey
 
 <!-- Keeping this in both north and south report because has coastwide elements (BJL) -->
 Data on the relative abundance of \gls{yoy} `r spp` are available 
 from pelagic midwater trawl surveys that target \gls{yoy} rockfish, other \gls{yoy} groundfish, 
-and forage species along the U.S. West Coast. The Rockfish Recruitment and 
+and forage species along the U.S. west coast. The Rockfish Recruitment and 
 Ecosystem Assessment Survey has been conducted off central California annually 
 between 1983 and 2003 and off most California waters from 2004-2019 
-(Adams et al. [-@adams_RREAsurvey_1993]; Sakuma et al. [-@sakuma_RREAsurvey_2016]), 
+[@adams_RREAsurvey_1993; @sakuma_RREAsurvey_2016],
 while the \gls{nwfsc} pre-recruit survey has 
 been conducted off the coasts of Oregon and Washington in most years since 2011 
 [@brodeur_PRsurvey_2019]. Data from these two surveys are typically combined to 

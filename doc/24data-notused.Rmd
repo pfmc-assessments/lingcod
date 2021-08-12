@@ -2,19 +2,28 @@
 
 The \gls{cdfw} collected `r utils_name("common")` fin rays from the
 commercial and recreational fisheries in recent years and cleaned them in
-preparation for ageing, but restrictions on access to ageing laboratories to
-use saws to thin section and mount them for ageing prevented their inclusion
-in this assessment.
-\Gls{cdfw} conducted a commercial sampling project
-from February through June 2019 to acquire samples for priority species from
-Crescent City to Santa Barbara, resulting in 113 `r utils_name("common")` fin
-rays for ageing. The majority of samples were landed utilizing hook-and-line
-gear, though some trawl-caught samples were also obtained. In addition to age
-structures, meta data includes port of landing, gear type, length,
-weight, sex, and maturity. In 2017, \gls{cdfw} began opportunistically collecting
-groundfish carcasses from the recreational fishery to increase recreational
-biological data by collecting filleted groundfish carcasses from partnering
-\gls{cpfv} operators and at public fillet stations, launch ramps, and piers.
+preparation for ageing.
+Sampling occurred from
+February through June 2019 between Crescent City and Santa Barbara, California.
+Samples were aquired for priority species, not just `r utils_name("common")`.
+In total, 113 `r utils_name("common")` fin rays were collected.
+The majority of samples were landed utilizing hook-and-line gear,
+though some trawl-caught samples were also obtained.
+Meta data for these samples includes
+port of landing, gear type, length, weight, sex, and maturity.
+
+Unfortunately, restricted access to ageing laboratories because of the COVID-19 pandemic
+made it nearly impossible to finish ageing even routinely-aged collections.
+Sectioning and mounting the fin rays typically requires a hood and ventilation,
+which limited the options for alternative laboratory space.
+The fin rays collected by \gls{cdfw} are adequately preserved and can still be aged at a later date
+allowing for future exploration of this data source.
+
+In 2017, \gls{cdfw} began opportunistically collecting
+filleted groundfish carcasses from the recreational fishery to increase recreational
+biological data.
+Samples were collected in a partnership with \gls{cpfv} operators and
+at public fillet stations, launch ramps, and piers.
 Current efforts have been primarily focused in the Crescent City and Monterey Bay
 port complexes as well as samples from south of Point Conception in
 collaboration with the Sportfishing Association of California, yielding a
@@ -24,25 +33,7 @@ when it can be determined from the filleted carcass. A graduate student at
 California Polytechnic University, San Luis Obispo is working on a study of
 total length to carcass length for recreational species, including rockfish
 and `r utils_name("common")`, results of which will help inform the best
-treatment of length information attained from carcasses. These samples may
-be used to inform growth, create conditional-age-at-length data, or to supplement
-samples from other sampling programs used to represent age composition
-directly in future assessments.
-
-#### California Collaborative Fisheries Research Project
-
-The California Collaborative Fisheries Research Project, [CCFRP](https://www.mlml.calstate.edu/ccfrp/), 
-is a fishery-independent 
-hook-and-line survey designed to monitor nearshore fish populations at a series of sampling 
-locations both inside and adjacent to \glspl{mpa} along the central California coast 
-[@Wendt2009; @Starr2015].  The CCFRP survey began in 2007 and was originally
-designed as a statewide program in collaboration with NMFS scientists and fishermen. 
-From 2007-2016 the CCFRP project was focused on the central California coast, and has monitored 
-four \glspl{mpa} consistently.  In 2017, 
-the program was expanded coastwide within California.  The index of abundance was 
-developed from the four \glspl{mpa} sampled consistently,
-A&ntilde;o Nuevo and Point Lobos by Moss Landing Marine Labs;
-Point Buchon and Piedras Blancas by \gls{calpoly}.
-
-See the following pdfs for more information about these indices that were not included in this assessment:
-lingcod_CRFS_PR_dockside_writeup.NCA.pdf and lingcod_CRFS_PR_dockside_writeup.SCA.pdf.
+treatment of length information attained from carcasses.
+These samples could be included in future assessments potentially as
+conditional age-at-length compositions or as marginal compositions.
+Both types of data are helpful for estimating growth and selectivity patterns.
