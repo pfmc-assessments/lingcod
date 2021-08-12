@@ -2,8 +2,10 @@
 assessmentyear <- as.numeric(format(Sys.Date(), "%Y")) - 1
 area_long <- paste0(tolower(params$area), "ern ")
 n_stocks <- xfun::numbers_to_words( length(get_groups(info_groups)))
-spr_peak_yr <-  model$sprseries$Yr[model$sprseries$SPR_report == max(model$sprseries$SPR_report[model$sprseries$Yr < model$endyr])]
-spr_peak <- round(max(model$sprseries$SPR_report[model$sprseries$Yr < model$endyr]), 2)
+spr_peak_yr <-  model[["sprseries"]][["Yr"]][model[["sprseries"]][["SPR_report"]] == max(model[["sprseries"]][["SPR_report"]][model[["sprseries"]][["Yr"]] < model[["endyr"]]])]
+spr_peak <- round(max(model[["sprseries"]][["SPR_report"]][model[["sprseries"]][["Yr"]] < model[["endyr"]]]), 2)
+SSB_2021 <- round(model[["derived_quants"]]["SSB_2021", "Value"], 0)
+Bratio_2021 <- round(model[["derived_quants"]]["Bratio_2021", "Value"], 4)
 ```
 # Executive summary{-}
 
@@ -249,7 +251,7 @@ colnames(tabd) <- gsub(
 ))
 sa4ss::table_format(
   tabd,
-  caption = "Estimated recent trend in relative fishing intensity and exploitation rate with associated 95\\% intervals. Fishing intensity is (1-SPR)/(1-SPR45\\%), where SPR is the spawning potential and SPR45\\% = 0.45 is the SPR target. Exploitation rate is annual total dead catch divided age 3+ biomass.",
+  caption = "Estimated recent trend in relative fishing intensity and exploitation rate with associated 95\\% intervals. Fishing intensity is (1-SPR)/(1-SPR45\\%), where SPR is the spawning potential and SPR45\\% = 0.45 is the SPR target. Exploitation rate is annual total dead catch divided by age 3+ biomass.",
   label = table_labels[table_labels[["label"]] == "exploitES", "label"],
 )
 ```
@@ -266,13 +268,13 @@ label = 'es-1-spr')
 ## Reference points{-}
 
 ```{asis, opts.label = "north"}
-The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be well above the management target, even the lower interval was estimated to be above the target
+The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be well above the management target at `r Bratio_2021`; even the lower interval was estimated to be above the target
 (Table \@ref(tab:referenceES); Figures \@ref(fig:es-phase) and \@ref(fig:es-yield)).
 ```
 ```{asis, opts.label = "south"}
-The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be close to the management target
+The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be close to the management target at `r Bratio_2021` 
 (Table \@ref(tab:referenceES); Figures \@ref(fig:es-phase) and \@ref(fig:es-yield)).
-The uncertainty in this estimate spans well below any estimated value and nearly reaches 1.0, which would indicate the stock is at unfished levels
+The uncertainty in this estimate spans well below all estimated reference point and nearly reaches 1.0, which would indicate the stock is at unfished levels
 (Figure \@ref(fig:es-phase)).
 ```
 ```{r, results = "asis"}
@@ -301,7 +303,7 @@ sa4ss::table_format(
 ```{r, results = 'asis'}
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "SPR4_phase.png"), 
-caption = "Phase plot of estimated 1-SPR versus fraction unfished for the base model",
+caption = "Phase plot of biomass ratio vs. SPR ratio. Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Lines through the final point show 95\\% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95\\% region which accounts for the estimated correlation between the two quantities.",
 label = 'es-phase')
 ```
 
@@ -319,7 +321,7 @@ label = 'es-yield')
 
 In the last ten years, the annual catch limit has been below the overfishing limit and acceptable biological catch
 (Table \@ref(tab:referenceES)).
-Furthermore, landings and catches (i.e., total mortality) have been well below the annual catch limit.
+Furthermore, landings and total dead catches (including estimated dead discards) have been well below the annual catch limit.
 
 ```{r, results = "asis"}
 management_oflabcacl <- utils::read.csv(file.path("..", "tables", "management-oflabcacl.csv"))
@@ -362,25 +364,44 @@ as the base-model configuration when attempting to account for these patterns.
 
 Uncertainty in parameter estimates are quite large relative to recent assessments because of the choice to estimate
 both natural mortality and steepness.
-Recent work has shown the utility of estimating both parameters with respect to management reference points, and although estimates provided in this document are imprecise,
-we predict that they are less biased than if the model would have been configured with one or more of these parameters as fixed inputs rather than estimated.
-Estimating both parameters led to counter-intuitive differences in estimates of natural mortality between the two areas.
-Hopefully, future work on parameterizing selectivity will lead to more precise estimates of male and female
-natural mortality given the life history of this species, specifically the nest-guarding behavior of males.
+Recent work has shown the utility of estimating both parameters with respect to 
+management reference points, and although estimates provided in this document are imprecise,
+we predict that they are less biased than if the model would have been configured 
+with one or more of these parameters as fixed inputs rather than estimated.
+Estimating both parameters led to counter-intuitive differences in estimates of 
+natural mortality between the two areas.
+Hopefully, future work on parameterizing selectivity will lead to more precise 
+estimates of male and female natural mortality given the life history of this 
+species, specifically the nest-guarding behavior of males.
 
 ## Decision table{-}
 
 The forecast of stock abundance and yield was developed using the base model
 (Table \@ref(tab:es-forecastprojections)).
-The total catches for the first two years of the forecast period were based on values provided by the \glsentrylong{gmt} and
-a 40:60 split between the two commercial fleets.
+The total catches for the first two years of the forecast period were based on values provided by the \glsentrylong{gmt}.
 These assumed removals are likely higher than what the true removals will be for this year and next year but
 their influence on the assessment of stock status and future removals are limited.
+```{asis, opts.label = "south"}
+The projections, including the first two years, also assume a 40:60 split 
+between the trawl and fixed-gear commercial fleets based on guidance from 
+the \glsentrylong{gmt}.
+```
 
+```{asis, opts.label = "north"}
+The states of nature in the decision table (Table \@ref(tab:es-decision)) 
+do not fall on a single axis of uncertainty. Instead, two alternative model 
+structures were chosen from the set of sensitivity analyses to represent
+alternative states of nature. This represents the consensus among the 
+participants in the STAR panel as a better representation of uncertainty
+than any axis could. The low state of nature included sex-specific selectivity
+while the high state excluded the fishery-dependent age data.
+```
+```{asis, opts.label = "south"}
 The axes of uncertainty in the decision table (Table \@ref(tab:es-decision)) are based on
-the uncertainty in `r ifelse(params$area == "north", "sex-specific selectivity and the removal of fishery ages", "female natural mortality")`.
+the uncertainty in female natural mortality of the base model.
+```
 Three alternative catch streams were created for the decision table (Table \@ref(tab:es-decision)).
-The first option uses recent average catch,
+The first option uses recent average catch as provided by the \glsentrylong{gmt},
 the second option uses a $P^*$ of 0.40, and
 the third option uses a $P^*$ of 0.45.
 
