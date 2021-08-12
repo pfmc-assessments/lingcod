@@ -153,14 +153,14 @@ sa4ss::table_format(
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots",
 "ts7_Spawning_biomass_(mt)_with_95_asymptotic_intervals_intervals.png"), 
-caption = "Estimated time series of spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+caption = "Estimated time series of spawning output (circles and line are maximum likelihood estimates; light broken lines are 95\\% intervals) for the base model",
 label = 'es-ssb')
 ```
 
 ```{r, results = 'asis'}
 sa4ss::add_figure(
 filein = dir(file.path("..", mod_loc, "plots"), pattern = "ts9_.+_intervals", full.names = TRUE), 
-caption = "Estimated time series of fraction of unfished spawning output (circles and line: median; light broken lines: 95 percent intervals) for the base model",
+caption = "Estimated time series of fraction of unfished spawning output (circles and line are maximum likelihood estimates; light broken lines are 95\\% intervals) for the base model",
 label = 'es-depl')
 ```
 
@@ -173,12 +173,13 @@ recruitment variability ($\sigma_R$) fixed at
 `r model$parameters[model$parameters$Label=="SR_sigmaR","Value"]`
 (Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)).
 Given the pandemic and the lack of recent survey information,
-recruitment was not estimable for the next to last year of the model
+there was little information in the data to estimate recruitment in 2019.
+Thus, 2019 and 2020 were not included in the main recruitment deviations
+and are instead termed late recruitment deviations that are not constrained to sum to zero
 (Table \@ref(tab:recrES)).
 If the survey in 2019 would have been conducted,
-then 2019 recruitment would have been different from that predicted from the stock-recruitment curve and
-perhaps less uncertain.
-Though, `r spp` are not seen as age-0 fish in any data set in appreciable quantities, and thus,
+then 2019 recruitment perhaps would have been less uncertain.
+`r Spp` are not seen as age-0 fish in any data set in appreciable quantities, and thus,
 the terminal year of recruitment is never estimated.
 The last large recruitment event for this stock occurred in 2013 and
 a smaller event may have also occurred within the last half-decade though its magnitude is more uncertain.
@@ -274,7 +275,8 @@ The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unf
 ```{asis, opts.label = "south"}
 The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be close to the management target at `r Bratio_2021` 
 (Table \@ref(tab:referenceES); Figures \@ref(fig:es-phase) and \@ref(fig:es-yield)).
-The uncertainty in this estimate spans well below all estimated reference point and nearly reaches 1.0, which would indicate the stock is at unfished levels
+The uncertainty in this estimate spans above and well below the target,
+suggesting the current status of the stock is uncertain
 (Figure \@ref(fig:es-phase)).
 ```
 ```{r, results = "asis"}
@@ -303,7 +305,7 @@ sa4ss::table_format(
 ```{r, results = 'asis'}
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "SPR4_phase.png"), 
-caption = "Phase plot of biomass ratio vs. SPR ratio. Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Lines through the final point show 95\\% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95\\% region which accounts for the estimated correlation between the two quantities.",
+caption = "Phase plot of biomass ratio vs. \\glsfirst{spr} ratio. Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Lines through the final point show 95\\% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95\\% region which accounts for the estimated correlation between the two quantities.",
 label = 'es-phase')
 ```
 
