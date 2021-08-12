@@ -18,7 +18,7 @@ It does not include catches from the Alaskan, Canadian, or Mexican populations a
 assumes that these flanking populations do not contribute to the stock being assessed here.
 ```
 
-## Landings{-}
+## Catches{-}
 
 The first known records of `r spp` landings date back to the late 1800s
 (Figure \@ref(fig:es-catch)).
@@ -26,7 +26,8 @@ Catch reconstructions for these early landings were informed by state resources 
 recent landings (Table \@ref(tab:removalsES)) were available available from PacFIN and RecFIN.
 Commercial discards were modeled using discard rate and length compositions to estimate retention curves.
 Recreational catches included estimates of dead discards in the landings data
-(Table \@ref(tab:removalsES)).
+(Table \@ref(tab:removalsES)). Discard mortality was assumed to be 50\% 
+for commercial trawl and 7\% for commercial fixed-gear and recreational fleets.
 
 ```{r, exsum-text-commfleetstructure, echo = FALSE, results = "asis"}
 sa4ss::read_child("catch-comm-fleetstructure.Rmd")
@@ -39,6 +40,8 @@ table_labels <- utils::read.csv(
 eslandingsinfo <- utils::read.csv(
   file.path("..", mod_loc, "tables", "a_Catches_ES.csv")
 )
+eslandingsinfo <- round(eslandingsinfo, 0) # round all catch values to 0 digits
+
 colnames(eslandingsinfo) <- gsub("^X", "", colnames(eslandingsinfo))
 matches <- match(colnames(eslandingsinfo), get_fleet(col = "fleet"))
 colnames(eslandingsinfo) <- ifelse(is.na(matches),
@@ -52,7 +55,7 @@ sa4ss::table_format(
 )
 ```
 
-![Landings (mt) by fleet used in the base model.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch2 landings stacked.png"), '"')`){width=100% height=100% alt="."}
+![Landings plus dead discards (mt) by fleet as input and estimated in the base model.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), '"')`){width=100% height=100% alt="."}
 
 \clearpage
 
