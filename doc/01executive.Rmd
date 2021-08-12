@@ -17,7 +17,8 @@ off the `r area_long` `r coast` coast
 using data through `r assessmentyear`.
 `r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")` and
 this document contains summary information on the species and
-detailed information for the `r area_long` stock. Models for both stocks do not include catches from the Alaskan, Canadian, or Mexican populations and
+detailed information for the `r area_long` stock.
+Models for both stocks do not include catches from the Alaskan, Canadian, or Mexican populations and
 assume that these flanking populations do not contribute to the stocks being assessed here.
 ```
 
@@ -53,7 +54,7 @@ colnames(eslandingsinfo) <- ifelse(is.na(matches),
 )
 sa4ss::table_format(
   eslandingsinfo,
-  caption = table_labels[table_labels[["label"]] == "removalsES", "caption"],
+  caption = "Recent commercial landings and recreational catches by fleet (mt), total summed across fleets, and the total mortality including discards which were estimated internal to the model for the commercial fleets.",
   label = table_labels[table_labels[["label"]] == "removalsES", "label"],
 )
 ```
@@ -109,18 +110,18 @@ etc.
 Results were sensitive to the addition and subtraction of age data,
 which typically changed the scale of the population and estimates of key productivity parameters.
 
-## Stock biomass{-}
+## Stock biomass and dynamics{-}
 
 ```{asis, opts.label = "north"}
 The stock biomass is currently trending downwards, though the rate of the decline is highly uncertain
-(Figure \@ref(fig:es-ssb)).
+(Table \@ref(tab:ssbES); Figure \@ref(fig:es-ssb)).
 And, although it is currently declining, it estimated to have been above the management target since
 the late 1990s and never to have been below the minimum stock size threshold
 (Figure \@ref(fig:es-depl)).
 ```
 ```{asis, opts.label = "south"}
 The stock biomass is currently trending upwards, though the rate of the increase is highly uncertain
-(Figure \@ref(fig:es-ssb)).
+(Table \@ref(tab:ssbES); Figure \@ref(fig:es-ssb)).
 Uncertainty in the initial stock size is vast and this uncertainty is carried forward until approximately the
 early 1980s when more informative data are available.
 The current estimated biomass is below, but close to, the management target with the uncertainty in this estimate
