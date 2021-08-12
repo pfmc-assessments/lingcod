@@ -38,19 +38,25 @@ table_projections <-
   if (!file.exists(tab_csv)) {
     message("file not found: ", tab_csv,
             "\n running r4ss::SS_output() and r4ss::SSexecutivesummary()")
-    r4ss::SS_output(forecast_dir) %>% r4ss::SSexecutivesummary()
+    r4ss::SS_output(
+        forecast_dir,
+        printstats = FALSE,
+        verbose = FALSE,
+        covar = FALSE
+      ) %>%
+    r4ss::SSexecutivesummary()
   }
   # make the table
   tab <- read.csv(tab_csv, check.names = FALSE)
   # I'm sure all the following could be done in dplyr in 1/10th the space
 
-  # remove the decimal places from the strings
-  for (icol in which(names(tab) != "Fraction Unfished")) {
-    tab[, icol] <- gsub("\\.\\d\\d", "", tab[, icol], perl = TRUE)
-  }
   # fixed catch values to a new column
-  assumed <- tab[,"ABC Catch (mt)"] # terrible hack to duplicate ABC column
-  assumed[tab$Year > output$endyr + 2] <- "-"
+  assumed <- formatC(
+    big.mark = ",",
+    digits = 2,
+    format = "f",
+    tab[,"ABC Catch (mt)"]
+    )
   assumed[tab$Year > output$endyr + 2] <- "-"
   tab[tab$Year <= output$endyr + 2, c("Predicted OFL (mt)", "ABC Catch (mt)")] <- "-"
   tab <- cbind(tab$Year, assumed, tab[,-1])
