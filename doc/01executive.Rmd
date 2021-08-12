@@ -2,6 +2,8 @@
 assessmentyear <- as.numeric(format(Sys.Date(), "%Y")) - 1
 area_long <- paste0(tolower(params$area), "ern ")
 n_stocks <- xfun::numbers_to_words( length(get_groups(info_groups)))
+spr_peak_yr <-  model$sprseries$Yr[model$sprseries$SPR_report == max(model$sprseries$SPR_report[model$sprseries$Yr < model$endyr])]
+spr_peak <- round(max(model$sprseries$SPR_report[model$sprseries$Yr < model$endyr]), 2)
 ```
 # Executive summary{-}
 
@@ -219,11 +221,15 @@ label = 'es-rec-devs')
 ```{asis, opts.label = "north"}
 The harvest rate was estimated to have never been above the target proxy harvest rate
 (Table \@ref(tab:exploitES); Figure \@ref(fig:es-1-spr)).
-Recent estimates of fishing intensity indicate stability within the fishery and are close to pre-1950 estimates.
+Recent estimates of fishing intensity indicate stability within the fishery and 
+are close to pre-1950 estimates. The relative fishing intensity is estimated to have 
+peaked in `r spr_peak_yr` at a value of (1 - SPR)/(1-SPR45\%) = `r spr_peak`.
 ```
 ```{asis, opts.label = "south"}
-The stock was estimated to have been harvested above the target proxy harvest rate from the 1970s to approximately the late 1990s and again in the early 2000s
-(Figure \@ref(fig:es-1-spr)).
+The stock was estimated to have been harvested above the target proxy harvest rate 
+from the 1970s to approximately the late 1990s and again in the early 2000s
+(Figure \@ref(fig:es-1-spr)). The relative fishing intensity is estimated to have 
+peaked in `r spr_peak_yr` at a value of (1 - SPR)/(1-SPR45\%) = `r spr_peak`.
 Recent estimates of harvest have all been below the target proxy harvest rate and
 the estimate of fishing intensity for the terminal year was the lowest estimated since 2011
 (Table \@ref(tab:exploitES)).
@@ -234,7 +240,7 @@ tabd <- utils::read.csv(
   file.path("..", mod_loc, "tables", "d_SPR_ES.csv")
 )
 tabd[, -1] <- round(tabd[, -1], 4)
-colnames(tabd)[2] <- "SPR"
+colnames(tabd)[2] <- "Relative fishing intensity"
 colnames(tabd) <- gsub(
   "\\.[1-9]$", "",
   gsub(
@@ -243,15 +249,15 @@ colnames(tabd) <- gsub(
 ))
 sa4ss::table_format(
   tabd,
-  caption = table_labels[table_labels[["label"]] == "exploitES", "caption"],
+  caption = "Estimated recent trend in relative fishing intensity and exploitation rate with associated 95\\% intervals. Fishing intensity is (1-SPR)/(1-SPR45\\%), where SPR is the spawning potential and SPR45\\% = 0.45 is the SPR target. Exploitation rate is annual total dead catch divided age 3+ biomass.",
   label = table_labels[table_labels[["label"]] == "exploitES", "label"],
 )
 ```
 
 ```{r, results = 'asis'}
 sa4ss::add_figure(
-filein = file.path("..", mod_loc, "plots", "SPR2_minusSPRseries.png"), 
-caption = "Estimated 1 - relative spawning ratio (SPR) by year for the base model. The management target is plotted as a red horizontal line and values above this reflect harvest in excess of the proxy harvest rate",
+filein = file.path("..", mod_loc, "plots", "SPR3_ratiointerval.png"), 
+caption = "Estimated relative fishing intensity = (1-SPR)/(1-SPR45%) with 95% intervals, where SPR is the spawning potential and SPR45% = 0.45 is the SPR target. The red horizontal line at 1.0 indicates fishing intensity equal to the target and values above this reflect harvest in excess of the proxy harvest rate.",
 label = 'es-1-spr')
 ```
 
