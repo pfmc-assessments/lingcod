@@ -2,7 +2,8 @@
 
 ### Geography
 
-`r Spp` are large opportunistic predators endemic to the North Pacific,
+`r Spp` are large opportunistic predators endemic to the North Pacific
+(Figure \@ref(fig:map)),
 ranging from the Gulf of Alaska to central Baja California, Mexico
 [@wilby1937ling; @hart1973pacific].
 Typically, the center of abundance can be found off
