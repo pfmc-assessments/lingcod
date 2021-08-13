@@ -109,5 +109,9 @@ table_projections <-
                         label = label,
                         align = "r"
                       ) %>%
-  kableExtra::column_spec(2:7, width = "5em")
+  kableExtra::column_spec(1, width = "2.9em") %>%
+  kableExtra::column_spec(2, width = "3.85em") %>%
+  kableExtra::column_spec(3:5, width = "4em") %>%
+  kableExtra::column_spec(6:NCOL(tab), width = "4.4em") %>%
+  kableExtra::row_spec(0, align = "c")
 }
