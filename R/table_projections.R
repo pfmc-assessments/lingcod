@@ -48,34 +48,44 @@ table_projections <-
       ) %>%
     r4ss::SSexecutivesummary()
   }
+  # read forecast file
+  fore <- get_inputs_ling(dir = forecast_dir)[["fore"]]
+  # get time-varying Pstar buffer
+  buffer <- fore[["Flimitfraction_m"]][["Fraction"]]
+  
   # make the table
   tab <- read.csv(tab_csv, check.names = FALSE)
 
   # I'm sure all the following could be done in dplyr in 1/10th the space
 
-  # get forecast for model with 40:10 adjustment turned off
-  forecast_dir2 <- output$inputs$dir %>%
-    stringr::str_sub(end = nchar("models/2021.n.001.")) %>%
-    paste0("629_forecast_no4010")
-  if (!dir.exists(forecast_dir2)) {
-    if (dir.exists(file.path("..", forecast_dir2))) {
-      forecast_dir2 <- file.path("..", forecast_dir2)
-    } 
-  }
-  quants <- r4ss::SS_output(
-                      forecast_dir2,
-                      printstats = FALSE,
-                      verbose = FALSE,
-                      covar = FALSE
-                    )[["derived_quants"]]
-  ABC_vals <- round(quants[paste0("ForeCatch_", 2021:2032), "Value"], 2)
   # terrible approach to repeating column 3
   tab <- tab[,c(1:3, 3, 4:ncol(tab))]
   # rename old ABC to ACL
   names(tab)[4] <- "ACL Catch (mt)"
-  # add new ABC without 40:10 based on input from DeVore
-  tab[,"ABC Catch (mt)"] <- ABC_vals
-
+  # add new ABC without 40-10 adjustment based on input from DeVore
+  ABC <- buffer * as.numeric(gsub(",", "", tab[,"Predicted OFL (mt)"]))
+  tab[,"ABC Catch (mt)"] <- formatC(
+    big.mark = ",",
+    digits = 2,
+    format = "f",
+    ABC
+  )
+  # check for values that differ only in the last decimal place
+  # which are likely due to rounding differences due to insufficient
+  # precision in the OFL values as was the case for lingcod north
+  # and use the value from SS rather than the internal calculation
+  ACL <- as.numeric(gsub(",", "", tab[,"ACL Catch (mt)"]))
+  frac_unfished <- as.numeric(gsub(",", "", tab[,"Fraction Unfished"]))
+  small_mismatch <- ACL - ABC <= 0.02 & frac_unfished > fore$Btarget
+  big_mismatch <- ACL - ABC > 0.02 & frac_unfished > fore$Btarget
+  if (any(small_mismatch)) {
+    tab[small_mismatch,"ABC Catch (mt)"] <- tab[small_mismatch,"ACL Catch (mt)"]
+    warning("Changing ABC to equal ACL for years with difference <= 0.02")
+  }
+  if (any(big_mismatch)) {
+    warning("ABC doesn't match ACL for some years with Frac Unfished > btarg")
+  }
+  
   # fixed catch values to a new column
   assumed <- formatC(
     big.mark = ",",
