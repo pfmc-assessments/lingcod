@@ -346,7 +346,6 @@ add_figure_ling(csv = figurecsv, "comp_lenfit.*multi-fleet_comparison")
 # CAAL residuals from WCGBT only
 # to do this is showing all fleets, not just WCGBT
 add_figure_ling(csv = figurecsv, "comp_condAALfit_resids")
-add_figure_ling(csv = figurecsv, "comp_condAALfit_Andre_plot")
 
 # discard fits
 add_figure_ling(csv = figurecsv, "discard_fit")

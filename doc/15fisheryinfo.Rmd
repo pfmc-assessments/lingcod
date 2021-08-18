@@ -10,15 +10,16 @@ textCatchpeakyear <- data_catch %>%
   dplyr::pull(Year)
 ```
 
-`r Spp` fisheries have a long history.
+`r Spp` fisheries have a long history
+(Table \@ref(tab:table-catchbystate)).
 The earliest evidence of fishing for `r spp`
 comes from the remains of 51 archaeological sites
 representing the period between 6200 BC and 1830 AD on the
 central California coast from San Mateo to San Luis Obispo [@gobalet1995prehistoric].
 The commercial fishery off
-California dates back more than a century (i.e., 1920s) and
-the fishery off of Washington and Oregon dates back nearly as far (i.e., 1940s).
-These commercial fishers are largely harvested using trawl and longline gear.
+California dates back more than a century to at least the 1890s and
+the fisheries off of Washington and Oregon date back nearly as far (i.e., 1940s).
+These commercial fishers are largely harvesting using trawl and longline gear.
 For longline and other fixed gear in waters off of California, the majority
 of the landings from these gear types have consistently been landed
 off of the southern rather than the northern portion of the coast
@@ -40,7 +41,8 @@ four years ahead of the projected recovery time.
 
 In California, the recreational `r spp` fishery has had substantial landings
 that have surpassed that of the commercial fleet operating in California waters
-since 1998.
+since 1998
+(Table \@ref(tab:table-catchbystate)).
 At the peak of the `r spp` fishery, in `r textCatchpeakyear`,
 the landings were nearly equally divided between the commercial and recreational fleets.
 From 1980 to 2008, 95\% to 97\% of `r spp` caught were taken by boat-based anglers via

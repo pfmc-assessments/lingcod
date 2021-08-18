@@ -1,15 +1,10 @@
 
-#### California MRFSS Dockside CPFV Index
+#### California \glsentrylong{mrfss} dockside \glsentrylong{cpfv} index
 
-In short,
-From 1980 to 2003 the \gls{mrfss} program conducted dockside intercept surveys of 
-recreational \gls{cpfv} fishing fleet. No \gls{mrfss} \gls{cpue} data are available for the years 
-1990-1992, due to a hiatus in sampling related to funding issues. 
-For purposes of this assessment, the \gls{mrfss} time series was truncated at 1999 due 
-to sampling overlap with the 
-onboard observer program (i.e., the same observer samples the catch while 
-onboard the vessel and also conducts the dockside intercept survey for 
-the same vessel). 
+From 1980-1989 and 1993-2003 the \gls{mrfss} program conducted dockside intercept surveys of the recreational \gls{cpfv} fishing fleet.
+Data from `r knitr::combine_words(1990:1992)` are not available because funding for the surveys stopped.
+For purposes of this assessment, the \gls{mrfss} time series was truncated at 1999 because
+the onboard observer program started, which samples the same catch onboard the vessel as the dockside interviewers do on shore.
 
 \Gls{mrfss} data were downloaded from the \gls{recfin} Type 3 database, where
 each entry corresponds to a 

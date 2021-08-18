@@ -19,13 +19,15 @@ that they may be outlier rather than a signal about the true dynamics of
 the underlying population.
 
 The fit to the length data, when aggregated over time 
-(Figures \ref{fig:comp-lenfit--aggregated-across-time},) shows 
+(Figure \ref{fig:comp-lenfit--aggregated-across-time}), shows 
 some imbalances in the sex ratios but the modes are generally falling in the right
 places. The commercial trawl discards show modes associated with 
 the length at ages 1 and 2 the first of which is better fit than the second. 
 This could be due to the fishery taking places over a protracted season while the model
 expectation is based on a mid-year snapshot. Looking at the 
-fits for individual years (available in electronic appendix) shows high variability for the 
+fits for individual years
+(Figures \@ref(fig:comp-lenfit--page1-multi-fleet-comparison) and \@ref(fig:comp-lenfit--page2-multi-fleet-comparison))
+shows high variability for the 
 commercial trawl length comps and a large blotches in the Pearson residuals.
 In general, the recreational and survey length compositions are reasonably well fit.
 
@@ -46,15 +48,15 @@ dat.s <- get_inputs_ling('s', 18)$dat
 sum(dat.s$agecomp$Nsamp[dat.s$agecomp$Lbin_lo > 0])
 -->
 The conditional age-at-length data (CAAL) in the north model are numerous
-(shown for \gls{s-wcgbt} in
-`r ref_range(figurecsv, grep = "cond.+resid", fleets = get_fleet("WCGBTS", col = "num"), encapsulate = FALSE)`; "A\@LComp" in the electronic appendix shows additional fleets). 
+(`r ref_range(figurecsv, grep = "cond.+resid", fleets = get_fleet(col = "num"), encapsulate = FALSE)`). 
 They represent over 72,000 individual fish
 from a total of 161 fleet/year combinations. In general, most years and most fleets 
-show no strong patterns in the Pearson residuals, but there are a few exceptions.
+show no strong patterns in the Pearson residuals, but there are a few exceptions
+(`r ref_range(figurecsv, grep = "cond.+resid", fleets = get_fleet(col = "num"), encapsulate = FALSE)`).
 For instance, the commercial trawl fit in 1980 has many fish older than expected
 within all of the smaller length bins, while in 1981 the ages observations
-all fall in the middle of the expected range. The "Conditional AAL plot" diagnostic
-shows that both the mean age in each length bin and the variability in age at length
+all fall in the middle of the expected range.
+Both the mean age in each length bin and the variability in age at length
 have a good match for most years and most fleets.
 
 The expected commercial trawl discard fractions 
@@ -94,7 +96,7 @@ before. The lack of 2020 survey due to the COVID-19 pandemic makes
 it harder to judge whether the 2019 \gls{s-wcgbt} observation is an outlier
 or representing a steep decline in selected biomass.
 
-The fit to the length data in the south model is generally in aggregate
+The fit to the length data in the south model is generally good, in aggregate
 (Figure \ref{fig:comp-lenfit--aggregated-across-time}). The limited number of 
 ages in the south model means that there is less potential conflict among data 
 sources than in the north. Many sources show clear size modes, including 

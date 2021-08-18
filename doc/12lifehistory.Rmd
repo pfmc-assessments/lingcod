@@ -32,7 +32,7 @@ than individuals from southern regions
 
 `r Spp` are iteroparous spawners.
 Male `r spp` aggregate in late fall and move to rocky habitat in
-intertidal waters up to 126 m [@giorgi1981environmental; @o1993submersible]
+intertidal waters to depths of up to 126 m [@giorgi1981environmental; @o1993submersible]
 where they guard areas suitable for spawning.
 This movement has been correlated with a decline in the proportion of males
 in offshore trawl landings in late fall
@@ -47,9 +47,9 @@ After fertilization, males guard clutches until the eggs hatch
 in six to eight weeks [@king2005male; @withler2004polygamous],
 between January and June [@jewell1968scuba; @low1978study].
 Recent maturity studies suggest that `r spp` are batch spawners with the
-ability to spawn year round.
-Peak spawning takes place during October through December
+ability to spawn year round
 (pers. comm., M. Head, \gls{nwfsc}).
+Peak spawning takes place during October through December.
 
 At hatching, `r spp` larvae are about 12 mm in total length and
 are epipelagic for approximately 90 days,
@@ -76,7 +76,7 @@ Whereas, off the coast of Washington, juveniles have been found in
 hard bottom shell-cobble habitat near rocks in 9-15 m of water
 off the coast of Grays Harbor as soon as October [@coley1986juvenile].
 
-Juvenile density tends to be higher in the south than in the north
+Juvenile density in trawlable habitats tends to be higher in the south than in the north
 [@tolimieri2020SpatioTemporal].
 Particularly, in central California shelf waters (50-240 m)
 between $34^\circ$ N and $39^\circ$ N
@@ -118,7 +118,7 @@ Samples from the mouth of the Pysht River averaged
 
 <!---  to do - make these numbers dynamic if we are going to keep them -->
 Outside of the spawning season,
-male and female `r spp` are segregated by depth
+male and female `r spp` are segregated by depth.
 Females tend to inhabit deeper offshore waters, and
 males inhabit nearshore rocky reefs.
 Consequently, the sexes are vulnerable to different types of fishing gear.
@@ -207,7 +207,9 @@ Longo et al. [-@longo2020strong] used
 restriction-site associated deoxyribonucleic acid sequencing
 techniques and discovered evidence for distinct
 north and south genetic clusters
-with the presence of admixed individuals in the region of overlap.
+with the presence of admixed individuals
+(i.e., mixes of previously diverged or isolated genetic lineages)
+in the region of overlap.
 Pure northern-cluster individuals represented
 over 80\% of the samples at $42.2^\circ$ N and
 all sampled sites that were further to the north.

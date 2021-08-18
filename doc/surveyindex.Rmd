@@ -87,7 +87,7 @@ The 2004 data point increased at a rate beyond what may be anticipated given the
 A similar spike in abundance in 2004 has been observed for other species (e.g., petrale sole, dover) sampled observed in the \gls{s-tri} which
 may be indicative of a change in the application of the survey
 rather than an increase in biomass.
-Although, there was no clear spatial pattern in the residuals (Figure \@ref(fig:s-tri-VAST-scaledresidualsmap)).
+However, there was no clear spatial pattern in the residuals (Figure \@ref(fig:s-tri-VAST-scaledresidualsmap)).
 
 ```{asis, opts.label = 'south'}
 #### NWFSC Hook and Line Survey

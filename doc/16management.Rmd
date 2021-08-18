@@ -27,8 +27,8 @@ Minimum size across areas diverged in 2000 [@jagielo2000assessment], when the mi
 limited entry fixed gear fishery increased to 26 inches.
 Currently, the minimum size limits for the limited entry fixed gear
 and open access commercial fisheries are
-22 inches north of of 42$\circ$ N. latitude and
-24 inches south of 42$\circ$ N. latitude.
+22 inches north of of 42$^\circ$ N. latitude and
+24 inches south of 42$^\circ$ N. latitude.
 This corresponds to fish 18 and 19.5 inches after the head has been removed.
 
 Trip limits on commercial `r spp` catch were first instituted in 1995,
@@ -86,8 +86,8 @@ Bag limits in Oregon were reduced to three fish in 1978 and remained at three un
 Regulations in Washington were established in 1994 and included
 a bag limit of three fish. In California,
 a bag limit of five fish was implemented in 1994 and
-a minimum size limit of 22 inches in Washington and California.
-The 22 inch minimum size limit was adopted in Oregon in 1995 and
+a minimum size limit of 22 inches was adopted in Washington and California.
+The 22 inch minimum size limit was not adopted in Oregon in until 1995 and
 increased to 24 inches in all three states in 1998.
 In 1998, the bag limit in Washington and California dropped to two fish per day.
 Oregon followed suite in 1999, and

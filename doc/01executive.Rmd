@@ -16,12 +16,12 @@ This assessment reports the status of `r spp` (_`r spp.sci`_)
 off the `r area_long` `r coast` coast
 using data through `r assessmentyear`.
 `r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")` and
-this document contains summary information on the species and
+this document contains summary information about the species as a whole and
 detailed information for the `r area_long` stock.
-Stocks were split at \CapeM based on genetic information.
+Stocks were split at \CapeM based on the results of a genetic analysis.
 This boundary also happens to be the boundary used for the management of commercial catches.
 Models for `r spp` do not include catches from the Alaskan, Canadian, or Mexican populations and
-assume that these flanking populations do not contribute to the stocks being assessed here.
+assume that these flanking populations do not contribute to the stock being assessed here.
 ```
 
 ## Catches{-}
@@ -30,8 +30,9 @@ The first known records of `r spp` landings date back to the late 1800s
 (Figure \@ref(fig:es-catch)).
 Catch reconstructions for these early landings were informed by state resources and
 recent landings (Table \@ref(tab:removalsES)) were available from PacFIN and RecFIN.
-Commercial discards were modeled using discard rate and length compositions to estimate retention curves.
-Recreational catches included estimates of dead discards in the landings data
+Commercial discards were modeled using discard rates and length compositions,
+which facilitated the estimation of retention curves.
+Recreational catches included estimates of dead discards in the catch data
 (Table \@ref(tab:removalsES)). Discard mortality was assumed to be 50\% 
 for commercial trawl and 7\% for commercial fixed-gear and recreational fleets.
 
@@ -46,7 +47,7 @@ table_labels <- utils::read.csv(
 eslandingsinfo <- utils::read.csv(
   file.path("..", mod_loc, "tables", "a_Catches_ES.csv")
 )
-eslandingsinfo <- round(eslandingsinfo, 0) # round all catch values to 0 digits
+eslandingsinfo <- round(eslandingsinfo, 2) # round all catch values to 0 digits
 
 colnames(eslandingsinfo) <- gsub("^X", "", colnames(eslandingsinfo))
 matches <- match(colnames(eslandingsinfo), get_fleet(col = "fleet"))
@@ -56,14 +57,13 @@ colnames(eslandingsinfo) <- ifelse(is.na(matches),
 )
 sa4ss::table_format(
   eslandingsinfo,
+  align = "r",
   caption = "Recent commercial landings and recreational catches by fleet (mt), total summed across fleets, and the total mortality including discards which were estimated internal to the model for the commercial fleets.",
   label = table_labels[table_labels[["label"]] == "removalsES", "label"],
 )
 ```
 
 ![Landings plus dead discards (mt) by fleet as input and estimated in the base model.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), '"')`){width=100% height=100% alt="."}
-
-\clearpage
 
 ## Data and assessment{-}
 
@@ -83,18 +83,19 @@ length and age compositions, available from the previous sources as well as
 research done by L. Lam.
 
 ```{asis, opts.label = "north"}
-For this northern area,
-information on relative abundance was also available from the Oregon fixed gear fleet.
+For this northern stock,
+information on relative abundance was also available from the Oregon FG fleet.
 ```
 ```{asis, opts.label = "south"}
-For this southern area,
+For this southern stock,
 information on abundance, length, and age was also available from the Hook and Line Survey.
 The final model included ages from just the West Coast Groundfish Bottom Trawl Survey because of conflicts between age- and length-composition data.
 ```
 
 Age data were explored using conditional-age-at-length rather than marginal ages and
-length data were modeled as sex-specific compositions for fish that were sexed and as combined sex for fish that were measured but not sexed.
-Unsexed fish that were aged were not included in this assessment.
+length data were modeled as sex-specific compositions for fish that were sexed and
+as combined-sex compositions for fish that were measured but not sexed.
+Unsexed fish that were aged were not included in the conditional age-at-length data.
 
 Key parameters related to productivity were estimated and
 parameters related to growth and mortality were sex specific and time invariant.
@@ -143,12 +144,18 @@ colnames(tabb) <- gsub(
   "\\.\\.mt\\.", " (mt)",
   gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabb))
 ))
-sa4ss::table_format(
+kableExtra::kbl(
   tabb,
+  align = "r",
+  position = "H",
+  digits = c(rep(0, 4), rep(3, 3)),
+  booktabs = TRUE,
   longtable = FALSE,
   caption = table_labels[table_labels[["label"]] == "ssbES", "caption"],
   label = table_labels[table_labels[["label"]] == "ssbES", "label"],
-)
+) %>%
+kableExtra::column_spec(column = 2:ncol(tabb), width = "1.7cm") %>%
+kableExtra::row_spec(0, align = "c")
 ```
 
 ```{r, results = 'asis'}
@@ -198,11 +205,18 @@ colnames(tabc) <- gsub(
   "\\.\\.mt\\.", " (mt)",
   gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabc))
 ))
-sa4ss::table_format(
+kableExtra::kbl(
   tabc,
+  align = "r",
+  position = "H",
+  digits = c(rep(0, 4), rep(3, 3)),
+  booktabs = TRUE,
+  longtable = FALSE,
   caption = table_labels[table_labels[["label"]] == "recrES", "caption"],
   label = table_labels[table_labels[["label"]] == "recrES", "label"],
-)
+) %>%
+  kableExtra::column_spec(column = 2:ncol(tabc), width = "1.7cm") %>%
+  kableExtra::row_spec(0, align = "c")
 ```
 
 ```{r, results = 'asis'}
@@ -254,6 +268,7 @@ colnames(tabd) <- gsub(
 ))
 sa4ss::table_format(
   tabd,
+  digits = c(0, rep(3, NCOL(tabd) - 1)),
   caption = "Estimated recent trend in relative fishing intensity and exploitation rate with associated 95\\% intervals. Fishing intensity is (1-SPR)/(1-SPR45\\%), where SPR is the spawning potential and SPR45\\% = 0.45 is the SPR target. Exploitation rate is annual total dead catch divided by age 3+ biomass.",
   label = table_labels[table_labels[["label"]] == "exploitES", "label"],
 )
@@ -267,6 +282,13 @@ label = 'es-1-spr')
 ```
 
 \clearpage
+
+## Ecosystem considerations{-}
+
+```{r, exsum-text-ecosystemconsiderations, echo = FALSE, results = "asis"}
+ecolines <- knitr::knit_child("13ecosystemconsiderations.Rmd", quiet = TRUE)
+cat(gsub("## Ecosystem considerations\n\n", "", ecolines))
+```
 
 ## Reference points{-}
 
@@ -344,14 +366,12 @@ colnames(tabf) <- gsub(
 ))
 sa4ss::table_format(
   tabf,
-  digits = 2,
+  digits = 0,
   align = "r",
   caption = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "caption"],
   label = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "label"],
 )
 ```
-
-\clearpage
 
 ## Unresolved problems and major uncertainties{-}
 
@@ -410,8 +430,6 @@ the second option uses a $P^*$ of 0.40, and
 the third option uses a $P^*$ of 0.45.
 These $P^*$ values are combined with the category 2 default $\sigma$ = 1.0
 in calculating the buffer between OFL and ABC.
-
-\clearpage
 
 ```{r, results = 'asis'}
 ignore <- table_projections(model, label = "es-forecastprojections")

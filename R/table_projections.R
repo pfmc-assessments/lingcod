@@ -100,6 +100,8 @@ table_projections <-
   tab <- cbind(tab$Year, assumed, tab[,-1])
   names(tab)[names(tab) == "assumed"] <- "Assumed Removal (mt)"
   colnames(tab)[1] <- "Year"
+  # Dirty trick to get trailing zero to two decimals
+  tab[, 5] <- gsub("\\.([0-9])$", "\\.\\10", tab[, 5])
 
   tab %>% kableExtra::kbl(
                         row.names = FALSE,

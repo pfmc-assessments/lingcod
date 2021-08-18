@@ -67,7 +67,7 @@ had the opposite effect, bringing the scale downwards.
 
 The sensitivities related to removing indices from the north model had relatively little
 impact with the exception of the one in which all fishery CPUE indices
-were removed, which increased the scale from 62\% of $B_0% in 2021 to 82\%.
+were removed, which increased the scale from 62\% of $B_0$% in 2021 to 82\%.
 
 ```
 

@@ -36,7 +36,7 @@ last_main <- max(model$recruit$Yr[model$recruit$era=="Main"])
 
 <!-- manual updates needed here if models change -->
 The base model has a total of `r length(estimated_pars)` estimated parameters
-(Figure \@ref(tab:table-pars-base)) that can be grouped into the following
+(Table \@ref(tab:table-pars-base)) that can be grouped into the following
 categories and are described in more detail in the following sections:
 
 - 2 natural mortality parameters (female and male $M$)
@@ -68,7 +68,7 @@ high for all selected fish.
 
 Commercial fishery retention parameters for the period prior to 1998 were
 fixed at values that led to almost 100\% retention as discussed in Section 
-\@ref{sec-model-selectivity}.
+\@ref(sec-model-selectivity).
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 The extra standard deviation parameters for two Oregon CPUE indices were fixed

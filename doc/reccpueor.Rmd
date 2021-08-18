@@ -51,9 +51,11 @@ component for catch occurrence was modeled using a logit link function while
 the log of positive \gls{cpue} was modeled with a Gaussian distribution and an
 identity link function. Based on the \gls{aic}, \gls{bic}, and other factors described
 below, the binomial model selected as the best predictor of \gls{orbs} catch
-rates included year, port, month and open depths available to fishing
-<!-- to do - make the table of model selection for ORBS -->
-(Table \@ref(tab:OR_ORBS_CPUE_model_selection)). Season and mega-region were also
+rates included year, port, month and open depths available to fishing.
+<!-- to do - make the table of model selection for ORBS
+(Table \@ref(tab:OR_ORBS_CPUE_model_selection)).
+-->
+Season and mega-region were also
 evaluated but not included in the stepwise progression due to collinearity
 with other factors (month and port, respectively). Interactions between year
 and port, month and open depths were also evaluated.  Models with
@@ -70,8 +72,10 @@ These diagnostics were
 substantially improved by excluding the year:open depths interaction and the
 removal of the private boat trips from the dataset. The positive model
 selected, again based on AIC, BIC and other considerations, included year,
-port, month and open depths available to fishing
+port, month and open depths available to fishing.
+<!--
 (Table \@ref(tab:OR_ORBS_CPUE_model_selection)).
+-->
 Again, there were issues noted in
 the DHARMa simulated residuals, including curvature and significant outlier
 tests (Figure \@ref(fig:reccpueor-mleqqscaledpos)).
