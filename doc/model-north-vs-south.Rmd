@@ -107,16 +107,19 @@ which represents a decline in frequency of `r spp` in that survey.
 By this measure, the ratio of north to south areas is about 2.3:1.
 <!-- value taken from https://github.com/iantaylor-NOAA/Lingcod_2021/issues/79 -->
 Thus, the biomass estimates are more closer to each other than would be expected had the
-densities been equal in the two areas. However, the estimated
-catchability of the \gls{s-wcgbt} is similar among areas: 
+densities been equal in the two areas.
+However, one must account for catchability and because the \gls{s-wcbgt} does not provide an absolute estimate of abundance
+with a non-trivial amount of habitat and biomass inside the 55 m isobath.
+The estimated
+catchability of the \gls{s-wcgbt} is similar among areas,
 <!-- manual updates: values not dynamic
 mod.2021.n.023.001$cpue$Calc_Q[mod.2021.n.023.001$cpue$Fleet == 7][1]
 [1] 0.811244
 mod.2021.s.018.001$cpue$Calc_Q[mod.2021.s.018.001$cpue$Fleet == 7][1]
 [1] 0.95467
 -->
-0.81 in the north and 0.95 in the south, although differences in estimated selectivity
-of this survey between areas make interpretation of catchability more complex.
+0.81 in the north and 0.95 in the south.
+
 
 <!-- manual updates: values not dynamic
 plot_twopanel_comparison(list(mod.2021.n.023.103, mod.2021.s.018.103))
