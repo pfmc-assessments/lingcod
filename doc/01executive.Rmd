@@ -28,13 +28,16 @@ assume that these flanking populations do not contribute to the stock being asse
 
 The first known records of `r spp` landings date back to the late 1800s
 (Figure \@ref(fig:es-catch)).
-Catch reconstructions for these early landings were informed by state resources and
-recent landings (Table \@ref(tab:removalsES)) were available from PacFIN and RecFIN.
+Catch reconstructions for these early landings were informed by state resources.
+Recent landings were available from PacFIN and RecFIN
+(Table \@ref(tab:removalsES)).
 Commercial discards were modeled using discard rates and length compositions,
 which facilitated the estimation of retention curves.
-Recreational catches included estimates of dead discards in the catch data
-(Table \@ref(tab:removalsES)). Discard mortality was assumed to be 50\% 
-for commercial trawl and 7\% for commercial fixed-gear and recreational fleets.
+Recreational catches included estimates of dead discards
+(Table \@ref(tab:removalsES)).
+Discard mortality was assumed to be
+50\% for commercial trawl and
+7\% for commercial fixed-gear and recreational fleets.
 
 ```{r, exsum-text-commfleetstructure, echo = FALSE, results = "asis"}
 sa4ss::read_child("catch-comm-fleetstructure.Rmd")
@@ -46,10 +49,13 @@ table_labels <- utils::read.csv(
 )
 eslandingsinfo <- utils::read.csv(
   file.path("..", mod_loc, "tables", "a_Catches_ES.csv")
-)
+) %>% select(where(~ any(. != 0)))
 eslandingsinfo <- round(eslandingsinfo, 2) # round all catch values to 0 digits
 
 colnames(eslandingsinfo) <- gsub("^X", "", colnames(eslandingsinfo))
+colnames(eslandingsinfo) <- gsub("\\.Landings", "", colnames(eslandingsinfo))
+colnames(eslandingsinfo) <- gsub("Dead$", "Mortality", colnames(eslandingsinfo))
+
 matches <- match(colnames(eslandingsinfo), get_fleet(col = "fleet"))
 colnames(eslandingsinfo) <- ifelse(is.na(matches),
   gsub("([a-zA-Z])\\.([a-zA-Z])", "\\1 \\L\\2", perl = TRUE, colnames(eslandingsinfo)),
@@ -63,7 +69,7 @@ sa4ss::table_format(
 )
 ```
 
-![Landings plus dead discards (mt) by fleet as input and estimated in the base model.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), '"')`){width=100% height=100% alt="."}
+![Estimated total mortality (mt) by fleet.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), '"')`){width=100% height=100% alt="."}
 
 ## Data and assessment{-}
 
