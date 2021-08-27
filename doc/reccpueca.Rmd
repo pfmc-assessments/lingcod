@@ -178,8 +178,6 @@ also records the starting and ending time, number of anglers observed, starting
 and ending depth, and measures discarded fish. The fine-scale catch and effort 
 data allow us to better filter the data for indices 
 to fishing stops within suitable habitat for the target species.
-A large effort was made by the SWFSC to recover data from the original data 
-sheets for this survey and developed into a relational database [@Monk2016]. 
 
 A large effort was made by the SWFSC to recover data from the original data 
 sheets for this survey and developed into a relational database [@Monk2016]. 
