@@ -115,7 +115,7 @@ sampling location, so some lack of fit is to be expected.
 
 Early explorations of the south model showed bad patterns in the fit to the 
 age data from the commercial trawl fishery, leading to the removal of all
-ages other than those fro \gls{s-wcgbt} in the final model. Nevertheless,
+ages other than those from \gls{s-wcgbt} in the final model. Nevertheless,
 these ages are included as marginal "ghost age comps" ("AgeComp" in electronic appendix) 
 which are excluded from the likelihood for purposes of visualizing the implied fit. 
 The implied fit to the ages from the commercial trawl and fixed-gear fleets
