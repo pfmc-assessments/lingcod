@@ -149,7 +149,7 @@ One fish tagged as a juvenile was recovered
 510 km to the south in Oregon.
 
 High site fidelity was also found using acoustic tags
-in Alaskan waters [@starr2005use] and
+in Alaskan waters [@starr2005] and
 off of Central California [@greenley2009movements].
 While `r spp` exhibit high site fidelity
 with an established location of residence,

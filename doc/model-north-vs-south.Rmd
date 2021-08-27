@@ -108,7 +108,7 @@ By this measure, the ratio of north to south areas is about 2.3:1.
 <!-- value taken from https://github.com/iantaylor-NOAA/Lingcod_2021/issues/79 -->
 Thus, the biomass estimates are more closer to each other than would be expected had the
 densities been equal in the two areas.
-However, one must account for catchability and because the \gls{s-wcbgt} does not provide an absolute estimate of abundance
+However, one must account for catchability and because the \gls{s-wcgbt} does not provide an absolute estimate of abundance
 with a non-trivial amount of habitat and biomass inside the 55 m isobath.
 The estimated
 catchability of the \gls{s-wcgbt} is similar among areas,
