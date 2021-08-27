@@ -174,7 +174,7 @@ label = 'tri-depthSplit')
 ```{r hookandlinesurveyfigures, results = "asis", eval = params$area == "South"}
 sa4ss::add_figure(
   filein = "Indices_for_Kelli/HookandLine_Harms_CCA_Lingcod.png",
-  caption = "Map of the NWFSC hook-and-line survey site with circle indicating location at which vermilion rockfish were observed at least once.",
+  caption = "Map of the NWFSC hook-and-line survey site with circle indicating location at which lingcod rockfish were observed at least once.",
   label = "spp-sites"
 )
 sa4ss::add_figure(
