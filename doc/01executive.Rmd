@@ -18,7 +18,7 @@ using data through `r assessmentyear`.
 `r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")` and
 this document contains summary information about the species as a whole and
 detailed information for the `r area_long` stock.
-Stocks were split at \CapeM based on the results of a genetic analysis.
+Stocks were split at \CapeM based on the results of a genetic analysis [@longo2020strong].
 This boundary also happens to be the boundary used for the management of commercial catches.
 Models for `r spp` do not include catches from the Alaskan, Canadian, or Mexican populations and
 assume that these flanking populations do not contribute to the stock being assessed here.
