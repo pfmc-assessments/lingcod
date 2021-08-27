@@ -1,14 +1,14 @@
 #### PacFIN trawl logbook index
 
-A commercial trawl CPUE index was retained from the previous assessment.
-The index spans the years 1981-1997, with the end point chosen prior 
-to significant changes in management beginning in 1998
+A commercial trawl \gls{cpue} index was retained from the previous assessment.
+The index spans the years 1981-1997,
+ending before the 1998 changes in management
 (Figure \@ref(fig:index-fits-all-fleets)).
-A detailed description
-of the index standardization approach is available in 
-Haltuch et al. [-@haltuch2019lingcod]. The index was developed on a coastwide
-scale using VAST and post-stratified to produce separate indices for the 
-north and south stocks. For this assessment the stratification was updated 
-to reflect the new boundary at \CapeM without changing 
-the underlying index standardization (pers. comm., J. Wallace, \gls{nwfsc}).
+A detailed description of the standardization approach is available in 
+Haltuch et al. [-@haltuch2019lingcod].
+As in the last assessment, the coastwide estimates were post-stratified to produce separate indices for each stock.
+For this assessment,
+the stratification was updated to reflect the new boundary at \CapeM
+without changing the underlying index standardization
+(pers. comm., J. Wallace, \gls{nwfsc}).
 
