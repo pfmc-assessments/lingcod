@@ -40,7 +40,7 @@ author:
     first: M
     middle: A
     family: Haltuch
-author_list: Taylor, I.G., K.F. Johnson, B.J. Langseth, A. Stephens, L.S. Lam, M.H.
+author_list: K.F. Johnson, Taylor, I.G., B.J. Langseth, A. Stephens, L.S. Lam, M.H.
   Monk, J.E. Budrick, M.A. Haltuch
 affiliation:
   - code: 1
