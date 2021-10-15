@@ -242,7 +242,6 @@ name | notes | issue | source_model | script
 2021.n.023.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.n.023.001_fixWAreccatchhistory | model_STAR_request_10.R
 2021.s.017.801_lorenzenm | Lorenzen M Age 8 | #150 | 2021.s.017.001_triextrasdreweight | model_STAR_request_10.R
 2021.s.017.802_lorenzenm | Lorenzen M Age 8 free up Tri selectivity | #150 | 2021.s.017.801_lorenzenm | manual
-2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | Tri Slx Offset | #150 | 2021.s.017.411_female_sel_offset_fisheries | manual
 2021.s.017.803_lorenzenm | Lorenzen M Free Tri Slx Offset | #150 | 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | model_STAR_request_10.R
 2021.n.023.802_offsetLM | female offset sensitivity | #150 #151 | 2021.n.023.411_female_sel_offset_fisheries | run_sensitivities(), model_STAR_requests.R
 2021.n.023.901_trawl_discard_rates             | actually a combinationof 902 and 904  | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
@@ -250,6 +249,7 @@ name | notes | issue | source_model | script
 2021.n.023.903_trawl_rates_discard_se          | less reduced se of discard rates for fleet2 than sens 901     | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
 2021.n.023.904_sample_size                     | downweight sample sizes of discard lengths for fleet1         | #155 | 2021.n.023.001_fixWAreccatchhistory | lingcod_model_STAR_R14_discard.R
 2021.s.017.810_cutnuseDM | Tune comps with smaller input | intuition | 2021.s.017.001_triextrasdreweight | lingcod_model_STAR_R9_reweight.R
+2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | Tri Slx Offset | #150 | 2021.s.017.411_female_sel_offset_fisheries | manual
 2021.n.023.413_asymptotic_TW | fix the commercial trawl selectivity to be asymptotic for all blocks | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
 2021.s.017.413_asymptotic_TW | fix the commercial trawl selectivity to be asymptotic for all blocks | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R
 2021.n.023.414_descend_shared_across_blocks | make the descending slope of the selectivity function equal for all blocks | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
@@ -268,7 +268,6 @@ name | notes | issue | source_model | script
 2021.n.023.421_sex_sel_peak_descend_fisheries | make the peak and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.n.023.001 | run_sensitivities(), model_STAR_requests.R
 2021.s.017.421_sex_sel_peak_descend_fisheries | make the peak and descending slope of the selectivity function sex-specific for fisheries only | #156 | 2021.s.017.001 | run_sensitivities(), model_STAR_requests.R 
 2021.s.017.422_init_values | test south model sensitivity to initial values | #156 | 2021.s.017.419 | model_STAR_requests.R 
-2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | Tri Slx Offset | #150 | 2021.s.017.411_female_sel_offset_fisheries | manual
 2021.s.017.803_lorenzenm | Lorenzen M Free Tri Slx Offset | #150 | 2021.s.017.412_female_sel_offset_fisheriesFixTriSlx | manual
 2021.n.023.002_tighterM | divide sd of M in half |  | 2021.n.023.001_fixWAreccatchhistory | 
 2021.n.913_discard_trawl_rates_se_tighterM | divide sd of M in half |  | 2021.n.023.903_trawl_rates_discard_se | 
@@ -311,5 +310,48 @@ name | notes | issue | source_model | script
 2021.s.018.613_low_stream_3	 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
 2021.s.018.623_base_stream_3 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
 2021.s.018.633_high_stream_3 | forecasts on July 21 | #154 | 2021.s.018.010 | lingcod_forecast.R, model_decsion_tables.R
-2021.n.023.103_M0.3_h0.7 | | | |
-2021.s.018.103_M0.3_h0.7 | | | |
+2021.n.023.629_forecast_no4010 | like 623_base_stream_3 forecast but without 40:10 adjustment |  | 2021.n.023.623 | lingcod_forecast_extras.R
+2021.s.018.629_forecast_no4010 | like 623_base_stream_3 forecast but without 40:10 adjustment |  | 2021.s.018.623 | lingcod_forecast_extras.R
+2021.s.018.101_shareM                 | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()  
+2021.s.018.102_h0.7					  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.103_M0.3_h0.7			  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.104_sigmaR0.8			  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.105_sigmaR0.4			  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.106_M0.3       			  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.201_all_CAAL_ages		  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.202_all_marg_ages		  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.203_some_CAAL_ages		  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.206_combMF				  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.207_no_unsexed			  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.208_DM					  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.301_CA_CRFSPR_index		  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.303_no_fishery_indices	  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.311_no_Comm_Trawl_index	  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.315_no_Rec_CA_index		  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.316_no_Surv_TRI_index	  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.317_no_Surv_WCGBTS_index	  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.318_no_Surv_HookLine_index | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.320_no_CPFV_DebWV_index	  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.s.018.321_no_fishery_indices_v2  | post-STAR south sensitivities | #175 | 2021.s.018.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.101_shareM                          | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()   
+2021.n.023.102_h0.7							   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.103_M0.3_h0.7					   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.104_sigmaR0.8					   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.105_sigmaR0.4					   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.106_M0.3							   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.206_combMF						   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.207_no_unsexed					   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.208_DM							   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.209_no_fishery_ages_DM			   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.225_remove_fishery_ages_before_1990 | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.226_remove_fishery_ages_before_2000 | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.302_OR_CPFV_index				   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.303_no_fishery_indices			   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.311_no_Comm_Trawl_index			   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.312_no_Comm_Fix_index			   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.313_no_Rec_WA_index				   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.314_no_Rec_OR_index				   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.315_no_Rec_CA_index				   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.316_no_Surv_TRI_index			   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.317_no_Surv_WCGBTS_index			   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()
+2021.n.023.321_no_fishery_indices_v2		   | post-STAR north sensitivities | #175 | 2021.n.023.001 | model_sensitivity_output.R, run_sensitivities()

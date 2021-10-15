@@ -82,6 +82,7 @@ sens_convert_offsets <- function(tab){
 #' file containing the sensitivity results
 #' @param plot Logical for whether to make a two-panel time series plot
 #' @param plot_dir Directory for the plot
+#' @param legendloc Legend location in plot (as used by `r4ss::SSplotComparisons()`)
 #' @param table_dir Directory for the table
 #' @param write Logical to write csv file to doc or not
 #' @param dots Additional arguments passed to plot_twopanel_comparison()
@@ -100,6 +101,7 @@ sens_make_table <- function(area,
                             sens_type = NULL,
                             plot = TRUE,
                             plot_dir = NULL,
+                            legendloc = "bottomleft",
                             table_dir = "tables",
                             write = FALSE,
                             ...) {
@@ -175,7 +177,7 @@ sens_make_table <- function(area,
     }
     plot_twopanel_comparison(mods = sens_mods,
                              legendlabels = sens_names,
-                             legendloc = "bottomleft",
+                             legendloc = legendloc,
                              legendncol = ifelse(length(sens_mods) < 5, 1, 2),
                              file = plot_filename,
                              dir = plot_dir,

@@ -44,6 +44,7 @@ table_sens <- function(file_csv,
     x <- gsub("([0-9]{4})[.-]+([0-9]{4})", "(\\1-\\2)", x)
     x <- gsub("([0-9\\.]+$)", " = \\1", x, perl = TRUE)
     x <- gsub("([0-9])\\$", "\\1 \\$", x, perl = TRUE)
+    x <- gsub("$M$0.3h", "$M$ = 0.3, h", x) # ugly solution
     x <- gsub("indices|index", "", x)
     x <- gsub("female", "fem. ", x)
     if (format == "html") {
