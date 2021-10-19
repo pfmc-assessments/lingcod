@@ -1,17 +1,22 @@
 The sensitivity analyses were divided into three groups: biology and recruitment,
-composition, and indices
-`r sprintf("(Tables \\@ref(%s) - \\@ref(%s); Figures \\@ref(%s) - \\@ref(%s))", string_switchletter(newletter = params$area, "tab:sens-table-s-bio-rec"), string_switchletter(newletter = params$area, "tab:sens-table-s-comp"), string_switchletter(newletter = params$area, "fig:sens-timeseries-s-bio-rec"),string_switchletter(newletter = params$area, "fig:sens-timeseries-s-index")
+composition, indices, and selectivity
+`r sprintf("(Tables \\@ref(%s) - \\@ref(%s); Figures \\@ref(%s) - \\@ref(%s))", 
+string_switchletter(newletter = params$area, "tab:sens-table-s-bio-rec"), 
+string_switchletter(newletter = params$area, "tab:sens-table-s-sel"), 
+string_switchletter(newletter = params$area, "fig:sens-timeseries-s-bio-rec"),
+string_switchletter(newletter = params$area, "fig:sens-timeseries-s-sel")
 )`.
 
 The biology and recruitment sensitivities included
 
+- fix female $M$ at 0.3 and $h$ at 0.7
+- fix female $M$ at 0.3
+- fix $h$ at 0.7
 - estimate a single $M$ for both sexes with a prior which is a mixture distribution 
 of the two priors sex-specific priors in the base model 
 (a lognormal with mean = 0.358, sd = 0.467)
-- fix $h$ at 0.7
-- fix female $M$ at 0.3 and $h$ at 0.7
-- increase $\sigma_R$ from 0.6 to 0.8
 - decrease $\sigma_R$ from 0.6 to 0.4
+- increase $\sigma_R$ from 0.6 to 0.8
 
 The composition sensitivities included
 
@@ -34,11 +39,46 @@ sample sizes (instead of the Francis method applied in the base model)
 ```
 
 Additional composition-related sensitivities were conducted in earlier versions of
-the model but could not be repeated for the base model in time for inclusion in
-this pre-review version of the report.
+the model but were not repeated for the final base model.
 
 The index sensitivities involved removing each index from the model as well
-as removing all the fishery-dependent indices.
+as removing all the fishery-dependent indices together.
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+Also included in the index sensitivities was changing the index associated with the
+Oregon recreational fishery from one based on the ORBS sampling program to 
+an alternative index developed from onboard CPFV observations.
+
+```
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+Also included in the index sensitivities was changing the index associated with the 
+California recreational fishery in recent years from one based on the onboard CPFV 
+observations to an alternative index developed from the CRFS sampling of private 
+and rental boats.
+```
+
+The selectivity sensitivities included
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+- make the fixed-gear fishery selectivity asymptotic rather than dome shaped
+(in the north model it is estimated as asymptotic)
+```
+- allow sex-specific selectivity by adding for each fleet representing 
+the difference between females and males in the height of the peak 
+selectivity
+- allow sex-specific selectivity as above while also fixing female $M$ = 0.3
+- make retention in the early period equal to the recent period
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+- make the scale and descending slope of the selectivity function sex-specific 
+for all fisheries selectivity but retain shared selectivity for females and males
+in the surveys
+
+Numerous additional sensitivities related to sex-specific selectivity
+were conducted for the north model during the STAR review, 
+none of which provided model results which were more plausible
+than the chosen base model. See the STAR report for more detail on these
+additional sensitivities.
+```
+
+TO DO: UPDATE TEXT BELOW ON RESULTS OF SENSITIVITY ANALYSES
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 <!-- manual updates needed here if models change -->
