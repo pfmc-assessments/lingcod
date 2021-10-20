@@ -131,7 +131,7 @@ sa4ss::read_child("model-selection.Rmd")
 sa4ss::read_child("model-results.Rmd")
 ```
 
-### Model Diagnostics
+### Model diagnostics
 
 #### Convergence
 
