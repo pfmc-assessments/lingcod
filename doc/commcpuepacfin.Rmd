@@ -11,4 +11,8 @@ For this assessment,
 the stratification was updated to reflect the new boundary at \CapeM
 without changing the underlying index standardization
 (pers. comm., J. Wallace, \gls{nwfsc}).
-
+This method is in contrast to the fishery-independent \gls{cpue} indices that
+were fit using separate models rather than post-stratified to areas north and south of \CapeM.
+The choice to not re-estimate the fits to the data was driven by
+the intense computational needs to refit the model and
+the similarity of the results of the fishery-independent \gls{cpue} regardless of how they were fit / stratified.
