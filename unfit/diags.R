@@ -10,6 +10,7 @@ library(devtools)
 load_all()
 
 run_investigatemodel(
-  "2021.n.018.001_refined",
-  run = c("jitter", "profile", "retro")[as.numeric(args)]
+  "2021.n.023.001_fixWAreccatchhistory",
+  # "2021.s.018.001_fixTri3",
+  run = c("profile", "retro", "jitter")[as.numeric(args)]
 )
