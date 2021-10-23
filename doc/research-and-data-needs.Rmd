@@ -1,9 +1,9 @@
 Investigating and or addressing the following items could improve future assessments of `r spp`: 
 
-- Sex-specific selectivity is likely given the life history of `r spp`,
-but knowledge of the fine-scale spatial distribution of ages and sexes relative to
+- Sex-specific selectivity is likely given the life history of `r spp`.
+But, knowledge of the fine-scale spatial distribution of ages and sexes relative to
 the distribution of fishing effort and survey sampling locations is lacking to inform these patterns.
-Some relationships may be dome-shaped while others may be asympototic and
+Some relationships may be dome-shaped while others may be asymptotic and
 these relationships could depend on whether the process is governed by length or age.
 Care should be taken during explorations of selectivity to ensure that the model
 does not become overparameterized given that selectivity and mortality are correlated.

@@ -100,9 +100,13 @@ table_decision <- function(
   ) %>%
   dplyr::select_if(!grepl("catch|group", ignore.case = FALSE, colnames(.))) %>%
   dplyr::relocate(Catch, .after = Year) %>%
-  dplyr::distinct(Management, Year, Catch, .keep_all = TRUE) %>%
-  dplyr::rename("Asm." = "Management")
+  dplyr::distinct(Management, Year, Catch, .keep_all = TRUE)
   rownames(results) <- NULL
+  colnames(results) <- gsub(
+    "Management$",
+    "\\\\makecell{Assump-\\\\\\\\tion}",
+    colnames(results)
+  )
   colnames(results) <- gsub(
     "Spawn.+",
     "\\\\makecell{SSB\\\\\\\\(mt)}",

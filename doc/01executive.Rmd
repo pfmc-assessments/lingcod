@@ -13,15 +13,12 @@ Bratio_2021 <- round(model[["derived_quants"]]["Bratio_2021", "Value"], 4)
 
 ```{asis executive-summary-stock, echo = TRUE}
 This assessment reports the status of `r spp` (_`r spp.sci`_)
-off the `r area_long` `r coast` coast
+`r tolower(params$area)` of \CapeM along the `r coast` coast
 using data through `r assessmentyear`.
-`r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")` and
-this document contains summary information about the species as a whole and
-detailed information for the `r area_long` stock.
-Stocks were split at \CapeM based on the results of a genetic analysis [@longo2020strong].
-This boundary also happens to be the boundary used for the management of commercial catches.
-Models for `r spp` do not include catches from the Alaskan, Canadian, or Mexican populations and
-assume that these flanking populations do not contribute to the stock being assessed here.
+`r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")`
+split at \CapeM based on the results of a genetic analysis [@longo2020strong].
+\CapeM is also the boundary used for the management of commercial catches.
+Models for `r spp` do not include catches or dynamics from the Alaskan, Canadian, or Mexican populations.
 ```
 
 ## Catches{-}
@@ -54,7 +51,7 @@ eslandingsinfo <- round(eslandingsinfo, 2) # round all catch values to 0 digits
 
 colnames(eslandingsinfo) <- gsub("^X", "", colnames(eslandingsinfo))
 colnames(eslandingsinfo) <- gsub("\\.Landings", "", colnames(eslandingsinfo))
-colnames(eslandingsinfo) <- gsub("Dead$", "Mortality", colnames(eslandingsinfo))
+colnames(eslandingsinfo) <- gsub("Dead$", "dead", colnames(eslandingsinfo))
 
 matches <- match(colnames(eslandingsinfo), get_fleet(col = "fleet"))
 colnames(eslandingsinfo) <- ifelse(is.na(matches),
@@ -64,47 +61,50 @@ colnames(eslandingsinfo) <- ifelse(is.na(matches),
 sa4ss::table_format(
   eslandingsinfo,
   align = "r",
-  caption = "Recent commercial landings and recreational catches by fleet (mt), total summed across fleets, and the total mortality including discards which were estimated internal to the model for the commercial fleets.",
+  caption = "Recent commercial landings and recreational catches by fleet (mt), total across fleets, and the total dead including internal estimates of commercial discards.",
   label = table_labels[table_labels[["label"]] == "removalsES", "label"],
 )
 ```
 
-![Estimated total mortality (mt) by fleet.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), '"')`){width=100% height=100% alt="."}
+![Estimated total dead (mt) by fleet (colors) across years since `r model[["startyr"]]`.\label{fig:es-catch}](`r paste0('"', filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), '"')`){width=100% height=100% alt="Histogram of catch time series, where Table \label{tab:} contains values."}
 
 ## Data and assessment{-}
 
-This assessment uses the Stock Synthesis fisheries stock assessment model
-version `r strsplit(model$SS_version,";")[[1]][1]`.
 `r Spp` has been modeled using various age-structured forward-projection models since the mid 1990s and
 was most recently assessed in 2017 [@haltuch2019lingcod].
+This assessment fit all data using a single stock assessment framework,
+Stock Synthesis `r strsplit(model$SS_version,";")[[1]][1]` (SS3).
 Data included in the base model provided information on
-landings for each commercial and recreational fleet,
+landings for each commercial and recreational fleet;
 commercial discards, available from the West Coast Groundfish Observer Program;
 relative abundance as informed by the
 Triennial Survey,
 West Coast Groundfish Bottom Trawl Survey,
 commercial trawl fishery, and
-each recreational fishery;
-length and age compositions, available from the previous sources as well as
-research done by L. Lam.
+each recreational fishery; and
+length and age compositions,
+available from the previous sources as well as research by L. Lam.
 
-```{asis, opts.label = "north"}
-For this northern stock,
-information on relative abundance was also available from the Oregon FG fleet.
-```
-```{asis, opts.label = "south"}
-For this southern stock,
-information on abundance, length, and age was also available from the Hook and Line Survey.
-The final model included ages from just the West Coast Groundfish Bottom Trawl Survey because of conflicts between age- and length-composition data.
-```
+For this `r area_long` stock, information on
+`r ifelse(params$area == "North", "relative abundance", "relative abundance, length, and age")`
+was also available from the
+`r ifelse(params$area == "North", "Oregon FG fleet", "\\gls{s-hkl}")`.
+`r ifelse(params$area == "South",
+  "The final model included ages from just the \\gls{s-wcgbt} because of conflicts between age- and length-composition data.",
+  ""
+)`
 
-Age data were explored using conditional-age-at-length rather than marginal ages and
-length data were modeled as sex-specific compositions for fish that were sexed and
-as combined-sex compositions for fish that were measured but not sexed.
-Unsexed fish that were aged were not included in the conditional age-at-length data.
+Age data were explored using conditional-age-at-length rather than marginal ages.
+Length data were modeled as sex-specific compositions for fish that were sexed and
+combined-sex compositions for fish that were measured but not sexed.
+Unsexed fish that were aged and measured for length were not included in the conditional age-at-length data.
 
 Key parameters related to productivity were estimated and
 parameters related to growth and mortality were sex specific and time invariant.
+Compensatory stock-recruitment dynamics were assumed, and thus,
+the Beverton-Holt stock-recruit function was used to model recruitment.
+Steepness, $h$, was estimated to account for
+uncertainty in the fraction of recruitment obtained when the population is at 20\% of unfished levels.
 Main annual recruitment deviations started in
 `r model$recruitpars%>%dplyr::filter(type == "Main_RecrDev")%>%dplyr::pull(Yr) %>% min`,
 just prior to the availability of reliable length- and age-composition data.
@@ -124,8 +124,9 @@ which typically changed the scale of the population and estimates of key product
 ```{asis, opts.label = "north"}
 The stock biomass is currently trending downwards, though the rate of the decline is highly uncertain
 (Table \@ref(tab:ssbES); Figure \@ref(fig:es-ssb)).
-And, although it is currently declining, it estimated to have been above the management target since
-the late 1990s and never to have been below the minimum stock size threshold
+Although the biomass is currently estimated to be declining,
+no estimate is below the minimum stock size threshold and
+all estimates since the late 1990s are above the management target
 (Figure \@ref(fig:es-depl)).
 ```
 ```{asis, opts.label = "south"}
@@ -183,21 +184,27 @@ label = 'es-depl')
 
 ## Recruitment{-}
 
+Steepness was estimated
+($\hat{h}$ = `r sprintf("%.2f", model$parameters[model$parameters$Label=="SR_BH_steep", "Value"])`)
+rather than fixed at a point value to
+capture uncertainty in the resilience of `r spp` to harvesting.
 `r Spp` appear to have moderate variability in estimates of recruitment with
 recruitment variability ($\sigma_R$) fixed at
-`r model$parameters[model$parameters$Label=="SR_sigmaR","Value"]`
+`r model$parameters[model$parameters$Label=="SR_sigmaR", "Value"]`
 (Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)).
-Given the pandemic and the lack of recent survey information,
-there was little information in the data to estimate recruitment in 2019.
-Thus, 2019 and 2020 were not included in the main recruitment deviations
+The last large recruitment event for this stock occurred in 2013 and
+a smaller event may have also occurred within the last half-decade,
+though its magnitude is more uncertain.
+
+The 2019 and 2020 estimates of recruitment deviations
+were not included in the main recruitment deviations
 and are instead termed late recruitment deviations that are not constrained to sum to zero
 (Table \@ref(tab:recrES)).
-If the survey in 2019 would have been conducted,
-then 2019 recruitment perhaps would have been less uncertain.
-`r Spp` are not seen as age-0 fish in any data set in appreciable quantities, and thus,
-the terminal year of recruitment is never estimated.
-The last large recruitment event for this stock occurred in 2013 and
-a smaller event may have also occurred within the last half-decade though its magnitude is more uncertain.
+Given the pandemic and the lack of recent survey information,
+there was little information in the data to estimate recruitment in 2019 and
+the uncertainty about this estimate is relatively large.
+`r Spp` are not collected as age-0 fish in appreciable quantities,
+limiting the ability to estimate the terminal year of recruitment.
 
 ```{r, results = "asis"}
 tabc <- utils::read.csv(
@@ -208,7 +215,7 @@ tabc[, 5:NCOL(tabc)] <- round(tabc[, 5:NCOL(tabc)], 4)
 colnames(tabc) <- gsub(
   "\\.[1-9]$", "",
   gsub(
-  "\\.\\.mt\\.", " (mt)",
+  "^Recruitment$", "Recruitment (1000s)",
   gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabc))
 ))
 kableExtra::kbl(
@@ -228,14 +235,14 @@ kableExtra::kbl(
 ```{r, results = 'asis'}
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"), 
-caption = "Estimated time series of age-0 recruits (1000s) for the base model with 95 percent intervals",
+caption = "Estimated time series of age-0 recruits (1000s) for the base model with 95\\% intervals",
 label = 'es-recruits')
 ```
 
 ```{r, results = 'asis'}
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "recdevs2_withbars.png"), 
-caption = "Estimated time series of recruitment deviations",
+caption = "Estimated time series of recruitment deviations. Black points are for years that were constrained to sum to zero and are part of the 'main' period, and blue points are for early deviations (left) and late or forecast deviations (right). Bars represent 95\\% intervals.",
 label = 'es-rec-devs')
 ```
 
@@ -244,18 +251,23 @@ label = 'es-rec-devs')
 ## Exploitation status{-}
 
 ```{asis, opts.label = "north"}
-The harvest rate was estimated to have never been above the target proxy harvest rate
+The exploitation rate,
+annual total dead catch divided by age 3+ biomass,
+was estimated to have never been above the target proxy exploitation rate
 (Table \@ref(tab:exploitES); Figure \@ref(fig:es-1-spr)).
-Recent estimates of fishing intensity indicate stability within the fishery and 
-are close to pre-1950 estimates. The relative fishing intensity is estimated to have 
-peaked in `r spr_peak_yr` at a value of (1 - SPR)/(1-SPR45\%) = `r spr_peak`.
+Recent estimates of fishing intensity, $1-SPR$, indicate stability within the fishery and 
+are close to pre-1950 estimates.
+Relative fishing intensity, $(1 - SPR)/(1-SPR_{45\%})$, is estimated to have 
+peaked in `r spr_peak_yr` at `r spr_peak`.
 ```
 ```{asis, opts.label = "south"}
-The stock was estimated to have been harvested above the target proxy harvest rate 
+The stock was estimated to have been exploited above the target proxy exploitation rate 
 from the 1970s to approximately the late 1990s and again in the early 2000s
-(Figure \@ref(fig:es-1-spr)). The relative fishing intensity is estimated to have 
-peaked in `r spr_peak_yr` at a value of (1 - SPR)/(1-SPR45\%) = `r spr_peak`.
-Recent estimates of harvest have all been below the target proxy harvest rate and
+(Figure \@ref(fig:es-1-spr)).
+Exploitation rate is defined as the annual total dead catch divided by age 3+ biomass.
+The relative fishing intensity, $(1 - SPR)/(1-SPR_{45\%})$,
+is estimated to have peaked in `r spr_peak_yr` at `r spr_peak`.
+Recent estimates of exploitation have all been below the target proxy exploitation rate and
 the estimate of fishing intensity for the terminal year was the lowest estimated since 2011
 (Table \@ref(tab:exploitES)).
 ```
@@ -275,7 +287,7 @@ colnames(tabd) <- gsub(
 sa4ss::table_format(
   tabd,
   digits = c(0, rep(3, NCOL(tabd) - 1)),
-  caption = "Estimated recent trend in relative fishing intensity and exploitation rate with associated 95\\% intervals. Fishing intensity is (1-SPR)/(1-SPR45\\%), where SPR is the spawning potential and SPR45\\% = 0.45 is the SPR target. Exploitation rate is annual total dead catch divided by age 3+ biomass.",
+  caption = "Estimated recent trend in relative fishing intensity, $(1-SPR)/(1-SPR45\\%)$, and exploitation rate with associated 95\\% intervals. Fishing intensity is $1-SPR$, where the spawning potential ratio (SPR) has a target of 45\\%, $SPR_{45\\%}$. Exploitation rate is annual total dead catch divided by age 3+ biomass.",
   label = table_labels[table_labels[["label"]] == "exploitES", "label"],
 )
 ```
@@ -283,7 +295,7 @@ sa4ss::table_format(
 ```{r, results = 'asis'}
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "SPR3_ratiointerval.png"), 
-caption = "Estimated relative fishing intensity = (1-SPR)/(1-SPR45%) with 95% intervals, where SPR is the spawning potential and SPR45% = 0.45 is the SPR target. The red horizontal line at 1.0 indicates fishing intensity equal to the target and values above this reflect harvest in excess of the proxy harvest rate.",
+caption = "Estimated relative fishing intensity, $(1-SPR)/(1-SPR45\\%)$, with 95% intervals. Fishing intensity is $1-SPR$, where the spawning potential ratio (SPR) has a target of 45\\%, $SPR_{45\\%}$. The red horizontal line at 1.0 indicates fishing intensity equal to the target and values above this reflect harvest in excess of the proxy harvest rate.",
 label = 'es-1-spr')
 ```
 
@@ -299,15 +311,35 @@ cat(gsub("## Ecosystem considerations\n\n", "", ecolines))
 ## Reference points{-}
 
 ```{asis, opts.label = "north"}
-The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be well above the management target at `r Bratio_2021`; even the lower interval was estimated to be above the target
-(Table \@ref(tab:referenceES); Figures \@ref(fig:es-phase) and \@ref(fig:es-yield)).
+The estimate of 2021 spawning biomass relative to unfished equilibrium biomass
+(fraction unfished = `r Bratio_2021`)
+was well above the management target of 40\%
+(Table \@ref(tab:referenceES) and Figure \@ref(fig:es-phase)).
+Even the lower 95\% interval was estimated to be above the target
+(Table \@ref(tab:referenceES)).
+Only a few years since the start of the modeled period were estimated to be
+below the target (blue points to the left of the vertical line at 0.4 in Figure \@ref(fig:es-phase)).
+
+Equilibrium yield given the estimate of steepness shows disparity between
+maximum sustainable yield (blue) and the target biomass (red
+Figure \@ref(fig:es-yield)).
+Whereas, the target biomass is in line with the SPR target (green)
+(Figure \@ref(fig:es-yield)).
 ```
 ```{asis, opts.label = "south"}
-The 2021 spawning biomass relative to unfished equilibrium biomass (fraction unfished) was estimated to be close to the management target at `r Bratio_2021` 
-(Table \@ref(tab:referenceES); Figures \@ref(fig:es-phase) and \@ref(fig:es-yield)).
+The estimate of 2021 spawning biomass relative to unfished equilibrium biomass
+(fraction unfished = `r Bratio_2021`)
+was estimated to be close to the management target of 40\%
+(Table \@ref(tab:referenceES); Figure \@ref(fig:es-phase)).
 The uncertainty in this estimate spans above and well below the target,
 suggesting the current status of the stock is uncertain
 (Figure \@ref(fig:es-phase)).
+
+Equilibrium yield given the estimate of steepness shows disparity between
+maximum sustainable yield (blue) and the SPR target (green
+Figure \@ref(fig:es-yield)).
+Whereas, the target biomass (red) is in line with the maximum sustainable yield and the current biomass
+(Figure \@ref(fig:es-yield)).
 ```
 ```{r, results = "asis"}
 tabe <- utils::read.csv(
@@ -342,8 +374,7 @@ label = 'es-phase')
 ```{r, results = 'asis'}
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "yield2_yield_curve_with_refpoints.png"), 
-caption = "Equilibrium yield curve for the base case model. Values are based on the 2020
-fishery selectivities",
+caption = "Equilibrium yield curve. Values are based on the 2020 fishery selectivities",
 label = 'es-yield')
 ```
 
@@ -352,14 +383,14 @@ label = 'es-yield')
 ## Management performance{-}
 
 In the last ten years, the annual catch limit has been below the overfishing limit and acceptable biological catch
-(Table \@ref(tab:referenceES)).
-Furthermore, landings and total dead catches (including estimated dead discards) have been well below the annual catch limit.
+(Table \@ref(tab:manageES)).
+Landings and total dead catches (including estimated dead discards) have been well below the annual catch limit.
 
 ```{r, results = "asis"}
 management_oflabcacl <- utils::read.csv(file.path("..", "tables", "management-oflabcacl.csv"))
 tabf <- utils::read.csv(
   file.path("..", mod_loc, "tables", "f_Manage_ES.csv")
-)
+) %>% dplyr::mutate_all(~gsub(",", "", .))
 tabf[, 2:4] <- management_oflabcacl %>%
   dplyr::filter(area == params$area) %>%
   dplyr::filter(Year %in% tabf[, 1]) %>%
@@ -367,13 +398,14 @@ tabf[, 2:4] <- management_oflabcacl %>%
 colnames(tabf) <- gsub(
   "\\.[1-9]$", "",
   gsub(
-  "\\.\\.mt\\.", " (mt)",
+  "mortality", "dead",
   gsub("([a-z])\\.([A-Za-z])", "\\1 \\L\\2", perl = TRUE, colnames(tabf))
 ))
 sa4ss::table_format(
   tabf,
   digits = 0,
   align = "r",
+  longtable = FALSE,
   caption = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "caption"],
   label = table_labels[table_labels[["filename"]] == "f_Manage_ES.csv", "label"],
 )
@@ -412,7 +444,7 @@ The total catches for the first two years of the forecast period were based on v
 These assumed removals are likely higher than what the true removals will be for this year and next year but
 their influence on the assessment of stock status and future removals are limited.
 ```{asis, opts.label = "south"}
-The projections, including the first two years, also assume a 40:60 split 
+The projections, including the first two years, assume a 40:60 split 
 between the trawl and fixed-gear commercial fleets based on guidance from 
 the \glsentrylong{gmt}.
 ```
@@ -428,14 +460,14 @@ while the high state excluded the fishery-dependent age data.
 ```
 ```{asis, opts.label = "south"}
 The axes of uncertainty in the decision table (Table \@ref(tab:es-decision)) are based on
-the uncertainty in female natural mortality of the base model.
+uncertainty in female natural mortality.
 ```
 Three alternative catch streams were created for the decision table (Table \@ref(tab:es-decision)).
 The first option uses recent average catch as provided by the \glsentrylong{gmt},
 the second option uses a $P^*$ of 0.40, and
 the third option uses a $P^*$ of 0.45.
 These $P^*$ values are combined with the category 2 default $\sigma$ = 1.0
-in calculating the buffer between OFL and ABC.
+in calculating the buffer between \gls{ofl} and \gls{abc}.
 
 ```{r, results = 'asis'}
 ignore <- table_projections(model, label = "es-forecastprojections")
@@ -443,10 +475,7 @@ cat(ignore)
 ```
 
 ```{r, results = "asis"}
-caption <- "Decision table summary of 10-year projections based on recent average catch for the first two years of the projection, alternative states of nature (columns), and management assumptions (asm.; rows) based on recent average catch and annual catch limits (ACLs) defined using an estimate of uncertainty (i.e., $P^*$) of 0.40 and 0.45. Catch and resulting fraction unfished are colored relatively with lighter colors representing lower values."
-if(params$area == "North") {
-  caption <- paste(caption, "Italicized values indicate years where the full catch could not be removed from the low state of nature due to insufficient selected biomass.")
-}
+caption <- "Decision table with 10-year projections based on two years of recent average catch, alternative states of nature (columns), and management assumptions (rows) annual catch limits (ACLs) defined using an estimate of uncertainty (i.e., $P^*$) of 0.40 and 0.45. Colors of catch and fraction unfished are relative with lighter colors representing lower values. Italics indicate years were the full catch could not be removed because of insufficient biomass."
 decisiontable <- append(
   x = readLines(file.path("..", mod_loc, "decision_table.tex")),
   values = paste0("\\caption{\\label{tab:es-decision}", caption, "}"),
@@ -458,10 +487,10 @@ cat(decisiontable)
 \clearpage
 
 ## Scientific uncertainty{-}
-<!-- text below adapted from https://github.com/chantelwetzel-noaa/dover_sole_2021/blob/master/write_up/shared_text/scientific_uncertainty.Rmd -->
+
 The model estimated uncertainty around the `r endyr+1` spawning biomass was 
-$\sigma$ = `r round(model$Pstar_sigma,2)` and the uncertainty around the OFL 
-was $\sigma$ = `r round(model$OFL_sigm, 2)`. 
+$\sigma$ = `r round(model$Pstar_sigma,2)` and the uncertainty around the \gls{ofl}
+was $\sigma$ = `r round(model$OFL_sigma, 2)`. 
 ```{asis, opts.label = "north"}
 This is likely an underestimate of overall uncertainty because there is no 
 explicit incorporation of model structural uncertainty (although see the 
@@ -469,7 +498,7 @@ decision table for alternative states of nature).
 ```
 ```{asis, opts.label = "south"}
 This is likely an underestimate of overall uncertainty because there is no 
-explicit incorporation of model structural uncertainty.
+explicit incorporation of structural uncertainty related to the model.
 ```
 The category 2 default $\sigma$ = 1.0 is used to apply scientific uncertainty
 in the projections.

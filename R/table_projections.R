@@ -16,9 +16,9 @@ table_projections <-
                            "estimated summary biomass (mt), spawning biomass (mt), and fraction unfished.",
                            "Values are based on removals for the first two years.",
                            "ABCs include a buffer for scientific uncertainty based on",
-                           "a Pstar of 0.45 and the category 2 default sigma = 1.0.",
+                           "a $P^*$ of 0.45 and the category 2 default sigma = 1.0.",
                            "ACLs additionally include the 40:10 adjustment for projections",
-                           "which fall below the B40 reference point."),
+                           "which fall below the $B_{40}$ reference point."),
            label = "table-projections-base"
            )
 {
