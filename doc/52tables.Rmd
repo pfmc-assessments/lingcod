@@ -368,11 +368,17 @@ sa4ss::read_child(file.path(paste0(params$model, "_retro"), "mohnsrho.tex"))
 ```
 \begin{landscape}
 ```{r tables-model-sens, results = "asis"}
-table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area))
-table_sens(string_switchletter("../tables/sens_table_s_index.csv", params$area))
+table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area),
+	       sens_group = "biology and recruitment")
 table_sens(string_switchletter("../tables/sens_table_s_comp.csv", params$area),
-caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). Red values indicate negative log likelihoods that were lower than that for the base model. Each column refers to index data that were taken out of the model.")
-table_sens("../tables/table_compare_north_vs_south.csv")
+	       sens_group = "composition data")
+table_sens(string_switchletter("../tables/sens_table_s_index.csv", params$area),
+           sens_group = "indices",
+		   caption_extra = "The first sensitivity is an alternative recreational index. Other column names refer to index data that were taken out of the model.")
+table_sens(string_switchletter("../tables/sens_table_s_sel.csv", params$area),
+	       sens_group = "selectivity")
+table_sens("../tables/table_compare_north_vs_south.csv",
+	       caption = "Comparison of estimates of key parameters and derived quantities between the base model for north and south and the 2017 assessments for north and south. Note that the boundary between north and south differs between the current and 2017 assessments.")
 ```
 \end{landscape}
 

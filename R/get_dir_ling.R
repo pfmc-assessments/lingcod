@@ -48,10 +48,15 @@ get_dir_ling <- function(area = NULL,
                 sep = ".")
   }
 
-  # find matching model
-  dir <- models$name[substring(models$name,
-                               first = 1,
-                               last = nchar("2021.n.001.001")) %in% id]
+  # find matching model(s)
+  dir <- NULL
+  # loop over values to preserve the order of the values in id (or originating inputs)
+  # where previous use of %in% resulted in the order they occur in README.md
+  # there's probably a more elegant way to do this
+  for (i in 1:length(id)) {
+    dir[i] <- grep(pattern = paste0("^", id[i]), x = models$name, value = TRUE)
+  }
+  
   if (length(dir) == 0) {
     stop("no model in models/README.md has id = ", paste(id, collapse = ", "))
   }

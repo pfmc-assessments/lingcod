@@ -2,6 +2,11 @@
 #'
 #' @param file_csv A file path to the csv file.
 #' @param caption Text you want in the caption.
+#' @param caption_extra Additional text to add after the default
+#' caption.
+#' @param sens_group Optional description of the group of sensitivities
+#' which will be used to change "alternative models" in the caption
+#' (if present) to "alternative models related to \[sens_group\]"
 #' @param dir Directory where the table should go (relative to "doc")
 #' @template format
 #' @param pretty Logical controlling whether names get cleaned up using
@@ -14,12 +19,24 @@
 #' }
 #'
 table_sens <- function(file_csv,
-                       caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). Red values indicate negative log likelihoods that were lower than that for the base model.",
+                       caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log likelihoods that were lower than that for the base model.",
+                       caption_extra = "",
+                       sens_group = NULL,
                        dir = file.path("..", "tables"),
                        format = "latex",
                        pretty = TRUE
   ) {
 
+  # Revise caption if sens_group is provided
+  if (!is.null(sens_group)) {
+    caption <- gsub(pattern = "alternative models",
+                    replacement = paste("alternative models related to",
+                                        sens_group),
+                    x = caption)
+  }
+  # add any additional text to caption
+  caption <- paste(caption, caption_extra)
+  
   # Make a new label that doesn't depend on area
   # Expecting sens_table_[a-z]_.+.csv
   label <- gsub("sens_table_[a-z]", "sens-table",
@@ -44,7 +61,11 @@ table_sens <- function(file_csv,
     x <- gsub("([0-9]{4})[.-]+([0-9]{4})", "(\\1-\\2)", x)
     x <- gsub("([0-9\\.]+$)", " = \\1", x, perl = TRUE)
     x <- gsub("([0-9])\\$", "\\1 \\$", x, perl = TRUE)
-    x <- gsub("$M$0.3h", "$M$ = 0.3, h", x) # ugly solution
+    x <- gsub("$M$0.3h", "$M$ = 0.3, $h$", x, fixed=TRUE) # ugly solution
+    x <- gsub("seloffset", "sel. offset", x, fixed=TRUE) # ugly solution
+    x <- gsub("offsetM", "offset, $M$", x, fixed=TRUE) # ugly solution
+    x <- gsub("sexselscaledescend", "sex sel. scale and descend ", x, fixed=TRUE) # ugly solution
+    x <- gsub("^no", "no ", x)
     x <- gsub("indices|index", "", x)
     x <- gsub("female", "fem. ", x)
     if (format == "html") {
@@ -76,7 +97,12 @@ table_sens <- function(file_csv,
     digits = 2,
     caption = caption,
     label = label
-  )
+    )
+  # decrease column width for tables with lots of columns
+  if (NCOL(data) > 7) {
+    tt <- tt %>%
+      kableExtra::column_spec(3:NCOL(data), width = "4.3em")
+  }
   
   if (any(grepl("Total", data[, 1]))) {
     tt <- tt %>%

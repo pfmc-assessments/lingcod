@@ -154,9 +154,9 @@ run_sensitivities <- function(dirbase,
       if (sens$suffix == "_all_marg_ages") { # 202
         datdir <- get_dir_ling(area = area, num = 4, sens = 12)
       }
-      ## if (sens$suffix == "_some_CAAL_ages" & area == "a") {
-      ##   datdir <- file.path(olddir = get_dir_ling(area = area, num = 4, sens = 13))
-      ## }
+      if (sens$suffix == "_some_CAAL_ages" & area == "n") {
+        datdir <- file.path(olddir = get_dir_ling(area = area, num = 4, sens = 13))
+      }
       if (grepl("_no_fishery_ages", sens$suffix)) {
         datdir <- get_dir_ling(area = area, num = 4, sens = 14)
       }

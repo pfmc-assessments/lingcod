@@ -33,6 +33,7 @@ bio_rec,102,TRUE,TRUE,steep,0.7,-99,,,,,,,,_h0.7,fix h at 0.7,
 bio_rec,103,TRUE,TRUE,"""c('NatM_p_1_Fem', 'steep')""","""c(0.3, 0.7)""","""c(-99, -99)""",,,,,,,,_M0.3_h0.7,fix female M at 0.3 and h at 0.7,
 bio_rec,104,TRUE,TRUE,SR_sigmaR,0.8,,,,,,,,,_sigmaR0.8,increase sigmaR from 0.6 to 0.8,
 bio_rec,105,TRUE,TRUE,SR_sigmaR,0.4,,,,,,,,,_sigmaR0.4,decrease sigmaR from 0.6 to 0.4,
+bio_rec,106,TRUE,TRUE,NatM_p_1_Fem,0.3,-99,,,,,,,,_M0.3,fix female M at 0.3,
 comp,201,FALSE,TRUE,,,,,,,,,,,_all_CAAL_ages,add all additional ages as CAAL to the south model,
 comp,202,FALSE,TRUE,,,,,,,,,,,_all_marg_ages,add all additional ages as marginal to the south model,
 comp,203,FALSE,TRUE,,,,,,,,,,,_some_CAAL_ages,add all fishery-independent ages as CAAL in the south model,
@@ -46,12 +47,12 @@ comp,212,FALSE,TRUE,,,,,,,,,,,_tuned_all_marg_ages,add all additional ages as ma
 comp,213,FALSE,TRUE,,,,,,,,,,,_tuned_some_CAAL_ages,add all fishery-independent ages as CAAL in the south model (tuned with Francis),
 comp,214,TRUE,FALSE,,,,,,,,,,,_tuned_no_fishery_ages,remove fishery-dependent ages (tuned with Francis),
 comp,217,TRUE,TRUE,,,,,,,,,,,_tuned_no_unsexed,remove all unsexed fish (tuned with Francis),
-star08,221,TRUE,FALSE,,,,,,,,,,,_no_fixed-gear_ages,STAR request 8: remove fixed-gear ages
-star08,222,TRUE,FALSE,,,,,,,,,,,_no_fixed-gear_ages_1999-2011,STAR request 8: remove fixed-gear ages from 1999-2011
-star08,223,TRUE,FALSE,,,,,,,,,,,_female_sel_offset_no_fixed-gear_ages,STAR request 8: sex-specific selectivity and remove fixed-gear ages
-star08,224,TRUE,FALSE,,,,,,,,,,,_female_sel_offset_no_fixed-gear_ages_1999-2011,STAR request 8: sex-specific selectivity and remove fixed-gear ages from 1999-2011
-star08,225,TRUE,FALSE,,,,,,,,,,,_remove_fishery_ages_before_1990,reverse retrospective on commercial ages
-star08,226,TRUE,FALSE,,,,,,,,,,,_remove_fishery_ages_before_2000,reverse retrospective on commercial ages
+star08,221,TRUE,FALSE,,,,,,,,,,,_no_fixed-gear_ages,STAR request 8: remove fixed-gear ages,
+star08,222,TRUE,FALSE,,,,,,,,,,,_no_fixed-gear_ages_1999-2011,STAR request 8: remove fixed-gear ages from 1999-2011,
+star08,223,TRUE,FALSE,,,,,,,,,,,_female_sel_offset_no_fixed-gear_ages,STAR request 8: sex-specific selectivity and remove fixed-gear ages,
+star08,224,TRUE,FALSE,,,,,,,,,,,_female_sel_offset_no_fixed-gear_ages_1999-2011,STAR request 8: sex-specific selectivity and remove fixed-gear ages from 1999-2011,
+star08,225,TRUE,FALSE,,,,,,,,,,,_remove_fishery_ages_before_1990,reverse retrospective on commercial ages,
+star08,226,TRUE,FALSE,,,,,,,,,,,_remove_fishery_ages_before_2000,reverse retrospective on commercial ages,
 index,301,FALSE,TRUE,,,,,,,,,,TRUE,_CA_CRFSPR_index,Change CA Rec index in recent years from onboardCPFV to CRFSPR,
 index,302,TRUE,FALSE,,,,,,,,,,TRUE,_OR_CPFV_index,Change OR Rec index to onboard (CPFV ride along) index,
 index,303,TRUE,TRUE,,,,,,,"""rep(1,5)""","""1:5""",,,_no_fishery_indices,remove all fishery-dependent indices,

@@ -1,3 +1,4 @@
 delete_merged_file: true
 book_filename: 'North'
+#rmd_files: ['00a.Rmd', '00authorsnorth.Rmd', '00bibliography.Rmd', '00titlenorth.Rmd', '01a.Rmd', '01executive.Rmd']
 rmd_files: ['00a.Rmd', '00authorsnorth.Rmd', '00bibliography.Rmd', '00titlenorth.Rmd', '01a.Rmd', '01executive.Rmd', '10a.Rmd', '11introduction.Rmd', '20data.Rmd', '30model.Rmd', '49bibliography.Rmd', '52tables.Rmd', '53Figures.Rmd']

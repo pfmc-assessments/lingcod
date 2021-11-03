@@ -383,7 +383,8 @@ add_figure_ling(dplyr::bind_rows(mapply(
         x = c(
           "sens_timeseries_n_bio_rec.csv",
           "sens_timeseries_n_comp.csv",
-          "sens_timeseries_n_index.csv"
+          "sens_timeseries_n_index.csv",
+          "sens_timeseries_n_sel.csv"
         )
     ))
 )))

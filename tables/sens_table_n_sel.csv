@@ -1,19 +1,19 @@
-"Label","Base model","female_sel_offset","female_sel_offset_M0.3","less_early_retention"
-"TOTAL likelihood (diff from base)",0,-495.56,-495.13,11.6499999999996
-"Survey likelihood (diff from base)",0,6.03100000000001,4.77600000000001,1.44499999999999
-"Length comp likelihood (diff from base)",0,-350.39,-348.52,14.21
-"Age comp likelihood (diff from base)",0,-150.71,-150.58,-3.69999999999982
-"Discard likelihood (diff from base)",0,-1.3005,-1.31949999999999,-0.163199999999989
-"Parm priors likelihood (diff from base)",0,-0.2243506,-0.2253033,-0.042383
-"Recr Virgin millions",15.8614,6.25504,7.23375,13.8564
-"log(R0)",9.67164,8.74114,8.88651,9.5365
-"M Female ",0.412613,0.285457,0.3,0.40028
-"M Male ",0.409061,0.452335,0.473465,0.396906
-"SSB Virgin 1000 mt",16.913,19.079,19.361,16.219
-"SSB 2021 1000 mt",10.677,8.938,9.893,9.444
-"Fraction unfished 2021",0.631249,0.468444,0.510947,0.582275
-"Fishing intensity 2020",0.278997,0.51651,0.455973,0.317948
-"Retained Catch MSY mt",3816.93,2108.67,2287.31,3560.68
-"Dead Catch MSY mt",4079.41,2225,2424.43,3741.64
-"Virgin age 3+ bio 1000 mt",32.0721,24.1165,24.5635,30.4415
-"OFL mt 2021",4847.78,2129.33,2483.32,4113.9
+"Label","Base model","female_sel_offset","female_sel_offset_M0.3","sex_sel_scale_descend_fisheries"
+"TOTAL likelihood (diff from base)",0,-492.240000000001,-492.18,-427.52
+"Survey likelihood (diff from base)",0,5.63499999999999,5.04499999999999,10.774
+"Length comp likelihood (diff from base)",0,-347.24,-346.57,-374.52
+"Age comp likelihood (diff from base)",0,-150.24,-150.1,-165.51
+"Discard likelihood (diff from base)",0,-1.1362,-1.1448,-2.803
+"Parm priors likelihood (diff from base)",0,-0.23157636,-0.23209564,103.912143
+"Recr Virgin millions",16.7346,6.77617,7.18214,2.45722
+"SR BH steep",0.80139,0.79312,0.798622,0.918291
+"M Female ",0.417839,0.294332,0.3,0.151973
+"M Male ",0.413968,0.468,0.476349,0.267928
+"SSB Virgin 1000 mt",17.16,19.076,19.22,36.512
+"SSB 2021 1000 mt",11.01,9.29,9.708,22.435
+"Fraction unfished 2021",0.641626,0.486965,0.505098,0.614458
+"Fishing intensity 2020",0.26195,0.480505,0.455745,0.564105
+"Retained Catch MSY mt",3937.89,2166.72,2244,1832.65
+"Dead Catch MSY mt",4222.53,2294.38,2380.99,1935.1
+"Virgin age 3+ bio 1000 mt",32.693,24.0983,24.3147,44.142
+"OFL mt 2021",5084.77,2265.5,2417.01,1716.08

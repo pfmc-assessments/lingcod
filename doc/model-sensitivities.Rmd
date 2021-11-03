@@ -9,7 +9,7 @@ string_switchletter(newletter = params$area, "fig:sens-timeseries-s-sel")
 
 The biology and recruitment sensitivities included
 
-- fix female $M$ at 0.3 and $h$ at 0.7
+- fix female $M$ at 0.3 and $h$ at 0.7 (values used in the 2017 assessment)
 - fix female $M$ at 0.3
 - fix $h$ at 0.7
 - estimate a single $M$ for both sexes with a prior which is a mixture distribution 
@@ -78,69 +78,129 @@ than the chosen base model. See the STAR report for more detail on these
 additional sensitivities.
 ```
 
-TO DO: UPDATE TEXT BELOW ON RESULTS OF SENSITIVITY ANALYSES
-
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 <!-- manual updates needed here if models change -->
-<!-- values in paragraph below are from 
-get_mod('n', 22) # base
-get_mod('n', 22, 103) # sensitivity
-compare <- r4ss::SSsummarize(list(mod.2021.n.022.001, mod.2021.n.022.103))
-apply(compare$Bratio[1:2], 2, min) %>% round(2)
-round(compare$Bratio[compare$Bratio$Yr == 2021,1:2], 2)
--->
-The north model was sensitive to the to the sensitivity of fixing female $M$ at 0.
-3 and $h$ at 0.7. This pushed the unfished equilibrium spawning biomass down
-slightly, but the lower productivity associated with these parameters mean that the
-catch history drove the stock down to a minimum fraction unfished of 18\%
-compared to 31\% in the base model. The fraction unfished at the start of 2021 
-in that sensitivity is 32\% compared to 63\% for the base model. 
-The negative log-likelihood for this sensitivity is 14 units worse than the base 
+<!-- values in paragraph below are from the tables of sensitivity values -->
+Among the biology and recruitment sensitivities,
+(Table \ref{tab:sens-table-n-bio-rec}, 
+Figure \ref{fig:sens-timeseries-n-bio-rec}),
+the north model was 
+most sensitive to the two where female $M$ was fixed at 0.3 with or
+without also fixing $h = 0.7$ (compared to 
+the base model with $M$ estimated at 0.42).
+The lower $M$ pushed the unfished equilibrium spawning biomass down
+slightly, but the lower productivity associated with these parameters 
+meant that the catch history drove the stock below the 25\% minimum stock size 
+threshold in the 1990s whereas the base model estimates that stock never
+fell below that limit. The fraction unfished at the start of 2021 
+was 32\% when $M = 0.3$ and $h = 0.7$ and 34\% when $h$ was estimated,
+compared to 64\% in the base model. 
+The negative log-likelihood for both sensitivities with $M = 0.3$ were about
+17 units worse than the base 
 model, with worse fits to all data sources with the exception of the age comps
-which have an improvement in fit of 11 units.
+which have an improvement in fit of about 12 units.
 
-Among the composition sensitivities, the north model was sensitive to removing the
-fishery-dependent ages, which reduced the estimate of female $M$ from 0.41 to 0.33 
+Among the composition sensitivities 
+(Table \ref{tab:sens-table-n-comp}, 
+Figure \ref{fig:sens-timeseries-n-comp}),
+the north model was sensitive to removing the
+fishery-dependent ages, which reduced the estimate of female $M$ from 0.42 to 0.33 
 and pushed the scale upwards. Applying the Dirichlet-Multinomial likelihood 
 for the composition data (which led to higher weights for these data) 
-had the opposite effect, bringing the scale downwards.
+had the opposite effect, bringing the scale downwards. 
+The two sensitivities related to combining male and female samples for 
+small fish and excluding unsexed fish from the likelihood had relatively
+little impact on the model results.
 
-The sensitivities related to removing indices from the north model had relatively little
-impact with the exception of the one in which all fishery CPUE indices
-were removed, which increased the scale from 62\% of $B_0$% in 2021 to 82\%.
+The sensitivities related to an alternative recreational Oregon index
+or removing indices from the north model 
+(Table \ref{tab:sens-table-n-index}, 
+Figure \ref{fig:sens-timeseries-n-index})
+also had relatively little impact with the exception of the one in which all 
+fishery CPUE indices
+were removed, which increased the scale from 64\% of $B_0$% in 2021 to 82\%.
+The individual index which had the most influence, as measured by the impact
+of it's removal, was the Washington recreational CPUE. This time series is
+the longest among all indices and also spanned the period of greatest change
+in estimated abundance.
+
+The sensitivities related to selectivity
+(Table \ref{tab:sens-table-n-sel}, 
+Figure \ref{fig:sens-timeseries-n-sel})
+showed large differences in
+estimated $M$ and trends in abundance. However, the estimated selectivity
+curves from these models showed implausibly large differences in 
+selectivity at sizes which did not have any clear biological basis.
+Furthermore, the choice of which selectivity parameters and/or time
+blocks on which to apply the sex-specific differences made selecting among
+these models difficult and risked overparameterization of the model.
+One of these models was chosen for an alternative state of nature, and
+further exploration of differences in selectivity or availability 
+between females and males is a research priority for future assessments.
 
 ```
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
 <!-- manual updates needed here if models change -->
-<!-- values in paragraph below are from 
-get_mod('s', 14) # base
-get_mod('s', 14, 103) # sensitity
-compare <- r4ss::SSsummarize(list(mod.2021.s.014.001, mod.2021.s.014.103))
-apply(compare$Bratio[1:2], 2, min) %>% round(2)
-round(compare$Bratio[compare$Bratio$Yr == 2021,1:2], 2)
--->
-Among the biology and recruitment sensitivities, the south model was most sensitive to
-fixing female $M$ at 0.3 and $h$ at 0.7 which increased the productivity of the 
-stock enough to result in a 2021 spawning biomass estimate at 97\% of $B_0$.
-The negative log-likelihood for this sensitivity is 6.7 units worse than the base 
+<!-- values in paragraph below are from the tables of sensitivity values -->
+The south model was sensitivity to many of the sensitivities related to 
+biology and recruitment 
+(Table \ref{tab:sens-table-s-bio-rec}, 
+Figure \ref{fig:sens-timeseries-s-bio-rec}).
+Those with biggest impact included increasing $\sigma_R$ from 0.6 to 0.8,
+which brought the scale of the stock downard, with 2021 biomass below the 
+minimum stock size threshold, while those in which $M$ was fixed at 0.3 
+or shared among females and males (which led to an estimate of $M$ = 0.33)
+all had 2021 fraction unfished greater than 90\% (compared to a base
+model estimates of female $M$ = 0.17 and 2021 fraction unfished at 39\%).
+The negative log-likelihood for the models with alternative assumptions
+aboutn $M$ were 3 to 5 units units worse than the base 
 model, with worse fits the index and length comp data and better fits to the age
-compositions which have an improvement in fit of 3.6 units.
+compositions.
 
-The addition of ages as CAAL or marginal in the south model likewise pushed the 
-scale upwards (with the scale of the biomass in the CAAL sensitivity so high that
-it doesn't appear within the range shown in the figure). The Dirichlet-Multinomial
+The south model was also sensitive to changes in composition data
+(Table \ref{tab:sens-table-s-comp}, 
+Figure \ref{fig:sens-timeseries-s-comp}). This is likely due to the 
+smaller volume of composition data available for this model.
+The addition of ages from all sources resulted in increases in estimated
+abundance when the ages were conditioned on length, but a decrease
+in estimated abundance when the ages were represented as marginal 
+distributions. The Dirichlet-Multinomial
 sensitivity, which led to increased weight on the length and age compositions
-likewise pushed the scale upwards.
+resulted in a lower estimate of female $M$ = 0.13 and pushed 2021 fraction
+unfished up to 0.83.
 
-The two sensitivities related to removing indices which had the most impact were
+Anong the sensitivities related to changing or removing indices
+(Table \ref{tab:sens-table-s-index}, 
+Figure \ref{fig:sens-timeseries-s-index}),
+removing all fishery-dependent indices had the largest impact, resulting
+in an estimated fraction unfished that never fell below 50\%, suggesting
+that the fishery-dependent indices provide important information
+abound historical changes in abundance.
+The individual indices whose removal had the largest impact were
 those related to the historical indices: the \gls{s-tri} and 
-the recreational CPFV Deb Wilson-Vandenberg index. 
-Without the recreational index, the stock was estimated to have had a very large
-recruitment in 1952, driving the stock high above $B_0$ in the 1950s and 1960s.
-Removing the \gls{s-tri} caused the stock to continue to decline in the 1990s and 
-early 2000s instead of stabilizing and then increasing to better fit the higher
-2004 \gls{s-tri} observation.
+the recreational CPFV Deb Wilson-Vandenberg index. Also, 
+changing the California recreational indices for the recent period from
+one based on the onboard CPFV observations to an alternative developed 
+from the CRFS sampling of private and rental boats reduced the estimated
+population significantly.
+
+The sensitivities related to selectivity
+(Table \ref{tab:sens-table-s-sel}, 
+Figure \ref{fig:sens-timeseries-s-sel}),
+showed that forcing the fixed-gear fishery to be asymptotic reduced the 
+estimated population size by removing the estimated cryptic biomass
+of larger individuals unavailable to any fishery. In contrast, a model
+with sex-specific selectivity had much higher initial abundance but 
+lower productivity, ending below the base model at the end of the time series.
+Combining sex-specific selectivity with fixing female $M$ = 0.3, resulted in 
+the sensitivity which was most similar to the base model.
 
 ```
 
+A final note on the sensitivities is that convergence issues associated
+with selectivity parameters hitting bounds, which were resolved for the 
+base model, have the potential to impact some of the sensitivity analyses 
+which could not be examined as carefully as the base or alternative
+candidate base models which were considered during the model selection 
+process.
