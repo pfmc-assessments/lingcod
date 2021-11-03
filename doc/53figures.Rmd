@@ -12,12 +12,7 @@ For easy viewing in your web browser please feel free to view them on the web at
 
 ## Data figures
 
-```{r, results = "asis"}
-do.call(
-  sa4ss::add_figure,
-  utils::read.csv(file.path("..", "figures", "map_of_stock_boundaries_40-10.csv"))
-)
-```
+![Map of the U.S. west coast and the area included in this assessment (`r ifelse(params$area == "South", "red", "blue")`). The dashed line at \CapeM and colors delineate the northern (blue) from the southern (red) assessed area.\label{fig:map}](../figures/map_of_stock_boundaries_40-10.png){width=100% height=100% alt="Outline of coast and exclusive economic zone, which defines the border for the data included in this assessment."}
 
 ![Length (cm) versus age (yr) and associated von Bertalanffy growth curves (lines) by latitude (colors). Models were fit to data from Lam research samples and \glsentrylong{s-wcgbt} data.\label{fig:Lam-vbgfcurves}](../figures/Lam-vbgfcurves.png){width=100% height=100% alt="Size-at-age increases with increasing latitude."}
 
