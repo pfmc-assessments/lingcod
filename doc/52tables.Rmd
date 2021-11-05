@@ -40,75 +40,40 @@ management_oflabcacl %>%
   kableExtra::kable_styling(latex_options = c("repeat_header"))
 ```
 
+```{r, cpue-tables-north, results = "asis", eval = grepl("North", params$area)}
+ignore <- mapply(sa4ss::read_child, "../tables/cpue-commercialfixed-gear-filter.tex")
+ignore <- mapply(sa4ss::read_child, "../tables/reccpuewa-filtersummary.tex")
+ignore <- mapply(sa4ss::read_child, "../tables/cpue-recreationalOregon-filter.tex")
+```
+
+```{asis, opts.label="south"}
+\begin{table}
+
+\caption{\label{tab:data-filter-cpfvonboard}Data filtering for the California \glsentrylong{cpfv} onboard survey of lingcod in the southern California recreational fishery.}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{15em}c>{\centering\arraybackslash}p{5em}>{\centering\arraybackslash}p{5em}}
+\toprule
+Filter & Description & Trip & Positive Trips & \% drifts retained\\
+\midrule
+\cellcolor{gray!6}{All} & \cellcolor{gray!6}{Download from SQL; identifiable errors filtered} & \cellcolor{gray!6}{41168} & \cellcolor{gray!6}{1866} & \cellcolor{gray!6}{5\%}\\
+Fishery closed & Removed samples when target fish fishery closed & 33224 & 1834 & 6\%\\
+\cellcolor{gray!6}{Ocean only} & \cellcolor{gray!6}{Removed samples from major bays} & \cellcolor{gray!6}{33029} & \cellcolor{gray!6}{1834} & \cellcolor{gray!6}{6\%}\\
+Catch & Removed samples with zero catch of any species & 30469 & 1834 & 6\%\\
+\cellcolor{gray!6}{Depth} & \cellcolor{gray!6}{Removed samples in less than max depth of species} & \cellcolor{gray!6}{29858} & \cellcolor{gray!6}{1817} & \cellcolor{gray!6}{6\%}\\
+\addlinespace
+Time fished & Removed upper two percent of time fished & 29252 & 1802 & 6\%\\
+\cellcolor{gray!6}{Percent groundfish in samples} & \cellcolor{gray!6}{Removed samples with fewer groundfish than when the target observed} & \cellcolor{gray!6}{14664} & \cellcolor{gray!6}{1718} & \cellcolor{gray!6}{12\%}\\
+Another area gfish filter & Removed samples & 9043 & 1469 & 16\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
+
+<!-- Unused fishery-dependent data -->
 ```{r, cpue-tables, results = "asis", eval = grepl("North", params$area)}
-# Arrange figures in order of the time they were modified
-tabledataframe <- utils::read.csv(file.path("..", "tables", "tables_cpue.csv"))
-tablefiles <- file.path("..", "tables",
-  gsub("\\.csv", ".tex", tabledataframe[["filename"]])
-)
-ignore <- mapply(sa4ss::read_child, tablefiles[grepl("comm", tablefiles)])
-ignore <- mapply(sa4ss::read_child, dir_order("..", "tables", grep = "reccpuewa"))
-ignore <- mapply(sa4ss::read_child, tablefiles[grepl("rec", tablefiles)])
-```
-```{asis, opts.label = "north"}
-\begin{table}
-
-\caption{\label{tab:tab-year-ORAtSea}Samples by year of lingcod from the  OR At Sea CPFV survey by year.}
-\centering
-\begin{tabular}[t]{lrrl}
-\toprule
-Year & Drifts & Positive Drifts & Percent positive\\
-\midrule
-\cellcolor{gray!6}{2001} & \cellcolor{gray!6}{383} & \cellcolor{gray!6}{179} & \cellcolor{gray!6}{47\%}\\
-2003 & 602 & 339 & 56\%\\
-\cellcolor{gray!6}{2004} & \cellcolor{gray!6}{424} & \cellcolor{gray!6}{248} & \cellcolor{gray!6}{58\%}\\
-2005 & 490 & 237 & 48\%\\
-\cellcolor{gray!6}{2006} & \cellcolor{gray!6}{496} & \cellcolor{gray!6}{253} & \cellcolor{gray!6}{51\%}\\
-\addlinespace
-2007 & 593 & 249 & 42\%\\
-\cellcolor{gray!6}{2008} & \cellcolor{gray!6}{539} & \cellcolor{gray!6}{215} & \cellcolor{gray!6}{40\%}\\
-2009 & 360 & 145 & 40\%\\
-\cellcolor{gray!6}{2010} & \cellcolor{gray!6}{392} & \cellcolor{gray!6}{163} & \cellcolor{gray!6}{42\%}\\
-2011 & 361 & 179 & 50\%\\
-\addlinespace
-\cellcolor{gray!6}{2012} & \cellcolor{gray!6}{618} & \cellcolor{gray!6}{292} & \cellcolor{gray!6}{47\%}\\
-2013 & 465 & 245 & 53\%\\
-\cellcolor{gray!6}{2014} & \cellcolor{gray!6}{468} & \cellcolor{gray!6}{225} & \cellcolor{gray!6}{48\%}\\
-2015 & 403 & 167 & 41\%\\
-\cellcolor{gray!6}{2016} & \cellcolor{gray!6}{457} & \cellcolor{gray!6}{196} & \cellcolor{gray!6}{43\%}\\
-\addlinespace
-2017 & 467 & 190 & 41\%\\
-\cellcolor{gray!6}{2018} & \cellcolor{gray!6}{507} & \cellcolor{gray!6}{205} & \cellcolor{gray!6}{40\%}\\
-2019 & 447 & 159 & 36\%\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}
-
-\caption{\label{tab:tab-model-select-ORAtSea}Negative binomial model selection for the OR At Sea CPFV survey index for  lingcod.}
-\centering
-\begin{tabular}[t]{ll}
-\toprule
-Model & AIC\\
-\midrule
-\cellcolor{gray!6}{1} & \cellcolor{gray!6}{19256.43}\\
-Year + Port + log(Effort) & 18415.84\\
-\cellcolor{gray!6}{Year + Port + Wave + log(Effort)} & \cellcolor{gray!6}{18083.25}\\
-Year + Port + Wave + DEPTH bin + log(Effort) & 18037.72\\
-\cellcolor{gray!6}{Year + Wave + DEPTH bin + log(Effort)} & \cellcolor{gray!6}{18273.32}\\
-\addlinespace
-Year + DEPTH bin + log(Effort) & 18576.12\\
-\cellcolor{gray!6}{Year + Port + DEPTH bin + log(Effort)} & \cellcolor{gray!6}{18378.51}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-```
-
-```{r, fi-index-ormarres-tables, results = "asis", eval = grepl("North", params$area)}
-xx <- dir(file.path("..", "tables"), pattern = "fi-index-ormarres", full.names= TRUE)
-ignore <- mapply(sa4ss::read_child, xx[order(file.info(xx)$mtime)])
+ignore <- mapply(sa4ss::read_child, "../tables/fi-index-ormarres-N.tex")
+ignore <- mapply(sa4ss::read_child, "../tables/fi-index-ormarres-mr.tex")
 ```
 
 <!-- Hook and line index -->

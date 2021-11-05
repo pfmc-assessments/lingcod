@@ -276,13 +276,14 @@ tt <- knitr::kable(
   tot %>% dplyr::group_by(Year) %>%
     dplyr::summarize(
       `N pos.` = sum({{colresponse}} > 0),
-      `% pos.` = `N pos.` / dplyr::n() * 100, .groups = "keep"
+      `% pos.` = round(`N pos.` / dplyr::n() * 100, 2), .groups = "keep"
     ),
     format = "latex", booktabs = TRUE, longtable = TRUE,
     caption = paste0("Number (N) of positive (pos.) samples and percent pos. per year",
       " of ", utils_name("common"), " in the Washington recreational dockside sampling program."),
     label = "reccpuewa-n"
-)
+)%>%
+  kable_styling(latex_options = "repeat_header")
 kableExtra::save_kable(x = tt,
   file = file.path("..", "tables", "reccpuewa-n.tex")
 )
@@ -624,8 +625,8 @@ were available from \gls{wdfw} between
 `r knitr::combine_words(range(data_index_cpue[data_index_cpue[["index"]] == get_fleet("WA", col = "num"), "year"]))`.
 Recent data also included information on discarded fish,
 but this information was not used for this analysis because
-(1) it was not available for the entire time series and
-(2) the composition data that are associated with this index only include retained fish.
+it was not available for the entire time series and
+the composition data that are associated with this index only include retained fish.
 Information from dockside interviews were previously thought to be more reliable than
 information contained in the \gls{mrfss} database, and thus, \gls{mrfss}
 data were not explored with respect to Washington recreational \gls{cpue}.
@@ -635,7 +636,7 @@ The dockside data were filtered prior to being fit to models to
 identify the best subset of the available data that are likely to be
 consistent over the time series and provide a reliable index of abundance
 once standardized (Table \@ref(tab:reccpuewa-filtersummary)).
-Depth was not recorded for the entire time period, and thus was not included
+Depth was not recorded consistently during the time period of available data, and thus was not included
 as a filter or a subsequent covariate.
 The filtering procedure led to a final positive rate of
 `r sprintf("%.2f", max(reccpuewa_filtersummary[["\\% pos"]]))`\%.
@@ -660,8 +661,7 @@ co-occurrence with `r spp` included
 all of which are associated with rocky reef and kelp habitats.
 The species with the lowest probability of co-occurrence with `r spp` was
 `r knitr::combine_words(tolower(names(sort(coef(glm_SMresults),decreasing=FALSE)[1])))`.
-Given the high positivity rate of `r spp` prior to the Stephens-MacCall filtering
-(Table \@ref(tab:reccpuewa-n)),
+Given the high positivity rate of `r spp` prior to the Stephens-MacCall filtering,
 we choose to not use this additional filtering process.
 
 The filtered data were used to fit Bayesian delta-\glspl{glm} using the

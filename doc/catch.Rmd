@@ -923,8 +923,8 @@ kableExtra::kbl(catch_fordoc %>% dplyr::filter(area == "South") %>% dplyr::selec
   caption = catchcaption, label = catchlabel, format = "latex",
   align = "r",
 ) %>%
-kableExtra::kable_styling(latex_options = c("repeat_header")) %>%
 kableExtra::add_header_above(c(" ", "Fixed gear" = 3, "Trawl" = 3, "Recreational" = 3, "")) %>%
+kableExtra::kable_styling(latex_options = c("repeat_header")) %>%
 kableExtra::save_kable(file = file.path("..", "tables", paste0(catchlabel, "-s-", ".tex")))
 
 ###############################################################################

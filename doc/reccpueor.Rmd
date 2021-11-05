@@ -1,157 +1,89 @@
-#### \Glsentrylong{orbs} index
+#### Oregon recreational index
 
-Trip-level catch-per-unit-effort data from \gls{orbs} dockside sampling was
-obtained from \gls{odfw} on 04/15/2021. To mitigate the confounding of hourly
-effort associated with these trips with travel, the travel time was
-subtracted from the hours fished. Travel time was stratified by boat type
-(charter and private) and was calculated as boat type-specific speeds (13 mph
-for charter boat trips and 18 mph for private boat trips) multiplied by twice
-the distance between the port of origin and the reef that was fished. CPUE,
-expressed in terms of fish per angler-hour, was calculated by multiplying the
-number of anglers and the adjusted travel time. The database contains
-information on catch by species (number of retained fish), effort
-(angler hours), sample location (port where data were collected), date, bag
-limits, boat type (charter or private), and trip type (e.g., bottom
-associated fish).
+Trip-level \gls{cpue} data from \gls{orbs} dockside sampling program was
+analyzed by \gls{odfw} and included in the assessment as a
+relative index of abundance for the Oregon recreational fleet.
+The dataset represents the longest time series available for this fleet and
+contains information on
+catch by species (number of retained fish),
+effort (angler hours),
+sample location (port where data were collected),
+date,
+bag limits,
+boat type (charter or private), and
+trip type (e.g., bottom-associated fish).
+\Gls{cpue},
+expressed in terms of fish per angler-hour.
+Angler-hour is the number of anglers multiplied by
+the number of hours fished minus by travel time.
+Travel time is twice the distance between the port of origin and the fished reef
+multiplied by 13 mph for charter boat trips and 18 mph for private boat trips.
 
-The unfiltered data set contained 411,528 trips. Multiple standardized filters
-are applied to \gls{orbs} trip-level data in order to remove outliers and
-data unsuitable for an index (Table \@ref(tab:cpue-recreationalOregon-filter)).
-These filters include trips with incorrect interview times, which impact
-calculation of effort, unreasonably long or short trips, and retaining only
-trips targeting bottom fish. Further filters were utilized for fishing closures
-(i.e., temporal or spatial closures) and catches exceeding bag limits, which
-would presumably impact catch rates. Trips from several ports with extremely
-small sample sizes were also excluded and, finally, trips that met criteria
-for irrational effort reporting (i.e., implausible values) or extreme catch
-rates were excluded as well. Also, all trips from private vessels were removed
-and only trips from charter boats were retained to increase the positivity
-rate of `r spp` encounters.
-As described below, this filter was one of several explored to
-improve model fit. To identify trips that were likely to catch `r spp`,
-Stephens and MacCall [@stephens2004] filtering was used to
-predict the probability of catching a
-`r spp` given the occurrence of other species in the catch.
-This filter was recently used in the development of an
-\gls{orbs} \gls{cpue} index of abundance for
-the 2019 Cabezon assessment [@cope2019cabezon]. However, there was some
-question about whether it was appropriate for use with `r spp`.
-Thus, the model was estimated using data that was both filtered and
-not filtered with the Stephens-MacCall filter.
-Filtering the data did not change the model diagnostics, and thus, it
-was not utilized for the final data set.
+The unfiltered data set contained 411,528 trips.
+Multiple filters were applied to the trip-level data
+to increase the number of positive trips for `r spp`
+(Table \@ref(tab:cpue-recreationalOregon-filter)).
+These filters removed
+trips from several ports with extremely small sample sizes;
+trips that met criteria for implausible effort values or extreme catch rates;
+trips with incorrect interview times, which impact calculation of effort;
+unreasonably long or short trips;
+catches exceeding bag limits, which would impact catch rates;
+private vessel trips; and
+trips that did not target bottom fish.
+Filters were also utilized to account for temporal or spatial
+closures impacting fishing.
+Stephens-MacCall filtering was also investigated to identify
+trips that were likely to catch `r spp` 
+given the occurrence of other species in the catch
+[@stephens2004].
+Stephens-MacCall filtering did not change the diagnostics of the
+resulting model, and thus,
+it was not utilized to filter the data.
 
-A delta-\gls{glm} approach was used to model \gls{cpue}. Apart
-from differences in catch rate among years, we also considered changes
-associated with month, mega-region (north and south coasts, divided at the
-port of Florence on the central Oregon coast), port, season (summer and
-winter), the bag limit for `r spp`, and the depths available to the
-recreational fleet for fishing (Figure \@ref(fig:reccpueor-orbsdatasummary)). The binomial
-component for catch occurrence was modeled using a logit link function while
-the log of positive \gls{cpue} was modeled with a Gaussian distribution and an
-identity link function. Based on the \gls{aic}, \gls{bic}, and other factors described
-below, the binomial model selected as the best predictor of \gls{orbs} catch
-rates included year, port, month and open depths available to fishing.
-<!-- to do - make the table of model selection for ORBS
-(Table \@ref(tab:OR_ORBS_CPUE_model_selection)).
--->
-Season and mega-region were also
-evaluated but not included in the stepwise progression due to collinearity
-with other factors (month and port, respectively). Interactions between year
-and port, month and open depths were also evaluated.  Models with
-interactions between year and port or month did not converge due to missing
-trips in some strata and these were excluded from consideration.  Residuals
-from the binomial component of the delta-model are not expected to be
-normally distributed, so quantile residuals were simulated using the R
-package DHARMa [@hartig2021]. A quantile-quantile (QQ) plot of the simulated
-residuals suggests that the binomial component of the delta-model is a
-reasonable approximation of the data (right panel of Figure \@ref(fig:reccpueor-mleqqscaledbin));
-however, there was some curvature seen in the residuals
-(left panel of Figure \@ref(fig:cpue-recreationalOregonqqbin)).
-These diagnostics were
-substantially improved by excluding the year:open depths interaction and the
-removal of the private boat trips from the dataset. The positive model
-selected, again based on AIC, BIC and other considerations, included year,
+A Bayesian delta-\gls{glm} was used to model \gls{cpue}
+[@rstanarm2020].
+Investigated covariates included
+month,
+mega-region (north and south coasts divided at the port of Florence on the central Oregon coast),
+port,
+season (summer and winter),
+`r spp` bag limit, and
+depths available to the recreational fleet for fishing
+(Figure \@ref(fig:reccpueor-orbsdatasummary)).
+Season and mega-region were collinear
+with month and port, respectively, and not investigated further.
+
+The binomial model component for positive catches was modeled using a logit link function.
+Based on \gls{aic} and \gls{bic}, the best binomial model
+included year, port, month, and depths available to fishing.
+Models with interactions between year and port or month did not converge due to missing trips in some strata.
+A quantile-quantile plot of the simulated residuals [@hartig2021]
+suggests that the binomial component of the delta-model is a
+reasonable approximation of the data
+(Figure \@ref(fig:cpue-recreationalOregonqqbin)).
+Diagnostics were
+substantially improved by excluding interactions between
+year and open depths and the
+removal of private boat trips.
+
+The rate component for log of positive \gls{cpue} was modeled with a Gaussian distribution and an
+identity link function.
+The positive model
+included year,
 port, month and open depths available to fishing.
-<!--
-(Table \@ref(tab:OR_ORBS_CPUE_model_selection)).
--->
-Again, there were issues noted in
-the DHARMa simulated residuals, including curvature and significant outlier
-tests (Figure \@ref(fig:reccpueor-mleqqscaledpos)).
-However, as noted with the binomial
-model, these were improved, though not resolved, by exclusion of
+There were issues in
+the DHARMa simulated residuals, including curvature and significant outliers
+(Figure \@ref(fig:cpue-recreationalOregonqqpos)).
+However, these diagnostics were improved by exclusion of
 any interaction terms and the removal of the private vessel trips. There was
 insufficient time to fully resolve these diagnostic issues and alternative
-approaches may need to be explored for future assessments. Given that
-mega-region was not included in this model selection procedure, an
+approaches may need to be explored for future assessments.
+For example, an
 area-weighted model was not utilized for `r spp`, as has been used for other
 nearshore species in recent assessments, such as cabezon [@cope2019cabezon]
 or blue rockfish [@dick2018bluedeacon].
 
-To estimate the uncertainty in the final index of abundance, it is necessary
-to account for the correlation structure between parameters within the
-binomial and lognormal components of the model, as well as with the combined
-(binomial and lognormal components) delta-model.
-The rstanarm package in R [@rstanarm2020]
-was used to replicate the best models using diffuse prior distributions that
-replicated point estimates from the \gls{mle}. The advantage of
-this approach is that the calculation of the index (summing relevant model
-parameters and combining model components) can be applied to posterior draws,
-preserving the correlation structure and propagating uncertainty into the
-final index (Figure \@ref(fig:index-fits-all-fleets)). As an
-additional diagnostic, replicate datasets were generated from the posterior
-predictive distribution, and compared the \glspl{mle}
-from the model components to the median estimates from the posterior
-distribution. As expected with the above diagnostics, the binomial model
-closely matches the distribution from replicate datasets; however, there are
-some deviations with the positive model. \Gls{mle} were virtually identical to the
-medians of the posterior distributions in both cases, however.
-
-#### Oregon At Sea CPFV index
-
-The ODFW initiated an onboard CPFV observer program in 2001, which
-became a yearly sampling program in 2003 (Monk et al. 2013).
-
-Data at the drift level were obtained from ODFW on 4/15/2021 (n =
-15,632). Drifts with no catch were
-removed from the dataset. Other filters include: drifts that were too
-long (above 99 percentile) or too deep (above 99 percentile, or 60 fms),
-and drifts where a majority of the catch were midwater species (92% or
-the 99 percentile). These filters were intended to provide a final
-drift-level dataset without drifts that were significantly unlikely to
-encounter lingcod. Low sample sizes also necessitated the removal of
-2020 and drifts from February. The final dataset selected included
-8472 drifts,
-46\% of
-which encountered lingcod. Sample sizes by the factors selected to model
-are in Table \@ref(tab:tab-year-ORAtSea).
-
-Initial exploration of Bayesian delta-GLM models for this dataset proved
-to be ill-fitting and the proportion of zeroes predicted by the
-delta-GLM models were different enough from the fraction of zeroes in
-the raw data, that this model was not considered for model selection. We
-modeled catch (number of retained and discarded fish) with an offset for
-effort (angler hours) using a Bayesian negative binomial model. Models
-incorporating temporal (year, two-month wave) and geographic (port and
-depth) factors were evaluated. Depth was defined as the starting depth
-for the drift and binned to five fm bins from 0 - 30 fms with a plus 30
-fm bin for all drifts with a starting depth \> 30fms. Indices with year
-and geographic interactions were not considered in model selection.
-
-Based on AIC values from maximum likelihood fits (Table
-\@ref(tab:tab-model-select-ORAtSea)) a model including
-Year and Port and Wave and DEPTH bin and log(Effort) was selected.
-
-Models were fit using the "rstanarm" R package (version 2.21.1).
-Posterior predictive checks of the Bayesian model fit for the negative
-binomial model were reasonable (Figures
-\@ref(fig:fig-posterior-mean-ORAtSea) and
-\@ref(fig:fig-posterior-sd-ORAtSea)). The negative binomial model
-generated data sets with the proportion zeros similar to the
-54\%
-zeroes in the observed data (Figure \@ref(fig:fig-propzero-ORAtSea)).
-The predicted marginal effects from the negative binomial models can be
-found in (Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)). The final index represents a similar trend to the
-arithmetic mean of the annual CPUE (Figure \@ref(fig:index-fits-all-fleets)).
-
+The final index (Figure \@ref(fig:index-fits-all-fleets))
+matched major trends in other \gls{cpue} fits with an
+increase in 2010 and a current decrease in abundance.

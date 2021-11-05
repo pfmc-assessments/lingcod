@@ -1,211 +1,158 @@
 
-#### California \glsentrylong{mrfss} dockside \glsentrylong{cpfv} index
+#### California recreational index
 
-From 1980-1989 and 1993-2003 the \gls{mrfss} program conducted dockside intercept surveys of the recreational \gls{cpfv} fishing fleet.
+```{asis, recindexca-north, opts.label = "north"}
+**WHAT INDEX WAS USED?**
+```
+```{asis, recindexca-south, opts.label = "south"}
+The California recreational index was a combination of
+\glsentrylong{mrfss} dockside \glsentrylong{cpfv} data and
+Onboard Observer Program data.
+
+From 1980-1989 and 1993-2003 \gls{mrfss} program
+conducted dockside intercept surveys of the recreational \gls{cpfv} fishing fleet.
 Data from `r knitr::combine_words(1990:1992)` are not available because funding for the surveys stopped.
-For purposes of this assessment, the \gls{mrfss} time series was truncated at 1999 because
-the onboard observer program started, which samples the same catch onboard the vessel as the dockside interviewers do on shore.
+`r ifelse(params$area == "North", "The years 1993-1994 were excluded due to limited spatial coverage.", "")`
+For purposes of this assessment,
+the \gls{mrfss} time series was truncated at 1999 with the start of the
+Onboard Observer Program,
+which samples the same catch onboard the vessel as the dockside interviewers do on shore.
+Trips recorded as having the primary area fished in Mexico or occurring in bays, e.g.,
+San Francisco Bay,
+were excluded before any filtering on species composition.
 
 \Gls{mrfss} data were downloaded from the \gls{recfin} Type 3 database, where
-each entry corresponds to a 
-single fish examined by a sampler at a particular survey site. Since only a 
-subset of the catch may be sampled, each record also 
-identifies the total number of that species possessed by the group of anglers 
-being interviewed.  The number of anglers and the hours fished are also recorded. 
-The data, as they exist in RecFIN, do not indicate which records 
-belong to the same boat trip. A description of the algorithms and process used to 
-aggregate the RecFIN records to the trip level is outlined in the Supplemental Materials 
-(“Identifying Trips in RecFIN”).
-Trips recorded as having the primary area fished in Mexico or occurring in bays, e.g., 
-San Francisco Bay, were excluded before any filtering on species composition.
-```{asis, eval = params$area == "North", echo = TRUE, results = "asis"}
-The years 1993-1994 were excluded due to limited spatial coverage.
-```
-The Stephens-MacCall [-@stephens2004] filtering approach was used to predict the 
-probability of of catching lingcod, based 
-on the species composition of the sampler observed catch in a given trip. Prior 
-to applying the Stephens-MacCall filter, we identified potentially informative 
-predictor species, i.e., species with sufficient sample sizes and temporal coverage 
-(at least 5\% of all trips) to inform the binomial model.  The remaining 
-30 all co-occurred with lingcod in at least one trip 
-and were retained for the Stephens-MacCall logistic regression. Coefficients 
-from the Stephens-MacCall analysis (a binomial GLM) are positive 
-for species that are more likely to co-occur with lingcod, 
-and negative for species that are less likely to be caught with lingcod.
-<<!-- to do reference this (Figure \@ref(fig:fig-sm-mrfss))-->
-The top five species with high probability of co-occurrence with lingcod include
-Yellowtail, Treefish, Canary, Olive, and Brown rockfishes, all of which are associated with rocky reef and kelp 
-habitats. The five species with the lowest probability of co-occurrence were 
+each entry corresponds to a single fish examined by a sampler at a particular survey site.
+Additionally, records identify
+the total number of the species of interest possessed by the group of anglers being interviewed,
+the number of anglers, and
+the hours fished.
+The data, as they exist in RecFIN,
+do not indicate which records belong to a given trip,
+though algorithms exist to aggregate the records to the trip level
+(pers. comm., M. Monk, \gls{swfsc}).
+
+Stephens-MacCall [-@stephens2004] filtering was used to predict the 
+probability of catching `r spp` based 
+on the species composition of the sampler observed catch in a given trip.
+Coefficients from the Stephens-MacCall analysis (a binomial \gls{glm}) are positive 
+for species that are more likely to co-occur with `r spp`
+and negative for species that are less likely to be caught with `r spp`.
+Potentially informative predictor species, i.e.,
+species with sufficient sample sizes and temporal coverage of at least 5\% of all trips,
+were used to inform the binomial model.
+These 30 species co-occurred with `r spp` in at least one trip 
+and were retained for the Stephens-MacCall logistic regression.
+The top five species with high probability of co-occurrence with `r spp` include
+Yellowtail, Treefish, Canary, Olive, and Brown rockfishes,
+all of which are associated with rocky reef and kelp habitats.
+The five species with the lowest probability of co-occurrence were 
 Barred sandbass, Kelp bass, Pacific bonito, Squarespot rockfish, and California barracuda.
-While the filter is useful in identifying co-occurring or non-occurring species 
-assuming all effort was exerted in pursuit of a single target, the targeting of 
-more than one species or species complex ("mixed trips") can result in co-occurrence of species in the catch 
-that do not truly co-occur in terms of habitat
-associations informative for an index of abundance. Stephens and MacCall 
-[-@stephens2004] recommended including all trips above a threshold where the 
-false negatives and false positives are equally balanced.  However, this does 
-not have any biological relevance and for this data set, we assume that if a 
-lingcod was landed, the anglers had to have fished in appropriate habitat, 
-especially given lingcod is strongly associated with rocky habitat.
+The filter is useful in identifying co-occurring or non-occurring species 
+assuming all effort was exerted in pursuit of a single target.
+However, when more than one species or species comples is targeted,
+co-occurrence can suggest associations that are nor informative for an index of abundance.
+Guidance suggests including all trips above a threshold that
+balances false negatives and false positives [@stephens2004].
+For this data set, false positives equaled false negatives at a rate of 0.35.
+However, this does not have any biological relevance and for this data set and
+therefore the filtering was not used.
 
-The Stephens-MacCall filtering method identified the probability of occurrence 
-at which the rate of "false 
-positives" equals "false negatives" of 0.35. The 
-trips selected using this criteria were compared to an alternative method 
-including all the "false positive" trips, regardless of the probability of 
-encountering lingcod. 
-This assumes that if lingcod were caught, the anglers must have fished in 
-appropriate habitat during the trip. The catch included in this index is 
-"sampler-examined" and the samplers are well trained in species identification.
-Stephens and MacCall proposed filtering (excluding) trips from the index 
-standardization based on a criterion of balancing the number of false positives 
-and false negatives. False positives (FP) are trips that are predicted to catch 
-a lingcod based on the species composition of the catch, but did not. False 
-negatives (FN) are trips that were not predicted to catch a lingcod, given the 
-catch composition, but caught at least one. 
+Catch in numbers per angler hour (\gls{cpue}) was modeled using a Bayesian delta-\gls{glm}.
+Initial exploration of negative binomial models proved to be ill-fitting and was not further explored.
+A lognormal distribution was selected for the positive observations using \gls{aic} (66.36) over a Gamma distribution
+(Figure \@ref(fig:mrfssdistribution)).
 
-Initial exploration of negative binomial models for this dataset proved to be 
-ill-fitting and the proportion of zeroes predicted by the Bayesian negative binomial 
-models were different enough from the fraction of zeroes in the raw data, that 
-a negative binomial model was not considered for model selection. We modeled catch 
-per angler hour (CPUE; number of fish per angler hour) a Bayesian delta-GLM model. 
-Models incorporating temporal (year, 2-month waves) 
-and geographic (region and primary area fished (inshore <3 nm, offshore >3 nm) 
-factors were evaluated. Two regions were defined based on counties, 1) Del Norte 
-to Santa Cruz ("N") and 2) Monterey to San Luis Obispo ("C") north of Pt. Conception. 
-For models that span counties north and south of Pt. Conception, Santa Barbara to 
-San Diego counties compose a third region ("S"). For models that are exclusively south 
-of Pt. Conception, the region represent individual counties. Indices with a year 
-and area interaction were not considered in model selection; trends in the average 
-CPUE by region were similar in the filtered data set.
-
-A lognormal model  was 
-selected for the positive observation GLM by 
-a $\Delta AIC$ of 66.36 over a Gamma model and supported by Q-Q plots of the positive observations fit to both distributions.
-The delta-GLM
-method allows the linear predictors to differ between the binomial and positive models.
-Based on AIC values from maximum likelihood fits,
-a main effects model including 
-YEAR and SubRegion and WAVE and AREA X 
-was fit for the binomial model and a main 
-effects model including 
-YEAR and SubRegion and WAVE and AREA X 
-was fit for the lognormal model.
-The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
-Figures and Tables for this analysis can be seen in
-lingcod_MRFSS_dockside_writeup_NCA.pdf.
-
-#### California Onboard Observer Survey, 1999-2019
+Investigated covariates included
+year,
+2-month wave height,
+geographic region based on county, and 
+primary area fished, i.e., inshore <3 nm, offshore >3 nm.
+The two geographic regions included
+1) Del Norte to Santa Cruz ("N"),
+2) Monterey to San Luis Obispo ("C") north of Pt. Conception, and
+3) for models that span counties north and south of Pt. Conception, Santa Barbara to 
+San Diego counties compose a third region ("S").
+Trends in the average \gls{cpue} by region were similar in the filtered data set.
+Indices with a year and area interaction were not considered in model selection.
+The final model included year, region, wave height, and fishing area for
+both the positive and rate models.
+The resulting trend matched that of the Oregon recreational index,
+with a smaller abundance prior to 2010, followed by and increase, and 
+ending with a downward trend (Figure \@ref(fig:index-fits-all-fleets)).
 
 The state of California implemented a statewide onboard observer sampling 
-program in 1999 [@Monk2014]. 
-\Gls{calpoly} has conducted an independent onboard sampling 
-program as of 2003 for boats in Port San Luis and Morro Bay, and follows 
-the protocols established in Reilly et al. [-@Reilly1998]. 
+program in 1999 [@Monk2014].
 During an onboard observer trip the sampler rides along on the \gls{cpfv} and records 
 location-specific catch and discard information to the species level for a subset 
 of anglers onboard the vessel. The subset of observed anglers is usually a 
-maximum of 15 people the observed anglers change during each fishing stop. 
-The catch cannot be linked to an individual, but rather 
-to a specific fishing location.  The sampler also records the starting and 
-ending time, number of anglers observed, starting and ending depth, and measures 
-discarded fish. The fine-scale catch and effort data allow us to better filter 
-the data for indices to fishing stops within suitable habitat for lingcod. 
-\gls{calpoly} has modified protocols  reflect sampling changes that \gls{cdfw} 
-has also adopted, e.g., observing fish as they are encountered instead of at 
-the level of a fisher’s bag. Therefore, the \gls{calpoly} data are incorporated in 
-the same index as the \gls{cdfw} data from 1999-2019.  The only difference is that 
-\gls{calpoly} measures the length of both retained and discarded fish.  
-Due to the COVID-19 pandemic, there are no onboard observer samples from either 
-\gls{cdfw} or \gls{calpoly} in 2020.
+maximum of 15 people and the observed anglers can change during each fishing stop.
+The catch cannot be linked to an individual but rather to a specific fishing location.
+The sampler also records the
+starting and ending time,
+number of anglers observed,
+starting and ending depth, and
+measures discarded fish
+(Table \@ref(tab:data-filter-cpfvonboard)).
+Additionally, \gls{calpoly} has conducted an independent onboard sampling 
+program since 2003 for boats in Port San Luis and Morro Bay following
+the protocols established in Reilly et al. [-@Reilly1998].
+\gls{calpoly} observes fish as they are encountered rather than sampling fishers' bags,
+and \gls{cdfw} has since modified their sampling to observe encountered fish as well.
+\Gls{calpoly} still differs in that they measure the length of both retained and discarded fish, whereas \gls{cdfw} only measures retained.
+The \gls{calpoly} data are incorporated in the same index as the \gls{cdfw} data on retained fish since 1999.
+There are no onboard observer samples from either 
+\gls{cdfw} or \gls{calpoly} in 2020 because of a lack of sampling given the pandemic.
+Data sheets from \gls{cdfw} are not available prior to 2012 and 
+staff constraints have prevented a quality control review of the data.
+\gls{calpoly} data were checked for quality assurance and quality control upon input.
 
-As described above the \gls{cdfw} and \gls{calpoly} onboard observer programs are identical 
-in that the same protocols are followed.  The only difference is that \gls{calpoly}
-measures both retained and discarded fish from the observed anglers and \gls{cdfw}
-measures only discarded fish from the observed anglers. \gls{cdfw} measures retained 
-fish as part of the angler interview at the bag and trip level. This index 
-selectivity is mirrored to the recreational 
-fleet in the stock assessment model, which represent only retained (dead) 
-fish.  Therefore, only retained fish were modeled in this index. The length 
-from \gls{cdfw} sampling are contained in the RecFIN database and included in the 
-length composition for the recreational fleet in the assessment model. 
+Each drift was assigned to a reef using the
+[California Seafloor Mapping Project](http://seafloor.otterlabs.org/index.html).
+The \gls{csmp} provides bathymetry and backscatter data available at a 2 m resolution.
+Starting in 2017, depth restrictions eased in districts north of Pt. Conception, and
+the recreational fleet targeted these depths (40-50 fm) that are outside of the mapped habitat available in \gls{csmp}
+(Figure \@ref(fig:depthfished-cpfvonboard)).
 
-A number of filters are applied to these data.  All of the Cal Poly data were 
-QA/QC-ed once key-punched, whereas a number of errors remain in the 
-data from CDFW.  Data sheets from CDFW are not available prior to 2012 and 
-staff constraints have also prevented a quality control review of the data. 
+The final Bayesian delta-\gls{glm} model included retained number of fish per angler hour (\gls{cpue})
+with covariates for year, wave, and depth for the binomial model and
+an additional covariate of district for the lognormal model (Figure \@ref(fig:index-fits-all-fleets)).
 
-Each drift was assigned to a reef (hard bottom). Hard bottom was extracted from 
-the [California Seafloor Mapping Project](http://seafloor.otterlabs.org/index.html), 
-with bathymetric data from state waters available at a 2 m resolution.  Reefs were 
-developed based on a number of factors described in the supplemental material 
-("Reef Delineation"). Depth restrictions in the recreational fishery were fairly 
-consistent from 2004-2016. Starting in 2017, depth restrictions eased in districts 
-north of Pt. Conception and the recreational fleet targeted these depths. The deeper waters (40-50 fm) are 
-outside of the mapped hard bottom habitat, but could be assigned to the larger 
-areas considered as a factor in the index.
-
-We modeled retained catch per angler hour (CPUE; number of fish per angler hour) 
-a Bayesian delta-GLM model.  Indices with a year and area interaction were not 
-considered in model selection; trends in the average CPUE by region were similar 
-in the filtered data set.
-The delta-GLM
-method allows the linear predictors to differ between the binomial and positive models.
-Based on AIC values from maximum likelihood fits, 
-a main effects model including 
-YEAR and WAVE and DEPTH bin 
-was fit for the binomial model and a main 
-effects model including 
-YEAR and DISTRICT and WAVE and DEPTH bin 
-was fit for the lognormal model.
-The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
-More information is available about this survey in
-lingcod_CA_CPFV_onboard_writeup_SCA.pdf
-
-
-```{asis, eval = params$area == "South", echo = TRUE, results = "asis"}
 #### Deb Wilson-Vandenberg Index
 
-The Deb Wilson-Vanedenberg data set is an onboard observer survey data conducted 
-by \gls{cdfw} survey in central California from 1987-1998 and referred to as the Deb 
-Wilson-Vandenberg onboard observer survey, [@Reilly1998]). During an onboard 
-observer trip the sampler rides along on the CPFV and records location-specific 
-catch and discard information to the species level for a subset of anglers 
-onboard the vessel. The subset of observed anglers is usually a maximum of 15 
-people the observed anglers change during each fishing stop.  The catch cannot be 
-linked to an individual, but rather to a specific fishing location.  The sampler 
-also records the starting and ending time, number of anglers observed, starting 
-and ending depth, and measures discarded fish. The fine-scale catch and effort 
-data allow us to better filter the data for indices 
-to fishing stops within suitable habitat for the target species.
+The Deb Wilson-Vanedenberg data is onboard observer data conducted 
+by \gls{cdfw} in central California from 1987-1998 [@Reilly1998].
+In 1987, trips were only observed in Monterey, CA and were therefore excluded from the analysis.
+During an onboard observer trip,
+the sampler on the \gls{cpfv} records
+location-specific catch and discard information to the species level for a maximum of 15 anglers onboard the vessel.
+The observed anglers can change during each fishing stop.
+The catch cannot be linked to an individual just fishing location.
+The sampler also records the
+starting and ending time,
+number of anglers observed,
+starting and ending depth, and
+measures discarded fish.
+Of the 2,256 trips observed, 12 launched from port in District 6.
+This small subset of the data was removed from this analysis.
 
-A large effort was made by the SWFSC to recover data from the original data 
-sheets for this survey and developed into a relational database [@Monk2016]. 
-The specific fishing locations at each fishing stop  were recorded at a finer 
-scale than the catch data for this survey. We aggregated the relevant location 
-information (time and number of observed anglers) to match the available catch 
-information.  Between April 1987 and July 1992 the number of observed anglers 
-was not recorded for each fishing stop, but the number of anglers aboard the 
-vessel is available.  We imputed the number of observed anglers using the number 
-of anglers aboard the vessel and the number of observed anglers at each fishing 
-stop from the August 1992-December 1998 data (see Supplemental materials for 
-details). In 1987, trips were only observed in Monterey, CA and were therefore 
-excluded from the analysis. Sampling 
-targeted areas of central California.  Of the 2,256 trips observed, only 12 of 
-those launched from port in District 6, which was removed from the analysis.
+A large effort was made by the \gls{swfsc} to develop a relational database for this survey [@Monk2016].
+The specific fishing locations at each fishing stop were recorded at a finer scale than the catch data and
+hours spent fishing and number of fishers were aggregated to match the available catches.
+Between April 1987 and July 1992,
+the number of observed anglers was not recorded for each fishing stop.
+Instead, the number of anglers aboard the vessel was recorded.
 
+Each drift was assigned to a reef using the
+[California Seafloor Mapping Project](http://seafloor.otterlabs.org/index.html).
+The \gls{csmp} provides bathymetry and backscatter data available at a 2 m resolution.
+Reefs were aggregated to four regions, 
+Ft. Bragg to Santa Cruz (V1),
+Moss Landing to Big Sur (V2),
+San Luis Obispo to Pt. Conception (V3), and
+Offshore (deeper) locations including the Farallon Islands and reefs of Half Moon Bay and Monterey Bay (V4).  The ports in San Luis Obispo county were sampled more frequently than other regions.
+The arithmetic mean of \gls{cpue} by year was higher in (V3) than other areas.
 
-Each fishing location was assigned to a reef based on the on the bathymetric maps 
-and interpretation of hard bottom was extracted from 
-the [California Seafloor Mapping Project](http://seafloor.otterlabs.org/index.html).
-Reefs were aggregated to four regions produce adequate sample sizes; 
-Ft. Bragg to Santa Cruz (V1), Moss Landing to Big Sur (V2), San Luis Obispo to 
-Pt. Conception (V3), and Offshore (deeper) locations including the Farallon 
-Islands and reefs of Half Moon Bay and Monterey Bay (V4).  The ports in San 
-Luis Obispo county were sampled more frequently than other regions and the arithmetic 
-mean of CPUE by year was higher also higher in this area.
-
-The final index is plotted in Figure \@ref(fig:index-fits-all-fleets).
-More information is available about this survey in
-lingcod_DebWV_onboard_writeup_NCA.pdf
+The resulting index is relatively flat with the lowest point in the mid 1990s
+(Figure \@ref(fig:index-fits-all-fleets)).
 ```

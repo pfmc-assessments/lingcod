@@ -1,3 +1,62 @@
+#### Recreational \glsentrylong{cpue}
+
+Recreational \gls{cpue} time series were abundant for `r spp`;
+but, only one index could be added to the stock assessment for each fleet representing state-specific recreational fishing.
+Some additional time series were provided but not included in the base model.
+Most often, the longest time series available was included instead.
+
+
+```{asis, eval = params$area == "North", echo = TRUE, results = "asis"}
+##### Oregon at-sea \glsentrylong{cpfv}
+
+\gls{odfw} initiated an onboard \gls{cpfv} observer program in 2001, which
+became a yearly sampling program in 2003.
+The data, 15,632 drifts, were filtered to remove drifts
+without catches,
+longer than the 99th percentile,
+deeper than the 99th percentile (60 fms), and
+focused on midwater species.
+Filters were intended to provide a final
+drift-level dataset free of drifts that were unlikely to
+encounter `r spp`. Low sample sizes also necessitated the removal of
+2020 and drifts from February. The final dataset included
+8472 drifts,
+46\% of
+which encountered `r spp`.
+
+Bayesian delta-\gls{glm} were fit using rstanarm.
+Catch (number of retained and discarded fish) with an offset for
+effort (angler hours) was best fit using a negative binomial model.
+Investigated covariates included
+year and two-month wave, port, and depth.
+Depth was defined as the starting depth
+for the drift and binned to five fm bins from 0 - 30 fms with a plus 30
+fm bin for all drifts with a starting depth \> 30 fms.
+Year and port interactions were not considered.
+Based on \gls{aic},
+no covariates were excluded from the analysis.
+
+Posterior predictive checks of the Bayesian model fit for the negative
+binomial model were reasonable.
+The negative binomial model
+generated data sets with the proportion zeros similar to the
+54\%
+zeroes in the observed data.
+The estimated time series had a trend similar to the
+arithmetic mean of the annual \gls{cpue} and the Oregon recreational \gls{cpue}
+derived from the \gls{orbs} data set
+(Figure \@ref(fig:fig-Dnbin-marginal-ORAtSea)).
+```
+
+##### \glsentrylong{crfs}
+
+\gls{crfs} samples private boats in the California recreational fishery dockside.
+Number of `r spp` per number of anglers is available as well as
+distance fished from shore,
+county, port, interview site, year, month, and district.
+Data on private boats using hook-and-line gear provide a proxy for recreational \gls{cpue}.
+Currently there is no way to include multiple indices for the California recreational fleet and time did not allow for inclusion of this index as a sensitivity.
+
 #### Fin rays from \glsentrylong{cdfw}
 
 The \gls{cdfw} collected `r utils_name("common")` fin rays from the
