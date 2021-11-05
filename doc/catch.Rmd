@@ -1672,7 +1672,12 @@ as calculated from the most recent survey data to determine the mean weight.
 Finally, weight (mt) was determined from mean weight and numbers.
 Final landings include retained and 7\% of discarded fish to account for those that died.
 The previous assessment modeled Washington landings in terms of numbers of fish rather than weight
-(Figure \@ref(fig:catch-rec-ca-oldts)).
+(Figure \@ref(fig:catch-rec-ca-oldts)). 
+A comparison among the two assessments showed similar patterns in the catch 
+when compared in the same units by using the internally estimated values 
+calculated within the final models which are based on the estimated values 
+for growth, selectivity, and age composition in each 
+year showed similar patterns (Figure \ref{fig:wa-rec-catch-comparison}).
 ```
 
 ```{asis, catch-rec-OR-text, opts.label = 'north', echo = TRUE}

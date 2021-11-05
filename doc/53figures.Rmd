@@ -32,6 +32,24 @@ add_figure_ling(dplyr::bind_rows(mapply(
 )
 ```
 
+```{r, catch-figures-north, results = "asis", opts.label = "north", echo = FALSE}
+sa4ss::add_figure(
+  filein = file.path("..", "figures", "WA_rec_catch_comparison_after_fix.png"),
+  label = "wa-rec-catch-comparison",
+  caption = "Comparison of catch in biomass (top) and numbers (bottom) for the Washington recreational fishery between the 2017 assessment, where catch was input in numbers, and the current assessment, where catch was converted from numbers to biomass outside the model. The 'estimate' lines in each panel respresent the results of internal calculation on the final base model based on the input values and the internally estimated values for growth, selectivity, and age composition in each year."
+)
+```
+
+```{r, catch-figures-r4ss, results = "asis"}
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "catch2 landings stacked.png"), 
+caption = "Landings (mt) by fleet used in the base model.")
+
+sa4ss::add_figure(
+filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), 
+caption = "Landings plus dead discards (mt) by fleet as estimated in the base model.")
+```
+
 ```{r, cpue-figures-north, results = "asis", opts.label = "north", echo = FALSE}
 # Use figures-cpue.csv to bring in ordered set of figures
 figures_cpuedata <- utils::read.csv(file.path("..", "figures", "figures_cpue.csv"))
