@@ -307,7 +307,7 @@ add_figure_ling(figurecsv%>%dplyr::filter(grepl("numbers10",label)))
 
 ## Model results figures
 
-### Growth and selectivity
+### Selectivity
 
 ```{r, results = "asis", eval = TRUE, echo = FALSE}
 do.call(

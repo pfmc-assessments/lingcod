@@ -1,6 +1,76 @@
-<!-- running out of time!
 #### Parameter estimates {#sec-model-estimates} 
--->
+Estimates of key parameters include 
+female $M$ = 
+`r round(model$parameters["NatM_uniform_Fem_GP_1", "Value"], 3)`, 
+male $M$ = 
+`r round(model$parameters["NatM_uniform_Mal_GP_1", "Value"], 3)`, and
+stock-recruit steepness $h$ = 
+`r round(model$parameters["SR_BH_steep", "Value"], 3)` 
+(Table \ref{tab:table-pars-base}). 
+Females were estimated as growing larger than males with female length at age 14
+(the second reference age) equal to 
+`r round(model$parameters["L_at_Amax_Fem_GP_1", "Value"], 1)` cm compared to
+`r round(model$parameters["L_at_Amax_Mal_GP_1", "Value"], 1)` cm for males.
+The $L_\infty$ associated with the estimated growth parameters was 
+`r round(model$Growth_Parameters$Linf[1], 1)` cm for females and
+`r round(model$Growth_Parameters$Linf[2], 1)` cm for males.
+
+<!-- selectivity text below needs manual updates for any model change-->
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+Selectivity was estimated as asymptotic for the commercial fixed-gear fleet and the 
+earliest period of the commercial trawl fleet, while from 1993 onward the commercial
+trawl fishery was estimated as asymptotic.
+```
+
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+Selectivity was estimated as dome-shaped for all fleets. The estimated changes
+over time for the commercial trawl sector was a shift in selectivity toward larger
+fish over time. with the peak selectivity from 2011 onward estimated at
+`r round(model$parameters["Size_DblN_peak_1_Comm_Trawl(1)_BLK1repl_2011", "Value"], 1)` cm.
+Peak selectivity for the time-invariant commercial fixed-gear fishery was estimated at
+`r round(model$parameters["Size_DblN_peak_2_Comm_Fix(2)", "Value"], 1)` cm 
+(Figure \ref{fig:selectivity_comm}).
+```
+
+Commercial trawl retention was estimated as shifting to the right during the 
+period with strict trip limits from 1998 to 2009, then shifting back to the 
+left as catch shares were implemented, with the length at 50\% retention from 2011 
+onward estimated at
+`r round(model$parameters["Retain_L_infl_1_Comm_Trawl(1)_BLK2repl_2011", "Value"], 1)` cm.
+
+```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
+The recreational fishery selectivity in Washington was estimated as asymptotic 
+in the early and late periods but dome-shaped during the two blocks covering the years
+1998-2010. Oregon and California recreational selectivity was estimated as asymptotic
+for most time blocks, but dome-shaped in the most recent block in each case
+(Figure \ref{fig:selectivity-noncomm}).
+
+Selectivity for the two surveys and the Lam research sampling were all estimated as 
+dome-shaped although the \gls{s-tri} is almost asymptotic. Peak selectivity is estimated at 
+`r round(model$parameters["Size_DblN_peak_6_Surv_TRI(6)", "Value"], 1)` cm for the
+\gls{s-tri} and 
+`r round(model$parameters["Size_DblN_peak_7_Surv_WCGBTS(7)", "Value"], 1)` cm for the
+\gls{s-wcgbt}. The survey selectivity is notably different
+from the south model, where those two surveys have peak selectivity below 30 cm
+(Figure \ref{fig:selectivity-noncomm}). 
+Strong differences in the presence of small 
+fish in the survey samples from the north and south areas indicate that the 
+differences in estimated selectivity curves are necessary to fit the data in each case.
+```
+```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
+The changes in the recreational California selectivity were subtle and presumably 
+driven primarily by changes in minimum size limits. The \gls{s-tri} and \gls{s-wcgbt}
+selected more small fish than other fleets, with peak selectivity at 
+`r round(model$parameters["Size_DblN_peak_6_Surv_TRI(6)", "Value"], 1)` cm and 
+`r round(model$parameters["Size_DblN_peak_7_Surv_WCGBTS(7)", "Value"], 1)` cm,
+respectively, while selectivity for the \gls{s-hkl} peaked at the largest size, 
+`r round(model$parameters["Size_DblN_peak_8_Surv_HookLine(8)", "Value"], 1)` cm
+(Figure \ref{fig:selectivity-noncomm}). The survey selectivity is notably different
+from the north model, where the peak is above 80 cm for all surveys.
+Strong differences in the presence of small 
+fish in the survey samples from the north and south areas indicate that the 
+differences in estimated selectivity curves are necessary to fit the data in each case.
+```
 
 #### Fits to the data {#sec-model-fits}
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
@@ -152,6 +222,13 @@ intervals for most years although there's relatively little signal in those data
 (`r ref_range(figurecsv, grep = "bodywt.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`; "Mnwt" in electronic appendix).
 ```
 
-<!-- running out of time!
 #### Population trajectory {#sec-model-trajectory}
--->
+The spawning stock biomass is estimated as having declined from an unfished 
+equilibrium of `r format(SSB_Virgin, big.mark = ",")` mt to a 2021 value of 
+`r format(SSB_2021, big.mark = ",")` mt, which represents a
+fraction unfished of `r Bratio_2021`. The lowest fraction unfished was 
+`r Bratio_min` in `r Bratio_min_yr` 
+(Figures \ref{fig:ts7-Spawning-biomass-(mt)-with-95-asymptotic-intervals-intervals} and
+\ref{fig:ts9-Relative-spawning-biomass-intervals}). 
+The 2021 total biomass (all ages from both sexes) was 
+`r format(TotBio_2021, big.mark = ",")` mt (Figure \ref{fig:ts1-Total-biomass-(mt)}).

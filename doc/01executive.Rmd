@@ -5,7 +5,14 @@ n_stocks <- xfun::numbers_to_words( length(get_groups(info_groups)))
 spr_peak_yr <-  model[["sprseries"]][["Yr"]][model[["sprseries"]][["SPR_report"]] == max(model[["sprseries"]][["SPR_report"]][model[["sprseries"]][["Yr"]] < model[["endyr"]]])]
 spr_peak <- round(max(model[["sprseries"]][["SPR_report"]][model[["sprseries"]][["Yr"]] < model[["endyr"]]]), 2)
 SSB_2021 <- round(model[["derived_quants"]]["SSB_2021", "Value"], 0)
+SSB_Virgin <- round(model[["derived_quants"]]["SSB_Virgin", "Value"], 0)
+TotBio_2021 <- round(model[["timeseries"]][model[["timeseries"]][["Yr"]]==2021, "Bio_all"], 0)
 Bratio_2021 <- round(model[["derived_quants"]]["Bratio_2021", "Value"], 4)
+Bratio_series <- model[["derived_quants"]][paste0("Bratio_", model$startyr:model$endyr), "Value"]
+Bratio_min <- min(Bratio_series, na.rm = TRUE)
+Bratio_min_yr <- (model$startyr:model$endyr)[which(Bratio_series == Bratio_min)]
+Bratio_min <- round(Bratio_min, 4)
+
 ```
 # Executive summary{-}
 
