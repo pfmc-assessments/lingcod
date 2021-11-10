@@ -4,89 +4,98 @@
 
 ### History of modeling approaches
 
-There have been nine assessments of `r spp` that
-covered all or part of the U.S. West Coast since 1986.
-Adams [-@pfmclingcod1986] conducted a yield per recruit analysis.
-Jagielo [-@jagielo1994assessment] conducted an age-structured assessment for the portion of the resource
-between Cape Falcon in Northern Oregon to 49\textdegree 00\textquotesingle N latitude
-(off of southwest Vancouver Island in British Columbia - \gls{psmfc} areas 3A, 3B, and 3C, including Canada),
-using Stock Synthesis [@methot_stock_2013].
-Data included trawl and recreational catch from 1979-1993
-with equilibrium catch before then,
-\gls{s-tri} and trawl \gls{cpue} indices, and
-length- and age-composition data.
-The final spawning output was estimated to be about
+Since 1986,
+there have been nine assessments of `r spp` covering at least part of the U.S. west coast.
+The first assessment was performed by Adams [-@pfmclingcod1986] and
+consisted of a yield per recruit analysis.
+Each of the subsequent assessments utilized an age-structured model,
+though the structure and form has changed with time.
+
+The second assessment, conducted by Jagielo [-@jagielo1994assessment],
+was conducted using an earlier version of Stock Synthesis [@methot_stock_2013] and
+focused on the northern area.
+Data were limited to the region between
+Cape Falcon in Northern Oregon and
+49\textdegree 00\textquotesingle N latitude
+(off of southwest Vancouver Island in British Columbia).
+This included \Gls{psmfc} areas 3A, 3B, and 3C, inclusive of Canada.
+Two fleets were modeled, trawl and recreational, from 1979-1993,
+two \gls{cpue} time series were included, \gls{s-tri} and trawl, and
+length- and age-composition data were used to estimate selectivity.
+The final spawning output was estimated to be approximately
 20\% of pristine levels, and
 catch recommendations ranged between 2500 and 3000 mt
-based on fishing mortality levels of 40\% and 20\%.
-The 1997 assessment [@jagielo1997assessment] expanded the area
-south to Cape Blanco (42\textdegree 50\textquotesingle N latitude) and
-retained the northern boundary of 49\textdegree 00\textquotesingle N latitude
-using a Stock Synthesis model.
-Estimated fraction unfished was below 0.10 for 1997.
-In 1999, Adams et al. [-@pfmclingcod1999] conducted a length-based, age-structured population model
-implemented in \gls{admb} [@fournier1996] for
-the southern area, Eureka, Monterey, and Conception \gls{inpfc} areas,
-which had not yet been assessed.
-Jagielo et al. [-@jagielo2000assessment] fit data to age structured models in \gls{admb}
-for two areas of the U.S.,
-U.S. Vancouver-Columbia (no longer including Canadian waters) and
-Eureka, Monterey, and Conception \gls{inpfc} areas.
-Jagielo et al. [-@pfmclingcod2003] conducted age structured assessments
-for the two areas using Coleraine.
-In 2005, Jagielo et al. [-@pfmclingcod2005] switched back to
-using Stock Synthesis, which was then at version 2 of the code base.
-They found that the northern stock had recovered substantially
+based on fishing mortality levels of 20\% and 40\%.
+
+The third assessment was conducted in 1997 [@jagielo1997assessment] and
+expanded the area included south to Cape Blanco (42\textdegree 50\textquotesingle N latitude).
+The estimated fraction unfished was below 0.10,
+which led to the Council implementing substantial coastwide reductions in harvest and
+recommending that the southern portion of the stock also be assessed.
+Two years later, Adams et al. [-@pfmclingcod1999] conducted a length-based, age-structured population model
+implemented in \gls{admb} [@fournier1996] for the southern area,
+including Eureka, Monterey, and Conception \gls{inpfc} areas.
+Since then, `r spp` assessments have covered the entire U.S. west coast but
+been broken into two assessments using various spatial delineations.
+
+In 2000,
+Jagielo et al. [-@jagielo2000assessment] fit data to \gls{admb} models
+using the same spatial delineation but removing data from Canadian waters.
+Both stocks showed increasing trends in their abundance and
+new ageing methods suggested the stocks were younger and more productive.
+The populations were assessed again in 2003,
+this time using Coleraine [@pfmclingcod2003].
+In 2005, Jagielo et al. [-@pfmclingcod2005] switched back to Stock Synthesis,
+which was then at version 2 of the code base.
+Estimates suggested that the northern stock had recovered substantially
 from a low point in the 1990s and was at 0.87 fraction unfished,
-while the southern area had not recovered as well and was at 0.24 fraction unfished,
+while the southern area was not estimated to have recovered and was at 0.24 fraction unfished,
 with a 0.64 coastwide fraction unfished.
 
 The 2009 stock assessment, which used Stock Synthesis 2,
 divided the northern (Washington and Oregon) and southern (California) stocks
-by state line [@hamel2009lingcod].
+at the Oregon-California state line [@hamel2009lingcod].
 The northern and southern models were made as equivalent as possible
 by keeping fixed and estimated parameters largely the same for the two assessments.
 Natural mortality was fixed at 0.18 for females and 0.32 for males in both assessments,
-while stock-recruitment steepness was fixed at 0.8.
-All of the age data were removed from the model prior to fitting the data because of
-issues with outliers and possible aging bias.
-The point estimate for fraction unfished at the start of 2009 was
+while steepness was fixed at 0.8.
+Age data were removed because of issues with outliers and possible aging bias.
+The estimate of fraction unfished at the start of 2009 was
 0.619 for the northern area and 0.737 for the southern area,
-indicating the stock was recovered.
-The axis of uncertainty for the decision table provided to managers was
-natural mortality for the northern area,
-with the base model $M$ = 0.18 for females and 0.32 for males.
-The 'Low M' alternative used $M$ = 0.16 and $M$ = 0.285 for females and males respectively,
-and the 'High M' alternative used $M$ = 0.20 and 0.355.
-The axis of uncertainty for the southern area
-for the high alternative was the inclusion of age data and
-for the low alternative was the exclusion of the dockside recreational \gls{cpue} index.
+indicating the stocks had recovered.
+For the northern stock,
+the axis of uncertainty for the decision table provided to managers was $M$.
+The low, base, and high values of $M_{female}$ were 0.16, 0.18, and 0.20.
+The low, base, and high values of $M_{male}$ were 0.285, 0.320, and 0.355.
+For the southern stock,
+the lower axis of uncertainty was for the he exclusion of the dockside recreational \gls{cpue} index and
+the higher axis of uncertainty was the inclusion of age data.
 
 The 2017 assessment [@haltuch2019lingcod] was conducted using Stock Synthesis and
-matched the spatial structure used for 2009 [@hamel2009lingcod] but made numerous changes,
-including
+matched the spatial structure used for 2009 [@hamel2009lingcod].
+The assessment updated the existing data sources, as per normal protocol, and
+also included the following changes:
 
 - expansion of the time period of the assessments back to 1889,
 - separation of commercial fleets into TW and FG,
-- separation of state-specific recreational fleets
-- updating of numerous existing data sources
+- separation of recreational fleets in the northern stock to state-specific fleets,
 - addition of numerous fishery-dependent \gls{cpue} indices and the \gls{s-hkl} index
 - updated prior on natural mortality
-- updated biology parameters for maturity and length-weight relationships
+- updated biological parameters for maturity and length-weight relationship
 - updated ageing uncertainty
-- different treatment of some age data as marginal versus conditioned on length
+- included some age data as marginal ages instead of ages conditioned on length
 
-The estimated scales of the populations were sensitive to the inclusion of age data,
-nevertheless, estimates of status remained the same with or without the age data.
-Specifically,
-the northern stock was estimated to be
-above 40\% of estimated unfished spawning biomass and
-the southern stock was estimated to be
-below the target reference point at 32.1\% of unfished spawning biomass.
+The estimated scale of the population was sensitive to the inclusion of age data for both stocks.
+These estimates of status remained the same regardless of whether or not the model was fit to age data.
+The northern stock was estimated to be above the target reference point of 
+0.40 fraction unfished.
+The southern stock was estimated to be below the target reference point of
+0.40 fraction unfished at 0.321.
 
-In 2019 a catch-only projection was conducted in which observed catches for the
-years 2017 and 2018 were used in the forecast calculations, along with
-expected catches for 2019 and 2020, to provided updated catch limits for management.
+In 2019, a catch-only projection was conducted.
+This update assessment included observed catches for 2017 and 2018 in the forecast calculations.
+Expected catches for 2019 and 2020 were also included in the forecast calculations.
+The results provided updated catch limits for management.
 
 ### Most recent STAR panel and SSC recommendations{#STAR}
 
