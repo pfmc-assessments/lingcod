@@ -11,7 +11,8 @@ textCatchpeakyear <- data_catch %>%
 ```
 
 `r Spp` fisheries have a long history
-(Table \@ref(tab:table-catchbystate)).
+(Table \@ref(tab:table-catchbystate) and
+Figures \@ref(fig:catch-figures-r4ss)-\@ref(fig:catchdiscard-figures-r4ss)).
 The earliest evidence of fishing for `r spp`
 comes from the remains of 51 archaeological sites
 representing the period between 6200 BC and 1830 AD on the
