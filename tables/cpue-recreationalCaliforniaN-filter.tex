@@ -1,0 +1,15 @@
+\begin{table}
+\caption{(\#tab:tab-data-filter-crfspr)Data filtering of the \glsentrylong{crfs} private rental dockside index for the California recreational fishery.}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{8em}>{\raggedright\arraybackslash}p{15em}c>{\centering\arraybackslash}p{8em}>{\centering\arraybackslash}p{8em}}
+\toprule
+Filter & Description & Trip & Positive Trips & \% drifts retained\\
+\midrule
+\cellcolor{gray!6}{All data} & \cellcolor{gray!6}{Pre-filtered for drifts with marked for exclusion} & \cellcolor{gray!6}{20924} & \cellcolor{gray!6}{10056} & \cellcolor{gray!6}{48\%}\\
+MOnths samples & Remove waves less than 3 due to small sample sizes and fishery closures. & 20916 & 10053 & 48\%\\
+\cellcolor{gray!6}{Groundfish} & \cellcolor{gray!6}{Removed trips with no observed groundfish} & \cellcolor{gray!6}{18615} & \cellcolor{gray!6}{10053} & \cellcolor{gray!6}{54\%}\\
+HMS & Remove trips with more than half the catch composed of HMS species & 18613 & 10052 & 54\%\\
+\cellcolor{gray!6}{Final trips} & \cellcolor{gray!6}{Retained trips with at least 0.95 groundfish.} & \cellcolor{gray!6}{17371} & \cellcolor{gray!6}{9357} & \cellcolor{gray!6}{54\%}\\
+\bottomrule
+\end{tabular}
+\end{table}
