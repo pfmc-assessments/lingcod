@@ -75,7 +75,9 @@ Table \ref{tab:sample-size-length} shows sample sizes.
 
 Age-composition data from the \Gls{s-wcgbt} (Figure \ref{fig:wcgbts-ageComp}) were 
 included in the model as conditional age-at-length (CAAL) distributions by sex 
-(male and female) and year, and therefore were not expanded. The numbers of fish 
+(male and female) and year
+(Figures \ref{fig:comp-condAALdat-bubflt7mkt0-page1}-\ref{fig:comp-condAALdat-bubflt7mkt0-page2}), and therefore,
+were not expanded. The numbers of fish 
 are used without any adjustment. The age distribution of survey catches in each year 
 was summarized using age bins from 0 to 20 years, in increments of one year. The last bin 
 includes all fished aged to be greater than 20 years. 
