@@ -28,7 +28,7 @@ Commercial FG length-composition data started in
 with additional samples in
 `r ifelse(params$area == "North", "1971, 1980, and 1982", "1988 and 1989")`
 `r ifelse(params$area == "North",
-  "(Tables \\ref{tab:sample-size-length} and \\ref{tab:sample-size-length-byState}; Figure \\ref{fig:comp-lenfit--page1-multi-fleet-comparison})",
+  "(Tables \\ref{tab:sample-size-length} and \\ref{tab:sample-size-length-byState}; Figures \\ref{fig:comp-lenfit--page1-multi-fleet-comparison}-\\ref{fig:comp-lenfit--page2-multi-fleet-comparison})",
   "(Table \\ref{tab:sample-size-length}; Figure \\ref{fig:comp-lenfit--page1-multi-fleet-comparison})"
 )`.
 
