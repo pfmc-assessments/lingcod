@@ -43,11 +43,15 @@ sa4ss::add_figure(
 ```{r, catch-figures-r4ss, results = "asis"}
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "catch2 landings stacked.png"), 
-caption = "Landings (mt) by fleet used in the base model.")
+caption = "Landings (mt) by fleet used in the base model.",
+label = "catch-figures-r4ss"
+)
 
 sa4ss::add_figure(
 filein = file.path("..", mod_loc, "plots", "catch16 landings + dead discards.png"), 
-caption = "Landings plus dead discards (mt) by fleet as estimated in the base model.")
+caption = "Landings plus dead discards (mt) by fleet as estimated in the base model.",
+label = "catchdiscard-figures-r4ss"
+)
 ```
 
 ```{r, cpue-figures-north, results = "asis", opts.label = "north", echo = FALSE}
@@ -61,6 +65,13 @@ sa4ss::add_figure(
   label = "reccpueor-orbsdatasummary",
   caption = "Number of trips versus year, month, port, subregion, boat type, and effort (angler hours) from \\glsentrylong{orbs} data that was used to estimate \\glsentrylong{cpue} for the Oregon recreational fleet."
 )
+```
+```{asis, opts.label="north"}
+![(\#fig:fig-dist-fits-crfspr)Quantile-quantile plot (top panel) of the positive observations for both lognormal and gamma distributions and fitted values vs residuals for the Gamma model (bottom panel) for the \glsentrylong{crfs} private rental dockside index representing the California recreational fleet.](Indices_for_Kelli/lingcod_CRFS_PR_dockside_writeup_NCA_files/figure-latex/fig-dist-fits-crfspr-1.pdf) 
+
+![(\#fig:fig-Dbin-marginal-crfspr)Binomial marginal effects from the final model of \glsentrylong{crfs} private rental dockside data representing the California recreational fleet.](Indices_for_Kelli/lingcod_CRFS_PR_dockside_writeup_NCA_files/figure-latex/fig-Dbin-marginal-crfspr-1.pdf) 
+
+![(\#fig:fig-Dpos-marginal-crfspr)Positive model marginal effects from the final model of \glsentrylong{crfs} private rental dockside data representing the California recreational fleet.](Indices_for_Kelli/lingcod_CRFS_PR_dockside_writeup_NCA_files/figure-latex/fig-Dpos-marginal-crfspr-1.pdf)
 ```
 
 ```{asis, cpue-figures-south, opts.label = "south"}
