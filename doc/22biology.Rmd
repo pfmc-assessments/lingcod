@@ -47,7 +47,7 @@ during nest-guarding.
 
 A new estimate of functional maturity-at-age (Figure \@ref(fig:bio6-maturity))
 based on histological analysis of ovaries was developed for these models 
-(pers. comm., M. Head, \gls{nwfsc}; (Figure \@ref(fig:age-mat-forassessment))).
+(pers. comm., M. Head, \gls{nwfsc}; Figure \@ref(fig:age-mat-forassessment)).
 The previous assessment 
 [@haltuch2019lingcod] used length-based maturity but noted that differences in 
 maturity at length between north and south areas appeared attributable
