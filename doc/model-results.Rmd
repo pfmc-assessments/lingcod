@@ -103,7 +103,7 @@ commercial trawl length comps and a large blotches in the Pearson residuals.
 In general, the recreational and survey length compositions are reasonably well fit.
 
 Ages in the north model are all conditioned on length, but also included as
-marginal "ghost age comps" ("AgeComp" in electronic appendix) which are excluded 
+marginal "ghost age comps" which are excluded
 from the likelihood for purposes of 
 visualizing the implied fit. These data do not show strong cohorts very clearly,
 although some modes progress through the population, such as the 2008 cohort 
@@ -131,7 +131,7 @@ Both the mean age in each length bin and the variability in age at length
 have a good match for most years and most fleets.
 
 The expected commercial trawl discard fractions 
-(`r ref_range(figurecsv, grep = "dis.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`; "Discard" in electronic appendix) 
+(`r ref_range(figurecsv, grep = "dis.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`)
 are higher than observed for the period 2002-2009, where
 the large uncertainty in estimated discards allows the model to misfit these 
 to better fit the length comps, with the parameter for length at 50\% retention
@@ -145,7 +145,7 @@ are well within the uncertainty intervals for all but 2002.
 The fit to the mean body weight of discards are good for most years
 although the observed discards in the first two years (2002 and 2003) were lighter 
 than the expectation
-(`r ref_range(figurecsv, grep = "bodywt.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`; "Mnwt" in electronic appendix).
+(`r ref_range(figurecsv, grep = "bodywt.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`).
 There are no discard length compositions from those years
 so it's difficult to judge the reasons for the lack of fit.
 ```
@@ -174,10 +174,9 @@ sources than in the north. Many sources show clear size modes, including
 the commercial trawl discards, the \gls{s-tri}, and the \gls{s-wcgbt}.
 In general these are well fit. The \gls{s-wcgbt} is estimated as selecting 
 smaller fish in the south than in the north and shows modes indicating strong
-cohorts for all years 2007-2010 (see electronic appendix), 
+cohorts for all years 2007-2010, 
 whereas the north model had a single large
-estimated 2008 cohort. Pearson residuals for the commercial trawl
-(LenComp in electronic appendix) show some noise
+estimated 2008 cohort. Pearson residuals for the commercial trawl show some noise
 and lack of fit, but there are few clear trends in the residuals. 
 Some of the biggest
 residuals come from the recreational California length compositions but this
@@ -187,7 +186,7 @@ sampling location, so some lack of fit is to be expected.
 Early explorations of the south model showed bad patterns in the fit to the 
 age data from the commercial trawl fishery, leading to the removal of all
 ages other than those from \gls{s-wcgbt} in the final model. Nevertheless,
-these ages are included as marginal "ghost age comps" ("AgeComp" in electronic appendix) 
+these ages are included as marginal "ghost age comps"
 which are excluded from the likelihood for purposes of visualizing the implied fit. 
 The implied fit to the ages from the commercial trawl and fixed-gear fleets
 show expected modes at younger ages than observed as discussed in 
@@ -197,7 +196,7 @@ even though these data are not included in the model likelihood.
 The ages included in the south model are all from the \gls{s-wcgbt} survey
 and are represented as \gls{caal} data
 (shown for \gls{s-wcgbt} in
-`r ref_range(figurecsv, grep = "cond.+resid", fleets = get_fleet("WCGBTS", col = "num"), encapsulate = FALSE)`; "A\@LComp" in the electronic appendix shows additional fleets).
+`r ref_range(figurecsv, grep = "cond.+resid", fleets = get_fleet("WCGBTS", col = "num"), encapsulate = FALSE)`).
 These represent about 3,400 fish (compared to over
 72,000 in the north model, of which about 5,000 were from the \gls{s-wcgbt}).
 The fits to these data are all reasonably good, although the expected proportion
@@ -211,7 +210,7 @@ down the mean observed age.
 
 The expected commercial trawl discard fractions 
 are lower than observed for the first four years but otherwise are relatively well fit
-(`r ref_range(figurecsv, grep = "dis.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`; "Discard" in electronic appendix).
+(`r ref_range(figurecsv, grep = "dis.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`).
 The most estimates match the observed decline in discard rate over the most recent 
 7 years, which is likely driven by the shift toward larger individuals as the above
 cohorts born in the 2007-2010 period grew older. The commercial fixed-gear
@@ -220,7 +219,7 @@ are well within the uncertainty intervals.
 
 The fit to the mean body weight ("Mnwt") of discards are within the confidence
 intervals for most years although there's relatively little signal in those data
-(`r ref_range(figurecsv, grep = "bodywt.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`; "Mnwt" in electronic appendix).
+(`r ref_range(figurecsv, grep = "bodywt.+fit", column = "file", fleets = "comm", encapsulate = FALSE)`).
 ```
 
 #### Population trajectory {#sec-model-trajectory}
