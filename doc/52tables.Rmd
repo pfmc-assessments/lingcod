@@ -44,6 +44,7 @@ management_oflabcacl %>%
 ignore <- mapply(sa4ss::read_child, "../tables/cpue-commercialfixed-gear-filter.tex")
 ignore <- mapply(sa4ss::read_child, "../tables/reccpuewa-filtersummary.tex")
 ignore <- mapply(sa4ss::read_child, "../tables/cpue-recreationalOregon-filter.tex")
+ignore <- mapply(sa4ss::read_child, "../tables/cpue-recreationalCaliforniaN-filter.tex")
 ```
 
 ```{asis, opts.label="south"}

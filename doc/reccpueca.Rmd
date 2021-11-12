@@ -2,7 +2,40 @@
 #### California recreational index
 
 ```{asis, recindexca-north, opts.label = "north"}
-**WHAT INDEX WAS USED?**
+The California recreational index includes catch and effort data from \gls{crfs} dockside sampling of private boats,
+which started in 2004.
+The data include catch in numbers by species,
+number of anglers,
+angler-reported distance from shore,
+county,
+port,
+interview site,
+year,
+month, and
+\gls{crfs} district.
+
+Records were limited to 'PR1' sites and hook-and-line gear
+(Table \@ref(tab:tab-data-filter-crfspr). 
+Percent of groundfish within the catch from a trip
+was used as a proxy for retaining 
+trips for index standardization because fishing location was unknown.
+Since 2005,
+the recreational fishery for shelf rockfish north of Pt. Conception has been closed from January through part of April and May.
+Angler reported distance from shore had no samples in the outside 3 nm category from 2004-2011. The category was retained due to the relaxation
+of depth restrictions beginning in 2017.
+
+A gamma distribution was used to model positive catch per angler hour in a Bayesian delta-\gls{glm}.
+A lognormal distribution also fit the data equally well
+(Figure \@ref(fig:fig-dist-fits-crfspr)).
+Year-area interactions were not investigated.
+The final model included year, wave, and area.
+Posterior predictive checks of the model fits were reasonable.
+The binomial model generated data sets with the proportion zeros similar to the 46\% zeroes in the observed data.
+The predicted marginal effects from 
+both the binomial and Gamma models can be found in (Figures \@ref(fig:fig-Dbin-marginal-crfspr) and \@ref(fig:fig-Dpos-marginal-crfspr)).
+Future work should investigate the use of other indices for the
+California recreational fleet in northern California or
+how to partition the fleet into multiple fleets such that more than one index can be used.
 ```
 ```{asis, recindexca-south, opts.label = "south"}
 The California recreational index was a combination of
