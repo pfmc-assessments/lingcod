@@ -19,7 +19,8 @@ The $L_\infty$ associated with the estimated growth parameters was
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 Selectivity was estimated as asymptotic for the commercial fixed-gear fleet and the 
 earliest period of the commercial trawl fleet, while from 1993 onward the commercial
-trawl fishery was estimated as asymptotic.
+trawl fishery was estimated as asymptotic
+(Figure \ref{fig:selectivity_comm}).
 ```
 
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
