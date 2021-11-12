@@ -25,15 +25,16 @@ approximate realized sample size for species in the "others" category
 
 #### \acrlong{s-tri} lengths
 
-Length data preparation followed the same methods as applied to the \gls{s-wcgbt} data,
-but depth strata of 55 - 183 m and 183 - 350 m were used for expanding the
-length comps for subsampling of tows. A depth split of 183 m was used because
-sampling appeared less intense after this depth and raw catch per unit effort 
-more variable (Figure \ref{fig:tri-depthSplit}). A maximum 
-depth of 350 m was used because `r spp` were infrequently caught at depths 
+Post-processing of length data for the \gls{s-tri}
+(Table \ref{tab:sample-size-length}; Figure \ref{fig:tri-lenComp})
+followed the same methods as those used for the \gls{s-wcgbt} but
+depth strata were bracketed using depths of 55--183 m and 183--350 m.
+Strata were split at 183 m because
+sampling became less intense in depths deeper than 183 m and
+raw \gls{cpue} was more variable deeper than 183 m than it was in shallower waters
+(Figure \ref{fig:tri-depthSplit}).
+A maximum depth of 350 m was used because `r spp` were infrequently caught at depths
 greater than 350 m (Figure \ref{fig:tri-depthSplit}). 
-Figure \ref{fig:tri-lenComp} shows the length-composition distributions for the \gls{s-tri}. 
-Table \ref{tab:sample-size-length} shows the sample sizes.
 
 ```{asis, opts.label = 'south', echo = TRUE}
 #### \Glsentrylong{s-hkl} lengths
