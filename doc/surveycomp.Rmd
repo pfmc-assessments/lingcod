@@ -50,60 +50,66 @@ As such, composition data are available for male, female, and unsexed `r spp`.
 
 #### Lam research lengths
 
-In collaboration with the \gls{nwfsc} and Moss Landing Marine Labs, `r spp` in nearshore 
-and offshore rocky reef habitats were collected between January 2016 and January 
-2017 via hook and line on chartered \glspl{cpfv} (@lam2019geographic). Sixteen latitudinal distinct sampling 
-sites, or ports, were chosen from northern Washington to southern California. 85 
-to 120 individuals were caught per port (N = 1,784, 922 Males, 862 Females) using 
-methods identical to those used by the onboard recreational `r spp` fishery 
-except that shorts were retained (individuals smaller than the legal-size limit 
-of 22 inches) and areas closed to recreational harvest were occasionally utilized 
+In collaboration,
+the \gls{nwfsc} and Moss Landing Marine Labs
+sampled `r spp` in nearshore and offshore rocky reef habitats between
+January 2016 and January 2017 via hook and line on chartered \glspl{cpfv}
+(@lam2019geographic).
+Sixteen latitudinal distinct sampling sites, or ports,
+were chosen for sampling from northern Washington to southern California.
+At each port,
+85--120 individuals were caught using methods identical to those used by the
+onboard recreational `r spp` fishery,
+except that individuals smaller than the legal-size limit of 22 inches were retained and
+areas closed to recreational harvest were occasionally utilized
 (CDFW Permit #SC-6477, ODFW Permit #20237, WDFW Permit ID Samhouri 16-138). 
-This was to ensure an even distribution of size and age classes from each port 
-for purposes of comparing `r spp` von Bertalanffy growth curves by spatially 
-explicit regions. Of the total fish samples, 32 were removed because they
-were sampled on \gls{s-ccfrp} would have led to double counting.
+Deviating from the onboard-sampling methods was necessary to
+ensure an even distribution of size and age classes from each port,
+such that estimates of von Bertalanffy growth curves could be region specific and
+easily comparable.
+Of the total fish samples
+(n = 1,784, 922 Males, 862 Females; Table \ref{tab:sample-size-length}),
+32 were removed because they
+were sampled on \gls{s-ccfrp} and would have led to double counting.
 Four additional samples were also excluded because they had no year associated with them.
-Length compositions from this survey were used as numbers of fish, 
-and were not expanded. Lengths were measured in total length, and were converted to
-fork length following conversions from Laidig et al. [-@laidig_lingcod_conversions_1997]. Total
-and fork lengths for `r spp` were generally very similar given the tail shape 
-of `r spp`. 
-Figure \ref{fig:lam-lenComp} shows the length-composition distributions. 
-Table \ref{tab:sample-size-length} shows sample sizes.
+Length compositions from this survey were used as numbers of fish
+and were not expanded (Figure \ref{fig:lam-lenComp}).
+Length measurements were taken using total length,
+which were converted to fork length following conversions from
+Laidig et al. [-@laidig_lingcod_conversions_1997].
+Total and fork lengths for `r spp` are generally similar for `r spp` given their tail shape.
 
 #### \Glsentrylong{s-wcgbt} ages
 
 Age-composition data from the \Gls{s-wcgbt} (Figure \ref{fig:wcgbts-ageComp}) were 
-included in the model as conditional age-at-length (CAAL) distributions by sex 
-(male and female) and year
-(Figures \ref{fig:comp-condAALdat-bubflt7mkt0-page1}-\ref{fig:comp-condAALdat-bubflt7mkt0-page2}), and therefore,
-were not expanded. The numbers of fish 
-are used without any adjustment. The age distribution of survey catches in each year 
-was summarized using age bins from 0 to 20 years, in increments of one year. The last bin 
-includes all fished aged to be greater than 20 years. 
+included in the model as sex-specific \gls{caal} distributions by year
+(Figures \ref{fig:comp-condAALdat-bubflt7mkt0-page1}-\ref{fig:comp-condAALdat-bubflt7mkt0-page2}).
+These data were not expanded, which is standard for \gls{caal} data, and thus,
+numbers of fish were used for the input sample size without any adjustment.
+Each age bin included just one year and summarized ages ranging from 0--20
+with a plus group for all fished aged older than 20 years.
 
-Individual length- and age-observations can be thought 
-of as entries in an age-length key (matrix), with age across the columns and length 
-down the rows. The CAAL approach consists of tabulating the sums within rows as the 
+Individual length and age observations can be thought
+of as entries in an age-length key (matrix).
+Age-length keys are typically structured with
+age across the columns and length down the rows.
+The \gls{caal} approach consists of tabulating the sums within rows as the
 standard length-composition distribution and, instead of also tabulating the sums to 
-the age margin , the distribution of ages in each row of the age-length key is 
+the age margin, the distribution of ages in each row of the age-length key is 
 treated as a separate observation, conditioned on the row (length) from which it came. 
-
-The CAAL approach has several benefits for analysis above the standard use of marginal age 
-compositions. First, age structures are generally collected as a subset of the fish 
+Using \gls{caal} instead of marginal ages has several benefits.
+First, age structures are generally collected as a subset of the fish 
 that have been measured. If the ages are to be used to create an external age-length 
 key to transform the lengths to ages, then the uncertainty due to sampling and missing 
 data in the key are not included in the resulting age-compositions used in the stock 
 assessment. If the marginal age compositions are used with the length compositions 
 in the assessment, the information content on sex-ratio and year class strength is 
 largely double-counted as the same fish are contributing to likelihood components 
-that are assumed to be independent. Using conditional age distributions for each 
+that are assumed to be independent. Using \gls{caal} distributions for each 
 length bin allows only the additional information provided by the limited age data 
 (relative to the generally far more numerous length observations) to be captured, 
-without creating a ‘double-counting’ of the data in the total likelihood. The second 
-major benefit of using conditional age-composition observations is that in addition 
-to being able to estimate the basic growth parameters inside 
+without creating a ‘double-counting’ of the data in the total likelihood.
+Second, in addition to being able to estimate the basic growth parameters inside
 the assessment model, the distribution of lengths at a given age, governed by two 
 parameters for the standard deviation of length at a young age and the standard 
 deviation at an older age, is also quite reliably estimated. This information could 
@@ -113,40 +119,31 @@ rare conditions at best. By fully estimating the growth specifications within th
 stock assessment model, this major source of uncertainty is included in the assessment 
 results, and bias in the observation of length-at-age is avoided. 
 
-The CAAL approach was only applied for male and female `r spp` and
-no sex ratio was applied to unsexed fish; so, unsexed fish were excluded
-from CAAL data. 
-This results in `r ifelse(params$area == "North", 60, 504)`
-unsexed fish excluded from the CAAL distributions, or approximately
+\Gls{caal} compositions were only implemented for male and female `r spp` and
+no sex ratio was applied to unsexed fish
+(Table \ref{tab:sample-size-age}).
+This resulted in `r ifelse(params$area == "North", 60, 504)`
+unsexed fish being excluded from the \gls{caal} distributions, or approximately
 `r ifelse(params$area == "North", "one", "fifteen")` percent of the aged fish.
-Table \ref{tab:sample-size-age} show sample sizes. Sensitivities to using the CAAL
-approach were explored by replacing CAAL compositions with marginal age compositions.
+Sensitivities to using \gls{caal} data instead of marginal age data
+were explored by replacing \gls{caal} compositions with marginal-age compositions.
 
 #### \acrlong{s-tri} ages
 
-Age data preparation follow the same methods as the \gls{s-wcgbt} length data. 
-The \gls{s-tri} age-composition data were included in the model 
-as CAAL, and marginal age compositions were explored as sensitivities.
-Figure \ref{fig:tri-ageComp} shows the age-composition data for the \gls{s-tri}.
-Table \ref{tab:sample-size-age} shows sample sizes.
+The preparation of age data from \gls{s-tri}
+(Table \ref{tab:sample-size-age}; Figure \ref{fig:tri-ageComp})
+followed the same methods as the \gls{s-wcgbt}.
 
 ```{asis, opts.label = 'south', echo = TRUE}
 #### \Glsentrylong{s-hkl} lengths
 
-Ages from the Hook and Line survey were available for the years 2017 - 2019. 
-The age distribution of survey catches in each year 
-was summarized using age bins from 0 to 20 years, in increments of one year. The last bin 
-includes all fished aged to be greater than 20 years.
-The Hook and Line Survey age-composition data were included in the model as CAAL,
-and marginal age compositions were explored as sensitivities.
-Figure \ref{fig:hkl-ageComp} shows the age-composition data for the Hook and Line Survey.
-Table \ref{tab:sample-size-age} shows sample sizes.
+The preparation of age data from \gls{s-hkl}
+(Table \ref{tab:sample-size-age}; Figure \ref{fig:hkl-ageComp})
+followed the same methods as the \gls{s-wcgbt}.
 ```
 
 #### Lam research ages
 
-A random stratified subsample by size and sex was selected per region for ageing and genetics analysis. 
-The age-composition data are therefore used as CAAL, and are not expanded.
-Figure \ref{fig:lam-ageComp} shows the age-composition distributions. 
-Table \ref{tab:sample-size-age} shows sample sizes.
-
+A random stratified subsample by size and sex was selected per region for ageing and genetic analysis.
+The age-composition data were post-processed as \gls{caal} data similar to the other surveys
+(Table \ref{tab:sample-size-age}; Figure \ref{fig:lam-ageComp})
