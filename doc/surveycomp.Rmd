@@ -43,9 +43,9 @@ The length composition of survey catches in each year was summarized using lengt
 2 cm increments from 10 to 130 cm (Figures \ref{fig:hkl-lenComp-sexed} and \ref{fig:hkl-lenComp-unsexed}).
 The first bin includes all observations less than 10 cm, 
 and the last bin includes all fish larger than 130 cm. Length compositions from this 
-survey were used as numbers of fish, all fish were measured, and were not expanded.
+survey were used as numbers of fish, all fish were measured, and were not expanded
+(Table \ref{tab:sample-size-length}).
 As such, composition data are available for male, female, and unsexed `r spp`. 
-Table \ref{tab:sample-size-length} show the sample sizes.
 ```
 
 #### Lam research lengths
