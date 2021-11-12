@@ -2,57 +2,54 @@
 
 Length and age compositions from commercial landings 
 for the TW and FG fleets were developed 
-from the PacFIN database using the PacFIN.Utilities R package (
-https://github.com/nwfsc-assess/PacFIN.Utilities/).
+from the PacFIN database using
+[PacFIN.Utilities](https://github.com/nwfsc-assess/PacFIN.Utilities/).
+`r ifelse(params$area == "North",
+"Many more length and age samples were available for the northern stock than the southern stock. Both the differences in sampling programs by \\gls{wdfw} and \\gls{odfw} compared to \\gls{cdfw} and larger commercial catches in the north compared to the south contributed to the differences in sample sizes",
+  ""
+)`.
 
-The majority of the available length and age data were from the northern area,
-reflecting the larger commercial catches of `r spp` in the north and the 
-larger commercial sampling and ageing programs employed by \gls{wdfw} and \gls{odfw}.
-
-Length and age distributions from west coast groundfish commercial fisheries
+Length and age samples from west coast groundfish commercial fisheries
 are typically expanded to account for variability in the number of fish sampled
-per trip relative to the total catch. This allows greater weight given to samples
+per trip relative to the total catch. This allows greater weight to be given to samples
 from a very large trip compared to one with a small catch. However,
 the commercial data for `r spp`, as represented in the PacFIN database,
 have a large fraction of trips without trip weights. This leads to
 large variability in the expanded sample sizes among trips and implausible amounts
 of variability in the resulting composition data among length bins within a given
-fleet and year. Unexpanded data did not show this variability, so the base models
-used only unexpanded composition data for the commercial fisheries.
+fleet and year. Unexpanded data did not show this variability, and thus,
+models were fit to unexpanded composition data for the commercial fisheries.
 
-Commercial TW length-composition data started in 1965 in the north and 
-1977 in the south. Commercial FG length compositions 
-began in 1986 in the north with additional samples in 1971, 1980, 
-and 1982 and began in 1992 in the south with additional samples in 1988 and 1989.
-(Figure \ref{fig:comp-lenfit--page1-multi-fleet-comparison})
+Commercial TW length-composition data started in
+`r ifelse(params$area == "North", 1965, 1977)`
+(Table \ref{tab:sample-size-length}; Figure \ref{fig:comp-lenfit--page1-multi-fleet-comparison}).
+Commercial FG length-composition data started in
+`r ifelse(params$area == "North", 1986, 1992)`,
+with additional samples in
+`r ifelse(params$area == "North", "1971, 1980, and 1982", "1988 and 1989")`
+`r ifelse(params$area == "North",
+  "(Tables \\ref{tab:sample-size-length} and \\ref{tab:sample-size-length-byState}; Figure \\ref{fig:comp-lenfit--page1-multi-fleet-comparison})",
+  "(Table \\ref{tab:sample-size-length}; Figure \\ref{fig:comp-lenfit--page1-multi-fleet-comparison})"
+)`.
 
-Commercial age samples covered a much wider range of years than the south, 
-with annual age samples from all 43 years starting in 1978 for TW and 35 years 
-starting in 1986 for FG. In the south model, the only commercial TW ages were 
-from 10 years within the range 1993 to 2004 and only 2 years of commercial FG 
-ages were available: 1993 and 1994. The commercial age data was processed as
-both marginal and conditional age-at-length data to allow explorations of either
-format in the models (see "CompDat" in electronic appendix for figures showing 
-the age data from commercial fisheries")
-
-Unsexed fish were represented as separate composition vectors in addition to the 
+Commercial age samples covered
+`r ifelse(params$area == "North", "43 years for TW and 35 years for FG", "10 years for TW and 2 years for FG")` years, starting in
+`r ifelse(params$area == "North", "1978 for TW and 1986 for FG", "1993 for TW and 1993 for FG")`
+`r ifelse(params$area == "North",
+  "(Tables \\ref{tab:sample-size-age} and \\ref{tab:sample-size-age-byState})",
+  "(Table \\ref{tab:sample-size-age})"
+)`.
+The commercial age data were processed as both
+marginal and conditional age-at-length compositions to allow explorations of either
+format in the models.
+Unsexed fish were represented as separate compositions in addition to the 
 compositions of fish with known sex.
-The number of trips was used as the input sample size for all commercial 
-composition data. 
-Table \ref{tab:sample-size-length} show the sample sizes for lengths, 
-and Table \ref{tab:sample-size-age} the sample sizes for ages.
-```{asis, opts.label = 'north', echo = TRUE}
-Sample sizes by state aggregated across sexes are provided in 
-Table \ref{tab:sample-size-length-byState} for lengths and
-Table \ref{tab:sample-size-age-byState} for ages.
-```
 
 Length compositions and mean body weight observations were also available 
 from commercial discards for the years 2004 to 2019. These observations were 
 all unsexed and represented in the model as independent vectors to facilitate
 estimation of retention functions for the TW and FG fleets. The mean body weight
 observations were calculated from counted baskets of discarded fish and represented
-a larger number of individuals that the subsamples from which lengths were available,
-but in general they provide similar information 
-(Figures \ref{fig:discard-fitcommercialtrawl}-\ref{fig:bodywt-fit-fltcommercialfixed-gear})
-
+a larger number of individuals than the subsamples from which lengths were available
+but in general they provide similar information
+(Figures \ref{fig:discard-fitcommercialtrawl}-\ref{fig:bodywt-fit-fltcommercialfixed-gear}).
