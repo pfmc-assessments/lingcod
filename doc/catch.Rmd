@@ -1808,6 +1808,8 @@ California recreational `r utils_name("common")` catches since
 are available within the \gls{mrfss} database
 (Figure \@ref(fig:catch-rec-CA-ts)) and stored in
 the \gls{recfin} database.
+Data were provided in terms of weight, and thus,
+converting from numbers to weight using mean length ((Figure \@ref(fig:catch-rec-tsrecfinmeanlength))) was not needed.
 The first year of data are typically not used because of the lack
 of standardization within the sampling protocols which led to vastly
 different estimates of catches compared to later years. Thus,
@@ -1868,3 +1870,14 @@ the previous year (Figure \@ref(fig:catch-comm-state)).
 Differences in the early reconstruction for California commercial catches are the result
 of using landings from @sette1928 instead of ramping up catches from zero
 (Figure \@ref(fig:catch-comm-state)).
+
+There were small differences in the recreational catches from California and Oregon but
+the main differences were in Washington recreational catches.
+As mentioned previously, Washington recreational catches were converted from numbers to weight
+prior to fitting them as data,
+whereas the previous assessment fit them as numbers
+(Figure \ref{fig:catch-rec-ca-oldts}).
+Differences in Oregon recreational catches were the result of \gls{odfw}'s efforts to
+create comprehensive sport fishing reconstructions.
+These reconstructions are noted to be more robust than information from \gls{mrfss} and
+explain the differences in the trajectories prior to 2000.
