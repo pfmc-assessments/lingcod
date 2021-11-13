@@ -107,7 +107,7 @@ sa4ss::read_child(file.path("STARpanelRecs.Rmd"))
 
 
 
-## Model structure and assumptions
+## Model structure, assumptions, and results
 
 ```{r render-model-changes, results = "asis"}
 sa4ss::read_child("model-changes.Rmd")
@@ -148,19 +148,19 @@ sa4ss::read_child("model-results.Rmd")
 sa4ss::read_child(file.path(paste0(params$model, "_jitter_0.05"), "model-results-jitter.md"))
 ```
 
-#### Sensitivity Analyses
+#### Sensitivity analyses
 
 ```{r render-model-sensitivities, results = "asis"}
 sa4ss::read_child("model-sensitivities.Rmd")
 ```
 
-#### Likelihood Profiles
+#### Likelihood profiles
 
 ```{r render-model-profile, results = "asis"}
 sa4ss::read_child("model-profile.Rmd")
 ```
 
-#### Retrospective Analysis
+#### Retrospective analysis
 
 A five-year retrospective analysis was conducted by successively removing years of data
 starting with the most recent year.
@@ -183,12 +183,89 @@ was not conducted, which could impact the model results.
 
 ### Evaluation of uncertainty
 
-<!-- text below poached from Dover https://github.com/chantelwetzel-noaa/dover_sole_2021/ -->
-The model estimated uncertainty around the `r model$endyr+1` spawning biomass 
-was $\sigma$ = `r round(as.numeric(model$Pstar_sigma),2)` and the uncertainty around 
-the OFL was $\sigma$ = `r round(as.numeric(model$OFL_sigma), 2)`. This is an 
-underestimate of overall uncertainty because there is no explicit incorporation 
-of model structural uncertainty.
+```{r results = "asis"}
+sa4ss::read_child("scientific-uncertainty.Rmd")
+```
+
+### Reference points
+
+<!-- text below copied from doc/01executive.Rmd with only fig and table refs changed -->
+```{asis, opts.label = "north"}
+The estimate of 2021 spawning biomass relative to unfished equilibrium biomass
+(fraction unfished = `r Bratio_2021`)
+was well above the management target of 40\%
+(Table \@ref(tab:table-dq-base) and Figure \@ref(fig:SPR4-phase)).
+Even the lower 95\% interval was estimated to be above the target
+(Table \@ref(tab:table-dq-base)).
+Only a few years since the start of the modeled period were estimated to be
+below the target (blue points to the left of the vertical line at 0.4 in Figure \@ref(fig:SPR4-phase)).
+
+Equilibrium yield given the estimate of steepness shows disparity between
+maximum sustainable yield (blue) and the target biomass (red
+Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
+Whereas, the target biomass is in line with the SPR target (green)
+(Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
+```
+```{asis, opts.label = "south"}
+The estimate of 2021 spawning biomass relative to unfished equilibrium biomass
+(fraction unfished = `r Bratio_2021`)
+was estimated to be close to the management target of 40\%
+(Table \@ref(tab:table-dq-base); Figure \@ref(fig:SPR4-phase)).
+The uncertainty in this estimate spans above and well below the target,
+suggesting the current status of the stock is uncertain
+(Figure \@ref(fig:SPR4-phase)).
+
+Equilibrium yield given the estimate of steepness shows disparity between
+maximum sustainable yield (blue) and the SPR target (green
+Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
+Whereas, the target biomass (red) is in line with the maximum sustainable yield and the current biomass
+(Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
+```
+
+### Decision table
+
+<!-- text below copied from doc/01executive.Rmd with only fig and table refs changed -->
+The forecast of stock abundance and yield was developed using the base model
+(Table \@ref(tab:table-projections-base)).
+The total catches for the first two years of the forecast period were based on values provided by the \glsentrylong{gmt}.
+These assumed removals are likely higher than what the true removals will be for this year and next year but
+their influence on the assessment of stock status and future removals are limited.
+```{asis, opts.label = "south"}
+The projections, including the first two years, assume a 40:60 split 
+between the trawl and fixed-gear commercial fleets based on guidance from 
+the \glsentrylong{gmt}.
+```
+
+```{asis, opts.label = "north"}
+The states of nature in the decision table (Table \@ref(tab:decision)) 
+do not fall on a single axis of uncertainty. Instead, two alternative model 
+structures were chosen from the set of sensitivity analyses to represent
+alternative states of nature. This represents the consensus among the 
+participants in the STAR panel as a better representation of uncertainty
+than any axis could. The low state of nature included sex-specific selectivity
+while the high state excluded the fishery-dependent age data.
+```
+```{asis, opts.label = "south"}
+The axes of uncertainty in the decision table (Table \@ref(tab:decision)) are based on
+uncertainty in female natural mortality.
+```
+Three alternative catch streams were created for the decision table (Table \@ref(tab:decision)).
+The first option uses recent average catch as provided by the \glsentrylong{gmt},
+the second option uses a $P^*$ of 0.40, and
+the third option uses a $P^*$ of 0.45.
+These $P^*$ values are combined with the category 2 default $\sigma$ = 1.0
+in calculating the buffer between \gls{ofl} and \gls{abc}.
+
+### Unresolved problems and major uncertainties
+
+```{r results = "asis"}
+sa4ss::read_child("unresolved-problems.Rmd")
+```
+
+### Research and data needs
+```{r results = "asis"}
+sa4ss::read_child("research-and-data-needs.Rmd")
+```
 
 ### Comparison of north and south models
 
