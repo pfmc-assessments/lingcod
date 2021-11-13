@@ -328,10 +328,10 @@ Only a few years since the start of the modeled period were estimated to be
 below the target (blue points to the left of the vertical line at 0.4 in Figure \@ref(fig:es-phase)).
 
 Equilibrium yield given the estimate of steepness shows disparity between
-maximum sustainable yield (blue) and the target biomass (red
+maximum sustainable yield (blue) and the target biomass (red;
 Figure \@ref(fig:es-yield)).
-Whereas, the target biomass is in line with the SPR target (green)
-(Figure \@ref(fig:es-yield)).
+Whereas, the target biomass is in line with the SPR target
+(green; Figure \@ref(fig:es-yield)).
 ```
 ```{asis, opts.label = "south"}
 The estimate of 2021 spawning biomass relative to unfished equilibrium biomass

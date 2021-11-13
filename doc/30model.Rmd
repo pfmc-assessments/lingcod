@@ -201,10 +201,13 @@ Only a few years since the start of the modeled period were estimated to be
 below the target (blue points to the left of the vertical line at 0.4 in Figure \@ref(fig:SPR4-phase)).
 
 Equilibrium yield given the estimate of steepness shows disparity between
-maximum sustainable yield (blue) and the target biomass (red
+maximum sustainable yield (blue) and the target biomass (red;
 Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
-Whereas, the target biomass is in line with the SPR target (green)
-(Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
+Whereas, the target biomass is in line with the SPR target
+(green; Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
+The time series of fishing intensity was estimated to have been below the
+management harvest rate limit for all years included in the model
+(Figure \ref{fig:SPR2-minusSPRseries}).
 ```
 ```{asis, opts.label = "south"}
 The estimate of 2021 spawning biomass relative to unfished equilibrium biomass
@@ -216,10 +219,15 @@ suggesting the current status of the stock is uncertain
 (Figure \@ref(fig:SPR4-phase)).
 
 Equilibrium yield given the estimate of steepness shows disparity between
-maximum sustainable yield (blue) and the SPR target (green
+maximum sustainable yield (blue) and the SPR target (green;
 Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
 Whereas, the target biomass (red) is in line with the maximum sustainable yield and the current biomass
 (Figure \@ref(fig:yield2-yield-curve-with-refpoints)).
+The time series of fishing intensity was estimated to have been below the
+management harvest rate limit for the early years of the fishery and the
+most recent years included in the model, i.e.,
+since the early 2000s
+(Figure \ref{fig:SPR2-minusSPRseries}).
 ```
 
 ### Decision table
