@@ -420,28 +420,10 @@ sa4ss::table_format(
 
 ## Unresolved problems and major uncertainties{-}
 
-The base-model configuration was developed with the goal of balancing parsimony with realism and fitting the data.
-To achieve parsimony, some simplification of the model structure was assumed relative to known processes,
-which may impact the interpretation and fit to specific data sets.
-For example, a clear break between the northern and southern stock at Cape Mendocino is unrealistic but
-we do not currently have the resources necessary to add spatial dynamics to the stock assessment or
-estimate the level of overlap between the stocks.
+```{r results = "asis"}
+sa4ss::read_child("unresolved-problems.Rmd")
+```
 
-Patterns of sex-specific selectivity were apparent in the data, particularly for the fishing fleets.
-Unfortunately, we were unable to configure the model in such a way that the model fit all data sources equally as well
-as the base-model configuration when attempting to account for these patterns.
-
-Uncertainty in parameter estimates are quite large relative to recent assessments because of the choice to estimate
-both natural mortality and steepness.
-Recent work has shown the utility of estimating both parameters with respect to 
-management reference points, and although estimates provided in this document are imprecise,
-we predict that they are less biased than if the model would have been configured 
-with one or more of these parameters as fixed inputs rather than estimated.
-Estimating both parameters led to counter-intuitive differences in estimates of 
-natural mortality between the southern and northern areas.
-Hopefully, future work on parameterizing selectivity will lead to more precise 
-estimates of male and female natural mortality given the life history of this 
-species, specifically the nest-guarding behavior of males.
 
 ## Decision table{-}
 
@@ -495,20 +477,9 @@ cat(decisiontable)
 
 ## Scientific uncertainty{-}
 
-The model estimated uncertainty around the `r endyr+1` spawning biomass was 
-$\sigma$ = `r round(model$Pstar_sigma,2)` and the uncertainty around the \gls{ofl}
-was $\sigma$ = `r round(model$OFL_sigma, 2)`. 
-```{asis, opts.label = "north"}
-This is likely an underestimate of overall uncertainty because there is no 
-explicit incorporation of model structural uncertainty (although see the 
-decision table for alternative states of nature).
+```{r results = "asis"}
+sa4ss::read_child("scientific-uncertainty.Rmd")
 ```
-```{asis, opts.label = "south"}
-This is likely an underestimate of overall uncertainty because there is no 
-explicit incorporation of structural uncertainty related to the model.
-```
-The category 2 default $\sigma$ = 1.0 is used to apply scientific uncertainty
-in the projections.
 
 ## Regional management considerations{-}
 

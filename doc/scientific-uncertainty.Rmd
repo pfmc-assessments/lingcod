@@ -1,0 +1,15 @@
+<!-- text below inspired by Dover https://github.com/chantelwetzel-noaa/dover_sole_2021/ -->
+The model estimated uncertainty around the `r endyr+1` spawning biomass was 
+$\sigma$ = `r round(model$Pstar_sigma,2)` and the uncertainty around the \gls{ofl}
+was $\sigma$ = `r round(model$OFL_sigma, 2)`. 
+```{asis, opts.label = "north"}
+This is likely an underestimate of overall uncertainty because there is no 
+explicit incorporation of model structural uncertainty (although see the 
+decision table for alternative states of nature).
+```
+```{asis, opts.label = "south"}
+This is likely an underestimate of overall uncertainty because there is no 
+explicit incorporation of structural uncertainty related to the model.
+```
+The category 2 default $\sigma$ = 1.0 is used to apply scientific uncertainty
+in the projections.
