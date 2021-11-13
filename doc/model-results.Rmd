@@ -1,4 +1,5 @@
-#### Parameter estimates {#sec-model-estimates} 
+#### Parameter estimates {#sec-model-estimates}
+
 Estimates of key parameters include 
 female $M$ = 
 `r round(model$parameters["NatM_uniform_Fem_GP_1", "Value"], 3)`, 
@@ -74,6 +75,7 @@ differences in estimated selectivity curves are necessary to fit the data in eac
 ```
 
 #### Fits to the data {#sec-model-fits}
+
 ```{asis, echo = TRUE, eval = ifelse(params$area == "North", TRUE, FALSE)}
 The fit to the seven indices of abundance are all reasonably good, with 
 the timing and magnitude of changes in expected abundance following the 
@@ -223,6 +225,7 @@ intervals for most years although there's relatively little signal in those data
 ```
 
 #### Population trajectory {#sec-model-trajectory}
+
 The spawning stock biomass is estimated as having declined from an unfished 
 equilibrium of `r format(SSB_Virgin, big.mark = ",")` mt to a 2021 value of 
 `r format(SSB_2021, big.mark = ",")` mt, which represents a
@@ -232,3 +235,16 @@ fraction unfished of `r Bratio_2021`. The lowest fraction unfished was
 \ref{fig:ts9-Relative-spawning-biomass-intervals}). 
 The 2021 total biomass (all ages from both sexes) was 
 `r format(TotBio_2021, big.mark = ",")` mt (Figure \ref{fig:ts1-Total-biomass-(mt)}).
+
+The last large recruitment event for this stock occurred in 2013 and
+a smaller event may have also occurred within the last half-decade,
+though its magnitude is more uncertain
+(Figures \ref{fig:es-recruits}--\ref{fig:es-rec-devs}).
+Most large recruitment events appear to preceded or followed by 
+a smaller number of similarly large recruitment events compared to
+the number of poor recruitment events that occur before another
+recruitment event that is estimated to be above average.
+There is little information regarding recruitment prior to
+`r model$recruitpars %>% dplyr::filter(type == "Early_RecrDev") %>% dplyr::pull(Yr) %>% max`, and thus,
+these early recruitment events fall on the stock-recruitment curve
+(Figure \ref{fig:SR-curve}).
