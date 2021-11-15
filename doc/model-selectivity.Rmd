@@ -9,7 +9,7 @@ usethis::use_data(block_breaks_south, overwrite = TRUE)
 #### Selectivity and retention {#sec-model-selectivity}
 
 Selectivity was modeled using the double-normal function of length
-(option 24 in Stock Synthesis) with three of the six possible parameters estimated 
+(option 24 in Stock Synthesis; Table \ref{tab:output-specifications}) with three of the six possible parameters estimated 
 for each fleet.
 
 The estimated parameters controlled the length at peak selectivity, the slope of the 
