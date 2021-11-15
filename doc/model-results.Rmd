@@ -231,7 +231,7 @@ equilibrium of `r format(SSB_Virgin, big.mark = ",")` mt to a 2021 value of
 `r format(SSB_2021, big.mark = ",")` mt, which represents a
 fraction unfished of `r Bratio_2021`. The lowest fraction unfished was 
 `r Bratio_min` in `r Bratio_min_yr` 
-(Figures \ref{fig:ts7-Spawning-biomass-(mt)-with-95-asymptotic-intervals-intervals} and
+(Table \ref{tab:table-ts-base}; Figures \ref{fig:ts7-Spawning-biomass-(mt)-with-95-asymptotic-intervals-intervals} and
 \ref{fig:ts9-Relative-spawning-biomass-intervals}). 
 The 2021 total biomass (all ages from both sexes) was 
 `r format(TotBio_2021, big.mark = ",")` mt (Figure \ref{fig:ts1-Total-biomass-(mt)}).
@@ -239,7 +239,7 @@ The 2021 total biomass (all ages from both sexes) was
 The last large recruitment event for this stock occurred in 2013 and
 a smaller event may have also occurred within the last half-decade,
 though its magnitude is more uncertain
-(Figures \ref{fig:ts11-Age-0-recruits-(1000s)-with-95-asymptotic-intervals}--\ref{fig:recdevs2-withbars}).
+(Table \ref{tab:table-ts-base}; Figures \ref{fig:ts11-Age-0-recruits-(1000s)-with-95-asymptotic-intervals}--\ref{fig:recdevs2-withbars}).
 Most large recruitment events appear to preceded or followed by 
 a smaller number of similarly large recruitment events compared to
 the number of poor recruitment events that occur before another
