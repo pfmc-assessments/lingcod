@@ -83,7 +83,7 @@ Total and fork lengths for `r spp` are generally similar for `r spp` given their
 
 Age-composition data from the \Gls{s-wcgbt} (Figure \ref{fig:wcgbts-ageComp}) were 
 included in the model as sex-specific \gls{caal} distributions by year
-(Figures \ref{fig:comp-condAALdat-bubflt7mkt0-page1}-\ref{fig:comp-condAALdat-bubflt7mkt0-page`r ifelse(params$area == "north", 2, 3)`}).
+(Figures \ref{fig:comp-condAALdat-bubflt7mkt0-page1}-\ref{fig:comp-condAALdat-bubflt7mkt0-page`r ifelse(params$area == "North", 2, 3)`}).
 These data were not expanded, which is standard for \gls{caal} data, and thus,
 numbers of fish were used for the input sample size without any adjustment.
 Each age bin included just one year and summarized ages ranging from 0--20
