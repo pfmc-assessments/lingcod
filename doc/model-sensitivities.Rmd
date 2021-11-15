@@ -106,7 +106,9 @@ Figure \ref{fig:sens-timeseries-n-comp}),
 the north model was sensitive to removing the
 fishery-dependent ages, which reduced the estimate of female $M$ from 0.42 to 0.33 
 and pushed the scale upwards. Applying the Dirichlet-Multinomial likelihood 
-for the composition data (which led to higher weights for these data) 
+for the composition data,
+which led to higher weights for these data relative to the Francis method
+(Table \ref{tab:table-compweight-base}),
 had the opposite effect, bringing the scale downwards. 
 The two sensitivities related to combining male and female samples for 
 small fish and excluding unsexed fish from the likelihood had relatively
