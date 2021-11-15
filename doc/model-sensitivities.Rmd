@@ -161,7 +161,7 @@ model, with worse fits the index and length comp data and better fits to the age
 compositions.
 
 The south model was also sensitive to changes in composition data
-(Table \ref{tab:sens-table-s-comp}, 
+(Tables \ref{tab:sens-table-s-comp} and \ref{tab:table-compweight-base};
 Figure \ref{fig:sens-timeseries-s-comp}). This is likely due to the 
 smaller volume of composition data available for this model.
 The addition of ages from all sources resulted in increases in estimated
