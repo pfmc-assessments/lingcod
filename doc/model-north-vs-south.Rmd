@@ -132,14 +132,18 @@ mod.2021.s.018.001$cpue$Calc_Q[mod.2021.s.018.001$cpue$Fleet == 7][1]
 mod.2021.s.018.103$derived_quants["Bratio_2021","Value"]
 [1] 0.905011
 -->
-The differences in scale among the two areas are less plausible when matching 
+The differences in scale
+(Table \ref{tab:table-compare-north-vs-south})
+among the two areas are less plausible when matching 
 values are used for the productivity parameters 
 (fixing female $M$ = 0.3 and $h$ = 0.7). In those sensititivity analyses, the 
 estimated spawning biomass in the south model is greater than that of the north 
 for almost all years from the 1940s onward and never falls below $B_{40\%}$.
 The catchability of the \gls{s-wcgbt} in those scenarios is likewise
 implausibly different: 2.05 in the north and 0.32 in the south
-Thus, the different parameter estimates for the north and south play an 
+Thus, the different parameter estimates
+(Table \ref{tab:table-compare-north-vs-south})
+for the north and south play an 
 important role in providing values for quantities of interest that are balanced
 among the two model, and likely provide better advice for managing the `r spp`
 lingcod stocks throughout the U.S. west coast.
