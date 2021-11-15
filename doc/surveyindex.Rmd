@@ -90,19 +90,24 @@ rather than an increase in biomass.
 However, there was no clear spatial pattern in the residuals (Figure \@ref(fig:s-tri-VAST-scaledresidualsmap)).
 
 ```{asis, opts.label = 'south'}
-#### NWFSC Hook and Line Survey
+#### \glsentrylong{s-hkl}
 
-Since 2004, the \gls{nwfsc} has conducted an annual hook and line survey
+Since 2004, the \gls{nwfsc} has conducted an annual \gls{s-hkl}
 targeting shelf rockfish in the genus Sebastes at fixed stations in the
-Southern California Bight. Key species of rockfish targeted by the survey are
+Southern California Bight
+(Table \ref{tab:tab-depth-nwfschl}).
+Key species of rockfish targeted by the survey are
 bocaccio (*S. paucispinis*), cowcod (*S. levis*), greenspotted
 (*S. chlorostictus*), and vermilion (*S. miniatus* and *S. crocotulus*)
 rockfishes,
 <!-- to do - check that these species are not already listed -->
-although a wide range of groundfish species have been observed by this survey, including lingcod, and therefore provide potentially useful data for this assessment
+although a wide range of groundfish species have been observed by this survey, including lingcod
+(Table \ref{tab:tab-depthsite-nwfschl}),
+and therefore provide potentially useful data for this assessment
 (Tables \@ref(tab:tab-depth-nwfschl) and \@ref(tab:tab-year-nwfschl); Figure \@ref(fig:spp-sites)).
-Starting in 2014 the NWFSC Hook and Line Survey added sampling sites located
-within the \gls{cca} and currently consists of a total of 201 sites. 
+Starting in 2014 the \gls{s-hkl} added sampling sites located
+within the \gls{cca} and currently consists of a total of 201 sites
+(Table \ref{tab:tab-depth-nwfschl}). 
 
 During each site visit, three deckhands simultaneously deploy
 5-hook sampling rigs (this is referred to as a single drop)
