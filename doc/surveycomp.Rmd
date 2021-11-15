@@ -138,7 +138,7 @@ followed the same methods as the \gls{s-wcgbt}.
 #### \Glsentrylong{s-hkl} lengths
 
 The preparation of age data from \gls{s-hkl}
-(Table \ref{tab:sample-size-age}; Figure \ref{fig:hkl-ageComp})
+(Tables \ref{tab:sample-size-age}; Figure \ref{fig:hkl-ageComp})
 followed the same methods as the \gls{s-wcgbt}.
 ```
 
