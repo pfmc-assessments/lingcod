@@ -32,3 +32,19 @@ natural mortality between the southern and northern areas.
 Hopefully, future work on parameterizing selectivity will lead to more precise 
 estimates of male and female natural mortality given the life history of this 
 species, specifically the nest-guarding behavior of males.
+
+```{asis, opts.label = "north"}
+The internal estimates of total catch including dead discards for some 
+recent years are higher than those provided by the Groundfish Expanded 
+Multiyear Mortality (GEMM) reports. This may be the result of the 
+status-quo data weighting approach which applies the same weight to the 
+discard and retained length composition data within any given fleet, in spite 
+of the sample sizes often being unbalanced among these sources relative 
+to the magnitude of the catch. Alternative models were explored during 
+the assessment review, whereby the input sample sizes for the discard data
+were adjusted as an ad-hoc refinement to the data weighting or the uncertainty
+associated with the discard rate was reduced to force the model to fit these
+rates more precisely. Neither sensitivity had much impact on estimates of 
+population trajectories or stock status so this issue was shelved for future 
+research.
+```
