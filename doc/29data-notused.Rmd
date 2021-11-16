@@ -139,6 +139,13 @@ Coastwide, `r spp` \gls{cpue} appears to be oscillating around
 the long-term mean, with the last two years being below average
 (Figure \@ref(fig:fi-index-ormarres-RelativemeanLingcodCPUE95CI)).
 
+##### Oregon \glsentrylong{rov} surveys
+
+\gls{odfw} has collected data from \glspl{rov} on `r spp`.
+Some of these observations are from \glspl{mpa}.
+Unfortunately, these data have not been post processed and
+were unavailable for this assessment.
+
 #### \Glsentrylong{wdfw} research compositions
 
 \Gls{wdfw} conducted mark-recapture experiments in the nearshore area at
