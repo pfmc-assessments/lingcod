@@ -329,9 +329,6 @@ table_compweight(model)
 <!-- ====================================================================== -->
 <!-- 30model sensitivity tables -->
 <!-- ====================================================================== -->
-```{r tableretro, results = "asis"}
-sa4ss::read_child(file.path(paste0(params$model, "_retro"), "mohnsrho.tex"))
-```
 \begin{landscape}
 ```{r tables-model-sens, results = "asis"}
 table_sens(string_switchletter("../tables/sens_table_s_bio_rec.csv", params$area),
@@ -343,10 +340,30 @@ table_sens(string_switchletter("../tables/sens_table_s_index.csv", params$area),
 		   caption_extra = "The first sensitivity is an alternative recreational index. Other column names refer to index data that were taken out of the model.")
 table_sens(string_switchletter("../tables/sens_table_s_sel.csv", params$area),
 	       sens_group = "selectivity")
+```
+\end{landscape}
+
+```{r tableprofileM, results = "asis"}
+sa4ss::read_child(file.path(
+  paste0(
+    params$model,
+    "_profile_NatM_uniform_Fem_GP_1_prior_like_1"
+  ),
+  "profile-M.tex"
+))
+```
+```{r tableretro, results = "asis"}
+sa4ss::read_child(file.path(paste0(params$model, "_retro"), "mohnsrho.tex"))
+```
+
+\begin{landscape}
+```{r tableNScomparison, results = "asis"}
 table_sens("../tables/table_compare_north_vs_south.csv",
 	       caption = "Comparison of estimates of key parameters and derived quantities between the base model for north and south and the 2017 assessments for north and south. Note that the boundary between north and south differs between the current and 2017 assessments.")
 ```
 \end{landscape}
+
+
 
 ```{r, results = 'asis'}
 ignore <- table_projections(model)

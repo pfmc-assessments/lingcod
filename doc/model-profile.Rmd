@@ -26,7 +26,11 @@ was slightly conflicting for the Deb WV index, which suggested a lower $M$.
 From the stock trajectories, it is apparent that the upper range of investigated female $M$
 values are implausible given that they lead to a highly unlikely increase in stock size relative
 to all other values
-(Figure \@ref(fig:profile-ssb-femaleM))
+(Figure \@ref(fig:profile-ssb-femaleM)).
+Male $M$ changed non-linearly with fixed values of female $M$,
+where the most similar estimates of $M$ between the sexes
+occurred near values of 0.3
+(Table \ref{tab:profile-M}).
 The current status of the stock was highly dependent upon the assumed value of
 female $M$
 (Figure \@ref(fig:profile-depl-femaleM)).
