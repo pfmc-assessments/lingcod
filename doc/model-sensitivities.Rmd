@@ -26,7 +26,7 @@ The composition sensitivities included
 - use the "combM+F" option in stock synthesis to ignore sex ratios among small fish
 - remove all composition data vectors for unsexed fish (which were already represented
 separately from the sexed fish in the base model)
-- apply the Dirichlet-Multinomial likelihood to automatically tune the composition 
+- apply the Dirichlet-multinomial likelihood to automatically tune the composition 
 sample sizes (instead of the Francis method applied in the base model)
 ```
 ```{asis, echo = TRUE, eval = ifelse(params$area == "South", TRUE, FALSE)}
@@ -34,7 +34,7 @@ sample sizes (instead of the Francis method applied in the base model)
 - use the "combM+F" option in stock synthesis to ignore sex ratios among small fish
 - remove all composition data vectors for unsexed fish (which were already represented
 separately from the sexed fish in the base model)
-- apply the Dirichlet-Multinomial likelihood to automatically tune the composition 
+- apply the Dirichlet-multinomial likelihood to automatically tune the composition 
 sample sizes (instead of the Francis method applied in the base model)
 ```
 
@@ -105,10 +105,10 @@ Among the composition sensitivities
 Figure \ref{fig:sens-timeseries-n-comp}),
 the north model was sensitive to removing the
 fishery-dependent ages, which reduced the estimate of female $M$ from 0.42 to 0.33 
-and pushed the scale upwards. Applying the Dirichlet-Multinomial likelihood 
+and pushed the scale upwards. Applying the Dirichlet-multinomial likelihood 
 for the composition data,
 which led to higher weights for these data relative to the Francis method
-(Table \ref{tab:table-compweight-base}),
+(Table \ref{tab:table-compweight-base}, Figure \ref{fig:weights-DM-vs-Francis}),
 had the opposite effect, bringing the scale downwards. 
 The two sensitivities related to combining male and female samples for 
 small fish and excluding unsexed fish from the likelihood had relatively
@@ -167,8 +167,9 @@ smaller volume of composition data available for this model.
 The addition of ages from all sources resulted in increases in estimated
 abundance when the ages were conditioned on length, but a decrease
 in estimated abundance when the ages were represented as marginal 
-distributions. The Dirichlet-Multinomial
+distributions. The Dirichlet-multinomial
 sensitivity, which led to increased weight on the length and age compositions
+(Figure \ref{fig:weights-DM-vs-Francis})
 resulted in a lower estimate of female $M$ = 0.13 and pushed 2021 fraction
 unfished up to 0.83.
 

@@ -390,6 +390,16 @@ add_figure_ling(dplyr::bind_rows(mapply(
 )))
 ```
 
+```{r figures-weighting, results = "asis"}
+sa4ss::add_figure(
+  filein = file.path("..", "figures", 
+                     paste0("comp_weights_DM_vs_Francis_", tolower(params$area), ".png")),
+  caption = "Weights applied to the length- and age-composition data by the Francis weighting used in the base model vs the Dirichlet-multinomial weighting used in a sensitivity analyses.",
+  label = "weights-DM-vs-Francis",
+  width = 100*4/6.5
+)
+```
+
 ```{r, figures-retro, echo = FALSE, results = "asis"}
 add_figure_retro(params$model, 5)
 ```
