@@ -1,4 +1,4 @@
-The base-model configuration was developed with the goal of balancing parsimony with realism and fitting the data.
+The base-model configuration was developed with the goal of balancing parsimony with realism while fitting the data.
 To achieve parsimony, some simplification of the model structure was assumed relative to known processes,
 which may impact the interpretation and fit to specific data sets.
 For example, a clear break between the northern and southern stock at Cape Mendocino is unrealistic but
@@ -10,11 +10,11 @@ particularly for the fishing fleets. Unfortunately, we were unable to configure
 the model in such a way that the model fit all data sources equally as well
 as the base-model configuration when attempting to account for these patterns.
 Numerous attempts at sex-specific selectivity were explored shortly before and during 
-the stock assessment review. However, overparameterization was a problem. 
+the stock assessment review. However, overparameterization proved an insurmountable problem. 
 There are more than 50 selectivity parameters in the base model (with selectivity
 equal for females and males), so adding sex-specific offsets or separate parameters 
-for caused estimation problems and implausible selectivity patterns. Options
-explored included sex-specific offset for the height of the peak selectivity
+caused estimation problems and implausible selectivity patterns. Options
+explored included sex-specific offsets for the height of the peak selectivity
 as well as offsets for the position of the peak and the descending slopes. Therefore,
 new research to develop an theoretical basis for sex-specific differences
 in selectivity or availability using differences in spatial distribution or behavior
@@ -25,7 +25,7 @@ Uncertainty in parameter estimates are quite large relative to recent assessment
 both natural mortality and steepness.
 Recent work has shown the utility of estimating both parameters with respect to 
 management reference points, and although estimates provided in this document are imprecise,
-we predict that they are less biased than if the model would have been configured 
+we predict that the estimated reference points are less biased than if the model would have been configured 
 with one or more of these parameters as fixed inputs rather than estimated.
 Estimating both parameters led to counter-intuitive differences in estimates of 
 natural mortality between the southern and northern areas.
@@ -37,7 +37,7 @@ species, specifically the nest-guarding behavior of males.
 The internal estimates of total catch including dead discards for some 
 recent years are higher than those provided by the Groundfish Expanded 
 Multiyear Mortality (GEMM) reports. This may be the result of the 
-status-quo data weighting approach which applies the same weight to the 
+status-quo data weighting approach which applies the same sample size multiplier to the 
 discard and retained length composition data within any given fleet, in spite 
 of the sample sizes often being unbalanced among these sources relative 
 to the magnitude of the catch. Alternative models were explored during 

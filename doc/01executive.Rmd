@@ -23,8 +23,8 @@ This assessment reports the status of `r spp` (_`r spp.sci`_)
 `r tolower(params$area)` of \CapeM along the `r coast` coast
 using data through `r assessmentyear`.
 `r Spp` were modeled as `r n_stocks` `r ifelse(n_stocks > 1, "stocks", "stock")`
-split at \CapeM based on the results of a genetic analysis [@longo2020strong].
-\CapeM is also the boundary used for the management of commercial catches.
+split at \CapeM. This choice is informed by a consideration of genetic differences
+[@longo2020strong] as well as differences in growth and management.
 Models for `r spp` do not include catches or dynamics from the Alaskan, Canadian, or Mexican populations.
 ```
 
@@ -37,11 +37,11 @@ Recent landings were available from PacFIN and RecFIN
 (Table \@ref(tab:removalsES)).
 Commercial discards were modeled using discard rates and length compositions,
 which facilitated the estimation of retention curves.
-Recreational catches included estimates of dead discards
-(Table \@ref(tab:removalsES)).
 Discard mortality was assumed to be
 50\% for commercial trawl and
 7\% for commercial fixed-gear and recreational fleets.
+Recreational catches included estimates of dead discards
+(Table \@ref(tab:removalsES)).
 
 ```{r, exsum-text-commfleetstructure, echo = FALSE, results = "asis"}
 sa4ss::read_child("catch-comm-fleetstructure.Rmd")
@@ -97,7 +97,7 @@ For this `r area_long` stock, information on
 was also available from the
 `r ifelse(params$area == "North", "Oregon FG fleet", "\\gls{s-hkl}")`.
 `r ifelse(params$area == "South",
-  "The final model included ages from just the \\gls{s-wcgbt} because of conflicts between age- and length-composition data.",
+  "The final model included ages from only the \\gls{s-wcgbt} because of conflicts between age- and length-composition data.",
   ""
 )`
 
@@ -111,8 +111,8 @@ parameters related to growth and mortality were sex specific and time invariant.
 Compensatory stock-recruitment dynamics were assumed, and thus,
 the Beverton-Holt stock-recruit function was used to model recruitment.
 Steepness, $h$, was estimated to account for
-uncertainty in the fraction of recruitment obtained when the population is at 20\% of unfished levels.
-Main annual recruitment deviations started in
+uncertainty in the shape of the stock-recruit relationship.
+Main annual recruitment deviations were set to start in
 `r model$recruitpars%>%dplyr::filter(type == "Main_RecrDev")%>%dplyr::pull(Yr) %>% min`,
 just prior to the availability of reliable length- and age-composition data.
 Selectivity for each fleet was modeled using a double-normal function of length that allowed for dome or asymptotic shapes that were supported by the data.
@@ -123,7 +123,7 @@ model structures related to biology and recruitment,
 changes to the data that were included in the model,
 ways in which selectivity was parameterized,
 etc.
-Results were sensitive to the addition and subtraction of age data,
+Results were particularly sensitive to the addition and subtraction of age data,
 which typically changed the scale of the population and estimates of key productivity parameters.
 
 ## Stock biomass and dynamics{-}
@@ -199,7 +199,7 @@ capture uncertainty in the resilience of `r spp` to harvesting.
 recruitment variability ($\sigma_R$) fixed at
 `r model$parameters[model$parameters$Label=="SR_sigmaR", "Value"]`
 (Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)).
-The last large recruitment event for this stock occurred in 2013 and
+The last estimated large recruitment of age-0 fish occurred in 2013 and
 a smaller event may have also occurred within the last half-decade,
 though its magnitude is more uncertain.
 
@@ -324,7 +324,7 @@ was well above the management target of 40\%
 (Table \@ref(tab:referenceES) and Figure \@ref(fig:es-phase)).
 Even the lower 95\% interval was estimated to be above the target
 (Table \@ref(tab:referenceES)).
-Only a few years since the start of the modeled period were estimated to be
+Only a few years during the modeled period were estimated to be
 below the target (blue points to the left of the vertical line at 0.4 in Figure \@ref(fig:es-phase)).
 
 Equilibrium yield given the estimate of steepness shows disparity between
@@ -389,7 +389,7 @@ label = 'es-yield')
 
 ## Management performance{-}
 
-In the last ten years, the annual catch limit has been below the overfishing limit and acceptable biological catch
+In the last ten years, the annual catch limit has been set equal to or below the annual catch limit 
 (Table \@ref(tab:manageES)).
 Landings and total dead catches (including estimated dead discards) have been well below the annual catch limit.
 

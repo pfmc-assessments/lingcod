@@ -1,7 +1,7 @@
 Investigating and or addressing the following items could improve future assessments of `r spp`: 
 
 - Sex-specific selectivity is likely given the life history of `r spp`.
-But, knowledge of the fine-scale spatial distribution of ages and sexes relative to
+However, knowledge of the fine-scale spatial distribution of ages and sexes relative to
 the distribution of fishing effort and survey sampling locations is lacking to inform these patterns.
 Some relationships may be dome-shaped while others may be asymptotic and
 these relationships could depend on whether the process is governed by length or age.
@@ -14,9 +14,8 @@ the best-case scenario would be to provide comparisons of model results given fi
 Additional work would be needed to formulate a method to combine them or
 allow for the inclusion of multiple \gls{cpue} indices for a given fleet.
 - It is likely that natural mortality is not constant across age as it was parameterized.
-Exploration of the Lorenzen natural mortality function
-prior to the review of this assessment
-suggested that information on natural mortality at age was lacking for the southern stock.
+Exploration of the Lorenzen natural mortality function produced results that
+were similar to the base model for the north and implausibly low in the south.
 Additional approaches are available to model age-specific natural mortality
 that could also be explored.
 - Data-weighting approaches that separate tuning of
