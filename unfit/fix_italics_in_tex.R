@@ -1,0 +1,16 @@
+# remove some italics from decision table by modifying .tex file for North doc
+# see https://github.com/iantaylor-NOAA/Lingcod_2021/issues/167 for discussion
+
+texfile <- readLines("doc/North.tex")
+bad_italics <- c("8166", "8156", "8162",
+                 "0.476", "0.475", "0.476",
+                 "13887", "13790", "13723",
+                 "0.567", "0.563", "0.560")
+
+for (num in bad_italics) {
+  texfile <- gsub(paste0("\\em{", num, "}"),
+                  paste0(num),
+                  x = texfile, fixed = TRUE)
+}
+
+writeLines(texfile, "doc/North.tex")
