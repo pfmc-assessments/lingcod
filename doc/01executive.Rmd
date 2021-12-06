@@ -137,7 +137,8 @@ all estimates since the late 1990s are above the management target
 (Figure \@ref(fig:es-depl)).
 ```
 ```{asis, opts.label = "south"}
-The stock biomass is currently trending upwards, though the rate of the increase is highly uncertain
+Over the last decade, the spawning biomass has been trending upward due to a period of 
+above-average recruitment which ended in 2013, though the rate of the increase is highly uncertain
 (Table \@ref(tab:ssbES); Figure \@ref(fig:es-ssb)).
 Uncertainty in the initial stock size is vast and this uncertainty is carried forward until approximately the
 early 1980s when more informative data are available.
@@ -199,9 +200,15 @@ capture uncertainty in the resilience of `r spp` to harvesting.
 recruitment variability ($\sigma_R$) fixed at
 `r model$parameters[model$parameters$Label=="SR_sigmaR", "Value"]`
 (Figures \@ref(fig:es-recruits) and \@ref(fig:es-rec-devs)).
-The last estimated large recruitment of age-0 fish occurred in 2013 and
-a smaller event may have also occurred within the last half-decade,
-though its magnitude is more uncertain.
+```{asis, opts.label = "north"}
+Large recruitments of age-0 fish were estimated as having occurred in 2013 and 2018.
+The south area also had a large recruitment event in 2013, but not 2018.
+```
+```{asis, opts.label = "south"}
+Postive recruitment deviations were estimated for the years 2008--2013.
+Estimates of recruitment deviations in the subsequent years have been close to zero or 
+negative, leading to lower recruitment.
+```
 
 The 2019 and 2020 estimates of recruitment deviations
 were not included in the main recruitment deviations
