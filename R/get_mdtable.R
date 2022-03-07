@@ -6,6 +6,11 @@
 #' @author Kelli Faye Johnson
 get_mdtable <- function(file, section) {
 
+  # set version of readr as recommended by KFJ in
+  # https://github.com/iantaylor-NOAA/Lingcod_2021/issues/188
+  old.readr.edition <- options("readr.edition")
+  options("readr.edition" = 1)
+  
   stopifnot(file.exists(file))
   stopifnot(is.character(section))
 
@@ -26,5 +31,8 @@ get_mdtable <- function(file, section) {
   )
   out <- models[!apply(models, 1, function(x) all(grepl("^-+$", x))), ]
 
+  # reset readr edition to original value
+  options("readr.edition" = old.readr.edition)
+  
   return(out)
 }
