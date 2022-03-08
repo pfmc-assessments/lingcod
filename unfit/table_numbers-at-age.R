@@ -1,7 +1,7 @@
 # run this for a given model
 if (FALSE) {
-  r4ss::SSexecutivesummary(mod.2021.n.020.001)
-  r4ss::SSexecutivesummary(mod.2021.s.014.001)
+  r4ss::SSexecutivesummary(mod.2021.n.023.001)
+  r4ss::SSexecutivesummary(mod.2021.s.018.001)
 }
 
 for (Area in c("North", "South")) {
