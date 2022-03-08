@@ -1,19 +1,19 @@
-"Label","Base model","no_fishery_ages","DM","no_fishery_ages_DM"
-"TOTAL likelihood (diff from base)",0,-2828.19,-344078.17,-384518.17
-"Survey likelihood (diff from base)",0,-1.64699999999999,6.31200000000001,20.441
-"Length comp likelihood (diff from base)",0,-213.8,-385132.07,-387178.07
-"Age comp likelihood (diff from base)",0,-2614.181,40947.01,2566.77
-"Discard likelihood (diff from base)",0,-1.6409,13.021,3.3117
-"Parm priors likelihood (diff from base)",0,0.159601,76.564079,48.323279
-"Recr Virgin millions",15.8614,11.8395,9.51793,6.93945
-"log(R0)",9.67164,9.37919,9.16093,8.84498
-"M Female ",0.412613,0.326487,0.370253,0.274199
-"M Male ",0.409061,0.289519,0.364991,0.238267
-"SSB Virgin 1000 mt",16.913,24.501,14.054,22.245
-"SSB 2021 1000 mt",10.677,17.623,7.413,12.673
-"Fraction unfished 2021",0.631249,0.719302,0.527419,0.569707
-"Fishing intensity 2020",0.278997,0.216461,0.428328,0.337458
-"Retained Catch MSY mt",3816.93,4323.34,2838.41,2452.31
-"Dead Catch MSY mt",4079.41,4536.78,3043.93,2531.96
-"Virgin age 3+ bio 1000 mt",32.0721,45.9973,25.8353,40.4778
-"OFL mt 2021",4847.78,6421.62,2893.65,3914.38
+"Label","Base model","no_fishery_ages"
+"TOTAL likelihood (diff from base)",0,-2828.04
+"Survey likelihood (diff from base)",0,-1.44
+"Length comp likelihood (diff from base)",0,-213.09
+"Age comp likelihood (diff from base)",0,-2614.891
+"Discard likelihood (diff from base)",0,-1.59870000000001
+"Parm priors likelihood (diff from base)",0,0.138965
+"Recr Virgin millions",16.7346,11.8395
+"SR BH steep",0.80139,0.774177
+"M Female ",0.417839,0.326487
+"M Male ",0.413968,0.289519
+"SSB Virgin 1000 mt",17.16,24.501
+"SSB 2021 1000 mt",11.01,17.623
+"Fraction unfished 2021",0.641626,0.719302
+"Fishing intensity 2020",0.26195,0.216461
+"Retained Catch MSY mt",3937.89,4323.34
+"Dead Catch MSY mt",4222.53,4536.78
+"Virgin age 3+ bio 1000 mt",32.693,45.9973
+"OFL mt 2021",5084.77,6421.62

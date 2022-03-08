@@ -101,6 +101,14 @@ if (FALSE) {
   run_sensitivities(get_dir_ling("s", 18), type = c("sens_create"), numbers = 406)
   # 401 = asymptotic selectivity for fixed-gear fleet (already estimated that way for the north)
   run_sensitivities(get_dir_ling("s", 18), type = c("sens_create"), numbers = 401)
+
+  setwd("c:/ss/lingcod/lingcod_2021")
+  devtools::load_all()
+  run_sensitivities(get_dir_ling("s", 18),
+    type = c("sens_create", "sens_run"),
+    numbers = c(401, 404:406)
+  )
+
 }
 
 if (FALSE) {
@@ -156,13 +164,12 @@ if (FALSE) {
     write = TRUE
   )
 
-  # STILL NEED TO RUN THIS ONE
   # make 'sel' sens table and figures for current base model
   sens_make_table(
     area = "s",
     num = 18,
     sens_base = 1,
-    sens_nums = c(401, 404:406),
+    sens_nums = c(401, 404:405),
     # sens_nums = c(404:406),
     sens_type = "sel",
     ylimAdj1 = 1,
@@ -221,8 +228,7 @@ if (FALSE) {
     area = "n",
     num = 23,
     sens_base = 1,
-    # sens_nums = c(401,404:406),
-    sens_nums = c(404:406),
+    sens_nums = c(404:406, 420),
     sens_type = "sel",
     uncertainty = 1,
     write = TRUE

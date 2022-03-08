@@ -1,0 +1,19 @@
+"Label","North new base","North sex selex for fisheries","South new base","South sex selex for fisheries"
+"TOTAL likelihood (diff from base)",0,-474.38,-2072.29,-1740.81
+"Survey likelihood (diff from base)",0,7.733,155.33915,157.11738
+"Length comp likelihood (diff from base)",0,-333.8,83.4000000000001,53.0599999999999
+"Age comp likelihood (diff from base)",0,-148.7,-2350.453,-2001.58
+"Discard likelihood (diff from base)",0,-1.0453,10.935,12.4511
+"Parm priors likelihood (diff from base)",0,-0.1517845,3.877283,3.592723
+"Recr Virgin millions",16.7346,5.75628,2.24869,1.90363
+"SR BH steep",0.80139,0.759628,0.507665,0.52279
+"M Female ",0.417839,0.279329,0.169652,0.146843
+"M Male ",0.413968,0.433373,0.222921,0.273685
+"SSB Virgin 1000 mt",17.16,18.575,26.66,34.694
+"SSB 2021 1000 mt",11.01,7.728,10.879,7.933
+"Fraction unfished 2021",0.641626,0.416051,0.40806,0.228651
+"Fishing intensity 2020",0.26195,0.572637,0.340545,0.531161
+"Retained Catch MSY mt",3937.89,1948.14,843.962,830.832
+"Dead Catch MSY mt",4222.53,2047.99,849.07,835.49
+"Virgin age 3+ bio 1000 mt",32.693,23.7042,32.7968,38.5641
+"OFL mt 2021",5084.77,1821.88,277.619,282.749

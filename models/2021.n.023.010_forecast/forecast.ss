@@ -1,7 +1,7 @@
 #C forecast file written by R function SS_writeforecast
 #C rerun model to get more complete formatting in forecast.ss_new
 #C should work with SS version: 3.3
-#C file write time: 2021-07-15 20:25:15
+#C file write time: 2021-07-26 15:52:45
 #
 1 #_benchmarks
 2 #_MSY
@@ -16,7 +16,7 @@
 #_Fcast_years:  beg_selex, end_selex, beg_relF, end_relF, beg_recruits, end_recruits (enter actual year, or values of 0 or -integer to be rel. endyr)
 0 0 0 0 0 0
 0 #_Fcast_selex
-1 #_ControlRuleMethod
+3 #_ControlRuleMethod
 0.4 #_BforconstantF
 0.1 #_BfornoF
 -1 #_Flimitfraction
@@ -54,17 +54,17 @@
 # enter list of fleet number and allocation group assignment, if any; terminate with fleet=-9999
 -9999 -1
 2 #_InputBasis
- #_#Year Seas Fleet dead(B)               comment
-    2021    1     1  463.51 #sum_for_2021: 964.57
-    2021    1     2  695.27                      
-    2021    1     3  150.17                      
-    2021    1     4  180.58                      
-    2021    1     5   54.43                      
-    2022    1     1  463.51 #sum_for_2022: 964.57
-    2022    1     2  695.27                      
-    2022    1     3  150.17                      
-    2022    1     4  180.58                      
-    2022    1     5   54.43                      
+ #_#Year Seas Fleet dead(B)             comment
+    2021    1     1  518.57 #sum_for_2021: 1200
+    2021    1     2  161.76                    
+    2021    1     3  191.34                    
+    2021    1     4  247.57                    
+    2021    1     5   80.76                    
+    2022    1     1  518.57 #sum_for_2022: 1200
+    2022    1     2  161.76                    
+    2022    1     3  191.34                    
+    2022    1     4  247.57                    
+    2022    1     5   80.76                    
 -9999 0 0 0
 #
 999 # verify end of input 

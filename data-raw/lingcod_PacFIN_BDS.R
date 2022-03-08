@@ -417,3 +417,50 @@ usethis::use_data(ageCompN_TW, overwrite = TRUE)
 usethis::use_data(ageCompS_TW, overwrite = TRUE)
 usethis::use_data(ageCompN_FG, overwrite = TRUE)
 usethis::use_data(ageCompS_FG, overwrite = TRUE)
+
+get_mean_len_at_age <- function(bds) {
+  bds %>%
+    dplyr::filter(!is.na(SEX) & !is.na(Age) & !is.na(lengthcm)) %>%
+    dplyr::group_by(SEX, year, Age) %>%
+    dplyr::summarise(meanlen = mean(lengthcm))
+}
+
+plot_mean_len_at_age <- function(){
+  par(mfrow = c(1, 2), mar = c(2,2,2,1), oma = c(2,2,1,0), las = 1)
+  minage <- 2
+  maxage <- 10
+  cols <- rev(r4ss::rich.colors.short(maxage))
+  for (sex in c("F", "M")) {
+    plot(0, xlim = range(lenage$year),,
+         type='n', ylim = c(30,110), yaxs = 'i',
+         xlab = "", ylab = "",
+         main = ifelse(sex== "F", "Females", "Males"))
+    grid()
+    for(a in minage:maxage){
+      lines(lenage$year[lenage$SEX==sex & lenage$Age==a],
+            lenage$meanlen[lenage$SEX==sex & lenage$Age==a],
+            col=cols[a], lwd = 2)
+    }
+    box()
+  }
+  mtext(side = 1, 'Year', outer = TRUE, line = 1)
+  mtext(side = 2, 'Mean length (cm)', las = 0, line = 1, outer = TRUE)
+  legend('topright', legend = paste("age", maxage:minage), ncol = 2,
+         fill = cols[maxage:minage], bty = 'n')
+}
+
+lenage <- get_mean_len_at_age(bds.pacfin.n[bds.pacfin.n$fleet == "TW",])
+png('figures/mean_length_at_age_comm_trawl_north.png',
+    res = 300, width = 8, height = 5, pointsize = 10, units = 'in')
+plot_mean_len_at_age()
+mtext(side = 3, "Mean length at age in north commercial trawl samples", outer = TRUE,
+      font = 2)
+dev.off()
+
+lenage <- get_mean_len_at_age(bds.pacfin.s[bds.pacfin.s$fleet == "TW",])
+png('figures/mean_length_at_age_comm_trawl_south.png',
+    res = 300, width = 8, height = 5, pointsize = 10, units = 'in')
+plot_mean_len_at_age()
+mtext(side = 3, "Mean length at age in north commercial trawl samples", outer = TRUE,
+      font = 2)
+dev.off()
