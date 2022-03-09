@@ -88,7 +88,7 @@ fit <- adnuts::sample_rwm(model=m, path=p, iter=iter, warmup=iter*0.25,
 saveRDS(fit, file=file.path(p, "fits", "mcmc.RDS"))
 ## Marginal comparisons as multipage PDF for easy scrolling
 grDevices::pdf(file.path(p, "fits", 'marginals.pdf'), onefile=TRUE, width=7,height=5)
-plot_marginals(fit)
+adnuts::plot_marginals(fit)
 grDevices::dev.off()
 # fit <- readRDS(file=file.path(p, "fits", "mcmc.RDS"))
 
@@ -116,7 +116,7 @@ gnames <- cbind(fit$par_names[-NROW(fit$par_names)],
   ssoutput$parameters$Label[ssoutput$parameters$Phase>=0])
 ## The 6 slowest/fastest mixing parameters
 grDevices::png(file.path(p, "fits", "regularization-pairschains-slow6.png"))
-pairs_admb(fit, pars=1:6, order='slow')
+adnuts::pairs_admb(fit, pars=1:6, order='slow')
 grDevices::dev.off()
 grDevices::png(file.path(p, "fits", "regularization-pairshists-slow6.png"))
 adnuts::pairs_admb(fit, pars=1:6, order='slow', diag='hist')
