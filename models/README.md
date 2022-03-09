@@ -16,6 +16,11 @@ The elements are
 - shortstring : a short character string without full stops but it can include 
                 any other character you desire
 
+The model files are not stored in the repo and instead located on users
+local computers and shared via Google Drive:
+https://drive.google.com/drive/folders/1xkIZznTkVXHjhjWJOYJrMQO93qfD-O3V
+Please contact @iantaylor-NOAA or @kellijohnson-NOAA for access if you need it.
+
 # table
 
 name | notes | issue | source_model | script
