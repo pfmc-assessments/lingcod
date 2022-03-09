@@ -10,25 +10,47 @@ sens_make_table(
   sens_base = 1,
   yr = 2021,
   sens_nums,
+  sens_mods = NULL,
+  sens_names = NULL,
   sens_type = NULL,
   plot = TRUE,
-  write = FALSE
+  plot_dir = NULL,
+  legendloc = "bottomleft",
+  table_dir = "tables",
+  write = FALSE,
+  ...
 )
 }
 \arguments{
-\item{area}{which area "n" or "s"}
+\item{area}{Which area "n" or "s"}
 
 \item{num}{base model number}
 
-\item{sens_base}{sensitivity number associated with the base model
+\item{sens_base}{Sensitivity number associated with the base model
 or source for the other sensitivities.}
 
-\item{sens_nums}{a vector of values from /inst/extdata/sensitivities.csv}
+\item{sens_nums}{A vector of values from /inst/extdata/sensitivities.csv}
 
-\item{sens_type}{a string indicating the type which is appended to the csv
+\item{sens_mods}{Optional list containing output from multiple models. If present
+this will skip the reading of the models specified by the inputs above.}
+
+\item{sens_names}{Optional vector of names for each model to use as headers in the table
+and legend in the figure (needs to also include the base model)}
+
+\item{sens_type}{A string indicating the type which is appended to the csv
 file containing the sensitivity results}
 
-\item{write}{logical to write csv file to doc or not}
+\item{plot}{Logical for whether to make a two-panel time series plot}
+
+\item{plot_dir}{Directory for the plot}
+
+\item{legendloc}{Legend location in plot (as used by \code{r4ss::SSplotComparisons()})}
+
+\item{table_dir}{Directory for the table}
+
+\item{write}{Logical to write csv file to doc or not}
+
+\item{dots}{Additional arguments passed to plot_twopanel_comparison()}
 }
 \description{
 Works with \code{\link[=run_sensitivities]{run_sensitivities()}} and the info in

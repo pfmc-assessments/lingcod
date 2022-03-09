@@ -2,9 +2,9 @@
 % Please edit documentation in R/plot_north_vs_south.R
 \name{plot_north_vs_south}
 \alias{plot_north_vs_south}
-\title{Make a series of plots comparing the north and south models}
+\title{Make a series of plots comparing the north and south modnels}
 \usage{
-plot_north_vs_south(mod.n, mod.s, subplot = 1:3)
+plot_north_vs_south(mod.n, mod.s, dir = "figures", subplot = 1:3)
 }
 \arguments{
 \item{mod.n}{A north model as produced by \code{r4ss::SS_output()}
@@ -21,7 +21,7 @@ appropriate for the lingcod stocks
 }
 \examples{
 \dontrun{
-plot_north_vs_south(mod.2021.n.020.001, mod.2021.s.014.001)
+plot_north_vs_south(mod.2021.n.022.001, mod.2021.s.014.001)
 }
 
 }

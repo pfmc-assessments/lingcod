@@ -7,14 +7,34 @@
 table_sens(
   file_csv,
  
-    caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). Red values indicate negative log likelihoods that were lower than that for the base model.",
-  dir = file.path("..", "tables")
+    caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log likelihoods that were lower than that for the base model.",
+  caption_extra = "",
+  sens_group = NULL,
+  dir = file.path("..", "tables"),
+  format = "latex",
+  pretty = TRUE
 )
 }
 \arguments{
 \item{file_csv}{A file path to the csv file.}
 
 \item{caption}{Text you want in the caption.}
+
+\item{caption_extra}{Additional text to add after the default
+caption.}
+
+\item{sens_group}{Optional description of the group of sensitivities
+which will be used to change "alternative models" in the caption
+(if present) to "alternative models related to [sens_group]"}
+
+\item{dir}{Directory where the table should go (relative to "doc")}
+
+\item{format}{Argument passed to \link[kableExtra:kbl]{kableExtra::kbl} allowing
+for the switch between \code{"latex"} and \code{"html"}.}
+
+\item{pretty}{Logical controlling whether names get cleaned up using
+internal \code{prettynames()} function or not. Setting \code{pretty = FALSE}
+will use \code{utils::read.csv(..., check.names = FALSE)}.}
 }
 \description{
 Summarize the configuration of the SS output

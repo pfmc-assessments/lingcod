@@ -12,7 +12,9 @@ plot_twopanel_comparison(
   dir = "figures/compare",
   hessian = TRUE,
   endyrvec = 2021,
-  verbose = FALSE,
+  ylimAdj1 = 1.05,
+  ylimAdj2 = 1.05,
+  verbose = TRUE,
   ...
 )
 }
@@ -33,6 +35,15 @@ or the current graphics device}
 
 \item{endyrvec}{final year to include in the figure passed to
 r4ss::SSplotComparisons()}
+
+\item{ylimAdj1}{adjustment to y-axis limit for the first plot,
+relative to highest point among all models shown}
+
+\item{ylimAdj2}{adjustment to y-axis limit for the second plot,
+relative to highest point among all models shown}
+
+\item{verbose}{A logical value specifying if output should be printed
+to the console or not. The default is \code{FALSE}, which will suppress messages.}
 
 \item{dots}{additional arguments that will get passed to
 r4ss::SSplotComparisons()}

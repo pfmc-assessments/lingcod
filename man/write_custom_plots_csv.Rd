@@ -4,15 +4,18 @@
 \alias{write_custom_plots_csv}
 \title{Write a CSV file for custom plots}
 \usage{
-write_custom_plots_csv(mod, filename, caption)
+write_custom_plots_csv(mod, filepath = NULL, filename, caption)
 }
 \arguments{
 \item{mod}{A model object created by \code{\link[=get_mod]{get_mod()}} or
-\code{r4ss::SS_output()}}
+\code{r4ss::SS_output()} which is used to get the directory}
 
-\item{filename}{file name for png file}
+\item{filepath}{An alternative to mod as a way to get the path
+where the csv file be written}
 
-\item{caption}{caption for csv}
+\item{filename}{File name for png file}
+
+\item{caption}{Caption for csv}
 }
 \description{
 Write a CSV file for custom plots

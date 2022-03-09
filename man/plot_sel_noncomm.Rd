@@ -4,11 +4,15 @@
 \alias{plot_sel_noncomm}
 \title{Plot selectivity and retention for the non-commercial fleets}
 \usage{
-plot_sel_noncomm(mod, area)
+plot_sel_noncomm(mod, area, sex = 1)
 }
 \arguments{
 \item{mod}{A model object created by \code{\link[=get_mod]{get_mod()}} or
 \code{r4ss::SS_output()}}
+
+\item{area}{Either "n" or "s"}
+
+\item{sex}{Either 1 (females) or 2 (males)}
 }
 \description{
 Plot selectivity and retention for the non-commercial fleets

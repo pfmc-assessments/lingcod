@@ -46,7 +46,7 @@ Run sensitivities for a base model
 \dontrun{
 dirbase <- get_dir_ling(area = area, num = 14, sens = 1)
 run_sensitivities(dirbase, c("profile", "retro", "regularization"))
-run_sensitivities(get_dir_ling("n", 17),
+run_sensitivities(get_dir_ling("n", 22),
                   type = "sens_create",
                   numbers = c(102, 104))
 run_sensitivities(get_dir_ling("s", 14),

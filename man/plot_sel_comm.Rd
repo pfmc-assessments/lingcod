@@ -4,11 +4,13 @@
 \alias{plot_sel_comm}
 \title{Plot selectivity and retention for the commercial fleets}
 \usage{
-plot_sel_comm(mod)
+plot_sel_comm(mod, sex = 1)
 }
 \arguments{
 \item{mod}{A model object created by \code{\link[=get_mod]{get_mod()}} or
 \code{r4ss::SS_output()}}
+
+\item{sex}{Either 1 (females) or 2 (males)}
 }
 \description{
 Plot selectivity and retention for the commercial fleets
