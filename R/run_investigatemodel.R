@@ -17,7 +17,7 @@
 #' @param extras A single character entry that will be passed to [system]
 #' when running SS. Typically this is `"-nohess"` but we have added cbs to make it
 #' "-nohess -cbs 1500000000" which will decrease run time for larger models.
-#' See the github issue for [lingcod in 2021](https://github.com/iantaylor-NOAA/Lingcod_2021/issues/66).
+#' See the github issue for [lingcod in 2021](https://github.com/pfmc-assessments/lingcod/issues/66).
 #'
 #' @export
 #' @author Chantel R. Wetzel from the example in \pkg{nwfscDiags}.

@@ -125,7 +125,7 @@ https://commons.wikimedia.org/w/index.php?curid=17985885</a>
 - Used Bayesian diagnostics helped determine problematic parameters
 
 - Developed a new workflow for the assessment as an R package: 
-https://github.com/iantaylor-NOAA/Lingcod_2021/
+https://github.com/pfmc-assessments/lingcod/
 
 - Posted model results to the web for easy exploration:
 https://iantaylor-noaa.github.io/Lingcod_2021/

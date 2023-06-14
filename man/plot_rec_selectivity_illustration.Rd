@@ -7,5 +7,5 @@
 plot_rec_selectivity_illustration()
 }
 \description{
-See https://github.com/iantaylor-NOAA/Lingcod_2021/issues/20
+See https://github.com/pfmc-assessments/lingcod/issues/20
 }

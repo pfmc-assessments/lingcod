@@ -1,7 +1,7 @@
 # lingcod_2021
 
 To interact with this repository
-1. clone it to your computer `git clone https://github.com/iantaylor-NOAA/Lingcod_2021.git`,
+1. clone it to your computer `git clone https://github.com/pfmc-assessments/lingcod.git`,
 2. open R and set your working directory to the cloned location,
 3. run `devtools::load_all()`, and
 4. make magic.
@@ -86,7 +86,7 @@ A directory that stores
   * other useful data-like files.
 
 Most important, **DO NOT** commit confidential data.
-The [.gitignore](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/.gitignore)
+The [.gitignore](https://github.com/pfmc-assessments/lingcod/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/.gitignore)
 file is setup to help you not commit confidential data by
 only suggesting that you commit .R files that are saved within data-raw.
 For example, when you add a new file called `test.csv` to data-raw
@@ -137,8 +137,8 @@ mapply(source, dir("data-raw", pattern = "\\.R", full.names = TRUE))
 
 For example, recreational fisheries catches are constructed from
 information stored in multiple data files within data-raw and
-code in [lingcod_catch.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/data-raw/lingcod_catch.R).
-The result, [rec_catch_OR.rda](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/data/rec_catch_OR.rda),
+code in [lingcod_catch.R](https://github.com/pfmc-assessments/lingcod/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/data-raw/lingcod_catch.R).
+The result, [rec_catch_OR.rda](https://github.com/pfmc-assessments/lingcod/blob/bc849648dc94d09ec664e28f64cc849d36ac417a/data/rec_catch_OR.rda),
 is an R object that is available in everyone's workspace when the R package is loaded.
 This script also stores code to build other catch data frames that will be combined
 to create the time series of catches placed in the data file.
@@ -226,7 +226,7 @@ todo: provide information on how to use github issues for this repository
 
 ## Modeling workflow
 
-### [updated Friday, June 4]: examples at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_new_exe.R), and  [models/lingcod_model_bridging_newdat.R](https://github.com/iantaylor-NOAA/Lingcod_2021/blob/main/models/lingcod_model_bridging_newdata.R)
+### [updated Friday, June 4]: examples at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/pfmc-assessments/lingcod/blob/main/models/lingcod_model_bridging_new_exe.R), and  [models/lingcod_model_bridging_newdat.R](https://github.com/pfmc-assessments/lingcod/blob/main/models/lingcod_model_bridging_newdata.R)
 )
 * Add rows to models/README.md for each model, including placeholders as needed
 * Add a script with name like `models/lingcod_model_..._.R` which is focused on the

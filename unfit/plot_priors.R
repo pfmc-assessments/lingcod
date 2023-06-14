@@ -7,7 +7,7 @@ prior_hake <- exp(-1 * get_SS_prior(Ptype = "Full_Beta",
 ## fishlife::Plot_taxa(Search_species(Genus="Ophiodon",
 ##                     Species="elongatus",
 ##                     add=FALSE)$match_taxonomy)
-##  https://github.com/iantaylor-NOAA/Lingcod_2021/issues/85#issuecomment-866296197
+##  https://github.com/pfmc-assessments/lingcod/issues/85#issuecomment-866296197
 
 ## # values from fishlife fails with "bad Beta prior: Aprior = 0.854, Bprior = 1.254"
 ## prior_fishlife <- get_beta_prior(Pr = 0.67, Psd = 0.22, Pval = x)
