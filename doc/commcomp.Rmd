@@ -3,7 +3,7 @@
 Length and age compositions from commercial landings 
 for the TW and FG fleets were developed 
 from the PacFIN database using
-[PacFIN.Utilities](https://github.com/nwfsc-assess/PacFIN.Utilities/).
+[PacFIN.Utilities](https://github.com/pfmc-assessments/PacFIN.Utilities/).
 `r ifelse(params$area == "North",
 "Many more length and age samples were available for the northern stock than the southern stock. Both the differences in sampling programs by \\gls{wdfw} and \\gls{odfw} compared to \\gls{cdfw} and larger commercial catches in the north compared to the south contributed to the differences in sample sizes",
   ""

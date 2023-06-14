@@ -65,15 +65,15 @@ Suggests:
 Remotes:
     github::clauswilke/colorblindr,
     github::r4ss/r4ss,
-    github::nwfsc-assess/nwfscAgeingError,
-    github::nwfsc-assess/nwfscDiag,
-    github::nwfsc-assess/nwfscDiscard,
-    github::nwfsc-assess/nwfscSurvey,
-    github::nwfsc-assess/PacFIN.Utilities,
-    github::nwfsc-assess/PEPtools,
-    github::nwfsc-assess/recFIN,
-    github::nwfsc-assess/sa4ss,
-    github::nwfsc-assess/VASTWestCoast
+    github::pfmc-assessments/nwfscAgeingError,
+    github::pfmc-assessments/nwfscDiag,
+    github::pfmc-assessments/nwfscDiscard,
+    github::pfmc-assessments/nwfscSurvey,
+    github::pfmc-assessments/PacFIN.Utilities,
+    github::pfmc-assessments/PEPtools,
+    github::pfmc-assessments/recFIN,
+    github::pfmc-assessments/sa4ss,
+    github::pfmc-assessments/VASTWestCoast
 Depends:
     R (>= 2.10)
 VignetteBuilder: knitr
