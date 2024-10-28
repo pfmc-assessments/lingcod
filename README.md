@@ -1,5 +1,7 @@
 # lingcod_2021
 
+_Note: the assessment reports, model input files, and review panel report from the 2021 lingcod assessments are available at https://www.pcouncil.org/stock-assessments-star-reports-stat-reports-rebuilding-analyses-terms-of-reference/groundfish-stock-assessment-documents/ (search for "lingcod")._
+
 To interact with this repository
 1. clone it to your computer `git clone https://github.com/pfmc-assessments/lingcod.git`,
 2. open R and set your working directory to the cloned location,
