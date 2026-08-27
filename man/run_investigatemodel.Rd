@@ -34,7 +34,7 @@ where the default is to run them all.}
 \item{extras}{A single character entry that will be passed to \link{system}
 when running SS. Typically this is \code{"-nohess"} but we have added cbs to make it
 "-nohess -cbs 1500000000" which will decrease run time for larger models.
-See the github issue for \href{https://github.com/iantaylor-NOAA/Lingcod_2021/issues/66}{lingcod in 2021}.}
+See the github issue for \href{https://github.com/pfmc-assessments/lingcod/issues/66}{lingcod in 2021}.}
 }
 \description{
 Run all model investigations for a base model

@@ -7,7 +7,7 @@
 get_mdtable <- function(file, section) {
 
   # set version of readr as recommended by KFJ in
-  # https://github.com/iantaylor-NOAA/Lingcod_2021/issues/188
+  # https://github.com/pfmc-assessments/lingcod/issues/188
   old.readr.edition <- options("readr.edition")
   options("readr.edition" = 1)
   

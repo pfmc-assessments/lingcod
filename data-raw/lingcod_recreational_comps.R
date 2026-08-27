@@ -177,7 +177,7 @@ wa_recfin_sport = data.frame(readxl::read_excel(file.path(dir,"data-raw", "Lingc
 wa_recfin_sport$AGENCY_WEIGHT = NA #need this for rename_wa_recfin
 wa_sport = dataModerate2021::rename_wa_recfin(wa_recfin_sport)
 
-#Convert the 591 total length measurements to fork length based on Laidig (see github issue: https://github.com/iantaylor-NOAA/Lingcod_2021/issues/26)
+#Convert the 591 total length measurements to fork length based on Laidig (see github issue: https://github.com/pfmc-assessments/lingcod/issues/26)
 wa_sport[which(wa_sport$length_type_name=="Total length"),"RECFIN_LENGTH_MM"] = wa_sport[which(wa_sport$length_type_name=="Total length"),"RECFIN_LENGTH_MM"]*0.981-0.521
                
 wa_sport$STATE_NAME = "WA"

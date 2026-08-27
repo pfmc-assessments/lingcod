@@ -1,5 +1,5 @@
 # remove some italics from decision table by modifying .tex file for North doc
-# see https://github.com/iantaylor-NOAA/Lingcod_2021/issues/167 for discussion
+# see https://github.com/pfmc-assessments/lingcod/issues/167 for discussion
 
 texfile <- "models/2021.n.023.001_fixWAreccatchhistory/decision_table.tex"
 texfile_lines <- readLines(texfile)

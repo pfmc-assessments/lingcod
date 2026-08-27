@@ -3,7 +3,7 @@ age_representativeness_plot <- function(bio.WCGBTS,
                                         ylim = c(0, 0.049),
                                         file = NULL){
 
-  warning("This function has been moved to https://github.com/nwfsc-assess/PacFIN.Utilities/blob/lengthage/R/age_representativeness_plot.R and improved.")
+  warning("This function has been moved to https://github.com/pfmc-assessments/PacFIN.Utilities/blob/lengthage/R/age_representativeness_plot.R and improved.")
 
   if(!is.null(file)){
     grDevices::png(filename = file, width = 7, height = 7, units = 'in', res = 300)

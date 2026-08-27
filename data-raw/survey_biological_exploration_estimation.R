@@ -7,7 +7,7 @@
 #
 #######################################
 
-#devtools::install_github("nwfsc-assess/nwfscSurvey", build_vignettes = TRUE)
+#devtools::install_github("pfmc-assessments/nwfscSurvey", build_vignettes = TRUE)
 #devtools::load_all("U:/Stock assessments/dataModerate_2021")
 library(plyr)
 library(ggplot2)

@@ -369,7 +369,7 @@ ignore <- file.copy(
 #####################################################################
 #
 # get unexpanded comps as expansions had problems as discussed in
-# https://github.com/iantaylor-NOAA/Lingcod_2021/issues/69
+# https://github.com/pfmc-assessments/lingcod/issues/69
 # so using nwfscSurvey functions to get length comps and marginal ages
 # NOTE: sample sizes calculated here are number of fish, not trips
 # so the expanded comps (named lenComp[area]_comm instead of lenComp[area]_[gear])

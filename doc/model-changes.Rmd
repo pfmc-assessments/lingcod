@@ -66,6 +66,6 @@ TW and FG fisheries to retain all selected fish prior to 1998
 related to processing input and output files for the assessment, 
 including _nwfscDiag_, _sa4ss_, _r4ss_, and _PacFIN.Utilities_.
 - Created a _lingcod_ R package in a
-[publicly accessible repository](https::/github.com/iantaylor-NOAA/lingcod_2021)
+[publicly accessible repository](https::/github.com/pfmc-assessments/lingcod)
 on github to provide a transparent and reproducible system for processing
 the data, modifying the model files, and writing these reports.

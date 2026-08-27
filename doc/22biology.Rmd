@@ -201,7 +201,7 @@ McFarlane and King [-@mcfarlane2001validity].
 
 For this assessment,
 between-reader ageing error was determined using the nwfscAgeingError package [@nwfscAgeingError2008],
-which is publicly available at https://github.com/nwfsc-assess/nwfscAgeingError.
+which is publicly available at https://github.com/pfmc-assessments/nwfscAgeingError.
 This package implements the Punt et al. [-@punt2008quantifying] model.
 It calculates the likelihood of model parameters given an observed data set
 that includes age reads provided by multiple readers for a set of ageing structures.

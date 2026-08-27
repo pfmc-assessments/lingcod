@@ -16,7 +16,7 @@ stopifnot(file.exists(dir))
 data <- read.csv(file.path("data-raw", "SA_Lam_MergedAges.csv"), header = TRUE)
 
 #Rename fields so they work with UnexpandedLFs.fn and SurveyAgeAtLen.fn
-#Convert length to fork length following Laidig (see github issue: https://github.com/iantaylor-NOAA/Lingcod_2021/issues/26)
+#Convert length to fork length following Laidig (see github issue: https://github.com/pfmc-assessments/lingcod/issues/26)
 data$Length_cm = data$TL.cm*0.981-0.521
 data$Year = as.numeric(substr(data$Date..yymmdd.,1,4))
 
