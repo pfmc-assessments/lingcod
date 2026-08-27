@@ -66,7 +66,7 @@ sa4ss::add_figure(
   caption = "Number of trips versus year, month, port, subregion, boat type, and effort (angler hours) from \\glsentrylong{orbs} data that was used to estimate \\glsentrylong{cpue} for the Oregon recreational fleet."
 )
 ```
-```{asis, opts.label="north"}
+```{asis, opts.label="north", eval=FALSE}
 ![(\#fig:fig-dist-fits-crfspr)Quantile-quantile plot (top panel) of the positive observations for both lognormal and gamma distributions and fitted values vs residuals for the Gamma model (bottom panel) for the \glsentrylong{crfs} private rental dockside index representing the California recreational fleet.](Indices_for_Kelli/lingcod_CRFS_PR_dockside_writeup_NCA_files/figure-latex/fig-dist-fits-crfspr-1.pdf) 
 
 ![(\#fig:fig-Dbin-marginal-crfspr)Binomial marginal effects from the final model of \glsentrylong{crfs} private rental dockside data representing the California recreational fleet.](Indices_for_Kelli/lingcod_CRFS_PR_dockside_writeup_NCA_files/figure-latex/fig-Dbin-marginal-crfspr-1.pdf) 
@@ -74,7 +74,7 @@ sa4ss::add_figure(
 ![(\#fig:fig-Dpos-marginal-crfspr)Positive model marginal effects from the final model of \glsentrylong{crfs} private rental dockside data representing the California recreational fleet.](Indices_for_Kelli/lingcod_CRFS_PR_dockside_writeup_NCA_files/figure-latex/fig-Dpos-marginal-crfspr-1.pdf)
 ```
 
-```{asis, cpue-figures-south, opts.label = "south"}
+```{asis, cpue-figures-south, opts.label = "south", eval=FALSE}
 ![Quantile-quantile fits (upper panel) for the lognormal (orange) and gamma (green) distributions and residuals versus fitted values (bottom panel) for the \glsentrylong{mrfss} data used in the California recreational \glsentrylong{cpue} index.\label{fig:mrfssdistribution}](Indices_for_Kelli/lingcod_MRFSS_dockside_writeup_NCA_files/figure-latex/fig-dist-fits-mrfss-1.pdf){width=100% height=100% alt="Quantiles fit the theoretical distribution for both gamma and lognormal."}
 
 ![(\#fig:depthfished-cpfvonboard)Boxplots of depths fished by year in the filtered data \glsentrylong{cpfv} onboard observer data set used for the California recreational fishery \glsentrylong{cpue}.](Indices_for_Kelli/lingcod_CA_CPFV_onboard_writeup_SCA_files/figure-latex/fig-depthfished-cpfvonboard-1.pdf){width=100% height=100% alt="Histogram of depth by year."}
@@ -90,7 +90,7 @@ get_fleet("rec") %>%
   # Group lengths for a given fleet then ages
   dplyr::arrange(desc(type), order, sex) %>%
   # Keep only the appropriate fleets for the area
-  dplyr::filter(!!as.name(paste0("used_", substr(Sys.Date(),1,4),".", tolower(substr(params$area,1,1))))) %>%
+  dplyr::filter(!!as.name(paste0("used_", "2021",".", tolower(substr(params$area,1,1))))) %>%
   # Create the caption and filename
   dplyr::mutate(
     alt_caption = "to do -- fill this in",
@@ -121,7 +121,8 @@ do.call(
 <!-- ====================================================================== -->
 <!-- Unused fishery-dependent data -->
 <!-- ====================================================================== -->
-```{r ORatseacpuefigures, results = "asis", eval = params$area == "North"}
+```{r ORatseacpuefigures, results = "asis", eval = FALSE}
+# note, `eval = params$area == "North"` changed to `eval = FALSE`
 sa4ss::add_figure(
   filein = "Indices_for_Kelli/ORAtSeaCPFVIndex_writeup_files/figure-latex/fig-Dnbin-marginal-ORAtSea-1.pdf",
   label = "fig-Dnbin-marginal-ORAtSea",
@@ -171,7 +172,8 @@ label = 'tri-depthSplit')
 ```
 
 <!-- Hook and line -->
-```{r hookandlinesurveyfigures, results = "asis", eval = params$area == "South"}
+```{r hookandlinesurveyfigures, results = "asis", eval = FALSE}
+# note, `eval = params$area == "South"` changed to `eval = FALSE`
 sa4ss::add_figure(
   filein = "Indices_for_Kelli/HookandLine_Harms_CCA_Lingcod.png",
   caption = "Map of the NWFSC hook-and-line survey site with circle indicating location at which lingcod rockfish were observed at least once.",
@@ -263,7 +265,7 @@ add_figure_ling(utils::read.csv(file.path("..", "figures", "figures-fi-index-orm
 ```
 
 <!-- s-ccfrp figures -->
-```{asis, opts.label = 'south', echo = TRUE}
+```{asis, opts.label = 'south', echo = TRUE, eval=FALSE}
 ![(\#fig:fig-areacpue-ccfrp)Arithmetic mean of \glsfirst{cpue} by region for `r spp` from the filtered \glsfirst{s-ccfrp} data.](Indices_for_Kelli/lingcod_CCFRP_writeup_NCA_files/figure-latex/fig-areacpue-ccfrp-1.pdf) 
 
 ![(\#fig:fig-sitecpue-ccfrp)Arithmetic mean of \glsfirst{cpue} inside (green) and outside (orange) \glsfirst{mpa} sample sites for `r spp` from the filtered \glsfirst{s-ccfrp} data.](Indices_for_Kelli/lingcod_CCFRP_writeup_NCA_files/figure-latex/fig-sitecpue-ccfrp-1.pdf) 

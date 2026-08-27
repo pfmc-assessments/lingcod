@@ -260,3 +260,22 @@ to load those files.
 * The compiled pdf can be found on
 [google drive](https://drive.google.com/drive/folders/10-AZ7J51LoQ-YIFPLPKnyH_X2gu4lFZF?usp=sharing)
 and is not always pushed to github because of its size.
+
+### steps Ian took to compile PDF from bare repo on 2026-08-26
+- add file data-raw/catch.Rdata (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
+- add file data-raw/reccpuewa-everything.RData (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
+- install packages like sa4ss
+- install (update?) latex package via terminal command "tlmgr install xltabular"
+- devtools::load_all()
+- compile_ling()
+
+### additional changes that have been pushed to github on 2026-08-26 so shouldn't be required by others:
+- push models/2021.n.023.001_fixWAreccatchhistory/CompReport.sso to github so it's available
+- push models/2021.s.018.001_fixTri3/*.sso output files to github so they are available
+- set verbose = FALSE on line 181 of R/compile_ling.R to fix an error
+- comment out calls to table_ts() in doc/53tables.Rmd to skip dplyr error
+- hardwire "2021" instead of `substr(Sys.Date(),1,4)` in doc/53figures.Rmd
+- remove comma from alt-text in R/add_figure_vast.R
+- ask copilot "debug message: ! LaTeX cmd Error: Command '\AddToDocumentProperties' already defined." which led to modifications of doc/input_accessability.tex with the summary "the project explicitly loads the experimental PDF-management package while the current LaTeX format already provides the same command"
+- ask copilot "please fix another error: "! Package tagpdf Error: PDF resource management is not active! (tagpdf) tagpdf will not work.." which caused it to suggest changes to doc/sa4ss.sty and doc/input_accessability.tex
+- remove bibliography related code in sa4ss.sty which led to error "! Package natbib Error: Bibliography not compatible with author-year citations."

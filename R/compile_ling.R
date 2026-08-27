@@ -177,8 +177,8 @@ compile_precursur <- function(basemodel, plot = TRUE) {
   sa4ss::read_model(
     mod_loc = file.path("models", basemodel),
     create_plots = plot,
-    save_loc = file.path("models", basemodel, "tex_tables"),
-    verbose = TRUE
+    save_loc = file.path("models", basemodel, "tex_tables") #,
+    #verbose = TRUE # verbose = FALSE is already hardwired in sa4ss::read_model(), leading to an error 
   )
 
   # Load in the resulting 00mod file

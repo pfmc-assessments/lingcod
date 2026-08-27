@@ -33,7 +33,7 @@ add_figure_vast <- function(dir, outfile) {
     ),
     alt_caption = c(
       paste0("Blue outline of area included in the model."),
-      paste0("Web of points connected to 'knots', which is an input to the model."),
+      paste0("Web of points connected to 'knots' which is an input to the model."),
       paste0("Data largely follow the one-to-one line."),
       paste0("No spatial pattern is apparent in the residuals.")
     )
