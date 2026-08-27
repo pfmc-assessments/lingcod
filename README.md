@@ -262,12 +262,15 @@ to load those files.
 and is not always pushed to github because of its size.
 
 ### steps Ian took to compile PDF from bare repo on 2026-08-26
-- add file data-raw/catch.Rdata (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
-- add file data-raw/reccpuewa-everything.RData (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
-- install packages like sa4ss
-- install (update?) latex package via terminal command "tlmgr install xltabular"
-- devtools::load_all()
-- compile_ling()
+- add file `data-raw/catch.Rdata` (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
+- add file `data-raw/reccpuewa-everything.RData` (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
+- install {sa4ss}: `remotes::install_github("pfmc-assessments/sa4ss")`
+- install (update?) latex package via terminal command `tlmgr install xltabular`
+- `devtools::load_all()`
+- `compile_ling(dir = "North")`
+- `compile_ling(dir = "South")`
+
+Note: the resulting PDFs are missing some figures and tables due to being excluded as noted in the list below.
 
 ### additional changes that have been pushed to github on 2026-08-26 so shouldn't be required by others:
 - push models/2021.n.023.001_fixWAreccatchhistory/CompReport.sso to github so it's available
