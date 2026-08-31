@@ -262,6 +262,7 @@ to load those files.
 and is not always pushed to github because of its size.
 
 ### steps Ian took to compile PDF from bare repo on 2026-08-26
+- clone repo to computer (in my case, this was a clean, new location, separate from the one I used in 2021)
 - add file `data-raw/catch.Rdata` (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
 - add file `data-raw/reccpuewa-everything.RData` (in https://drive.google.com/drive/folders/1i1RF3cXyWfyQM7d2gK2nYm-BJXpDzwhr)
 - install {sa4ss}: `remotes::install_github("pfmc-assessments/sa4ss")`
