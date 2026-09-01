@@ -1,5 +1,5 @@
 # lingcod_2021
-
+non contributors can commit
 _Note: the assessment reports, model input files, and review panel report from the 2021 lingcod assessments are available at https://www.pcouncil.org/stock-assessments-star-reports-stat-reports-rebuilding-analyses-terms-of-reference/groundfish-stock-assessment-documents/ (search for "lingcod")._
 
 To interact with this repository
