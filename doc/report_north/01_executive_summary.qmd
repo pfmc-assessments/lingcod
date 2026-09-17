@@ -1,0 +1,122 @@
+# Executive Summary {#sec-exec-sum}
+
+<!--- Where possible, the executive summary should paraphrase the shared content of the body of the report to minimize redundancy.--->
+
+```{r} 
+#| label: 'set-rda-dir-tbls-es'
+#| echo: false 
+#| warning: false 
+#| include: false
+library(gt)
+tables_dir <- fs::path('C:/Users/margaret.siple/Documents/lingcod/doc/report_north', 'tables')
+``` 
+
+```{r} 
+#| label: 'tab-projections-setup'
+#| warnings: false 
+#| eval: true
+# load rda
+load(file.path(tables_dir, 'projections_table.rda'))
+
+# save rda with table-specific name
+projections_table_rda <- rda
+
+# save table and caption as separate objects
+projections_table <- projections_table_rda$table
+projections_cap <- projections_table_rda$caption
+``` 
+
+::: {.landscape}
+
+```{r} 
+#| label: 'tbl-projections'
+#| echo: false 
+#| warnings: false 
+#| tbl-cap: !expr projections_cap 
+#| tbl-pos: 't'
+projections_table |>
+gt::tab_options(
+  table.width = pct(100),
+  table.layout = 'auto'
+) |>
+gt::cols_width(
+  everything() ~ pct(20)
+) 
+``` 
+
+:::
+{{< pagebreak >}} 
+
+
+
+```{r} 
+#| label: 'set-rda-dir-figs-es'
+#| warnings: false 
+#| eval: true
+figures_dir <- fs::path('C:/Users/margaret.siple/Documents/lingcod/doc/report_north', 'figures')
+``` 
+
+```{r} 
+#| label: 'fig-biomass-setup'
+#| warnings: false 
+#| eval: true
+# load rda
+load(file.path(figures_dir, 'biomass_figure.rda'))
+
+# save rda with plot-specific name
+biomass_plot_rda <- rda
+
+# remove generic rda object
+rm(rda)
+
+# save figure, caption, and alt text as separate objects
+biomass_plot <- biomass_plot_rda$figure
+biomass_cap <- biomass_plot_rda$caption
+biomass_alt_text <- biomass_plot_rda$alt_text
+``` 
+
+```{r} 
+#| label: 'fig-biomass'
+#| echo: false 
+#| warning: false 
+#| fig-cap: !expr biomass_cap 
+#| fig-alt: !expr biomass_alt_text
+biomass_plot
+``` 
+
+```{r} 
+#| label: 'fig-fishing_mortality-setup'
+#| warnings: false 
+#| eval: true
+# load rda
+load(file.path(figures_dir, 'fishing_mortality_figure.rda'))
+
+# save rda with plot-specific name
+fishing_mortality_plot_rda <- rda
+
+# remove generic rda object
+rm(rda)
+
+# save figure, caption, and alt text as separate objects
+fishing_mortality_plot <- fishing_mortality_plot_rda$figure
+fishing_mortality_cap <- fishing_mortality_plot_rda$caption
+fishing_mortality_alt_text <- fishing_mortality_plot_rda$alt_text
+``` 
+
+```{r} 
+#| label: 'fig-fishing_mortality'
+#| echo: false 
+#| warning: false 
+#| fig-cap: !expr fishing_mortality_cap 
+#| fig-alt: !expr fishing_mortality_alt_text
+fishing_mortality_plot
+``` 
+
+## Assessment Model {#sec-assessment-model}
+
+<!-- Include a short statement describing the assessment model used for the current management cycle and any data updates. -->
+
+## Reference Points, Stock Status, and Projections {#sec-reference-points-stock-status-and-projections}
+
+<!-- Short summary of reference points, stock status, and projections. When using `asar`, tables of reference points and projections will be automatically generated. -->
+
