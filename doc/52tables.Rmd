@@ -322,7 +322,7 @@ table_pars(model)
 cat("\\end{landscape}")
 table_likelihoods(model)
 table_dq(model)
-table_ts(model)
+# table_ts(model)
 table_compweight(model)
 ```
 

@@ -1,11 +1,17 @@
-\PassOptionsToPackage{enable-debug,check-declarations}{expl3}
-\RequirePackage{pdfmanagement-testphase}
-\DeclareDocumentMetadata {  }
-\ExplSyntaxOn
-\pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
-\ExplSyntaxOff
+\IfFileExists{pdfmanagement-init.sty}{
+	\DocumentMetadata{
+		lang=en-US,
+		tagging=on
+	}
+}{}
+
+\AddToHook{env/CSLReferences/begin}{
+	\begin{list}{}{\setlength{\leftmargin}{0pt}}
+}
+\AddToHook{env/CSLReferences/end}{\end{list}}
+\providecommand{\citeproctext}{}
 
 % xmp metadata for pdf
 % Originally used \usepackage[a-2a]{pdfx}
 % \usepackage{hyperxmp} replaced it
-% \RequirePackage{pdfmanagement-testphase} replaced it
+% PDF language metadata is set by pandoc's \hypersetup in the generated document.

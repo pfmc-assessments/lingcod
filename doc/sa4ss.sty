@@ -56,11 +56,6 @@
 % Generate date formatted in english
 \RequirePackage[english]{datetime2}
 
-% We want bibliographies as starred sections within articles.
-% 
-\RequirePackage[sectionbib,round]{natbib}
-\bibliographystyle{abbrvnat}
-
 % Equations, figures and tables are counted within articles, but we do
 % not show the article number. For equations it becomes a bit messy to avoid
 % having hyperref getting it wrong. 
@@ -214,13 +209,15 @@
 % Section 508 compliance
 \usepackage{accsupp}
 \usepackage{pdfcomment}
-\usepackage{tagpdf}
-\tagpdfsetup{
- activate-all,
- uncompress,
- tabsorder=structure,
- interwordspace=true
- }
+\IfFileExists{pdfmanagement-init.sty}{
+  \usepackage{tagpdf}
+  \tagpdfsetup{
+   activate-all,
+   uncompress,
+   tabsorder=structure,
+   interwordspace=true
+   }
+}{}
 \usepackage{luatex85} % Otherwise, it will complain about \pdfminorversion missing when using luatex > 0.85.
 \usepackage{pgfpages}
 
