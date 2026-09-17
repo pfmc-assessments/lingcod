@@ -120,8 +120,7 @@ _main*
 
 presentations/*.html
 
-# files related to asar test
+# files related to asar report template
 Forecast-report.sso
 warning.sso
 wtatage.ss_new
-data/lingcod_output.rda
