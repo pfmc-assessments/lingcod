@@ -119,3 +119,9 @@ _main*
 !/models/*.R
 
 presentations/*.html
+
+# files related to asar test
+Forecast-report.sso
+warning.sso
+wtatage.ss_new
+data/lingcod_output.rda

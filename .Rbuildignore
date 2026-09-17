@@ -12,3 +12,9 @@
 ^unfit
 ^vignettes/testexclude.Rmd$
 ignored
+
+
+Forecast-report.sso
+warning.sso
+wtatage.ss_new
+data/lingcod_output.rda
