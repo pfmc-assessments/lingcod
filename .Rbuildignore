@@ -12,3 +12,5 @@
 ^unfit
 ^vignettes/testexclude.Rmd$
 ignored
+^.*\.Rproj$
+^\.Rproj\.user$
