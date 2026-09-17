@@ -4,7 +4,7 @@
 #| label: 'set-rda-dir-figs'
 #| warnings: false 
 #| eval: true
-figures_dir <- fs::path('C:/Users/margaret.siple/Documents/lingcod/doc/report_south', 'figures')
+figures_dir <- fs::path(here::here('doc','report_south', 'figures'))
 ``` 
 
 ```{r} 
