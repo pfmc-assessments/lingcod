@@ -1,0 +1,11 @@
+# Tables {#sec-tables}
+ 
+```{r} 
+#| label: 'set-rda-dir-tbls'
+#| echo: false 
+#| warning: false 
+#| include: false
+library(gt)
+tables_dir <- fs::path('C:/Users/margaret.siple/Documents/lingcod/doc/report_south', 'tables')
+``` 
+
