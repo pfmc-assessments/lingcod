@@ -22,13 +22,12 @@ lingcod_conout <- stockplotr::convert_output(
 load(here::here("doc", "report_north", "lingcod_output.rda"))
 
 # Run function
-# The two functions below use the current wd to save plots, so it is set here.
+# The two functions below use the current wd to save plots, so it is set here. 
 # I don't love that but it works.
-setwd(here::here("doc", "report_north"))
-stockplotr::save_all_plots(dat = out_new)
+setwd(here::here("doc","report_north"))
+stockplotr::save_all_plots(dat = out_new) 
 
 # Create asar template
-# Note:
 asar::create_template(
   format = "pdf",
   office = "NWFSC",
