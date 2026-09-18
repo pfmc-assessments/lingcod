@@ -1,5 +1,5 @@
 ^\.git$
-^/.Rproj\.user$
+^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^data-raw$
 ^doc$
@@ -12,5 +12,7 @@
 ^unfit
 ^vignettes/testexclude.Rmd$
 ignored
-^.*\.Rproj$
-^\.Rproj\.user$
+
+Forecast-report.sso
+warning.sso
+wtatage.ss_new

@@ -119,3 +119,8 @@ _main*
 !/models/*.R
 
 presentations/*.html
+
+# files related to asar report template
+Forecast-report.sso
+warning.sso
+wtatage.ss_new
