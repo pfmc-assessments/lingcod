@@ -8,7 +8,7 @@
 #| warning: false 
 #| include: false
 library(gt)
-tables_dir <- fs::path('C:/Users/margaret.siple/Documents/lingcod/doc/report_north', 'tables')
+tables_dir <- fs::path(here::here('report', 'report_north', 'tables'))
 ``` 
 
 ```{r} 
@@ -53,7 +53,7 @@ gt::cols_width(
 #| label: 'set-rda-dir-figs-es'
 #| warnings: false 
 #| eval: true
-figures_dir <- fs::path('C:/Users/margaret.siple/Documents/lingcod/doc/report_north', 'figures')
+figures_dir <- fs::path(here::here('report', 'report_north', 'figures'))
 ``` 
 
 ```{r} 

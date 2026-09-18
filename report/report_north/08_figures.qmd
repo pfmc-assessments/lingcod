@@ -4,7 +4,7 @@
 #| label: 'set-rda-dir-figs'
 #| warnings: false 
 #| eval: true
-figures_dir <- fs::path(here::here('doc', 'report_north', 'figures'))
+figures_dir <- fs::path(here::here('report', 'report_north', 'figures'))
 ``` 
 
 ```{r} 

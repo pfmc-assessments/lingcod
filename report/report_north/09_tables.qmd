@@ -6,6 +6,6 @@
 #| warning: false 
 #| include: false
 library(gt)
-tables_dir <- fs::path(here::here('doc', 'report_north', 'tables'))
+tables_dir <- fs::path(here::here('report', 'report_north', 'tables'))
 ``` 
 
