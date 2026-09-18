@@ -1,5 +1,5 @@
 ^\.git$
-^/.Rproj\.user$
+^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^data-raw$
 ^doc$
@@ -12,7 +12,6 @@
 ^unfit
 ^vignettes/testexclude.Rmd$
 ignored
-
 
 Forecast-report.sso
 warning.sso
