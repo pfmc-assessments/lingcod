@@ -101,7 +101,7 @@ region <- params$region
 #| eval: true 
 #| include: false
 # load converted output from stockplotr::convert_output() 
-load("../doc/report_south/lingcod_output.rda") 
+load("../../report/report_south/lingcod_output.rda") 
 # Call reference points and quantities below 
 output <- out_new |> 
   dplyr::mutate(estimate = as.numeric(estimate), 

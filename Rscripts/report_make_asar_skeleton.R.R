@@ -15,16 +15,16 @@ lingcod_conout <- stockplotr::convert_output(
   file = n_output_file,
   fleet_names = c("TW", "FG"), # got these from doc/catch-comm-fleetstructure.Rmd
   model = "SS3", # optional, function recognizes model
-  save_dir = here::here("doc", "report_north", "lingcod_output.rda")
+  save_dir = here::here("report", "report_north", "lingcod_output.rda")
 )
 
 # Read in converted output file
-load(here::here("doc", "report_north", "lingcod_output.rda"))
+load(here::here("report", "report_north", "lingcod_output.rda"))
 
 # Run function
 # The two functions below use the current wd to save plots, so it is set here. 
 # I don't love that but it works.
-setwd(here::here("doc","report_north"))
+setwd(here::here("report","report_north"))
 stockplotr::save_all_plots(dat = out_new) 
 
 # Create asar template
@@ -43,7 +43,7 @@ asar::create_template(
   ),
   param_names = c("TW", "FG"),
   param_values = c("Trawl", "Fixed gear"),
-  model_results = "../doc/report_north/lingcod_output.rda" # converted model output
+  model_results = "../report/report_north/lingcod_output.rda" # converted model output
 )
 
 ########### Lingcod - south ##########################################
@@ -51,16 +51,16 @@ lingcod_conout <- stockplotr::convert_output(
   file = s_output_file,
   fleet_names = c("TW", "FG"), # got these from doc/catch-comm-fleetstructure.Rmd
   model = "SS3", # optional, function recognizes model
-  save_dir = here::here("doc", "report_south", "lingcod_output.rda")
+  save_dir = here::here("report", "report_south", "lingcod_output.rda")
 )
 
 # Read in converted output file
-load(here::here("doc", "report_south", "lingcod_output.rda"))
+load(here::here("report", "report_south", "lingcod_output.rda"))
 
 # Run function
 # The two functions below use the current wd to save plots, so it is set here.
 # I don't love that but it works.
-setwd(here::here("doc", "report_south"))
+setwd(here::here("report", "report_south"))
 stockplotr::save_all_plots(dat = out_new)
 
 # Create asar template
@@ -81,5 +81,5 @@ asar::create_template(
   ),
   param_names = c("TW", "FG"),
   param_values = c("Trawl", "Fixed gear"),
-  model_results = "../doc/report_south/lingcod_output.rda" # converted model output
+  model_results = "../report/report_south/lingcod_output.rda" # converted model output
 )
