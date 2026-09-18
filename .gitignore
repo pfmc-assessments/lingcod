@@ -113,12 +113,6 @@ suggested_tuning.ss
 # document files that we don't want to track
 _main*
 
-# additions on June 23 to help Ian navigate git better
-/models/
-!/models/2021.n.023.001*
-!/models/2021.s.018.001*
-!/models/*.R
-
 presentations/*.html
 
 # files related to asar report template
