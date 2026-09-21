@@ -41,8 +41,7 @@ asar::create_template(
     "Margaret Siple" = "NWFSC",
     "Megan Feddern" = "NWFSC"
   ),
-  param_names = c("TW", "FG"),
-  param_values = c("Trawl", "Fixed gear"),
+  custom_params = c("TW" = "Trawl", "FG" = "Fixed gear"),
   model_results = "../report/report_north/lingcod_output.rda" # converted model output
 )
 
@@ -79,7 +78,6 @@ asar::create_template(
     "Megan Feddern" = "NWFSC",
     "Melissa Monk" = "NWFSC"
   ),
-  param_names = c("TW", "FG"),
-  param_values = c("Trawl", "Fixed gear"),
+  custom_params = c("TW" = "Trawl", "FG" = "Fixed gear"),
   model_results = "../report/report_south/lingcod_output.rda" # converted model output
 )
