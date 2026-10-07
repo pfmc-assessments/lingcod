@@ -54,6 +54,7 @@ vignettes/*.pdf
 /models/ignored/
 
 /data-raw/*
+/2021data-raw/*
 !/data-raw/*.R
 
 /past*assessments/
