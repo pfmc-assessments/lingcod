@@ -24,11 +24,11 @@ To interact with this repository
 [- R](#r)\
 [- data-raw](#data-raw)\
 [- Rscripts](#rscripts)\
-[- Figures_explore](#figures-explore)\
+[- Figures_explore](#figures_explore)\
 [- example structure](#example-structure)\
-[Development guidelines](#Development-guidelines)\
-[Github issue guidelines](#Github-issues)\
-[Modeling workflow](#Modeling-workflow)
+[Development guidelines](#development-guidelines)\
+[Github issue guidelines](#github-issue-guidelines)\
+[Modeling workflow](#modeling-workflow)
 
 ## Disclaimer
 
@@ -37,7 +37,7 @@ only. They are in a pre-review, pre-decisional state and should not be formally
 cited (or reproduced). They are to be considered provisional and do not 
 represent any determination or policy of NOAA or the Department of Commerce.*
 
-## Overview {#overview}
+## Overview
 
 This repository houses information related to the U.S. West Coast 2027 lingcod 
 stock assessment, and historically the 2021 lingcod stock assessment. The 
@@ -57,14 +57,14 @@ project is designed using vertical. This may seem overly prescriptive at first
 but it should be helpful. While the 2021 version of this repository followed
 this framework closely, the 2027 version is more loose in its application. 
 
-## Repository structure {#repository-structure}
+## Repository structure
 
 The following sections contain descriptive information about potential contents 
 and how to interact with files and directories in this repository. Feel free to 
 add new files or directories, just be sure to also add information to the 
 .gitignore and .Rbuildignore files if you need to.
 
-### DESCRIPTION {#description}
+### DESCRIPTION
 
 A plain text file that lists all of the necessary packages. Add packages that 
 everyone must have to Imports, and `devtools::load_all()` will check that 
@@ -73,7 +73,7 @@ install to Suggests, these are packages used for one-of analyses or preparing
 things that will not be touched again. Note that you will still need to use the 
 `::` operator unless you add `@import` or `@importFrom`.
 
-### R {#r}
+### R
 
 A directory that stores R functions using .R files. All code in this folder 
 should be used to create functions, i.e., no scripts or analyses. Files stored 
@@ -89,7 +89,7 @@ If you have files that are not quite ready for deployment in this directory,
 then please commit them to the [Rscripts](#rscripts) directory and we can always 
 move them later.
 
-### data-raw {#data-raw}
+### data-raw
 
 This folder is not saved on github, so when cloning the repository, it will need
 to be created.
@@ -116,7 +116,7 @@ in the Google Drive data-raw folder so others can access. If you go to the
 Lingcod_2027 Google Drive folder, you will see a data-raw folder. Download all 
 of the files at the top level of this directory and store into your local data-raw folder within the repository. Files within the
 [Rscripts](#rscripts) are used to process data in data-raw, which are then saved
-as .rda files into the [data](#data) folder. 
+as .rda files into the [data](data/) folder. 
 
 When you receive an email with data or a contributor wants to provide data, 
 add it to your local data-raw folder as well as one of the following directories
@@ -137,7 +137,7 @@ added a link to her shared folder. Where possible, direct links to individual
 relevant files may be preferrable. This process is largely 
 explained in the data-raw [README](https://drive.google.com/file/d/17FoJkkiYFQryskUmI0Ftz6Xl9_MVIKZv/view?usp=sharing).
 
-### Rscripts {#rscripts}
+### Rscripts
 
 Scripts inside this folder will be used to pull data files from data-raw, and 
 create data objects and products to save as .rda files in data. In theory, 
@@ -168,18 +168,18 @@ developmental code separately. For code that is not yet finished, either do not 
 or commit to Rscripts and update until complete (to benefit from github tracking
 progress).
 
-### Figures_explore {#figures-explore}
+### Figures_explore
 
 Use this folder as a holding group for exploratory figures showing results of
 data explorations. Files that are a part of dedicated exploratory research should
-not go there (place those in [Research_explore](#research)). Rather, this will
+not go there (place those in [Research_explore](#research_explore)). Rather, this will
 house figures generated during data exploration. Final figures used for the 
 assessment report should be copied from here, and placed into the report/figures
 folder (once that is created), or saved there directly. Given that we wont know 
 which figures are final until they are added, it is best to place figures within 
 Figures_explore for now. 
 
-### Research_explore {#research}
+### Research_explore
 
 Any files from early exploratory development and ideas are to be go into this
 folder. The structure of it is less important, but discussion topics should be
@@ -204,7 +204,7 @@ and no longer need to be saved to the Google Drive. Only the subset of files
 needed to run and read the model are committed to the repository based on the
 .gitignore file. 
 
-### Example structure {#example-structure}
+### Example structure
 
 The following directory structure should be adhered to when adding new files:
 
@@ -260,7 +260,7 @@ kept so users can see the structure of data and Rscripts at that time. These
 folders are for reference only, should not be added to, and ultimately will be 
 deleted at the end of the current assessment. 
 
-## Development guidelines {#development-guidelines}
+## Development guidelines
 
 -   Do not commit any confidential data to this repository. Files placed in 
 data-raw are ignored by default unless they have the .R extension. Use the 
@@ -288,7 +288,7 @@ also searchable and a great way to document non-actionable thoughts. Once a
 discussion becomes actionable, it should be moved to an issue using github's 
 functionality. 
 
-## Modeling workflow {#modeling-workflow}
+## Modeling workflow
 
 todo: These can (and should) be updated more completely. 
 
