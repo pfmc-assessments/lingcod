@@ -10,16 +10,21 @@ the 2021 lingcod assessments are available at
 
 To interact with this repository 
   1. clone it to your computer `git clone https://github.com/pfmc-assessments/lingcod.git`, 
-  2. open R and set your working directory to the cloned location, 
-  3. run `devtools::load_all()`, and 
-  4. make magic.
+  2. create a folder named data-raw in your cloned location, since that folder 
+  is not present on github 
+  3. download the data-raw files from our google drive location, and add them to
+  your local data-raw folder
+  4. open R and set your working directory to the cloned location, 
+  5. run `devtools::load_all()`, and 
+  6. make magic.
 
-[Overview](#Overview)\
-[Repository structure](#Repository-structure)\
-[- DESCRIPTION](#DESCRIPTION)\
-[- R](#R)\
+[Overview](#overview)\
+[Repository structure](#repository-structure)\
+[- DESCRIPTION](#description)\
+[- R](#r)\
 [- data-raw](#data-raw)\
-[- unfit](#unfit)\
+[- Rscripts](#rscripts)\
+[- Figures_explore](#figures-explore)\
 [- example structure](#example-structure)\
 [Development guidelines](#Development-guidelines)\
 [Github issue guidelines](#Github-issues)\
@@ -86,14 +91,17 @@ move them later.
 
 ### data-raw {#data-raw}
 
+This folder is not saved on github, so when cloning the repository, it will need
+to be created.
+
 A directory that stores 
-\* base-level **CONFIDENTIAL** data that is **NOT** committed to the repository, 
-\* base-level non-confidential data that is **NOT** committed to the repository, 
+-  base-level **CONFIDENTIAL** data that is **NOT** committed to the repository, 
+-  base-level non-confidential data that is **NOT** committed to the repository, 
 
 Most important, **DO NOT** commit confidential data. The [.gitignore](https://github.com/pfmc-assessments/lingcod/blob/main/.gitignore)
 file is now setup to ignore everything in this folder. Previously, this folder
 housed R-scripts and processed data that were committed. That is no longer the 
-case.
+case, as its intent is to house base level raw data that is then processed.
 
 #### data in data-raw
 
@@ -103,26 +111,26 @@ not have a tangible structure that can be tracked, be static and unlikely to
 change over time, or have been provided but not currently being used. Thus, 
 [Google Drive](https://drive.google.com/drive/u/0/folders/18S_mEE9D1GlNa_VXX5AwyP_4YzPJNFda) is sufficient for their storage.
 
-Because the data-raw folder is not committed, data are placed in the Google Drive
-data-raw folder. If you go to the Lingcod_2027 Google Drive folder, you will see
-a data-raw folder. Download all of the files at the top level of this directory 
-and store into your local data-raw folder within the repository. Files within the
+Because the data-raw folder is not committed, data to share are placed here locally, and 
+in the Google Drive data-raw folder so others can access. If you go to the 
+Lingcod_2027 Google Drive folder, you will see a data-raw folder. Download all 
+of the files at the top level of this directory and store into your local data-raw folder within the repository. Files within the
 [Rscripts](#rscripts) are used to process data in data-raw, which are then saved
-as .rdata files into the [data](#data) folder. 
+as .rda files into the [data](#data) folder. 
 
 When you receive an email with data or a contributor wants to provide data, 
-add it to one of the following directories within the Google Drive data-raw 
-directory: ASHOP, WCGOP, NOAA surveys, State surveys, Commercial, Recreational, 
-Biology. Please use only those subfolders to avoid an overly complicated folder
-structure. Save only the datasets in data-raw that we will use for processing. If
-that file has a separate metadata file, that can be included, but relevant
-manuscripts or work ups should not be saved in data-raw. If others provide data 
-to you and you upload it to the Google Drive, please do not change 
-the file name even if it has spaces in it ... just add it as is to maintain its 
-traceability.
+add it to your local data-raw folder as well as one of the following directories
+within the Google Drive data-raw directory so others can access: ASHOP, WCGOP, 
+NOAA surveys, State surveys, Commercial, Recreational, Biology. Please use only 
+those subfolders to avoid an overly complicated folder structure. Save only the 
+datasets in data-raw that we will use for processing. If that file has a separate 
+metadata file, that can be included, but relevant manuscripts or work ups should 
+not be saved in data-raw. If others provide data to you and you upload it to the 
+Google Drive, please do not change the file name even if it has spaces in it ...
+just add it as is to maintain its traceability.
 
 An extra step that you can do for fun within Google Drive is to provide 
-shortcuts to shared folders, providing that include only files we will use. 
+shortcuts to shared folders, providing they include only files we will use. 
 For example, WDFW shared a Google Drive folder with me called Lingcod. I added a 
 folder in the Google Drive called data-raw/washington_sharedwithTheresa and 
 added a link to her shared folder. Where possible, direct links to individual 
@@ -148,31 +156,42 @@ is an R object that is available in everyone's workspace when the R package is
 loaded. This script also stores code to build other catch data frames that will 
 be combined to create the time series of catches placed in the data file.
 
+Please save scripts in Rscripts with the following prefixes:
+-  "data_" for scripts processing data
+-  "model_" for scripts for modeling things
+
 #### scripts in progress 
 
 Previously, developmental R scripts were placed in the unfit folder, which was a 
 storage and tracking location for 'unfit' information. We are no longer saving 
-developmental code separately. For code that is not yet finished, ever do not commit
+developmental code separately. For code that is not yet finished, either do not commit
 or commit to Rscripts and update until complete (to benefit from github tracking
 progress).
 
-#### Figures_explore
+### Figures_explore {#figures-explore}
 
 Use this folder as a holding group for exploratory figures showing results of
 data explorations. Files that are a part of dedicated exploratory research should
 not go there (place those in [Research_explore](#research)). Rather, this will
 house figures generated during data exploration. Final figures used for the 
 assessment report should be copied from here, and placed into the report/figures
-folder, or saved there directly. Given that we wont know which figures are final
-until they are added, it is best to place figures within Figures_explore. 
+folder (once that is created), or saved there directly. Given that we wont know 
+which figures are final until they are added, it is best to place figures within 
+Figures_explore for now. 
 
 ### Research_explore {#research}
 
 Any files from early exploratory development and ideas are to be go into this
 folder. The structure of it is less important, but discussion topics should be
 used to organize findings and conclusions from your exploration, and any resultant
-decisions should be reflected in the existing package structure using Rscripts 
-and data files.
+decisions should be reflected in the existing package structure using 
+[Rscripts](#rscripts) and data files.
+
+**IMPORTANT**: Files in Research_explore are pushed. Do not place confidential
+data in this folder. Rather, use data from the [data-raw](#data-raw) folder and
+only place scripts, figures, or non-confidential processed output into research 
+explorations. 
+
 
 ### Models
 
@@ -222,8 +241,7 @@ lingcod
 |
 |----research_explore
 |    |----stock_structure
-|         |----2021.n.023.001_fixWAreccatchhistory
-|         |----2021.s.018.001_fixTri3
+|         |----maps and design-based
 |
 |----tests
 |
@@ -237,8 +255,8 @@ lingcod
 #### Remnant 2021 data folders
 
 Any folders with the prefix 2021 are holdover folders from the previous stock 
-assessment for lingcod, which in our case in the 2021 model. These folders are 
-kept so users can see the structure of data and data-raw at that time. These 
+assessment for lingcod, which in our case is the 2021 model. These folders are 
+kept so users can see the structure of data and Rscripts at that time. These 
 folders are for reference only, should not be added to, and ultimately will be 
 deleted at the end of the current assessment. 
 
@@ -247,7 +265,7 @@ deleted at the end of the current assessment.
 -   Do not commit any confidential data to this repository. Files placed in 
 data-raw are ignored by default unless they have the .R extension. Use the 
 [Google Drive](https://drive.google.com/drive/u/0/folders/1F5ibAgtjNhefiMF0Trda_PCEar3tQplF) 
-folder to share data with team members (in data-raw) or other material (in 
+folder to share data (in data-raw) with team members or other material (in 
 shareable).
 -   Hard wrap text at less than 80 characters; consider using a smaller number 
 of characters if it leads to logical chunks. Think about how users will edit the
@@ -257,6 +275,9 @@ location information.
 -   Colors for north and south are blue and red, respectively.
 -   Please use a functional spell checker while developing within this 
 repository.
+-   Use relative paths for reading in and saving files. Make this relative to the
+lingcod repository. For example, when accessing raw data use either 
+file.path("data-raw", ...) or here::here("data-raw", ....) within your scripts.
 
 ## Github issue guidelines
 
@@ -273,15 +294,15 @@ todo: These can (and should) be updated more completely.
 
 ### Examples at the end of [models/lingcod_model_bridging_new_exe.R](https://github.com/pfmc-assessments/lingcod/blob/main/models/lingcod_model_bridging_new_exe.R), and [models/lingcod_model_bridging_newdat.R](https://github.com/pfmc-assessments/lingcod/blob/main/models/lingcod_model_bridging_newdata.R)
 
-) \* Add calls within the modeling script and use the functions 
+* Add calls within the modeling script and use the functions 
 `r4ss::copy_SS_inputs()`, `get_dir_ling()`, and `get_dir_exe()` to copy model 
 files into a new folder. 
-\* Use the `get_inputs_ling()` function to read the SS input files into R 
-\* Modify the input files within R 
-\* Write the modified files using `write_inputs_ling()` 
-\* Run the model using either `r4ss::run_SS_models()`, command line commands, or
+* Use the `get_inputs_ling()` function to read the SS input files into R 
+* Modify the input files within R 
+* Write the modified files using `write_inputs_ling()` 
+* Run the model using either `r4ss::run_SS_models()`, command line commands, or
 whatever approach you like 
-\* Commit the model results to the repo (most files will be ignored thanks to 
+* Commit the model results to the repo (most files will be ignored thanks to 
 `.gitignore`)
 
 ### Tools for looking at model results
