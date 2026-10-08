@@ -18,8 +18,8 @@ Please contact @iantaylor-NOAA or @brianlangseth-NOAA for access if you need it.
 
 # the models retained in this repo from previous years include
 
-name | notes | issue | source_model | script
---   | --    | --    | --           | --
+name | description  
+--   | --    
 2017.n.001.001.final_base | 2017 north base 
 2017.s.001.001.final_base | 2017 south base 
 2019.n.001.001.cou | 2019 north base
