@@ -37,7 +37,7 @@ get_dir_ling <- function(area = NULL,
   }
   
   # read table of models
-  models <- get_mdtable(file.path("models", "README.md"), "# table")
+  models <- get_mdtable(file.path("models", "README.md"), "the models retained in this repo from previous years include")
 
   # get string for model id (as decided in issue #32)
   if (is.null(id)) {
