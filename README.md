@@ -23,6 +23,7 @@ To interact with this repository
 [- DESCRIPTION](#description)\
 [- R](#r)\
 [- data-raw](#data-raw)\
+[- data](#data)\
 [- Rscripts](#rscripts)\
 [- Figures_explore](#figures_explore)\
 [- example structure](#example-structure)\
@@ -56,6 +57,47 @@ features exist because users can expect a common directory structure when a
 project is designed using vertical. This may seem overly prescriptive at first 
 but it should be helpful. While the 2021 version of this repository followed
 this framework closely, the 2027 version is more loose in its application. 
+
+## Data Workflow
+
+The R package structure separates data preparation, reusable functions,
+and analyses. Preparing data is an explicit step; loading the package
+makes the saved data objects and functions available without rerunning
+the preparation scripts or analyses.
+
+```mermaid
+flowchart TD
+    raw["data-raw/: source files<br/>Preserve input provenance"]
+    scripts["Rscripts/: code to process raw data which call `usethis::use_data()`"]
+    data["data/: saved .rda data objects only<br/>Consistent analysis inputs"]
+    funcs["R/: function definitions only<br/>Reusable code"]
+    load["devtools::load_all()<br/>Make data and functions available"]
+    analysis["Analysis and modeling scripts<br/>Explicitly run the work"]
+    outputs["Models, figures, tables, and reports"]
+
+    raw --> data
+    scripts --> raw
+    scripts --> data
+    data --> load
+    funcs --> load
+    load --> analysis
+    analysis --> outputs
+```
+
+* **Traceable preparation:** `data-raw/` keeps source files and the scripts
+  that transform them separate from the prepared objects. Confidential
+  inputs must remain untracked; this separation does not replace checking
+  what is safe to commit.
+* **Ready-to-use data:** `data/` contains only saved R data files (`.rda`
+  in this repository), not CSV files or preparation scripts. Analyses can
+  reuse the same prepared objects without repeating data import and cleaning.
+* **One loading step:** because this repository is an R package,
+  `devtools::load_all()` makes all package data objects and functions
+  available in the R session. It does not rebuild data from `data-raw/`.
+* **Reusable code without automatic analyses:** `R/` contains only function
+  definitions. Loading the package makes those functions available;
+  analyses run only when their scripts or functions are explicitly called.
+  This makes functions easier to test and reuse across assessments.
 
 ## Repository structure
 
@@ -101,7 +143,8 @@ A directory that stores
 Most important, **DO NOT** commit confidential data. The [.gitignore](https://github.com/pfmc-assessments/lingcod/blob/main/.gitignore)
 file is now setup to ignore everything in this folder. Previously, this folder
 housed R-scripts and processed data that were committed. That is no longer the 
-case, as its intent is to house base level raw data that is then processed.
+case, as its intent is to house base level raw data that is then processed 
+and the R scripts are now located in the separate `Rscripts` directory.
 
 #### data in data-raw
 
@@ -137,10 +180,27 @@ added a link to her shared folder. Where possible, direct links to individual
 relevant files may be preferrable. This process is largely 
 explained in the data-raw [README](https://drive.google.com/file/d/17FoJkkiYFQryskUmI0Ftz6Xl9_MVIKZv/view?usp=sharing).
 
+### data
+
+A directory containing only prepared R data files, saved as `.rda` files
+in this repository. Each file can contain one or more named R objects.
+Source files and scripts belong in [data-raw](#data-raw), not here.
+The saved objects are made available by `devtools::load_all()`, alongside
+the functions defined in [R](#R), so users do not need to source the
+preparation scripts to begin an analysis.
+
+When inputs or preparation code change, rerun the relevant `data-raw/`
+scripts to update the saved objects, then reload the package.
+Only save data that are appropriate to distribute with the package;
+derived objects must also be checked for confidential information.
+
 ### Rscripts
 
 Scripts inside this folder will be used to pull data files from data-raw, and 
-create data objects and products to save as .rda files in data. In theory, 
+create data objects and products to save as .rda files in data via the 
+`usethis::use_data()` function. 
+
+In theory, 
 scripts should be developed such that the following code from the top-level 
 directory of lingcod_2021 will create all of the stored data objects and save 
 them in data as .rda files:
