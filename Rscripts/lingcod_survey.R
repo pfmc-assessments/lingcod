@@ -77,7 +77,7 @@ usethis::use_data(catch.Triennial, overwrite = TRUE)
 usethis::use_data(catch.WCGBTS, overwrite = TRUE)
 usethis::use_data(bio.Triennial, overwrite = TRUE)
 usethis::use_data(bio.WCGBTS, overwrite = TRUE)
-
+usethis::use_data(bio.HKL, overwrite = TRUE)
 
 # Make plot of age representativeness
 pacfintools::age_representativeness_plot(
