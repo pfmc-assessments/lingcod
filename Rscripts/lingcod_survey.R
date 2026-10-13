@@ -9,10 +9,16 @@ devtools::load_all() #lingcod
 library(nwfscSurvey)
 library(pacfintools)
 
-# North model: want to use north base model
+# North model: north base
 # 2021.n.023.001_fixWAreccatchhistory   | 2021 north base used throughout report
 
+# South model: south base
+# 2021.s.018.001_fixTri3 | 2021 south base used throughout report
+
 ling_inputs <- get_inputs_ling(area = "n", id = "2021.n.023.001_fixWAreccatchhistory")
+ling_inputs <- get_inputs_ling(area = "s", id = "2021.s.018.001_fixTri3")
+
+
 
 #### Helper objects
 text_40degrees10minutes <- "40\u00B010"
