@@ -9,11 +9,10 @@ devtools::load_all() #lingcod
 library(nwfscSurvey)
 library(pacfintools)
 
-# North model: could be north base or north base with corrected forecast:
+# North model: want to use north base model
 # 2021.n.023.001_fixWAreccatchhistory   | 2021 north base used throughout report
-# 2021.n.023.010_forecast | 2021 north base with corrected forecast
 
-ling_inputs <- get_inputs_ling(area = "n", id = "2021.n.023.010_forecast")
+ling_inputs <- get_inputs_ling(area = "n", id = "2021.n.023.001_fixWAreccatchhistory")
 
 #### Helper objects
 text_40degrees10minutes <- "40\u00B010"
@@ -24,7 +23,7 @@ breaks_lat <- c("CAN-US" = 49.0, "40-10" = round(40 + 10/60, 6), "US-MX" = 32.0)
 distributions <- c("gamma", "lognormal", "compound")
 nscutoff <- 3813.86734
 scalemt <- 2 * 2 / 1000 # 2 x 2 km grid and converted from kg to tonnes
-data(SA3, package = "nwfscDeltaGLM")
+#data(SA3, package = "nwfscDeltaGLM") # this pkg is archived as of 2023
 
 
 #### File paths
@@ -60,7 +59,8 @@ bio.Triennial <- nwfscSurvey::pull_bio(
 
 #### Load WCGBTS bio data
 # Updated call
-bio.WCGBTS <- nwfscSurvey::pull_bio(common_name = utils_name(), 
+bio.WCGBTS <- nwfscSurvey::pull_bio(
+  common_name = utils_name(), 
   survey = "NWFSC.Combo", 
   years = 2003:2026, 
   dir = "./data-raw",
