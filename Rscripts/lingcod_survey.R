@@ -66,6 +66,11 @@ bio.WCGBTS <- nwfscSurvey::pull_bio(
   dir = "./data-raw",
   standard_filtering = TRUE)
 
+#### Load hook and line bio data
+bio.HKL <- nwfscSurvey::pull_hkl_cache(
+  years = 2003:2026, 
+  common_name = utils_name(),
+  dir = "./data-raw")
 
 # Create package data
 usethis::use_data(catch.Triennial, overwrite = TRUE)
