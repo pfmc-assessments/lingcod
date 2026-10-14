@@ -10,18 +10,19 @@
 
 #+ info_authors
 info_authors <- list(
-  c("Ian G. Taylor", "Kelli F. Johnson",
-    "Brian J. Langseth", "Andi Stephens",
-    "Laurel S. Lam", "Melissa H. Monk",
-    "Alison D. Whitman",
-    "Melissa A. Haltuch"
-  ),
-  c("Ian G. Taylor", "Kelli F. Johnson",
-    "Brian J. Langseth", "Andi Stephens",
-    "Laurel S. Lam", "Melissa H. Monk",
-    "John E. Budrick",
-    "Melissa A. Haltuch"
-  )
+  c(NA, NA) # TODO: update for 2027
+  # c("Ian G. Taylor", "Kelli F. Johnson",
+  #   "Brian J. Langseth", "Andi Stephens",
+  #   "Laurel S. Lam", "Melissa H. Monk",
+  #   "Alison D. Whitman",
+  #   "Melissa A. Haltuch"
+  # ),
+  # c("Ian G. Taylor", "Kelli F. Johnson",
+  #   "Brian J. Langseth", "Andi Stephens",
+  #   "Laurel S. Lam", "Melissa H. Monk",
+  #   "John E. Budrick",
+  #   "Melissa A. Haltuch"
+  # )
 )
 
 #+ info_bins
@@ -43,14 +44,16 @@ info_surveynames <- c("WCGBTS", "Triennial")
 
 #+ info_basemodels
 info_basemodels <- structure(
-  c("2021.n.023.001_fixWAreccatchhistory", "2021.s.018.001_fixTri3"),
+  #c("2021.n.023.001_fixWAreccatchhistory", "2021.s.018.001_fixTri3"),
+  c(NA, NA), # TODO: update for 2027
   names = get_groups(info_groups)
   )
 
 #+ info_areacolors
 # 
 info_areacolors <- structure(
-  unikn::usecol(pal_unikn_pair, 16L)[c(2,10)], 
+  # unikn::usecol(unikn::pal_unikn_pair, 16L)[c(2,10)],
+  c("#8290BB", "#BC7A8F" ), # remove dependence on unikn package
   names = get_groups(info_groups)
   )
 
