@@ -84,13 +84,17 @@ flowchart TD
     analysis --> outputs
 ```
 
-* **Traceable preparation:** `data-raw/` keeps source files and the scripts
-  that transform them separate from the prepared objects. Confidential
-  inputs must remain untracked; this separation does not replace checking
-  what is safe to commit.
+**Benefits of this approach:**
+* **Traceable preparation:** `data-raw/` keeps source files 
+  separate from the prepared objects. Raw data (whether confidential or 
+  not) are not shared via github but the R scripts which process
+  these data provide a reproducible path to create the 
+  non-confidential processed data.
 * **Ready-to-use data:** `data/` contains only saved R data files (`.rda`
   in this repository), not CSV files or preparation scripts. Analyses can
   reuse the same prepared objects without repeating data import and cleaning.
+  These saved data also include things like a table of fleets (with names 
+  and numbers) and the length and age bins used throughout the data processing.
 * **One loading step:** because this repository is an R package,
   `devtools::load_all()` makes all package data objects and functions
   available in the R session. It does not rebuild data from `data-raw/`.
@@ -98,6 +102,12 @@ flowchart TD
   definitions. Loading the package makes those functions available;
   analyses run only when their scripts or functions are explicitly called.
   This makes functions easier to test and reuse across assessments.
+
+**TODO: Steps remaining to be figured out:**
+* **Tracking which scripts need to be re-run once data are final.** 
+After the data deadlines we will need to re-run some of the data processing
+scripts in `Rscripts/`. The best approach to keeping track of what
+needs to be re-run will be noted in this README once we make a plan.
 
 ## Repository structure
 
