@@ -165,22 +165,19 @@ maxdepth <- ceiling(stats::quantile(
 # Make figures
 png(file.path("figures", "WCGBTS_presence_absence_by_depth_bin.png"),
     width = 7, height = 5, units = 'in', res = 300, pointsize = 10)
-par(mfrow = c(2,1), mar = c(1,1,1,.1))
-nwfscSurvey::PlotPresenceAbsence.fn(
-  catch = catch.WCGBTS,
-  lat_min = 40+10/60,
-  depth_max = maxdepth,
-  main = paste0("North of ", text_40degrees10minutes),
-  add_range_to_main = FALSE
-)
-nwfscSurvey::PlotPresenceAbsence.fn(
-  catch = catch.WCGBTS,
-  lat_max = 40+10/60,
-  depth_max = maxdepth,
-  main = paste0("South of ", text_40degrees10minutes),
-  add_range_to_main = FALSE
-)
-dev.off()
+par(mfrow = c(2,1), mar = c(1, 1, 1, .1))
+
+
+# # Presence-absence north
+# nwfscSurvey::plot_bio_patterns(
+#   data = catch.WCGBTS[catch.WCGBTS$Latitude_dd > breaks_lat["40-10"] & catch.WCGBTS$Depth < 400, ]
+# )
+
+# # Presence-absence south
+# nwfscSurvey::plot_bio_patterns(
+#   data = catch.WCGBTS[catch.WCGBTS$Latitude_dd < breaks_lat["40-10"] & catch.WCGBTS$Depth < 400, ]
+# )
+# dev.off()
 
 #### VAST for surveys
 strata_limits <- stats::setNames(mapply(
