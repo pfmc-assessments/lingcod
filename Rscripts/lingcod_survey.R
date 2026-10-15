@@ -70,13 +70,13 @@ bio.Triennial <- nwfscSurvey::pull_bio(
 bio.WCGBTS <- nwfscSurvey::pull_bio(
   common_name = utils_name(), 
   survey = "NWFSC.Combo", 
-  years = 2003:2026, 
+  years = c(2003, 2026), 
   dir = "./data-raw",
   standard_filtering = TRUE)
 
 #### Load hook and line bio data
 bio.HKL <- nwfscSurvey::pull_hkl_cache(
-  years = 2003:2026, 
+  years = c(2003, 2026), 
   common_name = utils_name(),
   dir = "./data-raw")
 
