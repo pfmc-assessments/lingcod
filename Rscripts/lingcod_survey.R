@@ -44,14 +44,15 @@ file_runmodels <- file.path(
 
 #### Catch data
 # load Triennial catch data
-catch.Triennial <- nwfscSurvey::PullCatch.fn(
-  Name = utils_name("common"),
-  SurveyName = "Triennial"
+catch.Triennial <- nwfscSurvey::pull_catch(
+  common_name = utils_name("common"),
+  survey = "Triennial"
 )
+
 # load WCGBTS catch data
-catch.WCGBTS <- nwfscSurvey::PullCatch.fn(
-  Name = utils_name("common"),
-  SurveyName = "NWFSC.Combo"
+catch.WCGBTS <- nwfscSurvey::pull_catch(
+  common_name = utils_name("common"),
+  survey = "NWFSC.Combo"
 )
 
 #### Bio data
