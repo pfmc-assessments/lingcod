@@ -140,17 +140,15 @@ if(FALSE) { # run calculation of design-based index only once
 # 8    deep_wa  1987.257       183       400          46.0          49.0
 
   # calculate design-based index
-  biomass.WCGBTS <- nwfscSurvey::Biomass.fn(
+  biomass.WCGBTS <- nwfscSurvey::get_design_based(
                                    dir = file.path("figures", "WCGBTS"),
-                                   dat = catch.WCGBTS,
-                                   strat.df = strata,
-                                   printfolder = "",
-                                   outputMedian = TRUE)
+                                   data = catch.WCGBTS,
+                                   strata = strata,
+                                   CI = 0.95) # not sure if this is the same as outputMedian = TRUE
   # make plot of design-based index
-  nwfscSurvey::PlotBio.fn(dir = file.path("figures", "WCGBTS"),
-                          dat = biomass.WCGBTS,
-                          main = paste0(utils_name("Common"),", ", get_fleet("WCGBT", col="label_long")),
-                          dopng = TRUE)
+  nwfscSurvey::plot_index(dir = file.path("figures", "WCGBTS"),
+                          data = biomass.WCGBTS,
+                          add_save_name =, plot = 1:2)
 
 } # end of design-based index calcs
 
