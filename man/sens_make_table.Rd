@@ -22,12 +22,14 @@ sens_make_table(
 )
 }
 \arguments{
-\item{area}{Which area "n" or "s"}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
-\item{num}{base model number}
+\item{num}{Base model number.}
 
 \item{sens_base}{Sensitivity number associated with the base model
 or source for the other sensitivities.}
+
+\item{yr}{Model year (defaults to 2027).}
 
 \item{sens_nums}{A vector of values from /inst/extdata/sensitivities.csv}
 

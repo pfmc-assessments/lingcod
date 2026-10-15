@@ -17,9 +17,9 @@ to \link[bookdown:render_book]{bookdown::render_book} as suggested on
 \href{https://community.rstudio.com/t/is-it-possible-to-use-variables-set-in-index-rmd-in-the-other-yaml-files/78483/5}{this Rstudio community thread}.
 }
 \seealso{
-Other compile: 
-\code{\link{compile_internal}()},
-\code{\link{compile_ling}()}
+Other compile:
+\code{\link[=compile_internal]{compile_internal()}},
+\code{\link[=compile_ling]{compile_ling()}}
 }
 \author{
 Kelli F. Johnson

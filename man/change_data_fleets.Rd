@@ -7,7 +7,7 @@
 change_data_fleets(area, fleets, dat)
 }
 \arguments{
-\item{area}{area, initially either "n" or "s" for 2021 models}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
 \item{fleets}{table of info on old and new fleets created by get_fleets()}
 

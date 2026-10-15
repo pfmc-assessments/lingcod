@@ -109,7 +109,7 @@ Choosing to not track a data file can be made for multiple reasons other than
 ensuring confidentiality. For example, files might be too large to be tracked, 
 not have a tangible structure that can be tracked, be static and unlikely to 
 change over time, or have been provided but not currently being used. Thus, 
-[Google Drive](https://drive.google.com/drive/u/0/folders/18S_mEE9D1GlNa_VXX5AwyP_4YzPJNFda) is sufficient for their storage.
+Google Drive is sufficient for their storage.
 
 Because the data-raw folder is not committed, data to share are placed here locally, and 
 in the Google Drive data-raw folder so others can access. If you go to the 
@@ -187,19 +187,24 @@ used to organize findings and conclusions from your exploration, and any resulta
 decisions should be reflected in the existing package structure using 
 [Rscripts](#rscripts) and data files.
 
-**IMPORTANT**: Files in Research_explore are pushed. Do not place confidential
-data in this folder. Rather, use data from the [data-raw](#data-raw) folder and
-only place scripts, figures, or non-confidential processed output into research 
-explorations. 
+Files in Research_explore are **NOT** committed, as controlled by the .gitignore 
+file. The reason is to avoid accidental pushes of confidential data from 
+explorations, and that material is exploratory and likely voluminous. Any relevant 
+material stemming from these explorations that is used for the assessment should
+be placed in other folders that are tracked. 
+
+In addition to placing any material in this folder, update the Google Drive 
+folder so others can access. Similarly, for accessing others' exploratory 
+research, download files from the Google Drive folder.
 
 
 ### Models
 
 All developmental model runs should be saved here. Please use the naming 
 convention as outlined in the models folder [README](https://github.com/pfmc-assessments/lingcod/blob/main/models/README.md).
-Use the model_runs Rscript file to track and run your models, which allows 
-reproducibility and allows us not to have to track every model run (as was done
-for the 2021 assessment). Moreover, model files are saved within this repository
+Use the model_runs.R file to track and run your models, which allows 
+reproducibility and allows us not to have to track every model run in a separate
+document (as was done for the 2021 assessment). Moreover, model files are saved within this repository
 and no longer need to be saved to the Google Drive. Only the subset of files 
 needed to run and read the model are committed to the repository based on the
 .gitignore file. 
@@ -264,9 +269,8 @@ deleted at the end of the current assessment.
 
 -   Do not commit any confidential data to this repository. Files placed in 
 data-raw are ignored by default unless they have the .R extension. Use the 
-[Google Drive](https://drive.google.com/drive/u/0/folders/1F5ibAgtjNhefiMF0Trda_PCEar3tQplF) 
-folder to share data (in data-raw) with team members or other material (in 
-shareable).
+Google Drive folder to share data (in data-raw) with team members or other 
+material (in shareable).
 -   Hard wrap text at less than 80 characters; consider using a smaller number 
 of characters if it leads to logical chunks. Think about how users will edit the
 text and use that to guide where you should wrap lines.

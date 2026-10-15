@@ -91,7 +91,7 @@ plot_sel_comm <- function(mod, sex = 1) {
 #'
 #' @param mod A model object created by [get_mod()] or
 #' `r4ss::SS_output()`
-#' @param area Either "n" or "s"
+#' @inheritParams get_dir_ling
 #' @param sex Either 1 (females) or 2 (males)
 #' @export
 #' @author Ian G. Taylor

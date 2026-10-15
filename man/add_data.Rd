@@ -16,7 +16,7 @@ add_data(
 \arguments{
 \item{dat}{List created by \code{\link[=get_inputs_ling]{get_inputs_ling()}} or \code{r4ss::SS_readdat()}}
 
-\item{area}{Area associated with the model, either "n" or "s"}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
 \item{dat_type}{Character vector listing data types to add
 NULL value will lead to all data types}
@@ -28,8 +28,8 @@ commercial data for which discards comps are available.}
 \item{fleets}{Optional vector of fleet numbers for which to add data
 NULL value will use all fleets from \code{\link[=get_fleet]{get_fleet()}}}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 }
 \description{
 Modifies the elements of the data file to add new data

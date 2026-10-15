@@ -8,7 +8,8 @@ get_mod(
   area = NULL,
   num = NULL,
   sens = 1,
-  yr = 2021,
+  yr = 2027,
+  year = NULL,
   id = NULL,
   dir = NULL,
   covar = TRUE,
@@ -20,16 +21,18 @@ get_mod(
 )
 }
 \arguments{
-\item{area}{area, initially either "n" or "s" for 2021 models}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
-\item{num}{base model number}
+\item{num}{Base model number.}
 
-\item{sens}{sensitivity number (assumed 1 if not specified)}
+\item{sens}{Sensitivity number (defaults to 1).}
 
-\item{yr}{model year (assumed 2021 if not specified)}
+\item{yr}{Model year (defaults to 2027).}
 
-\item{id}{model id (like "2021.s.001.001") as an alternative to
-the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
+\item{year}{Optional alias for \code{yr}; when supplied, it takes precedence.}
+
+\item{id}{Model ID (e.g. \code{"2021.n.023.001"}), as an alternative to
+\code{area}, \code{num}, \code{sens}, and \code{yr}.}
 
 \item{dir}{Directory where model files are located as an alternative
 to the previous inputs}
@@ -45,8 +48,8 @@ user's workspace with the name \code{mod.[id]} (e.g. \code{mod.2021.s.002.001}).
 \item{plot}{Either TRUE/FALSE or a vector drawn from 1:26 passed to
 SS_plots() to control which plot groups get created}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 
 \item{dots}{Additional arguments passed to r4ss::SS_plots()}
 }
@@ -62,14 +65,14 @@ and invisibly returns the list created by \code{r4ss::SS_output()}.
 \examples{
 \dontrun{
   # read model output and assign to workspace as 'mod.2021.s.001.001"
-  get_mod(area ="s", num = 1)
-  get_mod(id = "2021.s.001.001")
+  get_mod(area ="n", num = 23, yr = 2021)
+  get_mod(id = "2021.n.023.001")
 
   # read model output and make all default r4ss plots
-  get_mod(area ="s", num = 2, plot = TRUE)
+  get_mod(area ="n", num = 23, yr = 2021, plot = TRUE)
 
   # read model output and make only biology, selex, and time series plots
-  get_mod(area ="s", num = 2, plot = 1:3)
+  get_mod(area ="n", num = 23, yr = 2021, plot = 1:3)
 }
 }
 \seealso{

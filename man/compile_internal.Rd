@@ -2,7 +2,7 @@
 % Please edit documentation in R/compile_ling.R
 \name{compile_internal}
 \alias{compile_internal}
-\title{A non-vectorized version of \link{compile}}
+\title{A non-vectorized version of \link[sa4ss:compile]{sa4ss::compile}}
 \usage{
 compile_internal(dir, time = 10, wipe = FALSE, ...)
 }
@@ -16,14 +16,14 @@ The integer value is passed to \link[base:Sys.sleep]{base::Sys.sleep}.}
 \item{...}{Arguments passed to \link[bookdown:render_book]{bookdown::render_book}}
 }
 \description{
-A non-vectorized version of \link{compile} that acts as internal
-code for the wrapper \link{compile}. Users typically will not interact
+A non-vectorized version of \link[sa4ss:compile]{sa4ss::compile} that acts as internal
+code for the wrapper \link[sa4ss:compile]{sa4ss::compile}. Users typically will not interact
 with this function, but the code is exported for easier viewing.
 }
 \seealso{
-Other compile: 
-\code{\link{compile_changebookname}()},
-\code{\link{compile_ling}()}
+Other compile:
+\code{\link[=compile_changebookname]{compile_changebookname()}},
+\code{\link[=compile_ling]{compile_ling()}}
 }
 \author{
 Kelli F. Johnson

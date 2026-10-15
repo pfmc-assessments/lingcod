@@ -13,8 +13,8 @@ run_sensitivities(
 )
 }
 \arguments{
-\item{dirbase}{The directory that has the base-model files. This path
-needs to be full or relative to your current location.}
+\item{dirbase}{Directory containing the base model files, either a full
+path or a path relative to the current working directory.}
 
 \item{type}{The type of sensitivity you want to run.
 Options are

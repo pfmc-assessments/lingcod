@@ -36,8 +36,8 @@ which translates the characters \verb{\\n} into something that LaTeX can use.}
 
 \item{colgroup}{A vector of character strings to label the states of nature.}
 
-\item{format}{Argument passed to \link[kableExtra:kbl]{kableExtra::kbl} allowing
-for the switch between \code{"latex"} and \code{"html"}.}
+\item{format}{Output format passed to \link[kableExtra:kbl]{kableExtra::kbl}, either \code{"latex"}
+or \code{"html"}.}
 
 \item{caption}{A character string that
 will be passed to the \code{caption} parameter of \link[kableExtra:kbl]{kableExtra::kbl}.

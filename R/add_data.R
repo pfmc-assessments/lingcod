@@ -3,8 +3,7 @@
 #' Modifies the elements of the data file to add new data 
 #'
 #' @param dat List created by [get_inputs_ling()] or `r4ss::SS_readdat()`
-#' @template area
-#' @param area Area associated with the model, either "n" or "s"
+#' @inheritParams get_dir_ling
 #' @param dat_type Character vector listing data types to add
 #' NULL value will lead to all data types
 #' @param part Partition to include (e.g. to include only retained
@@ -12,7 +11,7 @@
 #' commercial data for which discards comps are available.
 #' @param fleets Optional vector of fleet numbers for which to add data
 #' NULL value will use all fleets from [get_fleet()]
-#' @template verbose
+#' @inheritParams get_dir_ling
 #' @author Ian G. Taylor
 #' @export
 #' @seealso [get_dir_ling()], [get_inputs_ling()], [clean_comps()]

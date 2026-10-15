@@ -6,8 +6,8 @@
 \usage{
 table_sens(
   file_csv,
- 
-    caption = "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log likelihoods that were lower than that for the base model.",
+  caption =
+    "Differences in likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log likelihoods that were lower than that for the base model.",
   caption_extra = "",
   sens_group = NULL,
   dir = file.path("..", "tables"),
@@ -29,8 +29,8 @@ which will be used to change "alternative models" in the caption
 
 \item{dir}{Directory where the table should go (relative to "doc")}
 
-\item{format}{Argument passed to \link[kableExtra:kbl]{kableExtra::kbl} allowing
-for the switch between \code{"latex"} and \code{"html"}.}
+\item{format}{Output format passed to \link[kableExtra:kbl]{kableExtra::kbl}, either \code{"latex"}
+or \code{"html"}.}
 
 \item{pretty}{Logical controlling whether names get cleaned up using
 internal \code{prettynames()} function or not. Setting \code{pretty = FALSE}

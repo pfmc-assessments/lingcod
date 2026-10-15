@@ -7,7 +7,7 @@
 #' @param plot Vector of plot groups passed to `r4ss::SS_plots()`
 #' as well as cutom plots with numbers starting at 31
 #' (see code for which plots match which numbers).
-#' @template verbose
+#' @inheritParams get_dir_ling
 #' @param dots additional arguments passed to `r4ss::SS_plots()`
 #' @author Ian G. Taylor
 #' @export

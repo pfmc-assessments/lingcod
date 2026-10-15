@@ -7,11 +7,11 @@
 run_regularization(dirbase, interactive = FALSE, verbose = FALSE)
 }
 \arguments{
-\item{dirbase}{The directory that has the base-model files. This path
-needs to be full or relative to your current location.}
+\item{dirbase}{Directory containing the base model files, either a full
+path or a path relative to the current working directory.}
 
-\item{verbose}{A logical value specifying if information should be printed
-to the screen or not.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 
 \item{interaction}{A logical value specifying if you want to run the
 \link[adnuts:launch_shinyadmb]{adnuts::launch_shinyadmb}.}

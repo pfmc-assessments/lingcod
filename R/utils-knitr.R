@@ -10,7 +10,7 @@
 #' allows you to set your working directory back to the top level so that all of the
 #' file links will work, otherwise knitr thinks that the script is written such that
 #' all paths are relative to where the script lives.
-#' @template verbose
+#' @inheritParams get_dir_ling
 #'
 #' @author Kelli Faye Johnson
 #' @export

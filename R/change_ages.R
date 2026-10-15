@@ -4,11 +4,9 @@
 #' Modifies the elements of the data file
 #'
 #' @param dat List created by [get_inputs_ling()] or `r4ss::SS_readdat()`
-#' @template area
-#' @param area Area associated with the model, either "n" or "s"
+#' @inheritParams get_dir_ling
 #' @param fleets_marginal which fleets to have marginal ages
 #' @param fleets_conditional which fleets to have CAAL ages
-#' @template verbose
 #' @author Ian G. Taylor
 #' @export
 #' @seealso [get_dir_ling()], [get_inputs_ling()], [add_data()]

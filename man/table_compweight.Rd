@@ -6,8 +6,8 @@
 \usage{
 table_compweight(
   output,
- 
-    caption = "Data weightings applied to length and age compositions according to the `Francis' method.",
+  caption =
+    "Data weightings applied to length and age compositions according to the `Francis' method.",
   label = "table-compweight-base"
 )
 }

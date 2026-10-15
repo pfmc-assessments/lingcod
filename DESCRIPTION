@@ -1,6 +1,6 @@
 Package: lingcod
 Title: Estimate the Status of Lingcod off the US West Coast in 2021
-Version: 2021.02
+Version: 2027.01
 Authors@R: 
     person(given = "Ian",
            family = "Taylor",
@@ -14,7 +14,6 @@ License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
 Imports:
     adnuts,
     dplyr,
@@ -75,5 +74,6 @@ Remotes:
     github::pfmc-assessments/sa4ss,
     github::pfmc-assessments/VASTWestCoast
 Depends:
-    R (>= 2.10)
+    R (>= 3.5)
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.1.0

@@ -8,7 +8,7 @@
 #' which will be used to change "alternative models" in the caption
 #' (if present) to "alternative models related to \[sens_group\]"
 #' @param dir Directory where the table should go (relative to "doc")
-#' @template format
+#' @inheritParams table_decision
 #' @param pretty Logical controlling whether names get cleaned up using
 #' internal `prettynames()` function or not. Setting `pretty = FALSE`
 #' will use `utils::read.csv(..., check.names = FALSE)`.

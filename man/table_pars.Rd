@@ -6,8 +6,8 @@
 \usage{
 table_pars(
   output,
- 
-    caption = "Parameter estimates, estimation phase, parameter bounds, estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model.",
+  caption =
+    "Parameter estimates, estimation phase, parameter bounds, estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model.",
   label = "table-pars-base"
 )
 }
