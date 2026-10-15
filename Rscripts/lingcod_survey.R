@@ -101,18 +101,43 @@ pacfintools::age_representativeness_plot(
 ###############################################################################
 if(FALSE) { # run calculation of design-based index only once
   # define strata for plotting function
-  (strata <- nwfscSurvey::CreateStrataDF.fn(
-                            names=c("shallow_s", "deep_s","shallow_n", "deep_n"), 
-                            depths.shallow = c( 55, 183,  55, 183),
-                            depths.deep    = c(183, 549, 183, 549),
-                            lats.south     = c( 32,  32,  42,  42),
-                            lats.north     = c( 42,  42,  49,  49)))
+  # (strata <- nwfscSurvey::create_strata(
+  #                           names = c("shallow_s", "deep_s", "shallow_n", "deep_n"), 
+  #                           depths_shallow = c( 55, 183,  55, 183),
+  #                           depths_deep    = c(183, 400, 183, 400),
+  #                           lats_south     = c( 32,  32,  42,  42),
+  #                           lats_north     = c( 42,  42,  49,  49)))
   ##        name     area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
   ## 1 shallow_s 18725.12        55       183            32            42
   ## 2    deep_s 18259.45       183       549            32            42
   ## 3 shallow_n 20817.46        55       183            42            49
   ## 4    deep_n 10687.23       183       549            42            49
 
+  # order of new suggested strata from north to south: *_wa, *_n, *_pc, *_s. The first two strata are 'north' and the second two strata are 'south'.
+  (strata <- nwfscSurvey::create_strata(
+                            names = c(
+                              "shallow_s", "deep_s", 
+                              "shallow_pc", "deep_pc",
+                              "shallow_n", "deep_n",
+                              "shallow_wa", "deep_wa"
+                            ),
+                            depths_shallow = rep(c(55, 183), 4),
+                            depths_deep    = rep(c(183, 400), 4),
+                            lats_south     = c(32, 32, 34.5, 34.5,
+                                              42, 42, 46, 46),
+                            lats_north     = c(34.5, 34.5, 42, 42,
+                                              46, 46, 49, 49))
+)
+  
+#           name      area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
+# 1  shallow_s  5812.339        55       183          32.0          34.5
+# 2     deep_s  5119.823       183       400          32.0          34.5
+# 3 shallow_pc 12912.784        55       183          34.5          42.0
+# 4    deep_pc  4148.507       183       400          34.5          42.0
+# 5  shallow_n 12233.455        55       183          42.0          46.0
+# 6     deep_n  4926.864       183       400          42.0          46.0
+# 7 shallow_wa  8584.007        55       183          46.0          49.0
+# 8    deep_wa  1987.257       183       400          46.0          49.0
 
   # calculate design-based index
   biomass.WCGBTS <- nwfscSurvey::Biomass.fn(
