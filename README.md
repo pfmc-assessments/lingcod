@@ -23,6 +23,7 @@ To interact with this repository
 [- DESCRIPTION](#description)\
 [- R](#r)\
 [- data-raw](#data-raw)\
+[- data_output](#data_output)\
 [- data](#data)\
 [- Rscripts](#rscripts)\
 [- Figures_explore](#figures_explore)\
@@ -67,16 +68,17 @@ the preparation scripts or analyses.
 
 ```mermaid
 flowchart TD
-    raw["data-raw/: source files<br/>Preserve input provenance"]
-    scripts["Rscripts/: code to process raw data which call `usethis::use_data()`"]
-    data["data/: saved .rda data objects only<br/>Consistent analysis inputs"]
-    funcs["R/: function definitions only<br/>Reusable code"]
+    raw["data-raw/:<br/>source files"]
+    data_output["data_output/:<br/>output from data processing"]
+    scripts["Rscripts/:<br/>code to process raw data"]
+    data["data/:<br/>saved .rda data objects only"]
+    funcs["R/:<br/>function definitions only<br/>(reusable code)"]
     load["devtools::load_all()<br/>Make data and functions available"]
-    analysis["Analysis and modeling scripts<br/>Explicitly run the work"]
+    analysis["Analysis and modeling scripts<br/>(in Rscripts as well as<br/>.qmd files in report/)"]
     outputs["Models, figures, tables, and reports"]
 
-    raw --> data
-    scripts --> raw
+    raw --> scripts
+    scripts --> data_output
     scripts --> data
     data --> load
     funcs --> load
@@ -189,6 +191,21 @@ folder in the Google Drive called data-raw/washington_sharedwithTheresa and
 added a link to her shared folder. Where possible, direct links to individual 
 relevant files may be preferrable. This process is largely 
 explained in the data-raw [README](https://drive.google.com/file/d/17FoJkkiYFQryskUmI0Ftz6Xl9_MVIKZv/view?usp=sharing).
+
+### data_output
+This folder contains the processed output from functions like those in 
+which bin the composition data, including .csv files and .png figures.
+These should be nested within appropriate directories (e.g. 
+`data_output/Biology/LamThesis/north` since the filenames may be identical
+across data types).
+
+Unlike `data-raw`, These files are include in the github repository, so 
+MUST NOT contain confidential data. 
+
+The processed output from the index standardization should not be included
+here simply because those files are too numerous and too large to include
+in the github repository. Index standardization output should remain in 
+`data-raw` with the exception of the .rda files that will be added to `data`.
 
 ### data
 
