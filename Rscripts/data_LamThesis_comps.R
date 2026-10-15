@@ -6,8 +6,11 @@
 #
 ####
 
-# Make dir
-dir <- file.path("data-raw", "Biology", "LamThesis")
+# where to get the raw data
+dir_raw <- file.path("data-raw", "Biology") 
+
+# Make directories for processed output
+dir <- file.path("data_output", "Biology", "LamThesis")
 dir_n <- file.path(dir, "north")
 dir_s <- file.path(dir, "south")
 dir.create(dir_n, showWarnings = FALSE, recursive = TRUE)
@@ -18,7 +21,7 @@ stopifnot(file.exists(dir_s))
 #Read in data -
 # 2021 comment: copied file from L:/Assessments/Archives/Lingcod/Lingcod_2017/Data/MLMLResearchSamples
 # 2027 comment: copied from data-raw/SA_Lam_MergedAges.csv to data-raw/Biology/LamThesis/SA_Lam_MergedAges.csv
-data <- read.csv(file.path(dir, "SA_Lam_MergedAges.csv"), header = TRUE)
+data <- read.csv(file.path(dir_raw, "SA_Lam_MergedAges.csv"), header = TRUE)
 
 #Rename fields so they work with UnexpandedLFs.fn and SurveyAgeAtLen.fn
 #Convert length to fork length following Laidig (see github issue: https://github.com/pfmc-assessments/lingcod/issues/26)
