@@ -8,11 +8,13 @@ get_inputs_ling(
   area = NULL,
   num = NULL,
   sens = 1,
-  yr = 2021,
+  yr = 2027,
+  year = NULL,
   id = NULL,
   dir = NULL,
   ss_new = FALSE,
-  verbose = FALSE
+  verbose = TRUE,
+  assign = TRUE
 )
 }
 \arguments{
@@ -22,7 +24,9 @@ get_inputs_ling(
 
 \item{sens}{sensitivity number (assumed 1 if not specified)}
 
-\item{yr}{model year (assumed 2021 if not specified)}
+\item{yr}{model year (assumed 2027 if not specified)}
+
+\item{year}{Optional alias for \code{yr}; when supplied, it takes precedence.}
 
 \item{id}{model id (like "2021.s.001.001") as an alternative to
 the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
@@ -45,9 +49,8 @@ year (\code{yr}), area (\code{area}), run number (\code{num}), and sensitivity n
 }
 \examples{
 \dontrun{
-  get_inputs_ling(area ="s", num = 1)
-  get_inputs_ling(id = "2021.s.001.001")
-  get_inputs_ling(dir = "models/2021.s.001.001_new_fleets")
+  get_inputs_ling(area ="n", num = 23, yr = 2021)
+  get_inputs_ling(id = "2021.n.023.001")
 }
 }
 \seealso{

@@ -8,7 +8,8 @@ get_dir_ling(
   area = NULL,
   num = NULL,
   sens = 1,
-  yr = 2021,
+  yr = 2027,
+  year = NULL,
   id = NULL,
   verbose = FALSE
 )
@@ -20,7 +21,9 @@ get_dir_ling(
 
 \item{sens}{sensitivity number (assumed 1 if not specified)}
 
-\item{yr}{model year (assumed 2021 if not specified)}
+\item{yr}{model year (assumed 2027 if not specified)}
+
+\item{year}{Optional alias for \code{yr}; when supplied, it takes precedence.}
 
 \item{id}{model id (like "2021.s.001.001") as an alternative to
 the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
@@ -32,12 +35,12 @@ to the console or not. The default is \code{FALSE}, which will suppress messages
 uses either a model id like "2021.s.001.001" or the combination of
 year (\code{yr}), area (\code{area}), run number (\code{num}), and sensitivity number
 (\code{sens}) to assemble that id, then returns the associated directory
-based on the table in the models/README.md
+based on matching directory names in the models folder
 }
 \examples{
 \dontrun{
-  get_dir_ling(area ="s", num = 1)
-  get_dir_ling(id = "2021.s.001.001")
+  get_dir_ling(area ="n", num = 23, yr = 2021)
+  get_dir_ling(id = "2021.n.023.001")
 }
 }
 \seealso{

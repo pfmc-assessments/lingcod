@@ -8,7 +8,8 @@ get_mod(
   area = NULL,
   num = NULL,
   sens = 1,
-  yr = 2021,
+  yr = 2027,
+  year = NULL,
   id = NULL,
   dir = NULL,
   covar = TRUE,
@@ -26,7 +27,9 @@ get_mod(
 
 \item{sens}{sensitivity number (assumed 1 if not specified)}
 
-\item{yr}{model year (assumed 2021 if not specified)}
+\item{yr}{model year (assumed 2027 if not specified)}
+
+\item{year}{Optional alias for \code{yr}; when supplied, it takes precedence.}
 
 \item{id}{model id (like "2021.s.001.001") as an alternative to
 the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
@@ -62,14 +65,14 @@ and invisibly returns the list created by \code{r4ss::SS_output()}.
 \examples{
 \dontrun{
   # read model output and assign to workspace as 'mod.2021.s.001.001"
-  get_mod(area ="s", num = 1)
-  get_mod(id = "2021.s.001.001")
+  get_mod(area ="n", num = 23, yr = 2021)
+  get_mod(id = "2021.n.023.001")
 
   # read model output and make all default r4ss plots
-  get_mod(area ="s", num = 2, plot = TRUE)
+  get_mod(area ="n", num = 23, yr = 2021, plot = TRUE)
 
   # read model output and make only biology, selex, and time series plots
-  get_mod(area ="s", num = 2, plot = 1:3)
+  get_mod(area ="n", num = 23, yr = 2021, plot = 1:3)
 }
 }
 \seealso{
