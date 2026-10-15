@@ -46,6 +46,7 @@ file_runmodels <- file.path(
 # load Triennial catch data
 catch.Triennial <- nwfscSurvey::pull_catch(
   common_name = utils_name("common"),
+  years = c(1980, 2004), 
   survey = "Triennial"
 )
 
@@ -59,7 +60,7 @@ catch.WCGBTS <- nwfscSurvey::pull_catch(
 # load Triennial bio data
 bio.Triennial <- nwfscSurvey::pull_bio(
   survey = "Triennial", 
-  years = 2003:2026, 
+  years = c(1980, 2004), 
   dir = "./data-raw",
   standard_filtering = TRUE
 )
