@@ -15,7 +15,7 @@ a vector of numeric values will return a vector}
 
 \item{yr}{year (assumed 2021 if not specified)}
 
-\item{area}{either "n" or "s"}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
 \item{ignore.case}{if FALSE, the pattern matching is case sensitive and
 if TRUE, case is ignored during matching (passed to \code{grep})}

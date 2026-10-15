@@ -7,10 +7,10 @@
 plot_stock_boundary_map(
   names = c("North", "South"),
   cols = NULL,
- 
-    caption = "Map of the investigated area. The dashed line and colors delineate the northern (blue) from the southern (red) assessed area",
- 
-    alttext = "Outline of U.S. west coast split at forty degrees ten minutes north latitude"
+  caption =
+    "Map of the investigated area. The dashed line and colors delineate the northern (blue) from the southern (red) assessed area",
+  alttext =
+    "Outline of U.S. west coast split at forty degrees ten minutes north latitude"
 )
 }
 \arguments{

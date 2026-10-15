@@ -5,13 +5,15 @@
 #' (`sens`) to assemble that id, then returns the associated directory
 #' based on matching directory names in the models folder
 #'
-#' @template area
-#' @template num
-#' @template sens
-#' @template yr
-#' @template year
-#' @template id
-#' @template verbose
+#' @param area Area code either `"n"` or `"s"`.
+#' @param num Base model number.
+#' @param sens Sensitivity number (defaults to 1).
+#' @param yr Model year (defaults to 2027).
+#' @param year Optional alias for `yr`; when supplied, it takes precedence.
+#' @param id Model ID (e.g. `"2021.n.023.001"`), as an alternative to
+#'   `area`, `num`, `sens`, and `yr`.
+#' @param verbose A logical value specifying whether additional information
+#' is printed to the console.
 #' @author Ian G. Taylor, Kelli Faye Johnson
 #' @export
 #' @seealso [get_inputs_ling()]

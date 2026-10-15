@@ -24,7 +24,7 @@ Typically this will be \code{"file"}.}
 
 \item{fleets}{Either numeric values or a valid character string that can be used
 to find the rows of the fleet table that are of interest.
-Depending on how you made your csv files via \link[r4ss:SS_plot]{r4ss::SS_plot} the references
+Depending on how you made your csv files via \link[r4ss:SS_plots]{r4ss::SS_plots} the references
 to fleets in the csv might be different.
 Select the appropriate column of \link{get_fleet} based on how you made the figures.}
 
@@ -54,7 +54,7 @@ and which fleet(s) is of interest to you.
 \details{
 Try testing this function out before you include it in your .Rmd file.
 All you will need is the file path to the csv that contains the information
-in \code{figuredata} and you can use \link[utils:read.table]{utils::read.csv} right in the call to this
+in \code{figuredata} and you can use \link[utils:read.csv]{utils::read.csv} right in the call to this
 function so you don't pollute your workspace. The result of this function
 should look exactly like how you want it to appear in your document, except
 the @ symbol will be double escaped instead of just single escaped.

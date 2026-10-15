@@ -18,15 +18,15 @@ The default is your current working directory.}
 should be case specific. If \code{FALSE}, which is the default, then
 \code{ignore.case = TRUE}, i.e., \code{ignore.case = !casespecific}.}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 }
 \value{
 A single file path to the most recent file within \code{dir} that
 matches the character string in \code{pattern}. The full path will be provided.
 }
 \description{
-Use the \link{dir} function and \link[utils:head]{utils::tail} to get the most recent file
+Use the \link{dir} function and \link[utils:tail]{utils::tail} to get the most recent file
 in a directory based on the saved name. This is only helpful when files
 are saved with a sequential naming system, typically this will be a
 form of the date as it is for PacFIN.Utilities when it saves .RData files.

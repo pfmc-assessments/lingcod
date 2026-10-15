@@ -13,7 +13,7 @@
 #' @param casespecific A logical value specifying if the call to [grep]
 #' should be case specific. If `FALSE`, which is the default, then
 #' `ignore.case = TRUE`, i.e., `ignore.case = !casespecific`.
-#' @template verbose
+#' @inheritParams get_dir_ling
 #'
 #' @author Kelli Faye Johnson
 #' @export

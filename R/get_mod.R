@@ -3,12 +3,7 @@
 #' reads model output from a directory found by `get_dir_ling()`
 #' and invisibly returns the list created by `r4ss::SS_output()`.
 #'
-#' @template area 
-#' @template num 
-#' @template sens
-#' @template yr 
-#' @template year
-#' @template id
+#' @inheritParams get_dir_ling
 #' @param dir Directory where model files are located as an alternative
 #' to the previous inputs
 #' @param covar Read covar.sso file? Passed to r4ss::SS_output() and
@@ -16,7 +11,6 @@
 #' @param assign Assign the result of r4ss::SS_output() to the
 #' user's workspace with the name `mod.[id]` (e.g. `mod.2021.s.002.001`).
 #' @param printstats Argument passed on r4ss::SS_output()
-#' @template verbose
 #' @param plot Either TRUE/FALSE or a vector drawn from 1:26 passed to
 #' SS_plots() to control which plot groups get created
 #' @param dots Additional arguments passed to r4ss::SS_plots()

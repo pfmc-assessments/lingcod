@@ -18,7 +18,7 @@
 #' relative to highest point among all models shown
 #' @param ylimAdj2 adjustment to y-axis limit for the second plot,
 #' relative to highest point among all models shown
-#' @template verbose
+#' @inheritParams get_dir_ling
 #' @param dots additional arguments that will get passed to
 #' r4ss::SSplotComparisons()
 #'

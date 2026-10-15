@@ -4,7 +4,6 @@
 #' data frames with sexed and unsexed comps into one
 #'
 #' @param comp data object in the lingcod package
-#' @template verbose
 #' @author Ian G. Taylor
 #' @export
 #' @seealso [add_data()]

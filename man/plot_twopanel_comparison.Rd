@@ -42,8 +42,8 @@ relative to highest point among all models shown}
 \item{ylimAdj2}{adjustment to y-axis limit for the second plot,
 relative to highest point among all models shown}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 
 \item{dots}{additional arguments that will get passed to
 r4ss::SSplotComparisons()}

@@ -43,7 +43,7 @@ file \code{index.Rmd} is normally used as the master file for rendering the book
 and all other files are brought in as chapters in alphabetical order.
 Here, in the \pkg{sa4ss} package we use \verb{00a.Rmd} as the indexing file and
 all other .Rmd files are sourced in alphabetical order.
-The renaming is done automatically for you in the call to \link{draft} and just
+The renaming is done automatically for you in the call to \link[sa4ss:draft]{sa4ss::draft} and just
 mentioned here for completeness.
 }
 \examples{
@@ -57,9 +57,9 @@ compile_ling(dir = file.path(get_groups(info_groups)))
 See \link{compile_internal} for the non-vectorized version of what happens
 inside each directory.
 
-Other compile: 
-\code{\link{compile_changebookname}()},
-\code{\link{compile_internal}()}
+Other compile:
+\code{\link[=compile_changebookname]{compile_changebookname()}},
+\code{\link[=compile_internal]{compile_internal()}}
 }
 \author{
 Kelli F. Johnson and undergoing testing by Kelli F. Johnson

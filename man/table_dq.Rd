@@ -6,8 +6,8 @@
 \usage{
 table_dq(
   output,
- 
-    caption = "Estimates of reference points and management quantities and their associated upper and lower 95\\\\\% intervals.",
+  caption =
+    "Estimates of reference points and management quantities and their associated upper and lower 95\\\\\% intervals.",
   label = "table-dq-base"
 )
 }

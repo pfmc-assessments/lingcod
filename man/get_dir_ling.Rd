@@ -15,21 +15,21 @@ get_dir_ling(
 )
 }
 \arguments{
-\item{area}{area, initially either "n" or "s" for 2021 models}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
-\item{num}{base model number}
+\item{num}{Base model number.}
 
-\item{sens}{sensitivity number (assumed 1 if not specified)}
+\item{sens}{Sensitivity number (defaults to 1).}
 
-\item{yr}{model year (assumed 2027 if not specified)}
+\item{yr}{Model year (defaults to 2027).}
 
 \item{year}{Optional alias for \code{yr}; when supplied, it takes precedence.}
 
-\item{id}{model id (like "2021.s.001.001") as an alternative to
-the combination of inputs \code{area}, \code{num}, \code{sens}, and \code{year}}
+\item{id}{Model ID (e.g. \code{"2021.n.023.001"}), as an alternative to
+\code{area}, \code{num}, \code{sens}, and \code{yr}.}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 }
 \description{
 uses either a model id like "2021.s.001.001" or the combination of

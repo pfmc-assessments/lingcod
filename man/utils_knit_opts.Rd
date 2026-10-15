@@ -16,8 +16,8 @@ file links will work, otherwise knitr thinks that the script is written such tha
 all paths are relative to where the script lives.
 }}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 }
 \value{
 Nothing is returned from this function.

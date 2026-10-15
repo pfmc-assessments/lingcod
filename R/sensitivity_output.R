@@ -69,8 +69,8 @@ sens_convert_offsets <- function(tab){
 #' Works with [run_sensitivities()] and the info in
 #' /inst/extdata/sensitivities.csv to make a table of results
 #' 
-#' @param area Which area "n" or "s"
-#' @template num
+#' @inheritParams get_dir_ling
+#' @inheritParams get_dir_ling
 #' @param sens_base Sensitivity number associated with the base model
 #' or source for the other sensitivities.
 #' @param sens_nums A vector of values from /inst/extdata/sensitivities.csv
@@ -87,7 +87,6 @@ sens_convert_offsets <- function(tab){
 #' @param write Logical to write csv file to doc or not
 #' @param dots Additional arguments passed to plot_twopanel_comparison()
 #'
-#' @example 
 #' @author Ian G. Taylor
 #' @export
 

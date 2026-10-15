@@ -19,7 +19,8 @@
 #' use [kableExtra::linebreak()] on this vector,
 #' which translates the characters `\n` into something that LaTeX can use.
 #' @param colgroup A vector of character strings to label the states of nature.
-#' @template format
+#' @param format Output format passed to [kableExtra::kbl], either `"latex"`
+#'   or `"html"`.
 #' @param caption A character string that
 #' will be passed to the `caption` parameter of [kableExtra::kbl].
 #' The default value is `NULL`.

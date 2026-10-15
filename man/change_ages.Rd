@@ -10,14 +10,11 @@ change_ages(dat, area, fleets_marginal = NULL, fleets_conditional = NULL)
 \arguments{
 \item{dat}{List created by \code{\link[=get_inputs_ling]{get_inputs_ling()}} or \code{r4ss::SS_readdat()}}
 
-\item{area}{Area associated with the model, either "n" or "s"}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
 \item{fleets_marginal}{which fleets to have marginal ages}
 
 \item{fleets_conditional}{which fleets to have CAAL ages}
-
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
 }
 \description{
 Modifies the elements of the data file
