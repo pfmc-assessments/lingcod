@@ -94,19 +94,12 @@ bio.HKL <- nwfscSurvey::pull_hkl_cache(
   dir = "data-raw/NOAA surveys")
 }
 
-# Create package data
-usethis::use_data(catch.Triennial, overwrite = TRUE)
-usethis::use_data(catch.WCGBTS, overwrite = TRUE)
-usethis::use_data(bio.Triennial, overwrite = TRUE)
-usethis::use_data(bio.WCGBTS, overwrite = TRUE)
-usethis::use_data(bio.HKL, overwrite = TRUE)
-
 # Make plot of age representativeness
 pacfintools::age_representativeness_plot(
   bio = bio.WCGBTS,
   plot_panels = c(9,2),
   file = file.path(
-  "figures",
+  "figures-explore",
   "age_representativeness_WCGBTS.png")
 )
 
@@ -155,16 +148,17 @@ if(FALSE) { # run calculation of design-based index only once
 
   # calculate design-based index
   biomass.WCGBTS <- nwfscSurvey::get_design_based(
-                                   dir = file.path("figures", "WCGBTS"),
+                                   dir = file.path("figures-explore", "WCGBTS"),
                                    data = catch.WCGBTS,
                                    strata = strata,
                                    CI = 0.95) # not sure if this is the same as outputMedian = TRUE
   # make plot of design-based index
-  nwfscSurvey::plot_index(dir = file.path("figures", "WCGBTS"),
+  nwfscSurvey::plot_index(dir = file.path("figures-explore", "WCGBTS"),
                           data = biomass.WCGBTS,
                           add_save_name =, plot = 1:2)
 
 } # end of design-based index calcs
+
 
 #### Create a figure of observations by depth bin
 # Code moved from lingcod_survey_depth_calculations to lingcod_survey
@@ -176,22 +170,21 @@ maxdepth <- ceiling(stats::quantile(
   probs = 0.999
 )/100/.5)*.5*100
 
-# Make figures
-png(file.path("figures", "WCGBTS_presence_absence_by_depth_bin.png"),
-    width = 7, height = 5, units = 'in', res = 300, pointsize = 10)
-par(mfrow = c(2,1), mar = c(1, 1, 1, .1))
+
+# Bio patterns - north
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[bio.WCGBTS$Latitude_dd > breaks_lat["40-10"] & bio.WCGBTS$Depth < 400, ]
+)
+
+# Bio patterns - south
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400, ]
+)
 
 
-# # Presence-absence north
-# nwfscSurvey::plot_bio_patterns(
-#   data = catch.WCGBTS[catch.WCGBTS$Latitude_dd > breaks_lat["40-10"] & catch.WCGBTS$Depth < 400, ]
-# )
 
-# # Presence-absence south
-# nwfscSurvey::plot_bio_patterns(
-#   data = catch.WCGBTS[catch.WCGBTS$Latitude_dd < breaks_lat["40-10"] & catch.WCGBTS$Depth < 400, ]
-# )
-# dev.off()
+
+
 
 #### VAST for surveys
 strata_limits <- stats::setNames(mapply(
@@ -382,7 +375,7 @@ usethis::use_data(data_index_survey, overwrite = TRUE)
 
 #Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
 grDevices::png(
-  filename = file.path("figures", "Triennial_cpueXdepth.png")
+  filename = file.path("figures-explore", "Triennial_cpueXdepth.png")
 )
 plot(
   x = catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$Depth_m,
@@ -394,22 +387,22 @@ abline(v=183) #Previous assessments used this. Seems to be a break. Use again.
 abline(v=350, col = "red") #Cut off data
 grDevices::dev.off()
 
-#Generate length comps using function below
-#Saves comps and plots for each specified survey 
-survey_lcomps(info_surveynames)
+# #Generate length comps using function below
+# #Saves comps and plots for each specified survey 
+# survey_lcomps(info_surveynames)
 
 
-#Generate age comps using function below. Option for CAAL in addition to conditional age comps
-#Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
-survey_acomps(info_surveynames, CAAL = TRUE)
+# #Generate age comps using function below. Option for CAAL in addition to conditional age comps
+# #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
+# survey_acomps(info_surveynames, CAAL = TRUE)
 
-# Copy figures
-file.copy(
-  recursive = TRUE,
-  unlist(mapply(
-    FUN = dir,
-    dir(full.names = TRUE, "data-raw", pattern = "^age|^len"),
-    MoreArgs = list(full.names = TRUE, recursive = TRUE, pattern = "png")
-  )),
-  "figures"
-)
+# # Copy figures
+# file.copy(
+#   recursive = TRUE,
+#   unlist(mapply(
+#     FUN = dir,
+#     dir(full.names = TRUE, "data-raw", pattern = "^age|^len"),
+#     MoreArgs = list(full.names = TRUE, recursive = TRUE, pattern = "png")
+#   )),
+#   "figures"
+# )
