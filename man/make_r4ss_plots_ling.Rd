@@ -13,8 +13,8 @@ make_r4ss_plots_ling(mod, plot = c(1:26, 31:50), verbose = TRUE, ...)
 as well as cutom plots with numbers starting at 31
 (see code for which plots match which numbers).}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 
 \item{dots}{additional arguments passed to \code{r4ss::SS_plots()}}
 }

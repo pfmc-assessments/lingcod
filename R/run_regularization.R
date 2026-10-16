@@ -6,11 +6,11 @@
 #' Non-windows users will need to download and put that
 #' executable in the hake folder.
 #'
-#' @template dirbase
+#' @param dirbase Directory containing the base model files, either a full
+#'   path or a path relative to the current working directory.
 #' @param interaction A logical value specifying if you want to run the
 #' [adnuts::launch_shinyadmb].
-#' @param verbose A logical value specifying if information should be printed
-#' to the screen or not.
+#' @inheritParams get_dir_ling
 #'
 #' @export
 #' @author Cole M. Monnahan, augmented by Kelli F. Johnson

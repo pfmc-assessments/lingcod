@@ -1,6 +1,6 @@
 #' Run sensitivities for a base model
 #'
-#' @template dirbase
+#' @inheritParams run_regularization
 #' @param type The type of sensitivity you want to run.
 #' Options are
 #' "profile", "retro", "regularization", "sens_create", and "sens_run".

@@ -8,7 +8,7 @@
 #' year (separate TRI_Early and TRI_Late will be returned with yr = 2019, not
 #' yr = 2019).
 #' a vector of numeric values will return a vector 
-#' @param area either "n" or "s"
+#' @inheritParams get_dir_ling
 #' @param yr year (assumed 2021 if not specified)
 #' @param ignore.case if FALSE, the pattern matching is case sensitive and
 #' if TRUE, case is ignored during matching (passed to `grep`)

@@ -22,7 +22,7 @@
 #' and all other files are brought in as chapters in alphabetical order.
 #' Here, in the \pkg{sa4ss} package we use `00a.Rmd` as the indexing file and
 #' all other .Rmd files are sourced in alphabetical order.
-#' The renaming is done automatically for you in the call to [draft] and just
+#' The renaming is done automatically for you in the call to [sa4ss::draft] and just
 #' mentioned here for completeness.
 #'
 #' @param dir A terribly named parameter that specifies which pdf you want to build.
@@ -53,10 +53,10 @@ compile_ling <- function(dir = "North", wipe = FALSE, ...) {
   )
 }
 
-#' A non-vectorized version of [compile]
+#' A non-vectorized version of [sa4ss::compile]
 #'
-#' A non-vectorized version of [compile] that acts as internal
-#' code for the wrapper [compile]. Users typically will not interact
+#' A non-vectorized version of [sa4ss::compile] that acts as internal
+#' code for the wrapper [sa4ss::compile]. Users typically will not interact
 #' with this function, but the code is exported for easier viewing.
 #'
 #' @param dir A *SINGLE* directory where the draft files are located.

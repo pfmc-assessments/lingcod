@@ -21,7 +21,7 @@
 #' @param Block_Fxn New phase function value (e.g. 2 = replace)
 #' @param allrows Logical: TRUE = return the full parameter table,
 #' FALSE = return only the parameter lines that match `string`.
-#' @template verbose
+#' @inheritParams get_dir_ling
 #' @author Ian G. Taylor
 #' @export
 #' @return Either the full table of parameters that can be inserted into

@@ -8,9 +8,6 @@ clean_comps(comp, type = "len")
 }
 \arguments{
 \item{comp}{data object in the lingcod package}
-
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
 }
 \description{
 aligns the  names from the various software tools and combines

@@ -2,7 +2,7 @@
 #'
 #' function hopefully only to be used once for each model
 #'
-#' @param area area, initially either "n" or "s" for 2021 models
+#' @inheritParams get_dir_ling
 #' @param fleets table of info on old and new fleets created by get_fleets()
 #' @param dat data file object created by [get_inputs_ling()] or
 #' [r4ss::SS_readdat()]

@@ -23,8 +23,8 @@ Write \verb{11introduction.Rmd} to overwrite the default file
 provided by \link[sa4ss:draft]{sa4ss::draft}.
 }
 \seealso{
-Other write: 
-\code{\link{write_draft}()}
+Other write:
+\code{\link[=write_draft]{write_draft()}}
 }
 \author{
 Kelli F. Johnson

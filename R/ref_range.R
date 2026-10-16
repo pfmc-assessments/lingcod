@@ -19,7 +19,7 @@
 #' Typically this will be `"file"`.
 #' @param fleets Either numeric values or a valid character string that can be used
 #' to find the rows of the fleet table that are of interest.
-#' Depending on how you made your csv files via [r4ss::SS_plot] the references
+#' Depending on how you made your csv files via [r4ss::SS_plots] the references
 #' to fleets in the csv might be different.
 #' Select the appropriate column of [get_fleet] based on how you made the figures.
 #' @param fleettype A value to append to `fleets`.

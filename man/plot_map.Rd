@@ -15,7 +15,7 @@ plot_map(
 )
 }
 \arguments{
-\item{data}{A data frame returned from \link[nwfscSurvey:PullCatch.fn]{nwfscSurvey::PullCatch.fn}.}
+\item{data}{A data frame returned from \link[nwfscSurvey:pull_catch]{nwfscSurvey::pull_catch}.}
 
 \item{states}{A single character value that will be used to search
 for regions in \link[maps:map]{maps::map}. Regex is allowed, e.g.,
@@ -29,7 +29,7 @@ included.}
 \item{ytitle}{A single character value used to label the legend for the
 y variable.}
 
-\item{yintercept}{A numeric value for \link[ggplot2:geom_abline]{ggplot2::geom_hline}.
+\item{yintercept}{A numeric value for \link[ggplot2:geom_hline]{ggplot2::geom_hline}.
 \code{NULL} will stop a horizontal line from being created.}
 
 \item{alpha}{Passed to \link[ggplot2:geom_point]{ggplot2::geom_point} to control the opacity

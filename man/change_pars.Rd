@@ -45,8 +45,8 @@ they will all be changed.}
 \item{allrows}{Logical: TRUE = return the full parameter table,
 FALSE = return only the parameter lines that match \code{string}.}
 
-\item{verbose}{A logical value specifying if output should be printed
-to the console or not. The default is \code{FALSE}, which will suppress messages.}
+\item{verbose}{A logical value specifying whether additional information
+is printed to the console.}
 }
 \value{
 Either the full table of parameters that can be inserted into

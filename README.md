@@ -165,7 +165,7 @@ Choosing to not track a data file can be made for multiple reasons other than
 ensuring confidentiality. For example, files might be too large to be tracked, 
 not have a tangible structure that can be tracked, be static and unlikely to 
 change over time, or have been provided but not currently being used. Thus, 
-[Google Drive](https://drive.google.com/drive/u/0/folders/18S_mEE9D1GlNa_VXX5AwyP_4YzPJNFda) is sufficient for their storage.
+Google Drive is sufficient for their storage.
 
 Because the data-raw folder is not committed, data to share are placed here locally, and 
 in the Google Drive data-raw folder so others can access. If you go to the 
@@ -361,9 +361,8 @@ deleted at the end of the current assessment.
 
 -   Do not commit any confidential data to this repository. Files placed in 
 data-raw are ignored by default unless they have the .R extension. Use the 
-[Google Drive](https://drive.google.com/drive/u/0/folders/1F5ibAgtjNhefiMF0Trda_PCEar3tQplF) 
-folder to share data (in data-raw) with team members or other material (in 
-shareable).
+Google Drive folder to share data (in data-raw) with team members or other 
+material (in shareable).
 -   Hard wrap text at less than 80 characters; consider using a smaller number 
 of characters if it leads to logical chunks. Think about how users will edit the
 text and use that to guide where you should wrap lines.

@@ -3,11 +3,7 @@
 #' reads model output from a directory found by `get_dir_ling()`
 #' and invisibly returns the list created by `r4ss::SS_output()`.
 #'
-#' @template area 
-#' @template num 
-#' @template sens
-#' @template yr 
-#' @template id
+#' @inheritParams get_dir_ling
 #' @param dir Directory where model files are located as an alternative
 #' to the previous inputs
 #' @param covar Read covar.sso file? Passed to r4ss::SS_output() and
@@ -15,7 +11,6 @@
 #' @param assign Assign the result of r4ss::SS_output() to the
 #' user's workspace with the name `mod.[id]` (e.g. `mod.2021.s.002.001`).
 #' @param printstats Argument passed on r4ss::SS_output()
-#' @template verbose
 #' @param plot Either TRUE/FALSE or a vector drawn from 1:26 passed to
 #' SS_plots() to control which plot groups get created
 #' @param dots Additional arguments passed to r4ss::SS_plots()
@@ -28,20 +23,21 @@
 #' @examples
 #' \dontrun{
 #'   # read model output and assign to workspace as 'mod.2021.s.001.001"
-#'   get_mod(area ="s", num = 1)
-#'   get_mod(id = "2021.s.001.001")
+#'   get_mod(area ="n", num = 23, yr = 2021)
+#'   get_mod(id = "2021.n.023.001")
 #'
 #'   # read model output and make all default r4ss plots
-#'   get_mod(area ="s", num = 2, plot = TRUE)
+#'   get_mod(area ="n", num = 23, yr = 2021, plot = TRUE)
 #'
 #'   # read model output and make only biology, selex, and time series plots
-#'   get_mod(area ="s", num = 2, plot = 1:3)
+#'   get_mod(area ="n", num = 23, yr = 2021, plot = 1:3)
 #' }
 
 get_mod <- function(area = NULL,
                     num = NULL,
                     sens = 1,
-                    yr = 2021,
+                    yr = 2027,
+                    year = NULL,
                     id = NULL,
                     dir = NULL,
                     covar = TRUE,
@@ -55,11 +51,12 @@ get_mod <- function(area = NULL,
                         num = num,
                         sens = sens,
                         yr = yr,
+                        year = year,
                         id = id,
                         verbose = verbose)
   }
   if (verbose) {
-    message("reading model from: ", dir)
+    cli::cli_alert_info("reading model from: {dir}")
   }
   mod <- r4ss::SS_output(dir = dir,
                          covar = covar,
@@ -71,7 +68,7 @@ get_mod <- function(area = NULL,
   # assign to workspace
   if(assign){
     if (verbose) {
-      message("creating ", modname, " in workspace")
+      cli::cli_alert_info("creating {modname} in workspace")
     }
     assign(x = modname, value = mod, pos = 1)
   }

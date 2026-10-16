@@ -10,7 +10,7 @@ plot_sel_noncomm(mod, area, sex = 1)
 \item{mod}{A model object created by \code{\link[=get_mod]{get_mod()}} or
 \code{r4ss::SS_output()}}
 
-\item{area}{Either "n" or "s"}
+\item{area}{Area code either \code{"n"} or \code{"s"}.}
 
 \item{sex}{Either 1 (females) or 2 (males)}
 }

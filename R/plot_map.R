@@ -4,7 +4,7 @@
 #' In theory, the data can be mapped on any state within the United States
 #' using an variable in the data frame.
 #'
-#' @param data A data frame returned from [nwfscSurvey::PullCatch.fn].
+#' @param data A data frame returned from [nwfscSurvey::pull_catch].
 #' @param states A single character value that will be used to search
 #' for regions in [maps::map]. Regex is allowed, e.g.,
 #' `"washington|oregon|california"` will return the mainland of the

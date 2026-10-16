@@ -39,8 +39,8 @@ write_draft(
 
 }
 \seealso{
-Other write: 
-\code{\link{write_introduction}()}
+Other write:
+\code{\link[=write_introduction]{write_introduction()}}
 }
 \author{
 Kelli F. Johnson
