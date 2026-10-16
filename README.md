@@ -159,6 +159,7 @@ be combined to create the time series of catches placed in the data file.
 Please save scripts in Rscripts with the following prefixes:
 -  "data_" for scripts processing data
 -  "model_" for scripts for modeling things
+-  "report_" for scripts dealing with the assessment report
 
 #### scripts in progress 
 
