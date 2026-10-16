@@ -146,7 +146,8 @@ move them later.
 ### data-raw
 
 This folder is not saved on github, so when cloning the repository, it will need
-to be created.
+to be created. Try to match the top level folder structures and the Google Drive 
+data-raw folder. 
 
 A directory that stores 
 -  base-level **CONFIDENTIAL** data that is **NOT** committed to the repository, 
@@ -169,9 +170,11 @@ change over time, or have been provided but not currently being used. Thus,
 Because the data-raw folder is not committed, data to share are placed here locally, and 
 in the Google Drive data-raw folder so others can access. If you go to the 
 Lingcod_2027 Google Drive folder, you will see a data-raw folder. Download all 
-of the files at the top level of this directory and store into your local data-raw folder within the repository. Files within the
-[Rscripts](#rscripts) are used to process data in data-raw, which are then saved
-as .rda files into the [data](data/) folder. 
+of the files at the top level of this directory and store into your local data-raw 
+folder within the repository. Files within the
+[Rscripts](#rscripts) are used to process data in data-raw, processed data and related
+data outpus from the R scripts are then saved within [data_output](#data_output), 
+with model used data saved as .rda files into the [data](#data) folder. 
 
 When you receive an email with data or a contributor wants to provide data, 
 add it to your local data-raw folder as well as one of the following directories
@@ -193,25 +196,26 @@ relevant files may be preferrable. This process is largely
 explained in the data-raw [README](https://drive.google.com/file/d/17FoJkkiYFQryskUmI0Ftz6Xl9_MVIKZv/view?usp=sharing).
 
 ### data_output
-This folder contains the processed output from functions like those in 
+This folder contains the processed output from functions like those 
 which bin the composition data, including .csv files and .png figures.
-These should be nested within appropriate directories (e.g. 
-`data_output/Biology/LamThesis/north` since the filenames may be identical
-across data types).
+These should be nested within appropriate directories that roughly follow the 
+data-raw folder structure (e.g. `data_output/Biology/LamThesis/north` since the 
+filenames may be identical across data types).
 
-Unlike `data-raw`, These files are include in the github repository, so 
+Unlike `data-raw`, These files are included in the github repository, so they
 MUST NOT contain confidential data. 
 
-The processed output from the index standardization should not be included
+NOTE: The processed output from the index standardization should not be included
 here simply because those files are too numerous and too large to include
 in the github repository. Index standardization output should remain in 
-`data-raw` with the exception of the .rda files that will be added to `data`.
+`data-raw` with the exception of an .rda file of the finalized index that will 
+be added to `data` (and possibly the csv file of the finalized index in `data_outputs`).
 
 ### data
 
 A directory containing only prepared R data files, saved as `.rda` files
 in this repository. Each file can contain one or more named R objects.
-Source files and scripts belong in [data-raw](#data-raw), not here.
+Source files belong in [data-raw](#data-raw), and scripts in [Rscripts](#Rscripts), not here.
 The saved objects are made available by `devtools::load_all()`, alongside
 the functions defined in [R](#R), so users do not need to source the
 preparation scripts to begin an analysis.
@@ -224,7 +228,8 @@ derived objects must also be checked for confidential information.
 ### Rscripts
 
 Scripts inside this folder will be used to pull data files from data-raw, and 
-create data objects and products to save as .rda files in data via the 
+create data objects and products saved in [data_output](#data_output) with final model-used
+data saved as .rda files in [data](#data) via the 
 `usethis::use_data()` function. 
 
 In theory, 
@@ -272,21 +277,26 @@ Any files from early exploratory development and ideas are to be go into this
 folder. The structure of it is less important, but discussion topics should be
 used to organize findings and conclusions from your exploration, and any resultant
 decisions should be reflected in the existing package structure using 
-[Rscripts](#rscripts) and data files.
+[Rscripts](#Rscripts) and data files.
 
-**IMPORTANT**: Files in Research_explore are pushed. Do not place confidential
-data in this folder. Rather, use data from the [data-raw](#data-raw) folder and
-only place scripts, figures, or non-confidential processed output into research 
-explorations. 
+Files in Research_explore are **NOT** committed, as controlled by the .gitignore 
+file. The reason is to avoid accidental pushes of confidential data from 
+explorations, and that material is exploratory and likely voluminous. Any relevant 
+material stemming from these explorations that is used for the assessment should
+be placed in other folders that are tracked. 
+
+In addition to placing any material in this folder, update the Google Drive 
+folder so others can access. Similarly, for accessing others' exploratory 
+research, download files from the Google Drive folder. 
 
 
 ### Models
 
 All developmental model runs should be saved here. Please use the naming 
 convention as outlined in the models folder [README](https://github.com/pfmc-assessments/lingcod/blob/main/models/README.md).
-Use the model_runs Rscript file to track and run your models, which allows 
-reproducibility and allows us not to have to track every model run (as was done
-for the 2021 assessment). Moreover, model files are saved within this repository
+Use the model_runs.R file to track and run your models, which allows for
+reproducibility and allows us not to have to track every model run in a separate
+document (as was done for the 2021 assessment). Moreover, model files are saved within this repository
 and no longer need to be saved to the Google Drive. Only the subset of files 
 needed to run and read the model are committed to the repository based on the
 .gitignore file. 
