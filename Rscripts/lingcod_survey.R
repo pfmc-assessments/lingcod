@@ -1,5 +1,4 @@
-## Fishery-Independent data
-
+## Fishery-independent data
 
 ###############################################################################
 # Setup
@@ -9,6 +8,9 @@ devtools::load_all() #lingcod
 library(nwfscSurvey)
 library(pacfintools)
 
+#### Pull fresh data, or load existing data from your local data-raw dir?
+pull_fresh <- FALSE
+
 # North model: north base
 # 2021.n.023.001_fixWAreccatchhistory   | 2021 north base used throughout report
 
@@ -17,8 +19,6 @@ library(pacfintools)
 
 ling_inputs <- get_inputs_ling(area = "n", id = "2021.n.023.001_fixWAreccatchhistory")
 ling_inputs <- get_inputs_ling(area = "s", id = "2021.s.018.001_fixTri3")
-
-
 
 #### Helper objects
 text_40degrees10minutes <- "40\u00B010"
@@ -42,43 +42,57 @@ file_runmodels <- file.path(
   paste0(utils_name(), "_index_survey_runmodels.RData")
 )
 
-#### Catch data
-# load Triennial catch data
+if(!pull_fresh){
+  load(file.path("data-raw", "NOAA surveys", "catch_lingcod_Triennial_2026-10-16.rdata"))
+  load(file.path("data-raw", "NOAA surveys", "catch_lingcod_NWFSC.Combo_2026-10-16.rdata"))
+
+  load(file.path("data-raw", "NOAA surveys", "bio_pull all_Triennial_2026-10-16.rdata"))
+  load(file.path("data-raw", "NOAA surveys", "bio_lingcod_NWFSC.Combo_2026-10-16.rdata"))
+  load(file.path("data-raw", "NOAA surveys", "nwfsc_hkl_catch_and_bio_data_2026-10-16.rdata"))
+}
+
+if(pull_fresh){
+#### Pull catch data #########################################################
+# Triennial catch data -------------------------------------------------------
 catch.Triennial <- nwfscSurvey::pull_catch(
   common_name = utils_name("common"),
-  years = c(1980, 2004), 
-  survey = "Triennial"
+  years = c(1980, 2004),
+  survey = "Triennial",
+  dir = "data-raw/NOAA surveys"
 )
 
-# load WCGBTS catch data
+# WCGBTS catch data ----------------------------------------------------------
 catch.WCGBTS <- nwfscSurvey::pull_catch(
   common_name = utils_name("common"),
-  survey = "NWFSC.Combo"
+  survey = "NWFSC.Combo",
+  dir = "data-raw/NOAA surveys"
 )
 
-#### Bio data
-# load Triennial bio data
-bio.Triennial <- nwfscSurvey::pull_bio(
+
+#### Bio data ##################################################################
+# Triennial bio data -----------------------------------------------------------
+  bio.Triennial <- nwfscSurvey::pull_bio(
   survey = "Triennial", 
   years = c(1980, 2004), 
-  dir = "./data-raw",
+  dir = "data-raw/NOAA surveys",
   standard_filtering = TRUE
-)
+  )
 
-#### Load WCGBTS bio data
-# Updated call
-bio.WCGBTS <- nwfscSurvey::pull_bio(
+# WCGBTS bio data ---------------------------------------------------------------
+  bio.WCGBTS <- nwfscSurvey::pull_bio(
   common_name = utils_name(), 
   survey = "NWFSC.Combo", 
   years = c(2003, 2026), 
-  dir = "./data-raw",
+  dir = "data-raw/NOAA surveys",
   standard_filtering = TRUE)
 
-#### Load hook and line bio data
+
+# Hook and line bio data ---------------------------------------------------------
 bio.HKL <- nwfscSurvey::pull_hkl_cache(
   years = c(2003, 2026), 
   common_name = utils_name(),
-  dir = "./data-raw")
+  dir = "data-raw/NOAA surveys")
+}
 
 # Create package data
 usethis::use_data(catch.Triennial, overwrite = TRUE)
