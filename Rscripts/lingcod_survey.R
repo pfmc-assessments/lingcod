@@ -48,6 +48,10 @@ file_runmodels <- file.path(
   paste0(utils_name(), "_index_survey_runmodels.RData")
 )
 
+###############################################################################
+# Survey data
+###############################################################################
+
 if (!pull_fresh) {
   load(file.path(
     "data-raw",
@@ -86,7 +90,7 @@ if (!pull_fresh) {
 }
 
 if (pull_fresh) {
-  #### Pull catch data #########################################################
+  #### Catch data ##############################################################
   # Triennial catch data -------------------------------------------------------
   catch.Triennial <- nwfscSurvey::pull_catch(
     common_name = utils_name("common"),
@@ -137,13 +141,10 @@ pacfintools::age_representativeness_plot(
     "age_representativeness_WCGBTS.png"
   )
 )
-
 ###############################################################################
-# Index standardization
+# Strata for index calculation and length/age comps
 ###############################################################################
-if (FALSE) {
-  # run calculation of design-based index only once
-  # define strata for plotting function
+  # 2021 strata
   # (strata <- nwfscSurvey::create_strata(
   #                           names = c("shallow_s", "deep_s", "shallow_n", "deep_n"),
   #                           depths_shallow = c( 55, 183,  55, 183),
@@ -156,7 +157,8 @@ if (FALSE) {
   ## 3 shallow_n 20817.46        55       183            42            49
   ## 4    deep_n 10687.23       183       549            42            49
 
-  # order of new suggested strata from north to south: *_wa, *_n, *_pc, *_s. The first two strata are 'north' and the second two strata are 'south'.
+# New suggested strata for 2027
+  # From north to south: *_wa, *_n, *_pc, *_s. The first two are 'north' and the latter two are 'south':
   (strata <- nwfscSurvey::create_strata(
     names = c(
       "shallow_s",
@@ -183,6 +185,60 @@ if (FALSE) {
   # 6     deep_n  4926.864       183       400          42.0          46.0
   # 7 shallow_wa  8584.007        55       183          46.0          49.0
   # 8    deep_wa  1987.257       183       400          46.0          49.0
+
+
+###############################################################################
+# Composition
+###############################################################################
+# Adapted from Brian's 2021 script.
+##There are a few remaining tasks (Brian's notes, can remove later)
+#1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
+#2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
+#3. Will need to specify survey timing (month 7), sex (currently 3 and 0), fleet number (triennial = 6, WCGBTS = 7) DONE
+#4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? Yes DONE
+#5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
+#6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
+
+#Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
+grDevices::png(
+  filename = file.path("figures_explore", "Triennial_cpueXdepth.png")
+)
+plot(
+  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0), ]$Depth_m,
+  y = log(
+    catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0), ]$cpue_kg_km2
+  ),
+  xlab = "Depth (m)",
+  ylab = expression(Triennial ~ log[e] ~ CPUE ~ (kg %*% km^2))
+)
+abline(v = 183) #Previous assessments used this. Seems to be a break. Use again.
+abline(v = 350, col = "red") #Cut off data
+grDevices::dev.off()
+
+# Generate length comps ---------------------------------------------------------
+# Saves comps and plots for each specified survey
+# survey_lcomps(info_surveynames)
+
+# #Generate age comps using function below. Option for CAAL in addition to conditional age comps
+# #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
+# survey_acomps(info_surveynames, CAAL = TRUE)
+
+# # Copy figures
+# file.copy(
+#   recursive = TRUE,
+#   unlist(mapply(
+#     FUN = dir,
+#     dir(full.names = TRUE, "data-raw", pattern = "^age|^len"),
+#     MoreArgs = list(full.names = TRUE, recursive = TRUE, pattern = "png")
+#   )),
+#   "figures"
+# )
+
+
+###############################################################################
+# Index standardization
+###############################################################################
+if (FALSE) {
 
   # calculate design-based index
   biomass.WCGBTS <- nwfscSurvey::get_design_based(
@@ -424,49 +480,3 @@ data_index_survey <- dplyr::full_join(
 #+ usethis
 usethis::use_data(data_index_survey, overwrite = TRUE)
 
-###############################################################################
-# Composition data
-###############################################################################
-# Adapted from Brian's 2021 script.
-##There are a few remaining tasks
-#1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
-#2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
-#3. Will need to specify survey timing (month 7), sex (currently 3 and 0), fleet number (triennial = 6, WCGBTS = 7) DONE
-#4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? Yes DONE
-#5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
-#6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
-
-#Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
-grDevices::png(
-  filename = file.path("figures_explore", "Triennial_cpueXdepth.png")
-)
-plot(
-  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0), ]$Depth_m,
-  y = log(
-    catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0), ]$cpue_kg_km2
-  ),
-  xlab = "Depth (m)",
-  ylab = expression(Triennial ~ log[e] ~ CPUE ~ (kg %*% km^2))
-)
-abline(v = 183) #Previous assessments used this. Seems to be a break. Use again.
-abline(v = 350, col = "red") #Cut off data
-grDevices::dev.off()
-
-# #Generate length comps using function below
-# #Saves comps and plots for each specified survey
-# survey_lcomps(info_surveynames)
-
-# #Generate age comps using function below. Option for CAAL in addition to conditional age comps
-# #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
-# survey_acomps(info_surveynames, CAAL = TRUE)
-
-# # Copy figures
-# file.copy(
-#   recursive = TRUE,
-#   unlist(mapply(
-#     FUN = dir,
-#     dir(full.names = TRUE, "data-raw", pattern = "^age|^len"),
-#     MoreArgs = list(full.names = TRUE, recursive = TRUE, pattern = "png")
-#   )),
-#   "figures"
-# )
