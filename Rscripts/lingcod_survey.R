@@ -17,7 +17,10 @@ pull_fresh <- FALSE
 # South model: south base
 # 2021.s.018.001_fixTri3 | 2021 south base used throughout report
 
-ling_inputs <- get_inputs_ling(area = "n", id = "2021.n.023.001_fixWAreccatchhistory")
+ling_inputs <- get_inputs_ling(
+  area = "n",
+  id = "2021.n.023.001_fixWAreccatchhistory"
+)
 ling_inputs <- get_inputs_ling(area = "s", id = "2021.s.018.001_fixTri3")
 
 #### Helper objects
@@ -25,12 +28,15 @@ text_40degrees10minutes <- "40\u00B010"
 info_season <- 7
 maxsurveydepth <- c(400, 350)
 strata_lat <- c("WA-OR" = 46.0, "Conception" = 34.5)
-breaks_lat <- c("CAN-US" = 49.0, "40-10" = round(40 + 10/60, 6), "US-MX" = 32.0)
+breaks_lat <- c(
+  "CAN-US" = 49.0,
+  "40-10" = round(40 + 10 / 60, 6),
+  "US-MX" = 32.0
+)
 distributions <- c("gamma", "lognormal", "compound")
 nscutoff <- 3813.86734
 scalemt <- 2 * 2 / 1000 # 2 x 2 km grid and converted from kg to tonnes
 #data(SA3, package = "nwfscDeltaGLM") # this pkg is archived as of 2023
-
 
 #### File paths
 file_hookandline <- file.path(
@@ -42,74 +48,96 @@ file_runmodels <- file.path(
   paste0(utils_name(), "_index_survey_runmodels.RData")
 )
 
-if(!pull_fresh){
-  load(file.path("data-raw", "NOAA surveys", "catch_lingcod_Triennial_2026-10-16.rdata"))
-  load(file.path("data-raw", "NOAA surveys", "catch_lingcod_NWFSC.Combo_2026-10-16.rdata"))
+if (!pull_fresh) {
+  load(file.path(
+    "data-raw",
+    "NOAA surveys",
+    "catch_lingcod_Triennial_2026-10-16.rdata"
+  ))
+  load(file.path(
+    "data-raw",
+    "NOAA surveys",
+    "catch_lingcod_NWFSC.Combo_2026-10-16.rdata"
+  ))
 
-  load(file.path("data-raw", "NOAA surveys", "bio_pull all_Triennial_2026-10-16.rdata"))
-  load(file.path("data-raw", "NOAA surveys", "bio_lingcod_NWFSC.Combo_2026-10-16.rdata"))
-  load(file.path("data-raw", "NOAA surveys", "nwfsc_hkl_catch_and_bio_data_2026-10-16.rdata"))
+  load(file.path(
+    "data-raw",
+    "NOAA surveys",
+    "bio_pull all_Triennial_2026-10-16.rdata"
+  ))
+  load(file.path(
+    "data-raw",
+    "NOAA surveys",
+    "bio_lingcod_NWFSC.Combo_2026-10-16.rdata"
+  ))
+  load(file.path(
+    "data-raw",
+    "NOAA surveys",
+    "nwfsc_hkl_catch_and_bio_data_2026-10-16.rdata"
+  ))
 }
 
-if(pull_fresh){
-#### Pull catch data #########################################################
-# Triennial catch data -------------------------------------------------------
-catch.Triennial <- nwfscSurvey::pull_catch(
-  common_name = utils_name("common"),
-  years = c(1980, 2004),
-  survey = "Triennial",
-  dir = "data-raw/NOAA surveys"
-)
-
-# WCGBTS catch data ----------------------------------------------------------
-catch.WCGBTS <- nwfscSurvey::pull_catch(
-  common_name = utils_name("common"),
-  survey = "NWFSC.Combo",
-  dir = "data-raw/NOAA surveys"
-)
-
-
-#### Bio data ##################################################################
-# Triennial bio data -----------------------------------------------------------
-  bio.Triennial <- nwfscSurvey::pull_bio(
-  survey = "Triennial", 
-  years = c(1980, 2004), 
-  dir = "data-raw/NOAA surveys",
-  standard_filtering = TRUE
+if (pull_fresh) {
+  #### Pull catch data #########################################################
+  # Triennial catch data -------------------------------------------------------
+  catch.Triennial <- nwfscSurvey::pull_catch(
+    common_name = utils_name("common"),
+    years = c(1980, 2004),
+    survey = "Triennial",
+    dir = "data-raw/NOAA surveys"
   )
 
-# WCGBTS bio data ---------------------------------------------------------------
+  # WCGBTS catch data ----------------------------------------------------------
+  catch.WCGBTS <- nwfscSurvey::pull_catch(
+    common_name = utils_name("common"),
+    survey = "NWFSC.Combo",
+    dir = "data-raw/NOAA surveys"
+  )
+
+  #### Bio data ##################################################################
+  # Triennial bio data -----------------------------------------------------------
+  bio.Triennial <- nwfscSurvey::pull_bio(
+    survey = "Triennial",
+    years = c(1980, 2004),
+    dir = "data-raw/NOAA surveys",
+    standard_filtering = TRUE
+  )
+
+  # WCGBTS bio data ---------------------------------------------------------------
   bio.WCGBTS <- nwfscSurvey::pull_bio(
-  common_name = utils_name(), 
-  survey = "NWFSC.Combo", 
-  years = c(2003, 2026), 
-  dir = "data-raw/NOAA surveys",
-  standard_filtering = TRUE)
+    common_name = utils_name(),
+    survey = "NWFSC.Combo",
+    years = c(2003, 2026),
+    dir = "data-raw/NOAA surveys",
+    standard_filtering = TRUE
+  )
 
-
-# Hook and line bio data ---------------------------------------------------------
-bio.HKL <- nwfscSurvey::pull_hkl_cache(
-  years = c(2003, 2026), 
-  common_name = utils_name(),
-  dir = "data-raw/NOAA surveys")
-}
+  # Hook and line bio data ---------------------------------------------------------
+  bio.HKL <- nwfscSurvey::pull_hkl_cache(
+    years = c(2003, 2026),
+    common_name = utils_name(),
+    dir = "data-raw/NOAA surveys"
+  )
+} #/ data download
 
 # Make plot of age representativeness
 pacfintools::age_representativeness_plot(
   bio = bio.WCGBTS,
-  plot_panels = c(9,2),
+  plot_panels = c(9, 2),
   file = file.path(
-  "figures-explore",
-  "age_representativeness_WCGBTS.png")
+    "figures_explore",
+    "age_representativeness_WCGBTS.png"
+  )
 )
 
 ###############################################################################
 # Index standardization
 ###############################################################################
-if(FALSE) { # run calculation of design-based index only once
+if (FALSE) {
+  # run calculation of design-based index only once
   # define strata for plotting function
   # (strata <- nwfscSurvey::create_strata(
-  #                           names = c("shallow_s", "deep_s", "shallow_n", "deep_n"), 
+  #                           names = c("shallow_s", "deep_s", "shallow_n", "deep_n"),
   #                           depths_shallow = c( 55, 183,  55, 183),
   #                           depths_deep    = c(183, 400, 183, 400),
   #                           lats_south     = c( 32,  32,  42,  42),
@@ -122,87 +150,101 @@ if(FALSE) { # run calculation of design-based index only once
 
   # order of new suggested strata from north to south: *_wa, *_n, *_pc, *_s. The first two strata are 'north' and the second two strata are 'south'.
   (strata <- nwfscSurvey::create_strata(
-                            names = c(
-                              "shallow_s", "deep_s", 
-                              "shallow_pc", "deep_pc",
-                              "shallow_n", "deep_n",
-                              "shallow_wa", "deep_wa"
-                            ),
-                            depths_shallow = rep(c(55, 183), 4),
-                            depths_deep    = rep(c(183, 400), 4),
-                            lats_south     = c(32, 32, 34.5, 34.5,
-                                              42, 42, 46, 46),
-                            lats_north     = c(34.5, 34.5, 42, 42,
-                                              46, 46, 49, 49))
-)
-  
-#           name      area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
-# 1  shallow_s  5812.339        55       183          32.0          34.5
-# 2     deep_s  5119.823       183       400          32.0          34.5
-# 3 shallow_pc 12912.784        55       183          34.5          42.0
-# 4    deep_pc  4148.507       183       400          34.5          42.0
-# 5  shallow_n 12233.455        55       183          42.0          46.0
-# 6     deep_n  4926.864       183       400          42.0          46.0
-# 7 shallow_wa  8584.007        55       183          46.0          49.0
-# 8    deep_wa  1987.257       183       400          46.0          49.0
+    names = c(
+      "shallow_s",
+      "deep_s",
+      "shallow_pc",
+      "deep_pc",
+      "shallow_n",
+      "deep_n",
+      "shallow_wa",
+      "deep_wa"
+    ),
+    depths_shallow = rep(c(55, 183), 4),
+    depths_deep = rep(c(183, 400), 4),
+    lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
+    lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
+  ))
+
+  #           name      area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
+  # 1  shallow_s  5812.339        55       183          32.0          34.5
+  # 2     deep_s  5119.823       183       400          32.0          34.5
+  # 3 shallow_pc 12912.784        55       183          34.5          42.0
+  # 4    deep_pc  4148.507       183       400          34.5          42.0
+  # 5  shallow_n 12233.455        55       183          42.0          46.0
+  # 6     deep_n  4926.864       183       400          42.0          46.0
+  # 7 shallow_wa  8584.007        55       183          46.0          49.0
+  # 8    deep_wa  1987.257       183       400          46.0          49.0
 
   # calculate design-based index
   biomass.WCGBTS <- nwfscSurvey::get_design_based(
-                                   dir = file.path("figures-explore", "WCGBTS"),
-                                   data = catch.WCGBTS,
-                                   strata = strata,
-                                   CI = 0.95) # not sure if this is the same as outputMedian = TRUE
+    dir = file.path("figures_explore", "WCGBTS"),
+    data = catch.WCGBTS,
+    strata = strata,
+    CI = 0.95
+  ) # not sure if this is the same as outputMedian = TRUE
   # make plot of design-based index
-  nwfscSurvey::plot_index(dir = file.path("figures-explore", "WCGBTS"),
-                          data = biomass.WCGBTS,
-                          add_save_name =, plot = 1:2)
-
+  nwfscSurvey::plot_index(
+    dir = file.path("figures_explore", "WCGBTS"),
+    data = biomass.WCGBTS,
+    add_save_name = ,
+    plot = 1:2
+  )
 } # end of design-based index calcs
 
 
 #### Create a figure of observations by depth bin
 # Code moved from lingcod_survey_depth_calculations to lingcod_survey
 # Find 99.9% quantile and round to nearest half hundred
-maxdepth <- ceiling(stats::quantile(
-  catch.WCGBTS %>% 
-    dplyr::filter(total_catch_wt_kg > 0) %>%
-    dplyr::pull(Depth_m),
-  probs = 0.999
-)/100/.5)*.5*100
+maxdepth <- ceiling(
+  stats::quantile(
+    catch.WCGBTS %>%
+      dplyr::filter(total_catch_wt_kg > 0) %>%
+      dplyr::pull(Depth_m),
+    probs = 0.999
+  ) /
+    100 /
+    .5
+) *
+  .5 *
+  100
 
 
 # Bio patterns - north
 nwfscSurvey::plot_bio_patterns(
-  data = bio.WCGBTS[bio.WCGBTS$Latitude_dd > breaks_lat["40-10"] & bio.WCGBTS$Depth < 400, ]
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd > breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  ]
 )
 
 # Bio patterns - south
 nwfscSurvey::plot_bio_patterns(
-  data = bio.WCGBTS[bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400, ]
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  ]
 )
 
 
-
-
-
-
 #### VAST for surveys
-strata_limits <- stats::setNames(mapply(
-  setup_areastrata,
-  MoreArgs = list(
-    strata_lat = strata_lat["Conception"]
+strata_limits <- stats::setNames(
+  mapply(
+    setup_areastrata,
+    MoreArgs = list(
+      strata_lat = strata_lat["Conception"]
+    ),
+    strata_depth = lapply(maxsurveydepth, function(x) c(55, 183, x)),
+    area_lat = list(breaks_lat, breaks_lat),
+    SIMPLIFY = FALSE
   ),
-  strata_depth = lapply(maxsurveydepth, function(x) c(55, 183, x)),
-  area_lat = list(breaks_lat, breaks_lat),
-  SIMPLIFY = FALSE
-), info_surveynames) %>%
+  info_surveynames
+) %>%
   dplyr::bind_rows(.id = "surveyname")
 #
 Database <- dplyr::bind_rows(
-    WCGBTS = catch.WCGBTS,
-    Triennial = catch.Triennial,
-    .id = "surveyname"
-  ) %>%
+  WCGBTS = catch.WCGBTS,
+  Triennial = catch.Triennial,
+  .id = "surveyname"
+) %>%
   dplyr::mutate(
     area_breaks = cut(Latitude_dd, breaks = breaks_lat, include.lowest = TRUE)
   ) %>%
@@ -215,7 +257,11 @@ Database <- dplyr::bind_rows(
     y = strata_limits %>%
       dplyr::group_by(
         surveyname,
-        area_breaks = cut(Latitude_dd.2, breaks = breaks_lat, include.lowest = TRUE)
+        area_breaks = cut(
+          Latitude_dd.2,
+          breaks = breaks_lat,
+          include.lowest = TRUE
+        )
       ) %>%
       dplyr::arrange(surveyname, name) %>%
       tidyr::nest() %>%
@@ -226,11 +272,15 @@ Database <- dplyr::bind_rows(
   )
 
 #+ plot
-gg <- plot_map(catch.WCGBTS, states = "washington|oregon|california",
+gg <- plot_map(
+  catch.WCGBTS,
+  states = "washington|oregon|california",
   yintercept = breaks_lat["40-10"]
 )
 ggplot2::ggsave(gg, file = file.path("figures", "WCBGTS-maprawdata.png"))
-gg <- plot_map(catch.Triennial, states = "washington|oregon|california",
+gg <- plot_map(
+  catch.Triennial,
+  states = "washington|oregon|california",
   yintercept = breaks_lat["40-10"]
 )
 ggplot2::ggsave(gg, file = file.path("figures", "Triennial-maprawdata.png"))
@@ -254,7 +304,12 @@ load(file = file_runmodels)
 #### Results
 vastoutput <- mapply(
   utils::read.csv,
-  dir("data-raw", pattern = "Table_for_SS3.csv", recursive = TRUE, full.names = TRUE),
+  dir(
+    "data-raw",
+    pattern = "Table_for_SS3.csv",
+    recursive = TRUE,
+    full.names = TRUE
+  ),
   SIMPLIFY = FALSE
 ) %>%
   dplyr::bind_rows(.id = "file") %>%
@@ -296,16 +351,20 @@ gg <- ggplot2::ggplot(
     col = surveyname,
     lty = distribution
   )
-) + ggplot2::geom_line() +
-ggplot2::ylab("Index of abundance (mt)") +
-ggplot2::facet_grid(area ~ .) +
-plot_theme() +
-ggplot2::guides(
-  col = ggplot2::guide_legend(label.position = "top"),
-  lty = ggplot2::guide_legend(label.position = "top")
 ) +
-ggplot2::theme(legend.position = "top", legend.direction = "horizontal")
-ggplot2::ggsave(gg, file = file.path("figures", "survey-index-comparedistributions.png"))
+  ggplot2::geom_line() +
+  ggplot2::ylab("Index of abundance (mt)") +
+  ggplot2::facet_grid(area ~ .) +
+  plot_theme() +
+  ggplot2::guides(
+    col = ggplot2::guide_legend(label.position = "top"),
+    lty = ggplot2::guide_legend(label.position = "top")
+  ) +
+  ggplot2::theme(legend.position = "top", legend.direction = "horizontal")
+ggplot2::ggsave(
+  gg,
+  file = file.path("figures", "survey-index-comparedistributions.png")
+)
 
 #### hookandline
 handl <- utils::read.csv(file_hookandline) %>%
@@ -323,19 +382,34 @@ data_index_survey <- dplyr::full_join(
   x = vastoutput %>% dplyr::select(-strata, -dir),
   y = handl,
   by = c(
-    "surveyname", "index", "area", "year", "obs", "distribution", "seas",
-    se_log = "logse", lower = "indl", upper = "indu"
+    "surveyname",
+    "index",
+    "area",
+    "year",
+    "obs",
+    "distribution",
+    "seas",
+    se_log = "logse",
+    lower = "indl",
+    upper = "indu"
   )
 ) %>%
   dplyr::group_by(surveyname) %>%
   dplyr::ungroup() %>%
   dplyr::select(
     # Grouping variables
-    area, surveyname, distribution,
+    area,
+    surveyname,
+    distribution,
     # Variables for SS
-    year, seas, index, obs, se_log,
+    year,
+    seas,
+    index,
+    obs,
+    se_log,
     # Additional variables
-    lower, upper,
+    lower,
+    upper,
   ) %>%
   data.frame
 
@@ -345,19 +419,7 @@ usethis::use_data(data_index_survey, overwrite = TRUE)
 ###############################################################################
 # Composition data
 ###############################################################################
-#######################################
-#
-#Scripts to pull length and age data for the lingcod_2021 stock assessment from surveys
-#and create expanded length, age, and CAAL comps. 
-#
-#Lingcod only present in the combo, triennial, and slope surveys so only use these surveys
-#Ages only available in combo and triennial. 
-#
-#Author: Brian Langseth
-#Created: February 9, 2021
-#
-#######################################
-
+# Adapted from Brian's 2021 script.
 ##There are a few remaining tasks
 #1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
 #2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
@@ -366,31 +428,25 @@ usethis::use_data(data_index_survey, overwrite = TRUE)
 #5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
 #6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
 
-##------------------------------------Scripts----------------------------------------##
-
-#Read in data from the data warehouse using function below
-#Saves .rda files for each specified survey
-#No longer needed due to new repository structure
-#readin_survey_data(surveys)   #########Dont need to do this again unless need new data##########
-
 #Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
 grDevices::png(
-  filename = file.path("figures-explore", "Triennial_cpueXdepth.png")
+  filename = file.path("figures_explore", "Triennial_cpueXdepth.png")
 )
 plot(
-  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$Depth_m,
-  y = log(catch.Triennial[which(catch.Triennial$cpue_kg_km2!=0),]$cpue_kg_km2),
+  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0), ]$Depth_m,
+  y = log(
+    catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0), ]$cpue_kg_km2
+  ),
   xlab = "Depth (m)",
-  ylab = expression(Triennial~log[e]~CPUE~(kg%*%km^2))
+  ylab = expression(Triennial ~ log[e] ~ CPUE ~ (kg %*% km^2))
 )
-abline(v=183) #Previous assessments used this. Seems to be a break. Use again.
-abline(v=350, col = "red") #Cut off data
+abline(v = 183) #Previous assessments used this. Seems to be a break. Use again.
+abline(v = 350, col = "red") #Cut off data
 grDevices::dev.off()
 
 # #Generate length comps using function below
-# #Saves comps and plots for each specified survey 
+# #Saves comps and plots for each specified survey
 # survey_lcomps(info_surveynames)
-
 
 # #Generate age comps using function below. Option for CAAL in addition to conditional age comps
 # #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
