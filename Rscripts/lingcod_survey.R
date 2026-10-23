@@ -54,27 +54,35 @@ if (!pull_fresh) {
     "NOAA surveys",
     "catch_lingcod_Triennial_2026-10-16.rdata"
   ))
+  catch.Triennial <- x
+
   load(file.path(
     "data-raw",
     "NOAA surveys",
     "catch_lingcod_NWFSC.Combo_2026-10-16.rdata"
   ))
+  catch.WCGBTS <- x
 
   load(file.path(
     "data-raw",
     "NOAA surveys",
     "bio_pull all_Triennial_2026-10-16.rdata"
   ))
+  bio.Triennial <- x
+
   load(file.path(
     "data-raw",
     "NOAA surveys",
     "bio_lingcod_NWFSC.Combo_2026-10-16.rdata"
   ))
+  bio.WCGBTS <- x
+
   load(file.path(
     "data-raw",
     "NOAA surveys",
     "nwfsc_hkl_catch_and_bio_data_2026-10-16.rdata"
   ))
+  bio.HKL <- x
 }
 
 if (pull_fresh) {
