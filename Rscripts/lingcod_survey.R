@@ -144,62 +144,50 @@ pacfintools::age_representativeness_plot(
 ###############################################################################
 # Strata for index calculation and length/age comps
 ###############################################################################
-  # 2021 strata
-  # (strata <- nwfscSurvey::create_strata(
-  #                           names = c("shallow_s", "deep_s", "shallow_n", "deep_n"),
-  #                           depths_shallow = c( 55, 183,  55, 183),
-  #                           depths_deep    = c(183, 400, 183, 400),
-  #                           lats_south     = c( 32,  32,  42,  42),
-  #                           lats_north     = c( 42,  42,  49,  49)))
-  ##        name     area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
-  ## 1 shallow_s 18725.12        55       183            32            42
-  ## 2    deep_s 18259.45       183       549            32            42
-  ## 3 shallow_n 20817.46        55       183            42            49
-  ## 4    deep_n 10687.23       183       549            42            49
+# 2021 strata
+# (strata <- nwfscSurvey::create_strata(
+#                           names = c("shallow_s", "deep_s", "shallow_n", "deep_n"),
+#                           depths_shallow = c( 55, 183,  55, 183),
+#                           depths_deep    = c(183, 400, 183, 400),
+#                           lats_south     = c( 32,  32,  42,  42),
+#                           lats_north     = c( 42,  42,  49,  49)))
+##        name     area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
+## 1 shallow_s 18725.12        55       183            32            42
+## 2    deep_s 18259.45       183       549            32            42
+## 3 shallow_n 20817.46        55       183            42            49
+## 4    deep_n 10687.23       183       549            42            49
 
 # New suggested strata for 2027
-  # From north to south: *_wa, *_n, *_pc, *_s. The first two are 'north' and the latter two are 'south':
-  (strata <- nwfscSurvey::create_strata(
-    names = c(
-      "shallow_s",
-      "deep_s",
-      "shallow_pc",
-      "deep_pc",
-      "shallow_n",
-      "deep_n",
-      "shallow_wa",
-      "deep_wa"
-    ),
-    depths_shallow = rep(c(55, 183), 4),
-    depths_deep = rep(c(183, 400), 4),
-    lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
-    lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
-  ))
+# From north to south: *_wa, *_n, *_pc, *_s. The first two are 'north' and the latter two are 'south':
+(strata <- nwfscSurvey::create_strata(
+  names = c(
+    "shallow_s",
+    "deep_s",
+    "shallow_pc",
+    "deep_pc",
+    "shallow_n",
+    "deep_n",
+    "shallow_wa",
+    "deep_wa"
+  ),
+  depths_shallow = rep(c(55, 183), 4),
+  depths_deep = rep(c(183, 400), 4),
+  lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
+  lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
+))
 
-  #           name      area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
-  # 1  shallow_s  5812.339        55       183          32.0          34.5
-  # 2     deep_s  5119.823       183       400          32.0          34.5
-  # 3 shallow_pc 12912.784        55       183          34.5          42.0
-  # 4    deep_pc  4148.507       183       400          34.5          42.0
-  # 5  shallow_n 12233.455        55       183          42.0          46.0
-  # 6     deep_n  4926.864       183       400          42.0          46.0
-  # 7 shallow_wa  8584.007        55       183          46.0          49.0
-  # 8    deep_wa  1987.257       183       400          46.0          49.0
+#           name      area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
+# 1  shallow_s  5812.339        55       183          32.0          34.5
+# 2     deep_s  5119.823       183       400          32.0          34.5
+# 3 shallow_pc 12912.784        55       183          34.5          42.0
+# 4    deep_pc  4148.507       183       400          34.5          42.0
+# 5  shallow_n 12233.455        55       183          42.0          46.0
+# 6     deep_n  4926.864       183       400          42.0          46.0
+# 7 shallow_wa  8584.007        55       183          46.0          49.0
+# 8    deep_wa  1987.257       183       400          46.0          49.0
 
-
-###############################################################################
-# Composition
-###############################################################################
-# Adapted from Brian's 2021 script.
-##There are a few remaining tasks (Brian's notes, can remove later)
-#1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
-#2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
-#3. Will need to specify survey timing (month 7), sex (currently 3 and 0), fleet number (triennial = 6, WCGBTS = 7) DONE
-#4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? Yes DONE
-#5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
-#6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
-
-#Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
+# Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
+# (this is also from Brian but it might help show the cutoff options for the deepest stratum)
 grDevices::png(
   filename = file.path("figures_explore", "Triennial_cpueXdepth.png")
 )
@@ -215,31 +203,35 @@ abline(v = 183) #Previous assessments used this. Seems to be a break. Use again.
 abline(v = 350, col = "red") #Cut off data
 grDevices::dev.off()
 
-# Generate length comps ---------------------------------------------------------
-# Saves comps and plots for each specified survey
-# survey_lcomps(info_surveynames)
+###############################################################################
+# Composition
+###############################################################################
+# Adapted from Brian's 2021 script.
+##There are a few remaining tasks (Brian's notes, can remove later)
+#1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
+#2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
+#3. Will need to specify survey timing (month 7), sex (currently 3 and 0), fleet number (triennial = 6, WCGBTS = 7) DONE
+#4. For CAAL, nwfscSurvey functions dont do unsexed. Do we ignore unsexed? Yes DONE
+#5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
+#6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
+
+# Use nwfscSurvey to get raw and expanded length comps --------------------------
+# Length bins? Do I need to subset the data to north and south to get the raw comps for each area?
+nwfscSurvey::get_raw_comps(data = bio.WCGBTS, 
+  comp_bins = seq(8, 114, 2)
+) # min and max of full dataset with bin size 2
+
+
+# Saves comps and plots for each specified survey: survey_lcomps(info_surveynames)
 
 # #Generate age comps using function below. Option for CAAL in addition to conditional age comps
 # #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
 # survey_acomps(info_surveynames, CAAL = TRUE)
 
-# # Copy figures
-# file.copy(
-#   recursive = TRUE,
-#   unlist(mapply(
-#     FUN = dir,
-#     dir(full.names = TRUE, "data-raw", pattern = "^age|^len"),
-#     MoreArgs = list(full.names = TRUE, recursive = TRUE, pattern = "png")
-#   )),
-#   "figures"
-# )
-
-
 ###############################################################################
 # Index standardization
 ###############################################################################
 if (FALSE) {
-
   # calculate design-based index
   biomass.WCGBTS <- nwfscSurvey::get_design_based(
     dir = file.path("figures_explore", "WCGBTS"),
@@ -251,7 +243,6 @@ if (FALSE) {
   nwfscSurvey::plot_index(
     dir = file.path("figures_explore", "WCGBTS"),
     data = biomass.WCGBTS,
-    add_save_name = ,
     plot = 1:2
   )
 } # end of design-based index calcs
@@ -479,4 +470,3 @@ data_index_survey <- dplyr::full_join(
 
 #+ usethis
 usethis::use_data(data_index_survey, overwrite = TRUE)
-
