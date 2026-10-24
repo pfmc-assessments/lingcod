@@ -13,18 +13,20 @@ table(catch.pacfin$INPFC_AREA_TYPE_CODE)
 # POT	FG
 # TLS	FG
 # DRG	TW
-# NET	TW
+# NET	FG
 # TWL	TW
 # TWS	TW
 
 catch.pacfin <- catch.pacfin %>%
   filter(INPFC_AREA_TYPE_CODE != "XX") %>%
-  mutate(fleet = if_else(PACFIN_GROUP_GEAR_CODE %in% c("DRG", "NET", "TWL", "TWS"), "TW", "FG"))
+  mutate(fleet = if_else(PACFIN_GROUP_GEAR_CODE %in% c("DRG", "TWL", "TWS"), "TW", "FG"))
 
 table(catch.pacfin$INPFC_AREA_TYPE_CODE)
+
+table(catch.pacfin$PACFIN_GROUP_GEAR_CODE, catch.pacfin$fleet)
 table(catch.pacfin$fleet)
 
-# Add "port_latutude" column based on pacfintools
+# Add "port_latitude" column based on pacfintools
 
 catch <- catch.pacfin |>
   dplyr::mutate(
@@ -34,7 +36,7 @@ catch_with_lat <- pacfintools::get_latitude(Pdata = catch)
 
 # Define boundary to split catches between N and S
 
-lat_threshold <- 40.10 
+lat_threshold <- 40.166667 
 
 # Assign area using mutate() and ifelse()
 catch.pacfin.split <- catch_with_lat %>%
