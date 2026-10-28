@@ -39,12 +39,18 @@ grep_comm_or <- "LINGCOD_OREGON HISTORICAL COMMERCIAL LANDINGS_1892 - 1986_by ge
 # spreadsheet with landings not included in the CA reconstruction that should be
 # added
 grep_comm_ca_or <- "CAlandingsCaughtORWA"
+# To Do:
 # california reconstruction - this file name has changed since 2021
-grep_comm_ca_ralston <- "comm_recon_data_ca_1931_1968" #"reconstruction_Ralston_et_al_2010"
+# there are multiple files:
+# 1. I cannot find a file called "reconstruction_Ralston_et_al_2010" that was used in 2021, I can find
+# a file called lingcod_CA_pre-1969_catch_reconstruction_Ralston_et_al_2010
+# 2. I pulled catches from the swfsc database but this may not be all the removals: comm_recon_data_ca_1931_1968
+# 3. There is a file called "CA_final_reconstruction_landings" that has catches from years 1931-2015
+grep_comm_ca_ralston <- "lingcod_CA_pre-1969_catch_reconstruction_Ralston_et_al_2010"
 # california calcom catches
-grep_comm_ca_calcom <- "comm_recon_data_ca_1969_1977" # "1969-1980_CALCOM"
-# !!! california calcom catches (new for 2027) - needs to be read in and processed below
-grep_comm_ca_calcom_late <- "comm_recon_data_ca_1979_1980"
+# To Do: I can't find a file called 1969-1980 but I can find a file called
+# lingcod_CA_catches_1969-1980_CALCOM that is likely the same thing
+grep_comm_ca_calcom <- "lingcod_CA_catches_1969-1980_CALCOM" # "1969-1980_CALCOM"
 
 # located in data-raw/Commercial/Historical landings/WA
 file_comm_wa <- "WA_historical_lingcod_2027.csv"
@@ -375,7 +381,9 @@ catch_comm_CA_ralston <- utils::read.csv(
   ) |>
   dplyr::filter(state == "CA")
 
-# CALCOM: This is now the calcom records from 1969-1977
+# CALCOM:
+# To Do: figure out if the catch from this file are the same from the two
+# separate files called: comm_recon_data_ca_1969_1977 and comm_recon_data_ca_1978_1980
 catch_comm_CA_calcom <- utils::read.csv(
   file = dir(
     file.path("data-raw", "Commercial", "Historical landings", "CA"),
@@ -385,7 +393,6 @@ catch_comm_CA_calcom <- utils::read.csv(
 ) |>
   dplyr::rename(Year = 1)
 
-# To Do: add code to read in the 1978-1980 CA CALCOM catches here
 
 # Read a spreadsheet with calculated proportion between north and south and
 # fixed gear versus trawl for early CA records
