@@ -1,24 +1,30 @@
 # Process commercial catch
 # Results are saved in ..\data-raw\catch.RData <- update location as necessary
 #
-# TO DO
+# 2021 TO DO
 # 1. Add source to the commercial catch stream
 # 2. standardize catch versus landing
 # 3. Assign fleet numbers and fleet names
 # 4. Think about splitting catch_comm_CA_CALCOM ERK into area
 # where right now it is all going to the North
-#
-# PIE IN THE SKY
-# 1. Why are WDFW 1995 to 1981 landings different than those in PacFIN
+# 5. Why are WDFW 1995 to 1981 landings different than those in PacFIN
 # MH (2017) noted that no one at WDFW knew why and that Phil was going to investigate?
-# 2. Reconstructions using Sette and Fiedler for other species,
+# 6. Reconstructions using Sette and Fiedler for other species,
 # JF noted data-based reconstructions may be better than a linear ramp
-# 3. inquire to WDFW if reconstruction includes tribal catches via
+# 7. inquire to WDFW if reconstruction includes tribal catches via
 # https://www.pcouncil.org/documents/2017/03/i2_att1_catch_reconstruction_workshop_report_mar2017bb.pdf/
+#
+# 2027 To Do:
+# 1. Use the pacfintools::get_latitude to improve the splitting of PacFIN catches
+# between the north and south stock areas.
+# 2. Completely rewrite the multiple join statement on ~ line 527. This is currently
+# not working and likely could be simplified based on improved data processing abilities
 ###############################################################################
 # Set up objects, file paths,
 ###############################################################################
 
+# load_all() loads all R functions in the package
+devtools::load_all()
 # Input required by user to change these things
 calcom_fleet_TW <- c("TWL", "NET")
 # This is used to filter the catch_erddap data - early CA landings
@@ -26,11 +32,10 @@ erddapmaxyrmeanbyarea <- 1933
 # This is used to remove WA PacFIN data prior to this year
 catch_comm_WA_yearstartpacfin <- 1995
 
-# patterns for dir(file.path("lingcod", "data-raw", "Commercial"), pattern = grep_...)
 # Pattern for finding the PacFIN catch data file
 grep_pacfin <- "PacFIN.+FT.+RData"
-# spreadsheet name for Oregon historical landings
-grep_comm_or <- "FINAL COMMERCIAL LANDINGS"
+# spreadsheet name for Oregon historical landings (2021 file name: "FINAL COMMERCIAL LANDINGS")
+grep_comm_or <- "LINGCOD_OREGON HISTORICAL COMMERCIAL LANDINGS_1892 - 1986_by gear type by fleet.xlsx"
 # spreadsheet with landings not included in the CA reconstruction that should be
 # added
 grep_comm_ca_or <- "CAlandingsCaughtORWA"
@@ -41,11 +46,11 @@ grep_comm_ca_calcom <- "comm_recon_data_ca_1969_1977" # "1969-1980_CALCOM"
 # !!! california calcom catches (new for 2027) - needs to be read in and processed below
 grep_comm_ca_calcom_late <- "comm_recon_data_ca_1979_1980"
 
-# paths for file.path("..", "data-raw", file_...)
-file_comm_wa <- "WA_historical_Lingcod_forMelissa_V2.csv"
+# located in data-raw/Commercial/Historical landings/WA
+file_comm_wa <- "WA_historical_lingcod_2027.csv"
 # Early CA catches starting in 1882
 file_erddap <- dir(
-  path = file.path("..", "data-raw"),
+  path = here::here("data-raw", "Commercial", "Historical landings", "CA"),
   pattern = "earlyCAlingcod",
   full.names = TRUE,
   recursive = TRUE
@@ -58,35 +63,43 @@ file_splitralston <- "Historical commercial catch for Kelli.xlsx"
 # Commercial data
 ###############################################################################
 
-load(dir_recent(file.path("..", "data-raw"), pattern = grep_pacfin))
-catch.pacfin <- PacFIN.Utilities::getGearGroup(catch.pacfin, verbose = FALSE)
+load(
+  dir_recent(
+    dir = here::here("data-raw", "Commercial", "pacfin", "PacFIN landings"),
+    pattern = grep_pacfin
+  )
+)
+
+# Code to remove records from OR prior to 1987, WA prior to 1995, remove records
+# outside the EEZ, and assign gears to a fleet
 catch.pacfin <- catch.pacfin |>
   dplyr::rename(Year = LANDING_YEAR) |>
   dplyr::filter(
+    # To do: The removal of WA data prior to 1995 needs to be reviewed
     !(AGENCY_CODE == "W" & Year %in% 0:(catch_comm_WA_yearstartpacfin - 1)),
     !(AGENCY_CODE == "O" &
       Year <
         # Read in this file from OR to determine which years they provide
         # that should be removed from the PacFIN data
         readxl::read_excel(
-          path = dir_recent(
-            dir = file.path("..", "data-raw"),
-            pattern = grep_comm_or,
+          path = here::here(
+            "data-raw",
+            "Commercial",
+            "Historical landings",
+            "OR",
+            grep_comm_or
           ),
-          sheet = 2
+          sheet = 3
         ) |>
           dplyr::filter(SOURCE != "PacFIN") |>
-          dplyr::pull(YEAR) |>
+          dplyr::pull(YEAR) %>%
           max)
   ) |>
   dplyr::mutate(
-    PACFIN_GEAR_CODE = dplyr::case_when(
-      GEAR_NAME == "SCALLOP DREDGE" ~ "SCD",
-      TRUE ~ PACFIN_GEAR_CODE
-    ),
-    fleet = use_fleetabb(geargroup),
+    fleet = use_fleetabb(PACFIN_GROUP_GEAR_CODE),
     eez = dplyr::case_when(
       INPFC_AREA_TYPE_CODE == "XX" ~ "outside",
+      # To Do: Double check assigning records in 02 and 4A to oustide
       ORIG_PACFIN_CATCH_AREA_CODE %in% c("02", "4A") ~ "outside",
       TRUE ~ "inside"
     )
@@ -106,14 +119,22 @@ removenonEEZcatch <- catch.pacfin[1, "eezcatch"]
 
 # Washington commercial data
 catch_comm_WA <- utils::read.csv(
-  file = file.path("..", "data-raw", file_comm_wa)
+  file = here::here(
+    "data-raw",
+    "Commercial",
+    "Historical landings",
+    "WA",
+    file_comm_wa
+  )
 ) |>
   dplyr::filter(Year < catch_comm_WA_yearstartpacfin) |>
   dplyr::mutate(
+    # set records that equal 0 to NA
     LINE = ifelse(LINE == 0, NA_real_, LINE),
+    # apply a linear function to fill in the NA records
     LINE = stats::approx(Year, LINE, n = length(LINE))$y,
-    FG = LINE,
-    TW = TRAWL + NET
+    FG = LINE + NET,
+    TW = TRAWL
   ) |>
   dplyr::select(-Total, -LINE, -NET, -TRAWL) |>
   tidyr::gather(key = "fleet", value = "mt", -Year) |>
@@ -124,12 +145,14 @@ catch_comm_WA <- utils::read.csv(
 # pacfin.psmfc.org/pacfin_pub/data_rpts_pub/code_lists/gr_tree.txt
 # 140 == Gill net; 210 == Gill net; 440 == Bait shrimp pump; 490 == Other H&L
 catch_comm_OR <- readxl::read_excel(
-  path = dir(
-    path = file.path("..", "data-raw"),
-    pattern = grep_comm_or,
-    full.names = TRUE
+  path = here::here(
+    "data-raw",
+    "Commercial",
+    "Historical landings",
+    "OR",
+    grep_comm_or
   ),
-  sheet = 2
+  sheet = 3
 ) |>
   dplyr::rename(Year = YEAR) |>
   dplyr::filter(SOURCE != "PacFIN") |>
@@ -150,18 +173,19 @@ catch_comm_OR <- readxl::read_excel(
       TRUE ~ PACFIN_GEAR_CODE
     )
   ) |>
-  data.frame
-catch_comm_OR <- PacFIN.Utilities::getGearGroup(catch_comm_OR, verbose = FALSE)
+  data.frame()
+catch_comm_OR <- pacfintools::getGearGroup(catch_comm_OR, verbose = FALSE)
 catch_comm_OR[, "fleet"] <- use_fleetabb(catch_comm_OR[["geargroup"]])
+# Calculate the single year with the highest catch and the average catch
 catch_comm_OR_summary <- catch_comm_OR |>
-  dplyr::group_by(Year) |>
-  dplyr::summarize(sum = sum(mt), .groups = "keep") |>
+  dplyr::summarize(.by = Year, sum = sum(mt)) |>
   dplyr::ungroup() |>
   dplyr::mutate(mean = mean(sum)) |>
   dplyr::slice_max(order_by = sum, n = 1)
 
-# California commercial data
-# erddap
+# California commercial data - this is the file use in 2021
+# erddap - lingcod catches from 1928:2002 with port
+# To do: Evaluate if this file should be replaced with comm_recon_ca_1931_1966
 catch_erddap <- readxl::read_excel(
   path = file_erddap,
   sheet = 3
@@ -174,11 +198,16 @@ catch_erddap <- readxl::read_excel(
   dplyr::group_by(port, Year) |>
   dplyr::mutate(mt_yp = sum(mt)) |>
   dplyr::ungroup()
+# Get the average proportion of landings in Eureka
 erddapmeanpropEureka <- catch_erddap |>
   dplyr::mutate(prop_p = mt_yp / mt_y) |>
   dplyr::filter(port == "Eureka", Year < erddapmaxyrmeanbyarea) |>
   dplyr::pull(prop_p) |>
-  mean
+  mean()
+# get the hand calculated proportions by Fraction of 100-200 block data that are
+# north of Cape Mendocino (average of 1931-1925; raw data not included on this
+# sheet, available on request) cell H30
+
 erddapmeanpropNEureka <- readxl::read_excel(
   path = file_erddap,
   sheet = 1,
@@ -189,6 +218,7 @@ erddapmeanpropNEureka <- readxl::read_excel(
   dplyr::pull(8)
 
 # sette
+# To do: figure out where these values come from
 catch_sette_1926fa <- data.frame(
   district = rep(
     c("Northern", "San Francisco", "Monterey", "Southern"),
@@ -224,12 +254,7 @@ catch_sette_1926fa <- data.frame(
   )
 ) |>
   dplyr::mutate(
-    fleet = dplyr::case_when(
-      gear %in%
-        c("gill nets", "paranzella nets", "lampara nets", "trammel nets") ~
-        "TW",
-      TRUE ~ "FG"
-    ),
+    fleet = "FG",
     mt = lbs * mult_lbs2mt()
   ) |>
   dplyr::mutate(
@@ -238,6 +263,7 @@ catch_sette_1926fa <- data.frame(
   dplyr::group_by(fleet, area) |>
   dplyr::mutate(mt_fa = sum(mt)) |>
   dplyr::group_by(area) |>
+  # To Do: the proportions are all 1.0 - this does not seem correct
   dplyr::mutate(prop_fa = mt_fa / sum(mt))
 # Calculate the proportion for fleet and area from 1926 to use for
 # multiple data sets
@@ -276,7 +302,9 @@ catch_sette1928 <- data.frame(
   ) *
     1000
 ) |>
-  tidyr::crossing(., catch_sette_prop_fa) |>
+  # create a tibble of all combinations with applying the proportion split
+  # between the north and south
+  tidyr::crossing(catch_sette_prop_fa) |>
   dplyr::mutate(
     prop_a = dplyr::case_when(
       area == "North" ~ (erddapmeanpropNEureka * erddapmeanpropEureka),
@@ -289,10 +317,12 @@ catch_sette1928 <- data.frame(
 # CA landings in OR waters
 # 1948 - 1968 additional catch in OR waters landed in CA from John F.
 catch_comm_CA_ORwaters <- readxl::read_excel(
-  path = dir(
-    path = file.path("..", "data-raw"),
-    pattern = grep_comm_ca_or,
-    full.names = TRUE
+  path = here::here(
+    "data-raw",
+    "Commercial",
+    "Historical landings",
+    "CA",
+    paste0(grep_comm_ca_or, ".xlsx")
   ),
   sheet = 3,
   skip = 5,
@@ -310,13 +340,15 @@ catch_comm_CA_ORwaters <- readxl::read_excel(
 # Ralston
 catch_comm_CA_ralston <- utils::read.csv(
   file = dir(
-    file.path("..", "data-raw"),
+    file.path("data-raw", "Commercial", "Historical landings", "CA"),
     pattern = grep_comm_ca_ralston,
     full.names = TRUE
   )
 ) |>
   dplyr::rename(Year = 1) |>
   dplyr::mutate(species = gsub("\\s", "", species)) |>
+  # Define areas by region_caught, region_caught = 2 straddles the 40.10 split
+  # To Do: double check that the region_caught is splitting correctly
   dplyr::mutate(
     area = dplyr::case_when(
       region_caught == 2 ~ "North_South",
@@ -327,6 +359,7 @@ catch_comm_CA_ralston <- utils::read.csv(
   tidyr::separate_rows(area, sep = "_") |>
   dplyr::mutate(
     mt = dplyr::case_when(
+      # Apply percents to split up region_caught between north and south
       region_caught == 2 & area == "North" ~
         pounds * mult_lbs2mt() * erddapmeanpropNEureka,
       region_caught == 2 & area == "South" ~
@@ -342,17 +375,28 @@ catch_comm_CA_ralston <- utils::read.csv(
   ) |>
   dplyr::filter(state == "CA")
 
-# CALCOM
+# CALCOM: This is now the calcom records from 1969-1977
 catch_comm_CA_calcom <- utils::read.csv(
   file = dir(
-    file.path("..", "data-raw"),
+    file.path("data-raw", "Commercial", "Historical landings", "CA"),
     pattern = grep_comm_ca_calcom,
     full.names = TRUE
   )
 ) |>
   dplyr::rename(Year = 1)
+
+# To Do: add code to read in the 1978-1980 CA CALCOM catches here
+
+# Read a spreadsheet with calculated proportion between north and south and
+# fixed gear versus trawl for early CA records
 catch_comm_CA_MM <- readxl::read_excel(
-  path = file.path("..", "data-raw", file_splitralston),
+  path = here::here(
+    "data-raw",
+    "Commercial",
+    "Historical landings",
+    "CA",
+    file_splitralston
+  ),
   .name_repair = "minimal",
   skip = 1
 ) |>
@@ -376,12 +420,16 @@ catch_comm_CA_MM <- readxl::read_excel(
     type = ifelse(grepl("all", area), "ALL", type),
     area = gsub("_all", "", area)
   ) |>
-  data.frame
+  data.frame()
 
 # Find landings in Eureka
 # Sort commercial catches out to area
+# To Do: Figure out if this is needed given the ability to assign latitude by
+# port using pacfintools::get_latitude()
 catch_comm_CA_ERA <- catch.pacfin |>
   dplyr::filter(PACFIN_GROUP_PORT_CODE %in% c("ERA")) |>
+  # Calculate the number of vessels and the total catch across all years in the
+  # Eureka PACFIN_GROUP_PORT_CODE
   dplyr::group_by(PORT_NAME) |>
   dplyr::summarize(
     .groups = "keep",
@@ -401,12 +449,17 @@ catch_comm_CA_ERA <- catch.pacfin |>
 # Find vessels in CA with unassigned port
 # Determine vessels fished by visually inspecting
 # all ports with lingcod landings by vessel_id
+# To Do: Figure out if this is needed given the ability to assign latitude by
+# port using pacfintools::get_latitude()
 catch_comm_CA_noport <- catch.pacfin[
   catch.pacfin[["AGENCY_CODE"]] == "C" &
     catch.pacfin[["PORT_CODE"]] %in% c(0, 896),
 ] |>
   dplyr::group_by(VESSEL_ID, Year) |>
   dplyr::summarize(sumMT = sum(ROUND_WEIGHT_MTONS), .groups = "keep")
+
+# To Do: Figure out if this is needed given the ability to assign latitude by
+# port using pacfintools::get_latitude()
 catch_comm_CA_noport_vesselid <- catch.pacfin |>
   dplyr::filter(VESSEL_ID %in% catch_comm_CA_noport[["VESSEL_ID"]]) |>
   dplyr::group_by(VESSEL_ID, PACFIN_PORT_NAME) |>
@@ -445,8 +498,9 @@ catch_comm_pacfin <- catch.pacfin |>
       TRUE ~ "South"
     ),
     mt = ROUND_WEIGHT_MTONS,
-    state = PacFIN.Utilities:::getState(catch.pacfin)[["state"]]
+    state = pacfintools::getState(catch.pacfin)[["state"]]
   )
+
 catch_comm_pacfin_summary <- catch_comm_pacfin |>
   dplyr::filter(!(state == "OR" & Year <= max(catch_comm_OR[["Year"]]))) |>
   dplyr::group_by(Year, state, fleet) |>
@@ -465,6 +519,11 @@ catch_comm_pacfin_summary <- catch_comm_pacfin |>
   )
 
 # Fill in missing years for California commercial catches
+# To do: split up the multiple full_join calls into step-wise joins
+# these lines are currently not working due to the use of x/y = .
+# The multiple joins need to be separated and done one by one building up the
+# fill time series. I think that some portion of the code is not needed given the
+# current pacfintool functionality and available data.
 catch_comm_CA_interpolate <- dplyr::full_join(
   by = c("Year", "area", "fleet", "source", "mt"),
   # Build up to 1930
@@ -559,7 +618,7 @@ catch_comm_CA_interpolate <- dplyr::full_join(
     mt = stats::approx(Year, mt, n = length(Year))$y,
     state = "CA"
   ) |>
-  data.frame
+  data.frame()
 
 myby <- c("Year", "fleet", "area", "mt", "state")
 catch_comm_reconstruction_notsummed <- dplyr::full_join(
@@ -582,7 +641,8 @@ catch_comm_reconstruction <- catch_comm_reconstruction_notsummed |>
 # this information is helpful for future runs and for building the document
 # 1. For the models: year, area, fleet
 # 2. For the document: year, area, state, fleet
-# 3. For comparison with the 2017 assessment boundaries at state lines: year, state, fleet
+# 3. Not needed for 2027 assessment. For comparison with the 2017 assessment
+#    boundaries at state lines: year, state, fleet
 ###############################################################################
 
 #### # 1
@@ -594,7 +654,7 @@ catch_comm <- dplyr::full_join(
   dplyr::group_by(Year, area, fleet) |>
   dplyr::summarize(mt = sum(mt), .groups = "keep") |>
   dplyr::ungroup() |>
-  data.frame
+  data.frame()
 
 #### # 2 Table 1. Catches by state x fleet
 catch_comm_fordoc <- dplyr::full_join(
@@ -606,91 +666,106 @@ catch_comm_fordoc <- dplyr::full_join(
   dplyr::summarize(mt = sum(mt), .groups = "keep") |>
   dplyr::ungroup()
 
+
+###############################################################################
+# Save the data
+###############################################################################
+data_catch_comm <- catch_comm
+save.image(file = here::here("data-raw", "Commercial", "catch_data_comm.RData"))
+save.image(
+  file = here::here("data-raw", "Commercial", "catch_comm_fordoc.RData")
+)
+usethis::use_data(data_catch_comm, overwrite = TRUE)
+
+###############################################################################
+# For 2027: Commenting out the next section of code that does an alternative
+# processing of catch with split between CA and OR - this is not needed this
+# cycle, because the 2021 assessment used the 40.10 split.
 #### # 3 Run the model with the previous stratification at state lines
 ####   combine with the old data file catches
-catch_comm_state <- dplyr::full_join(
-  by = c("Year", "state", "fleet", "mt"),
-  x = catch_comm_pacfin,
-  y = catch_comm_reconstruction_notsummed
-) |>
-  dplyr::mutate(
-    state = ifelse(state != "CA", "N", state),
-    source = "2021"
-  ) |>
-  dplyr::group_by(Year, state, fleet, source) |>
-  dplyr::summarize(mt = sum(mt), .groups = "keep") |>
-  dplyr::ungroup() |>
-  dplyr::full_join(
-    by = c("Year", "fleet", "state", "source"),
-    x = .,
-    y = dplyr::bind_rows(
-      .id = "id",
-      lapply(list(last_ssdat[[1]], last_ssdat[[2]]), "[[", "catch")
-    ) |>
-      dplyr::rename(Year = "year") |>
-      dplyr::mutate(
-        source = "2019",
-        fleet = dplyr::case_when(
-          id == 1 ~ last_ssdat[[1]][["fleetnames"]][fleet],
-          id == 2 ~ last_ssdat[[2]][["fleetnames"]][fleet],
-        )
-      ) |>
-      tidyr::separate(
-        col = "fleet",
-        into = c("fleetn", "state", "fleet"),
-        sep = "_"
-      ) |>
-      dplyr::filter(Year > 0, !grepl("REC", fleet)) |>
-      dplyr::mutate(fleet = ifelse(fleet == "FIX", "FG", "TW"))
-  ) |>
-  dplyr::mutate(
-    state = factor(state, levels = c("N", "CA"), labels = c("WA and OR", "CA"))
-  )
-# Perform a test to make sure that sum by state is same as sum by gear
-testthat::expect_equal(
-  dplyr::full_join(
-    by = "Year",
-    catch_comm_state |>
-      dplyr::group_by(Year) |>
-      dplyr::summarize(sum = sum(mt, na.rm = TRUE)),
-    catch_comm |>
-      dplyr::group_by(Year) |>
-      dplyr::summarize(sum = sum(mt, na.rm = TRUE))
-  ) |>
-    dplyr::mutate(diff = sum.x - sum.y) |>
-    dplyr::pull(diff) |>
-    sum,
-  0
-)
-# Save a file to re-run the last model with updated catches
-catch_writetofile <- catch_comm_state |>
-  dplyr::filter(source == 2021) |>
-  dplyr::select(Year, state, fleet, mt) |>
-  dplyr::rename(year = Year, catch = "mt") |>
-  dplyr::mutate(
-    seas = 1,
-    fleet = dplyr::case_when(
-      state == "CA" & fleet == "TW" ~ 1,
-      state == "CA" & fleet == "FG" ~ 2,
-      state == "WA and OR" & fleet == "TW" ~ 1,
-      state == "WA and OR" & fleet == "FG" ~ 2
-    ),
-    catch_se = 0.00
-  )
-utils::write.csv(
-  x = catch_writetofile |> dplyr::filter(state == "CA"),
-  file = file.path("..", "data-raw", "catch_comm_south_2019structure.csv")
-)
-utils::write.csv(
-  x = catch_writetofile |> dplyr::filter(state == "WA and OR"),
-  file = file.path("..", "data-raw", "catch_comm_north_2019structure.csv")
-)
+# catch_comm_state <- dplyr::full_join(
+#   by = c("Year", "state", "fleet", "mt"),
+#   x = catch_comm_pacfin,
+#   y = catch_comm_reconstruction_notsummed
+# ) |>
+#   dplyr::mutate(
+#     state = ifelse(state != "CA", "N", state),
+#     source = "2021"
+#   ) |>
+#   dplyr::group_by(Year, state, fleet, source) |>
+#   dplyr::summarize(mt = sum(mt), .groups = "keep") |>
+#   dplyr::ungroup() |>
+#   dplyr::full_join(
+#     by = c("Year", "fleet", "state", "source"),
+#     x = .,
+#     y = dplyr::bind_rows(
+#       .id = "id",
+#       lapply(list(last_ssdat[[1]], last_ssdat[[2]]), "[[", "catch")
+#     ) |>
+#       dplyr::rename(Year = "year") |>
+#       dplyr::mutate(
+#         source = "2019",
+#         fleet = dplyr::case_when(
+#           id == 1 ~ last_ssdat[[1]][["fleetnames"]][fleet],
+#           id == 2 ~ last_ssdat[[2]][["fleetnames"]][fleet],
+#         )
+#       ) |>
+#       tidyr::separate(
+#         col = "fleet",
+#         into = c("fleetn", "state", "fleet"),
+#         sep = "_"
+#       ) |>
+#       dplyr::filter(Year > 0, !grepl("REC", fleet)) |>
+#       dplyr::mutate(fleet = ifelse(fleet == "FIX", "FG", "TW"))
+#   ) |>
+#   dplyr::mutate(
+#     state = factor(state, levels = c("N", "CA"), labels = c("WA and OR", "CA"))
+#   )
+# # Perform a test to make sure that sum by state is same as sum by gear
+# testthat::expect_equal(
+#   dplyr::full_join(
+#     by = "Year",
+#     catch_comm_state |>
+#       dplyr::group_by(Year) |>
+#       dplyr::summarize(sum = sum(mt, na.rm = TRUE)),
+#     catch_comm |>
+#       dplyr::group_by(Year) |>
+#       dplyr::summarize(sum = sum(mt, na.rm = TRUE))
+#   ) |>
+#     dplyr::mutate(diff = sum.x - sum.y) |>
+#     dplyr::pull(diff) |>
+#     sum,
+#   0
+# )
+# # Save a file to re-run the last model with updated catches
+# catch_writetofile <- catch_comm_state |>
+#   dplyr::filter(source == 2021) |>
+#   dplyr::select(Year, state, fleet, mt) |>
+#   dplyr::rename(year = Year, catch = "mt") |>
+#   dplyr::mutate(
+#     seas = 1,
+#     fleet = dplyr::case_when(
+#       state == "CA" & fleet == "TW" ~ 1,
+#       state == "CA" & fleet == "FG" ~ 2,
+#       state == "WA and OR" & fleet == "TW" ~ 1,
+#       state == "WA and OR" & fleet == "FG" ~ 2
+#     ),
+#     catch_se = 0.00
+#   )
+# utils::write.csv(
+#   x = catch_writetofile |> dplyr::filter(state == "CA"),
+#   file = file.path("..", "data-raw", "catch_comm_south_2019structure.csv")
+# )
+# utils::write.csv(
+#   x = catch_writetofile |> dplyr::filter(state == "WA and OR"),
+#   file = file.path("..", "data-raw", "catch_comm_north_2019structure.csv")
+# )
 
-
-# Save the file
-data_catch_comm <- catch_comm
-
-#### # 2
+###############################################################################
+# Create tables for the document:
+# To Do: Move the following code chunk in the table.qmd file in the assessment
+# report and consider using the gt package for formatting.
+###############################################################################
 catch_fordoc <- dplyr::full_join(
   x = catch_comm_fordoc |>
     dplyr::mutate(state = paste0(fleet, "-", state)) |>
@@ -731,7 +806,7 @@ kableExtra::kbl(
     ""
   )) |>
   kableExtra::save_kable(
-    file = file.path("..", "tables", paste0(catchlabel, "-n-", ".tex"))
+    file = here::here("tables", paste0(catchlabel, "-n-", ".tex"))
   )
 kableExtra::kbl(
   catch_fordoc |> dplyr::filter(area == "South") |> dplyr::select(-area),
@@ -751,14 +826,8 @@ kableExtra::kbl(
   )) |>
   kableExtra::kable_styling(latex_options = c("repeat_header")) |>
   kableExtra::save_kable(
-    file = file.path("..", "tables", paste0(catchlabel, "-s-", ".tex"))
+    file = here::here("tables", paste0(catchlabel, "-s-", ".tex"))
   )
-
-###############################################################################
-# Save the data
-###############################################################################
-save.image(file = file.path("..", "data-raw", "catch_data_comm.RData"))
-usethis::use_data(data_catch_comm, overwrite = TRUE)
 
 ###############################################################################
 # Make the figures for the catches
@@ -784,7 +853,7 @@ gg <- ggplot2::ggplot(
   )
 ggsave2(
   gg,
-  filename = file.path("..", "figures", "catch-comm-state.png"),
+  filename = here::here("figures", "catch-comm-state.png"),
   caption = paste0(
     "Comparison of current landings (dashed line) and ",
     "those used in the previous assessment model (solid line) by state (panel). ",
@@ -823,7 +892,7 @@ gg <- ggplot2::ggplot(
   ggplot2::theme(legend.position = c(0.1, 0.8))
 ggsave2(
   gg,
-  filename = file.path("..", "figures", "catch-comm-CA-interpolate-ts.png"),
+  filename = here::here("figures", "catch-comm-CA-interpolate-ts.png"),
   caption = paste0(
     "Reconstructed commercial landings for the state of California by fleet ",
     "(fixed gear, FG, circles; trawl gear, TW, triangles) and ",
@@ -859,7 +928,7 @@ gg <- catch_comm_CA_ralston |>
   ggplot2::ylab("Proportion of CA commercial catch in the northern area")
 ggsave2(
   gg,
-  filename = file.path("..", "figures", "catch-comm-CA-proportionnorth.png"),
+  filename = here::here("figures", "catch-comm-CA-proportionnorth.png"),
   caption = paste0(
     "Yearly proportion of California (CA) commercial catch landed in the ",
     "the northern region (i.e., north of ",
@@ -909,7 +978,7 @@ gg <- ggplot2::ggplot(
   )
 ggsave2(
   gg,
-  filename = file.path("..", "figures", "catch-comm-ts-pacfin.png"),
+  filename = here::here("figures", "catch-comm-ts-pacfin.png"),
   caption = paste0(
     "Yearly commercial landings (mt) from the PacFIN database since 1981 ",
     " by area (panel and color) and fleet (shading). ",
@@ -955,7 +1024,7 @@ gg <- catch_comm_pacfin |>
   ggplot2::ylab("California commercial catch by area")
 ggsave2(
   gg,
-  filename = file.path("..", "figures", "catch-comm-CA-gearprop.png"),
+  filename = here::here("figures", "catch-comm-CA-gearprop.png"),
   caption = paste0(
     "Percentage of California commercial catch by area within each fleet ",
     "(fixed gear, FG, upper panel; trawl, TW, lower panel) ",
