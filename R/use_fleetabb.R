@@ -18,7 +18,7 @@
 #' use_fleetabb(c("HKL", "TWL", "POT"))
 use_fleetabb <- function(
   x, 
-  pattern = "^TW|^DRG|NET",
+  pattern = "^TW|^DRG|MID",
   use = c("TW", "FG")
 ) {
   out <- ifelse(
