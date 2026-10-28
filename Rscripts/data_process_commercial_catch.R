@@ -19,6 +19,9 @@
 # between the north and south stock areas.
 # 2. Completely rewrite the multiple join statement on ~ line 527. This is currently
 # not working and likely could be simplified based on improved data processing abilities
+# 3. The code replaces PacFIN data for WA up through 1995 with state provided data.
+# This need to be re-evaluated. Check with WDFW about this and if there is not a clear
+# rationale, the default in most assessments is to use PacFIN data.
 ###############################################################################
 # Set up objects, file paths,
 ###############################################################################
