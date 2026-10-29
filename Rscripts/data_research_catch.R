@@ -72,14 +72,14 @@ gemm_total_by_year <- gemm |>
 
 # load survey data
 load("data-raw/NOAA surveys/catch_lingcod_NWFSC.Combo_2026-10-16.rdata")
-names(x)
+wcgbts <- x
+names(wcgbts)
 #  [1] "Common_name"             "Scientific_name"         "Project"                 "Year"                    "Vessel"
 #  [6] "Tow"                     "total_catch_numbers"     "total_catch_wt_kg"       "Trawl_id"                "Subsample_count"
 # [11] "Subsample_wt_kg"         "cpue_kg_per_ha_der"      "Partition_sample_types"  "Partition"               "Legacy_performance_code"
 # [16] "Performance"             "Station_invalid"         "Reason_station_invalid"  "Pass"                    "Datetime_utc_iso"
 # [21] "Depth_m"                 "Longitude_dd"            "Latitude_dd"             "Area_swept_ha"           "cpue_kg_km2"
 # [26] "Date"
-wcgbts <- x
 
 # summarize WCGBTS catch by year
 wcgbts_total_by_year <- wcgbts |>
@@ -113,6 +113,17 @@ catch.pacfin |> dplyr::count(REMOVAL_TYPE_NAME)
 # 7                        UNKNOWN      4
 # 8                           <NA>    177
 
+# look at gear types in PacFIN
+catch.pacfin <- catch.pacfin |>
+  dplyr::filter(REMOVAL_TYPE_NAME == "RESEARCH") |>
+  pacfintools::getGearGroup()
+
+# aggregate catch by geargroup
+catch.pacfin |>
+  dplyr::group_by(geargroup) |>
+  dplyr::summarise(total = sum(ROUND_WEIGHT_MTONS, na.rm = TRUE))
+# 98% trawl
+
 # Estimate potential overlap by matching research landings to each vessel's
 # WCGBTS survey date range within the same year.
 
@@ -140,7 +151,6 @@ wcgbts_vessel_year <- wcgbts |>
 
 # Keep research records and create matching vessel/date columns in PacFIN.
 pacfin_research_in_survey_window <- catch.pacfin |>
-  dplyr::filter(REMOVAL_TYPE_NAME == "RESEARCH") |>
   dplyr::mutate(
     vessel_key = toupper(gsub("[[:space:]]+", " ", trimws(VESSEL_NAME))),
     landing_date = as.Date(LANDING_DATE)
@@ -202,7 +212,6 @@ wcgbts_pacfin_overlap_by_year <- wcgbts_pacfin_overlap |>
 # Summarize all PacFIN research catch by landing year, including years with no
 # WCGBTS vessel records, so it can be compared with the in-window subset.
 pacfin_research_total_by_year <- catch.pacfin |>
-  dplyr::filter(REMOVAL_TYPE_NAME == "RESEARCH") |>
   dplyr::summarise(
     pacfin_research_total_t = sum(ROUND_WEIGHT_MTONS, na.rm = TRUE),
     .by = LANDING_YEAR
@@ -238,15 +247,15 @@ wcgbts_pacfin_overlap_by_year
 #     year vessel_years wcgbts_catch_t pacfin_in_survey_window_t pacfin_research_total_t
 #    <int>        <int>          <dbl>                     <dbl>                   <dbl>
 #  1  1990            0           0                       0                      0.00363
-#  2  1997            0           0                       0                      0.148  
-#  3  1998            0           0                       0                      0.0617 
+#  2  1997            0           0                       0                      0.148
+#  3  1998            0           0                       0                      0.0617
 #  4  1999            0           0                       0                      0.00680
-#  5  2000            0           0                       0                      0.0245 
-#  6  2001            0           0                       0                      0.280  
-#  7  2002            0           0                       0                      0.343  
-#  8  2003            4           4.12                    0.0957                 6.85   
-#  9  2004            3           2.89                    0.0372                 0.400  
-# 10  2005            4           3.93                    2.46                   2.87   
+#  5  2000            0           0                       0                      0.0245
+#  6  2001            0           0                       0                      0.280
+#  7  2002            0           0                       0                      0.343
+#  8  2003            4           4.12                    0.0957                 6.85
+#  9  2004            3           2.89                    0.0372                 0.400
+# 10  2005            4           3.93                    2.46                   2.87
 # # i 19 more rows
 # # i Use `print(n = ...)` to see more rows
 
@@ -293,7 +302,7 @@ wcgbts_pacfin_overlap_plot <- wcgbts_pacfin_overlap_by_year |>
 
 # Save the plot as a PNG at the specified dimensions.
 ggsave(
-  "data_output/Commercial/wcgbts_pacfin_overlap_by_year.png",
+  "data_output/Commercial/research_catch_wcgbts_pacfin_overlap_by_year.png",
   plot = wcgbts_pacfin_overlap_plot,
   width = 6.5,
   height = 4
@@ -311,7 +320,6 @@ comparison_table <- dplyr::left_join(
   ) |>
   dplyr::left_join(
     catch.pacfin |>
-      dplyr::filter(REMOVAL_TYPE_NAME == "RESEARCH") |>
       dplyr::group_by(LANDING_YEAR) |>
       dplyr::summarise(pacfin = sum(ROUND_WEIGHT_MTONS, na.rm = TRUE)),
     by = c("year" = "LANDING_YEAR")
@@ -373,7 +381,10 @@ comparison_table_long <- comparison_table |>
     names_to = "source",
     values_to = "value"
   )
-comparison_plot <- ggplot(comparison_table_long, aes(x = year, y = value, fill = source)) +
+comparison_plot <- ggplot(
+  comparison_table_long,
+  aes(x = year, y = value, fill = source)
+) +
   geom_bar(stat = "identity") +
   geom_line(aes(y = gemm, group = 1, color = "GEMM"), linewidth = 0.5) +
   geom_point(aes(y = gemm, color = "GEMM"), size = 2, show.legend = FALSE) +
@@ -381,7 +392,7 @@ comparison_plot <- ggplot(comparison_table_long, aes(x = year, y = value, fill =
   labs(x = "Year", y = "Value", fill = "Source") +
   scale_color_manual(name = "Source", values = c(GEMM = "black"))
 ggsave(
-  "data_output/Commercial/data_research_catch_comparison_plot.png",
+  "data_output/Commercial/research_catch_comparison.png",
   plot = comparison_plot,
   width = 6.5,
   height = 4
@@ -389,7 +400,6 @@ ggsave(
 
 # look at PacFIN values prior to the GEMM
 catch.pacfin |>
-  dplyr::filter(REMOVAL_TYPE_NAME == "RESEARCH") |>
   dplyr::group_by(LANDING_YEAR) |>
   dplyr::summarise(pacfin = sum(ROUND_WEIGHT_MTONS, na.rm = TRUE)) |>
   dplyr::filter(LANDING_YEAR <= 2005)
@@ -406,3 +416,174 @@ catch.pacfin |>
 #  8         2003 6.85
 #  9         2004 0.400
 # 10         2005 2.87
+
+# conclusion after discussion with Kate Richerson conclusion is that
+# getting research catch from GEMM is the preferred approach for consistency
+# PacFIN catches prior to the start of GEMM in 2005 are small and will not be included
+# Also, GEMM doesn't separate research catch by gear type but vast majority is trawl
+# so will lump all as trawl when combining with other data
+
+# GOAL: have GEMM catch split at 40°10' for all years
+# for years 2014 onward, it's already split at 40°10'
+# for years 2009 to 2013, partition the "Lingcod (South of 42° N. lat.)"
+# grouping using the proportion of the wcgbts catch between 40°10' and 42° N. lat.
+# relative to the total wcgbts catch in that area
+# for the years 2005 to 2008, partition the "Lingcod (Coast)" grouping similarly
+
+latitude_boundary <- 40 + 10 / 60
+wcgbts_split_proportions <- wcgbts |>
+  dplyr::filter(Year %in% 2005:2013, !is.na(Latitude_dd)) |>
+  dplyr::summarise(
+    coast_total = sum(total_catch_wt_kg, na.rm = TRUE),
+    north_total = sum(
+      total_catch_wt_kg[Latitude_dd >= latitude_boundary],
+      na.rm = TRUE
+    ),
+    cal_total = sum(total_catch_wt_kg[Latitude_dd < 42], na.rm = TRUE),
+    norcal_total = sum(
+      total_catch_wt_kg[Latitude_dd >= latitude_boundary & Latitude_dd < 42],
+      na.rm = TRUE
+    ),
+    .by = Year
+  ) |>
+  dplyr::transmute(
+    year = Year,
+    north_frac_of_coast = north_total / coast_total,
+    norcal_frac_of_cal = norcal_total / cal_total
+  )
+
+stopifnot(
+  nrow(wcgbts_split_proportions) == 9L,
+  all(is.finite(wcgbts_split_proportions$north_frac_of_coast)),
+  all(is.finite(wcgbts_split_proportions$norcal_frac_of_cal)),
+  all(dplyr::between(wcgbts_split_proportions$north_frac_of_coast, 0, 1)),
+  all(dplyr::between(wcgbts_split_proportions$norcal_frac_of_cal, 0, 1))
+)
+
+gemm_split_allocations <- dplyr::bind_rows(
+  wcgbts_split_proportions |>
+    dplyr::filter(year %in% 2005:2008) |>
+    dplyr::transmute(
+      year,
+      source_grouping = "Lingcod (Coast)",
+      target_grouping = "Lingcod (North of 40°10' N. lat.)",
+      proportion = north_frac_of_coast
+    ),
+  wcgbts_split_proportions |>
+    dplyr::filter(year %in% 2005:2008) |>
+    dplyr::transmute(
+      year,
+      source_grouping = "Lingcod (Coast)",
+      target_grouping = "Lingcod (South of 40°10' N. lat.)",
+      proportion = 1 - north_frac_of_coast
+    ),
+  wcgbts_split_proportions |>
+    dplyr::filter(year %in% 2009:2013) |>
+    dplyr::transmute(
+      year,
+      source_grouping = "Lingcod (South of 42° N. lat.)",
+      target_grouping = "Lingcod (North of 40°10' N. lat.)",
+      proportion = norcal_frac_of_cal
+    ),
+  wcgbts_split_proportions |>
+    dplyr::filter(year %in% 2009:2013) |>
+    dplyr::transmute(
+      year,
+      source_grouping = "Lingcod (South of 42° N. lat.)",
+      target_grouping = "Lingcod (South of 40°10' N. lat.)",
+      proportion = 1 - norcal_frac_of_cal
+    )
+)
+
+gemm_rows_to_split <- gemm |>
+  dplyr::filter(
+    sector == "Research",
+    (year %in% 2005:2008 & grouping == "Lingcod (Coast)") |
+      (year %in% 2009:2013 & grouping == "Lingcod (South of 42° N. lat.)")
+  )
+
+gemm_adjusted_rows <- gemm_rows_to_split |>
+  dplyr::inner_join(
+    gemm_split_allocations,
+    by = c("year", "grouping" = "source_grouping")
+  ) |>
+  dplyr::mutate(
+    grouping = target_grouping,
+    dplyr::across(
+      c(
+        landings,
+        discards,
+        discard_mortality,
+        catch_landings_and_discards,
+        mortality_landings_and_discard_mortality
+      ),
+      ~ .x * proportion
+    )
+  ) |>
+  dplyr::select(-target_grouping, -proportion)
+
+gemm_research <- dplyr::bind_rows(
+  gemm |>
+    dplyr::filter(sector == "Research") |>
+    dplyr::filter(
+      !(((year %in% 2005:2008 & grouping == "Lingcod (Coast)") |
+        (year %in% 2009:2013 & grouping == "Lingcod (South of 42° N. lat.)")))
+    ),
+  gemm_adjusted_rows
+) |>
+  dplyr::mutate(
+    grouping = dplyr::if_else(
+      year %in% 2009:2013 & grouping == "Lingcod (North of 42° N. lat.)",
+      "Lingcod (North of 40°10' N. lat.)",
+      grouping
+    )
+  ) |>
+  dplyr::arrange(year, sector, grouping)
+
+# make bar plot of gemm_research mortality_landings_and_discard_mortality by year
+# with bars side by side for the two groupings
+library(ggplot2)
+ggplot(
+  gemm_research,
+  aes(x = year, y = mortality_landings_and_discard_mortality, fill = grouping)
+) +
+  geom_col(position = "dodge") +
+  labs(y = "catch (t)") +
+  theme(legend.position = "top")
+ggsave(
+  "data_output/Commercial/research_catch.png",
+  plot = last_plot(),
+  width = 6.5,
+  height = 4
+)
+
+# confirm that the totals by year match the totals prior to reallocation
+gemm_research_totals <- gemm_research |>
+  dplyr::filter(sector == "Research") |>
+  dplyr::summarise(
+    total = sum(mortality_landings_and_discard_mortality, na.rm = TRUE),
+    .by = year
+  ) |>
+  dplyr::arrange(year)
+gemm_original_totals <- gemm |>
+  dplyr::filter(sector == "Research") |>
+  dplyr::summarise(
+    total = sum(mortality_landings_and_discard_mortality, na.rm = TRUE),
+    .by = year
+  ) |>
+  dplyr::arrange(year)
+stopifnot(isTRUE(all.equal(
+  gemm_research_totals,
+  gemm_original_totals,
+  tolerance = 1e-12
+)))
+
+# rename to make name more clear
+# note that mortality_landings_and_discard_mortality is the same as
+# catch_landings_and_discards because research catch is assumed 100% dead
+# with zero discards
+research_catch <- gemm_research |>
+  dplyr::select(year, grouping, mortality_landings_and_discard_mortality) |>
+  dplyr::rename(catch = mortality_landings_and_discard_mortality)
+
+usethis::use_data(research_catch, overwrite = TRUE)
