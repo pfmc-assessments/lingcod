@@ -216,62 +216,34 @@ grDevices::dev.off()
 #6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
 
 # Use nwfscSurvey to get raw and expanded length comps --------------------------
+# Define the 8-stratum design (max depth 400 m)
+strata <- nwfscSurvey::create_strata(
+  names = c(
+    "shallow_s",
+    "deep_s",
+    "shallow_pc",
+    "deep_pc",
+    "shallow_n",
+    "deep_n",
+    "shallow_wa",
+    "deep_wa"
+  ),
+  depths_shallow = rep(c(55, 183), 4),
+  depths_deep    = rep(c(183, 400), 4),
+  lats_south     = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
+  lats_north     = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
+)
+
+# Setup areas and datasets for length and age comps
 comps_setup <-  data.frame(
-  dataset       = c("WCGBTS", "Triennial", "HKL"),
-  do_unsexed    = c(TRUE, TRUE, TRUE),
-  do_two_sex    = c(TRUE, TRUE, TRUE),
-  expand_length = c(TRUE, TRUE, FALSE),
-  expand_age    = c(TRUE, TRUE, FALSE),
-  expand_caal   = c(FALSE, FALSE, FALSE)
+  area          = c("north", "north", "north", "south", "south", "south"),
+  dataset       = c("WCGBTS", "Triennial", "HKL", "WCGBTS", "Triennial", "HKL"),
+  do_unsexed    = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+  do_two_sex    = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+  expand_length = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE),
+  expand_age    = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE),
+  expand_caal   = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)
 )
-
-# WCGBTS: marginal length
-north_raw_lcomps <- nwfscSurvey::get_raw_comps(
-  data = bio.WCGBTS[bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"],], 
-  comp_bins = info_bins$length, # length bins by 2cm; seq(10, 130, 2)
-  input_n_method = "stewart_hamel", # same as 2021
-  two_sex_comps = FALSE, # This should be the same as Sex = 3(combined)
-  month = 7, # from 2021
-  fleet = get_fleet("WC")$num,
-  dir = file.path(
-    "data-raw",
-    "lenComps",
-    "WCGBTS")
-  )
-
-# WCGBTS: expanded length
-north_expanded_lcomps <- nwfscSurvey::get_expanded_comps(
-  bio_data = bio.WCGBTS[bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"],],
-  catch_data = catch.WCGBTS[catch.WCGBTS$Latitude_dd >= breaks_lat["40-10"],],
-  comp_bins = info_bins$length,
-  input_n_method = "stewart_hamel",
-  two_sex_comps = FALSE,
-  month = 7,
-  fleet = get_fleet("WC")$num,
-  strata = strata,
-  dir = file.path(
-    "data-raw",
-    "lenComps",
-    "WCGBTS")
-)
-
-# WCGBTS: cond'l age at length
-north_raw_caal <- nwfscSurvey::get_raw_caal(
-  data = bio.WCGBTS[bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"],],
-  len_bins = info_bins$length,
-  age_bins = info_bins$age,
-  month = 7,
-  fleet = get_fleet("WC")$num,
-  partition = 0, 
-  ageerr = 1, # ageerr = 1 # this came from 2021 survey_acomps()
-  dir = file.path(
-    "data-raw",
-    "lenComps",
-    "WCGBTS")
-)
-
-
-
 
 
 
