@@ -13,9 +13,9 @@
 #' @return A nested list of comps: results[[dataset]][[area]]
 #' 
 #' @example
-#' survey_lcomps(setup = comps_setup[1,]) # does comps just for the top row of the design dataframe (north, WCGBTS)
+#' survey_comps(setup = comps_setup[1,]) # does comps just for the top row of the design dataframe (north, WCGBTS)
 
-survey_lcomps <- function(
+survey_comps <- function(
   setup          = comps_setup,
   strata_df      = strata,
   len_bins       = seq(10, 130, by = 2), # have to hard code these for the example
