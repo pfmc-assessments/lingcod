@@ -238,20 +238,17 @@ strata <- nwfscSurvey::create_strata(
 comps_setup <-  data.frame(
   area          = c("north", "north", "north", "south", "south", "south"),
   dataset       = c("WCGBTS", "Triennial", "HKL", "WCGBTS", "Triennial", "HKL"),
-  do_unsexed    = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+  do_combined_sexes = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
   do_two_sex    = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
   expand_length = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE),
   expand_age    = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE),
   expand_caal   = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)
 )
 
-
-
-# Saves comps and plots for each specified survey: survey_lcomps(info_surveynames)
-
-# #Generate age comps using function below. Option for CAAL in addition to conditional age comps
-# #Saves comps and plots for surveys with age data (only WCGBTS and Triennial)
-# survey_acomps(info_surveynames, CAAL = TRUE)
+survey_comps(setup = comps_setup,
+  strata_df = strata,
+  len_bins = info_bins$length, 
+  age_bins = info_bins$age)
 
 ###############################################################################
 # Index standardization
