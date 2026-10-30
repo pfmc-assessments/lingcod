@@ -372,6 +372,14 @@ summary(comparison_table$survey_and_pacfin_fraction)
 #    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs
 #  0.4196  0.8924  0.9509  0.9943  1.1094  1.6017       1
 
+# WCGBTS survey as fraction of GEMM for the years where GEMM
+# needs reallocation by area:
+comparison_table |>
+  dplyr::filter(year < 2014) |>
+  dplyr::pull(wcgbts_fraction) |>
+  mean() |> 
+  round(2)
+
 # add ggplot for visualizing the columns wcgbts, hkl, and pacfin
 # as a stacked bar plot with the gemm column as a separate line
 
@@ -402,7 +410,7 @@ ggsave(
 catch.pacfin |>
   dplyr::group_by(LANDING_YEAR) |>
   dplyr::summarise(pacfin = sum(ROUND_WEIGHT_MTONS, na.rm = TRUE)) |>
-  dplyr::filter(LANDING_YEAR <= 2005)
+  dplyr::filter(LANDING_YEAR < 2005)
 
 #    LANDING_YEAR  pacfin
 #           <int>   <dbl>
@@ -415,7 +423,20 @@ catch.pacfin |>
 #  7         2002 0.343
 #  8         2003 6.85
 #  9         2004 0.400
-# 10         2005 2.87
+
+# average from pacfin before 2005
+catch.pacfin |>
+  dplyr::group_by(LANDING_YEAR) |>
+  dplyr::filter(LANDING_YEAR < 2005) |>
+  dplyr::summarise(catch = sum(ROUND_WEIGHT_MTONS, na.rm = TRUE)) |>
+  # get average per year, including zeros in missing years back to 1990
+  dplyr::right_join(
+    dplyr::tibble(LANDING_YEAR = 1990:2004),
+    by = "LANDING_YEAR"
+  ) |>
+  dplyr::mutate(catch = tidyr::replace_na(catch, 0)) |>
+  dplyr::summarise(avg = mean(catch))
+
 
 # conclusion after discussion with Kate Richerson conclusion is that
 # getting research catch from GEMM is the preferred approach for consistency
@@ -556,6 +577,13 @@ ggsave(
   width = 6.5,
   height = 4
 )
+
+# average across years
+research_catch |>
+  dplyr::summarise(
+    avg = mean(catch, na.rm = TRUE) |> round(1),
+    .by = grouping
+  )
 
 # confirm that the totals by year match the totals prior to reallocation
 gemm_research_totals <- gemm_research |>
