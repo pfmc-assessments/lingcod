@@ -215,24 +215,7 @@ grDevices::dev.off()
 #5. For CAAL can do expanded comps, but Im not doing (not standard to do so). Do we want to use expanded CAAL? No DONE
 #6. Combine unsexed into sexed, using minimum sizes below which to assume 50:50 sex ratio based on L-A and L-W relationships
 
-# Use nwfscSurvey to get raw and expanded length comps --------------------------
-# Define the 8-stratum design (max depth 400 m)
-strata <- nwfscSurvey::create_strata(
-  names = c(
-    "shallow_s",
-    "deep_s",
-    "shallow_pc",
-    "deep_pc",
-    "shallow_n",
-    "deep_n",
-    "shallow_wa",
-    "deep_wa"
-  ),
-  depths_shallow = rep(c(55, 183), 4),
-  depths_deep    = rep(c(183, 400), 4),
-  lats_south     = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
-  lats_north     = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
-)
+# Strata are defined above. survey_comps() function now does age and length comps.
 
 # Setup areas and datasets for length and age comps
 comps_setup <-  data.frame(
