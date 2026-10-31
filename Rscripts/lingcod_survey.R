@@ -228,7 +228,7 @@ comps_setup <-  data.frame(
   expand_caal   = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)
 )
 
-survey_comps(setup = comps_setup,
+all_comps_combined <- survey_comps(setup = comps_setup,
   strata_df = strata,
   len_bins = info_bins$length, 
   age_bins = info_bins$age)
