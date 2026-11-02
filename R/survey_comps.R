@@ -1,4 +1,4 @@
-#' Generate survey length comps
+#' Generate survey length and age comps
 #'
 #' @param setup A dataframe of which sexes, areas, and datasets you want comps for.
 #' @param strata_df Dataframe of stratum boundaries
@@ -10,7 +10,7 @@
 #' @param input_n_method Sample size method; defaults to "stewart_hamel"
 #' @param base_dir Base directory to save CSVs (default: "data-raw"). Set to NULL for in-memory only.
 #'
-#' @return A nested list of comps: results[[dataset]][[area]]
+#' @return A nested list of comps: results[[dataset]][[area]]. Also creates image files of plots showing age and length comps in the same dir.
 #'
 #' @example
 #' survey_comps(setup = comps_setup[1,]) # does comps just for the top row of the design dataframe (north, WCGBTS)
