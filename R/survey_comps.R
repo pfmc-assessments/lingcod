@@ -34,6 +34,7 @@ survey_comps <- function(
 
   results <- list()
 
+  # Loop through surveys and comp types
   for (i in 1:nrow(setup)) {
     row_cfg <- setup[i, ]
     ds <- row_cfg$dataset
@@ -77,6 +78,7 @@ survey_comps <- function(
       bio_l <- hkl_bio
       bio_a <- hkl_bio
       catch_df <- NULL
+      input_n_method <- "total_samples" 
     }
 
     # Subset to north or south
