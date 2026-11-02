@@ -149,6 +149,13 @@ survey_comps <- function(
         verbose = FALSE
       )
 
+      if (!is.null(out$length[[lbl]]$raw$sexed) && nrow(out$length[[lbl]]$raw$sexed) > 0) {
+        plot_comps(data = out$length[[lbl]]$raw$sexed, dir = len_dir)
+      }
+      if (!is.null(out$length[[lbl]]$raw$unsexed) && nrow(out$length[[lbl]]$raw$unsexed) > 0) {
+        plot_comps(data = out$length[[lbl]]$raw$unsexed, dir = len_dir)
+      }
+
       # Expanded length comps
       if (row_cfg$expand_length && !is.null(catch_sub) && !is.null(strata_df)) {
         out$length[[lbl]]$expanded <- nwfscSurvey::get_expanded_comps(
@@ -164,6 +171,12 @@ survey_comps <- function(
           dir = len_dir,
           verbose = FALSE
         )
+        if (!is.null(out$length[[lbl]]$expanded$sexed) && nrow(out$length[[lbl]]$expanded$sexed) > 0) {
+          plot_comps(data = out$length[[lbl]]$expanded$sexed, dir = len_dir)
+        }
+        if (!is.null(out$length[[lbl]]$expanded$unsexed) && nrow(out$length[[lbl]]$expanded$unsexed) > 0) {
+          plot_comps(data = out$length[[lbl]]$expanded$unsexed, dir = len_dir)
+        }
       }
     }
 
@@ -187,6 +200,12 @@ survey_comps <- function(
           dir = age_dir,
           verbose = FALSE
         )
+        if (!is.null(out$age[[lbl]]$raw$sexed) && nrow(out$age[[lbl]]$raw$sexed) > 0) {
+          plot_comps(data = out$age[[lbl]]$raw$sexed, dir = age_dir)
+        }
+        if (!is.null(out$age[[lbl]]$raw$unsexed) && nrow(out$age[[lbl]]$raw$unsexed) > 0) {
+          plot_comps(data = out$age[[lbl]]$raw$unsexed, dir = age_dir)
+        }
 
         #Expanded age comps
         if (row_cfg$expand_age && !is.null(catch_sub) && !is.null(strata_df)) {
@@ -204,6 +223,13 @@ survey_comps <- function(
             dir = age_dir,
             verbose = FALSE
           )
+
+          if (!is.null(out$age[[lbl]]$expanded$sexed) && nrow(out$age[[lbl]]$expanded$sexed) > 0) {
+            plot_comps(data = out$age[[lbl]]$expanded$sexed, dir = age_dir)
+          }
+          if (!is.null(out$age[[lbl]]$expanded$unsexed) && nrow(out$age[[lbl]]$expanded$unsexed) > 0) {
+            plot_comps(data = out$age[[lbl]]$expanded$unsexed, dir = age_dir)
+          }
         }
       }
     }
