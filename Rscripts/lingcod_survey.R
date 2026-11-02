@@ -474,4 +474,4 @@ data_index_survey <- dplyr::full_join(
   data.frame
 
 #+ usethis
-usethis::use_data(data_index_survey, overwrite = TRUE)
+#usethis::use_data(data_index_survey, overwrite = TRUE)
