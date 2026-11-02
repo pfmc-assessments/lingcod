@@ -7,7 +7,7 @@ library(tidyr)
 lingcod_gemm <- pull_gemm(common_name = "lingcod")
 
 # load file with secot vs fleet
-load("gemm_fleets.RData")
+load("gemm_fleets.rda")
 
 # Add fleet field to gemm
 gemm_by_fleet <- left_join(gemm_fleets,lingcod_gemm,  by = "sector")
@@ -34,6 +34,6 @@ discard_table <- gemm_by_fleet_area %>%
 print(discard_table)
 
 # Save a Rdata file
-save(discard_table, file = "dead_discard_table.RData")
 
+save(discard_table, file = "dead_discard_table.rda")
 write.csv(discard_table,"dead_discard_table.csv")

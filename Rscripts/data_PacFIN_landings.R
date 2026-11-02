@@ -61,7 +61,6 @@ catch.pacfin.split$area <- ifelse(is.na(catch.pacfin.split$area),
                   catch.pacfin.split$area)
 
 
-save(catch.pacfin.split, file = "catch.pacfin.split.RData")
-
+save(catch.pacfin.split, file = "catch.pacfin.split.rda")
 write.csv(catch.pacfin.split, "catch.pacfin.split.csv")
 
