@@ -18,7 +18,7 @@
 survey_comps <- function(
   setup = comps_setup,
   strata_df = strata,
-  len_bins = seq(10, 130, by = 2), # have to hard code these for the example
+  len_bins = seq(10, 130, by = 2), # have to hard code these for the defaults
   age_bins = seq(0, 20, by = 1),
   lat_cutoff = breaks_lat["40-10"],
   month = 7,
@@ -74,10 +74,6 @@ survey_comps <- function(
       hkl_bio$Latitude_dd <- hkl_bio$drop_latitude_degrees
       hkl_bio$trawl_id <- seq_len(nrow(hkl_bio))
       hkl_bio$year <- as.numeric(as.character(hkl_bio$year))
-      hkl_bio$Common_name <- "lingcod"
-      hkl_bio$Length_cm <- hkl_bio$length_cm
-      hkl_bio$Sex <- hkl_bio$sex
-      hkl_bio$Age_years <- hkl_bio$age_years
       bio_l <- hkl_bio
       bio_a <- hkl_bio
       catch_df <- NULL
@@ -171,7 +167,7 @@ survey_comps <- function(
 
     # Age Compositions
     out$age <- list()
-    bio_a_valid <- bio_a_sub[!is.na(bio_a_sub$Age_years), ]
+    bio_a_valid <- bio_a_sub[!is.na(bio_a_sub$age_years), ]
     if (nrow(bio_a_valid) > 0) {
       for (two_sex in sex_settings) {
         lbl <- if (two_sex) "two_sex" else "combined_sexes"
@@ -249,7 +245,6 @@ survey_comps <- function(
 #     "WCGBTS")
 #   )
 
-#RETURN TO THIS LATER
 # north_raw_lcomps_twosex <- nwfscSurvey::get_raw_comps(
 #   data = bio.WCGBTS[bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"],],
 #   comp_bins = info_bins$length, # length bins by 2cm; seq(10, 130, 2)
@@ -324,17 +319,4 @@ survey_comps <- function(
 #     "lenComps",
 #     "HKL"
 #   )
-# )
-
-# # fails at input_n step...
-# get_input_n(
-#   dir = file.path(
-#     "data-raw",
-#     "lenComps",
-#     "HKL"
-#   ),
-#   data = bio.HKL$bio_data |> dplyr::mutate(trawl_id = dplyr::row_number()),
-#   species_group = "all",
-#   comp_column_name = "length_cm",
-#   input_n_method = "total_samples"
 # )
