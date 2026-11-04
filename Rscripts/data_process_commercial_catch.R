@@ -1,7 +1,7 @@
-# Process commercial catch
+# Process commercial catch historical and pacfin data for all states
 #
 # Results are saved in ..\data-raw
-# Two files are saved in this folder
+# Two files are saved in this folder from this script:
 # data_landings_commercial.rda - landings aggregated by year, gear, and area
 # data_landings_commercial_by_state.rda - landings aggregateg by year, state, and gear
 #
@@ -415,16 +415,7 @@ catch_sette1928 <- data.frame(
     landings_mt = lbs * mult_lbs2mt() * prop_a * prop_fa,
     source = "sette"
   ) |>
-  dplyr::select(-lbs, -prop_fa, -prop_a) #|>
-# do a linear interpolation to fill in landings for missing years
-# dplyr::mutate(
-#   # set records that equal 0 to NA
-#   landings_mt = ifelse(landings_mt == 0 & Year != 1888, NA_real_, landings_mt) #,
-# ) |>
-# dplyr::group_by(area) |>
-# dplyr::mutate(
-#   landings_mt = stats::approx(Year, landings_mt, n = length(landings_mt))$y
-# )
+  dplyr::select(-lbs, -prop_fa, -prop_a)
 
 # Read a spreadsheet with calculated proportion between north and south and
 # fixed gear versus trawl for early CA records: 1951-1968
@@ -752,28 +743,4 @@ gg <- ggplot2::ggplot(
 ggplot2::ggsave(
   gg,
   filename = here::here("figures", "landings-comm-south-source.png")
-)
-
-gg <- ggplot2::ggplot(
-  catch_comm_ca |> dplyr::filter(source != "interpolate"),
-  ggplot2::aes(
-    x = Year,
-    y = landings_mt,
-    col = interaction(area, fleet, sep = " - "),
-  )
-) +
-  ggplot2::geom_line() +
-  ggplot2::geom_line(ggplot2::aes(y = landings_mt), lty = 2) +
-  ggplot2::geom_point(cex = 2) +
-  ggplot2::ylab("Commercial landings (mt)") +
-  ggplot2::guides(
-    colour = ggplot2::guide_legend(
-      title = "area x fleet without interpolated values"
-    )
-  ) +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = c(0.40, 0.8))
-ggplot2::ggsave(
-  gg,
-  filename = here::here("figures", "landings-comm-CA-only-ts.png"),
 )
