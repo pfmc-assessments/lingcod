@@ -151,8 +151,8 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 4),
   depths_deep = rep(c(183, 400), 4), 
-  lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
-  lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
+  lats_south = c(32, 32, 34.5, 34.5, 40.16667, 40.16667, 46, 46),
+  lats_north = c(34.5, 34.5, 40.16667, 40.16667, 46, 46, 49, 49)
 ))
 
 (strata_triennial <- nwfscSurvey::create_strata(
@@ -168,8 +168,8 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 4),
   depths_deep = rep(c(183, 350), 4), # depth difference
-  lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
-  lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
+  lats_south = c(32, 32, 34.5, 34.5, 40.16667, 40.16667, 46, 46),
+  lats_north = c(34.5, 34.5, 40.16667, 40.16667, 46, 46, 49, 49)
 ))
 
 #           name      area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
