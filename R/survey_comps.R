@@ -182,7 +182,7 @@ survey_comps <- function(
 
     # Age Compositions
     out$age <- list()
-    bio_a_valid <- bio_a_sub[!is.na(bio_a_sub$age_years), ]
+    bio_a_valid <- bio_a_sub[!is.na(bio_a_sub$Age_years), ]
     if (nrow(bio_a_valid) > 0) {
       for (two_sex in sex_settings) {
         lbl <- if (two_sex) "two_sex" else "combined_sexes"
