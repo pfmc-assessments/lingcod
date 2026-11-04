@@ -57,7 +57,11 @@ file_erddap <- dir(
   pattern = "earlyCAlingcod",
   full.names = TRUE,
   recursive = TRUE
-)[2]
+)
+# not sure why there would be more than one matching file
+if (length(file_erddap) > 1) {
+  file_erddap <- file_erddap[2]
+}
 # file_splitralston provided by MM
 # This file has percent for splitting early CA data based on area and gear
 file_splitralston <- "Historical commercial catch for Kelli.xlsx"
@@ -228,7 +232,8 @@ catch_comm_CA_ralston_raw <- utils::read.csv(
     file.path("data-raw", "Commercial", "Historical landings", "CA"),
     pattern = grep_comm_ca_ralston,
     full.names = TRUE
-  )
+  ),
+  fileEncoding = "UTF-8-BOM"
 ) |>
   dplyr::rename(Year = 1) |>
   dplyr::mutate(
