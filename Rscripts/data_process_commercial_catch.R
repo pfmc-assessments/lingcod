@@ -747,5 +747,10 @@ gg <- ggplot2::ggplot(
   )
 ggplot2::ggsave(
   gg,
-  filename = here::here("figures", "landings-comm-south-source.png")
+  filename = here::here(
+    "data-raw",
+    "Commercial",
+    "figures",
+    "landings-comm-south-source.png"
+  )
 )
