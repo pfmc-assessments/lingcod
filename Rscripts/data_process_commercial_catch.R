@@ -1,30 +1,26 @@
 # Process commercial catch
-# Results are saved in ..\data-raw\catch.RData <- update location as necessary
 #
-# 2021 TO DO
-# 1. Add source to the commercial catch stream
-# 2. standardize catch versus landing
-# 3. Assign fleet numbers and fleet names
-# 4. Think about splitting catch_comm_CA_CALCOM ERK into area
-# where right now it is all going to the North
-# 5. Why are WDFW 1995 to 1981 landings different than those in PacFIN
-# MH (2017) noted that no one at WDFW knew why and that Phil was going to investigate?
-# 6. Reconstructions using Sette and Fiedler for other species,
-# JF noted data-based reconstructions may be better than a linear ramp
-# 7. inquire to WDFW if reconstruction includes tribal catches via
-# https://www.pcouncil.org/documents/2017/03/i2_att1_catch_reconstruction_workshop_report_mar2017bb.pdf/
+# Results are saved in ..\data-raw
+# Two files are saved in this folder
+# data_landings_commercial.rda - landings aggregated by year, gear, and area
+# data_landings_commercial_by_state.rda - landings aggregateg by year, state, and gear
 #
-# 2027 To Do:
-# 1. Use the pacfintools::get_latitude to improve the splitting of PacFIN catches
-# between the north and south stock areas.
-# 2. Completely rewrite the multiple join statement on ~ line 527. This is currently
-# not working and likely could be simplified based on improved data processing abilities
-# 3. The code replaces PacFIN data for WA up through 1995 with state provided data.
-# This need to be re-evaluated. Check with WDFW about this and if there is not a clear
-# rationale, the default in most assessments is to use PacFIN data.
-# 4. This script only processes landings. If the 2027 assessments opt to not model
+# Standing questions
+# -  This script only processes landings. If the 2027 assessments opt to not model
 # discard, but rather use discard fleets or add discards to the landings that processing
 # needs to be done here or in a separate script.
+# - The code replaces PacFIN data for WA up through 1995 with state provided data.
+# This need to be re-evaluated. Check with WDFW about this and if there is not a clear
+# rationale, the default in most assessments is to use PacFIN data.
+# - Evaluate the use of ERDDAP and Sette and Fielder for CA pre-Ralston years
+# Reconstructions using Sette and Fiedler for other species,
+# JF noted data-based reconstructions may be better than a linear ramp
+# - This script assumes that trawl landings in CA started in 1889, same as FG, but
+# there are no data for 1889-1930, so a linear ramp is applied to fill in these years.
+# - Inquire to WDFW if reconstruction needs to be modified to account for tribal catches via
+# https://www.pcouncil.org/documents/2017/03/i2_att1_catch_reconstruction_workshop_report_mar2017bb.pdf/
+#
+#
 ###############################################################################
 # Set up objects, file paths,
 ###############################################################################
@@ -46,20 +42,13 @@ file_comm_wa <- "WA_historical_lingcod_2027.csv"
 catch_comm_WA_yearstartpacfin <- 1981 #1995
 
 # California files
-# To Do:
-# california reconstruction - this file name has changed since 2021
-# there are multiple files:
-# 1. I cannot find a file called "reconstruction_Ralston_et_al_2010" that was used in 2021, I can find
-# a file called lingcod_CA_pre-1969_catch_reconstruction_Ralston_et_al_2010
-# 2. I pulled catches from the swfsc database but this may not be all the removals: comm_recon_data_ca_1931_1968
-# 3. There is a file called "CA_final_reconstruction_landings" that has catches from years 1931-2015
+# Ralston reconstruction 1931-1968
 grep_comm_ca_ralston <- "lingcod_CA_pre-1969_catch_reconstruction_Ralston_et_al_2010"
-# california calcom catches
-# To Do: I can't find a file called 1969-1980 but I can find a file called
-# lingcod_CA_catches_1969-1980_CALCOM that is likely the same thing
-grep_comm_ca_calcom <- "lingcod_CA_catches_1969-1980_CALCOM"
 # spreadsheet with landings not included in the CA reconstruction that should be added
+# added to the Ralston reconstruction
 grep_comm_ca_or <- "CAlandingsCaughtORWA"
+# CALCOM years 1969-1980
+grep_comm_ca_calcom <- "lingcod_CA_catches_1969-1980_CALCOM"
 # This is used to filter the catch_erddap data - early CA landings
 erddapmaxyrmeanbyarea <- 1933
 # Early CA catches starting in 1882
@@ -68,12 +57,11 @@ file_erddap <- dir(
   pattern = "earlyCAlingcod",
   full.names = TRUE,
   recursive = TRUE
-)
+)[2]
 # file_splitralston provided by MM
 # This file has percent for splitting early CA data based on area and gear
 file_splitralston <- "Historical commercial catch for Kelli.xlsx"
 # Input required by user to change these things
-calcom_fleet_TW <- c("TWL")
 
 ###############################################################################
 # Oregon historical - raw
@@ -162,6 +150,11 @@ catch_comm_WA <- utils::read.csv(
   )
 ) |>
   dplyr::mutate(
+    source = dplyr::if_else(
+      LINE == 0,
+      "interpolate",
+      "wa_recon"
+    ),
     # set records that equal 0 to NA
     LINE = ifelse(LINE == 0, NA_real_, LINE),
     # There are missing catch in the early years between 1893 to 1918 for line gear
@@ -171,8 +164,22 @@ catch_comm_WA <- utils::read.csv(
     TW = TRAWL
   ) |>
   dplyr::select(-Total, -LINE, -NET, -TRAWL) |>
-  tidyr::gather(key = "fleet", value = "landings_mt", -Year) |>
-  dplyr::mutate(area = "North", state = "W", source = "wa_recon") |>
+  tidyr::pivot_longer(
+    cols = 3:4,
+    names_to = "fleet",
+    values_to = "landings_mt"
+  ) |>
+  dplyr::mutate(
+    area = "North",
+    state = "W",
+    # Now that pivot_longer has been applied update the fleet column for
+    # trawl gear to be wa_recon
+    source = dplyr::if_else(
+      fleet == "TW",
+      "wa_recon",
+      source
+    )
+  ) |>
   dplyr::filter(Year <= 1980) #catch_comm_WA_yearstartpacfin)
 
 ###############################################################################
@@ -216,90 +223,18 @@ catch_comm_OR <- oregon_hist_raw |>
 # California Reconstruction
 ###############################################################################
 
-# Read a spreadsheet with calculated proportion between north and south and
-# fixed gear versus trawl for early CA records: 1951-1968
-# The outcome of these splits are applied to only Ralston data below
-catch_comm_CA_MM <- readxl::read_excel(
-  path = here::here(
-    "data-raw",
-    "Commercial",
-    "Historical landings",
-    "CA",
-    file_splitralston
-  ),
-  .name_repair = "minimal",
-  skip = 2
+catch_comm_CA_ralston_raw <- utils::read.csv(
+  file = dir(
+    file.path("data-raw", "Commercial", "Historical landings", "CA"),
+    pattern = grep_comm_ca_ralston,
+    full.names = TRUE
+  )
 ) |>
-  dplyr::rename(Year = 1, FG = 2, TW = 3) |>
+  dplyr::rename(Year = 1) |>
   dplyr::mutate(
-    area = ifelse(grepl("[NS]", Year), Year, NA_character_)
+    landings_mt = pounds * mult_lbs2mt()
   ) |>
-  tidyr::fill(area, .direction = "down") |>
-  dplyr::filter(
-    !grepl("cape|North|South|Year", Year),
-    !is.na(Year)
-  ) |>
-  dplyr::mutate_at(c("Year", "FG", "TW"), as.numeric) |>
-  tidyr::gather(key = "type", value = "prop_fa", -Year, -area) |>
-  dplyr::mutate(
-    area = dplyr::case_when(
-      is.na(area) & type == "FG" ~ "North_all",
-      is.na(area) & type == "TW" ~ "South_all",
-      TRUE ~ area
-    ),
-    type = ifelse(grepl("all", area), "ALL", type),
-    area = gsub("_all", "", area)
-  ) |>
-  data.frame()
-
-# The mean percent by area and fleet are:
-# South: 20% FG and 80% TW (median 21% and 79%)
-# North: 13% FG and 87% TW (median 12% and 88%)
-percent_by_gear_area <- catch_comm_CA_MM |>
-  dplyr::filter(type != "ALL") |>
-  dplyr::rename(fleet = "type")
-
-# This is currently not used:
-# The mean percent by area is: 36% north and 64% south (median 37% north, 63% south)
-percent_by_area <- catch_comm_CA_MM |>
-  dplyr::filter(type == "ALL") |>
-  dplyr::select(-type)
-
-# Create proportions for area and gear for all Ralston years
-# The 2021 code did a linear interpolation to fill in missing values
-# The code below changes that to use the mean value for gear and area
-percent_by_gear_all <- dplyr::full_join(
-  # Create time series of prop with MM and erddap
-  by = c("Year", "fleet", "area", "prop_fa"),
-  x = catch_sette_prop_fa |>
-    dplyr::mutate(Year = min(catch_comm_CA_ralston[["Year"]]) - 1),
-  y = percent_by_gear
-) |>
-  tidyr::complete(fleet, Year = min(Year):max(Year)) |>
-  dplyr::group_by(area, fleet) |>
-  dplyr::mutate(
-    ave_rate = mean(prop_fa, na.rm = TRUE),
-  ) |>
-  dplyr::mutate(
-    prop_to_use = dplyr::if_else(
-      is.na(prop_fa) & area == "North" & fleet == "FG",
-      0.205,
-      dplyr::if_else(
-        is.na(prop_fa) & area == "North" & fleet == "TW",
-        1 - 0.205,
-        dplyr::if_else(
-          is.na(prop_fa) & area == "South" & fleet == "FG",
-          0.271,
-          dplyr::if_else(
-            is.na(prop_fa) & area == "South" & fleet == "TW",
-            1 - 0.205,
-            prop_fa
-          )
-        )
-      )
-    )
-  ) |>
-  dplyr::ungroup()
+  dplyr::select(-pounds, -source, -species)
 
 # California commercial data - this is the file use in 2021
 # erddap - lingcod catches from 1928:2002 with port
@@ -358,7 +293,7 @@ catch_comm_ca_erddap <- catch_erddap |>
   tidyr::gather(key = area, value = mt, -Year, -port) |>
   dplyr::filter(
     mt != 0,
-    Year < min(catch_comm_CA_ralston[["Year"]])
+    Year < min(catch_comm_CA_ralston_raw[["Year"]])
   ) |>
   tidyr::crossing(data.frame(fleet = c("FG", "TW"))) |>
   dplyr::mutate(
@@ -480,19 +415,101 @@ catch_sette1928 <- data.frame(
     landings_mt = lbs * mult_lbs2mt() * prop_a * prop_fa,
     source = "sette"
   ) |>
-  dplyr::select(-lbs, -prop_fa, -prop_a) |>
-  # do a linear interpolation to fill in landings for missing years
+  dplyr::select(-lbs, -prop_fa, -prop_a) #|>
+# do a linear interpolation to fill in landings for missing years
+# dplyr::mutate(
+#   # set records that equal 0 to NA
+#   landings_mt = ifelse(landings_mt == 0 & Year != 1888, NA_real_, landings_mt) #,
+# ) |>
+# dplyr::group_by(area) |>
+# dplyr::mutate(
+#   landings_mt = stats::approx(Year, landings_mt, n = length(landings_mt))$y
+# )
+
+# Read a spreadsheet with calculated proportion between north and south and
+# fixed gear versus trawl for early CA records: 1951-1968
+# The outcome of these splits are applied to only Ralston data below
+catch_comm_CA_MM <- readxl::read_excel(
+  path = here::here(
+    "data-raw",
+    "Commercial",
+    "Historical landings",
+    "CA",
+    file_splitralston
+  ),
+  .name_repair = "minimal",
+  skip = 2
+) |>
+  dplyr::rename(Year = 1, FG = 2, TW = 3) |>
   dplyr::mutate(
-    # set records that equal 0 to NA
-    landings_mt = ifelse(landings_mt == 0 & Year != 1888, NA_real_, landings_mt) #,
-    # There are missing catch in the early years between 1893 to 1918 for line gear
-    # the following code applies a linear function to fill in the NA records
-    #landings_mt = stats::approx(Year, landings_mt, n = length(landings_mt))$y,
+    area = ifelse(grepl("[NS]", Year), Year, NA_character_)
   ) |>
-  dplyr::group_by(area) |>
+  tidyr::fill(area, .direction = "down") |>
+  dplyr::filter(
+    !grepl("cape|North|South|Year", Year),
+    !is.na(Year)
+  ) |>
+  dplyr::mutate_at(c("Year", "FG", "TW"), as.numeric) |>
+  tidyr::gather(key = "type", value = "prop_fa", -Year, -area) |>
   dplyr::mutate(
-    landings_mt = stats::approx(Year, landings_mt, n = length(landings_mt))$y
-  )
+    area = dplyr::case_when(
+      is.na(area) & type == "FG" ~ "North_all",
+      is.na(area) & type == "TW" ~ "South_all",
+      TRUE ~ area
+    ),
+    type = ifelse(grepl("all", area), "ALL", type),
+    area = gsub("_all", "", area)
+  ) |>
+  data.frame()
+
+# The mean percent by area and fleet are:
+# South: 20% FG and 80% TW (median 21% and 79%)
+# North: 13% FG and 87% TW (median 12% and 88%)
+percent_by_gear_area <- catch_comm_CA_MM |>
+  dplyr::filter(type != "ALL") |>
+  dplyr::rename(fleet = "type")
+
+# This is currently not used:
+# The mean percent by area is: 36% north and 64% south (median 37% north, 63% south)
+percent_by_area <- catch_comm_CA_MM |>
+  dplyr::filter(type == "ALL") |>
+  dplyr::select(-type)
+
+# Create proportions for area and gear for all Ralston years
+# The 2021 code did a linear interpolation to fill in missing values
+# The code below changes that to use the mean value for gear and area
+percent_by_gear_all <- dplyr::full_join(
+  # Create time series of prop with MM and erddap
+  by = c("Year", "fleet", "area", "prop_fa"),
+  x = catch_sette_prop_fa |>
+    dplyr::mutate(Year = min(catch_comm_CA_ralston_raw[["Year"]]) - 1),
+  y = percent_by_gear_area
+) |>
+  tidyr::complete(fleet, Year = min(Year):max(Year)) |>
+  dplyr::group_by(area, fleet) |>
+  dplyr::mutate(
+    ave_rate = mean(prop_fa, na.rm = TRUE),
+  ) |>
+  dplyr::mutate(
+    prop_to_use = dplyr::if_else(
+      is.na(prop_fa) & area == "North" & fleet == "FG",
+      0.205,
+      dplyr::if_else(
+        is.na(prop_fa) & area == "North" & fleet == "TW",
+        1 - 0.205,
+        dplyr::if_else(
+          is.na(prop_fa) & area == "South" & fleet == "FG",
+          0.271,
+          dplyr::if_else(
+            is.na(prop_fa) & area == "South" & fleet == "TW",
+            1 - 0.205,
+            prop_fa
+          )
+        )
+      )
+    )
+  ) |>
+  dplyr::ungroup()
 
 # CA landings in OR and WA waters
 # 1948 - 1968 additional catch in OR waters landed in CA from John F.
@@ -516,26 +533,17 @@ catch_comm_CA_ORwaters <- readxl::read_excel(
     values_to = "landings_mt"
   ) |>
   dplyr::mutate(
-    area = "North",
-    # assume 100% of these landings are from trawl gear: the landings for these
-    # years range between 6 mt - 44 mt
-    fleet = "TW",
-    # In 2021 these landings were assigned to washington or oregon, but to align
-    # with the ODFW reconstruction I am assigning the landings to the area landed
-    state = "C",
-    source = "Field_catches_in_ORWA"
+    # Assign all of these landings to region 2 which is the most northern
+    # region in California
+    region_caught = 2,
+    gear = "ALL"
   )
 
 # Ralston
-catch_comm_CA_ralston <- utils::read.csv(
-  file = dir(
-    file.path("data-raw", "Commercial", "Historical landings", "CA"),
-    pattern = grep_comm_ca_ralston,
-    full.names = TRUE
-  )
+catch_comm_CA_ralston_area_split <- dplyr::bind_rows(
+  catch_comm_CA_ralston_raw |> dplyr::mutate(state = "C"),
+  catch_comm_CA_ORwaters
 ) |>
-  dplyr::rename(Year = 1) |>
-  dplyr::mutate(species = gsub("\\s", "", species)) |>
   # Ralston region_caught areas:
   # 2: Crescent City, Eureka, Fort Bragg
   # 3: San Joaquin, Sacramento Rivers, the Delta, and Inside San Francisco Bay
@@ -558,10 +566,10 @@ catch_comm_CA_ralston <- utils::read.csv(
     landings_mt = dplyr::case_when(
       # Apply percents to split up region_caught between north and south
       region_caught == 2 & area == "North" ~
-        pounds * mult_lbs2mt() * erddapmeanpropNEureka,
+        landings_mt * erddapmeanpropNEureka,
       region_caught == 2 & area == "South" ~
-        pounds * mult_lbs2mt() * (1 - erddapmeanpropNEureka),
-      TRUE ~ pounds * mult_lbs2mt()
+        landings_mt * (1 - erddapmeanpropNEureka),
+      TRUE ~ landings_mt
     )
   ) |>
   dplyr::summarise(
@@ -571,14 +579,14 @@ catch_comm_CA_ralston <- utils::read.csv(
     source = "ralston"
   ) |>
   dplyr::ungroup() |>
-  # This duplicates the landings by area for each fleet. Propotions area
-  # applied below to plit the total amount by fleet.
+  # This duplicates the landings by area for each fleet. Proportions area
+  # applied below to split the total amount by fleet.
   tidyr::crossing(data.frame(fleet = c("FG", "TW")))
 
-catch_comm_CA_ralston_split <-
+catch_comm_CA_ralston <-
   dplyr::left_join(
     by = c("Year", "area", "fleet"),
-    x = catch_comm_CA_ralston,
+    x = catch_comm_CA_ralston_area_split,
     y = percent_by_gear_all |> dplyr::select(-prop_fa, -ave_rate)
   ) |>
   dplyr::mutate(
@@ -616,17 +624,16 @@ catch_comm_CA_calcom <- utils::read.csv(
     source = "calcom"
   )
 
+# Bring all CA data frames together and interpolate missing years landings
 catch_comm_ca <- dplyr::bind_rows(
   # Sette landings run from 1888-1926
   catch_sette1928,
   # ERDDAP landings run from 1928-1930
   catch_comm_ca_erddap,
   # Ralston landings run from 1931-1968
-  catch_comm_CA_ralston_split,
+  catch_comm_CA_ralston,
   # CALCOM landings run from 1969-1980
-  catch_comm_CA_calcom,
-  # This is adjustments to the Ralston years from 1948-1968
-  catch_comm_CA_ORwaters
+  catch_comm_CA_calcom
 ) |>
   as.data.frame() |>
   # Need to fill in with linear interpolation for 1927 and
@@ -705,24 +712,14 @@ usethis::use_data(data_landings_commercial_by_state, overwrite = TRUE)
 ###############################################################################
 gg <- ggplot2::ggplot(
   data_landings_commercial_by_state |>
-    dplyr::mutate(
-      source = dplyr::if_else(
-        source == "ralston-Field_catches_in_ORWA",
-        "ralston",
-        source
-      )
-    ),
-  ggplot2::aes(Year, landings_mt, fill = source)
+    dplyr::filter(area == "North") |>
+    dplyr::rename(Source = "source"),
+  ggplot2::aes(Year, landings_mt, fill = Source)
 ) +
   ggplot2::geom_bar(stat = "identity") +
-  #ggplot2::geom_line() +
-  # ggplot2::geom_point() +
-  #ggplot2::geom_line(ggplot2::aes(y = landings_mt)) +
-  # ggplot2::geom_point(aes(y = catch)) +
-  ggplot2::facet_grid(c("area", "fleet"), scales = "free_y") +
+  ggplot2::facet_grid("fleet", scales = "free_y") +
   ggplot2::theme_bw() +
   ggplot2::theme(strip.background = ggplot2::element_rect(fill = NA)) +
-  #ggplot2::theme(legend.position = c(0.1, 0.8)) +
   ggplot2::ylab("Landings (mt)") +
   ggplot2::scale_color_manual(
     values = unlist(
@@ -732,7 +729,29 @@ gg <- ggplot2::ggplot(
   )
 ggplot2::ggsave(
   gg,
-  filename = here::here("figures", "landings-comm-are-source.png")
+  filename = here::here("figures", "landings-comm-north-source.png")
+)
+
+gg <- ggplot2::ggplot(
+  data_landings_commercial_by_state |>
+    dplyr::filter(area == "South") |>
+    dplyr::rename(Source = "source"),
+  ggplot2::aes(Year, landings_mt, fill = Source)
+) +
+  ggplot2::geom_bar(stat = "identity") +
+  ggplot2::facet_grid("fleet", scales = "free_y") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(strip.background = ggplot2::element_rect(fill = NA)) +
+  ggplot2::ylab("Landings (mt)") +
+  ggplot2::scale_color_manual(
+    values = unlist(
+      t(get_fleet(value = "Comm")[, c("col.n")]),
+      use.names = FALSE
+    )
+  )
+ggplot2::ggsave(
+  gg,
+  filename = here::here("figures", "landings-comm-south-source.png")
 )
 
 gg <- ggplot2::ggplot(
@@ -752,15 +771,9 @@ gg <- ggplot2::ggplot(
       title = "area x fleet without interpolated values"
     )
   ) +
-  #ggplot2::scale_colour_manual(
-  #  values = unlist(
-  #    t(get_fleet(value = "Comm")[, c("col.n", "col.s")]),
-  #    use.names = FALSE
-  #  )
-  #) +
   ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = c(0.2, 0.8))
+  ggplot2::theme(legend.position = c(0.40, 0.8))
 ggplot2::ggsave(
   gg,
-  filename = here::here("figures", "landings-comm-CA-ts.png"),
+  filename = here::here("figures", "landings-comm-CA-only-ts.png"),
 )
