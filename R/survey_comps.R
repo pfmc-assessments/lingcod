@@ -150,10 +150,10 @@ survey_comps <- function(
       )
 
       if (!is.null(out$length[[lbl]]$raw$sexed) && nrow(out$length[[lbl]]$raw$sexed) > 0) {
-        plot_comps(data = out$length[[lbl]]$raw$sexed, dir = len_dir)
+        nwfscSurvey::plot_comps(data = out$length[[lbl]]$raw$sexed, dir = len_dir)
       }
       if (!is.null(out$length[[lbl]]$raw$unsexed) && nrow(out$length[[lbl]]$raw$unsexed) > 0) {
-        plot_comps(data = out$length[[lbl]]$raw$unsexed, dir = len_dir)
+        nwfscSurvey::plot_comps(data = out$length[[lbl]]$raw$unsexed, dir = len_dir)
       }
 
       # Expanded length comps
@@ -172,10 +172,10 @@ survey_comps <- function(
           verbose = FALSE
         )
         if (!is.null(out$length[[lbl]]$expanded$sexed) && nrow(out$length[[lbl]]$expanded$sexed) > 0) {
-          plot_comps(data = out$length[[lbl]]$expanded$sexed, dir = len_dir)
+          nwfscSurvey::plot_comps(data = out$length[[lbl]]$expanded$sexed, dir = len_dir)
         }
         if (!is.null(out$length[[lbl]]$expanded$unsexed) && nrow(out$length[[lbl]]$expanded$unsexed) > 0) {
-          plot_comps(data = out$length[[lbl]]$expanded$unsexed, dir = len_dir)
+          nwfscSurvey::plot_comps(data = out$length[[lbl]]$expanded$unsexed, dir = len_dir)
         }
       }
     }
@@ -201,10 +201,10 @@ survey_comps <- function(
           verbose = FALSE
         )
         if (!is.null(out$age[[lbl]]$raw$sexed) && nrow(out$age[[lbl]]$raw$sexed) > 0) {
-          plot_comps(data = out$age[[lbl]]$raw$sexed, dir = age_dir)
+          nwfscSurvey::plot_comps(data = out$age[[lbl]]$raw$sexed, dir = age_dir)
         }
         if (!is.null(out$age[[lbl]]$raw$unsexed) && nrow(out$age[[lbl]]$raw$unsexed) > 0) {
-          plot_comps(data = out$age[[lbl]]$raw$unsexed, dir = age_dir)
+          nwfscSurvey::plot_comps(data = out$age[[lbl]]$raw$unsexed, dir = age_dir)
         }
 
         #Expanded age comps
@@ -225,10 +225,10 @@ survey_comps <- function(
           )
 
           if (!is.null(out$age[[lbl]]$expanded$sexed) && nrow(out$age[[lbl]]$expanded$sexed) > 0) {
-            plot_comps(data = out$age[[lbl]]$expanded$sexed, dir = age_dir)
+            nwfscSurvey::plot_comps(data = out$age[[lbl]]$expanded$sexed, dir = age_dir)
           }
           if (!is.null(out$age[[lbl]]$expanded$unsexed) && nrow(out$age[[lbl]]$expanded$unsexed) > 0) {
-            plot_comps(data = out$age[[lbl]]$expanded$unsexed, dir = age_dir)
+            nwfscSurvey::plot_comps(data = out$age[[lbl]]$expanded$unsexed, dir = age_dir)
           }
         }
       }
