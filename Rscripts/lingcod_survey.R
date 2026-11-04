@@ -138,7 +138,7 @@ if (pull_fresh) {
 ###############################################################################
 # New suggested strata for 2027
 # From north to south: *_wa, *_n, *_pc, *_s. The first two are 'north' and the latter two are 'south':
-(strata <- nwfscSurvey::create_strata(
+(strata_wcgbts <- nwfscSurvey::create_strata(
   names = c(
     "shallow_s",
     "deep_s",
@@ -150,7 +150,24 @@ if (pull_fresh) {
     "deep_wa"
   ),
   depths_shallow = rep(c(55, 183), 4),
-  depths_deep = rep(c(183, 400), 4), # triennial should be 350
+  depths_deep = rep(c(183, 400), 4), 
+  lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
+  lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
+))
+
+(strata_triennial <- nwfscSurvey::create_strata(
+  names = c(
+    "shallow_s",
+    "deep_s",
+    "shallow_pc",
+    "deep_pc",
+    "shallow_n",
+    "deep_n",
+    "shallow_wa",
+    "deep_wa"
+  ),
+  depths_shallow = rep(c(55, 183), 4),
+  depths_deep = rep(c(183, 350), 4), # depth difference
   lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
   lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
 ))
