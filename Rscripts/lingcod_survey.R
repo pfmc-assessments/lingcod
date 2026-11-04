@@ -23,7 +23,8 @@ ling_inputs <- get_inputs_ling(
 )
 ling_inputs <- get_inputs_ling(area = "s", id = "2021.s.018.001_fixTri3")
 
-#### Helper objects
+#### Helper objects - Some holdover from 2021 script but keeping here. 
+#Can clean up later
 text_40degrees10minutes <- "40\u00B010"
 info_season <- 7
 maxsurveydepth <- c(400, 350)
@@ -38,7 +39,7 @@ nscutoff <- 3813.86734
 scalemt <- 2 * 2 / 1000 # 2 x 2 km grid and converted from kg to tonnes
 #data(SA3, package = "nwfscDeltaGLM") # this pkg is archived as of 2023
 
-#### File paths
+#### File paths - Also appear to be holdovers from 2021 script. Likely can delete
 file_hookandline <- file.path(
   "data-raw",
   paste0(utils_name(), "_index_out.csv")
@@ -133,14 +134,17 @@ if (pull_fresh) {
 } #/ data download
 
 # Make plot of age representativeness
-pacfintools::age_representativeness_plot(
-  bio = bio.WCGBTS,
-  plot_panels = c(9, 2),
-  file = file.path(
-    "figures_explore",
-    "age_representativeness_WCGBTS.png"
-  )
-)
+# This is not working for me as of 2027. Getting the following error
+# Error in grDevices::dev.off() : 
+#   cannot shut down device 1 (the null device)
+# pacfintools::age_representativeness_plot(
+#   bio = bio.WCGBTS,
+#   plot_panels = c(9, 2),
+#   file = file.path(
+#     "figures_explore",
+#     "age_representativeness_WCGBTS.png"
+#   )
+# )
 ###############################################################################
 # Strata for index calculation and length/age comps
 ###############################################################################
@@ -207,7 +211,7 @@ grDevices::dev.off()
 # Composition
 ###############################################################################
 # Adapted from Brian's 2021 script.
-##There are a few remaining tasks (Brian's notes, can remove later)
+##There are a few remaining tasks (Brian's notes in 2021, can remove later)
 #1. Need to redefine depth strata and latitude strata (right now WCGBTS and Triennial specific). DONE
 #2. Need to define length bins (currently set to min/max of each dataset with binsize of 2). DONE
 #3. Will need to specify survey timing (month 7), sex (currently 3 and 0), fleet number (triennial = 6, WCGBTS = 7) DONE
