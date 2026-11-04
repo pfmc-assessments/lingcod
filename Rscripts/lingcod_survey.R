@@ -227,7 +227,12 @@ comps_setup <-  data.frame(
 all_comps_combined <- survey_comps(setup = comps_setup,
   strata_df = strata,
   len_bins = info_bins$length, 
-  age_bins = info_bins$age)
+  age_bins = info_bins$age,
+  lat_cutoff = breaks_lat["40-10"],
+  month = 7,
+  ageerr = 1,
+  input_n_method = "stewart_hamel",
+  base_dir = "data_output")
 
 ###############################################################################
 # Index standardization
@@ -235,14 +240,14 @@ all_comps_combined <- survey_comps(setup = comps_setup,
 if (FALSE) {
   # calculate design-based index
   biomass.WCGBTS <- nwfscSurvey::get_design_based(
-    dir = file.path("figures_explore", "WCGBTS"),
+    dir = file.path("data_output", "indices", "WCGBTS"),
     data = catch.WCGBTS,
     strata = strata,
     CI = 0.95
   ) # not sure if this is the same as outputMedian = TRUE
   # make plot of design-based index
   nwfscSurvey::plot_index(
-    dir = file.path("figures_explore", "WCGBTS"),
+    dir = file.path("data_output", "indices", "WCGBTS"),
     data = biomass.WCGBTS,
     plot = 1:2
   )
@@ -270,14 +275,28 @@ maxdepth <- ceiling(
 nwfscSurvey::plot_bio_patterns(
   data = bio.WCGBTS[
     bio.WCGBTS$Latitude_dd > breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
-  ]
+  ],
+  col_name = "Length_cm"
+)
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd > breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  ],
+  col_name = "Age"
 )
 
 # Bio patterns - south
 nwfscSurvey::plot_bio_patterns(
   data = bio.WCGBTS[
     bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
-  ]
+  ],
+  col_name = "Length_cm"
+)
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  ],
+  col_name = "Age"
 )
 
 
