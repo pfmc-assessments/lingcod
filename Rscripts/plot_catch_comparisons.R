@@ -70,9 +70,9 @@ ggplot2::ggplot(
   all_data |> dplyr::filter(fleet %in% c("TW", "FG")),
   ggplot2::aes(x = Year, y = landings_mt, color = source, linetype = source)
 ) +
-  ggplot2::geom_line(size = 1) +
+  ggplot2::geom_line() +
   ggplot2::theme_bw() +
-  ggplot2::ylab("Landings (mt)") +
+  ggplot2::ylab("Commercial Landings (mt)") +
   ggplot2::facet_grid(c("area", "fleet"), scales = "free_y")
 ggplot2::ggsave(
   filename = here::here(
@@ -80,7 +80,5 @@ ggplot2::ggsave(
     "Commercial",
     "figures",
     "landings-comm-comparison-2021-2027.png"
-  ),
-  height = 10,
-  width = 10
+  )
 )
