@@ -39,16 +39,6 @@ nscutoff <- 3813.86734
 scalemt <- 2 * 2 / 1000 # 2 x 2 km grid and converted from kg to tonnes
 #data(SA3, package = "nwfscDeltaGLM") # this pkg is archived as of 2023
 
-#### File paths - Also appear to be holdovers from 2021 script. Likely can delete
-file_hookandline <- file.path(
-  "data-raw",
-  paste0(utils_name(), "_index_out.csv")
-)
-file_runmodels <- file.path(
-  "data-raw",
-  paste0(utils_name(), "_index_survey_runmodels.RData")
-)
-
 ###############################################################################
 # Survey data
 ###############################################################################
@@ -151,8 +141,8 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 4),
   depths_deep = rep(c(183, 400), 4), 
-  lats_south = c(32, 32, 34.5, 34.5, 40.16667, 40.16667, 46, 46),
-  lats_north = c(34.5, 34.5, 40.16667, 40.16667, 46, 46, 49, 49)
+  lats_south = c(32, 32, 34.5, 34.5, 40.166667, 40.166667, 46, 46),
+  lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
 
 (strata_triennial <- nwfscSurvey::create_strata(
@@ -168,19 +158,10 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 4),
   depths_deep = rep(c(183, 350), 4), # depth difference
-  lats_south = c(32, 32, 34.5, 34.5, 40.16667, 40.16667, 46, 46),
-  lats_north = c(34.5, 34.5, 40.16667, 40.16667, 46, 46, 49, 49)
+  lats_south = c(32, 32, 34.5, 34.5, 40.166667, 40.166667, 46, 46),
+  lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
 
-#           name      area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
-# 1  shallow_s  5812.339        55       183          32.0          34.5
-# 2     deep_s  5119.823       183       400          32.0          34.5
-# 3 shallow_pc 12912.784        55       183          34.5          42.0
-# 4    deep_pc  4148.507       183       400          34.5          42.0
-# 5  shallow_n 12233.455        55       183          42.0          46.0
-# 6     deep_n  4926.864       183       400          42.0          46.0
-# 7 shallow_wa  8584.007        55       183          46.0          49.0
-# 8    deep_wa  1987.257       183       400          46.0          49.0
 
 # Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
 # (this is also from Brian but it might help show the cutoff options for the deepest stratum)
