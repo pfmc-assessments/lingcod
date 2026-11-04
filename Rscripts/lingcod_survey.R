@@ -132,31 +132,9 @@ if (pull_fresh) {
   )
 } #/ data download
 
-# Make plot of age representativeness
-pacfintools::age_representativeness_plot(
-  bio = bio.WCGBTS,
-  plot_panels = c(9, 2),
-  file = file.path(
-    "figures_explore",
-    "age_representativeness_WCGBTS.png"
-  )
-)
 ###############################################################################
 # Strata for index calculation and length/age comps
 ###############################################################################
-# 2021 strata
-# (strata <- nwfscSurvey::create_strata(
-#                           names = c("shallow_s", "deep_s", "shallow_n", "deep_n"),
-#                           depths_shallow = c( 55, 183,  55, 183),
-#                           depths_deep    = c(183, 400, 183, 400),
-#                           lats_south     = c( 32,  32,  42,  42),
-#                           lats_north     = c( 42,  42,  49,  49)))
-##        name     area Depth_m.1 Depth_m.2 Latitude_dd.1 Latitude_dd.2
-## 1 shallow_s 18725.12        55       183            32            42
-## 2    deep_s 18259.45       183       549            32            42
-## 3 shallow_n 20817.46        55       183            42            49
-## 4    deep_n 10687.23       183       549            42            49
-
 # New suggested strata for 2027
 # From north to south: *_wa, *_n, *_pc, *_s. The first two are 'north' and the latter two are 'south':
 (strata <- nwfscSurvey::create_strata(
@@ -171,7 +149,7 @@ pacfintools::age_representativeness_plot(
     "deep_wa"
   ),
   depths_shallow = rep(c(55, 183), 4),
-  depths_deep = rep(c(183, 400), 4),
+  depths_deep = rep(c(183, 400), 4), # triennial should be 350
   lats_south = c(32, 32, 34.5, 34.5, 42, 42, 46, 46),
   lats_north = c(34.5, 34.5, 42, 42, 46, 46, 49, 49)
 ))
