@@ -73,12 +73,41 @@ ggplot2::ggplot(
   ggplot2::geom_line() +
   ggplot2::theme_bw() +
   ggplot2::ylab("Commercial Landings (mt)") +
-  ggplot2::facet_grid(c("area", "fleet"), scales = "free_y")
+  ggplot2::facet_grid(c("area", "fleet"), scales = "free_y") +
+  ggplot2::labs(title = "Commercial Landings by fleet and area 2021 vs 2027")
 ggplot2::ggsave(
   filename = here::here(
-    "data-raw",
+    "data_output",
     "Commercial",
-    "figures",
     "landings-comm-comparison-2021-2027.png"
-  )
+  ),
+  width = 6.5,
+  height = 4  
+)
+
+# additional plot of aggregated commercial catch (TW + FG)
+all_data |>
+  # filter for commercial only (TW and FG)
+  dplyr::filter(fleet %in% c("TW", "FG")) |>
+  # sum TW + FG by year and area
+  dplyr::group_by(Year, area, source) |>
+  dplyr::summarize(landings_mt = sum(landings_mt)) |>
+  dplyr::ungroup() |> 
+  # plot by year and area
+  ggplot2::ggplot(
+    ggplot2::aes(x = Year, y = landings_mt, color = source, linetype = source)
+  ) +
+  ggplot2::geom_line() +
+  ggplot2::theme_bw() +
+  ggplot2::ylab("Commercial Landings (mt)") +
+  ggplot2::facet_grid("area", scales = "free_y") + 
+  ggplot2::labs(title = "Aggregated Commercial Landings by area 2021 vs 2027")
+ggplot2::ggsave(
+  filename = here::here(
+    "data_output",
+    "Commercial",
+    "landings-comm-comparison-2021-2027-aggregated.png"
+  ),
+  width = 6.5,
+  height = 4
 )
