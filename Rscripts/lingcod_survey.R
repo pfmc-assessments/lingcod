@@ -205,15 +205,18 @@ comps_setup <-  data.frame(
   expand_caal   = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)
 )
 
-all_comps_combined <- survey_comps(setup = comps_setup,
-  strata_df = strata,
+all_comps_combined <- survey_comps(
+  setup = comps_setup,
+  strata_wcgbts = strata_wcgbts,
+  strata_triennial = strata_triennial,
   len_bins = info_bins$length, 
   age_bins = info_bins$age,
   lat_cutoff = breaks_lat["40-10"],
   month = 7,
   ageerr = 1,
   input_n_method = "stewart_hamel",
-  base_dir = "data_output")
+  base_dir = "data_output"
+)
 
 ###############################################################################
 # Index standardization
