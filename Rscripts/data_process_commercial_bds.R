@@ -2,7 +2,7 @@
 
 devtools::load_all()
 load(dir_recent(
-  dir = here::here("data-raw", "Commercial", "PacFIN bds"),
+  dir = here::here("data-raw", "Commercial", "pacfin", "PacFIN bds"),
   pattern = "PacFIN.LCOD.bds.+RData"
 ))
 
@@ -84,7 +84,7 @@ samples_by_gear_state_north <- raw_samples_by_gear_state |>
 utils::write.csv(
   samples_by_gear_state_north,
   file = here::here(
-    "tables",
+    "data_output",
     "data-commercial-bds-n-state-gear-north.csv"
   ),
   row.names = FALSE
@@ -107,18 +107,20 @@ samples_by_gear_state_south <- raw_samples_by_gear_state |>
 utils::write.csv(
   samples_by_gear_state_south,
   file = here::here(
-    "tables",
+    "data_output",
     "data-commercial-bds-n-state-gear-south.csv"
   ),
   row.names = FALSE
 )
 
+# This should ideally be done in the survey processing script to estimate
+# weight-at-length and create a data/rda object that would be loaded here
 # Calculate weight-at-length parameters by area and sex
 bio_data <- nwfscSurvey::pull_bio(common_name = "lingcod")
 weight_length_estimates <- bio_data |>
   dplyr::filter(!is.na(Weight_kg), !is.na(Length_cm)) |>
   dplyr::mutate(
-    area = dplyr::if_else(Latitude_dd < 40.1667, "South", "North")
+    area = dplyr::if_else(Latitude_dd < 40.16667, "South", "North")
   ) |>
   dplyr::group_by(area) |>
   dplyr::group_modify(
@@ -132,20 +134,22 @@ weight_length_estimates <- bio_data |>
   as.data.frame()
 
 # Read in the catch file
-# catch_formatted_north <- utils::read.csv(file_catch) |>
-#   pacfintools::formatCatch(
-#     strat = c("state", "fleet"),
-#     valuename = "catch_mt"
-#   )
-# catch_formatted_south <- utils::read.csv(file_catch) |>
-#   pacfintools::formatCatch(
-#     strat = c("state", "fleet"),
-#     valuename = "catch_mt"
-#   )
+catch_formatted_north <- data_landings_commercial_by_state |>
+  dplyr::filter(area == "North") |>
+  pacfintools::formatCatch(
+    strat = c("state", "fleet"),
+    valuename = "landings_mt"
+  )
+catch_formatted_south <- data_landings_commercial_by_state |>
+  dplyr::filter(area == "South") |>
+  pacfintools::formatCatch(
+    strat = c("state", "fleet"),
+    valuename = "landings_mt"
+  )
 
 # Set up expansion parameters
 expansion <- 0.90
-expand_wa <- TRUE
+
 # Split the bds data
 bds_clean_north <- bds_clean |> dplyr::filter(area == "North")
 bds_clean_south <- bds_clean |> dplyr::filter(area == "South")
@@ -153,190 +157,28 @@ bds_clean_south <- bds_clean |> dplyr::filter(area == "South")
 #===============================================================================
 # Process data for the north
 #===============================================================================
-expanded_comps_north <- pacfintools::get_pacfin_expansions(
-  Pdata = bds_clean_north |>
-    dplyr::mutate(
-      lengthcm = dplyr::if_else(
-        !is.na(Age),
-        NA,
-        lengthcm
-      )
-    ),
-  Catch = catch_formatted_north,
-  weight_length_estimates = weight_length_estimates |>
-    dplyr::filter(area == "North"),
-  Units = "MT",
-  maxExp = expansion,
-  Exp_WA = expand_wa,
-  verbose = FALSE
-)
-length_comps_long_north <- pacfintools::getComps(
-  Pdata = expanded_comps_north |> dplyr::filter(!is.na(lengthcm)),
-  Comps = "LEN",
-  weightid = "Final_Sample_Size_L",
-  verbose = FALSE
-)
-data_commercial_lengths_expanded_north <- pacfintools::writeComps(
-  inComps = length_comps_long_north,
-  column_with_input_n = "n_stewart",
-  comp_bins = info_bins$length,
-  verbose = FALSE
-) |>
-  dplyr::arrange(fleet)
-age_comps_long_north <- pacfintools::getComps(
-  Pdata = dplyr::filter(expanded_comps_north, !is.na(Age)),
-  Comps = "AGE",
-  weightid = "Final_Sample_Size_A",
-  verbose = FALSE
-)
-data_commercial_marginal_ages_expanded_north <- writeComps(
-  inComps = age_comps_long_north,
-  comp_bins = info_bins$age,
-  column_with_input_n = "n_stewart",
-  verbose = FALSE
-) |>
-  dplyr::mutate(
-    ageerr = 1,
-  ) |>
-  dplyr::arrange(fleet)
-utils::write.csv(
-  data_commercial_marginal_ages_expanded_north,
-  file = here::here(
-    "table",
-    "data-commercial-comps-marginal-ages-expanded-north.csv"
-  ),
-  row.names = FALSE
-)
 
-age_trips_samples <- age_comps_long_north |>
-  dplyr::group_by(fishyr, fleet) |>
-  dplyr::summarise(
-    trips = sum(unique(n_tows)),
-    samples = sum(unique(n_fish)),
-    input_n = sum(unique(n_stewart))
-  ) |>
-  dplyr::rename(year = fishyr)
-utils::write.csv(
-  age_trips_samples,
-  file = here::here("tables", "data-commercial-age-bds-n-north.csv"),
-  row.names = FALSE
+process_commercial_bds(
+  bds_data = bds_clean_north,
+  catch_data = catch_formatted_north,
+  length_bins = info_bins$length,
+  age_bins = info_bins$age,
+  weight_length = weight_length_estimates |> dplyr::filter(area == "North"),
+  max_expansion = expansion
 )
-
-length_trips_samples <- length_comps_long_north |>
-  dplyr::group_by(fishyr, fleet) |>
-  dplyr::summarise(
-    trips = sum(unique(n_tows)),
-    samples = sum(unique(n_fish)),
-    input_n = sum(unique(n_stewart))
-  ) |>
-  dplyr::rename(year = fishyr)
-utils::write.csv(
-  length_trips_samples,
-  file = here::here("tables", "data-commercial-length-bds-n-north.csv"),
-  row.names = FALSE
-)
-usethis::use_data(data_commercial_lengths_expanded_north, overwrite = TRUE)
-usethis::use_data(
-  data_commercial_marginal_ages_expanded_north,
-  overwrite = TRUE
-)
-usethis::use_data(data_commercial_lengths_unexpanded_north, overwrite = TRUE)
-usethis::use_data(
-  data_commercial_marginal_ages_unexpanded_north,
-  overwrite = TRUE
-)
-usethis::use_data(data_commercial_caal_ages_north, overwrite = TRUE)
 
 #===============================================================================
 # Process data for the south
 #===============================================================================
-expanded_comps_south <- pacfintools::get_pacfin_expansions(
-  Pdata = bds_clean_south |>
-    dplyr::mutate(
-      lengthcm = dplyr::if_else(
-        !is.na(Age),
-        NA,
-        lengthcm
-      )
-    ),
-  Catch = catch_formatted_south,
-  weight_length_estimates = weight_length_estimates |>
-    dplyr::filter(area == "South"),
-  Units = "MT",
-  maxExp = expansion,
-  Exp_WA = expand_wa,
-  verbose = FALSE
-)
-length_comps_long_south <- pacfintools::getComps(
-  Pdata = expanded_comps_south |> dplyr::filter(!is.na(lengthcm)),
-  Comps = "LEN",
-  weightid = "Final_Sample_Size_L",
-  verbose = FALSE
-)
-data_commercial_lengths_expanded_south <- pacfintools::writeComps(
-  inComps = length_comps_long_south,
-  column_with_input_n = "n_stewart",
-  comp_bins = info_bins$length,
-  verbose = FALSE
-) |>
-  dplyr::arrange(fleet)
 
-age_comps_long_south <- pacfintools::getComps(
-  Pdata = dplyr::filter(expanded_comps_south, !is.na(Age)),
-  Comps = "AGE",
-  weightid = "Final_Sample_Size_A",
-  verbose = FALSE
+process_commercial_bds(
+  bds_data = bds_clean_south,
+  catch_data = catch_formatted_south,
+  length_bins = info_bins$length,
+  age_bins = info_bins$age,
+  weight_length = weight_length_estimates |> dplyr::filter(area == "South"),
+  max_expansion = expansion
 )
-data_commercial_marginal_ages_expanded_south <- pacfintools::writeComps(
-  inComps = age_comps_long_south,
-  comp_bins = info_bins$age,
-  column_with_input_n = "n_stewart",
-  verbose = FALSE
-) |>
-  dplyr::mutate(
-    ageerr = 1,
-  ) |>
-  dplyr::arrange(fleet)
-
-age_trips_samples <- age_comps_long_south |>
-  dplyr::group_by(fishyr, fleet) |>
-  dplyr::summarise(
-    trips = sum(unique(n_tows)),
-    samples = sum(unique(n_fish)),
-    input_n = sum(unique(n_stewart))
-  ) |>
-  dplyr::rename(year = fishyr)
-utils::write.csv(
-  age_trips_samples,
-  file = here::here("tables", "data-commercial-age-bds-n-south.csv"),
-  row.names = FALSE
-)
-
-length_trips_samples <- length_comps_long_south |>
-  dplyr::group_by(fishyr, fleet) |>
-  dplyr::summarise(
-    trips = sum(unique(n_tows)),
-    samples = sum(unique(n_fish)),
-    input_n = sum(unique(n_stewart))
-  ) |>
-  dplyr::rename(year = fishyr)
-utils::write.csv(
-  length_trips_samples,
-  file = here::here("tables", "data-commercial-length-bds-n-south.csv"),
-  row.names = FALSE
-)
-
-usethis::use_data(data_commercial_lengths_expanded_south, overwrite = TRUE)
-usethis::use_data(
-  data_commercial_marginal_ages_expanded_south,
-  overwrite = TRUE
-)
-usethis::use_data(data_commercial_lengths_unexpanded_south, overwrite = TRUE)
-usethis::use_data(
-  data_commercial_marginal_ages_unexpanded_south,
-  overwrite = TRUE
-)
-usethis::use_data(data_commercial_caal_ages_south, overwrite = TRUE)
 
 #==============================================================================
 # Data plots
@@ -436,11 +278,9 @@ gg <- ggplot2::ggplot(
 ggplot2::ggsave(
   plot = gg,
   filename = here::here(
-    "data-raw",
+    "data_output",
     "Commercial",
-    "PacFIN bds",
-    "figures",
-    "PacFIN_ldist.png"
+    "PacFIN_bds_ldist.png"
   ),
   width = 10,
   height = 8
@@ -479,10 +319,8 @@ gg <- ggplot2::ggplot(
 ggplot2::ggsave(
   plot = gg,
   filename = here::here(
-    "data-raw",
+    "data_output",
     "Commercial",
-    "PacFIN bds",
-    "figures",
     "PacFIN_length_age_sampling_south.png"
   ),
   width = 10,
@@ -523,21 +361,22 @@ gg <- ggplot2::ggplot(
   ) +
   ggplot2::guides(fill = ggplot2::guide_legend(title = "Aged", nrow = 1)) +
   ggplot2::labs(title = "Sex = {closest_state}")
-gganimate::anim_save(
-  animation = gg,
-  path = here::here("data-raw", "Commercial", "PacFIN bds", "figures"),
-  filename = "PacFIN_ldist.gif",
-  height = 10,
-  width = 12,
-  units = "in",
-  res = 200
-)
+# gganimate::anim_save(
+#   animation = gg,
+#   path = here::here("data-raw", "Commercial", "PacFIN bds", "figures"),
+#   filename = "PacFIN_ldist.gif",
+#   height = 10,
+#   width = 12,
+#   units = "in",
+#   res = 200
+# )
 
 get_mean_len_at_age <- function(bds) {
   bds |>
-    dplyr::filter(!is.na(SEX) & !is.na(Age) & !is.na(lengthcm)) |>
-    dplyr::group_by(SEX, year, Age) |>
-    dplyr::summarise(meanlen = mean(lengthcm))
+    dplyr::filter(!is.na(SEX_CODE) & !is.na(Age) & !is.na(lengthcm)) |>
+    dplyr::group_by(SEX_CODE, year, Age) |>
+    dplyr::summarise(meanlen = mean(lengthcm)) |>
+    dplyr::rename(sex = SEX_CODE)
 }
 
 plot_mean_len_at_age <- function() {
@@ -560,8 +399,8 @@ plot_mean_len_at_age <- function() {
     grid()
     for (a in minage:maxage) {
       lines(
-        lenage$year[lenage$SEX == sex & lenage$Age == a],
-        lenage$meanlen[lenage$SEX == sex & lenage$Age == a],
+        lenage$year[lenage$sex == sex & lenage$Age == a],
+        lenage$meanlen[lenage$sex == sex & lenage$Age == a],
         col = cols[a],
         lwd = 2
       )
@@ -581,7 +420,7 @@ plot_mean_len_at_age <- function() {
 
 lenage <- get_mean_len_at_age(bds_clean_north[bds_clean_north$fleet == "TW", ])
 png(
-  'figures/mean_length_at_age_comm_trawl_north.png',
+  'data_output/Commercial/mean_length_at_age_comm_trawl_north.png',
   res = 300,
   width = 8,
   height = 5,
@@ -599,7 +438,7 @@ dev.off()
 
 lenage <- get_mean_len_at_age(bds_clean_south[bds_clean_south$fleet == "TW", ])
 png(
-  'figures/mean_length_at_age_comm_trawl_south.png',
+  'data_output/Commercial/mean_length_at_age_comm_trawl_south.png',
   res = 300,
   width = 8,
   height = 5,

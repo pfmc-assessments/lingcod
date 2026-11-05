@@ -119,7 +119,11 @@ pacfin_catch <- pacfintools::get_latitude(Pdata = pacfin_catch)
 # (30), and NA (0) --- only LAC is in Washington, all others are in SCA
 pacfin_landings_state_area <- pacfin_catch |>
   dplyr::mutate(
-    state = AGENCY_CODE,
+    state = dplyr::case_when(
+      AGENCY_CODE == "C" ~ "CA",
+      AGENCY_CODE == "O" ~ "OR",
+      .default = "WA"
+    ),
     port_latitude = dplyr::if_else(
       PACFIN_PORT_CODE == "LAC",
       47.0,
@@ -175,7 +179,7 @@ catch_comm_WA <- utils::read.csv(
   ) |>
   dplyr::mutate(
     area = "North",
-    state = "W",
+    state = "WA",
     # Now that pivot_longer has been applied update the fleet column for
     # trawl gear to be wa_recon
     source = dplyr::if_else(
@@ -197,7 +201,7 @@ catch_comm_OR <- oregon_hist_raw |>
   dplyr::filter(SOURCE != "PacFIN") |>
   dplyr::mutate(
     area = "North",
-    state = "O",
+    state = "OR",
     landings_mt = Total,
     # Based on Karnowski et al
     # Other Gear 1938-1959: are likely gill/drift nets
@@ -303,7 +307,7 @@ catch_comm_ca_erddap <- catch_erddap |>
   tidyr::crossing(data.frame(fleet = c("FG", "TW"))) |>
   dplyr::mutate(
     source = "erddap",
-    state = "C",
+    state = "CA",
     # These percents are the mean of the percent_by_gear_area
     mt_split = dplyr::case_when(
       area == "North" & fleet == "FG" ~ 0.20 * mt,
@@ -438,7 +442,7 @@ catch_sette1928 <- data.frame(
       area == "North" ~ (erddapmeanpropNEureka * erddapmeanpropEureka),
       TRUE ~ 1 - (erddapmeanpropNEureka * erddapmeanpropEureka)
     ),
-    state = "C",
+    state = "CA",
     landings_mt = lbs * mult_lbs2mt() * prop_a * prop_fa,
     source = "sette"
   ) |>
@@ -559,7 +563,7 @@ catch_comm_CA_ORwaters <- readxl::read_excel(
 
 # Ralston
 catch_comm_CA_ralston_area_split <- dplyr::bind_rows(
-  catch_comm_CA_ralston_raw |> dplyr::mutate(state = "C"),
+  catch_comm_CA_ralston_raw |> dplyr::mutate(state = "CA"),
   catch_comm_CA_ORwaters
 ) |>
   # Ralston region_caught areas:
@@ -593,7 +597,7 @@ catch_comm_CA_ralston_area_split <- dplyr::bind_rows(
   dplyr::summarise(
     .by = c(Year, area),
     unsplit_landings_mt = sum(landings_mt),
-    state = "C",
+    state = "CA",
     source = "ralston"
   ) |>
   dplyr::ungroup() |>
@@ -626,7 +630,7 @@ catch_comm_CA_calcom <- utils::read.csv(
 ) |>
   dplyr::rename(Year = YEAR) |>
   dplyr::mutate(
-    state = "C",
+    state = "CA",
     area = dplyr::if_else(
       PORT_COMPLEX %in% c("ERK", "CRS"),
       "North",
@@ -678,7 +682,7 @@ catch_comm_ca <- dplyr::bind_rows(
   dplyr::mutate(
     landings_m_orig = landings_mt,
     landings_mt = stats::approx(Year, landings_mt, n = length(Year))$y,
-    state = "C"
+    state = "CA"
   ) |>
   dplyr::filter(Year != 1888) |>
   data.frame()

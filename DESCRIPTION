@@ -43,6 +43,7 @@ Suggests:
     colorspace,
     cowplot,
     DHARMa,
+    dplyr,
     magick,
     plyr,
     shinystan,
@@ -54,11 +55,12 @@ Suggests:
     nwfscDeltaGLM,
     nwfscDiag,
     nwfscDiscard,
-    PacFIN.Utilities,
-    PEPtools
-    recFIN,
+    pacfintools,
+    PEPtools,
+    readxl,
+    recfintools,
+    tidyr,
     TMB,
-    VASTWestCoast,
     xaringan
     xaringanthemer
 Remotes:
@@ -68,7 +70,7 @@ Remotes:
     github::pfmc-assessments/nwfscDiag,
     github::pfmc-assessments/nwfscDiscard,
     github::pfmc-assessments/nwfscSurvey,
-    github::pfmc-assessments/PacFIN.Utilities,
+    github::pfmc-assessments/pacfintools,
     github::pfmc-assessments/PEPtools,
     github::pfmc-assessments/recFIN,
     github::pfmc-assessments/sa4ss,
@@ -76,4 +78,4 @@ Remotes:
 Depends:
     R (>= 3.5)
 VignetteBuilder: knitr
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
