@@ -318,44 +318,66 @@ catch_comm_ca_erddap <- catch_erddap |>
     landings_mt = sum(mt_split)
   )
 
-# sette
-# To do: figure out where these values come from
+# sette and fielder appendix
+# 1926 california net tonnage northern/ca = 1%
+# 1926 california net tonnage san fran/ca = 35%
+# 1926 california net tonnage monterey/ca = 2%
+# 1926 california net tonnage southern/ca = 62%
+# 1926 southern district: net tonnage trawl lines/lines = 17.7% (page 524)
+# 1926 monterey district: net tonnage trawl lines/fixed gear = 0% (page 523)
+# 1926 san fran district: net tonnage trawl lines/fixed gear = 98.5% (page 522)
+# 1926 northern district: net tonnage trawl lines/lines = 0%
+# paranzella net was dragged along the seafloor between two boats (sail)
+# lampara net: a surrounding net, appears to be similar to a purse seine
+# lines are comprised of trawl lines, troll lines, and hand lines
+# trammel net net made of three parallel layers of netting hung from a single
+#   floatline and anchored to a weighted leadline
 catch_sette_1926fa <- data.frame(
   district = rep(
     c("Northern", "San Francisco", "Monterey", "Southern"),
-    times = c(3, 4, 4, 1)
+    times = c(4, 5, 5, 1)
   ),
   gear = c(
-    "lines",
+    "lines - trawl",
+    "lines - troll and hand",
     "gill nets",
     "paranzella nets",
-    "lines",
+    "lines - trawl",
+    "lines - troll and hand",
     "gill nets",
     "lampara nets",
     "paranzella nets",
-    "lines",
+    "lines - trawl",
+    "lines - troll and hand",
     "paranzella nets",
     "gill nets",
     "lampara nets",
     "trammel nets"
   ),
   lbs = c(
-    35107,
-    0,
-    13449,
-    309151,
-    0,
-    0,
-    140363,
-    98383,
-    47265,
-    0,
-    34,
-    1248
+    0, # trawl lines
+    35107, # lines northern page 521
+    0, # gill nets northern page 521
+    13449, # pranzella nets northern page 521
+    309151 * 0.985, # trawl lines san francisco split
+    309151 * (1 - 0.985), # lines san francisco  page 522
+    0, # gill nets san francisco page 522
+    0, # lampara nets san francisco page 522
+    140363, #paranzella nets san francisco page 522
+    0, # trawl lines
+    98383, # lines monterey page 524
+    47265, # paranzella nets monterey page 524
+    0, # gill nets page monterey 524
+    34, # lampara nets monterey page 524
+    1248 # trammel nets southern page 525
   )
 ) |>
   dplyr::mutate(
-    fleet = "FG",
+    fleet = dplyr::if_else(
+      gear %in% c("lines - trawl", "paranzella nets"),
+      "TW",
+      "FG"
+    ),
     mt = lbs * mult_lbs2mt()
   ) |>
   dplyr::mutate(
@@ -409,7 +431,7 @@ catch_sette1928 <- data.frame(
 ) |>
   # create a tibble of all combinations with applying the proportion split
   # between the north and south
-  tidyr::complete(Year = tidyr::full_seq(Year, 1)) |>
+  #tidyr::complete(Year = tidyr::full_seq(Year, 1)) |>
   tidyr::crossing(catch_sette_prop_fa) |>
   dplyr::mutate(
     prop_a = dplyr::case_when(
