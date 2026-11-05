@@ -1,7 +1,9 @@
 #' Generate survey length and age comps
 #'
 #' @param setup A dataframe of which sexes, areas, and datasets you want comps for.
-#' @param strata_df Dataframe of stratum boundaries
+#' @param strata_wcgbts Dataframe of stratum boundaries for WCGBTS (default: strata_wcgbts if present)
+#' @param strata_triennial Dataframe of stratum boundaries for Triennial survey (default: strata_triennial if present)
+#' @param strata_df Fallback dataframe or named list of stratum boundaries (e.g. list(WCGBTS = ..., Triennial = ...))
 #' @param len_bins Numeric vector of length bins
 #' @param age_bins Numeric vector of age bins
 #' @param lat_cutoff Latitude cutoff between south and north (default: breaks_lat["40-10"])
@@ -17,7 +19,9 @@
 
 survey_comps <- function(
   setup = comps_setup,
-  strata_df = strata,
+  strata_wcgbts = if (exists("strata_wcgbts")) strata_wcgbts else NULL,
+  strata_triennial = if (exists("strata_triennial")) strata_triennial else NULL,
+  strata_df = if (exists("strata")) strata else NULL,
   len_bins = seq(10, 130, by = 2), # have to hard code these for the defaults
   age_bins = seq(0, 20, by = 1),
   lat_cutoff = breaks_lat["40-10"],
@@ -50,6 +54,8 @@ survey_comps <- function(
       bio_l <- bio.WCGBTS
       bio_a <- bio.WCGBTS
       catch_df <- catch.WCGBTS
+      strata_survey <- strata_wcgbts
+
     } else if (ds == "Triennial") {
       fleet_num <- get_fleet("Tri")$num
       bio_l <- bio.Triennial$length_data[
@@ -69,6 +75,8 @@ survey_comps <- function(
       catch_df <- catch.Triennial[
         grepl("lingcod", catch.Triennial$Common_name, ignore.case = TRUE),
       ]
+      strata_survey <- strata_triennial
+
     } else if (ds == "HKL") {
       fleet_num <- get_fleet("Hook")$num
       hkl_bio <- bio.HKL$bio_data
@@ -78,6 +86,7 @@ survey_comps <- function(
       bio_l <- hkl_bio
       bio_a <- hkl_bio
       catch_df <- NULL
+      strata_survey <- strata_df
       input_n_method <- "total_samples" 
     }
 
@@ -157,7 +166,7 @@ survey_comps <- function(
       }
 
       # Expanded length comps
-      if (row_cfg$expand_length && !is.null(catch_sub) && !is.null(strata_df)) {
+      if (row_cfg$expand_length && !is.null(catch_sub) && !is.null(strata_survey)) {
         out$length[[lbl]]$expanded <- nwfscSurvey::get_expanded_comps(
           bio_data = bio_l_sub,
           catch_data = catch_sub,
@@ -167,7 +176,7 @@ survey_comps <- function(
           two_sex_comps = two_sex,
           month = month,
           fleet = fleet_num,
-          strata = strata_df,
+          strata = strata_survey,
           dir = len_dir,
           verbose = FALSE
         )
@@ -208,7 +217,7 @@ survey_comps <- function(
         }
 
         #Expanded age comps
-        if (row_cfg$expand_age && !is.null(catch_sub) && !is.null(strata_df)) {
+        if (row_cfg$expand_age && !is.null(catch_sub) && !is.null(strata_survey)) {
           out$age[[lbl]]$expanded <- nwfscSurvey::get_expanded_comps(
             bio_data = bio_a_valid,
             catch_data = catch_sub,
@@ -218,7 +227,7 @@ survey_comps <- function(
             two_sex_comps = two_sex,
             month = month,
             fleet = fleet_num,
-            strata = strata_df,
+            strata = strata_survey,
             ageerr = ageerr,
             dir = age_dir,
             verbose = FALSE
