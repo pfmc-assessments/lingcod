@@ -725,7 +725,13 @@ gg <- ggplot2::ggplot(
   )
 ggplot2::ggsave(
   gg,
-  filename = here::here("figures", "landings-comm-north-source.png")
+  filename = here::here(
+    "data_output",
+    "Commercial",
+    "landings-comm-north-source.png"
+  ),
+  width = 6.5,
+  height = 4
 )
 
 gg <- ggplot2::ggplot(
@@ -748,9 +754,10 @@ gg <- ggplot2::ggplot(
 ggplot2::ggsave(
   gg,
   filename = here::here(
-    "data-raw",
+    "data_output",
     "Commercial",
-    "figures",
     "landings-comm-south-source.png"
-  )
+  ),
+  width = 6.5,
+  height = 4
 )
