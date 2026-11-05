@@ -23,7 +23,7 @@ ling_inputs <- get_inputs_ling(
 )
 ling_inputs <- get_inputs_ling(area = "s", id = "2021.s.018.001_fixTri3")
 
-#### Helper objects - Some holdover from 2021 script but keeping here. 
+#### Helper objects - Some holdover from 2021 script but keeping here.
 #Can clean up later
 text_40degrees10minutes <- "40\u00B010"
 info_season <- 7
@@ -47,35 +47,35 @@ if (!pull_fresh) {
   load(file.path(
     "data-raw",
     "NOAA surveys",
-    "catch_lingcod_Triennial_2026-10-16.rdata"
+    "catch_lingcod_Triennial_2026-11-04.rdata"
   ))
   catch.Triennial <- x
 
   load(file.path(
     "data-raw",
     "NOAA surveys",
-    "catch_lingcod_NWFSC.Combo_2026-10-16.rdata"
+    "catch_lingcod_NWFSC.Combo_2026-11-04.rdata"
   ))
   catch.WCGBTS <- x
 
   load(file.path(
     "data-raw",
     "NOAA surveys",
-    "bio_pull all_Triennial_2026-10-16.rdata"
+    "bio_pull all_Triennial_2026-11-04.rdata"
   ))
   bio.Triennial <- x
 
   load(file.path(
     "data-raw",
     "NOAA surveys",
-    "bio_lingcod_NWFSC.Combo_2026-10-16.rdata"
+    "bio_lingcod_NWFSC.Combo_2026-11-04.rdata"
   ))
   bio.WCGBTS <- x
 
   load(file.path(
     "data-raw",
     "NOAA surveys",
-    "nwfsc_hkl_catch_and_bio_data_2026-10-16.rdata"
+    "nwfsc_hkl_catch_and_bio_data_2026-11-04.rdata"
   ))
   bio.HKL <- x
 }
@@ -100,6 +100,7 @@ if (pull_fresh) {
   #### Bio data ##################################################################
   # Triennial bio data -----------------------------------------------------------
   bio.Triennial <- nwfscSurvey::pull_bio(
+    common_name = utils_name("common"),
     survey = "Triennial",
     years = c(1980, 2004),
     dir = "data-raw/NOAA surveys",
@@ -115,10 +116,11 @@ if (pull_fresh) {
     standard_filtering = TRUE
   )
 
+
   # Hook and line bio data ---------------------------------------------------------
   bio.HKL <- nwfscSurvey::pull_hkl_cache(
-    years = c(2003, 2026),
     common_name = utils_name(),
+    years = c(2003, 2026),
     dir = "data-raw/NOAA surveys"
   )
 } #/ data download
@@ -140,7 +142,7 @@ if (pull_fresh) {
     "deep_wa"
   ),
   depths_shallow = rep(c(55, 183), 4),
-  depths_deep = rep(c(183, 400), 4), 
+  depths_deep = rep(c(183, 400), 4),
   lats_south = c(32, 32, 34.5, 34.5, 40.166667, 40.166667, 46, 46),
   lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
@@ -181,7 +183,7 @@ abline(v = 350, col = "red") #Cut off data
 grDevices::dev.off()
 
 ###############################################################################
-# Composition
+# Length and age comps
 ###############################################################################
 # Adapted from Brian's 2021 script.
 ##There are a few remaining tasks (Brian's notes in 2021, can remove later)
@@ -195,21 +197,21 @@ grDevices::dev.off()
 # Strata are defined above. survey_comps() function now does age and length comps.
 
 # Setup areas and datasets for length and age comps
-comps_setup <-  data.frame(
-  area          = c("north", "north", "north", "south", "south", "south"),
-  dataset       = c("WCGBTS", "Triennial", "HKL", "WCGBTS", "Triennial", "HKL"),
+comps_setup <- data.frame(
+  area = c("north", "north", "north", "south", "south", "south"),
+  dataset = c("WCGBTS", "Triennial", "HKL", "WCGBTS", "Triennial", "HKL"),
   do_combined_sexes = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
-  do_two_sex    = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+  do_two_sex = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
   expand_length = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE),
-  expand_age    = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE),
-  expand_caal   = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)
+  expand_age = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE),
+  expand_caal = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)
 )
 
 all_comps_combined <- survey_comps(
   setup = comps_setup,
   strata_wcgbts = strata_wcgbts,
   strata_triennial = strata_triennial,
-  len_bins = info_bins$length, 
+  len_bins = info_bins$length,
   age_bins = info_bins$age,
   lat_cutoff = breaks_lat["40-10"],
   month = 7,
@@ -218,72 +220,138 @@ all_comps_combined <- survey_comps(
   base_dir = "data_output"
 )
 
+
 ###############################################################################
-# Index standardization
+# Exploratory figures
 ###############################################################################
-if (FALSE) {
-  # calculate design-based index
-  biomass.WCGBTS <- nwfscSurvey::get_design_based(
-    dir = file.path("data_output", "indices", "WCGBTS"),
-    data = catch.WCGBTS,
-    strata = strata,
-    CI = 0.95
-  ) # not sure if this is the same as outputMedian = TRUE
-  # make plot of design-based index
-  nwfscSurvey::plot_index(
-    dir = file.path("data_output", "indices", "WCGBTS"),
-    data = biomass.WCGBTS,
-    plot = 1:2
-  )
-} # end of design-based index calcs
+# save to base_dir = "data_output"
 
-
-#### Create a figure of observations by depth bin
-# Code moved from lingcod_survey_depth_calculations to lingcod_survey
-# Find 99.9% quantile and round to nearest half hundred
-maxdepth <- ceiling(
-  stats::quantile(
-    catch.WCGBTS %>%
-      dplyr::filter(total_catch_wt_kg > 0) %>%
-      dplyr::pull(Depth_m),
-    probs = 0.999
-  ) /
-    100 /
-    .5
-) *
-  .5 *
-  100
-
-
-# Bio patterns - north
-nwfscSurvey::plot_bio_patterns(
-  data = bio.WCGBTS[
-    bio.WCGBTS$Latitude_dd > breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
-  ],
-  col_name = "Length_cm"
-)
-nwfscSurvey::plot_bio_patterns(
-  data = bio.WCGBTS[
-    bio.WCGBTS$Latitude_dd > breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
-  ],
-  col_name = "Age"
+# CPUE vs depth ---------------------------------------------------------------
+# North
+# * Triennial
+nwfscSurvey::plot_cpue(
+  data = catch.Triennial[catch.Triennial$Latitude_dd >= breaks_lat["40-10"], ],
+  dir = "data_output"
 )
 
-# Bio patterns - south
+f <- list.files("data_output", pattern = "^cpue_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_Triennial_", basename(f)))
+)
+
+# * WCGBTS
+nwfscSurvey::plot_cpue(
+  data = catch.WCGBTS[catch.WCGBTS$Latitude_dd >= breaks_lat["40-10"], ],
+  dir = "data_output"
+)
+# rename files with north_WCGBTS prefix:
+f <- list.files("data_output", pattern = "^cpue_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_WCGBTS_", basename(f)))
+)
+
+# South
+# * Triennial
+nwfscSurvey::plot_cpue(
+  data = catch.Triennial[catch.Triennial$Latitude_dd < breaks_lat["40-10"], ],
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^cpue_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_Triennial_", basename(f)))
+)
+
+# * WCGBTS
+nwfscSurvey::plot_cpue(
+  data = catch.WCGBTS[catch.WCGBTS$Latitude_dd < breaks_lat["40-10"], ],
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^cpue_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_WCGBTS_", basename(f)))
+)
+
+# CPUE maps ---------------------------------------------------------------------
+# North
+# * Triennial
+nwfscSurvey::plot_cpue_map(
+  data = catch.Triennial[catch.Triennial$Latitude_dd >= breaks_lat["40-10"], ],
+  dir = "data_output",
+  main = "north_Triennial"
+)
+
+# * WCGBTS
+nwfscSurvey::plot_cpue_map(
+  data = catch.WCGBTS[catch.WCGBTS$Latitude_dd >= breaks_lat["40-10"], ],
+  dir = "data_output",
+  main = "north_WCGBTS"
+)
+
+# South
+# * Triennial
+nwfscSurvey::plot_cpue_map(
+  data = catch.Triennial[catch.Triennial$Latitude_dd < breaks_lat["40-10"], ],
+  dir = "data_output",
+  main = "south_Triennial"
+)
+
+# * WCGBTS
+nwfscSurvey::plot_cpue_map(
+  data = catch.WCGBTS[catch.WCGBTS$Latitude_dd < breaks_lat["40-10"], ],
+  dir = "data_output",
+  main = "south_WCGBTS"
+)
+
+# Bio patterns -------------------------------------------------------------------
+# North
+# * Length
+# * * Triennial
+nwfscSurvey::plot_bio_patterns(
+  data = bio.Triennial[
+    bio.Triennial$Latitude_dd >= breaks_lat["40-10"] & bio.Triennial$Depth < 400,
+  ],
+  col_name = "Length_cm",
+  dir = "data_output"
+)
+
+# * * WCGBTS
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  ],
+  col_name = "Length_cm",
+  dir = "data_output"
+)
+
+# * Age
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  ],
+  col_name = "Age",
+  dir = "data_output"
+)
+
+# South
+# * Length
 nwfscSurvey::plot_bio_patterns(
   data = bio.WCGBTS[
     bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
   ],
-  col_name = "Length_cm"
+  col_name = "Length_cm",
+  dir = "data_output"
 )
+
+# * Age
 nwfscSurvey::plot_bio_patterns(
   data = bio.WCGBTS[
     bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
   ],
-  col_name = "Age"
+  col_name = "Age",
+  dir = "data_output"
 )
 
-
-
-#+ usethis
-#usethis::use_data(data_index_survey, overwrite = TRUE)
