@@ -147,7 +147,23 @@ if (pull_fresh) {
   lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
 
-(strata_triennial <- nwfscSurvey::create_strata(
+# Split triennial survey into an "early" and a "late" period. The survey did 
+(strata_triennial_early <- nwfscSurvey::create_strata(
+  names = c(
+    "shallow_pc",
+    "deep_pc",
+    "shallow_n",
+    "deep_n",
+    "shallow_wa",
+    "deep_wa"
+  ),
+  depths_shallow = rep(c(55, 183), 3),
+  depths_deep = rep(c(183, 350), 3), # depth difference
+  lats_south = c( 37, 37, 40.166667, 40.166667, 46, 46), 
+  lats_north = c(40.166667, 40.166667, 46, 46, 49, 49)
+))
+
+(strata_triennial_late <- nwfscSurvey::create_strata(
   names = c(
     "shallow_s",
     "deep_s",
@@ -160,10 +176,9 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 4),
   depths_deep = rep(c(183, 350), 4), # depth difference
-  lats_south = c(32, 32, 34.5, 34.5, 40.166667, 40.166667, 46, 46),
+  lats_south = c(32, 32, 37, 37, 40.166667, 40.166667, 46, 46), 
   lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
-
 
 # Plot depth by cpue for triennial to assess whether an additional strata would be worthwhile
 # (this is also from Brian but it might help show the cutoff options for the deepest stratum)
@@ -180,6 +195,36 @@ plot(
 )
 abline(v = 183) #Previous assessments used this. Seems to be a break. Use again.
 abline(v = 350, col = "red") #Cut off data
+grDevices::dev.off()
+
+
+grDevices::png(
+  filename = file.path("figures_explore", "Triennial_cpueXlatitude.png")
+)
+par(mfrow=c(2,1))
+plot(
+  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year < 1989), ]$Latitude_dd,
+  y = log(
+    catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year < 1989), ]$cpue_kg_km2
+  ),
+  xlab = "Latitude (dd)",
+  ylab = expression(Triennial ~ log[e] ~ CPUE ~ (kg %*% km^2)),
+  xlim = c(34, 48.5),
+  main = "Triennial early (1980-1986)"
+)
+abline(v = 37, col = 'red')
+
+plot(
+  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year >= 1989), ]$Latitude_dd,
+  y = log(
+    catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year >= 1989), ]$cpue_kg_km2
+  ),
+  xlab = "Latitude (dd)",
+  ylab = expression(Triennial ~ log[e] ~ CPUE ~ (kg %*% km^2)),
+  xlim = c(34, 48.5),
+  main = "Triennial late (1989-2004)"
+)
+abline(v = 34.5, col = 'red')
 grDevices::dev.off()
 
 ###############################################################################
