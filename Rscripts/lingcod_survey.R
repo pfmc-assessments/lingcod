@@ -61,7 +61,7 @@ if (!pull_fresh) {
   load(file.path(
     "data-raw",
     "NOAA surveys",
-    "bio_pull all_Triennial_2026-11-04.rdata"
+    "bio_lingcod_Triennial_2026-11-04.rdata"
   ))
   bio.Triennial <- x
 
@@ -75,7 +75,7 @@ if (!pull_fresh) {
   load(file.path(
     "data-raw",
     "NOAA surveys",
-    "nwfsc_hkl_catch_and_bio_data_2026-11-04.rdata"
+    "nwfsc_hkl_catch_and_bio_data_2026-11-06.rdata"
   ))
   bio.HKL <- x
 }
@@ -255,7 +255,8 @@ comps_setup <- data.frame(
 all_comps_combined <- survey_comps(
   setup = comps_setup,
   strata_wcgbts = strata_wcgbts,
-  strata_triennial = strata_triennial,
+  strata_triennial_early = strata_triennial_early,
+  strata_triennial_late = strata_triennial_late,
   len_bins = info_bins$length,
   age_bins = info_bins$age,
   lat_cutoff = breaks_lat["40-10"],
