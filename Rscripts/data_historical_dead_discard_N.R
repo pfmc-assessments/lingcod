@@ -1,6 +1,6 @@
 #
 
-# This script is to calculate amount of historical discard for the period before GEMM estimates. Dead discard is calculated based on lansings, discard rates and discard mortaloty rates.
+# This script is to calculate amount of historical discard for the period before GEMM estimates. Dead discard is calculated based on landings, discard rates and discard mortality rates.
 
 library(dplyr)
 
