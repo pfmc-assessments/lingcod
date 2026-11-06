@@ -116,7 +116,6 @@ if (pull_fresh) {
     standard_filtering = TRUE
   )
 
-
   # Hook and line bio data ---------------------------------------------------------
   bio.HKL <- nwfscSurvey::pull_hkl_cache(
     common_name = utils_name(),
@@ -147,7 +146,7 @@ if (pull_fresh) {
   lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
 
-# Split triennial survey into an "early" and a "late" period. The survey did 
+# Split triennial survey into an "early" and a "late" period. The survey did
 (strata_triennial_early <- nwfscSurvey::create_strata(
   names = c(
     "shallow_pc",
@@ -159,7 +158,7 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 3),
   depths_deep = rep(c(183, 350), 3), # depth difference
-  lats_south = c( 37, 37, 40.166667, 40.166667, 46, 46), 
+  lats_south = c(37, 37, 40.166667, 40.166667, 46, 46),
   lats_north = c(40.166667, 40.166667, 46, 46, 49, 49)
 ))
 
@@ -176,7 +175,7 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 4),
   depths_deep = rep(c(183, 350), 4), # depth difference
-  lats_south = c(32, 32, 37, 37, 40.166667, 40.166667, 46, 46), 
+  lats_south = c(32, 32, 37, 37, 40.166667, 40.166667, 46, 46),
   lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
 
@@ -201,11 +200,15 @@ grDevices::dev.off()
 grDevices::png(
   filename = file.path("figures_explore", "Triennial_cpueXlatitude.png")
 )
-par(mfrow=c(2,1))
+par(mfrow = c(2, 1))
 plot(
-  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year < 1989), ]$Latitude_dd,
+  x = catch.Triennial[
+    which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year < 1989),
+  ]$Latitude_dd,
   y = log(
-    catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year < 1989), ]$cpue_kg_km2
+    catch.Triennial[
+      which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year < 1989),
+    ]$cpue_kg_km2
   ),
   xlab = "Latitude (dd)",
   ylab = expression(Triennial ~ log[e] ~ CPUE ~ (kg %*% km^2)),
@@ -215,9 +218,13 @@ plot(
 abline(v = 37, col = 'red')
 
 plot(
-  x = catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year >= 1989), ]$Latitude_dd,
+  x = catch.Triennial[
+    which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year >= 1989),
+  ]$Latitude_dd,
   y = log(
-    catch.Triennial[which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year >= 1989), ]$cpue_kg_km2
+    catch.Triennial[
+      which(catch.Triennial$cpue_kg_km2 != 0 & catch.Triennial$Year >= 1989),
+    ]$cpue_kg_km2
   ),
   xlab = "Latitude (dd)",
   ylab = expression(Triennial ~ log[e] ~ CPUE ~ (kg %*% km^2)),
@@ -322,7 +329,7 @@ file.rename(
 )
 
 # CPUE maps ---------------------------------------------------------------------
-# North
+# --------------------------------- NORTH --------------------------------------
 # * Triennial
 nwfscSurvey::plot_cpue_map(
   data = catch.Triennial[catch.Triennial$Latitude_dd >= breaks_lat["40-10"], ],
@@ -337,7 +344,7 @@ nwfscSurvey::plot_cpue_map(
   main = "north_WCGBTS"
 )
 
-# South
+# --------------------------------- SOUTH --------------------------------------
 # * Triennial
 nwfscSurvey::plot_cpue_map(
   data = catch.Triennial[catch.Triennial$Latitude_dd < breaks_lat["40-10"], ],
@@ -352,52 +359,231 @@ nwfscSurvey::plot_cpue_map(
   main = "south_WCGBTS"
 )
 
+
 # Bio patterns -------------------------------------------------------------------
-# North
-# * Length
-# * * Triennial
+# --------------------------------- NORTH --------------------------------------
+
+# * WCGBTS
+# Length
 nwfscSurvey::plot_bio_patterns(
-  data = bio.Triennial[
-    bio.Triennial$Latitude_dd >= breaks_lat["40-10"] & bio.Triennial$Depth < 400,
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400,
   ],
   col_name = "Length_cm",
   dir = "data_output"
 )
+f <- list.files("data_output", pattern = "^Length_cm_by_", full.names = TRUE)
+file.rename(f, file.path("data_output", paste0("north_WCGBTS_", basename(f))))
 
-# * * WCGBTS
+# Age
 nwfscSurvey::plot_bio_patterns(
   data = bio.WCGBTS[
-    bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
-  ],
-  col_name = "Length_cm",
-  dir = "data_output"
-)
-
-# * Age
-nwfscSurvey::plot_bio_patterns(
-  data = bio.WCGBTS[
-    bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+    bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400,
   ],
   col_name = "Age",
   dir = "data_output"
 )
+f <- list.files("data_output", pattern = "^Age_by_", full.names = TRUE)
+file.rename(f, file.path("data_output", paste0("north_WCGBTS_", basename(f))))
 
-# South
-# * Length
+# * Triennial
+# Length
 nwfscSurvey::plot_bio_patterns(
-  data = bio.WCGBTS[
-    bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  data = bio.Triennial$length_data[
+    bio.Triennial$length_data$Latitude_dd >= breaks_lat["40-10"] &
+      bio.Triennial$length_data$Depth_m < 350,
   ],
   col_name = "Length_cm",
   dir = "data_output"
 )
+f <- list.files("data_output", pattern = "^Length_cm_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_Triennial_", basename(f)))
+)
 
-# * Age
+# Age
 nwfscSurvey::plot_bio_patterns(
-  data = bio.WCGBTS[
-    bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth < 400,
+  data = bio.Triennial$age_data[
+    bio.Triennial$age_data$Latitude_dd >= breaks_lat["40-10"] &
+      bio.Triennial$age_data$Depth_m < 350,
   ],
   col_name = "Age",
   dir = "data_output"
 )
+f <- list.files("data_output", pattern = "^Age_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_Triennial_", basename(f)))
+)
 
+# No hook and line survey info for north.
+
+# --------------------------------- SOUTH --------------------------------------
+
+# * WCGBTS
+# * * Length
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400,
+  ],
+  col_name = "Length_cm",
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^Length_cm_by_", full.names = TRUE)
+file.rename(f, file.path("data_output", paste0("south_WCGBTS_", basename(f))))
+
+# * * Age
+nwfscSurvey::plot_bio_patterns(
+  data = bio.WCGBTS[
+    bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400,
+  ],
+  col_name = "Age",
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^Age_by_", full.names = TRUE)
+file.rename(f, file.path("data_output", paste0("south_WCGBTS_", basename(f))))
+
+# * Triennial
+# * * Length
+nwfscSurvey::plot_bio_patterns(
+  data = bio.Triennial$length_data[
+    bio.Triennial$length_data$Latitude_dd < breaks_lat["40-10"] &
+      bio.Triennial$length_data$Depth_m < 350,
+  ],
+  col_name = "Length_cm",
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^Length_cm_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_Triennial_", basename(f)))
+)
+
+# * * Age
+nwfscSurvey::plot_bio_patterns(
+  data = bio.Triennial$age_data[
+    bio.Triennial$age_data$Latitude_dd < breaks_lat["40-10"] &
+      bio.Triennial$age_data$Depth_m < 350,
+  ],
+  col_name = "Age",
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^Age_by_", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_Triennial_", basename(f)))
+)
+
+# * Hook and Line (south only)
+# Make the columns for HKL the same as for the other surveys
+bio.HKL$bio_data$Latitude_dd <- bio.HKL$bio_data$drop_latitude_degrees
+bio.HKL$bio_data$Depth_m <- bio.HKL$bio_data$drop_depth_meters
+
+# * * Length
+nwfscSurvey::plot_bio_patterns(
+  data = bio.HKL$bio_data,
+  col_name = "Length_cm",
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^Length_cm_by_", full.names = TRUE)
+file.rename(f, file.path("data_output", paste0("south_HKL_", basename(f))))
+
+# * * Age
+nwfscSurvey::plot_bio_patterns(
+  data = bio.HKL$bio_data[!is.na(bio.HKL$bio_data$age), ],
+  col_name = "Age",
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^Age_by_", full.names = TRUE)
+file.rename(f, file.path("data_output", paste0("south_HKL_", basename(f))))
+
+# Length_age plots -------------------------------------------------------------
+# --------------------------------- NORTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_length_age(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  two_sex = FALSE,
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^length_at_age", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_WCGBTS_", basename(f)))
+)
+
+# * Triennial
+nwfscSurvey::plot_length_age(
+  data = bio.Triennial$age_data[
+    which(
+      bio.Triennial$age_data$Latitude_dd >= breaks_lat["40-10"] &
+        bio.Triennial$age_data$Depth_m < 350
+    ),
+  ],
+  two_sex = FALSE,
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^length_at_age", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_Triennial_", basename(f)))
+)
+
+
+# --------------------------------- SOUTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_length_age(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  two_sex = FALSE,
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^length_at_age", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_WCGBTS_", basename(f)))
+)
+
+# * Triennial
+nwfscSurvey::plot_length_age(
+  data = bio.Triennial$age_data[
+    which(
+      bio.Triennial$age_data$Latitude_dd < breaks_lat["40-10"] &
+        bio.Triennial$age_data$Depth_m < 350
+    ),
+  ],
+  two_sex = FALSE,
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^length_at_age", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_Triennial_", basename(f)))
+)
+
+
+# * Hook and line
+nwfscSurvey::plot_length_age(
+  data = bio.HKL$bio_data[
+    which(
+      bio.HKL$bio_data$Latitude_dd < breaks_lat["40-10"] &
+        bio.HKL$bio_data$Depth_m < 400
+    ),
+  ],
+  two_sex = FALSE,
+  dir = "data_output"
+)
+f <- list.files("data_output", pattern = "^length_at_age", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_HKL_", basename(f)))
+)
+
+# Sex ratio plots -------------------------------------------------------------
