@@ -587,3 +587,51 @@ file.rename(
 )
 
 # Sex ratio plots -------------------------------------------------------------
+# --------------------------------- NORTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_sex_ratio(data = bio.WCGBTS[which(bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400),],
+dir = "data_output")
+f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_WCGBTS_", basename(f)))
+)
+
+# * Triennial
+nwfscSurvey::plot_sex_ratio(data = bio.Triennial$length_data[which(bio.Triennial$length_data$Latitude_dd >= breaks_lat["40-10"] & bio.Triennial$length_data$Depth_m < 350),],
+dir = "data_output")
+f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("north_Triennial_", basename(f)))
+)
+
+
+# --------------------------------- SOUTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_sex_ratio(data = bio.WCGBTS[which(bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400),],
+dir = "data_output")
+f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_WCGBTS_", basename(f)))
+)
+
+# * Triennial
+nwfscSurvey::plot_sex_ratio(data = bio.Triennial$length_data[which(bio.Triennial$length_data$Latitude_dd < breaks_lat["40-10"] & bio.Triennial$length_data$Depth_m < 350),],
+dir = "data_output")
+f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_Triennial_", basename(f)))
+)
+
+# * Hook and line
+nwfscSurvey::plot_sex_ratio(data = bio.HKL$bio_data[which(bio.HKL$bio_data$drop_latitude_degrees < breaks_lat["40-10"] & bio.HKL$bio_data$drop_depth_meters < 400),],
+dir = "data_output")
+f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
+file.rename(
+  f,
+  file.path("data_output", paste0("south_hookandline_", basename(f)))
+)
+
