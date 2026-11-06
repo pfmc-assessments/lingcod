@@ -1,14 +1,15 @@
-#' Generate survey length and age comps
+#' Generate survey length and age comps for lingcod
 #'
+#' @details This function is a wrapper for get_raw_comps() and other similar functions from `nwfscSurvey`. It produces raw and expanded length and age comps plus CAAL for north and south lingcod stocks.  
 #' @param setup A dataframe of which sexes, areas, and datasets you want comps for.
-#' @param strata_wcgbts Dataframe of stratum boundaries for WCGBTS (default: strata_wcgbts if present)
-#' @param strata_triennial Dataframe of stratum boundaries for Triennial survey (default: strata_triennial if present)
-#' @param strata_df Fallback dataframe or named list of stratum boundaries (e.g. list(WCGBTS = ..., Triennial = ...))
+#' @param strata_wcgbts Dataframe of stratum boundaries for WCGBTS
+#' @param strata_triennial_early Dataframe of stratum boundaries for Triennial early period (1980-1986)
+#' @param strata_triennial_late Dataframe of stratum boundaries for Triennial late period (1989-2004)
 #' @param len_bins Numeric vector of length bins
 #' @param age_bins Numeric vector of age bins
-#' @param lat_cutoff Latitude cutoff between south and north (default: breaks_lat["40-10"])
-#' @param month Month for SS3 comps (default: 7 for lingcod)
-#' @param ageerr Number of ageing error vector to apply to the age data (default: 1)
+#' @param lat_cutoff Latitude cutoff between south and north; defaults to breaks_lat["40-10"] which is 40.166667 (four 6's!)
+#' @param month Month for SS3 comps; default is 7 for lingcod
+#' @param ageerr Number of ageing error vector to apply to the age data. Defaults to 1.
 #' @param input_n_method Sample size method; defaults to "stewart_hamel"
 #' @param base_dir Base directory to save CSVs (default: "data-raw"). Set to NULL for in-memory only.
 #'
@@ -19,9 +20,9 @@
 
 survey_comps <- function(
   setup = comps_setup,
-  strata_wcgbts = if (exists("strata_wcgbts")) strata_wcgbts else NULL,
-  strata_triennial = if (exists("strata_triennial")) strata_triennial else NULL,
-  strata_df = if (exists("strata")) strata else NULL,
+  strata_wcgbts = NULL,
+  strata_triennial_early = NULL,
+  strata_triennial_late = NULL,
   len_bins = seq(10, 130, by = 2), # have to hard code these for the defaults
   age_bins = seq(0, 20, by = 1),
   lat_cutoff = breaks_lat["40-10"],
@@ -30,6 +31,16 @@ survey_comps <- function(
   input_n_method = "stewart_hamel",
   base_dir = "data-raw"
 ) {
+  if (
+    is.null(strata_wcgbts) ||
+      is.null(strata_triennial_early) ||
+      is.null(strata_triennial_late)
+  ) {
+    stop(
+      "Missing required strata: strata_wcgbts, strata_triennial_early, and strata_triennial_late must be provided."
+    )
+  }
+
   if (any(is.na(len_bins)) | any(is.na(age_bins))) {
     stop(
       "Some or all length or age bins are missing; please make sure they are defined and try again."
@@ -54,8 +65,6 @@ survey_comps <- function(
       bio_l <- bio.WCGBTS
       bio_a <- bio.WCGBTS
       catch_df <- catch.WCGBTS
-      strata_survey <- strata_wcgbts
-
     } else if (ds == "Triennial") {
       fleet_num <- get_fleet("Tri")$num
       bio_l <- bio.Triennial$length_data[
@@ -75,8 +84,6 @@ survey_comps <- function(
       catch_df <- catch.Triennial[
         grepl("lingcod", catch.Triennial$Common_name, ignore.case = TRUE),
       ]
-      strata_survey <- strata_triennial
-
     } else if (ds == "HKL") {
       fleet_num <- get_fleet("Hook")$num
       hkl_bio <- bio.HKL$bio_data
@@ -86,11 +93,10 @@ survey_comps <- function(
       bio_l <- hkl_bio
       bio_a <- hkl_bio
       catch_df <- NULL
-      strata_survey <- strata_df
-      input_n_method <- "total_samples" 
+      input_n_method <- "total_samples" # special for hook and line survey
     }
 
-    # Subset to north or south
+    # Subset data to north or south
     if (ar == "north") {
       bio_l_sub <- bio_l[bio_l$Latitude_dd >= lat_cutoff, ]
       bio_a_sub <- bio_a[bio_a$Latitude_dd >= lat_cutoff, ]
@@ -158,33 +164,107 @@ survey_comps <- function(
         verbose = FALSE
       )
 
-      if (!is.null(out$length[[lbl]]$raw$sexed) && nrow(out$length[[lbl]]$raw$sexed) > 0) {
-        nwfscSurvey::plot_comps(data = out$length[[lbl]]$raw$sexed, dir = len_dir)
+      if (
+        !is.null(out$length[[lbl]]$raw$sexed) &&
+          nrow(out$length[[lbl]]$raw$sexed) > 0
+      ) {
+        nwfscSurvey::plot_comps(
+          data = out$length[[lbl]]$raw$sexed,
+          dir = len_dir
+        )
       }
-      if (!is.null(out$length[[lbl]]$raw$unsexed) && nrow(out$length[[lbl]]$raw$unsexed) > 0) {
-        nwfscSurvey::plot_comps(data = out$length[[lbl]]$raw$unsexed, dir = len_dir)
+      if (
+        !is.null(out$length[[lbl]]$raw$unsexed) &&
+          nrow(out$length[[lbl]]$raw$unsexed) > 0
+      ) {
+        nwfscSurvey::plot_comps(
+          data = out$length[[lbl]]$raw$unsexed,
+          dir = len_dir
+        )
       }
 
       # Expanded length comps
-      if (row_cfg$expand_length && !is.null(catch_sub) && !is.null(strata_survey)) {
-        out$length[[lbl]]$expanded <- nwfscSurvey::get_expanded_comps(
-          bio_data = bio_l_sub,
-          catch_data = catch_sub,
-          comp_bins = len_bins,
-          comp_column_name = "Length_cm",
-          input_n_method = input_n_method,
-          two_sex_comps = two_sex,
-          month = month,
-          fleet = fleet_num,
-          strata = strata_survey,
-          dir = len_dir,
-          verbose = FALSE
-        )
-        if (!is.null(out$length[[lbl]]$expanded$sexed) && nrow(out$length[[lbl]]$expanded$sexed) > 0) {
-          nwfscSurvey::plot_comps(data = out$length[[lbl]]$expanded$sexed, dir = len_dir)
+      if (row_cfg$expand_length && !is.null(catch_sub)) {
+        if (ds == "Triennial") {
+          b_early <- bio_l_sub[bio_l_sub$Year <= 1986, ]
+          b_late <- bio_l_sub[bio_l_sub$Year >= 1989, ]
+
+          # Expand early comps using early strata
+          expanded_early <- if (nrow(b_early) > 0) {
+            nwfscSurvey::get_expanded_comps(
+              bio_data = b_early,
+              catch_data = catch_sub[catch_sub$Year <= 1986, ],
+              comp_bins = len_bins,
+              comp_column_name = "Length_cm",
+              input_n_method = input_n_method,
+              two_sex_comps = two_sex,
+              month = month,
+              fleet = fleet_num,
+              strata = strata_triennial_early,
+              dir = NULL,
+              verbose = FALSE
+            )
+          } else {
+            NULL
+          }
+
+          # Expand late comps using late strata
+          expanded_late <- if (nrow(b_late) > 0) {
+            nwfscSurvey::get_expanded_comps(
+              bio_data = b_late,
+              catch_data = catch_sub[catch_sub$Year >= 1989, ],
+              comp_bins = len_bins,
+              comp_column_name = "Length_cm",
+              input_n_method = input_n_method,
+              two_sex_comps = two_sex,
+              month = month,
+              fleet = fleet_num,
+              strata = strata_triennial_late,
+              dir = NULL,
+              verbose = FALSE
+            )
+          } else {
+            NULL
+          }
+
+          # Bind together the early and late expansions
+          out$length[[lbl]]$expanded <- list(
+            sexed = rbind(expanded_early$sexed, expanded_late$sexed),
+            unsexed = rbind(expanded_early$unsexed, expanded_late$unsexed)
+          )
+        } else if (ds == "WCGBTS") {
+          out$length[[lbl]]$expanded <- nwfscSurvey::get_expanded_comps(
+            bio_data = bio_l_sub,
+            catch_data = catch_sub,
+            comp_bins = len_bins,
+            comp_column_name = "Length_cm",
+            input_n_method = input_n_method,
+            two_sex_comps = two_sex,
+            month = month,
+            fleet = fleet_num,
+            strata = strata_wcgbts,
+            dir = len_dir,
+            verbose = FALSE
+          )
         }
-        if (!is.null(out$length[[lbl]]$expanded$unsexed) && nrow(out$length[[lbl]]$expanded$unsexed) > 0) {
-          nwfscSurvey::plot_comps(data = out$length[[lbl]]$expanded$unsexed, dir = len_dir)
+
+        if (
+          !is.null(out$length[[lbl]]$expanded$sexed) &&
+            nrow(out$length[[lbl]]$expanded$sexed) > 0
+        ) {
+          nwfscSurvey::plot_comps(
+            data = out$length[[lbl]]$expanded$sexed,
+            dir = len_dir
+          )
+        }
+        if (
+          !is.null(out$length[[lbl]]$expanded$unsexed) &&
+            nrow(out$length[[lbl]]$expanded$unsexed) > 0
+        ) {
+          nwfscSurvey::plot_comps(
+            data = out$length[[lbl]]$expanded$unsexed,
+            dir = len_dir
+          )
         }
       }
     }
@@ -209,35 +289,107 @@ survey_comps <- function(
           dir = age_dir,
           verbose = FALSE
         )
-        if (!is.null(out$age[[lbl]]$raw$sexed) && nrow(out$age[[lbl]]$raw$sexed) > 0) {
-          nwfscSurvey::plot_comps(data = out$age[[lbl]]$raw$sexed, dir = age_dir)
-        }
-        if (!is.null(out$age[[lbl]]$raw$unsexed) && nrow(out$age[[lbl]]$raw$unsexed) > 0) {
-          nwfscSurvey::plot_comps(data = out$age[[lbl]]$raw$unsexed, dir = age_dir)
-        }
-
-        #Expanded age comps
-        if (row_cfg$expand_age && !is.null(catch_sub) && !is.null(strata_survey)) {
-          out$age[[lbl]]$expanded <- nwfscSurvey::get_expanded_comps(
-            bio_data = bio_a_valid,
-            catch_data = catch_sub,
-            comp_bins = age_bins,
-            comp_column_name = "Age_years",
-            input_n_method = input_n_method,
-            two_sex_comps = two_sex,
-            month = month,
-            fleet = fleet_num,
-            strata = strata_survey,
-            ageerr = ageerr,
-            dir = age_dir,
-            verbose = FALSE
+        if (
+          !is.null(out$age[[lbl]]$raw$sexed) &&
+            nrow(out$age[[lbl]]$raw$sexed) > 0
+        ) {
+          nwfscSurvey::plot_comps(
+            data = out$age[[lbl]]$raw$sexed,
+            dir = age_dir
           )
+        }
+        if (
+          !is.null(out$age[[lbl]]$raw$unsexed) &&
+            nrow(out$age[[lbl]]$raw$unsexed) > 0
+        ) {
+          nwfscSurvey::plot_comps(
+            data = out$age[[lbl]]$raw$unsexed,
+            dir = age_dir
+          )
+        }
 
-          if (!is.null(out$age[[lbl]]$expanded$sexed) && nrow(out$age[[lbl]]$expanded$sexed) > 0) {
-            nwfscSurvey::plot_comps(data = out$age[[lbl]]$expanded$sexed, dir = age_dir)
+        # Expanded age comps
+        if (row_cfg$expand_age && !is.null(catch_sub)) {
+          if (ds == "Triennial") {
+            b_early <- bio_a_valid[bio_a_valid$Year <= 1986, ]
+            b_late <- bio_a_valid[bio_a_valid$Year >= 1989, ]
+
+            exp_early <- if (nrow(b_early) > 0) {
+              nwfscSurvey::get_expanded_comps(
+                bio_data = b_early,
+                catch_data = catch_sub[catch_sub$Year <= 1986, ],
+                comp_bins = age_bins,
+                comp_column_name = "Age_years",
+                input_n_method = input_n_method,
+                two_sex_comps = two_sex,
+                month = month,
+                fleet = fleet_num,
+                strata = strata_triennial_early,
+                ageerr = ageerr,
+                dir = NULL,
+                verbose = FALSE
+              )
+            } else {
+              NULL
+            }
+
+            exp_late <- if (nrow(b_late) > 0) {
+              nwfscSurvey::get_expanded_comps(
+                bio_data = b_late,
+                catch_data = catch_sub[catch_sub$Year >= 1989, ],
+                comp_bins = age_bins,
+                comp_column_name = "Age_years",
+                input_n_method = input_n_method,
+                two_sex_comps = two_sex,
+                month = month,
+                fleet = fleet_num,
+                strata = strata_triennial_late,
+                ageerr = ageerr,
+                dir = NULL,
+                verbose = FALSE
+              )
+            } else {
+              NULL
+            }
+
+            out$age[[lbl]]$expanded <- list(
+              sexed = rbind(exp_early$sexed, exp_late$sexed),
+              unsexed = rbind(exp_early$unsexed, exp_late$unsexed)
+            )
+          } else if (ds == "WCGBTS") {
+            out$age[[lbl]]$expanded <- nwfscSurvey::get_expanded_comps(
+              bio_data = bio_a_valid,
+              catch_data = catch_sub,
+              comp_bins = age_bins,
+              comp_column_name = "Age_years",
+              input_n_method = input_n_method,
+              two_sex_comps = two_sex,
+              month = month,
+              fleet = fleet_num,
+              strata = strata_wcgbts,
+              ageerr = ageerr,
+              dir = age_dir,
+              verbose = FALSE
+            )
           }
-          if (!is.null(out$age[[lbl]]$expanded$unsexed) && nrow(out$age[[lbl]]$expanded$unsexed) > 0) {
-            nwfscSurvey::plot_comps(data = out$age[[lbl]]$expanded$unsexed, dir = age_dir)
+
+          if (
+            !is.null(out$age[[lbl]]$expanded$sexed) &&
+              nrow(out$age[[lbl]]$expanded$sexed) > 0
+          ) {
+            nwfscSurvey::plot_comps(
+              data = out$age[[lbl]]$expanded$sexed,
+              dir = age_dir
+            )
+          }
+          if (
+            !is.null(out$age[[lbl]]$expanded$unsexed) &&
+              nrow(out$age[[lbl]]$expanded$unsexed) > 0
+          ) {
+            nwfscSurvey::plot_comps(
+              data = out$age[[lbl]]$expanded$unsexed,
+              dir = age_dir
+            )
           }
         }
       }
