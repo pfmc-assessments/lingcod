@@ -589,49 +589,199 @@ file.rename(
 # Sex ratio plots -------------------------------------------------------------
 # --------------------------------- NORTH --------------------------------------
 # * WCGBTS
-nwfscSurvey::plot_sex_ratio(data = bio.WCGBTS[which(bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400),],
-dir = "data_output")
-f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
-file.rename(
-  f,
-  file.path("data_output", paste0("north_WCGBTS_", basename(f)))
+nwfscSurvey::plot_sex_ratio(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  dir = "data_output",
+  main = "north_WCGBTS"
 )
 
 # * Triennial
-nwfscSurvey::plot_sex_ratio(data = bio.Triennial$length_data[which(bio.Triennial$length_data$Latitude_dd >= breaks_lat["40-10"] & bio.Triennial$length_data$Depth_m < 350),],
-dir = "data_output")
-f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
-file.rename(
-  f,
-  file.path("data_output", paste0("north_Triennial_", basename(f)))
+nwfscSurvey::plot_sex_ratio(
+  data = bio.Triennial$length_data[
+    which(
+      bio.Triennial$length_data$Latitude_dd >= breaks_lat["40-10"] &
+        bio.Triennial$length_data$Depth_m < 350
+    ),
+  ],
+  dir = "data_output",
+  main = "north_Triennial"
 )
-
 
 # --------------------------------- SOUTH --------------------------------------
 # * WCGBTS
-nwfscSurvey::plot_sex_ratio(data = bio.WCGBTS[which(bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400),],
-dir = "data_output")
-f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
-file.rename(
-  f,
-  file.path("data_output", paste0("south_WCGBTS_", basename(f)))
+nwfscSurvey::plot_sex_ratio(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  dir = "data_output",
+  main = "south_WCGBTS"
 )
 
+
 # * Triennial
-nwfscSurvey::plot_sex_ratio(data = bio.Triennial$length_data[which(bio.Triennial$length_data$Latitude_dd < breaks_lat["40-10"] & bio.Triennial$length_data$Depth_m < 350),],
-dir = "data_output")
-f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
-file.rename(
-  f,
-  file.path("data_output", paste0("south_Triennial_", basename(f)))
+nwfscSurvey::plot_sex_ratio(
+  data = bio.Triennial$length_data[
+    which(
+      bio.Triennial$length_data$Latitude_dd < breaks_lat["40-10"] &
+        bio.Triennial$length_data$Depth_m < 350
+    ),
+  ],
+  dir = "data_output",
+  main = "south_Triennial"
 )
 
 # * Hook and line
-nwfscSurvey::plot_sex_ratio(data = bio.HKL$bio_data[which(bio.HKL$bio_data$drop_latitude_degrees < breaks_lat["40-10"] & bio.HKL$bio_data$drop_depth_meters < 400),],
-dir = "data_output")
-f <- list.files("data_output", pattern = "^length_cm_sex_ratio", full.names = TRUE)
-file.rename(
-  f,
-  file.path("data_output", paste0("south_hookandline_", basename(f)))
+nwfscSurvey::plot_sex_ratio(
+  data = bio.HKL$bio_data[
+    which(
+      bio.HKL$bio_data$drop_latitude_degrees < breaks_lat["40-10"] &
+        bio.HKL$bio_data$drop_depth_meters < 400
+    ),
+  ],
+  dir = "data_output",
+  main = "south_HKL"
 )
 
+# Var length at age plots -------------------------------------------------------
+# --------------------------------- NORTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_var_length_at_age(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  age_bins = info_bins$age,
+  dir = "data_output",
+  main = "north_WCGBTS"
+)
+
+# * Triennial
+nwfscSurvey::plot_var_length_at_age(
+  data = bio.Triennial$age_data[
+    which(
+      bio.Triennial$age_data$Latitude_dd >= breaks_lat["40-10"] &
+        bio.Triennial$age_data$Depth_m < 350
+    ),
+  ],
+  age_bins = info_bins$age,
+  dir = "data_output",
+  main = "north_Triennial"
+)
+
+# --------------------------------- SOUTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_var_length_at_age(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  age_bins = info_bins$age,
+  dir = "data_output",
+  main = "south_WCGBTS"
+)
+
+# * Triennial
+nwfscSurvey::plot_var_length_at_age(
+  data = bio.Triennial$age_data[
+    which(
+      bio.Triennial$age_data$Latitude_dd < breaks_lat["40-10"] &
+        bio.Triennial$age_data$Depth_m < 350
+    ),
+  ],
+  age_bins = info_bins$age,
+  dir = "data_output",
+  main = "south_Triennial"
+)
+
+# * Hook and line
+nwfscSurvey::plot_var_length_at_age(
+  data = bio.HKL$bio_data[
+    which(
+      bio.HKL$bio_data$Latitude_dd < breaks_lat["40-10"] &
+        bio.HKL$bio_data$Depth_m < 400
+    ),
+  ],
+  age_bins = info_bins$age,
+  dir = "data_output",
+  main = "south_HKL"
+)
+
+# Weight length plots -------------------------------------------------------
+# --------------------------------- NORTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_weight_length(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  dir = "data_output",
+  add_save_name = "north_WCGBTS"
+)
+
+# * Triennial (weights are recorded in age_data)
+nwfscSurvey::plot_weight_length(
+  data = bio.Triennial$age_data[
+    which(
+      bio.Triennial$age_data$Latitude_dd >= breaks_lat["40-10"] &
+        bio.Triennial$age_data$Depth_m < 350
+    ),
+  ],
+  dir = "data_output",
+  add_save_name = "north_Triennial"
+)
+
+# --------------------------------- SOUTH --------------------------------------
+# * WCGBTS
+nwfscSurvey::plot_weight_length(
+  data = bio.WCGBTS[
+    which(
+      bio.WCGBTS$Latitude_dd < breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400
+    ),
+  ],
+  dir = "data_output",
+  add_save_name = "south_WCGBTS"
+)
+
+# * Triennial (weights are recorded in age_data)
+nwfscSurvey::plot_weight_length(
+  data = bio.Triennial$age_data[
+    which(
+      bio.Triennial$age_data$Latitude_dd < breaks_lat["40-10"] &
+        bio.Triennial$age_data$Depth_m < 350
+    ),
+  ],
+  dir = "data_output",
+  add_save_name = "south_Triennial"
+)
+
+# * Hook and line
+nwfscSurvey::plot_weight_length(
+  data = bio.HKL$bio_data[
+    which(
+      bio.HKL$bio_data$Latitude_dd < breaks_lat["40-10"] &
+        bio.HKL$bio_data$Depth_m < 400
+    ),
+  ],
+  dir = "data_output",
+  add_save_name = "south_HKL"
+)
+
+
+
+# Sex ratio STRATA plots -------------------------------------------------------
+# --------------------------------- NORTH --------------------------------------
+# * WCGBTS
+# nwfscSurvey::plot_sex_ratio_strata(data = bio.WCGBTS[
+#     which(bio.WCGBTS$Latitude_dd >= breaks_lat["40-10"] & bio.WCGBTS$Depth_m < 400),], 
+#   strata = strata_wcgbts, 
+#   comp_column_name = "Age",
+#   main = "north_WCGBTS")
