@@ -4,7 +4,7 @@
 \alias{use_fleetabb}
 \title{Get fleet abbreviation based on gear group}
 \usage{
-use_fleetabb(x, pattern = "^TW|^DRG|NET", use = c("TW", "FG"))
+use_fleetabb(x, pattern = "^TW|^DRG|MID", use = c("TW", "FG"))
 }
 \arguments{
 \item{x}{A vector of character values.}
