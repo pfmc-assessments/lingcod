@@ -1,6 +1,6 @@
 ##########################################################################################-
 #
-# Model runs for 2027 lingcod assessment 
+# Model runs for 2027 lingcod assessment
 #   By: All members of lingcod team
 #
 ##########################################################################################-
@@ -14,8 +14,8 @@ library(PEPtools)
 library(dplyr)
 
 ##########################################################################################-
-#                                 ---- TEMPLATE ---- 
-#                                 ---- COPY ONLY --- 
+#                                 ---- TEMPLATE ----
+#                                 ---- COPY ONLY ---
 ##########################################################################################-
 
 #Use this structure to set up model runs below
@@ -24,70 +24,79 @@ library(dplyr)
 # [model number_model name  ----]
 ####------------------------------------------------#
 
-new_name <- "model number_model name"
-old_name <- "model Number_model name"
-
+dir_new <- "models/2027.n.001.001_template_example"
+# using get_dir_ling() saves you from looking up the full directory:
+# dir_old <- "models/2021.n.023.001_fixWAreccatchhistory"
+dir_old <- get_dir_ling(area = "n", num = 23, year = 2021)
 
 ##
-#Copy inputs
+#Read inputs from old model
 ##
 
-copy_SS_inputs(dir.old = file.path('models', old_name), 
-               dir.new = file.path('models', new_name),
-               overwrite = TRUE)
-
-mod <- SS_read(file.path('models', new_name))
+inputs <- get_inputs_ling(dir = dir_old)
 
 
 ##
 #Make Changes
 ##
 
-Coded changes go here
-
+# CODED CHAGES GO HERE
 
 ##
 #Output files and run
 ##
 
-SS_write(mod,
-         dir = file.path('models', new_name),
-         overwrite = TRUE)
+SS_write(inputs, dir = dir_new, overwrite = TRUE)
+# make sure ss3 is in the models folder
+if (!file.exists("models/ss3.exe")) {
+  r4ss::get_ss3_exe(dir = "models")
+}
+# run model
+r4ss::run(
+  dir = dir_new,
+  exe = here::here("models/ss3.exe"),
+  extras = "-nohess", # comment out if you want to run with Hessian
+  # extras = "-nohess -stopph 0", # run without estimation from initial values
+  show_in_console = TRUE, #comment out if you don't want to watch model iterations
+  skipfinished = FALSE
+)
+# clear out unnecessary files
+r4ss::clean_files(dir = dir_new)
 
-r4ss::run(dir = file.path('models', new_name), 
-          exe = file.path('models/ss3_win.exe'), 
-          extras = '-nohess',
-          show_in_console = TRUE, #comment out if you dont want to watch model iterations
-          skipfinished = FALSE)
-
-pp <- SS_output(file.path('models', new_name))
-SS_plots(pp, plot = c(1:26)) # <- maybe add more plots 
+# read output and make plots (if desired)
+# TODO for Ian: fix broken plot = TRUE option
+mod_new <- get_mod(dir = dir_new, plot = FALSE)
 
 
 ##
 #Comparison plots
 ##
 
-xx <- SSgetoutput(dirvec = glue::glue("{models}/{subdir}", models = file.path('models'),
-                                      subdir = c('name1',
-                                                 'name2',
-                                                 new_name)))
-SSsummarize(xx) |>
-  SSplotComparisons(legendlabels = c('label for model 1',
-                                     'label for model 2',
-                                     'label for new model'),
-                    subplots = c(1,3), print = TRUE, plotdir = file.path('models', new_name))
+# get_mod() adds the model outputs to your workspace
+mod_old <- get_mod(dir = dir_old)
 
-dev.off()
+# two-panel summary plot 
+# (default is spawning output and fraction unfished)
+r4ss::plot_twopanel_comparison(
+  list(mod_old, mod_new),
+  dir = dir_new
+)
+
+# larger set of plots (if desired)
+SSsummarize(list(mod_old, mod_new)) |>
+  SSplotComparisons(
+    legendlabels = c('label for old model', 'label for new model'),
+    plot = FALSE,
+    print = TRUE,
+    plotdir = dir_new
+  )
 
 ##########################################################################################-
-#                                 ---- END TEMPLATE ---- 
+#                                 ---- END TEMPLATE ----
 ##########################################################################################-
-
-
 
 ##########################################################################################-
 #                     ---- Set up from 2021 base to 2027 version ----
 ##########################################################################################-
 
-START HERE
+# START HERE
