@@ -57,7 +57,6 @@ vignettes/*.pdf
 /2021data-raw/*
 !/data-raw/*.R
 /research_explore/*
-/data_output/*
 
 /past*assessments/
 
