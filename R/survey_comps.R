@@ -407,7 +407,7 @@ survey_comps <- function(
         fleet = fleet_num,
         partition = 0,
         ageerr = ageerr,
-        dir = len_dir,
+        dir = age_dir,
         verbose = FALSE
       )
     }
