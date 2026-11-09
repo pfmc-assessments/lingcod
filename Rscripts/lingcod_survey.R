@@ -175,7 +175,7 @@ if (pull_fresh) {
   ),
   depths_shallow = rep(c(55, 183), 4),
   depths_deep = rep(c(183, 350), 4), # depth difference
-  lats_south = c(32, 32, 37, 37, 40.166667, 40.166667, 46, 46),
+  lats_south = c(32, 32, 34.5, 34.5, 40.166667, 40.166667, 46, 46),
   lats_north = c(34.5, 34.5, 40.166667, 40.166667, 46, 46, 49, 49)
 ))
 
@@ -774,8 +774,6 @@ nwfscSurvey::plot_weight_length(
   dir = "data_output/NOAA surveys",
   add_save_name = "south_HKL"
 )
-
-
 
 # Sex ratio STRATA plots -------------------------------------------------------
 # --------------------------------- NORTH --------------------------------------
