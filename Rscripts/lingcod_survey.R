@@ -775,8 +775,6 @@ nwfscSurvey::plot_weight_length(
   add_save_name = "south_HKL"
 )
 
-
-
 # Sex ratio STRATA plots -------------------------------------------------------
 # --------------------------------- NORTH --------------------------------------
 # * WCGBTS
