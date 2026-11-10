@@ -20,7 +20,23 @@ for (d in dirs) {
   )
 }
 
+# add additional indices
+dirs2 <- list.dirs(
+  "data-raw/NOAA surveys/Estimates with cut data/wcgbts/lat_32.1-40.2_years_2003-2025",
+  recursive = FALSE
+)
+basename(dirs2)
+for (d in dirs2) {
+  wcgbts_indices <- rbind(
+    wcgbts_indices,
+    read.csv(file.path(d, "index/est_by_area.csv")) |>
+      dplyr::mutate(dir = paste0("cut_", basename(d)))
+  )
+}
+
+# comparing only models based on coastwide calculations
 index_data_plot <- wcgbts_indices |>
+  dplyr::filter_out(grepl("cut", dir)) |>
   dplyr::mutate(
     # indexwc::plot_indices() requires `area` column for colors
     area = dir,
@@ -38,13 +54,54 @@ indexwc::plot_indices(
   file_name = NULL
 ) +
   ggplot2::scale_color_discrete() # viridis default yellow was too pale
-ggsave(
+ggplot2::ggsave(
   "data_output/NOAA surveys/index_comparison_wcgbts_south.png",
   width = 6.5,
   height = 4
 )
 
+# plot including models with cut data (only south of 40-10)
+# after excluding gamma which had bad QQ and very different index
+index_data_plot <- wcgbts_indices |>
+  dplyr::filter_out(grepl("delta_gamma", dir)) |>
+  dplyr::mutate(
+    # indexwc::plot_indices() requires `area` column for colors
+    area = dir,
+    # shift positions to avoid overlap
+    year = year +
+      dplyr::case_when(
+        dir == "delta_gengamma" ~ 0,
+        dir == "delta_lognormal" ~ 0.3,
+        dir == "cut_delta_gengamma" ~ -0.15,
+        dir == "cut_delta_lognormal" ~ 0.15
+      )
+  )
+# use indexwc function
+indexwc::plot_indices(
+  index_data_plot,
+  file_name = NULL
+) +
+  ggplot2::scale_color_discrete() # viridis default yellow was too pale
+ggplot2::ggsave(
+  "data_output/NOAA surveys/index_comparison_wcgbts_south_4models.png",
+  width = 6.5,
+  height = 4
+)
 
+# one more plot with lognormal only
+index_data_plot <- wcgbts_indices |>
+  dplyr::filter_out(!grepl("lognormal", dir)) |>
+  dplyr::mutate(area = dir)
+indexwc::plot_indices(
+  index_data_plot,
+  file_name = NULL
+) +
+  ggplot2::scale_color_discrete() # viridis default yellow was too pale
+ggplot2::ggsave(
+  "data_output/NOAA surveys/index_comparison_wcgbts_south_lognormal.png",
+  width = 6.5,
+  height = 4
+)
 ################
 # Triennial
 ################
@@ -85,7 +142,7 @@ indexwc::plot_indices(
   file_name = NULL
 ) +
   ggplot2::scale_color_discrete() # viridis default yellow was too pale
-ggsave(
+ggplot2::ggsave(
   "data_output/NOAA surveys/index_comparison_tri_south.png",
   width = 6.5,
   height = 4
