@@ -91,7 +91,15 @@ ggplot2::ggsave(
 # one more plot with lognormal only
 index_data_plot <- wcgbts_indices |>
   dplyr::filter_out(!grepl("lognormal", dir)) |>
-  dplyr::mutate(area = dir)
+  dplyr::mutate(
+    area = dir,
+    # shift positions to avoid overlap
+    year = year +
+      dplyr::case_when(
+        dir == "delta_lognormal" ~ 0.1,
+        dir == "cut_delta_lognormal" ~ -0.1
+      )
+  )
 indexwc::plot_indices(
   index_data_plot,
   file_name = NULL
