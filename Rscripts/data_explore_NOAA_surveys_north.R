@@ -115,7 +115,7 @@ ggplot2::ggsave(
 ################
 
 # read index output
-dir <- "data-raw/NOAA surveys/Estimates with area covariate/south/triennial/lat_34.5-48.5_years_1980-2004"
+dir <- "data-raw/NOAA surveys/Estimates with area covariate/north/triennial/lat_34.5-48.5_years_1980-2004"
 # which directories are in dir (this is the full path)
 dirs <- list.dirs(dir, recursive = FALSE)
 basename(dirs)
@@ -151,7 +151,7 @@ indexwc::plot_indices(
 ) +
   ggplot2::scale_color_discrete() # viridis default yellow was too pale
 ggplot2::ggsave(
-  "data_output/NOAA surveys/index_comparison_tri_south.png",
+  "data_output/NOAA surveys/index_comparison_tri_north.png",
   width = 6.5,
   height = 4
 )
