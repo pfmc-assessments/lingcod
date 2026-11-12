@@ -4,7 +4,8 @@
 
 library(dplyr)
 
-setwd
+# read index output
+dir <- "data-raw/discard/historical_discard"
 
 #Load the CSV file 
 historical_discard_table_North <- read.csv("historical_discard_table_North.csv")
@@ -23,3 +24,4 @@ historical_discard_table_North <- historical_discard_table_North %>%
 #save results 
  save(historical_discard_table_North, file = "historical_discard_table_North_processed.rda")
  write.csv(historical_discard_table_North, "historical_discard_table_North_processed.csv")
+ 
