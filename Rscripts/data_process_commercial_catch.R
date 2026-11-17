@@ -107,6 +107,7 @@ pacfin_catch <- catch.pacfin |>
     # To do: The removal of WA data prior to 1995 needs to be reviewed
     #!(AGENCY_CODE == "W" & Year %in% 0:(catch_comm_WA_yearstartpacfin - 1)),
     !(AGENCY_CODE == "O" & Year < or_first_pacfin_year),
+    !(REMOVAL_TYPE_CODE == "R" & Year <= 2005),
     INPFC_AREA_TYPE_CODE != "XX"
   ) |>
   dplyr::mutate(

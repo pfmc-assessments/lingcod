@@ -8,7 +8,7 @@ load(here::here("data-raw", "WCGOP", "gemm_dead_discard", "gemm_fleets.Rdata"))
 #remove other groupings
 data_gemm_dead_discard <- dplyr::left_join(gemm_fleets, gemm, by = "sector") |>
   dplyr::filter(
-    !gemm_by_fleet$grouping %in%
+    !grouping %in%
       c(
         "Lingcod (Coast)",
         "Lingcod (North of 42° N. lat.)",
@@ -85,7 +85,7 @@ ave_discard_rate <- wcgop_discard_rates |>
   tidyr::complete(
     area,
     fleet,
-    year = seq(1998, 2002, 1)
+    year = seq(1996, 2002, 1)
   ) |>
   dplyr::group_by(area, fleet) |>
   dplyr::mutate(
@@ -108,7 +108,9 @@ data_discard_rates <- dplyr::full_join(
     # Assume the same rates for the north and south
     discard_rate_applied = dplyr::case_when(
       year %in% 1999:2001 ~ ave_wcgop_rate,
-      year == 1998 & fleet == "TW" ~ edcp,
+      year %in% c(1996:1998) & fleet == "TW" ~ edcp,
+      year < 1998 & fleet == "FG" & area == "North" ~ 0,
+      year < 1998 & fleet == "FG" & area == "South" ~ 0,
       year == 1998 & fleet == "FG" & area == "North" ~ ave_wcgop_rate,
       year == 1998 & fleet == "FG" & area == "South" ~ ave_wcgop_rate,
       year == 2002 & fleet == "FG" & area == "South" ~ ave_wcgop_rate,
