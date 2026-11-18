@@ -27,6 +27,8 @@ To interact with this repository
 [- data](#data)\
 [- Rscripts](#rscripts)\
 [- Figures_explore](#figures_explore)\
+[- Research_explore](#research_explore)\
+[- Models](#models)\
 [- example structure](#example-structure)\
 [Development guidelines](#development-guidelines)\
 [Github issue guidelines](#github-issue-guidelines)\
@@ -323,6 +325,10 @@ lingcod
 |    |----north
 |    |----south
 |    |    sar_USWC_Lingcod_skeleton.qmd
+|
+|----Rscripts
+|    |    data_process_commercial_bds.R
+|    |    model_runs_north.R
 |
 |----figures_explore
 |
