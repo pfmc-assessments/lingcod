@@ -35,7 +35,9 @@ name | description
 To accommodate different modeling preferences for the north models, models 
 updated manually are stored in the "models/north" Google Drive folder: 
 https://drive.google.com/drive/folders/1B3F3pxhQEJYKn1MVbbbuv4y5Nc1GKctW
-and are tracked using the "README_run.log.xlsx" file in that Drive folder. 
+and are tracked using the "README_run.log.xlsx" file in that Drive folder.
+Models that are used as part of the modeling flow will be copied to the github repo. 
 
-North models that are run with R are saved in the github repo and are tracked
-using model_runs_north.R, and do not need to be logged or placed on Google Drive. 
+Models that are run with R are saved in the github repo and are tracked
+using model_runs_north.R or model_runs_south.R, and do not need to be logged or 
+placed on Google Drive. 
