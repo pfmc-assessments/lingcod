@@ -16,8 +16,7 @@ stored in this Google Drive folder:
 https://drive.google.com/drive/folders/1xkIZznTkVXHjhjWJOYJrMQO93qfD-O3V
 Please contact @iantaylor-NOAA or @brianlangseth-NOAA for access if you need it.
 
-# the models retained in this repo from previous years, which are within the
-# "models from previous years" folder include
+# the models retained in this repo from previous years, which are within the "models from previous years" folder include
 
 name | description  
 --   | --    
@@ -31,12 +30,12 @@ name | description
 2021.s.018.010_forecast | 2021 south base with corrected forecast
 
 
-# Models added for the 2027 cycle are in "north" and "south" subfolders. 
+# Models added for the 2027 cycle are in the "north" and "south" subfolders. 
 
 To accommodate different modeling preferences for the north models, models 
 updated manually are stored in the "models/north" Google Drive folder: 
 https://drive.google.com/drive/folders/1B3F3pxhQEJYKn1MVbbbuv4y5Nc1GKctW
 and are tracked using the "README_run.log.xlsx" file in that Drive folder. 
 
-North models that are run using R are saved in the github repo and are tracked
-using model_runs_north.R, and do not need to be logged are placed on Google Drive. 
+North models that are run with R are saved in the github repo and are tracked
+using model_runs_north.R, and do not need to be logged or placed on Google Drive. 
