@@ -336,6 +336,9 @@ lingcod
 |    |    rec_catch_OR.Rd
 |
 |----models
+|    |----models from previous years
+|    |----north
+|    |----south
 |
 |----research_explore
 |    |----stock_structure
