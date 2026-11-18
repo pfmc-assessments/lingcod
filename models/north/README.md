@@ -11,7 +11,7 @@ Model directories use the scheme `yyyy.[ns].000.000.shortstring` where the eleme
 - shortstring : a short character string without full stops but it can include 
                 any other character you desire
 
-A set of the model files are stored in this Google Drive [folder]([url](https://drive.google.com/drive/folders/1B3F3pxhQEJYKn1MVbbbuv4y5Nc1GKctW)): 
+A set of the model files are stored in this Google Drive folder: https://drive.google.com/drive/folders/1B3F3pxhQEJYKn1MVbbbuv4y5Nc1GKctW
 
 # the models retained in this repo include
 
