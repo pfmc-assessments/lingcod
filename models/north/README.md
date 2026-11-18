@@ -18,4 +18,4 @@ A set of the model files are stored in this Google Drive [folder]([url](https://
 name | description  
 --   | --    
 2021.n.001.001 | 2021 north base 
-2027.s.003.001 | 2021 model, new fleet stcruture: TW discard is a separate fleet with selex estimated, FG discard added to FG landings 
+2027.s.003.001 | 2021 model, updated fleet stcruture: TW discard is a separate fleet with selex estimated, FG discard added to FG landings 
