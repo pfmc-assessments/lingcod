@@ -18,7 +18,9 @@ library(RODBC)
 #DebWV files
 #Onboard Party Boat > CPFV-Onboard Data-Central California_DebWV
 #################
-deb <- file.path(getwd(),"data-raw","CPFV-Onboard Data.mdb")
+deb <- file.path(getwd(), "data-raw", "Recreational", "Historical CA datasets", 
+                "Onboard Party Boat", "CPFV-Onboard Data-Central California_DebWV", 
+                "CPFV-Onboard Data.mdb")
 conDeb <- RODBC::odbcConnectAccess(deb)
 RODBC::sqlTables(conDeb)
 deb.trip <- RODBC::sqlFetch(conDeb, "AllTrp")
@@ -51,7 +53,9 @@ deb.out = deb.data[,c("YEAR", "Length", "Sex", "Data_Type", "data")]
 #################
 
 #Data from 1970s
-ca <- file.path(getwd(),"data-raw","CPFV.mdb")
+ca <- file.path(getwd(), "data-raw", "Recreational", "Historical CA datasets",
+                "Onboard Party Boat", "CPFV-Southern California_Crooke+Ally", 
+                "CPFV.mdb")
 conca <- RODBC::odbcConnectAccess(ca)
 RODBC::sqlTables(conca)
 ca.trip <- RODBC::sqlFetch(conca, "Tbl_70strip")
@@ -71,7 +75,10 @@ ca.70.out <- ca.data[,c("YEAR", "Length", "Sex", "Data_Type", "data")]
 
 
 #Data from 1980s
-ca <- file.path(getwd(),"data-raw","86-88 Data.mdb")
+ca <- file.path(getwd(), "data-raw", "Recreational", "Historical CA datasets",
+                "Onboard Party Boat", "CPFV-Southern California_Crooke+Ally",
+                "HK_Archive 1985-1989 Southern California", "86-88 Data",
+                "86-88 Data.mdb")
 conca <- RODBC::odbcConnectAccess(ca)
 RODBC::sqlTables(conca)
 ca.len <- RODBC::sqlFetch(conca, "Length_Tbl")
@@ -98,7 +105,9 @@ ca.80.out = ca.data[,c("YEAR", "Length", "Sex", "Data_Type","data")]
 #################
 
 #Data from 1977-1986 Party
-dock1 <- file.path(getwd(),"data-raw","CCRS_LF_77-86.mdb")
+dock1 <- file.path(getwd(), "data-raw", "Recreational", "Historical CA datasets",
+                   "Northern California 59-72 Dockside", "CCRS_LF_77-86",
+                   "CCRS_LF_77-86.mdb")
 cond1 <- RODBC::odbcConnectAccess(dock1)
 RODBC::sqlTables(cond1)
 dock1.len <- RODBC::sqlFetch(cond1, "CCRS7786")
@@ -115,7 +124,9 @@ dock1.out = dock1.data[,c("YEAR","Length","Sex","Data_Type","data")]
 
 
 #Data from 1959-1972 Party
-dock2 <- file.path(getwd(),"data-raw","FPB_LF_59-72.mdb")
+dock2 <- file.path(getwd(), "data-raw", "Recreational", "Historical CA datasets",
+                   "Northern California 59-72 Dockside", "FPB_LF_59-72",
+                   "FPB_LF_59-72.mdb")
 cond2 <- RODBC::odbcConnectAccess(dock2)
 RODBC::sqlTables(cond2)
 dock2.len <- RODBC::sqlFetch(cond2, "PBLF_1959-1972")
@@ -133,7 +144,9 @@ dock2.out = dock2.data[,c("YEAR", "Length", "Sex", "Data_Type", "data")]
 
 
 #Data from 1959-1972 Skiff
-dock3 <- file.path(getwd(),"data-raw","Skiff_LF_59-72.mdb")
+dock3 <- file.path(getwd(), "data-raw", "Recreational", "Historical CA datasets",
+                   "Northern California 59-72 Dockside", "Skiff_LF_59-72",
+                   "Skiff_LF_59-72.mdb")
 cond3 <- RODBC::odbcConnectAccess(dock3)
 RODBC::sqlTables(cond3)
 dock3.len <- RODBC::sqlFetch(cond3, "SKF_LF_1957-1972")
@@ -156,5 +169,8 @@ dock3.out = dock3.data[,c("YEAR", "Length", "Sex", "Data_Type", "data")]
 ####
 ca.hist = rbind(deb.out, ca.70.out, ca.80.out, dock1.out, dock2.out, dock3.out)
 ca.hist$Length = ca.hist$Length/10 #convert to cm
-write.csv(ca.hist, file = file.path(getwd(), "data-raw", "CA_rec_historical_length.csv"), row.names = FALSE)
+#write.csv(ca.hist, file = file.path("data-raw", "Recreational", "CA_rec_historical_length.csv"), row.names = FALSE)
+#The file in data-data as saved above is actually copied from the 2021 assessment, 
+#based on this script. The file paths herein have been updated for the 
+#2027 assessment for ease of finding the data, but otherwise not run. 
           
