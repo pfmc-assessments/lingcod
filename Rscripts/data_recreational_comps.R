@@ -173,6 +173,14 @@ bds_recent_age$age <- bds_recent_age$USE_THIS_AGE
 
 #TODO: have recfintools::getAge() add this automatically
 
+#Add standardized length column to ages for CAAL processing. As done for length
+#dataset, convert Washington total lengths to fork lengths. In the age data
+#LENGTH_TYPE is read in as TRUE when its total, and FALSE, when its fork.
+bds_recent_age$length_cm <- bds_recent_age$RECFIN_LENGTH_MM/10
+table(bds_recent_age$LENGTH_TYPE, bds_recent_age$state)
+bds_recent_age[bds_recent_age$LENGTH_TYPE %in% c(TRUE), "length_cm"] <-
+  bds_recent_age[bds_recent_age$LENGTH_TYPE %in% c(TRUE), "length_cm"]*0.981-0.521
+
 
 ###############
 #General MRFSS Processing
@@ -291,9 +299,11 @@ table(bds_recent_age$year, bds_recent_age$state, bds_recent_age$remove)
 table(bds_mrfss$year, bds_mrfss$state, bds_mrfss$remove)
 
 len_fields <- c("year", "state", "stock", "mode", "sex", "length_cm", "disp", "source")
-age_fields <- c("year", "state", "stock", "mode", "sex", "age", "disp", "source")
+age_fields <- c("year", "state", "stock", "mode", "sex", "age", "length_cm", "disp", "source")
 
+####
 #Remove records that recfintools flags for removal (i.e. remove != no) 
+####
 out <- rbind(bds_recent_len[bds_recent_len$remove %in% "no", len_fields],
              bds_mrfss[bds_mrfss$remove %in% "no", len_fields],
              cahist[, len_fields],
@@ -411,13 +421,14 @@ out = out[-which(out$source %in% "ca_hist CPFV-Onboard Data"),]
 
 #TO DO: figure out wehther deb data is within mrfss
 
+
 ############################################################################################
 # Clean up the data - ages
 ############################################################################################
 
 #Remove any data without valid ages
 print(paste("Removed",sum(is.na(out_age$age)), "records without any ages"))
-out_age = out_age[!is.na(out_age$Age),]
+out_age = out_age[!is.na(out_age$age),]
 
 # Now lets do a check to filter out any anomalous ages
 range(out_age$age, na.rm=TRUE)
@@ -431,6 +442,10 @@ bds_recent_age[which(bds_recent_age$USE_THIS_AGE > 50),]
 print(paste("Removed",length(remove), "records with age > 50"))
 out_age = out_age[-remove, ]
 #I let Fabio know about this, and it may be corrected in the future. 
+
+#Any odd lengths for CAAL processing using the same ranges as for length data? Nope
+remove = which(out_age$length_cm > 200 | out_age$length_cm < 8) 
+out_age[remove,]
 
 
 ############################################################################################
@@ -512,7 +527,7 @@ nwfscSurvey::plot_sex_ratio(
   dir = subdirl
 )
 
-#Rename files to make clear these are WA by adding WA_rec at end
+#Rename files to make clear these are OR by adding OR_rec at end
 f <- list.files(subdirl, pattern = "length_", full.names = TRUE)
 f <- grep(pattern = "Deb_rec|CA_S_rec|CA_N_rec|OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
 file.rename(
@@ -544,7 +559,7 @@ nwfscSurvey::plot_sex_ratio(
   dir = subdirl
 )
 
-#Rename files to make clear these are WA by adding WA_rec at end
+#Rename files to make clear these are CA by adding CA_N_rec at end
 f <- list.files(subdirl, pattern = "length_", full.names = TRUE)
 f <- grep(pattern = "Deb_rec|CA_S_rec|CA_N_rec|OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
 file.rename(
@@ -576,7 +591,7 @@ nwfscSurvey::plot_sex_ratio(
   dir = subdirl
 )
 
-#Rename files to make clear these are WA by adding WA_rec at end
+#Rename files to make clear these are CA by adding CA_S_rec at end
 f <- list.files(subdirl, pattern = "length_", full.names = TRUE)
 f <- grep(pattern = "Deb_rec|CA_S_rec|CA_N_rec|OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
 file.rename(
@@ -604,7 +619,7 @@ lfs_deb <- nwfscSurvey::get_raw_comps(
 #Add plots - only unsexed for this dataset
 nwfscSurvey::plot_comps(data = lfs_deb$unsexed, dir = subdirl)
 
-#Rename files to make clear these are WA by adding WA_rec at end
+#Rename files to make clear these are Deb by adding Deb at end
 f <- list.files(subdirl, pattern = "length_", full.names = TRUE)
 f <- grep(pattern = "Deb_rec|CA_S_rec|CA_N_rec|OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
 file.rename(
@@ -623,10 +638,142 @@ usethis::use_data(lenCompS_Deb, overwrite = TRUE)
 #########
 
 
+##
+#Washington
+##
+
+afs_wa <- nwfscSurvey::get_raw_comps(
+  data = out_age |> dplyr::filter(state %in% "WA"),
+  comp_bins = age_bin,
+  comp_column_name = "age",
+  input_n_method = "total_samples",
+  month = 7,
+  fleet = get_fleet("Rec_WA")$num,
+  dir = subdira,
+  ageerr = 1
+)
+
+#Add plots
+nwfscSurvey::plot_comps(data = afs_wa$sexed, dir = subdira)
+nwfscSurvey::plot_comps(data = afs_wa$unsexed, dir = subdira)
+nwfscSurvey::plot_sex_ratio(
+  data = out_age |> dplyr::filter(state %in% "WA"), 
+  comp_column_name = "age",
+  dir = subdira
+)
+
+#Rename files to make clear these are WA by adding WA_rec at end
+f <- list.files(subdira, pattern = "age_", full.names = TRUE)
+f <- grep(pattern = "OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
+file.rename(
+  f,
+  file.path(subdira, sub("\\.", "_WA_rec.", basename(f)))
+)
+
+ageCompN_WA_Rec = afs_wa
+usethis::use_data(ageCompN_WA_Rec, overwrite = TRUE)
+
+
+##
+#Oregon
+##
+
+afs_or <- nwfscSurvey::get_raw_comps(
+  data = out_age |> dplyr::filter(state %in% "OR"),
+  comp_bins = age_bin,
+  comp_column_name = "age",
+  input_n_method = "total_samples",
+  month = 7,
+  fleet = get_fleet("Rec_OR")$num,
+  dir = subdira,
+  ageerr = 1
+)
+
+#Add plots
+nwfscSurvey::plot_comps(data = afs_or$sexed, dir = subdira)
+nwfscSurvey::plot_comps(data = afs_or$unsexed, dir = subdira)
+nwfscSurvey::plot_sex_ratio(
+  data = out_age |> dplyr::filter(state %in% "OR"), 
+  comp_column_name = "age",
+  dir = subdira
+)
+
+#Rename files to make clear these are OR by adding OR_rec at end
+f <- list.files(subdira, pattern = "age_", full.names = TRUE)
+f <- grep(pattern = "OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
+file.rename(
+  f,
+  file.path(subdira, sub("\\.", "_OR_rec.", basename(f)))
+)
+
+ageCompN_OR_Rec = afs_or
+usethis::use_data(ageCompN_OR_Rec, overwrite = TRUE)
+
 
 #########
 #CAAL comps
 #########
+
+##
+#Washington
+##
+
+ageCAAL_wa <- nwfscSurvey::get_raw_caal(
+  data = out_age |> dplyr::filter(state %in% "WA"),
+  len_bins = len_bin,
+  age_bins = age_bin,
+  length_column_name = "length_cm",
+  age_column_name = "age",
+  month = 7,
+  fleet = get_fleet("Rec_WA")$num,
+  partition = 0,
+  ageerr = 1,
+  dir = subdira
+)
+
+#Rename files to make clear these are WA by adding WA_rec at end
+f <- list.files(subdira, pattern = "caal_", full.names = TRUE)
+f <- grep(pattern = "OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
+file.rename(
+  f,
+  file.path(subdira, sub("\\.", "_WA_rec.", basename(f)))
+)
+
+ageCAAL_N_WA_Rec = ageCAAL_wa
+usethis::use_data(ageCAAL_N_WA_Rec, overwrite = TRUE)
+
+
+##
+#Oregon
+##
+
+ageCAAL_or <- nwfscSurvey::get_raw_caal(
+  data = out_age |> dplyr::filter(state %in% "OR"),
+  len_bins = len_bins,
+  age_bins = age_bins,
+  length_column_name = "length_cm",
+  age_column_name = "age",
+  month = 7,
+  fleet = get_fleet("Rec_OR")$num,
+  partition = 0,
+  ageerr = 1,
+  dir = subdira
+)
+
+#Rename files to make clear these are OR by adding OR_rec at end
+f <- list.files(subdira, pattern = "caal_", full.names = TRUE)
+f <- grep(pattern = "OR_rec|WA_rec", x = f, invert = TRUE, value = TRUE)
+file.rename(
+  f,
+  file.path(subdira, sub("\\.", "_OR_rec.", basename(f)))
+)
+
+ageCAAL_N_OR_Rec = ageCAAL_or
+usethis::use_data(ageCAAL_N_OR_Rec, overwrite = TRUE)
+
+
+
+
 
 
 
