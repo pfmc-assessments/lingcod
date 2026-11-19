@@ -73,6 +73,10 @@ cahist = read.csv(file.path(dir, "data-raw", "Recreational", "CA_rec_historical_
 calpoly = data.frame(readxl::read_excel(file.path(dir,"data-raw", "Recreational", "Cal Poly LCOD lengths.xlsx"), sheet = "cal poly lingcod lengths", na = "NULL"))
 
 
+############################################################################################
+#	Data Processing
+############################################################################################
+
 ###############
 #General Recfin Processing
 ###############
@@ -264,7 +268,6 @@ cahist <- cahist |>
     )
   )
 
-
 #Add variables to calPoly dataset to create common dataset
 calpoly$year <- calpoly$year
 calpoly$state <- "CA"
@@ -282,9 +285,9 @@ calpoly$length_cm <- calpoly$Length
 #TODO: Need to add mode to calPoly. Confirm with Melissa which it is.
 
 
-############################################################################################
+###############
 # Put all the data into one list
-############################################################################################
+###############
 
 #Here are the years of the data available
 
@@ -313,8 +316,12 @@ out_age = bds_recent_age[bds_recent_age$remove %in% "no", age_fields]
 
 
 ############################################################################################
-# Clean up the data - lengths
+# Clean up the data
 ############################################################################################
+
+###############
+# Clean up lengths
+###############
 
 #Remove any data without valid lengths - only occurs from cahist datasets
 print(paste("Removed",sum(is.na(out$length_cm)), "records without any length"))
@@ -331,9 +338,7 @@ out[remove,]
 print(paste("Removed",length(remove)-2, "records with lengths > 200 cm and < 1 cm"))
 out = out[-remove[c(2,3)], ]
 
-
-#########
-#Exploratory length figures
+#-------Exploratory length figures
 
 #Compare retained and released fish
 ggplot(out, aes(length_cm, fill = disp, color = disp)) + 
@@ -396,16 +401,16 @@ ggplot(out[grepl("calPoly", out$source),], aes(length_cm, fill = disp, color = d
 
 #Compare across Source by retained vs released fish
 #out[out$Source == "RecFIN_MRFSS", "Data_Type"] = "RETAINED"
-grDevices::png(
-  filename = file.path(getwd(), "data_output", "Recreational", 
-                       "CA_Lengths_Retained-ReleasedxSource.png"),
-  width = 8, height = 6, units = "in", res = 300)
+# grDevices::png(
+#   filename = file.path(getwd(), "data_output", "Recreational", 
+#                        "CA_Lengths_Retained-ReleasedxSource.png"),
+#   width = 8, height = 6, units = "in", res = 300)
 ggplot(out[out$state=="CA",], aes(length_cm, fill = source, color = source)) + 
   facet_wrap(facets = c("disp", "sex")) + 
   geom_density(alpha = 0.4, lwd = 0.8, adjust = 0.5)
-grDevices::dev.off()
+# grDevices::dev.off()
 
-######### exploratory figures done. Add more later as needed.
+#--------- exploratory figures done. Add more later as needed.
 
 # Remove released fish
 print(paste("Removed",length(which(out$disp == "released")), "released records"))
@@ -422,9 +427,9 @@ out = out[-which(out$source %in% "ca_hist CPFV-Onboard Data"),]
 #TO DO: figure out wehther deb data is within mrfss
 
 
-############################################################################################
-# Clean up the data - ages
-############################################################################################
+###############
+# Clean up ages
+###############
 
 #Remove any data without valid ages
 print(paste("Removed",sum(is.na(out_age$age)), "records without any ages"))
@@ -451,7 +456,7 @@ out_age[remove,]
 ############################################################################################
 #------------------------------------------------------------------------------------------#
 #
-# Generate compositions for lengths and ages for each fleet
+# Generate compositions for lengths and ages and caal for each rec fleet
 #
 #------------------------------------------------------------------------------------------#
 ############################################################################################
@@ -489,6 +494,7 @@ lfs_wa <- nwfscSurvey::get_raw_comps(
 
 #Add plots
 nwfscSurvey::plot_comps(data = lfs_wa$sexed, dir = subdirl)
+nwfscSurvey::plot_comps(data = lfs_wa$unsexed, dir = subdirl)
 nwfscSurvey::plot_sex_ratio(
   data = out |> dplyr::filter(state %in% "WA"), 
   dir = subdirl
@@ -522,6 +528,7 @@ lfs_or <- nwfscSurvey::get_raw_comps(
 
 #Add plots
 nwfscSurvey::plot_comps(data = lfs_or$sexed, dir = subdirl)
+nwfscSurvey::plot_comps(data = lfs_or$unsexed, dir = subdirl)
 nwfscSurvey::plot_sex_ratio(
   data = out |> dplyr::filter(state %in% "OR"), 
   dir = subdirl
@@ -554,6 +561,7 @@ lfs_caN <- nwfscSurvey::get_raw_comps(
 
 #Add plots
 nwfscSurvey::plot_comps(data = lfs_caN$sexed, dir = subdirl)
+nwfscSurvey::plot_comps(data = lfs_caN$unsexed, dir = subdirl)
 nwfscSurvey::plot_sex_ratio(
   data = out |> dplyr::filter(state %in% "CA", stock %in% "north"), 
   dir = subdirl
@@ -586,6 +594,7 @@ lfs_caS <- nwfscSurvey::get_raw_comps(
 
 #Add plots
 nwfscSurvey::plot_comps(data = lfs_caS$sexed, dir = subdirl)
+nwfscSurvey::plot_comps(data = lfs_caS$unsexed, dir = subdirl)
 nwfscSurvey::plot_sex_ratio(
   data = out |> dplyr::filter(state %in% "CA", stock %in% "south"), 
   dir = subdirl
